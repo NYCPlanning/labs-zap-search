@@ -1,0 +1,143 @@
+// --------------------------------------------------
+// Module: Search
+// --------------------------------------------------
+
+.labs-geosearch {
+  background-color: $light-gray;
+  padding: rem-calc(9) rem-calc(6) rem-calc(6);
+  position: relative;
+  z-index: 2;
+
+  .search {
+    position: relative;
+    z-index: 2;
+  }
+  .map-search-input {
+    margin: 0;
+    padding-right: 2rem;
+  }
+
+  .clear-button {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $medium-gray;
+    pointer-events: none;
+  }
+}
+
+.search-results {
+  background-color: rgba($white,0.94);
+  font-size: rem-calc(12);
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  right: auto;
+  bottom: auto;
+  left: -200vw; // hide by default
+  box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+  opacity: 0;
+  transition: opacity 0.5s, left 0;
+  transition-delay: 0.2s;
+
+  @include breakpoint(medium only) {
+    // hide to the right instead of left
+    left: auto;
+    right: -200vw;
+  }
+
+  @include breakpoint(medium) {
+    width: 22rem;
+    box-shadow: -4px 4px 0 rgba(0,0,0,0.1);
+    max-height: calc(100vh - 10rem);
+    overflow: auto;
+    padding: 0 rem-calc(6) rem-calc(6);
+  }
+
+  @include breakpoint(large) {
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+  }
+
+  // Only show results when .focused
+  &.focused {
+    left: 0;
+
+    @include breakpoint(medium only) {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  &.has-results {
+    opacity: 1;
+  }
+
+  .results-header {
+    margin: rem-calc(10) 0 0;
+  }
+  li:first-child .results-header {
+    margin-top: 0;
+  }
+
+  li {
+    padding: $global-margin/2;
+  }
+
+  li:not(:first-child) {
+    border-top: 1px solid $medium-gray;
+  }
+
+  .result {
+    color: $anchor-color;
+    cursor: pointer;
+    transition: $button-transition;
+
+    &:hover,
+    &.highlighted-result {
+      color: $anchor-color-hover;
+      background-color: $a11y-yellow;
+      // box-shadow: inset rem-calc(-6) 0 0 $primary-color;
+    }
+  }
+
+  .subdued {
+    color: $dark-gray;
+  }
+}
+
+.highlighted-result {
+  color: $anchor-color-hover;
+  background-color: $medium-gray;
+}
+
+.search-results--loading {
+  border-top: 1px solid $medium-gray;
+  padding: $global-margin/2;
+  color: $dark-gray;
+  background-color: rgba($white,0.94);
+  font-size: rem-calc(12);
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  bottom: auto;
+  left: 0;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+
+  @include breakpoint(large) {
+    border-top: 0;
+    width: auto;
+    padding: rem-calc(6);
+    color: $body-font-color;
+    font-weight: $global-weight-bold;
+  }
+}

@@ -1,0 +1,186 @@
+// --------------------------------------------------
+// Module: Maps
+// --------------------------------------------------
+
+#main-map {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.mapboxgl-canvas {
+  left: 0;
+}
+
+.mapboxgl-popup {}
+
+.mapboxgl-popup-content {
+  padding: 1rem 0.5rem;
+  background-color: $white;
+  color: $body-font-color;
+  font-size: rem-calc(12);
+  line-height: $global-lineheight;
+}
+
+.mapboxgl-popup-close-button {
+  padding: 0 rem-calc(6) rem-calc(2);
+  color: $lu-red;
+  font-weight: $global-weight-bold;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: transparent;
+    color: darken($lu-red, 10%);
+  }
+}
+
+.mapboxgl-ctrl-group > button {
+  border-radius: 0;
+}
+
+.find-me {
+  position: absolute;
+  top: 108px;
+  left: 40px;
+  z-index: 9;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  overflow: hidden;
+  padding: 2px 2px 2px 0;
+
+  button {
+    float: left;
+    height: 30px;
+    position: relative;
+    border-width: 0;
+
+    &:first-child {
+      z-index: 2;
+      font-weight: bold;
+      line-height: 30px;
+      color: #1a2a2a;
+      background-color: #fff;
+      padding: 0 0.75em;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+      box-shadow: -2px -2px 0 rgba(0,0,0,0.1), -2px 2px 0 rgba(0,0,0,0.1);
+
+      &:hover {
+        background-color: #F2F2F2;
+        color: #1a2a2a;
+      }
+    }
+
+    &:last-child {
+      z-index: 1;
+      font-size: 20px;
+      line-height: 20px;
+      color: $warning-color;
+      background-color: #fafafa;
+      padding: 0 0.6em 0.2em 0.5em;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      border-left: 1px solid $medium-gray;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+
+      &:hover {
+        color: darken($warning-color,10%);
+      }
+    }
+  }
+}
+
+// Map Tooltip
+.map-tooltip {
+  position: absolute;
+  background-color: $white;
+  z-index: 1000;
+  padding: rem-calc(2) rem-calc(6);
+  color: $dark-gray;
+  font-size: rem-calc(11);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+  border-radius: 2px;
+}
+
+.mapboxgl-popup-content, .mapboxgl-popup-tip {
+  transition: all 0.2s;
+}
+
+.mapboxgl-popup:hover {
+  .mapboxgl-popup-content {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  .mapboxgl-popup-tip {
+    border-top-color: rgba(255, 255, 255, 0.8);
+  }
+
+  .button--tax-lot {
+    background-color: transparent;
+  }
+
+  .button--tax-lot:hover {
+    background-color: #eee;
+  }
+}
+
+.popup-content {
+  max-height: calc(50vh - 10rem);
+  min-width: 12rem;
+  overflow: auto;
+  margin: -1rem -0.5rem;
+  padding: 1rem 0.5rem;
+
+  @include breakpoint(large) {
+    max-height: calc(80vh - 10rem);
+  }
+}
+
+.popup-header {
+  font-size: rem-calc(14);
+  margin-bottom: rem-calc(6);
+}
+
+.popup-list {
+  margin-bottom: rem-calc(10);
+}
+
+
+// HACK: dot and pulse misalign without this.
+.mapboxgl-user-location-dot {
+  box-sizing: initial;
+}
+
+// "See this area in ZoLa" button
+.zola-map-area-button {
+  @include button(false, $white, #F2F2F2, $primary-color, solid);
+
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5em 0.75em;
+  margin: 0;
+  font-size: rem-calc(11);
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+
+  @include breakpoint(medium only) {
+    left: 130px;
+    transform: none;
+  }
+
+  small {
+    display: block;
+  }
+}
+
+.map-loading-spinner {
+  position: absolute;
+  right: 10px;
+  bottom: 30px;
+  opacity: 0.5;
+  z-index: 1;
+  pointer-events: none;
+}

@@ -1,0 +1,93 @@
+// --------------------------------------------------
+// Module: Share Controls
+// --------------------------------------------------
+
+.custom-controls {
+  position: absolute;
+  top: 10px;
+  left: 50px;
+  z-index: 2;
+  overflow: visible;
+
+  .mapboxgl-ctrl-icon {
+    color: #333333;
+  }
+
+  .mapboxgl-ctrl-group {
+    position: absolute;
+    right: auto;
+    bottom: auto;
+    left: 0;
+    overflow: visible;
+
+    &.share-controls {
+      top: 0;
+      z-index: 3;
+    }
+    &.data-controls  {
+      top: 40px;
+      z-index: 2;
+    }
+    &.print-controls {
+      top: 80px;
+      z-index: 1;
+    }
+  }
+}
+
+.custom-controls-content {
+  width: 23rem;
+  max-width: calc(100vw - 60px);
+  max-height: calc(100vh - 13em);
+  padding: rem-calc(10);
+  background-color: $body-background;
+  border-radius: 4px;
+  overflow: scroll;
+
+  @include breakpoint(medium) {
+    max-width: 50vw;
+  }
+
+  &,
+  .input-group-field,
+  .input-group-button button {
+    font-size: rem-calc(12);
+  }
+
+  h3, p {
+    margin-bottom: rem-calc(6);
+  }
+
+  .close-button {
+    right: 0.75rem;
+    top: 0.25rem;
+  }
+}
+
+.share-controls-copy-success {
+  position: relative;
+  height: 0;
+  overflow: visible;
+  margin: -$global-margin $global-margin $global-margin;
+}
+
+.share-controls-copy-success-message {
+  background-color: $success-color;
+  color: $white;
+  padding: rem-calc(6) rem-calc(10);
+  text-align: center;
+  font-style: italic;
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+  opacity: 0;
+  animation: successfade 2s;
+  transform: translateY(-50%);
+  display: inline-block;
+}
+
+@keyframes successfade {
+    0%   {opacity:0;}
+    10%  {opacity:1;}
+    75%  {opacity:1;}
+    100% {opacity:0;}
+}

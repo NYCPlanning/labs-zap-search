@@ -1,0 +1,299 @@
+// --------------------------------------------------
+// Base: Typography
+// --------------------------------------------------
+
+//
+// Headings
+// --------------------------------------------------
+.header-xxlarge { @extend h1; }
+.header-xlarge {  @extend h2; }
+.header-large {   @extend h3; }
+.header-medium {  @extend h4; }
+.header-small {   @extend h5; }
+.header-tiny {    @extend h6; }
+
+h6,
+.header-tiny {
+  text-transform: uppercase;
+  font-weight: $global-weight-normal;
+  margin-bottom: 0.5em;
+}
+
+.content-header {
+  @extend h3;
+  margin-bottom: rem-calc(10);
+
+  .landmark {
+    display: block;
+    margin-bottom: 0;
+  }
+
+  .landmark + .address {
+    display: block;
+    @extend h4;
+    margin-bottom: 0;
+  }
+}
+
+.header-label {
+  color: $dark-gray;
+  font-size: rem-calc(13);
+}
+
+
+//
+// Buttons
+// --------------------------------------------------
+button {
+  cursor: pointer;
+}
+
+.button.text-orange {
+  color: $primary-color;
+}
+
+.button--tax-lot {
+
+  .bbl {
+    display: block;
+    font-size: rem-calc(10);
+  }
+
+  .address {
+    display: block;
+    margin: rem-calc(4) 0;
+  }
+
+  .prompt {
+    display: block;
+    font-size: rem-calc(11);
+  }
+}
+
+.popup-button {
+  display: block;
+  line-height: 1.2;
+  margin: 0 rem-calc(-3) rem-calc(3);
+  padding: rem-calc(3);
+
+  &:hover {
+    background-color: rgba(107,113,123,.06);
+  }
+
+  .link-name {
+    max-width: 15em;
+  }
+
+  .date {
+    color: $dark-gray;
+    font-size: rem-calc(10);
+    white-space: nowrap;
+  }
+
+  .float-left + .float-right {
+    margin-left: rem-calc(10);
+  }
+}
+
+
+//
+// Badges
+// --------------------------------------------------
+.badge {
+  font-weight: $global-weight-normal;
+  line-height: 1.5;
+  vertical-align: middle;
+
+  &.sup {
+    position: relative;
+    transform: translate(0, -50%);
+  }
+}
+
+
+//
+// Typography helper classes
+// --------------------------------------------------
+.nowrap {
+  white-space: nowrap;
+}
+.no-margin {
+  margin: 0 !important;
+}
+.small-margin-bottom {
+  margin-bottom: rem-calc(5);
+}
+
+.text-small {
+  font-size: rem-calc(13);
+}
+
+.text-tiny {
+  font-size: rem-calc(10);
+  line-height: 1.5;
+}
+
+hr.small-margin {
+  margin-top: rem-calc(10);
+  margin-bottom: rem-calc(10);
+}
+
+.text-weight-normal {
+  font-weight: $global-weight-normal;
+}
+.text-weight-bold {
+  font-weight: $global-weight-bold;
+}
+
+.pipe {
+  opacity: 0.25;
+  margin-right: 0.25em;
+  margin-left: 0.25em;
+}
+
+.link {
+  cursor: pointer;
+  color: $anchor-color;
+
+  &:hover {
+    color:$anchor-color-hover;
+  }
+}
+
+.primary-color { color: $primary-color; }
+.light-gray { color: $light-gray; }
+.medium-gray { color: $medium-gray; }
+.dark-gray { color: $dark-gray; }
+.black { color: $black; }
+.dcp-orange { color: $dcp-orange; }
+.dcp-yellow { color: $dcp-yellow; }
+.a11y-yellow { color: $a11y-yellow; }
+
+// Land Use colors
+.lu-peach { color: $lu-peach; }
+.lu-yellow { color: $lu-yellow; }
+.lu-magenta { color: $lu-magenta; }
+.lu-red { color: $lu-red; }
+.lu-orange { color: $lu-orange; }
+.lu-pink { color: $lu-pink; }
+.lu-green { color: $lu-green; }
+.lu-blue { color: $lu-blue; }
+.lu-lavendar { color: $lu-lavendar; }
+.lu-silver { color: $lu-silver; }
+.lu-gray { color: $lu-gray; }
+
+
+//
+// Tables
+// --------------------------------------------------
+.popup-table {
+  @include table(none);
+  margin-bottom: -0.375rem;
+
+  thead {
+    border: 0;
+    background-color: transparent;
+
+    td {
+      font-weight: $global-weight-normal;
+      font-size: rem-calc(8);
+      text-transform: uppercase;
+      opacity: 0.7;
+      padding-top: 0;
+      padding-bottom: rem-calc(2);
+    }
+  }
+
+  tbody {
+    border: 0;
+
+    tr + tr {
+      border-top: $hr-border;
+    }
+
+    tr:nth-child(even) {
+      background-color: transparent;
+    }
+
+    tr.highlighted {
+      background-color: transparentize($a11y-yellow, 0.5);
+      font-weight: $global-weight-bold;
+      color: $black;
+    }
+  }
+
+  .geom {
+    color: $dark-gray;
+    line-height: 1;
+  }
+  tr.highlighted .geom {
+    color: $black;
+  }
+
+  .geom-type {
+    display: block;
+    font-size: rem-calc(8);
+    text-transform: uppercase;
+    font-weight: $global-weight-normal;
+    opacity: 0.7;
+    position: relative;
+    top: -2px;
+  }
+
+  .geom-name {
+    display: block;
+  }
+
+  .large {
+    font-size: 1rem;
+    box-shadow: inset 1px 0 0 0 transparentize($medium-gray, 0.75);
+  }
+}
+
+.popup-footer {
+  color: $dark-gray;
+  font-size: rem-calc(10);
+  border-top: $hr-border;
+  margin: 1rem 0 -0.375rem;
+  padding: rem-calc(7 7 0);
+  text-align: center;
+}
+
+
+//
+// Ember Tooltip
+// --------------------------------------------------
+.ember-tooltip {
+  font-size: rem-calc(10);
+}
+
+
+//
+// Ember Tooltip
+// --------------------------------------------------
+figure {
+  margin-bottom: $global-margin;
+
+  img {
+    margin-bottom: $global-margin/2;
+  }
+
+  figcaption {
+    text-align: center;
+    font-size: rem-calc(10);
+    color: $dark-gray;
+  }
+
+  .figure-link {
+    display: block;
+    background-color: $primary-color;
+    padding: $global-margin/2;
+    border-radius: 4px;
+
+    img {}
+
+    figcaption {
+      color: $white;
+    }
+  }
+}
