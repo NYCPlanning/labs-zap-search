@@ -2,11 +2,14 @@ import { Factory, faker } from 'ember-cli-mirage';
 
 export default Factory.extend({
   dcp_projectid() {
-    return faker.random.word();
+    return faker.random.uuid();
   },
 
   dcp_name() {
-    return faker.random.word();
+    return `
+      ${faker.random.arrayElement([faker.address.streetName(), faker.company.companyName()])} 
+      ${faker.random.arrayElement(['Rezoning', faker.address.streetSuffix()])}
+    `;
   },
 
   dcp_alterationmapnumber() {
@@ -14,7 +17,7 @@ export default Factory.extend({
   },
 
   dcp_applicant_customer() {
-    return faker.random.word();
+    return faker.company.companyName();
   },
 
   dcp_applicanttype() {
@@ -38,7 +41,7 @@ export default Factory.extend({
   },
 
   dcp_certifiedreferred() {
-    return faker.random.word();
+    return faker.date.past();
   },
 
   dcp_currentenvironmentmilestone() {
