@@ -1722,7 +1722,7 @@ cartobox-promises-utility@nycplanning/cartobox-promises-utility#v1.0.2:
   resolved "https://codeload.github.com/nycplanning/cartobox-promises-utility/tar.gz/57f1c96a0bf03c47e048c30d202643cc49db3c69"
   dependencies:
     ember-cli-babel "^6.6.0"
-    ember-fetch "5.0.0"
+    ember-fetch "4.0.1"
 
 caseless@~0.11.0:
   version "0.11.0"
@@ -4633,7 +4633,7 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-labs-ember-search@nycplanning/labs-ember-search#v2.0.5:
+labs-ember-search@nycplanning/labs-ember-search:
   version "0.0.0"
   resolved "https://codeload.github.com/nycplanning/labs-ember-search/tar.gz/f0fe760e0fa96b805559c8bf020fa24dbd823f0a"
   dependencies:

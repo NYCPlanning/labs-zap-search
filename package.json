@@ -47,7 +47,7 @@
     "ember-truth-helpers": "2.0.0",
     "ember-welcome-page": "^3.0.0",
     "eslint-plugin-ember": "^5.0.0",
-    "labs-ember-search": "nycplanning/labs-ember-search#v2.0.5",
+    "labs-ember-search": "nycplanning/labs-ember-search",
     "loader.js": "^4.2.3"
   },
   "engines": {
