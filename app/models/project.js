@@ -4,7 +4,7 @@ import { attr } from '@ember-decorators/data';
 const { Model } = DS;
 
 export default class ProjectModel extends Model {
-  // @attr() dcp_applicant_customer; // foreign key
+  @attr() dcp_applicant_customer; // foreign key
   // @attr() dcp_currentenvironmentmilestone; // foreign key
   // @attr() dcp_currentmilestone; // foreign key
   // @attr() dcp_leadagencyforenvreview; // foreign key

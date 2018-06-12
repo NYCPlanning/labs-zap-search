@@ -7,7 +7,7 @@ export default Factory.extend({
 
   dcp_name() {
     return `
-      ${faker.random.arrayElement([faker.address.streetName(), faker.company.companyName()])} 
+      ${faker.random.arrayElement([faker.address.streetName(), faker.company.companyName()])}
       ${faker.random.arrayElement(['Rezoning', faker.address.streetSuffix()])}
     `;
   },
@@ -97,7 +97,7 @@ export default Factory.extend({
   },
 
   dcp_projectbrief() {
-    return faker.random.word();
+    return faker.lorem.paragraph();
   },
 
   dcp_projectname() {

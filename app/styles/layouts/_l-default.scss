@@ -196,3 +196,12 @@ body {
     box-shadow: -4px 0 0 rgba(0,0,0,0.1);
   }
 }
+
+.grid-padding-small {
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+
+  > .cell {
+    padding: 0.5rem;
+  }
+}
