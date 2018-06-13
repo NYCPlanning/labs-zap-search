@@ -23,7 +23,7 @@ export default class ShowProjectController extends Controller {
   handleMapLoad(bblFeatureCollection, map) {
     window.map = map;
 
-    map.fitBounds(turfBbox.default(bblFeatureCollection), {
+    map.fitBounds(turfBbox(bblFeatureCollection), {
       padding: 10,
       linear: true,
       duration: 0,
