@@ -4,5 +4,6 @@ const { Model } = DS;
 
 export default class GeographyModel extends Model {
   @attr({ defaultValue: 'community-district' }) type;
+  @attr('string') slug;
   @hasMany('project') projects;
 }

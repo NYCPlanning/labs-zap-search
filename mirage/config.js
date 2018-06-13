@@ -8,8 +8,8 @@ export default function() {
     return schema.projects.find(request.params.id);
   });
 
-  this.get('/geographies/:id', function(schema, request) {
-    return schema.geographies.find(request.params.id);
+  this.get('/geographies/:id', function(schema) {
+    return schema.geographies.find(1);
   });
   /*
     Config (with defaults).
