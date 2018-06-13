@@ -15,8 +15,8 @@
         <ul class="no-bullet">
           {{#each model as |project|}}
             <li>
-              <h3>{{#link-to 'show-project' project}}{{project.dcp_name}}{{/link-to}}</h3>
-              <p>Filed: {{project.dcp_certifiedreferred}}</p>
+              <h3 class="no-margin"><strong>{{#link-to 'show-project' project}}{{project.dcp_name}}{{/link-to}}</strong></h3>
+              <p class="text-small dark-gray">Filed  01/23/45 <span class="medium-gray">|</span> Certified/Referred {{project.dcp_certifiedreferred}}</p>
             </li>
           {{/each}}
         </ul>
