@@ -9,7 +9,6 @@ export default class ShowProjectController extends Controller {
     return { url };
   }
 
-
   bblFeatureCollectionLayer = {
     "id": "bbl-feature-collection-fill",
     "type": "fill",
