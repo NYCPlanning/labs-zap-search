@@ -9,7 +9,15 @@
         <p class="lead text-center"><strong><a href="#">Learn more&hellip;</a></strong></p>
       </div>
       <div class="cell large-7">
-        {{labs-search}}
+        {{#search-data-wrapper as |wrapper|}}
+          {{#labs-search onSelect=(action 'selectSearchResult' wrapper) as |search|}}
+            <h1>
+              {{lookup-community-district wrapper.communityDistricts search.result.geometry}}
+            </h1>
+            
+            {{search.result.label}}
+          {{/labs-search}}
+        {{/search-data-wrapper}}
 
         <h3>Recent Projects</h3>
         <ul class="no-bullet">
