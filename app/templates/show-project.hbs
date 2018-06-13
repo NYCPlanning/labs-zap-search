@@ -1,6 +1,5 @@
 <div class="cell">
 
-
   <div class="grid-container">
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
@@ -13,7 +12,7 @@
         <p><strong>Project Brief:</strong> {{model.dcp_projectbrief}}</p>
         <p><strong>Status:</strong> {{model.dcp_publicstatus}} <span class="medium-gray">|</span> {{model.dcp_ulurp_nonulurp}}</p>
 
-        <hr />
+        <hr>
 
         <div class="grid-x grid-padding-x">
           <div class="cell medium-6">
@@ -83,9 +82,25 @@
 
       </div>
       <div class="cell large-5">
-
-        <p><img src="http://via.placeholder.com/1200x800?text=MAP" /></p>
-        {{!-- {{mapbox-gl}} --}}
+        {{log model.bblFeatureCollection}}
+        {{#mapbox-gl
+            id='project-map'
+            initOptions=(hash
+              zoom=12
+              center=(array -73.96532400540775 40.709710016659386)
+              interactive=false
+              transformRequest=transformRequest
+            )
+            mapLoaded=(action handleMapLoad model.bblFeatureCollection)
+            as |map|
+        }}
+          {{#map.source options=model.bblFeatureCollectionSource as |source|}}
+            {{source.layer
+              layer=bblFeatureCollectionLayer
+              before='boundary_country'
+            }}
+          {{/map.source}}
+        {{/mapbox-gl}}
 
         <p class="text-small"><strong>BBLs:</strong> 1234567890, 0987654321, 6789012345</p>
         <p class="text-small"><strong>Addresses:</strong> 1234 Main Street, 1236 Main Street</p>
