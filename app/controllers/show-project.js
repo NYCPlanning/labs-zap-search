@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
-import { action, computed } from '@ember-decorators/object';
-import turfBbox from 'npm:@turf/bbox';
+import { action } from '@ember-decorators/object';
+import turfBbox from '@turf/bbox';
 
 
 export default class ShowProjectController extends Controller {
@@ -29,8 +29,5 @@ export default class ShowProjectController extends Controller {
       linear: true,
       duration: 0,
     });
-
-    console.log('map-loaded')
-
   }
 }
