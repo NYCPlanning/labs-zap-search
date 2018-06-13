@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import { attr } from '@ember-decorators/data';
+import { computed } from '@ember-decorators/object';
 
 const { Model } = DS;
 
@@ -39,4 +40,14 @@ export default class ProjectModel extends Model {
   @attr() dcp_communitydistrict;
   @attr('string') dcp_communitydistricts;
   @attr('string') dcp_validatedcommunitydistricts;
+  @attr() bblFeatureCollection;
+
+  @computed('bblFeatureCollection')
+  get bblFeatureCollectionSource() {
+    const data = this.get('bblFeatureCollection');
+    return {
+      type: 'geojson',
+      data,
+    }
+  }
 }

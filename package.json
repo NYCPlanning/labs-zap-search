@@ -22,6 +22,7 @@
     "broccoli-asset-rev": "^2.4.5",
     "broccoli-clean-css": "~1.1.0",
     "ember-ajax": "^3.0.0",
+    "ember-browserify": "1.2.2",
     "ember-cli": "~3.0.2",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.6.0",
@@ -42,6 +43,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-font-awesome": "^4.0.0-rc.4",
     "ember-load-initializers": "^1.0.0",
+    "ember-mapbox-gl": "^0.10.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-resolver": "^4.0.0",
     "ember-source": "~3.0.0",
@@ -49,13 +51,15 @@
     "ember-welcome-page": "^3.0.0",
     "eslint-plugin-ember": "^5.0.0",
     "labs-ember-search": "nycplanning/labs-ember-search",
-    "loader.js": "^4.2.3"
+    "loader.js": "^4.2.3",
+    "mapbox-gl": "^0.44.0"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"
   },
   "dependencies": {
     "@ember-decorators/argument": "0.8.15",
+    "@turf/bbox": "^6.0.1",
     "foundation-sites": "^6.4.3"
   }
 }

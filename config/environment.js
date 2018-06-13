@@ -26,6 +26,15 @@ module.exports = function(environment) {
       host: (environment === 'devlocal') ? '//localhost:4000' : 'https://zola-search-api.planninglabs.nyc',
       route: 'search',
     },
+
+    'mapbox-gl': {
+      accessToken: '',
+      map: {
+        style: '//raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/style.json',
+        zoom: 12.25,
+        center: [ -73.9868, 40.724 ]
+      }
+    },
   };
 
   if (environment === 'development') {

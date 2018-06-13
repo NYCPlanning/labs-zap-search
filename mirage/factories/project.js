@@ -1,4 +1,5 @@
 import { Factory, faker } from 'ember-cli-mirage';
+import bblFeatureCollection from '../test-data/bbl-feature-collection'
 
 export default Factory.extend({
   dcp_projectid() {
@@ -139,5 +140,9 @@ export default Factory.extend({
   dcp_validatedcommunitydistricts() {
     return faker.random.word();
   },
+
+  bblFeatureCollection() {
+    return bblFeatureCollection;
+  }
 
 });
