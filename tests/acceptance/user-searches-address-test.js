@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, fillIn, triggerKeyEvent } from '@ember/test-helpers';
+import { visit, currentURL, fillIn, triggerKeyEvent, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -19,16 +19,45 @@ module('Acceptance | user searches address', function(hooks) {
     assert.equal(currentURL(), '/geographies/mn-1');
   });
 
+
   test('user can click first project in recent projects', async function(assert) {
     server.createList('project', 10);
     server.createList('geography', 10);
     window.XMLHttpRequestFake = window.XMLHttpRequest;
     await visit('/');
+    await click('.projects-list li:first-child a'); 
 
     // actions here
 
     assert.equal(currentURL(), '/projects/1');
   });
+
+    test('user can click on site title and return to index page', async function(assert) {
+    server.createList('project', 10);
+    server.createList('geography', 10);
+    window.XMLHttpRequestFake = window.XMLHttpRequest;
+    await visit('/projects/1');
+    await click('.site-name'); 
+
+    // actions here
+
+    assert.equal(currentURL(), '/');
+  });
+
+    test('user clicks on Planning Labs Logo and visits Planning Website', async function(assert) {
+    server.createList('project', 10);
+    server.createList('geography', 10);
+    window.XMLHttpRequestFake = window.XMLHttpRequest;
+    await visit('/');
+    await click('.dcp-link'); 
+
+    // actions here
+
+    assert.equal(currentURL(), '/');
+  }); 
+
+
+
 });
 
 // function () {
