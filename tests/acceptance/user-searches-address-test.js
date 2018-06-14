@@ -53,7 +53,7 @@ module('Acceptance | user searches address', function(hooks) {
 
     // actions here
 
-    assert.equal(currentURL(), '/');
+    assert.equal(currentURL(), 'http://www1.nyc.gov/site/planning/index.page');
   }); 
 
 
