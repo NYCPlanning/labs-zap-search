@@ -11,11 +11,8 @@
       <div class="cell large-7">
         {{#search-data-wrapper as |wrapper|}}
           {{#labs-search onSelect=(action 'selectSearchResult' wrapper) as |search|}}
-            <h1>
-              {{lookup-community-district wrapper.communityDistricts search.result.geometry}}
-            </h1>
-
-            {{search.result.label}}
+            <strong>{{lookup-community-district wrapper.communityDistricts search.result.geometry}}</strong>
+            <small class="dark-gray">{{search.result.label}}</small>
           {{/labs-search}}
         {{/search-data-wrapper}}
 
