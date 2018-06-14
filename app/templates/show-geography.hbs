@@ -8,26 +8,17 @@
 
         <h2 class="header-large">Recent Projects</h2>
 
-        <hr class="small-margin" />
-
-        <ul class="menu text-small align-center vertical medium-horizontal">
-          <li><a>{{fa-icon 'check-circle' class="dark-gray"}} Filed</a></li>
-          <li><a>{{fa-icon 'circle-o' class="medium-gray"}} Approved</a></li>
-          <li><a>{{fa-icon 'circle-o' class="medium-gray"}} Certified</a></li>
-          <li><a>{{fa-icon 'circle-o' class="medium-gray"}} Withdrawn</a></li>
-        </ul >
-
-        <hr class="small-margin" />
+        {{project-filters}}
 
         <ul class="no-bullet">
           {{#each model.projects as |project|}}
-            {{#link-to 'show-project' project class="grid-x grid-padding-small" tagName='li'}}
+            <li class="grid-x grid-padding-small">
               <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
               <div class="cell auto">
-                <h3 class="no-margin"><strong><a>{{project.dcp_name}}</a></strong></h3>
+                <h3 class="no-margin">{{#link-to 'show-project' project}}{{project.dcp_name}}{{/link-to}}</h3>
                 <p class="text-small dark-gray">Filed {{project.dcp_certifiedreferred}} <span class="medium-gray">|</span> Certified/Referred {{project.dcp_certifiedreferred}} </p>
               </div>
-            {{/link-to}}
+            </li>
           {{/each}}
         </ul>
 
