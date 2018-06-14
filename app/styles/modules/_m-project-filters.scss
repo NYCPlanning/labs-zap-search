@@ -11,10 +11,7 @@
   .filter {
     @include clearfix;
     padding: 0.25rem 0;
-  }
-
-  .filter + .filter {
-    border-top: 1px solid rgba(107,113,123,.1);
+    border-bottom: 1px solid rgba(107,113,123,.1);
   }
 
   .filter-name {
