@@ -14,7 +14,7 @@ export default Factory.extend({
   },
 
   dcp_alterationmapnumber() {
-    return faker.random.word();
+    return faker.random.number();
   },
 
   dcp_applicant_customer() {
@@ -22,23 +22,23 @@ export default Factory.extend({
   },
 
   dcp_applicanttype() {
-    return faker.random.word();
+    return faker.random.arrayElement(['Private', 'Other Public Agency', 'DCP']);
   },
 
   dcp_borough() {
-    return faker.random.word();
+    return faker.random.arrayElement(['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']);
   },
 
   dcp_bsanumber() {
-    return faker.random.word();
+    return faker.random.number();
   },
 
   dcp_ceqrnumber() {
-    return faker.random.word();
+    return faker.random.number();
   },
 
   dcp_ceqrtype() {
-    return faker.random.word();
+    return faker.random.arrayElement(['Type I', 'Type II', 'Unlisted']);
   },
 
   dcp_certifiedreferred() {
@@ -54,7 +54,7 @@ export default Factory.extend({
   },
 
   dcp_decpermitnumber() {
-    return faker.random.word();
+    return faker.random.number();
   },
 
   dcp_easeis() {
@@ -62,35 +62,35 @@ export default Factory.extend({
   },
 
   dcp_femafloodzonea() {
-    return faker.random.word();
+    return faker.random.arrayElement(['Flood Zone A', '']);
   },
 
   dcp_femafloodzonecoastala() {
-    return faker.random.word();
+    return faker.random.arrayElement(['Coastal Flood Zone', '']);
   },
 
   dcp_femafloodzoneshadedx() {
-    return faker.random.word();
+    return faker.random.arrayElement(['Shaded Flood Zone X','']);
   },
 
   dcp_femafloodzonev() {
-    return faker.random.word();
+    return faker.random.arrayElement(['Flood Zone V', '']);
   },
 
   dcp_leadagencyforenvreview() {
-    return faker.random.word();
+    return faker.commerce.department();
   },
 
   dcp_leaddivision() {
-    return faker.random.word();
+    return faker.commerce.department();
   },
 
   dcp_lpcnumber() {
-    return faker.random.word();
+    return faker.random.number();
   },
 
   dcp_nydospermitnumber() {
-    return faker.random.word();
+    return faker.random.number();
   },
 
   dcp_previousactiononsite() {
@@ -98,7 +98,7 @@ export default Factory.extend({
   },
 
   dcp_projectbrief() {
-    return faker.lorem.paragraph();
+    return faker.lorem.sentences();
   },
 
   dcp_projectname() {
@@ -106,7 +106,7 @@ export default Factory.extend({
   },
 
   dcp_publicstatus() {
-    return faker.random.word();
+    return faker.random.arrayElement(['Active', 'Approved', 'Withdrawn']);
   },
 
   dcp_hiddenprojectmetrictarget() {
@@ -122,11 +122,11 @@ export default Factory.extend({
   },
 
   dcp_ulurp_nonulurp() {
-    return faker.random.word();
+    return faker.random.arrayElement(['ULURP', 'Non-ULURP']);
   },
 
   dcp_wrpnumber() {
-    return faker.random.word();
+    return faker.random.number();
   },
 
   dcp_communitydistrict() {
