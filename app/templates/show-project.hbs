@@ -82,7 +82,7 @@
 
       </div>
       <div class="cell large-5">
-        {{log model.bblFeatureCollection}}
+        {{log model.bbl_feature_collection}}
         {{#mapbox-gl
             id='project-map'
             initOptions=(hash
@@ -91,7 +91,7 @@
               interactive=false
               transformRequest=transformRequest
             )
-            mapLoaded=(action handleMapLoad model.bblFeatureCollection)
+            mapLoaded=(action handleMapLoad model.bbl_feature_collection)
             as |map|
         }}
           {{#map.source options=model.bblFeatureCollectionSource as |source|}}

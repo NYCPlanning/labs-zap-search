@@ -40,11 +40,11 @@ export default class ProjectModel extends Model {
   @attr() dcp_communitydistrict;
   @attr('string') dcp_communitydistricts;
   @attr('string') dcp_validatedcommunitydistricts;
-  @attr() bblFeatureCollection;
+  @attr() bbl_feature_collection;
 
-  @computed('bblFeatureCollection')
+  @computed('bbl_feature_collection')
   get bblFeatureCollectionSource() {
-    const data = this.get('bblFeatureCollection');
+    const data = this.get('bbl_feature_collection');
     return {
       type: 'geojson',
       data,

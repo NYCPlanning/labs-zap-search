@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
-import { action, computed } from '@ember-decorators/object';
-import turfBbox from 'npm:@turf/bbox';
+import { action } from '@ember-decorators/object';
+import turfBbox from '@turf/bbox';
 
 
 export default class ShowProjectController extends Controller {
@@ -8,7 +8,6 @@ export default class ShowProjectController extends Controller {
     window.XMLHttpRequest = window.XMLHttpRequestNative;
     return { url };
   }
-
 
   bblFeatureCollectionLayer = {
     "id": "bbl-feature-collection-fill",
@@ -24,13 +23,10 @@ export default class ShowProjectController extends Controller {
   handleMapLoad(bblFeatureCollection, map) {
     window.map = map;
 
-    map.fitBounds(turfBbox.default(bblFeatureCollection), {
+    map.fitBounds(turfBbox(bblFeatureCollection), {
       padding: 10,
       linear: true,
       duration: 0,
     });
-
-    console.log('map-loaded')
-
   }
 }
