@@ -4,9 +4,9 @@
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
 
-        <h1 class="no-margin">{{model.dcp_name}}</h1>
+        <h1 class="no-margin">{{model.dcp_projectname}}</h1>
 
-        <p><a href="#">{{fa-icon 'share-alt'}} <strong>Share</strong> <small>Project {{model.dcp_projectid}}</small></a></p>
+        <p><a href="#">{{fa-icon 'share-alt'}} <strong>Share</strong> <small>Project {{model.dcp_name}}</small></a></p>
 
         <p class="lead"><strong>Applicant:</strong> {{model.dcp_applicant_customer}}</p>
         <p><strong>Project Brief:</strong> {{model.dcp_projectbrief}}</p>
@@ -82,7 +82,6 @@
 
       </div>
       <div class="cell large-5">
-        {{log model.bbl_feature_collection}}
         {{#mapbox-gl
             id='project-map'
             initOptions=(hash
@@ -91,7 +90,7 @@
               interactive=false
               transformRequest=transformRequest
             )
-            mapLoaded=(action handleMapLoad model.bbl_feature_collection)
+            mapLoaded=(action handleMapLoad model.bbl_featurecollection)
             as |map|
         }}
           {{#map.source options=model.bblFeatureCollectionSource as |source|}}
@@ -102,7 +101,7 @@
           {{/map.source}}
         {{/mapbox-gl}}
 
-        <p class="text-small"><strong>BBLs:</strong> 1234567890, 0987654321, 6789012345</p>
+        <p class="text-small"><strong>BBLs:</strong> {{#each model.bbls as |bbl index|}}{{if index ", "}}{{bbl}}{{/each}}</p>
         <p class="text-small"><strong>Addresses:</strong> 1234 Main Street, 1236 Main Street</p>
         <p class="text-small"><strong>Borough:</strong> {{model.dcp_borough}}</p>
         <p class="text-small"><strong>Lead Division:</strong> {{model.dcp_leaddivision}}</p>

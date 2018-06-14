@@ -9,4 +9,6 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
 
     super._ajaxRequest(...arguments);
   }
+
+  host = 'http://localhost:3000'
 }
