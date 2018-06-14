@@ -20,83 +20,15 @@
         <hr class="small-margin" />
 
         <ul class="no-bullet">
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Goyette, Willms and Purdy Rezoning</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Herman Mills Rezoning</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Kozey Group Flats</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Runolfsdottir Station Rezoning</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Fisher Brooks Skyway</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Goodwin, Graham and Dare Isle</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Huel - Medhurst Rezoning</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-            <h3 class="no-margin"><strong><a>Tromp, Hudson and Wiegand Crescent</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Bailey LLC Brooks</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Coby Court Pass</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
-          <li class="grid-x grid-padding-small">
-            <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
-            <div class="cell auto">
-              <h3 class="no-margin"><strong><a>Keeling - Franecki Key</a></strong></h3>
-              <p class="text-small dark-gray">Filed 01/23/45 <span class="medium-gray">|</span> Certified/Referred 01/23/45</p>
-            </div>
-          </li>
+          {{#each model.projects as |project|}}
+            {{#link-to 'show-project' project class="grid-x grid-padding-small" tagName='li'}}
+              <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
+              <div class="cell auto">
+                <h3 class="no-margin"><strong><a>{{project.dcp_name}}</a></strong></h3>
+                <p class="text-small dark-gray">Filed {{project.dcp_certifiedreferred}} <span class="medium-gray">|</span> Certified/Referred {{project.dcp_certifiedreferred}} </p>
+              </div>
+            {{/link-to}}
+          {{/each}}
         </ul>
 
       </div>
