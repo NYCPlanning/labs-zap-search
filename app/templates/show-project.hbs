@@ -16,66 +16,39 @@
 
         <div class="grid-x grid-padding-x">
           <div class="cell medium-6">
+            {{log model}}
             <h2>Actions</h2>
             <ul class="no-bullet">
-              <li class="grid-x grid-padding-small">
-                <div class="cell shrink dark-gray">{{fa-icon 'bullhorn' size=2}}</div>
-                <div class="cell auto">
-                  <p class="no-margin"><strong><a href="#">Action Name</a></strong></p>
-                  <p class="text-small dark-gray">XX <span class="medium-gray">|</span> <a>Resolution 1234a</a> <span class="medium-gray">|</span> Status</p>
-                </div>
-              </li>
-              <li class="grid-x grid-padding-small">
-                <div class="cell shrink dark-gray">{{fa-icon 'bullhorn' size=2}}</div>
-                <div class="cell auto">
-                  <p class="no-margin"><strong><a href="#">Action Name</a></strong></p>
-                  <p class="text-small dark-gray">XX <span class="medium-gray">|</span> <a>Resolution 1234a</a> <span class="medium-gray">|</span> Status</p>
-                </div>
-              </li>
-              <li class="grid-x grid-padding-small">
-                <div class="cell shrink dark-gray">{{fa-icon 'bullhorn' size=2}}</div>
-                <div class="cell auto">
-                  <p class="no-margin"><strong><a href="#">Action Name</a></strong></p>
-                  <p class="text-small dark-gray">XX <span class="medium-gray">|</span> <a>Resolution 1234a</a> <span class="medium-gray">|</span> Status</p>
-                </div>
-              </li>
+              {{#each model.actions as | action |}}
+                <li class="grid-x grid-padding-small">
+                  <div class="cell shrink dark-gray">{{fa-icon 'bullhorn' size=2}}</div>
+                  <div class="cell auto">
+                    <p class="no-margin"><strong><a href="#">{{action.dcp_name}}</a></strong></p>
+                    <p class="text-small dark-gray">
+                      {{action.dcp_prefix}}
+                      <span class="medium-gray">|</span>
+                      {{action.dcp_ulurpnumber}}
+                      <span class="medium-gray">|</span>
+                      {{action.statuscode}}
+                    </p>
+                  </div>
+                </li>
+              {{/each}}
             </ul>
           </div>
           <div class="cell medium-6">
             <h2>Milestones</h2>
             <ul class="no-bullet">
-              <li class="grid-x grid-padding-small">
-                <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
-                <div class="cell auto">
-                  <p class="no-margin"><strong>Milestone Title</strong></p>
-                  <p class="no-margin text-small dark-gray">01/23/45 Start</p>
-                  <p class="text-small dark-gray">01/23/45 Completion</p>
-                </div>
-              </li>
-              <li class="grid-x grid-padding-small">
-                <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
-                <div class="cell auto">
-                  <p class="no-margin"><strong>Milestone Title</strong></p>
-                  <p class="no-margin text-small dark-gray">01/23/45 Start</p>
-                  <p class="text-small dark-gray">01/23/45 Completion</p>
-                </div>
-              </li>
-              <li class="grid-x grid-padding-small">
-                <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
-                <div class="cell auto">
-                  <p class="no-margin"><strong>Milestone Title</strong></p>
-                  <p class="no-margin text-small dark-gray">01/23/45 Start</p>
-                  <p class="text-small dark-gray">01/23/45 Completion</p>
-                </div>
-              </li>
-              <li class="grid-x grid-padding-small">
-                <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
-                <div class="cell auto">
-                  <p class="no-margin"><strong>Milestone Title</strong></p>
-                  <p class="no-margin text-small dark-gray">01/23/45 Start</p>
-                  <p class="text-small dark-gray">01/23/45 Completion</p>
-                </div>
-              </li>
+              {{#each model.milestones as | milestone |}}
+                <li class="grid-x grid-padding-small">
+                  <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
+                  <div class="cell auto">
+                    <p class="no-margin"><strong>{{milestone.dcp_name}}</strong></p>
+                    <p class="no-margin text-small dark-gray">{{moment-format milestone.dcp_plannedstartdate "MMMM D, YYYY" }} <small>Planned Start</small></p>
+                    <p class="text-small dark-gray">{{moment-format milestone.dcp_plannedcompletoiondate "MMMM D, YYYY" }} <small>Planned Completion</small></p>
+                  </div>
+                </li>
+              {{/each}}
             </ul>
           </div>
         </div>
@@ -102,10 +75,20 @@
         {{/mapbox-gl}}
 
         <p class="text-small"><strong>BBLs:</strong> {{#each model.bbls as |bbl index|}}{{if index ", "}}{{bbl}}{{/each}}</p>
-        <p class="text-small"><strong>Addresses:</strong> 1234 Main Street, 1236 Main Street</p>
+        <p class="text-small">
+          <strong>Addresses:</strong>
+          {{#each model.addresses as |address index|}}
+            {{if index ", "}}{{address.dcp_validatedaddressnumber}} {{address.dcp_validatedstreet}}
+          {{/each}}
+        </p>
         <p class="text-small"><strong>Borough:</strong> {{model.dcp_borough}}</p>
         <p class="text-small"><strong>Lead Division:</strong> {{model.dcp_leaddivision}}</p>
-        <p class="text-small"><strong>Keywords:</strong> <a>Foo</a>, <a>Bar</a>, <a>Baz</a>, <a>Qux</a></p>
+        <p class="text-small">
+          <strong>Keywords:</strong>
+          {{#each model.keywords as |keyword index|}}
+            {{if index ", "}}<a>{{keyword}}</a>
+          {{/each}}
+        </p>
         <p class="text-small"><strong>CEQR:</strong> {{model.dcp_ceqrtype}} <span class="medium-gray">|</span> {{model.dcp_ceqrnumber}}</p>
         <p class="text-small"><strong>FEMA:</strong> {{model.dcp_femafloodzonea}} <span class="medium-gray">|</span> {{model.dcp_femafloodzonecoastala}} <span class="medium-gray">|</span> {{model.dcp_femafloodzoneshadedx}} <span class="medium-gray">|</span> {{model.dcp_femafloodzonev}}</p>
         <p class="text-small"><strong>Additional Files:</strong> </p>

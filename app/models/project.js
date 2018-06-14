@@ -42,6 +42,10 @@ export default class ProjectModel extends Model {
   @attr('string') dcp_validatedcommunitydistricts;
   @attr() bbls;
   @attr() bbl_featurecollection;
+  @attr() milestones;
+  @attr() actions;
+  @attr() addresses;
+  @attr() keywords;
 
   @computed('bbl_featurecollection')
   get bblFeatureCollectionSource() {
