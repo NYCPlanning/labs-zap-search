@@ -8,15 +8,7 @@
 
         <h2 class="header-large">Recent Projects</h2>
 
-        <div class="filters-container">
-          <ul class="menu text-small vertical medium-horizontal">
-            <li class="menu-text">Project&nbsp;Status</li>
-            <li><a>{{fa-icon 'check-circle' class="dark-gray"}} Filed</a></li>
-            <li><a>{{fa-icon 'circle-o' class="medium-gray"}} Approved</a></li>
-            <li><a>{{fa-icon 'circle-o' class="medium-gray"}} Certified</a></li>
-            <li><a>{{fa-icon 'circle-o' class="medium-gray"}} Withdrawn</a></li>
-          </ul>
-        </div>
+        {{project-filters}}
 
         <ul class="no-bullet">
           {{#each model.projects as |project|}}

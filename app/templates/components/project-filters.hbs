@@ -1,0 +1,62 @@
+<div class="project-filters {{unless closed 'show-all'}}">
+
+  <div class="filter active">
+    <h6 class="filter-name">Project Status</h6>
+    <ul class="menu vertical medium-horizontal">
+      <li><a>{{fa-icon 'check-square' class="dark-gray"}} Filed</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Approved</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Certified</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Withdrawn</a></li>
+    </ul>
+  </div>
+  {{!-- <div class="filter">Borough</div> --}}
+  {{!-- <div class="filter">Community District</div> --}}
+  <div class="filter">
+    <h6 class="filter-name">CEQR Type</h6>
+    <ul class="menu vertical medium-horizontal">
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Unlisted</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} I</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} II</a></li>
+    </ul>
+  </div>
+  <div class="filter">
+    <h6 class="filter-name">FEMA Flood Zone</h6>
+    <ul class="menu vertical medium-horizontal">
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} A</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Shaded X</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Coastal A</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} V</a></li>
+    </ul>
+  </div>
+  <div class="filter">
+    <h6 class="filter-name">CEQR Type</h6>
+    <ul class="menu vertical medium-horizontal">
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} ULURP</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Non-ULURP</a></li>
+    </ul>
+  </div>
+  <div class="filter">
+    <h6 class="filter-name">Action Status Reason</h6>
+    <ul class="menu vertical medium-horizontal">
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Active</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Certified</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Referred</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Approved</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Withdrawn</a></li>
+      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Terminated</a></li>
+    </ul>
+  </div>
+  {{!-- <div class="filter">Keywords</div> --}}
+  {{!-- <div class="filter">BBL</div> --}}
+
+  {{yield}}
+
+  <button {{action (mut closed) (not closed)}} class="button tiny expanded gray text-orange no-margin">
+    {{#if closed}}
+      {{fa-icon 'chevron-down'}} Add Filters
+    {{else}}
+      {{fa-icon 'chevron-up'}} Hide Unused Filters
+    {{/if}}
+  </button>
+
+</div>
