@@ -141,7 +141,7 @@ export default Factory.extend({
     return faker.random.word();
   },
 
-  bblFeatureCollection() {
+  bbl_featurecollection() {
     return bblFeatureCollection;
   }
 

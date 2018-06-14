@@ -1,5 +1,7 @@
 import DS from 'ember-data';
+import ENV from 'labs-applicant-maps/config/environment';
 const { JSONAPIAdapter } = DS;
+
 
 export default class ApplicationAdapter extends JSONAPIAdapter {
   _ajaxRequest() {
@@ -10,5 +12,5 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
     super._ajaxRequest(...arguments);
   }
 
-  host = 'http://localhost:3000'
+  host = ENV.host;
 }

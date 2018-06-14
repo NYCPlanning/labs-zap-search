@@ -3,7 +3,6 @@
   <div class="grid-container">
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
-
         <h1 class="no-margin">{{model.dcp_projectname}}</h1>
 
         <p><a href="#">{{fa-icon 'share-alt'}} <strong>Share</strong> <small>Project {{model.dcp_name}}</small></a></p>
@@ -16,7 +15,6 @@
 
         <div class="grid-x grid-padding-x">
           <div class="cell medium-6">
-            {{log model}}
             <h2>Actions</h2>
             <ul class="no-bullet">
               {{#each model.actions as | action |}}
