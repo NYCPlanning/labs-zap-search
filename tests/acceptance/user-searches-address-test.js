@@ -30,9 +30,8 @@ module('Acceptance | user searches address', function(hooks) {
     assert.equal(currentURL(), '/projects/1');
   });
 
-    test('user can click on site title and return to index page', async function(assert) {
+  test('user can click on site title and return to index page', async function(assert) {
     server.createList('project', 10);
-    server.createList('geography', 10);
     window.XMLHttpRequestFake = window.XMLHttpRequest;
     await visit('/projects/1');
     await click('.site-name'); 
@@ -41,20 +40,6 @@ module('Acceptance | user searches address', function(hooks) {
 
     assert.equal(currentURL(), '/');
   });
-
-    test('user clicks on Planning Labs Logo and visits Planning Website', async function(assert) {
-    server.createList('project', 10);
-    server.createList('geography', 10);
-    window.XMLHttpRequestFake = window.XMLHttpRequest;
-    await visit('/');
-    await click('.dcp-link'); 
-
-    // actions here
-
-    assert.equal(currentURL(), 'http://www1.nyc.gov/site/planning/index.page');
-  }); 
-
-
 
 });
 
