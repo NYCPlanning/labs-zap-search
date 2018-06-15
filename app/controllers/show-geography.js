@@ -75,8 +75,7 @@ export default class ShowGeographyController extends Controller {
 
     if (Feature) {
       const projectid = Feature.properties.projectid;
-      // set the route of the app!
-      this.transitionToRoute(`/projects/${projectid}`);
+      this.transitionToRoute('show-project', projectid);
     }
   }
 }

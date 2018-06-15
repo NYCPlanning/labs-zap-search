@@ -9,19 +9,17 @@ module('Acceptance | user searches address', function(hooks) {
 
   test('visiting / to search for address', async function(assert) {
     server.createList('project', 10);
-    server.createList('geography', 10);
     window.XMLHttpRequestFake = window.XMLHttpRequest;
 
     await visit('/');
     await fillIn('.map-search-input', '120 broadway');
     await triggerKeyEvent('.labs-geosearch', 'keypress', 13);
 
-    assert.equal(currentURL(), '/geographies/mn-1');
+    assert.equal(currentURL(), '/projects?community-district=mn-1');
   });
 
   test('user can click first project in recent projects', async function(assert) {
     server.createList('project', 10);
-    server.createList('geography', 10);
     window.XMLHttpRequestFake = window.XMLHttpRequest;
     await visit('/');
 

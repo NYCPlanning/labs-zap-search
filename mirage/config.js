@@ -8,12 +8,9 @@ export default function() {
   });
 
   this.get('/projects/:id', function(schema, request) {
-    return schema.projects.find(request.params.id);
+    return schema.projects.find(request.params.id) || schema.projects.find(1);
   });
 
-  this.get('/geographies/:id', function(schema) {
-    return schema.geographies.find(1);
-  });
   /*
     Config (with defaults).
 

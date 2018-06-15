@@ -6,5 +6,4 @@ export default function(server) {
   */
 
   server.createList('project', 10);
-  server.createList('geography', 10);
 }
