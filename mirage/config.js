@@ -3,7 +3,10 @@ export default function() {
   this.passthrough('https://planninglabs.carto.com/**');
   // These comments are here to help you get started. Feel free to delete them.
 
-  this.get('/projects');
+  this.get('/projects', function(schema) {
+    return schema.projects.all();
+  });
+
   this.get('/projects/:id', function(schema, request) {
     return schema.projects.find(request.params.id);
   });

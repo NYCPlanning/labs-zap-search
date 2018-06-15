@@ -13,12 +13,12 @@
         {{log model}}
 
         <ul class="no-bullet">
-          {{#each model.data as |project|}}
+          {{#each model as |project|}}
             <li class="grid-x grid-padding-small">
               <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
               <div class="cell auto">
-                <h3 class="no-margin">{{#link-to 'show-project' project.id}}{{project.attributes.dcp_projectname}}{{/link-to}}</h3>
-                <p class="text-small dark-gray">Filed {{project.attributes.dcp_certifiedreferred}} <span class="medium-gray">|</span> Certified/Referred {{project.attributes.dcp_certifiedreferred}} </p>
+                <h3 class="no-margin">{{#link-to 'show-project' project.id}}{{project.dcp_projectname}}{{/link-to}}</h3>
+                <p class="text-small dark-gray">Filed {{project.dcp_certifiedreferred}} <span class="medium-gray">|</span> Certified/Referred {{project.dcp_certifiedreferred}} </p>
               </div>
             </li>
           {{/each}}

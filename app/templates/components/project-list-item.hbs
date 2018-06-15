@@ -1,0 +1,11 @@
+<h3 class="no-margin">
+  {{#link-to 'show-project' project.id}}
+    {{project.dcp_projectname}}
+  {{/link-to}}
+</h3>
+<p class="text-small dark-gray">
+  Filed {{project.dcp_certifiedreferred}} <span class="medium-gray">|</span> Certified/Referred {{project.dcp_certifiedreferred}}
+</p>
+
+
+{{yield}}
