@@ -8,6 +8,6 @@ export default class IndexController extends Controller {
   selectSearchResult({ communityDistricts }, { geometry }) {
     const foundDistrict = lookupCommunityDistrict([communityDistricts, geometry]);
     
-    this.transitionToRoute('show-geography', dasherize(foundDistrict))
+    this.transitionToRoute('show-geography', { 'community-district': dasherize(foundDistrict) });
   }
 }

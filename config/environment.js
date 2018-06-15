@@ -23,7 +23,7 @@ module.exports = function(environment) {
     },
 
     'labs-search': {
-      host: (environment === 'devlocal') ? '//localhost:4000' : 'https://zola-search-api.planninglabs.nyc',
+      host: 'https://zola-search-api.planninglabs.nyc',
       route: 'search',
       helpers: ['geosearch'],
     },
@@ -59,6 +59,10 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
+  }
+
+  if (environment === 'devlocal') {
+    ENV.host = 'http://localhost:3000';
   }
 
   if (environment === 'production') {

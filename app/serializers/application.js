@@ -6,6 +6,6 @@ const { JSONAPISerializer } = DS;
 
 export default class ApplicationSerializer extends JSONAPISerializer {
   keyForAttribute(key) {
-    return ENV.environment === 'production' ? key : dasherize(key);
+    return (ENV.environment === 'production' || ENV.environment === 'devlocal') ? key : dasherize(key);
   }
 }
