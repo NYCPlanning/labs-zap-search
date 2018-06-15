@@ -8,7 +8,8 @@ export default class ShowGeographyRoute extends Route {
     cdNumber = ("0" + cdNumber).slice(-2);
 
     const cdParam = `${cdBoro}${cdNumber}`;
+
     return fetch(`https://zap-api.planninglabs.nyc/projects?community-district=${cdParam}`)
-      .then((projects) => { projects });
+      .then(data => { return data.json(); });
   }
 }
