@@ -42,6 +42,7 @@
     "ember-data": "~3.0.0",
     "ember-decorators": "2.1.0",
     "ember-export-application-global": "^2.0.0",
+    "ember-fetch": "^5.0.0",
     "ember-font-awesome": "^4.0.0-rc.4",
     "ember-load-initializers": "^1.0.0",
     "ember-mapbox-gl": "^0.10.0",

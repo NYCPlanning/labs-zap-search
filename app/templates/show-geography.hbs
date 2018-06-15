@@ -24,9 +24,27 @@
 
       </div>
       <div class="cell large-5">
-
-        <p><img src="http://via.placeholder.com/1200x800?text=MAP" /></p>
-        {{!-- {{mapbox-gl}} --}}
+        {{#mapbox-gl
+            id='project-map'
+            initOptions=(hash
+              zoom=12
+              center=(array -73.96532400540775 40.709710016659386)
+              transformRequest=transformRequest
+            )
+            mapLoaded=(action handleMapLoad model.bbl_featurecollection)
+            as |map|
+        }}
+          {{#if projectCentroidsTileTemplate}}
+            {{#map.source options=projectCentroidsSource as |source|}}
+              {{source.layer
+                layer=projectCentroidsLayer
+                before='boundary_country'
+              }}
+            {{/map.source}}
+          {{/if}}
+          {{map.on 'click' (action 'handleMapClick')}}
+          {{map.on 'mousemove' (action 'handleMapMove')}}
+        {{/mapbox-gl}}
 
         <br/>
         <h4>Yearly Archive</h4>
