@@ -9,7 +9,11 @@
 
         <p class="lead"><strong>Applicant:</strong> {{model.dcp_applicant_customer}}</p>
         <p><strong>Project Brief:</strong> {{model.dcp_projectbrief}}</p>
-        <p><strong>Status:</strong> {{model.dcp_publicstatus}} <span class="medium-gray">|</span> {{model.dcp_ulurp_nonulurp}}</p>
+        <p>
+          <strong>Status:</strong>
+          {{#if model.dcp_publicstatus}}<span class="label dark-gray">{{model.dcp_publicstatus}}</span>{{/if}}
+          {{#if model.dcp_ulurp_nonulurp}}<span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}</span>{{/if}}
+        </p>
 
         <hr>
 
