@@ -3,7 +3,8 @@ import { action, computed} from '@ember-decorators/object';
 import carto from 'cartobox-promises-utility/utils/carto';
 
 export default class ShowGeographyController extends Controller {
-  queryParams = ['community-district'];
+  queryParams = ['community-district', 'page'];
+  page = 1;
 
   transformRequest(url) {
     window.XMLHttpRequest = window.XMLHttpRequestNative;

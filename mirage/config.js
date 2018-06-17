@@ -3,8 +3,12 @@ export default function() {
   this.passthrough('https://planninglabs.carto.com/**');
   // These comments are here to help you get started. Feel free to delete them.
 
-  this.get('/projects', function(schema) {
-    return schema.projects.all();
+  this.get('/projects', function(schema, request) {
+    let { queryParams: { 'page[number]': number } } = request;
+    let offset = number - 1;
+    let begin = 0 + (10 * offset);
+
+    return schema.projects.all().slice(begin, begin + 10);
   });
 
   this.get('/projects/:id', function(schema, request) {
