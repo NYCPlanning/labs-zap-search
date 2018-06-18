@@ -82,7 +82,14 @@
             {{if index ", "}}{{address.dcp_validatedaddressnumber}} {{address.dcp_validatedstreet}}
           {{/each}}
         </p>
-        <p class="text-small"><strong>Borough:</strong> {{model.dcp_borough}}</p>
+
+        <p class="text-small">
+          <strong>Borough:</strong>
+          {{model.dcp_borough}}
+          {{#if model.dcp_sisubdivision}}<small><span class="label light-gray">Subdivision</span></small>{{/if}}
+          {{#if model.dcp_sischoolseat}}<small><span class="label light-gray">School Seat</span></small>{{/if}}
+        </p>
+
         <p class="text-small"><strong>Lead Division:</strong> {{model.dcp_leaddivision}}</p>
         <p class="text-small">
           <strong>Keywords:</strong>

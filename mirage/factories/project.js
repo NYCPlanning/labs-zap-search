@@ -114,11 +114,11 @@ export default Factory.extend({
   },
 
   dcp_sischoolseat() {
-    return faker.random.word();
+    return faker.random.boolean();
   },
 
   dcp_sisubdivision() {
-    return faker.random.word();
+    return faker.random.boolean();
   },
 
   dcp_ulurp_nonulurp() {
