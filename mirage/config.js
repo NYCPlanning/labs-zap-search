@@ -4,7 +4,7 @@ export default function() {
   // These comments are here to help you get started. Feel free to delete them.
 
   this.get('/projects', function(schema, request) {
-    let { queryParams: { offset: offsetParam } } = request;
+    let { queryParams: { page: offsetParam = 1 } } = request;
     let offset = offsetParam - 1;
     let begin = 0 + (10 * offset);
 
