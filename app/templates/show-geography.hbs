@@ -8,7 +8,7 @@
 
         <h2 class="header-large">Recent Projects</h2>
 
-        {{project-filters}}
+        {{project-filters projectFilters=this}}
 
         <ul class="no-bullet">
           {{#each model as |project|}}
@@ -19,6 +19,10 @@
                 <p class="text-small dark-gray">Filed {{project.dcp_certifiedreferred}} <span class="medium-gray">|</span> Certified/Referred {{project.dcp_certifiedreferred}} </p>
               </div>
             </li>
+          {{else}}
+            {{#unless model.length}} 
+              {{fa-icon 'spinner'}}
+            {{/unless}}
           {{/each}}
         </ul>
 

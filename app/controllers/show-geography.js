@@ -1,9 +1,11 @@
 import Controller from '@ember/controller';
-import { action, computed} from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import carto from 'cartobox-promises-utility/utils/carto';
 
 export default class ShowGeographyController extends Controller {
+  queryParams = ['community-district', 'dcp_projectstatus'];
   page = 1;
+  dcp_publicstatus = ['Approved', 'Withdrawn', 'Filed', 'Certified', 'Unknown'];
 
   transformRequest(url) {
     window.XMLHttpRequest = window.XMLHttpRequestNative;

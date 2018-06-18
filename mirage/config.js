@@ -4,8 +4,8 @@ export default function() {
   // These comments are here to help you get started. Feel free to delete them.
 
   this.get('/projects', function(schema, request) {
-    let { queryParams: { 'page[number]': number } } = request;
-    let offset = number - 1;
+    let { queryParams: { offset: offsetParam } } = request;
+    let offset = offsetParam - 1;
     let begin = 0 + (10 * offset);
 
     return schema.projects.all().slice(begin, begin + 10);
