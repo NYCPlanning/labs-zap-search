@@ -35,6 +35,15 @@ export default class ShowGeographyController extends Controller {
     }
   }
 
+  @computed('meta.total', 'page')
+  get noMoreRecords() {
+    const pageTotal = this.get('meta.pageTotal');
+    const total = this.get('meta.total');
+    const page = this.get('page');
+
+    return (pageTotal < 30) || ((page * 30) === total);
+  }
+
   @action
   handleMapLoad(bblFeatureCollection, map) {
     window.map = map;

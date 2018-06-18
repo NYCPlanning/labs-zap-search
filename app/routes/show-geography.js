@@ -20,12 +20,29 @@ export default class ShowGeographyRoute extends Route {
 
     const cdParam = formatCdParam(communityDistrict)
 
-    await this.store.query('project', { 
+    const projects = await this.store.query('project', { 
       'community-district': cdParam, 
       dcp_publicstatus,
       page,
     });
 
-    return this.store.peekAll('project');
+    const meta = projects.get('meta');
+
+    return {
+      projects: this.store.peekAll('project'),
+      meta,
+    };
+  }
+
+  setupController(controller, { projects: model, meta }) {
+    controller.set('meta', meta);
+
+    super.setupController(controller, model);
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('page', 1);
+    }
   }
 }
