@@ -39,6 +39,9 @@
                       <span class="medium-gray">|</span>
                       {{action.statuscode}}
                     </p>
+                    {{#if action.dcp_zoningresolution}}
+                      <p class="text-small dark-gray">Zoning Resolution: <a href="{{build-zr-url action.dcp_zoningresolution}}" target="_blank">{{action.dcp_zoningresolution}}</a></p>
+                    {{/if}}
                   </div>
                 </li>
               {{/each}}
