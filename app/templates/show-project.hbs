@@ -90,7 +90,15 @@
             {{if index ", "}}<a>{{keyword}}</a>
           {{/each}}
         </p>
-        <p class="text-small"><strong>CEQR:</strong> {{model.dcp_ceqrtype}} <span class="medium-gray">|</span> {{model.dcp_ceqrnumber}}</p>
+
+        {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
+          <p class="text-small">
+            <strong>C<span class="show-for-large">ity </span>E<span class="show-for-large">nvironmental </span>Q<span class="show-for-large">uality </span>R<span class="show-for-large">eview</span>:</strong>
+            {{#if model.dcp_ceqrtype}}<span class="label secondary">{{model.dcp_ceqrtype}}</span>{{/if}}
+            {{#if model.dcp_ceqrnumber}}<span class="label secondary">{{model.dcp_ceqrnumber}}</span>{{/if}}
+          </p>
+        {{/if}}
+
         <p class="text-small"><strong>FEMA:</strong> {{model.dcp_femafloodzonea}} <span class="medium-gray">|</span> {{model.dcp_femafloodzonecoastala}} <span class="medium-gray">|</span> {{model.dcp_femafloodzoneshadedx}} <span class="medium-gray">|</span> {{model.dcp_femafloodzonev}}</p>
         <p class="text-small"><strong>Additional Files:</strong> </p>
 
