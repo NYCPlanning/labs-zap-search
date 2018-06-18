@@ -80,4 +80,19 @@ export default class ShowGeographyController extends Controller {
       this.transitionToRoute('show-project', projectid);
     }
   }
+
+  @action
+  mutateArray(key, value) {
+    const values = this.get(key);
+
+    // reset pagination
+    this.set('page', 1);
+    this.get('store').unloadAll('project');
+
+    if (values.includes(value)) {
+      values.removeObject(value);      
+    } else {
+      values.pushObject(value);
+    }
+  }
 }

@@ -11,8 +11,6 @@ export default class ShowGeographyRoute extends Route {
     },
   };
 
-  lastPage = null;
-
   async model(params) {
     const {
       'community-district': communityDistrict = '', 
@@ -22,22 +20,12 @@ export default class ShowGeographyRoute extends Route {
 
     const cdParam = formatCdParam(communityDistrict)
 
-    if (this.get('lastPage') !== page) {
-      await this.store.query('project', { 
-        'community-district': cdParam, 
-        dcp_publicstatus,
-        page,
-      });
+    await this.store.query('project', { 
+      'community-district': cdParam, 
+      dcp_publicstatus,
+      page,
+    });
 
-      this.set('lastPage', page);
-
-      return this.store.peekAll('project');
-    } else {
-      this.store.unloadAll('project');
-      return this.store.query('project', { 
-        'community-district': cdParam, 
-        dcp_publicstatus,
-      });
-    }
+    return this.store.peekAll('project');
   }
 }

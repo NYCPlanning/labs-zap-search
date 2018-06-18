@@ -8,7 +8,7 @@
 
         <h2 class="header-large">Recent Projects</h2>
 
-        {{project-filters projectFilters=this}}
+        {{project-filters projectFilters=this mutateArray=(action 'mutateArray')}}
 
         <ul class="no-bullet">
           {{#each model as |project|}}

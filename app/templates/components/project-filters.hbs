@@ -3,32 +3,32 @@
   <div class="filter active">
     <h6 class="filter-name">Project Status</h6>
     <ul class="menu vertical medium-horizontal">
-      <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Filed'}}>
+      <li onclick={{action mutateArray 'dcp_publicstatus' 'Filed'}}>
         <a>
           {{fa-icon (if
             (contains 'Filed' projectFilters.dcp_publicstatus) 'check-square' 'square-o') 
             class="dark-gray"}} Filed
         </a>
       </li>
-      <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Approved'}}>
+      <li onclick={{action mutateArray 'dcp_publicstatus' 'Approved'}}>
         <a>
           {{fa-icon (if
             (contains 'Approved' projectFilters.dcp_publicstatus) 'check-square' 'square-o') class="dark-gray"}} Approved
         </a>
       </li>
-      <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Certified'}}>
+      <li onclick={{action mutateArray 'dcp_publicstatus' 'Certified'}}>
         <a>
           {{fa-icon (if
             (contains 'Certified' projectFilters.dcp_publicstatus) 'check-square' 'square-o') class="dark-gray"}} Certified
         </a>
       </li>
-      <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Withdrawn'}}>
+      <li onclick={{action mutateArray 'dcp_publicstatus' 'Withdrawn'}}>
         <a>
           {{fa-icon (if
             (contains 'Withdrawn' projectFilters.dcp_publicstatus) 'check-square' 'square-o') class="dark-gray"}} Withdrawn
         </a>
       </li>
-      <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Unknown'}}>
+      <li onclick={{action mutateArray 'dcp_publicstatus' 'Unknown'}}>
         <a>
           {{fa-icon (if
             (contains 'Unknown' projectFilters.dcp_publicstatus) 'check-square' 'square-o') class="dark-gray"}} Unknown
