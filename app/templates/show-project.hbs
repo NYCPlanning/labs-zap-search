@@ -3,7 +3,13 @@
   <div class="grid-container">
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
-        <h1 class="no-margin">{{model.dcp_projectname}}</h1>
+        <h1 class="no-margin">
+          {{#if false}}
+            {{model.dcp_projectname}}
+          {{else}}
+            Project {{model.dcp_name}}
+          {{/if}}
+        </h1>
 
         <p><a href="#">{{fa-icon 'share-alt'}} <strong>Share</strong> <small>Project {{model.dcp_name}}</small></a></p>
 
