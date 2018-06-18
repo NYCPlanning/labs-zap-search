@@ -8,9 +8,7 @@
 
         <h2 class="header-large">Recent Projects</h2>
 
-        {{project-filters}}
-
-        {{log model}}
+        {{project-filters projectFilters=this mutateArray=(action 'mutateArray')}}
 
         <ul class="no-bullet">
           {{#each model as |project|}}
@@ -21,8 +19,20 @@
                 <p class="text-small dark-gray">Filed {{project.dcp_certifiedreferred}} <span class="medium-gray">|</span> Certified/Referred {{project.dcp_certifiedreferred}} </p>
               </div>
             </li>
+          {{else}}
+            {{#unless model.length}} 
+              {{fa-icon 'spinner'}}
+            {{/unless}}
           {{/each}}
         </ul>
+
+        <div 
+          class="button" 
+          onclick={{action (mut page) (add page 1)}}
+          disabled={{noMoreRecords}}
+        >
+          Load More
+        </div>
 
       </div>
       <div class="cell large-5">
@@ -48,7 +58,7 @@
           {{map.on 'mousemove' (action 'handleMapMove')}}
         {{/mapbox-gl}}
 
-        {{!-- <br/>
+        <br/>
         <h4>Yearly Archive</h4>
         <ul class="text-large">
           <li><a><strong class="header-large">2018</strong> <span class="dark-gray"> 18 Projects</span></a></li>
@@ -58,7 +68,7 @@
           <li><a><strong class="header-large">2014</strong> <span class="dark-gray"> 7 Projects</span></a></li>
           <li><a><strong class="header-large">2012</strong> <span class="dark-gray"> 16 Projects</span></a></li>
           <li><a><strong class="header-large">2009</strong> <span class="dark-gray"> 3 Projects</span></a></li>
-        </ul> --}}
+        </ul>
 
       </div>
     </div>
