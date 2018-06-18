@@ -5,33 +5,37 @@
     <ul class="menu vertical medium-horizontal">
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Filed'}}>
         <a>
-          {{fa-icon (if
-            (contains 'Filed' projectFilters.dcp_publicstatus) 'check-square' 'square-o') 
-            class="dark-gray"}} Filed
+          {{filter-checkbox 
+            value='Filed' 
+            currentValues=projectFilters.dcp_publicstatus}}
         </a>
       </li>
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Approved'}}>
         <a>
-          {{fa-icon (if
-            (contains 'Approved' projectFilters.dcp_publicstatus) 'check-square' 'square-o') class="dark-gray"}} Approved
+          {{filter-checkbox 
+            value='Approved'
+            currentValues=projectFilters.dcp_publicstatus}}
         </a>
       </li>
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Certified'}}>
         <a>
-          {{fa-icon (if
-            (contains 'Certified' projectFilters.dcp_publicstatus) 'check-square' 'square-o') class="dark-gray"}} Certified
+          {{filter-checkbox 
+            value='Certified'
+            currentValues=projectFilters.dcp_publicstatus}}
         </a>
       </li>
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Withdrawn'}}>
         <a>
-          {{fa-icon (if
-            (contains 'Withdrawn' projectFilters.dcp_publicstatus) 'check-square' 'square-o') class="dark-gray"}} Withdrawn
+          {{filter-checkbox 
+            value='Withdrawn'
+            currentValues=projectFilters.dcp_publicstatus}}
         </a>
       </li>
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Unknown'}}>
         <a>
-          {{fa-icon (if
-            (contains 'Unknown' projectFilters.dcp_publicstatus) 'check-square' 'square-o') class="dark-gray"}} Unknown
+          {{filter-checkbox 
+            value='Unknown'
+            currentValues=projectFilters.dcp_publicstatus}}
         </a>
       </li>
     </ul>
@@ -41,9 +45,21 @@
   <div class="filter">
     <h6 class="filter-name">CEQR Type</h6>
     <ul class="menu vertical medium-horizontal">
-      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Unlisted</a></li>
-      <li><a>{{fa-icon 'square-o' class="medium-gray"}} I</a></li>
-      <li><a>{{fa-icon 'square-o' class="medium-gray"}} II</a></li>
+      <li onclick={{action mutateArray 'dcp_ceqrtype' 'Unlisted'}}><a>
+        {{filter-checkbox
+          value='Unlisted'
+          currentValues=projectFilters.dcp_ceqrtype}}
+      </a></li>
+      <li onclick={{action mutateArray 'dcp_ceqrtype' 'Type I'}}><a>
+        {{filter-checkbox
+          value='Type I'
+          currentValues=projectFilters.dcp_ceqrtype}}
+      </a></li>
+      <li onclick={{action mutateArray 'dcp_ceqrtype' 'Type II'}}><a>
+        {{filter-checkbox
+          value='Type II'
+          currentValues=projectFilters.dcp_ceqrtype}}
+      </a></li>
     </ul>
   </div>
   <div class="filter">
@@ -56,10 +72,22 @@
     </ul>
   </div>
   <div class="filter">
-    <h6 class="filter-name">CEQR Type</h6>
+    <h6 class="filter-name">ULURP</h6>
     <ul class="menu vertical medium-horizontal">
-      <li><a>{{fa-icon 'square-o' class="medium-gray"}} ULURP</a></li>
-      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Non-ULURP</a></li>
+      <li  onclick={{action mutateArray 'dcp_ulurp_nonulurp' 'ULURP'}}>
+        <a>
+          {{filter-checkbox
+            value='ULURP'
+            currentValues=projectFilters.dcp_ulurp_nonulurp}}
+        </a>
+      </li>
+      <li  onclick={{action mutateArray 'dcp_ulurp_nonulurp' 'Non-ULURP'}}>
+        <a>
+          {{filter-checkbox
+            value='Non-ULURP'
+            currentValues=projectFilters.dcp_ulurp_nonulurp}}
+        </a>
+      </li>
     </ul>
   </div>
   <div class="filter">

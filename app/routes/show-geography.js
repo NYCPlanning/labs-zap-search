@@ -9,12 +9,20 @@ export default class ShowGeographyRoute extends Route {
     dcp_publicstatus: {
       refreshModel: true,
     },
+    dcp_ceqrtype: {
+      refreshModel: true,
+    },
+    dcp_ulurp_nonulurp: {
+      refreshModel: true,
+    },
   };
 
   async model(params) {
     const {
       'community-district': communityDistrict = '', 
       dcp_publicstatus,
+      dcp_ceqrtype,
+      dcp_ulurp_nonulurp,
       page = 1,
     } = params;
 
@@ -23,6 +31,8 @@ export default class ShowGeographyRoute extends Route {
     const projects = await this.store.query('project', { 
       'community-district': cdParam, 
       dcp_publicstatus,
+      dcp_ceqrtype,
+      dcp_ulurp_nonulurp,
       page,
     });
 

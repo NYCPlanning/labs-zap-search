@@ -3,9 +3,13 @@ import { action, computed } from '@ember-decorators/object';
 import carto from 'cartobox-promises-utility/utils/carto';
 
 export default class ShowGeographyController extends Controller {
-  queryParams = ['community-district', 'dcp_projectstatus'];
-  page = 1;
+  queryParams = ['community-district', 'dcp_projectstatus', 'dcp_ceqrtype', 'dcp_ulurp_nonulurp'];
+
   dcp_publicstatus = ['Approved', 'Withdrawn', 'Filed', 'Certified', 'Unknown'];
+  dcp_ceqrtype = ['Type I', 'Type II', 'Unlisted', 'Unknown'];
+  dcp_ulurp_nonulurp = ['ULURP', 'Non-ULURP'];
+
+  page = 1;
 
   transformRequest(url) {
     window.XMLHttpRequest = window.XMLHttpRequestNative;

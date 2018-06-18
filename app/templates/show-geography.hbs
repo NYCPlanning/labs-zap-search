@@ -4,11 +4,15 @@
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
 
-        <h1 class="no-margin">Geography Name</h1>
+        <h1 class="no-margin">Geography: {{community-district}}</h1>
 
         <h2 class="header-large">Recent Projects</h2>
 
-        {{project-filters projectFilters=this mutateArray=(action 'mutateArray')}}
+        {{project-filters 
+          projectFilters=this 
+          mutateArray=(action 'mutateArray')}}
+
+        <h3 class="header-large">{{meta.total}} Results</h3>
 
         <ul class="no-bullet">
           {{#each model as |project|}}

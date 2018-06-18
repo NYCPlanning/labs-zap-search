@@ -35,7 +35,7 @@ export default class ProjectModel extends Model {
   @attr() dcp_hiddenprojectmetrictarget;
   @attr('boolean') dcp_sischoolseat;
   @attr('boolean') dcp_sisubdivision;
-  @attr() dcp_ulurp_nonulurp;
+  @attr('string') dcp_ulurp_nonulurp;
   @attr('string') dcp_wrpnumber;
   @attr() dcp_communitydistrict;
   @attr('string') dcp_communitydistricts;
