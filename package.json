@@ -49,6 +49,7 @@
     "ember-math-helpers": "2.5.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-moment": "^7.7.0",
+    "ember-parachute": "0.3.7",
     "ember-resolver": "^4.0.0",
     "ember-source": "~3.0.0",
     "ember-truth-helpers": "2.0.0",

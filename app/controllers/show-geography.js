@@ -1,16 +1,53 @@
 import Controller from '@ember/controller';
 import { action, computed } from '@ember-decorators/object';
 import carto from 'cartobox-promises-utility/utils/carto';
+import QueryParams from 'ember-parachute';
 
-export default class ShowGeographyController extends Controller {
-  queryParams = ['community-district', 'dcp_projectstatus', 'dcp_ceqrtype', 'dcp_ulurp_nonulurp'];
+export const projectParams = new QueryParams({
+  page: {
+    defaultValue: 1,
+    refresh: true,
+  },
+  'community-district': {
+    defaultValue: '',
+    refresh: true,
+  },
 
-  dcp_publicstatus = ['Approved', 'Withdrawn', 'Filed', 'Certified', 'Unknown'];
-  dcp_ceqrtype = ['Type I', 'Type II', 'Unlisted', 'Unknown'];
-  dcp_ulurp_nonulurp = ['ULURP', 'Non-ULURP'];
+  dcp_publicstatus: {
+    defaultValue: ['Approved', 'Certified', 'Filed', 'Unknown', 'Withdrawn'].sort(),
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',').sort();
+    },
+  },
+  dcp_ceqrtype: {
+    defaultValue: ['Type I', 'Type II', 'Unlisted', 'Unknown'].sort(),
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',').sort();
+    },
+  },
+  dcp_ulurp_nonulurp: {
+    defaultValue: ['ULURP', 'Non-ULURP'].sort(),
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',').sort();
+    },
+  },
+});
 
-  page = 1;
+const ParachuteController = Controller.extend(projectParams.Mixin);
 
+export default class ShowGeographyController extends ParachuteController {
   transformRequest(url) {
     window.XMLHttpRequest = window.XMLHttpRequestNative;
     return { url };

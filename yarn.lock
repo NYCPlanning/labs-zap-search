@@ -2941,6 +2941,13 @@ ember-ajax@^3.0.0:
   dependencies:
     ember-cli-babel "^6.6.0"
 
+ember-assign-polyfill@^2.0.1:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ember-assign-polyfill/-/ember-assign-polyfill-2.2.0.tgz#7953836e5ccd4da05b2493423d3efc00df80ca74"
+  dependencies:
+    ember-cli-babel "^6.8.2"
+    ember-cli-version-checker "^2.0.0"
+
 ember-ast-helpers@0.3.5:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/ember-ast-helpers/-/ember-ast-helpers-0.3.5.tgz#db72afd9bc3de03759720ff7b03d4e3b2c7f2351"
@@ -3561,6 +3568,14 @@ ember-moment@^7.7.0:
     ember-cli-babel "^6.7.2"
     ember-getowner-polyfill "^2.0.1"
     ember-macro-helpers "^0.17.0"
+
+ember-parachute@0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/ember-parachute/-/ember-parachute-0.3.7.tgz#741e435210d4cd6e60bdf6956fd784d14751f20c"
+  dependencies:
+    ember-assign-polyfill "^2.0.1"
+    ember-cli-babel "^6.0.0"
+    ember-getowner-polyfill "^2.0.1"
 
 ember-power-select@2.0.2:
   version "2.0.2"
