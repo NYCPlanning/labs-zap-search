@@ -4,25 +4,51 @@
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
 
-        <h1 class="no-margin">Geography Name</h1>
+        <h1 class="no-margin">Geography: {{community-district}}</h1>
 
         <h2 class="header-large">Recent Projects</h2>
 
-        {{project-filters}}
+        {{project-filters 
+          projectFilters=allQueryParams
+          mutateArray=(action 'mutateArray')}}
 
-        {{log model}}
+        <h3 class="header-large">{{meta.total}} Results</h3>
 
         <ul class="no-bullet">
           {{#each model as |project|}}
             <li class="grid-x grid-padding-small">
-              <div class="cell shrink"><a class="button gray text-orange">{{fa-icon 'map-marker' size=2}}</a></div>
+              <div class="cell shrink">
+                <a class="button gray text-orange">
+                  {{fa-icon 'map-marker' size=2}}
+                </a>
+              </div>
               <div class="cell auto">
-                <h3 class="no-margin">{{#link-to 'show-project' project.id}}{{project.dcp_projectname}}{{/link-to}}</h3>
-                <p class="text-small dark-gray">Filed {{project.dcp_certifiedreferred}} <span class="medium-gray">|</span> Certified/Referred {{project.dcp_certifiedreferred}} </p>
+                <h3 class="no-margin">
+                  {{#link-to 'show-project' project.id}}
+                    {{project.dcp_projectname}}
+                  {{/link-to}}
+                </h3>
+                <p class="text-small dark-gray">
+                  Filed {{project.dcp_certifiedreferred}} 
+                  <span class="medium-gray">|</span> 
+                  Certified/Referred {{project.dcp_certifiedreferred}}
+                </p>
               </div>
             </li>
+          {{else}}
+            {{#unless (eq meta.total 0)}} 
+              {{fa-icon 'spinner'}}
+            {{/unless}}
           {{/each}}
         </ul>
+
+        <div 
+          class="button" 
+          onclick={{action (mut page) (add page 1)}}
+          disabled={{noMoreRecords}}
+        >
+          Load More
+        </div>
 
       </div>
       <div class="cell large-5">
@@ -48,7 +74,7 @@
           {{map.on 'mousemove' (action 'handleMapMove')}}
         {{/mapbox-gl}}
 
-        {{!-- <br/>
+        <br/>
         <h4>Yearly Archive</h4>
         <ul class="text-large">
           <li><a><strong class="header-large">2018</strong> <span class="dark-gray"> 18 Projects</span></a></li>
@@ -58,7 +84,7 @@
           <li><a><strong class="header-large">2014</strong> <span class="dark-gray"> 7 Projects</span></a></li>
           <li><a><strong class="header-large">2012</strong> <span class="dark-gray"> 16 Projects</span></a></li>
           <li><a><strong class="header-large">2009</strong> <span class="dark-gray"> 3 Projects</span></a></li>
-        </ul> --}}
+        </ul>
 
       </div>
     </div>

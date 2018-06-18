@@ -1,13 +1,58 @@
 import Route from '@ember/routing/route';
+import formatCdParam from '../utils/format-cd-param';
 
 export default class ShowGeographyRoute extends Route {
-  model({ 'community-district': communityDistrict = '' }) {
-    let [ cdBoro, cdNumber ] = communityDistrict.split('-');
+  queryParams = {
+    page: {
+      refreshModel: true,
+    },
+    dcp_publicstatus: {
+      refreshModel: true,
+    },
+    dcp_ceqrtype: {
+      refreshModel: true,
+    },
+    dcp_ulurp_nonulurp: {
+      refreshModel: true,
+    },
+  };
 
-    cdNumber = ("0" + cdNumber).slice(-2);
+  async model(params) {
+    const {
+      'community-district': communityDistrict = '', 
+      dcp_publicstatus,
+      dcp_ceqrtype,
+      dcp_ulurp_nonulurp,
+      page = 1,
+    } = params;
 
-    const cdParam = `${cdBoro}${cdNumber}`;
+    const cdParam = formatCdParam(communityDistrict)
 
-    return this.store.findAll('project', { 'community-district': cdParam });
+    const projects = await this.store.query('project', { 
+      'community-district': cdParam, 
+      dcp_publicstatus,
+      dcp_ceqrtype,
+      dcp_ulurp_nonulurp,
+      page,
+    });
+
+    const meta = projects.get('meta');
+
+    return {
+      projects: this.store.peekAll('project'),
+      meta,
+    };
+  }
+
+  setupController(controller, { projects: model, meta }) {
+    controller.set('meta', meta);
+
+    super.setupController(controller, model);
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('page', 1);
+    }
   }
 }

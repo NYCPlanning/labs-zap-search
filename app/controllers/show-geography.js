@@ -1,10 +1,53 @@
 import Controller from '@ember/controller';
-import { action, computed} from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import carto from 'cartobox-promises-utility/utils/carto';
+import QueryParams from 'ember-parachute';
 
-export default class ShowGeographyController extends Controller {
-  queryParams = ['community-district'];
+export const projectParams = new QueryParams({
+  page: {
+    defaultValue: 1,
+    refresh: true,
+  },
+  'community-district': {
+    defaultValue: '',
+    refresh: true,
+  },
 
+  dcp_publicstatus: {
+    defaultValue: ['Approved', 'Certified', 'Filed', 'Unknown', 'Withdrawn'].sort(),
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',').sort();
+    },
+  },
+  dcp_ceqrtype: {
+    defaultValue: ['Type I', 'Type II', 'Unlisted', 'Unknown'].sort(),
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',').sort();
+    },
+  },
+  dcp_ulurp_nonulurp: {
+    defaultValue: ['ULURP', 'Non-ULURP'].sort(),
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',').sort();
+    },
+  },
+});
+
+const ParachuteController = Controller.extend(projectParams.Mixin);
+
+export default class ShowGeographyController extends ParachuteController {
   transformRequest(url) {
     window.XMLHttpRequest = window.XMLHttpRequestNative;
     return { url };
@@ -31,6 +74,15 @@ export default class ShowGeographyController extends Controller {
       type: 'vector',
       tiles: [this.get('projectCentroidsTileTemplate')],
     }
+  }
+
+  @computed('meta.total', 'page')
+  get noMoreRecords() {
+    const pageTotal = this.get('meta.pageTotal');
+    const total = this.get('meta.total');
+    const page = this.get('page');
+
+    return (pageTotal < 30) || ((page * 30) === total);
   }
 
   @action
@@ -76,6 +128,21 @@ export default class ShowGeographyController extends Controller {
     if (Feature) {
       const projectid = Feature.properties.projectid;
       this.transitionToRoute('show-project', projectid);
+    }
+  }
+
+  @action
+  mutateArray(key, value) {
+    const values = this.get(key);
+
+    // reset pagination
+    this.set('page', 1);
+    this.get('store').unloadAll('project');
+
+    if (values.includes(value)) {
+      values.removeObject(value);      
+    } else {
+      values.pushObject(value);
     }
   }
 }
