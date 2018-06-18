@@ -6,4 +6,7 @@ export default class InfoTooltip extends Component{
 
   @argument
   tip = ''
+
+  @argument
+  icon = 'info-circle'
 }
