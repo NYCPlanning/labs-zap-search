@@ -457,7 +457,7 @@ $label-color: $white;
 $label-color-alt: $black;
 $label-palette: $foundation-palette;
 $label-palette: map-merge($foundation-palette, (
-  light-gray: $light-gray,
+  light-gray: darken($light-gray, 5%),
   medium-gray: $medium-gray,
   dark-gray: $dark-gray,
 ));
