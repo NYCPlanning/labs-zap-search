@@ -91,7 +91,17 @@
           {{/each}}
         </p>
         <p class="text-small"><strong>CEQR:</strong> {{model.dcp_ceqrtype}} <span class="medium-gray">|</span> {{model.dcp_ceqrnumber}}</p>
-        <p class="text-small"><strong>FEMA:</strong> {{model.dcp_femafloodzonea}} <span class="medium-gray">|</span> {{model.dcp_femafloodzonecoastala}} <span class="medium-gray">|</span> {{model.dcp_femafloodzoneshadedx}} <span class="medium-gray">|</span> {{model.dcp_femafloodzonev}}</p>
+
+        {{#if (or model.dcp_femafloodzonea model.dcp_femafloodzonecoastala model.dcp_femafloodzoneshadedx model.dcp_femafloodzonev) }}
+          <p class="text-small">
+            <strong>FEMA Flood Zone:</strong>
+            {{#if model.dcp_femafloodzonea}}<span class="label secondary">Zone A</span>{{/if}}
+            {{#if model.dcp_femafloodzonecoastala}}<span class="label secondary">Coastal Zone A</span>{{/if}}
+            {{#if model.dcp_femafloodzoneshadedx}}<span class="label secondary">Zone Shaded X</span>{{/if}}
+            {{#if model.dcp_femafloodzonev}}<span class="label secondary">Zone V</span>{{/if}}
+          </p>
+        {{/if}}
+
         <p class="text-small"><strong>Additional Files:</strong> </p>
 
       </div>
