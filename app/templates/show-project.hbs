@@ -3,15 +3,47 @@
   <div class="grid-container">
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
-        <h1 class="no-margin">
-          {{#if model.dcp_projectname}}
-            {{model.dcp_projectname}}
-          {{else}}
-            Project {{model.dcp_name}}
-          {{/if}}
-        </h1>
 
-        <p><a href="#">{{fa-icon 'share-alt'}} <strong>Share</strong> <small>Project {{model.dcp_name}}</small></a></p>
+        <div class="grid-x">
+          <div class="cell auto">
+            <h1 class="">
+              {{#if model.dcp_projectname}}
+                {{model.dcp_projectname}}
+              {{else}}
+                Project {{model.dcp_name}}
+              {{/if}}
+            </h1>
+          </div>
+          <div class="cell shrink">
+            <div class="share-controls">
+              <button {{action 'handleShareOpen'}} class="share-button button">{{fa-icon 'share-alt'}}</button>
+              {{#unless shareClosed}}
+              <div class="share-controls-content">
+                <button {{action 'handleShareClose'}} class="close-button" aria-label="Close alert" type="button"><span aria-hidden="true">&times;</span></button>
+                <h3 class="header header-small">Share Project {{model.dcp_name}}:</h3>
+                <div class="input-group">
+                  <input id="share-url" class="input-group-field" type="text" value="{{shareURL}}">
+                  <div class="input-group-button">
+                    {{#copy-button
+                      clipboardTarget="#share-url"
+                      success=(action 'handleShareSuccess')
+                      error=(action 'handleShareClose')
+                      class="button"
+                    }}
+                      {{fa-icon 'paste'}} Copy Link
+                    {{/copy-button}}
+                  </div>
+                </div>
+                {{#if copySuccess}}
+                <div class="share-controls-copy-success">
+                  <div class="share-controls-copy-success-message">{{fa-icon 'check'}} Copied</div>
+                </div>
+                {{/if}}
+              </div>
+              {{/unless}}
+            </div>
+          </div>
+        </div>
 
         <p class="lead">
           <strong>Applicant:</strong>
