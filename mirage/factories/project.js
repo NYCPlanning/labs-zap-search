@@ -160,10 +160,13 @@ export default Factory.extend({
   actions() {
     return [
       {
-        "dcp_name": "UK-Unknown Action",
+        "dcp_name": "Unknown Action",
+        "actioncode": "UK",
         "dcp_ulurpnumber": null,
         "dcp_prefix": null,
-        "statuscode": "Active"
+        "statuscode": "Active",
+        "dcp_ccresolutionnumber": null,
+        "dcp_zoningresolution": null
       }
     ];
   },
