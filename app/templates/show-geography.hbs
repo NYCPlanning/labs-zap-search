@@ -36,7 +36,7 @@
 
     <ul class="no-bullet">
       {{#each model as |project|}}
-        <li class="grid-x grid-padding-small">
+        <li class="grid-x grid-padding-small projects-list-result">
           <div class="cell shrink">
             <a class="button gray text-orange">
               {{fa-icon 'map-marker' size=2}}
@@ -63,7 +63,7 @@
     </ul>
 
     <div
-      class="button expanded gray text-orange"
+      class="button projects-load-more-button expanded gray text-orange" 
       onclick={{action (mut page) (add page 1)}}
       disabled={{noMoreRecords}}
     >
