@@ -12,7 +12,16 @@ export const projectParams = new QueryParams({
     defaultValue: '',
     refresh: true,
   },
-
+  'community-districts': {
+    defaultValue: [],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',');
+    },
+  },
   dcp_publicstatus: {
     defaultValue: ['Approved', 'Certified', 'Filed', 'Unknown', 'Withdrawn'].sort(),
     refresh: true,
@@ -97,7 +106,9 @@ export default class ShowGeographyController extends ParachuteController {
 
     carto.getVectorTileTemplate(sourceLayers)
       .then((tileTemplate) => {
-        this.set('projectCentroidsTileTemplate', tileTemplate)
+        if (!this.get('isDestroyed')) {
+          this.set('projectCentroidsTileTemplate', tileTemplate)
+        }
       });
   }
 
@@ -144,5 +155,11 @@ export default class ShowGeographyController extends ParachuteController {
     } else {
       values.pushObject(value);
     }
+  }
+
+
+  @action
+  replaceProperty(key, value = []) {
+    this.set(key, value.map(({ code }) => code));
   }
 }
