@@ -1,3 +1,5 @@
+![CI](https://travis-ci.org/NYCPlanning/labs-zap-search.svg?branch=develop)
+
 # labs-applicant-maps
 
 This README outlines the details of collaborating on this Ember application.
