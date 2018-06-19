@@ -17,6 +17,8 @@ $tooltipster-border-color: #3a3c47;
 	pointer-events: none;
 	/* this may be overriden in JS for fixed position origins */
 	position: absolute;
+	max-width: 300px;
+	padding: 0 $global-margin;
 }
 
 .tooltipster-box {
@@ -275,7 +277,7 @@ $tooltipster-border-color: #3a3c47;
 .tooltipster-sidetip .tooltipster-content {
 	color: white;
 	line-height: 18px;
-	padding: 6px 14px;
+	padding: rem-calc(10) rem-calc(10);
 }
 
 /* .tooltipster-arrow : will keep only the zone of .tooltipster-arrow-uncropped that
