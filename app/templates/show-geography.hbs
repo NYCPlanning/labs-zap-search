@@ -25,6 +25,7 @@
   {{project-filters
     projectFilters=allQueryParams
     closed=false
+    replaceProperty=(action 'replaceProperty')
     mutateArray=(action 'mutateArray')}}
 
 </div>
@@ -63,7 +64,7 @@
     </ul>
 
     <div
-      class="button projects-load-more-button expanded gray text-orange" 
+      class="button projects-load-more-button expanded gray text-orange"
       onclick={{action (mut page) (add page 1)}}
       disabled={{noMoreRecords}}
     >
