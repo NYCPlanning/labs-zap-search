@@ -9,17 +9,31 @@
           {{else}}
             Project {{model.dcp_name}}
           {{/if}}
-          {{#if model.dcp_ulurp_nonulurp}}<span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}</span>{{/if}}
         </h1>
 
         <p><a href="#">{{fa-icon 'share-alt'}} <strong>Share</strong> <small>Project {{model.dcp_name}}</small></a></p>
 
-        <p class="lead"><strong>Applicant:</strong> {{if model.dcp_applicant_customer model.dcp_applicant_customer "Unknown"}}</p>
-        <p><strong>Project Brief:</strong> {{if model.dcp_projectbrief model.dcp_projectbrief "No Project Brief"}}</p>
-        <p>
-          <strong>Status:</strong>
-          <span class="label dark-gray">{{if model.dcp_publicstatus model.dcp_publicstatus "Unknown"}}</span>
+        <p class="lead">
+          <strong>Applicant:</strong>
+          {{if model.dcp_applicant_customer model.dcp_applicant_customer "Unknown"}}
         </p>
+
+        <p>
+          <strong>Project Brief:</strong>
+          {{if model.dcp_projectbrief model.dcp_projectbrief "No Project Brief"}}
+        </p>
+
+        <div class="grid-x grid-padding-x">
+          <p class="cell auto">
+            <strong>Status:</strong>
+            <span class="label dark-gray">{{if model.dcp_publicstatus model.dcp_publicstatus "Unknown"}}</span>
+          </p>
+          {{#if model.dcp_ulurp_nonulurp}}
+            <p class="cell small-6 text-right">
+              <span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}</span>
+            </p>
+          {{/if}}
+        </div>
 
         <hr>
 
@@ -127,7 +141,11 @@
           {{#if model.dcp_sischoolseat}}<small><span class="label light-gray">School Seat</span></small>{{/if}}
         </p>
 
-        <p class="text-small"><strong>Lead Division:</strong> {{lookup-dcp-division model.dcp_leaddivision}}</p>
+        <p class="text-small">
+          <strong>Lead Division:</strong>
+          {{lookup-dcp-division model.dcp_leaddivision}}
+        </p>
+
         <p class="text-small">
           <strong>Keywords:</strong>
           {{#if model.keywords}}
@@ -185,7 +203,9 @@
           </p>
         {{/if}}
 
-        <p class="text-small"><strong>Additional Files:</strong> </p>
+        <p class="text-small">
+          <strong>Additional Files:</strong>
+        </p>
 
       </div>
     </div>
