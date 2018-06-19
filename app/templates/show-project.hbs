@@ -31,7 +31,7 @@
                 <li class="grid-x grid-padding-small">
                   <div class="cell shrink dark-gray">{{fa-icon 'bullhorn' size=2}}</div>
                   <div class="cell auto">
-                    <p class="no-margin"><strong><a href="#">{{action.dcp_name}}</a></strong></p>
+                    <p class="no-margin"><strong><a href="#">{{action.dcp_name}}</a></strong><sup class="dark-gray">{{icon-tooltip tip=(get-action-tooltip action.actioncode)}}</sup></p>
                     <p class="text-small dark-gray">
                       {{action.dcp_prefix}}
                       <span class="medium-gray">|</span>
@@ -109,7 +109,7 @@
 
         {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
           <p class="text-small">
-            <strong>C<span class="show-for-large">ity </span>E<span class="show-for-large">nvironmental </span>Q<span class="show-for-large">uality </span>R<span class="show-for-large">eview</span>:</strong>
+            <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review'}}</sup>:</strong>
             {{#if model.dcp_ceqrtype}}<span class="label secondary">{{model.dcp_ceqrtype}}</span>{{/if}}
             {{#if model.dcp_ceqrnumber}}<span class="label secondary">{{model.dcp_ceqrnumber}}</span>{{/if}}
           </p>
@@ -127,21 +127,21 @@
 
         {{#if model.dcp_bsanumber}}
           <p class="text-small">
-            <strong>B<span class="show-for-large">oard of </span>S<span class="show-for-large">tandards and </span>A<span class="show-for-large">ppeals</span> Calendar Number:</strong>
+            <strong>BSA Number<sup class="dark-gray">{{icon-tooltip tip='Board of Standards and Appeals Calendar Number'}}</sup>:</strong>
             {{model.dcp_bsanumber}}
           </p>
         {{/if}}
 
         {{#if model.dcp_wrpnumber}}
           <p class="text-small">
-            <strong>W<span class="show-for-large">aterfront </span>R<span class="show-for-large">evitalization </span>P<span class="show-for-large">rogram</span> Application Number:</strong>
+            <strong>WAP Number<sup class="dark-gray">{{icon-tooltip tip='Waterfront Revitalization Program Application Number'}}</sup>:</strong>
             {{model.dcp_wrpnumber}}
           </p>
         {{/if}}
 
         {{#if model.dcp_lpcnumber}}
           <p class="text-small">
-            <strong>L<span class="show-for-large">andmark </span>P<span class="show-for-large">reservation </span>C<span class="show-for-large">ommission</span> Number:</strong>
+            <strong>LPC Number<sup class="dark-gray">{{icon-tooltip tip='Landmark Preservation Commission Number'}}</sup>:</strong>
             {{model.dcp_lpcnumber}}
           </p>
         {{/if}}
