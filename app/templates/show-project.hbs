@@ -119,90 +119,95 @@
           </div>
         {{/if}}
 
-        <p class="text-small"><strong>BBLs:</strong>
-          {{#each model.bbls as |bbl|}}
-            {{project-bbl bbl=bbl}}
-          {{/each}}
-        </p>
-        <p class="text-small">
-          <strong>Addresses:</strong>
-          {{#each model.addresses as |address index|}}
-            {{if index ", "}}{{address.dcp_validatedaddressnumber}} {{address.dcp_validatedstreet}}
-          {{/each}}
-        </p>
+        <div class="project-meta">
 
-        <p class="text-small">
-          <strong>Borough:</strong>
-          {{model.dcp_borough}}
-          {{#if model.dcp_sisubdivision}}<small><span class="label light-gray">Subdivision</span></small>{{/if}}
-          {{#if model.dcp_sischoolseat}}<small><span class="label light-gray">School Seat</span></small>{{/if}}
-        </p>
-
-        <p class="text-small">
-          <strong>Lead Division:</strong>
-          {{lookup-dcp-division model.dcp_leaddivision}}
-        </p>
-
-        <p class="text-small">
-          <strong>Keywords:</strong>
-          {{#if model.keywords}}
-            {{#each model.keywords as |keyword|}}
-              <span class="label secondary">{{keyword}}</span>
+          <p class="text-small"><strong>BBLs:</strong>
+            {{#each model.bbls as |bbl|}}
+              {{project-bbl bbl=bbl}}
             {{/each}}
-          {{else}}
-            None
+          </p>
+
+          <p class="text-small">
+            <strong>Addresses:</strong>
+            {{#each model.addresses as |address index|}}
+              {{if index ", "}}{{address.dcp_validatedaddressnumber}} {{address.dcp_validatedstreet}}
+            {{/each}}
+          </p>
+
+          <p class="text-small">
+            <strong>Borough:</strong>
+            {{model.dcp_borough}}
+            {{#if model.dcp_sisubdivision}}<small><span class="label light-gray">Subdivision</span></small>{{/if}}
+            {{#if model.dcp_sischoolseat}}<small><span class="label light-gray">School Seat</span></small>{{/if}}
+          </p>
+
+          <p class="text-small">
+            <strong>Lead Division:</strong>
+            {{lookup-dcp-division model.dcp_leaddivision}}
+          </p>
+
+          <p class="text-small">
+            <strong>Keywords:</strong>
+            {{#if model.keywords}}
+              {{#each model.keywords as |keyword|}}
+                <span class="label secondary">{{keyword}}</span>
+              {{/each}}
+            {{else}}
+              None
+            {{/if}}
+          </p>
+
+          {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
+            <p class="text-small">
+              <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review'}}</sup>:</strong>
+              {{#if model.dcp_ceqrtype}}<span class="label secondary">{{model.dcp_ceqrtype}}</span>{{/if}}
+              {{#if model.dcp_ceqrnumber}}<span class="label secondary">{{model.dcp_ceqrnumber}}</span>{{/if}}
+            </p>
           {{/if}}
-        </p>
 
-        {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
+          {{#if (or model.dcp_femafloodzonea model.dcp_femafloodzonecoastala model.dcp_femafloodzoneshadedx model.dcp_femafloodzonev) }}
+            <p class="text-small">
+              <strong>FEMA Flood Zone:</strong>
+              {{#if model.dcp_femafloodzonea}}<span class="label secondary">Zone A</span>{{/if}}
+              {{#if model.dcp_femafloodzonecoastala}}<span class="label secondary">Coastal Zone A</span>{{/if}}
+              {{#if model.dcp_femafloodzoneshadedx}}<span class="label secondary">Zone Shaded X</span>{{/if}}
+              {{#if model.dcp_femafloodzonev}}<span class="label secondary">Zone V</span>{{/if}}
+            </p>
+          {{/if}}
+
+          {{#if model.dcp_bsanumber}}
+            <p class="text-small">
+              <strong>BSA Number<sup class="dark-gray">{{icon-tooltip tip='Board of Standards and Appeals Calendar Number'}}</sup>:</strong>
+              {{model.dcp_bsanumber}}
+            </p>
+          {{/if}}
+
+          {{#if model.dcp_wrpnumber}}
+            <p class="text-small">
+              <strong>WAP Number<sup class="dark-gray">{{icon-tooltip tip='Waterfront Revitalization Program Application Number'}}</sup>:</strong>
+              {{model.dcp_wrpnumber}}
+            </p>
+          {{/if}}
+
+          {{#if model.dcp_lpcnumber}}
+            <p class="text-small">
+              <strong>LPC Number<sup class="dark-gray">{{icon-tooltip tip='Landmark Preservation Commission Number'}}</sup>:</strong>
+              {{model.dcp_lpcnumber}}
+            </p>
+          {{/if}}
+
+          {{#if model.dcp_nydospermitnumber}}
+            <p class="text-small">
+              <strong>NYS Dep<span class="show-for-large">ar</span>t<span class="show-for-large">ment</span> of State Permit Number:</strong>
+              {{model.dcp_nydospermitnumber}}
+            </p>
+          {{/if}}
+
           <p class="text-small">
-            <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review'}}</sup>:</strong>
-            {{#if model.dcp_ceqrtype}}<span class="label secondary">{{model.dcp_ceqrtype}}</span>{{/if}}
-            {{#if model.dcp_ceqrnumber}}<span class="label secondary">{{model.dcp_ceqrnumber}}</span>{{/if}}
+            <strong>Additional Files:</strong>
           </p>
-        {{/if}}
 
-        {{#if (or model.dcp_femafloodzonea model.dcp_femafloodzonecoastala model.dcp_femafloodzoneshadedx model.dcp_femafloodzonev) }}
-          <p class="text-small">
-            <strong>FEMA Flood Zone:</strong>
-            {{#if model.dcp_femafloodzonea}}<span class="label secondary">Zone A</span>{{/if}}
-            {{#if model.dcp_femafloodzonecoastala}}<span class="label secondary">Coastal Zone A</span>{{/if}}
-            {{#if model.dcp_femafloodzoneshadedx}}<span class="label secondary">Zone Shaded X</span>{{/if}}
-            {{#if model.dcp_femafloodzonev}}<span class="label secondary">Zone V</span>{{/if}}
-          </p>
-        {{/if}}
-
-        {{#if model.dcp_bsanumber}}
-          <p class="text-small">
-            <strong>BSA Number<sup class="dark-gray">{{icon-tooltip tip='Board of Standards and Appeals Calendar Number'}}</sup>:</strong>
-            {{model.dcp_bsanumber}}
-          </p>
-        {{/if}}
-
-        {{#if model.dcp_wrpnumber}}
-          <p class="text-small">
-            <strong>WAP Number<sup class="dark-gray">{{icon-tooltip tip='Waterfront Revitalization Program Application Number'}}</sup>:</strong>
-            {{model.dcp_wrpnumber}}
-          </p>
-        {{/if}}
-
-        {{#if model.dcp_lpcnumber}}
-          <p class="text-small">
-            <strong>LPC Number<sup class="dark-gray">{{icon-tooltip tip='Landmark Preservation Commission Number'}}</sup>:</strong>
-            {{model.dcp_lpcnumber}}
-          </p>
-        {{/if}}
-
-        {{#if model.dcp_nydospermitnumber}}
-          <p class="text-small">
-            <strong>NYS Dep<span class="show-for-large">ar</span>t<span class="show-for-large">ment</span> of State Permit Number:</strong>
-            {{model.dcp_nydospermitnumber}}
-          </p>
-        {{/if}}
-
-        <p class="text-small">
-          <strong>Additional Files:</strong>
-        </p>
+        </div>
 
       </div>
     </div>
