@@ -23,6 +23,17 @@ $tooltipster-border-color: #3a3c47;
 
 .tooltipstered {
   cursor: pointer;
+
+  &.label {
+    @include button-style($primary-color, scale-color($primary-color, $lightness: -15%), auto);
+    transition: $button-transition;
+
+    @each $name, $color in $button-palette {
+      &.#{$name} {
+        @include button-style($color, scale-color($color, $lightness: -15%), auto);
+      }
+    }
+  }
 }
 
 .tooltipster-box {
