@@ -120,11 +120,8 @@
         {{/if}}
 
         <p class="text-small"><strong>BBLs:</strong>
-          {{#each model.bbls as |bbl index|}}
-            {{if index ", "}}
-            {{bbl}}
-            <a href={{build-url "zola" bbl}} target="_blank">{{icon-tooltip icon="map-pin" tip='View this BBL in ZoLa'}}</a>
-            <a href={{build-url "bisweb" bbl}} target="_blank">{{icon-tooltip icon="building" tip="View this BBL BISWeb"}}</a>
+          {{#each model.bbls as |bbl|}}
+            {{project-bbl bbl=bbl}}
           {{/each}}
         </p>
         <p class="text-small">
