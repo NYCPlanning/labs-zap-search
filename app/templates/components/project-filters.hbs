@@ -40,7 +40,22 @@
     </ul>
   </div>
   {{!-- <div class="filter">Borough</div> --}}
-  <div class="filter">Community District</div>
+
+  <div class="filter">
+    <h6 class="filter-name">Community Districts</h6>
+    <div class="medium-horizontal">
+      {{#power-select-multiple
+        options=communityDistrictOptions
+        selected=selectedDistricts
+        placeholder="Select some names..."
+        searchField='searchField'
+        onchange=(action replaceProperty 'community-districts')
+        as |district|
+      }}
+        {{district.boro}} {{district.num}}
+      {{/power-select-multiple}}
+    </div>
+  </div>
   <div class="filter">
     <h6 class="filter-name">CEQR Type</h6>
     <ul class="menu vertical medium-horizontal">
