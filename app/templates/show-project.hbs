@@ -4,7 +4,7 @@
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
         <h1 class="no-margin">
-          {{#if false}}
+          {{#if model.dcp_projectname}}
             {{model.dcp_projectname}}
           {{else}}
             Project {{model.dcp_name}}
@@ -53,39 +53,49 @@
           <div class="cell medium-6">
             <h2>Milestones</h2>
             <ul class="no-bullet">
-              {{#each model.milestones as | milestone |}}
-                <li class="grid-x grid-padding-small">
-                  <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
-                  <div class="cell auto">
-                    <p class="no-margin"><strong>{{milestone.dcp_name}}</strong></p>
-                    <p class="no-margin text-small dark-gray">{{moment-format milestone.dcp_plannedstartdate "MMMM D, YYYY" }} <small>Planned Start</small></p>
-                    <p class="text-small dark-gray">{{moment-format milestone.dcp_plannedcompletoiondate "MMMM D, YYYY" }} <small>Planned Completion</small></p>
-                  </div>
-                </li>
-              {{/each}}
+              {{#if model.milestones}}
+                {{#each model.milestones as | milestone |}}
+                  <li class="grid-x grid-padding-small">
+                    <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
+                    <div class="cell auto">
+                      <p class="no-margin"><strong>{{milestone.dcp_name}}</strong></p>
+                      <p class="no-margin text-small dark-gray">{{moment-format milestone.dcp_plannedstartdate "MMMM D, YYYY" }} <small>Planned Start</small></p>
+                      <p class="text-small dark-gray">{{moment-format milestone.dcp_plannedcompletoiondate "MMMM D, YYYY" }} <small>Planned Completion</small></p>
+                    </div>
+                  </li>
+                {{/each}}
+              {{else}}
+                No Milestones
+              {{/if}}
             </ul>
           </div>
         </div>
 
       </div>
       <div class="cell large-5">
-        {{#mapbox-gl
-            id='project-map'
-            initOptions=(hash
-              zoom=12
-              center=(array -73.96532400540775 40.709710016659386)
-              transformRequest=transformRequest
-            )
-            mapLoaded=(action handleMapLoad model.bbl_featurecollection)
-            as |map|
-        }}
-          {{#map.source options=model.bblFeatureCollectionSource as |source|}}
-            {{source.layer
-              layer=bblFeatureCollectionLayer
-              before='boundary_country'
-            }}
-          {{/map.source}}
-        {{/mapbox-gl}}
+        {{#if model.bblFeatureCollection}}
+          {{#mapbox-gl
+              id='project-map'
+              initOptions=(hash
+                zoom=12
+                center=(array -73.96532400540775 40.709710016659386)
+                transformRequest=transformRequest
+              )
+              mapLoaded=(action handleMapLoad model.bbl_featurecollection)
+              as |map|
+          }}
+            {{#map.source options=model.bblFeatureCollectionSource as |source|}}
+              {{source.layer
+                layer=bblFeatureCollectionLayer
+                before='boundary_country'
+              }}
+            {{/map.source}}
+          {{/mapbox-gl}}
+        {{else}}
+          <div id='project-map' style="border: 1px solid darkgray;">
+            <h2>No Map Available</h2>
+          </div>
+        {{/if}}
 
         <p class="text-small"><strong>BBLs:</strong>
           {{#each model.bbls as |bbl index|}}
