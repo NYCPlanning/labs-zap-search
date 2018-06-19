@@ -15,7 +15,7 @@ module('Acceptance | user searches address', function(hooks) {
     await fillIn('.map-search-input', '120 broadway');
     await triggerKeyEvent('.labs-geosearch', 'keypress', 13);
 
-    assert.equal(currentURL(), '/projects?community-district=mn-1');
+    assert.equal(currentURL(), '/projects?community-districts=mn-1');
   });
 
 
