@@ -6,6 +6,9 @@ module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
     'ember-math-helpers': {
       only: ['add'],
+    },
+    'ember-cli-tooltipster': {
+      importTooltipsterDefaultStyles: false,
     }
   });
 
