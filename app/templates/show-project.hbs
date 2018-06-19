@@ -43,7 +43,7 @@
                       <p class="text-small dark-gray">Zoning Resolution: <a href="{{build-url "zoningResolution" action.dcp_zoningresolution}}" target="_blank">{{action.dcp_zoningresolution}}</a></p>
                     {{/if}}
                     {{#if action.dcp_ccresolutionnumber}}
-                      <p class="text-small dark-gray">City Council Resolution: <a href="{{build-url "cityCouncilResolution" action.dcp_ccresolutionnumber}}" target="_blank">{{action.dcp_ccresolutionnumber}}</a></p>
+                      <p class="text-small dark-gray">City Council Resolution: {{action.dcp_ccresolutionnumber}}</p>
                     {{/if}}
                   </div>
                 </li>
@@ -122,9 +122,13 @@
         <p class="text-small"><strong>Lead Division:</strong> {{lookup-dcp-division model.dcp_leaddivision}}</p>
         <p class="text-small">
           <strong>Keywords:</strong>
-          {{#each model.keywords as |keyword|}}
-            <span class="label secondary">{{keyword}}</span>
-          {{/each}}
+          {{#if model.keywords}}
+            {{#each model.keywords as |keyword|}}
+              <span class="label secondary">{{keyword}}</span>
+            {{/each}}
+          {{else}}
+            None
+          {{/if}}
         </p>
 
         {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
