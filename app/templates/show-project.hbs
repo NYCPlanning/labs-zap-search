@@ -35,7 +35,15 @@
                     <p class="text-small dark-gray">
                       {{if action.dcp_prefix action.dcp_prefix "No Prefix"}}
                       <span class="medium-gray">|</span>
-                      {{if action.dcp_ulurpnumber action.dcp_ulurpnumber "No ULURP Number"}}
+                      {{#if action.dcp_ulurpnumber}}
+                        {{#if (eq action.statuscode "Approved")}}
+                          <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">{{action.dcp_ulurpnumber}}</a>
+                        {{else}}
+                          {{action.dcp_ulurpnumber}}
+                        {{/if}}
+                      {{else}}
+                        No ULURP Number
+                      {{/if}}
                       <span class="medium-gray">|</span>
                       {{if action.statuscode action.statuscode "No Status Code"}}
                     </p>

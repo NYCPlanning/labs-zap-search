@@ -37,10 +37,16 @@ function bisweb(bbl) {
   return `http://a810-bisweb.nyc.gov/bisweb/PropertyBrowseByBBLServlet?allborough=${boro}&allblock=${block}&alllot=${lot}&go5=+GO+&requestid=0`;
 }
 
+function cpcReport(ulurp) {
+  const ulurpNumber = ulurp.match(/\d+/g)[0]; // pull 100149 from C100149ZSM to make a cpc report URL
+  return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumber}.pdf`;
+}
+
 export function buildUrl([type, value]) {
   if (type === "zoningResolution") return zoningResolution(value);
   if (type === "zola") return zola(value);
   if (type === "bisweb") return bisweb(value);
+  if (type === "cpcReport") return cpcReport(value);
 
   throw 'invalid type passed to build-url helper';
 }
