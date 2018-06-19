@@ -11,13 +11,14 @@
         {{project-filters 
           projectFilters=allQueryParams
           closed=false
+          replaceProperty=(action 'replaceProperty')
           mutateArray=(action 'mutateArray')}}
 
         <h3 class="header-large">{{meta.total}} Results</h3>
 
         <ul class="no-bullet">
           {{#each model as |project|}}
-            <li class="grid-x grid-padding-small">
+            <li class="grid-x grid-padding-small projects-list-result">
               <div class="cell shrink">
                 <a class="button gray text-orange">
                   {{fa-icon 'map-marker' size=2}}
@@ -44,7 +45,7 @@
         </ul>
 
         <div 
-          class="button" 
+          class="button projects-load-more-button" 
           onclick={{action (mut page) (add page 1)}}
           disabled={{noMoreRecords}}
         >

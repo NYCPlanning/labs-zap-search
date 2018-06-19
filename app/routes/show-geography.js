@@ -15,6 +15,9 @@ export default class ShowGeographyRoute extends Route {
     dcp_ulurp_nonulurp: {
       refreshModel: true,
     },
+    'community-districts': {
+      refreshModel: true,
+    },
   };
 
   async model(params) {
