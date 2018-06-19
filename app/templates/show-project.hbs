@@ -9,16 +9,16 @@
           {{else}}
             Project {{model.dcp_name}}
           {{/if}}
+          {{#if model.dcp_ulurp_nonulurp}}<span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}</span>{{/if}}
         </h1>
 
         <p><a href="#">{{fa-icon 'share-alt'}} <strong>Share</strong> <small>Project {{model.dcp_name}}</small></a></p>
 
-        <p class="lead"><strong>Applicant:</strong> {{model.dcp_applicant_customer}}</p>
-        <p><strong>Project Brief:</strong> {{model.dcp_projectbrief}}</p>
+        <p class="lead"><strong>Applicant:</strong> {{if model.dcp_applicant_customer model.dcp_applicant_customer "Unknown"}}</p>
+        <p><strong>Project Brief:</strong> {{if model.dcp_projectbrief model.dcp_projectbrief "No Project Brief"}}</p>
         <p>
           <strong>Status:</strong>
-          {{#if model.dcp_publicstatus}}<span class="label dark-gray">{{model.dcp_publicstatus}}</span>{{/if}}
-          {{#if model.dcp_ulurp_nonulurp}}<span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}</span>{{/if}}
+          <span class="label dark-gray">{{if model.dcp_publicstatus model.dcp_publicstatus "Unknown"}}</span>
         </p>
 
         <hr>
@@ -33,14 +33,17 @@
                   <div class="cell auto">
                     <p class="no-margin"><strong><a href="#">{{action.dcp_name}}</a></strong><sup class="dark-gray">{{icon-tooltip tip=(get-action-tooltip action.actioncode)}}</sup></p>
                     <p class="text-small dark-gray">
-                      {{action.dcp_prefix}}
+                      {{if action.dcp_prefix action.dcp_prefix "No Prefix"}}
                       <span class="medium-gray">|</span>
-                      {{action.dcp_ulurpnumber}}
+                      {{if action.dcp_ulurpnumber action.dcp_ulurpnumber "No ULURP Number"}}
                       <span class="medium-gray">|</span>
-                      {{action.statuscode}}
+                      {{if action.statuscode action.statuscode "No Status Code"}}
                     </p>
                     {{#if action.dcp_zoningresolution}}
-                      <p class="text-small dark-gray">Zoning Resolution: <a href="{{build-zr-url action.dcp_zoningresolution}}" target="_blank">{{action.dcp_zoningresolution}}</a></p>
+                      <p class="text-small dark-gray">Zoning Resolution: <a href="{{build-url "zoningResolution" action.dcp_zoningresolution}}" target="_blank">{{action.dcp_zoningresolution}}</a></p>
+                    {{/if}}
+                    {{#if action.dcp_ccresolutionnumber}}
+                      <p class="text-small dark-gray">City Council Resolution: <a href="{{build-url "cityCouncilResolution" action.dcp_ccresolutionnumber}}" target="_blank">{{action.dcp_ccresolutionnumber}}</a></p>
                     {{/if}}
                   </div>
                 </li>
@@ -84,7 +87,14 @@
           {{/map.source}}
         {{/mapbox-gl}}
 
-        <p class="text-small"><strong>BBLs:</strong> {{#each model.bbls as |bbl index|}}{{if index ", "}}{{bbl}}{{/each}}</p>
+        <p class="text-small"><strong>BBLs:</strong>
+          {{#each model.bbls as |bbl index|}}
+            {{if index ", "}}
+            {{bbl}}
+            <a href={{build-url "zola" bbl}} target="_blank">{{icon-tooltip icon="map-pin" tip='View this BBL in ZoLa'}}</a>
+            <a href={{build-url "bisweb" bbl}} target="_blank">{{icon-tooltip icon="building" tip="View this BBL BISWeb"}}</a>
+          {{/each}}
+        </p>
         <p class="text-small">
           <strong>Addresses:</strong>
           {{#each model.addresses as |address index|}}
@@ -99,11 +109,11 @@
           {{#if model.dcp_sischoolseat}}<small><span class="label light-gray">School Seat</span></small>{{/if}}
         </p>
 
-        <p class="text-small"><strong>Lead Division:</strong> {{model.dcp_leaddivision}}</p>
+        <p class="text-small"><strong>Lead Division:</strong> {{lookup-dcp-division model.dcp_leaddivision}}</p>
         <p class="text-small">
           <strong>Keywords:</strong>
-          {{#each model.keywords as |keyword index|}}
-            {{if index ", "}}<a>{{keyword}}</a>
+          {{#each model.keywords as |keyword|}}
+            <span class="label secondary">{{keyword}}</span>
           {{/each}}
         </p>
 
