@@ -6,9 +6,9 @@ export default function() {
   this.get('/projects', function(schema, request) {
     let { queryParams: { page: offsetParam = 1 } } = request;
     let offset = offsetParam - 1;
-    let begin = 0 + (10 * offset);
+    let begin = 0 + (30 * offset);
 
-    return schema.projects.all().slice(begin, begin + 10);
+    return schema.projects.all().slice(begin, begin + 30);
   });
 
   this.get('/projects/:id', function(schema, request) {

@@ -8,10 +8,10 @@ module('Integration | Helper | lookup-dcp-division', function(hooks) {
 
   // Replace this with your real tests.
   test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
+    this.set('inputValue', 'TRD');
 
     await render(hbs`{{lookup-dcp-division inputValue}}`);
 
-    assert.equal(this.element.textContent.trim(), '1234');
+    assert.equal(this.element.textContent.trim(), 'Technical Review');
   });
 });
