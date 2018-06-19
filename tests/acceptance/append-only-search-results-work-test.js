@@ -1,0 +1,53 @@
+import { module, test } from 'qunit';
+import { visit, currentURL, click, find, findAll } from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+
+module('Acceptance | append only search results work', function(hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+
+  test('visiting /projects?community-district=asdf', async function(assert) {
+    server.createList('project', 10);
+    window.XMLHttpRequestFake = window.XMLHttpRequest;
+    await visit('/projects?community-district=asdf');
+
+    assert.equal(currentURL(), '/projects?community-district=asdf');
+  });
+
+  test('visiting /projects?community-district=asdf', async function(assert) {
+    server.createList('project', 60);
+    window.XMLHttpRequestFake = window.XMLHttpRequest;
+    await visit('/projects?community-district=asdf');
+    const listResults = await findAll('li.projects-list-result');
+
+    // DEFAULTS TO 30 RESULTS PER PAGE
+    assert.equal(listResults.length, 30);
+
+    await click('.projects-load-more-button');
+
+    assert.equal(currentURL(), '/projects?community-district=asdf&page=2');
+
+    const listResults2 = await findAll('li.projects-list-result');
+
+    // DEFAULTS TO 30 RESULTS PER PAGE
+    assert.equal(listResults2.length, 60);
+  });
+
+  test('Reaching end of list disables "load more" button', async function(assert) {
+    server.createList('project', 40);
+    window.XMLHttpRequestFake = window.XMLHttpRequest;
+    await visit('/projects?community-district=asdf');
+    const listResults = await findAll('li.projects-list-result');
+
+    // DEFAULTS TO 30 RESULTS PER PAGE
+    assert.equal(listResults.length, 30);
+
+    await click('.projects-load-more-button');
+
+    const loadMoreButton = await find('.projects-load-more-button');
+
+    // should be disabled
+    assert.equal(!!loadMoreButton.attributes.disabled, true);
+  });
+});
