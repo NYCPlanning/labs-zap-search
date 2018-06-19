@@ -22,7 +22,7 @@
     "broccoli-asset-rev": "^2.4.5",
     "broccoli-clean-css": "~1.1.0",
     "ember-ajax": "^3.0.0",
-    "ember-auto-import": "0.2.2",
+    "ember-auto-import": "^0.2.6",
     "ember-cli": "~3.0.2",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.6.0",
@@ -59,6 +59,7 @@
     "labs-ember-search": "nycplanning/labs-ember-search#v2.1.1",
     "loader.js": "^4.2.3",
     "mapbox-gl": "^0.44.0",
+    "moment": "^2.22.2",
     "tooltipster": "4.2.5"
   },
   "engines": {

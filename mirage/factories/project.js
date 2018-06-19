@@ -174,46 +174,34 @@ export default Factory.extend({
   milestones() {
     return [
       {
-        "dcp_name": "UK - Project  Created  ",
-        "dcp_plannedstartdate": "2018-04-12T21:00:15",
-        "dcp_plannedcompletiondate": "2018-04-13T21:00:15",
-        "statuscode": "Overridden",
-        "dcp_milestonesequence": 0
+        dcp_name: "ZC - Land Use Fee Payment ",
+        milestonename: "Land Use Fee Payment",
+        dcp_plannedstartdate: "2018-10-31T01:21:46",
+        dcp_plannedcompletiondate: "2018-11-02T01:21:46",
+        dcp_actualstartdate: null,
+        dcp_actualenddate: null,
+        statuscode: "Overridden",
+        dcp_milestonesequence: 28
       },
       {
-        "dcp_name": "UK - Informational Interest Meeting Prep  ",
-        "dcp_plannedstartdate": "2018-04-14T21:00:15",
-        "dcp_plannedcompletiondate": "2018-07-13T21:00:15",
-        "statuscode": "Overridden",
-        "dcp_milestonesequence": 17
+        dcp_name: "ZC - Land Use Application Filed Review ",
+        milestonename: "Land Use Application Filed Review",
+        dcp_plannedstartdate: "2018-11-03T01:21:46",
+        dcp_plannedcompletiondate: "2018-12-03T02:21:46",
+        dcp_actualstartdate: null,
+        dcp_actualenddate: null,
+        statuscode: "Overridden",
+        dcp_milestonesequence: 29
       },
       {
-        "dcp_name": "UK-Prepare Pre-Application Statement",
-        "dcp_plannedstartdate": "2018-03-28T04:00:00",
-        "dcp_plannedcompletiondate": "2018-03-28T04:00:00",
-        "statuscode": "Completed",
-        "dcp_milestonesequence": 18
-      },
-      {
-        "dcp_name": "UK - Review Pre-Application Statement  ",
-        "dcp_plannedstartdate": "2018-07-14T21:00:15",
-        "dcp_plannedcompletiondate": "2018-08-03T21:00:15",
-        "statuscode": "Completed",
-        "dcp_milestonesequence": 19
-      },
-      {
-        "dcp_name": "UK - Interdivisional Meeting Prep  ",
-        "dcp_plannedstartdate": "2018-05-11T01:04:49",
-        "dcp_plannedcompletiondate": "2018-05-21T01:04:49",
-        "statuscode": "Completed",
-        "dcp_milestonesequence": 20
-      },
-      {
-        "dcp_name": "UK - Finalize Actions  ",
-        "dcp_plannedstartdate": "2018-05-11T01:14:16",
-        "dcp_plannedcompletiondate": "2018-07-10T01:14:16",
-        "statuscode": "In Progress",
-        "dcp_milestonesequence": 21
+        dcp_name: "ZC - Final Letter Sent ",
+        milestonename: "Final Letter Sent",
+        dcp_plannedstartdate: "2018-04-22T01:40:24",
+        dcp_plannedcompletiondate: "2018-05-02T01:40:24",
+        dcp_actualstartdate: null,
+        dcp_actualenddate: null,
+        statuscode: "Not Started",
+        dcp_milestonesequence: 60
       }
     ];
   },
