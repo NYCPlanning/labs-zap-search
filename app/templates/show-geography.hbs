@@ -1,96 +1,77 @@
-<div class="cell">
+<div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
-  <div class="grid-container">
-    <div class="grid-x grid-padding-x grid-padding-y">
-      <div class="cell large-7">
-
-        <h1 class="no-margin">Geography: {{community-district}}</h1>
-
-        <h2 class="header-large">Recent Projects</h2>
-
-        {{project-filters 
-          projectFilters=allQueryParams
-          closed=false
-          mutateArray=(action 'mutateArray')}}
-
-        <h3 class="header-large">{{meta.total}} Results</h3>
-
-        <ul class="no-bullet">
-          {{#each model as |project|}}
-            <li class="grid-x grid-padding-small">
-              <div class="cell shrink">
-                <a class="button gray text-orange">
-                  {{fa-icon 'map-marker' size=2}}
-                </a>
-              </div>
-              <div class="cell auto">
-                <h3 class="no-margin">
-                  {{#link-to 'show-project' project.id}}
-                    {{project.dcp_projectname}}
-                  {{/link-to}}
-                </h3>
-                <p class="text-small dark-gray">
-                  Filed {{project.dcp_certifiedreferred}} 
-                  <span class="medium-gray">|</span> 
-                  Certified/Referred {{project.dcp_certifiedreferred}}
-                </p>
-              </div>
-            </li>
-          {{else}}
-            {{#unless (eq meta.total 0)}} 
-              {{fa-icon 'spinner'}}
-            {{/unless}}
-          {{/each}}
-        </ul>
-
-        <div 
-          class="button" 
-          onclick={{action (mut page) (add page 1)}}
-          disabled={{noMoreRecords}}
-        >
-          Load More
-        </div>
-
-      </div>
-      <div class="cell large-5">
-        {{#mapbox-gl
-            id='project-map'
-            initOptions=(hash
-              zoom=12
-              center=(array -73.96532400540775 40.709710016659386)
-              transformRequest=transformRequest
-            )
-            mapLoaded=(action handleMapLoad model.bbl_featurecollection)
-            as |map|
+  {{#mapbox-gl
+      id='project-map'
+      initOptions=(hash
+        zoom=12
+        center=(array -73.96532400540775 40.709710016659386)
+        transformRequest=transformRequest
+      )
+      mapLoaded=(action handleMapLoad model.bbl_featurecollection)
+      as |map|
+  }}
+    {{#if projectCentroidsTileTemplate}}
+      {{#map.source options=projectCentroidsSource as |source|}}
+        {{source.layer
+          layer=projectCentroidsLayer
+          before='boundary_country'
         }}
-          {{#if projectCentroidsTileTemplate}}
-            {{#map.source options=projectCentroidsSource as |source|}}
-              {{source.layer
-                layer=projectCentroidsLayer
-                before='boundary_country'
-              }}
-            {{/map.source}}
-          {{/if}}
-          {{map.on 'click' (action 'handleMapClick')}}
-          {{map.on 'mousemove' (action 'handleMapMove')}}
-        {{/mapbox-gl}}
+      {{/map.source}}
+    {{/if}}
+    {{map.on 'click' (action 'handleMapClick')}}
+    {{map.on 'mousemove' (action 'handleMapMove')}}
+  {{/mapbox-gl}}
 
-        <br/>
-        <h4>Yearly Archive</h4>
-        <ul class="text-large">
-          <li><a><strong class="header-large">2018</strong> <span class="dark-gray"> 18 Projects</span></a></li>
-          <li><a><strong class="header-large">2017</strong> <span class="dark-gray"> 12 Projects</span></a></li>
-          <li><a><strong class="header-large">2016</strong> <span class="dark-gray"> 9 Projects</span></a></li>
-          <li><a><strong class="header-large">2015</strong> <span class="dark-gray"> 24 Projects</span></a></li>
-          <li><a><strong class="header-large">2014</strong> <span class="dark-gray"> 7 Projects</span></a></li>
-          <li><a><strong class="header-large">2012</strong> <span class="dark-gray"> 16 Projects</span></a></li>
-          <li><a><strong class="header-large">2009</strong> <span class="dark-gray"> 3 Projects</span></a></li>
-        </ul>
+  {{project-filters
+    projectFilters=allQueryParams
+    closed=false
+    mutateArray=(action 'mutateArray')}}
 
-      </div>
+</div>
+<div class="cell large-6 xlarge-5 xxlarge-6">
+
+  <div class="results">
+
+    <h3 class="header-large">{{meta.total}} Results</h3>
+
+    <ul class="no-bullet">
+      {{#each model as |project|}}
+        <li class="grid-x grid-padding-small">
+          <div class="cell shrink">
+            <a class="button gray text-orange">
+              {{fa-icon 'map-marker' size=2}}
+            </a>
+          </div>
+          <div class="cell auto">
+            <h3 class="no-margin">
+              {{#link-to 'show-project' project.id}}
+                {{project.dcp_projectname}}
+              {{/link-to}}
+            </h3>
+            <p class="text-small dark-gray">
+              Filed {{project.dcp_certifiedreferred}}
+              <span class="medium-gray">|</span>
+              Certified/Referred {{project.dcp_certifiedreferred}}
+            </p>
+          </div>
+        </li>
+      {{else}}
+        {{#unless (eq meta.total 0)}}
+          <p class="lead text-center">{{fa-icon 'spinner' class="fa-spin medium-gray" size=3}}</p>
+        {{/unless}}
+      {{/each}}
+    </ul>
+
+    <div
+      class="button expanded gray text-orange"
+      onclick={{action (mut page) (add page 1)}}
+      disabled={{noMoreRecords}}
+    >
+      Load More
     </div>
 
-    {{outlet}}
-
   </div>
+
 </div>
+
+{{outlet}}
