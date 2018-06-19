@@ -143,12 +143,17 @@ export default class ShowGeographyController extends ParachuteController {
   }
 
   @action
-  mutateArray(key, value) {
-    const values = this.get(key);
-
+  resetPagination() {
     // reset pagination
     this.set('page', 1);
     this.get('store').unloadAll('project');
+  }
+
+  @action
+  mutateArray(key, value) {
+    const values = this.get(key);
+
+    this.resetPagination();
 
     if (values.includes(value)) {
       values.removeObject(value);      
@@ -160,6 +165,8 @@ export default class ShowGeographyController extends ParachuteController {
 
   @action
   replaceProperty(key, value = []) {
+    this.resetPagination();
+    
     this.set(key, value.map(({ code }) => code));
   }
 }
