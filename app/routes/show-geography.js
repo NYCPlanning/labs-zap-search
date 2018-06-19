@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import formatCdParam from '../utils/format-cd-param';
 
 export default class ShowGeographyRoute extends Route {
   queryParams = {
@@ -22,17 +21,15 @@ export default class ShowGeographyRoute extends Route {
 
   async model(params) {
     const {
-      'community-district': communityDistrict = '', 
+      'community-districts': communityDistricts = [], 
       dcp_publicstatus,
       dcp_ceqrtype,
       dcp_ulurp_nonulurp,
       page = 1,
     } = params;
 
-    const cdParam = formatCdParam(communityDistrict)
-
     const projects = await this.store.query('project', { 
-      'community-district': cdParam, 
+      'community-districts': communityDistricts, 
       dcp_publicstatus,
       dcp_ceqrtype,
       dcp_ulurp_nonulurp,
