@@ -45,13 +45,27 @@
           </div>
         </div>
 
-        <p class="lead"><strong>Applicant:</strong> {{model.dcp_applicant_customer}}</p>
-        <p><strong>Project Brief:</strong> {{model.dcp_projectbrief}}</p>
-        <p>
-          <strong>Status:</strong>
-          {{#if model.dcp_publicstatus}}<span class="label dark-gray">{{model.dcp_publicstatus}}</span>{{/if}}
-          {{#if model.dcp_ulurp_nonulurp}}<span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}</span>{{/if}}
+        <p class="lead">
+          <strong>Applicant:</strong>
+          {{if model.dcp_applicant_customer model.dcp_applicant_customer "Unknown"}}
         </p>
+
+        <p>
+          <strong>Project Brief:</strong>
+          {{if model.dcp_projectbrief model.dcp_projectbrief "No Project Brief"}}
+        </p>
+
+        <div class="grid-x grid-padding-x">
+          <p class="cell auto">
+            <strong>Status:</strong>
+            <span class="label dark-gray">{{if model.dcp_publicstatus model.dcp_publicstatus "Unknown"}}</span>
+          </p>
+          {{#if model.dcp_ulurp_nonulurp}}
+            <p class="cell small-6 text-right">
+              <span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}</span>
+            </p>
+          {{/if}}
+        </div>
 
         <hr>
 
@@ -65,14 +79,25 @@
                   <div class="cell auto">
                     <p class="no-margin"><strong><a href="#">{{action.dcp_name}}</a></strong><sup class="dark-gray">{{icon-tooltip tip=(get-action-tooltip action.actioncode)}}</sup></p>
                     <p class="text-small dark-gray">
-                      {{action.dcp_prefix}}
+                      {{if action.dcp_prefix action.dcp_prefix "No Prefix"}}
                       <span class="medium-gray">|</span>
-                      {{action.dcp_ulurpnumber}}
+                      {{#if action.dcp_ulurpnumber}}
+                        {{#if (eq action.statuscode "Approved")}}
+                          <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">{{action.dcp_ulurpnumber}}</a>
+                        {{else}}
+                          {{action.dcp_ulurpnumber}}
+                        {{/if}}
+                      {{else}}
+                        No ULURP Number
+                      {{/if}}
                       <span class="medium-gray">|</span>
-                      {{action.statuscode}}
+                      {{if action.statuscode action.statuscode "No Status Code"}}
                     </p>
                     {{#if action.dcp_zoningresolution}}
-                      <p class="text-small dark-gray">Zoning Resolution: <a href="{{build-zr-url action.dcp_zoningresolution}}" target="_blank">{{action.dcp_zoningresolution}}</a></p>
+                      <p class="text-small dark-gray">Zoning Resolution: <a href="{{build-url "zoningResolution" action.dcp_zoningresolution}}" target="_blank">{{action.dcp_zoningresolution}}</a></p>
+                    {{/if}}
+                    {{#if action.dcp_ccresolutionnumber}}
+                      <p class="text-small dark-gray">City Council Resolution: {{action.dcp_ccresolutionnumber}}</p>
                     {{/if}}
                   </div>
                 </li>
@@ -82,41 +107,58 @@
           <div class="cell medium-6">
             <h2>Milestones</h2>
             <ul class="no-bullet">
-              {{#each model.milestones as | milestone |}}
-                <li class="grid-x grid-padding-small">
-                  <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
-                  <div class="cell auto">
-                    <p class="no-margin"><strong>{{milestone.dcp_name}}</strong></p>
-                    <p class="no-margin text-small dark-gray">{{moment-format milestone.dcp_plannedstartdate "MMMM D, YYYY" }} <small>Planned Start</small></p>
-                    <p class="text-small dark-gray">{{moment-format milestone.dcp_plannedcompletoiondate "MMMM D, YYYY" }} <small>Planned Completion</small></p>
-                  </div>
-                </li>
-              {{/each}}
+              {{#if model.milestones}}
+                {{#each model.milestones as | milestone |}}
+                  <li class="grid-x grid-padding-small">
+                    <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
+                    <div class="cell auto">
+                      <p class="no-margin"><strong>{{milestone.dcp_name}}</strong></p>
+                      <p class="no-margin text-small dark-gray">{{moment-format milestone.dcp_plannedstartdate "MMMM D, YYYY" }} <small>Planned Start</small></p>
+                      <p class="text-small dark-gray">{{moment-format milestone.dcp_plannedcompletoiondate "MMMM D, YYYY" }} <small>Planned Completion</small></p>
+                    </div>
+                  </li>
+                {{/each}}
+              {{else}}
+                No Milestones
+              {{/if}}
             </ul>
           </div>
         </div>
 
       </div>
       <div class="cell large-5">
-        {{#mapbox-gl
-            id='project-map'
-            initOptions=(hash
-              zoom=12
-              center=(array -73.96532400540775 40.709710016659386)
-              transformRequest=transformRequest
-            )
-            mapLoaded=(action handleMapLoad model.bbl_featurecollection)
-            as |map|
-        }}
-          {{#map.source options=model.bblFeatureCollectionSource as |source|}}
-            {{source.layer
-              layer=bblFeatureCollectionLayer
-              before='boundary_country'
-            }}
-          {{/map.source}}
-        {{/mapbox-gl}}
+        {{#if model.bblFeatureCollectionSource}}
+          {{#mapbox-gl
+              id='project-map'
+              initOptions=(hash
+                zoom=12
+                center=(array -73.96532400540775 40.709710016659386)
+                transformRequest=transformRequest
+              )
+              mapLoaded=(action handleMapLoad model.bbl_featurecollection)
+              as |map|
+          }}
+            {{#map.source options=model.bblFeatureCollectionSource as |source|}}
+              {{source.layer
+                layer=bblFeatureCollectionLayer
+                before='boundary_country'
+              }}
+            {{/map.source}}
+          {{/mapbox-gl}}
+        {{else}}
+          <div id='project-map' style="border: 1px solid darkgray;">
+            <h2>No Map Available</h2>
+          </div>
+        {{/if}}
 
-        <p class="text-small"><strong>BBLs:</strong> {{#each model.bbls as |bbl index|}}{{if index ", "}}{{bbl}}{{/each}}</p>
+        <p class="text-small"><strong>BBLs:</strong>
+          {{#each model.bbls as |bbl index|}}
+            {{if index ", "}}
+            {{bbl}}
+            <a href={{build-url "zola" bbl}} target="_blank">{{icon-tooltip icon="map-pin" tip='View this BBL in ZoLa'}}</a>
+            <a href={{build-url "bisweb" bbl}} target="_blank">{{icon-tooltip icon="building" tip="View this BBL BISWeb"}}</a>
+          {{/each}}
+        </p>
         <p class="text-small">
           <strong>Addresses:</strong>
           {{#each model.addresses as |address index|}}
@@ -131,12 +173,20 @@
           {{#if model.dcp_sischoolseat}}<small><span class="label light-gray">School Seat</span></small>{{/if}}
         </p>
 
-        <p class="text-small"><strong>Lead Division:</strong> {{model.dcp_leaddivision}}</p>
+        <p class="text-small">
+          <strong>Lead Division:</strong>
+          {{lookup-dcp-division model.dcp_leaddivision}}
+        </p>
+
         <p class="text-small">
           <strong>Keywords:</strong>
-          {{#each model.keywords as |keyword index|}}
-            {{if index ", "}}<a>{{keyword}}</a>
-          {{/each}}
+          {{#if model.keywords}}
+            {{#each model.keywords as |keyword|}}
+              <span class="label secondary">{{keyword}}</span>
+            {{/each}}
+          {{else}}
+            None
+          {{/if}}
         </p>
 
         {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
@@ -185,7 +235,9 @@
           </p>
         {{/if}}
 
-        <p class="text-small"><strong>Additional Files:</strong> </p>
+        <p class="text-small">
+          <strong>Additional Files:</strong>
+        </p>
 
       </div>
     </div>
