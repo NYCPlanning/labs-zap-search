@@ -73,56 +73,7 @@ export const projectParams = new QueryParams({
 const ParachuteController = Controller.extend(projectParams.Mixin);
 
 export default class ShowGeographyController extends ParachuteController {
-  projectCentroidsTileTemplate = null
-
-  projectCentroidsLayer = {
-    id: 'project-centroids-circle',
-    type: 'circle',
-    'source-layer': 'project-centroids',
-    paint: {
-      'circle-radius': { stops: [[10, 3], [15, 4]] },
-      'circle-color': '#ae561f',
-      'circle-opacity': 1,
-      'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
-      'circle-stroke-color': '#FFFFFF',
-    },
-  }
-
-  @computed('projectCentroidsTileTemplate')
-  get projectCentroidsSource() {
-    return {
-      type: 'vector',
-      tiles: [this.get('projectCentroidsTileTemplate')],
-    }
-  }
-
-  @computed('meta.total', 'page')
-  get noMoreRecords() {
-    const pageTotal = this.get('meta.pageTotal');
-    const total = this.get('meta.total');
-    const page = this.get('page');
-
-    return (pageTotal < 30) || ((page * 30) === total);
-  }
-
-  @action
-  handleMapLoad(bblFeatureCollection, map) {
-    window.map = map;
-    this.set('map', map)
-    // initiate carto handshake
-    const sourceLayers = [{
-      id: 'project-centroids',
-      sql: 'SELECT * FROM project_centroids',
-    }];
-
-    carto.getVectorTileTemplate(sourceLayers)
-      .then((tileTemplate) => {
-        if (!this.get('isDestroyed')) {
-          this.set('projectCentroidsTileTemplate', tileTemplate)
-        }
-      });
-  }
-
+  // map for projects
   @action
   handleMapMove(e) {
     // show a pointer cursor if there is a feature under the mouse pointer
@@ -151,6 +102,57 @@ export default class ShowGeographyController extends ParachuteController {
       const projectid = Feature.properties.projectid;
       this.transitionToRoute('show-project', projectid);
     }
+  }
+
+  @action
+  handleMapLoad(bblFeatureCollection, map) {
+    window.map = map;
+    this.set('map', map)
+    // initiate carto handshake
+    const sourceLayers = [{
+      id: 'project-centroids',
+      sql: 'SELECT * FROM project_centroids',
+    }];
+
+    carto.getVectorTileTemplate(sourceLayers)
+      .then((tileTemplate) => {
+        if (!this.get('isDestroyed')) {
+          this.set('projectCentroidsTileTemplate', tileTemplate)
+        }
+      });
+  }
+
+  projectCentroidsTileTemplate = null
+
+  projectCentroidsLayer = {
+    id: 'project-centroids-circle',
+    type: 'circle',
+    'source-layer': 'project-centroids',
+    paint: {
+      'circle-radius': { stops: [[10, 3], [15, 4]] },
+      'circle-color': '#ae561f',
+      'circle-opacity': 1,
+      'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
+      'circle-stroke-color': '#FFFFFF',
+    },
+  }
+
+  @computed('projectCentroidsTileTemplate')
+  get projectCentroidsSource() {
+    return {
+      type: 'vector',
+      tiles: [this.get('projectCentroidsTileTemplate')],
+    }
+  }
+
+  // project filters
+  @computed('meta.total', 'page')
+  get noMoreRecords() {
+    const pageTotal = this.get('meta.pageTotal');
+    const total = this.get('meta.total');
+    const page = this.get('page');
+
+    return (pageTotal < 30) || ((page * 30) === total);
   }
 
   @action
