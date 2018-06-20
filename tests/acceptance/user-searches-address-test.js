@@ -7,11 +7,13 @@ module('Acceptance | user searches address', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  // no longer relevant
   test('visiting / to search for address', async function(assert) {
     server.createList('project', 10);
     window.XMLHttpRequestFake = window.XMLHttpRequest;
 
     await visit('/');
+    await click('.site-name');
     await fillIn('.map-search-input', '120 broadway');
     await triggerKeyEvent('.labs-geosearch', 'keypress', 13);
 
@@ -23,6 +25,7 @@ module('Acceptance | user searches address', function(hooks) {
     server.createList('project', 10);
     window.XMLHttpRequestFake = window.XMLHttpRequest;
     await visit('/');
+    await click('.site-name');
     await click('.projects-list li:first-child a');
 
     // actions here
