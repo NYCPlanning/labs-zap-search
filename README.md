@@ -1,6 +1,6 @@
 ![CI](https://travis-ci.org/NYCPlanning/labs-zap-search.svg?branch=develop)
 
-# labs-applicant-maps
+# labs-zap-search
 
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
@@ -17,7 +17,7 @@ You will need the following things properly installed on your computer.
 ## Installation
 
 * `git clone <repository-url>` this repository
-* `cd labs-applicant-maps`
+* `cd labs-zap-search`
 * `npm install`
 
 ## Running / Development

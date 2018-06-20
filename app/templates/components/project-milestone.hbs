@@ -1,0 +1,22 @@
+<li class="grid-x grid-padding-small">
+  <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
+  <div class="cell auto">
+    <p class="no-margin"><strong>{{milestone.milestonename}}</strong> <div class="no-margin text-small dark-gray">{{timeOffset}}</div></p>
+    {{#if isPlanned}}
+      {{#if startAndEndAreSameDay}}
+        <p class="text-small dark-gray">{{moment-format milestone.dcp_plannedcompletiondate "MMMM D, YYYY" }} <small>Planned</small></p>
+      {{else}}
+        <p class="no-margin text-small dark-gray">{{moment-format milestone.dcp_plannedstartdate "MMMM D, YYYY" }} <small>Planned Start</small></p>
+        <p class="text-small dark-gray">{{moment-format milestone.dcp_plannedcompletiondate "MMMM D, YYYY" }} <small>Planned End</small></p>
+      {{/if}}
+    {{else}}
+      {{#if startAndEndAreSameDay}}
+        <p class="text-small dark-gray">{{moment-format milestone.dcp_actualenddate "MMMM D, YYYY" }}</p>
+      {{else}}
+        <p class="no-margin text-small dark-gray">{{moment-format milestone.dcp_actualstartdate "MMMM D, YYYY" }} <small>Start</small></p>
+        <p class="text-small dark-gray">{{moment-format milestone.dcp_actualenddate "MMMM D, YYYY" }} <small>End</small></p>
+      {{/if}}
+    {{/if}}
+  </div>
+</li>
+{{yield}}

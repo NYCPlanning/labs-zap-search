@@ -26,6 +26,7 @@
     projectFilters=allQueryParams
     closed=false
     replaceProperty=(action 'replaceProperty')
+    toggleBoolean=(action 'toggleBoolean')
     mutateArray=(action 'mutateArray')}}
 
 </div>
@@ -50,9 +51,23 @@
               {{/link-to}}
             </h3>
             <p class="text-small dark-gray">
-              Filed {{project.dcp_certifiedreferred}}
+              {{if project.dcp_publicstatus project.dcp_publicstatus "Unknown Status"}}
               <span class="medium-gray">|</span>
-              Certified/Referred {{project.dcp_certifiedreferred}}
+              Certified/Referred {{moment-format project.dcp_certifiedreferred "MMMM D, YYYY" }}
+              <span class="medium-gray">|</span>
+              {{project.dcp_name}}
+              {{#if project.dcp_femafloodzonea}}
+                {{fa-icon "tint" class="flood-zone-icon"}} A
+              {{/if}}
+              {{#if project.dcp_femafloodzoneshadedx}}
+                {{fa-icon "tint" class="flood-zone-icon"}} Shaded X
+              {{/if}}
+              {{#if project.dcp_femafloodzonecoastala}}
+                {{fa-icon "tint" class="flood-zone-icon"}} Coastal A
+              {{/if}}
+              {{#if project.dcp_femafloodzonev}}
+                {{fa-icon "tint" class="flood-zone-icon"}} V
+              {{/if}}
             </p>
           </div>
         </li>

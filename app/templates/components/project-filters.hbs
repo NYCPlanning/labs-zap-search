@@ -4,35 +4,35 @@
     <ul class="menu vertical medium-horizontal">
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Filed'}}>
         <a>
-          {{filter-checkbox 
-            value='Filed' 
+          {{filter-checkbox
+            value='Filed'
             currentValues=projectFilters.dcp_publicstatus}}
         </a>
       </li>
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Approved'}}>
         <a>
-          {{filter-checkbox 
+          {{filter-checkbox
             value='Approved'
             currentValues=projectFilters.dcp_publicstatus}}
         </a>
       </li>
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Certified'}}>
         <a>
-          {{filter-checkbox 
+          {{filter-checkbox
             value='Certified'
             currentValues=projectFilters.dcp_publicstatus}}
         </a>
       </li>
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Withdrawn'}}>
         <a>
-          {{filter-checkbox 
+          {{filter-checkbox
             value='Withdrawn'
             currentValues=projectFilters.dcp_publicstatus}}
         </a>
       </li>
       <li onclick={{action mutateArray 'dcp_publicstatus' 'Unknown'}}>
         <a>
-          {{filter-checkbox 
+          {{filter-checkbox
             value='Unknown'
             currentValues=projectFilters.dcp_publicstatus}}
         </a>
@@ -79,11 +79,28 @@
   <div class="filter">
     <h6 class="filter-name">FEMA Flood Zone</h6>
     <ul class="menu vertical medium-horizontal">
-      <li><a>{{fa-icon 'square-o' class="medium-gray"}} A</a></li>
-      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Shaded X</a></li>
-      <li><a>{{fa-icon 'square-o' class="medium-gray"}} Coastal A</a></li>
-      <li><a>{{fa-icon 'square-o' class="medium-gray"}} V</a></li>
+      <li onclick={{action toggleBoolean 'dcp_femafloodzonea'}}>
+        <a>
+          {{fa-icon (if projectFilters.dcp_femafloodzonea 'check-square' 'square-o') class="dark-gray"}} A
+        </a>
+      </li>
+      <li onclick={{action toggleBoolean 'dcp_femafloodzoneshadedx'}}>
+        <a>
+          {{fa-icon (if projectFilters.dcp_femafloodzoneshadedx 'check-square' 'square-o') class="dark-gray"}} Shaded X
+        </a>
+      </li>
+      <li onclick={{action toggleBoolean 'dcp_femafloodzonecoastala'}}>
+        <a>
+          {{fa-icon (if projectFilters.dcp_femafloodzonecoastala 'check-square' 'square-o') class="dark-gray"}} Coastal A
+        </a>
+      </li>
+      <li onclick={{action toggleBoolean 'dcp_femafloodzonev'}}>
+        <a>
+          {{fa-icon (if projectFilters.dcp_femafloodzonev 'check-square' 'square-o') class="dark-gray"}} V
+        </a>
+      </li>
     </ul>
+    {{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones'}}
   </div>
   <div class="filter">
     <h6 class="filter-name">ULURP</h6>

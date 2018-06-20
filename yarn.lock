@@ -2940,9 +2940,9 @@ ember-ast-helpers@0.3.5:
     "@glimmer/compiler" "^0.27.0"
     "@glimmer/syntax" "^0.27.0"
 
-ember-auto-import@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-0.2.2.tgz#9229193effa56ee7c09f26efe94fd6cfea64a867"
+ember-auto-import@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-0.2.6.tgz#28f7eb24d2f87ee90807f255d9816f4c7017aa32"
   dependencies:
     babel-core "^6.26.3"
     babylon "^6.18.0"
@@ -2953,6 +2953,7 @@ ember-auto-import@0.2.2:
     broccoli-source "^1.1.0"
     debug "^3.1.0"
     ember-cli-babel "^6.6.0"
+    enhanced-resolve "^4.0.0"
     fs-tree-diff "^0.5.7"
     lodash "^4.17.10"
     mkdirp "^0.5.1"
@@ -6512,7 +6513,7 @@ moment-timezone@^0.5.13:
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@^2.19.3:
+"moment@>= 2.9.0", moment@^2.19.3, moment@^2.22.2:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 

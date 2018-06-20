@@ -52,6 +52,22 @@ export const projectParams = new QueryParams({
       return value.split(',').sort();
     },
   },
+  dcp_femafloodzonea: {
+    defaultValue: false,
+    refresh: true,
+  },
+  dcp_femafloodzonecoastala: {
+    defaultValue: false,
+    refresh: true,
+  },
+  dcp_femafloodzoneshadedx: {
+    defaultValue: false,
+    refresh: true,
+  },
+  dcp_femafloodzonev: {
+    defaultValue: false,
+    refresh: true,
+  },
 });
 
 const ParachuteController = Controller.extend(projectParams.Mixin);
@@ -156,7 +172,7 @@ export default class ShowGeographyController extends ParachuteController {
     this.resetPagination();
 
     if (values.includes(value)) {
-      values.removeObject(value);      
+      values.removeObject(value);
     } else {
       values.pushObject(value);
     }
@@ -166,7 +182,14 @@ export default class ShowGeographyController extends ParachuteController {
   @action
   replaceProperty(key, value = []) {
     this.resetPagination();
-    
+
     this.set(key, value.map(({ code }) => code));
+  }
+
+  @action
+  toggleBoolean(key) {
+    this.resetPagination();
+
+    this.set(key, !this.get(key));
   }
 }
