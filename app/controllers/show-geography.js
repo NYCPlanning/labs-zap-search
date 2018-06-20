@@ -73,11 +73,6 @@ export const projectParams = new QueryParams({
 const ParachuteController = Controller.extend(projectParams.Mixin);
 
 export default class ShowGeographyController extends ParachuteController {
-  transformRequest(url) {
-    window.XMLHttpRequest = window.XMLHttpRequestNative;
-    return { url };
-  }
-
   projectCentroidsTileTemplate = null
 
   projectCentroidsLayer = {
