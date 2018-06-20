@@ -120,28 +120,30 @@
 
       </div>
       <div class="cell large-5">
-        {{#if model.bblFeatureCollectionSource}}
-          {{#mapbox-gl
-              id='project-map'
-              initOptions=(hash
-                zoom=12
-                center=(array -73.96532400540775 40.709710016659386)
-              )
-              mapLoaded=(action handleMapLoad model.bbl_featurecollection)
-              as |map|
-          }}
-            {{#map.source options=model.bblFeatureCollectionSource as |source|}}
-              {{source.layer
-                layer=bblFeatureCollectionLayer
-                before='boundary_country'
-              }}
-            {{/map.source}}
-          {{/mapbox-gl}}
-        {{else}}
-          <div id='project-map' style="border: 1px solid darkgray;">
-            <h2>No Map Available</h2>
-          </div>
-        {{/if}}
+        {{#projects-list-map}}
+          {{#if model.bblFeatureCollectionSource}}
+            {{#mapbox-gl
+                id='project-map'
+                initOptions=(hash
+                  zoom=12
+                  center=(array -73.96532400540775 40.709710016659386)
+                )
+                mapLoaded=(action handleMapLoad model.bbl_featurecollection)
+                as |map|
+            }}
+              {{#map.source options=model.bblFeatureCollectionSource as |source|}}
+                {{source.layer
+                  layer=bblFeatureCollectionLayer
+                  before='boundary_country'
+                }}
+              {{/map.source}}
+            {{/mapbox-gl}}
+          {{else}}
+            <div id='project-map' style="border: 1px solid darkgray;">
+              <h2>No Map Available</h2>
+            </div>
+          {{/if}}
+        {{/projects-list-map}}
 
         <div class="project-meta">
 
