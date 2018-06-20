@@ -1,1 +1,9 @@
-{{yield}}
+{{yield (hash 
+  handleMapLoad=(action 'handleMapLoad')
+  handleMapClick=(action 'handleMapClick')
+  handleMapMove=(action 'handleMapMove')
+  projectCentroidsSource=projectCentroidsSource
+  projectCentroidsLayer=projectCentroidsLayer
+  projectCentroidsTileTemplate=projectCentroidsTileTemplate
+  )
+}}

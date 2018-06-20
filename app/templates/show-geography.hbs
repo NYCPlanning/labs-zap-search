@@ -1,25 +1,25 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
-  {{#projects-map-data as |map|}}
+  {{#projects-map-data as |projects-map|}}
     {{#mapbox-gl
         id='project-map'
         initOptions=(hash
           zoom=12
           center=(array -73.96532400540775 40.709710016659386)
         )
-        mapLoaded=(action 'handleMapLoad')
+        mapLoaded=(action projects-map.handleMapLoad)
         as |map|
     }}
-      {{#if projectCentroidsTileTemplate}}
-        {{#map.source options=projectCentroidsSource as |source|}}
+      {{#if projects-map.projectCentroidsTileTemplate}}
+        {{#map.source options=projects-map.projectCentroidsSource as |source|}}
           {{source.layer
-            layer=projectCentroidsLayer
+            layer=projects-map.projectCentroidsLayer
             before='boundary_country'
           }}
         {{/map.source}}
       {{/if}}
-      {{map.on 'click' (action 'handleMapClick')}}
-      {{map.on 'mousemove' (action 'handleMapMove')}}
+      {{map.on 'click' (action projects-map.handleMapClick)}}
+      {{map.on 'mousemove' (action projects-map.handleMapMove)}}
     {{/mapbox-gl}}
   {{/projects-map-data}}
 

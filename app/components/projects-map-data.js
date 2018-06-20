@@ -1,8 +1,11 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
 import carto from 'cartobox-promises-utility/utils/carto';
 
 export default class ProjectsMapComponent extends Component {
+  @service router;
+
   projectCentroidsTileTemplate = null
 
   projectCentroidsLayer = {
@@ -70,7 +73,7 @@ export default class ProjectsMapComponent extends Component {
 
     if (Feature) {
       const projectid = Feature.properties.projectid;
-      this.transitionToRoute('show-project', projectid);
+      this.get('router').transitionTo('show-project', projectid);
     }
   }
 }
