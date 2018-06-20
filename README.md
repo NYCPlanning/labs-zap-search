@@ -1,4 +1,4 @@
-![CI](https://travis-ci.org/NYCPlanning/labs-zap-search.svg?branch=develop)
+[![Build Status](https://travis-ci.org/NYCPlanning/labs-zap-search.svg?branch=develop)](https://travis-ci.org/NYCPlanning/labs-zap-search)
 
 # labs-zap-search
 
