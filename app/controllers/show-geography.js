@@ -105,7 +105,7 @@ export default class ShowGeographyController extends ParachuteController {
   }
 
   @action
-  handleMapLoad(bblFeatureCollection, map) {
+  handleMapLoad(map) {
     window.map = map;
     this.set('map', map)
     // initiate carto handshake
