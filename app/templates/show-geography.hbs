@@ -1,25 +1,27 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
-  {{#mapbox-gl
-      id='project-map'
-      initOptions=(hash
-        zoom=12
-        center=(array -73.96532400540775 40.709710016659386)
-      )
-      mapLoaded=(action handleMapLoad model.bbl_featurecollection)
-      as |map|
-  }}
-    {{#if projectCentroidsTileTemplate}}
-      {{#map.source options=projectCentroidsSource as |source|}}
-        {{source.layer
-          layer=projectCentroidsLayer
-          before='boundary_country'
-        }}
-      {{/map.source}}
-    {{/if}}
-    {{map.on 'click' (action 'handleMapClick')}}
-    {{map.on 'mousemove' (action 'handleMapMove')}}
-  {{/mapbox-gl}}
+  {{#projects-map-data as |map|}}
+    {{#mapbox-gl
+        id='project-map'
+        initOptions=(hash
+          zoom=12
+          center=(array -73.96532400540775 40.709710016659386)
+        )
+        mapLoaded=(action 'handleMapLoad')
+        as |map|
+    }}
+      {{#if projectCentroidsTileTemplate}}
+        {{#map.source options=projectCentroidsSource as |source|}}
+          {{source.layer
+            layer=projectCentroidsLayer
+            before='boundary_country'
+          }}
+        {{/map.source}}
+      {{/if}}
+      {{map.on 'click' (action 'handleMapClick')}}
+      {{map.on 'mousemove' (action 'handleMapMove')}}
+    {{/mapbox-gl}}
+  {{/projects-map-data}}
 
   {{project-filters
     projectFilters=allQueryParams

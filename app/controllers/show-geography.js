@@ -76,10 +76,10 @@ export default class ShowGeographyController extends ParachuteController {
   // map for projects
   @action
   handleMapMove(e) {
+    const { point, target: map } = e;
     // show a pointer cursor if there is a feature under the mouse pointer
-    const map = this.get('map');
     const Feature = map.queryRenderedFeatures(
-      e.point,
+      point,
       { layers: ['project-centroids-circle']}
     )[0];
 
