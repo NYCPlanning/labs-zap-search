@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import ENV from 'labs-applicant-maps/config/environment';
+import ENV from 'labs-zap-search/config/environment';
 import { dasherize } from '@ember/string';
 
 const { JSONAPISerializer } = DS;

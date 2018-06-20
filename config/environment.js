@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'labs-applicant-maps',
+    modulePrefix: 'labs-zap-search',
     environment,
     rootURL: '/',
     locationType: 'auto',
