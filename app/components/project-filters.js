@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { argument } from '@ember-decorators/argument';
 import { action, computed } from '@ember-decorators/object';
+import { classNames } from '@ember-decorators/component';
 
 const CdLookup = [
   ['BK01', '1', 'Brooklyn'],
@@ -65,9 +66,10 @@ const CdLookup = [
   ['SI95', '95', 'Staten Island'],
 ].map(([code, num, boro]) => ({ code, num, boro, searchField: `${boro} ${num}` }));
 
+@classNames('project-filters')
+
 export default class ProjectFiltersComponent extends Component {
   @argument projectFilters = null;
-  @argument closed = true;
 
   communityDistrictOptions = CdLookup
 
