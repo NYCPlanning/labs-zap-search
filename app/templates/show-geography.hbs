@@ -10,8 +10,8 @@
         mapLoaded=(action projects-map.handleMapLoad)
         as |map|
     }}
-      {{#if projects-map.projectCentroidsTileTemplate}}
-        {{#map.source options=projects-map.projectCentroidsSource as |source|}}
+      {{#if projects-map.projectCentroidsSource.lastSuccessful}}
+        {{#map.source options=projects-map.projectCentroidsSource.lastSuccessful.value as |source|}}
           {{source.layer
             layer=projects-map.projectCentroidsLayer
             before='boundary_country'
