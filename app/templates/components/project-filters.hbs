@@ -110,7 +110,7 @@
         <span class="show-for-sr">Toggle Layer Group</span>
       </label>
     </div>
-    <h6 class="filter-name" {{action 'toggle'}}>FEMA Flood Zone</h6>
+    <h6 class="filter-name" {{action 'toggle'}}>FEMA Flood Zone <sup>{{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones'}}</sup></h6>
   </div>
   <ul class="menu vertical medium-horizontal">
     <li onclick={{action toggleBoolean 'dcp_femafloodzonea'}}>
@@ -134,7 +134,6 @@
       </a>
     </li>
   </ul>
-  {{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones'}}
 </div>
 
 <div class="filter">
