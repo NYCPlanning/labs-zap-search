@@ -1,5 +1,13 @@
 <div class="filter active">
-  <h6 class="filter-name">Project Status</h6>
+  <div class="filter-header">
+    <div class="switch tiny float-left">
+      <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+      <label {{action 'toggle'}} class="switch-paddle">
+        <span class="show-for-sr">Toggle Layer Group</span>
+      </label>
+    </div>
+    <h6 class="filter-name">Project Status</h6>
+  </div>
   <ul class="menu vertical medium-horizontal">
     <li onclick={{action mutateArray 'dcp_publicstatus' 'Filed'}}>
       <a>
@@ -38,10 +46,19 @@
     </li>
   </ul>
 </div>
+
 {{!-- <div class="filter">Borough</div> --}}
 
 <div class="filter">
-  <h6 class="filter-name">Community Districts</h6>
+  <div class="filter-header">
+    <div class="switch tiny float-left">
+      <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+      <label {{action 'toggle'}} class="switch-paddle">
+        <span class="show-for-sr">Toggle Layer Group</span>
+      </label>
+    </div>
+    <h6 class="filter-name">Community Districts</h6>
+  </div>
   <div class="medium-horizontal">
     {{#power-select-multiple
       options=communityDistrictOptions
@@ -55,8 +72,17 @@
     {{/power-select-multiple}}
   </div>
 </div>
+
 <div class="filter">
-  <h6 class="filter-name">CEQR Type</h6>
+  <div class="filter-header">
+    <div class="switch tiny float-left">
+      <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+      <label {{action 'toggle'}} class="switch-paddle">
+        <span class="show-for-sr">Toggle Layer Group</span>
+      </label>
+    </div>
+    <h6 class="filter-name">CEQR Type</h6>
+  </div>
   <ul class="menu vertical medium-horizontal">
     <li onclick={{action mutateArray 'dcp_ceqrtype' 'Unlisted'}}><a>
       {{filter-checkbox
@@ -75,8 +101,17 @@
     </a></li>
   </ul>
 </div>
+
 <div class="filter">
-  <h6 class="filter-name">FEMA Flood Zone</h6>
+  <div class="filter-header">
+    <div class="switch tiny float-left">
+      <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+      <label {{action 'toggle'}} class="switch-paddle">
+        <span class="show-for-sr">Toggle Layer Group</span>
+      </label>
+    </div>
+    <h6 class="filter-name">FEMA Flood Zone</h6>
+  </div>
   <ul class="menu vertical medium-horizontal">
     <li onclick={{action toggleBoolean 'dcp_femafloodzonea'}}>
       <a>
@@ -101,8 +136,17 @@
   </ul>
   {{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones'}}
 </div>
+
 <div class="filter">
-  <h6 class="filter-name">ULURP</h6>
+  <div class="filter-header">
+    <div class="switch tiny float-left">
+      <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+      <label {{action 'toggle'}} class="switch-paddle">
+        <span class="show-for-sr">Toggle Layer Group</span>
+      </label>
+    </div>
+    <h6 class="filter-name">ULURP</h6>
+  </div>
   <ul class="menu vertical medium-horizontal">
     <li  onclick={{action mutateArray 'dcp_ulurp_nonulurp' 'ULURP'}}>
       <a>
@@ -120,8 +164,17 @@
     </li>
   </ul>
 </div>
+
 <div class="filter">
-  <h6 class="filter-name">Action Status Reason</h6>
+  <div class="filter-header">
+    <div class="switch tiny float-left">
+      <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+      <label {{action 'toggle'}} class="switch-paddle">
+        <span class="show-for-sr">Toggle Layer Group</span>
+      </label>
+    </div>
+    <h6 class="filter-name">Action Status Reason</h6>
+  </div>
   <ul class="menu vertical medium-horizontal">
     <li><a>{{fa-icon 'square-o' class="medium-gray"}} Active</a></li>
     <li><a>{{fa-icon 'square-o' class="medium-gray"}} Certified</a></li>
@@ -131,7 +184,9 @@
     <li><a>{{fa-icon 'square-o' class="medium-gray"}} Terminated</a></li>
   </ul>
 </div>
+
 {{!-- <div class="filter">Keywords</div> --}}
+
 {{!-- <div class="filter">BBL</div> --}}
 
 {{yield}}
