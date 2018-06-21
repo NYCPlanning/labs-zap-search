@@ -33,7 +33,7 @@
         </div>
         <h6 class="filter-name" {{action 'toggle'}}>Project Status</h6>
       </div>
-      <ul class="menu vertical medium-horizontal">
+      <ul class="menu vertical medium-horizontal status-checkbox">
         <li onclick={{action mutateArray 'dcp_publicstatus' 'Filed'}}>
           <a>
             {{filter-checkbox
@@ -111,7 +111,7 @@
         </div>
         <h6 class="filter-name" {{action 'toggle'}}>CEQR Type</h6>
       </div>
-      <ul class="menu vertical medium-horizontal">
+      <ul class="menu vertical medium-horizontal CEQR-checkbox">
         <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Unlisted'}}><a>
           {{filter-checkbox
             value='Unlisted'
@@ -140,7 +140,7 @@
         </div>
         <h6 class="filter-name" {{action 'toggle'}}>FEMA Flood Zone <sup>{{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones'}}</sup></h6>
       </div>
-      <ul class="menu vertical medium-horizontal">
+      <ul class="menu vertical medium-horizontal FEMA-checkbox">
         <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonea'}}>
           <a>
             {{fa-icon (if dcp_femafloodzonea 'check-square' 'square-o') class="dark-gray"}} A
@@ -174,7 +174,7 @@
         </div>
         <h6 class="filter-name" {{action 'toggle'}}>ULURP</h6>
       </div>
-      <ul class="menu vertical medium-horizontal">
+      <ul class="menu vertical medium-horizontal ULURP-checkbox">
         <li  onclick={{action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP'}}>
           <a>
             {{filter-checkbox

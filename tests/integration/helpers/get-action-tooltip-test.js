@@ -12,6 +12,6 @@ module('Integration | Helper | get-action-tooltip', function(hooks) {
 
     await render(hbs`{{get-action-tooltip inputValue}}`);
 
-    assert.equal(this.element.textContent.trim(), 'A Zoning Map Amendment is a change in designation or a change in district boundaries for any zoning district on the New York City Zoning Map.  Zoning Map Amendments are discretionary actions subject to the Uniform Land Use Review Procedure.');
+    assert.equal(this.element.textContent.trim(), '(ULURP) A Zoning Map Amendment is a change in designation or a change in district boundaries for any zoning district on the New York City Zoning Map.  Zoning Map Amendments are discretionary actions subject to the Uniform Land Use Review Procedure.');
   });
 });
