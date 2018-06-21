@@ -1,9 +1,20 @@
-{{yield (hash 
-  handleMapLoad=(action 'handleMapLoad')
-  handleMapClick=(action 'handleMapClick')
-  handleMapMove=(action 'handleMapMove')
-  projectCentroidsSource=projectCentroidsSource
-  projectCentroidsLayer=projectCentroidsLayer
-  projectCentroidsTileTemplate=projectCentroidsTileTemplate
-  )
+{{#mapbox-gl
+    id='project-map'
+    initOptions=(hash
+      zoom=12
+      center=(array -73.96532400540775 40.709710016659386)
+    )
+    mapLoaded=(action 'handleMapLoad')
+    as |map|
 }}
+  {{#if projectCentroidsSource.lastSuccessful}}
+    {{#map.source options=projectCentroidsSource.lastSuccessful.value as |source|}}
+      {{source.layer
+        layer=projectCentroidsLayer
+        before='boundary_country'
+      }}
+    {{/map.source}}
+  {{/if}}
+  {{map.on 'click' (action 'handleMapClick')}}
+  {{map.on 'mousemove' (action 'handleMapMove')}}
+{{/mapbox-gl}}
