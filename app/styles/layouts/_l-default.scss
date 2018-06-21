@@ -60,7 +60,7 @@ body {
   margin-bottom: $global-margin;
 
   @include breakpoint(large) {
-    max-height: calc(50vh - 3rem);
+    height: calc(50vh - 3rem);
     overflow: auto;
     margin-bottom: 0;
   }
