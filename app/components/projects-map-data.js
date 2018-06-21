@@ -1,12 +1,11 @@
 import Component from '@ember/component';
-import { action, computed } from '@ember-decorators/object';
+import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
+import { restartableTask } from 'ember-concurrency-decorators';
 import carto from 'cartobox-promises-utility/utils/carto';
 
 export default class ProjectsMapComponent extends Component {
   @service router;
-
-  projectCentroidsTileTemplate = null
 
   projectCentroidsLayer = {
     id: 'project-centroids-circle',
@@ -21,30 +20,26 @@ export default class ProjectsMapComponent extends Component {
     },
   }
 
-  @computed('projectCentroidsTileTemplate')
-  get projectCentroidsSource() {
+  @restartableTask
+  projectCentroidsSource = function*() {
+    const sourceLayers = [{
+      id: 'project-centroids',
+      sql: 'SELECT * FROM project_centroids',
+    }];
+
+    const tileURL = yield carto.getVectorTileTemplate(sourceLayers);
+
     return {
       type: 'vector',
-      tiles: [this.get('projectCentroidsTileTemplate')],
-    }
+      tiles: [tileURL],
+    };
   }
 
   @action
   handleMapLoad(map) {
     window.map = map;
     this.set('map', map)
-    // initiate carto handshake
-    const sourceLayers = [{
-      id: 'project-centroids',
-      sql: 'SELECT * FROM project_centroids',
-    }];
-
-    carto.getVectorTileTemplate(sourceLayers)
-      .then((tileTemplate) => {
-        if (!this.get('isDestroyed')) {
-          this.set('projectCentroidsTileTemplate', tileTemplate)
-        }
-      });
+    this.get('projectCentroidsSource').perform();
   }
 
   @action
