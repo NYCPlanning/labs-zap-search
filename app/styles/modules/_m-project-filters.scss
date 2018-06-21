@@ -20,11 +20,17 @@ $project-filters-font-size: rem-calc(12);
   .filter-header {
     float: left;
     width: 15em;
+    padding-right: 0.4rem;
 
     .filter-name {
       color: $dark-gray;
       margin-bottom: 0;
       padding: 0.4rem 0;
+
+      &:hover {
+        cursor: pointer;
+        color: $black;
+      }
 
       padding-left: rem-calc(30); // switch's width (20) + margin (10)
 
