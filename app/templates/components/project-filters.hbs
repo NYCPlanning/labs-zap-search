@@ -58,7 +58,7 @@
   </div>
   <div class="filter">
     <h6 class="filter-name">CEQR Type</h6>
-    <ul class="menu vertical medium-horizontal">
+    <ul class="menu vertical medium-horizontal CEQR-checkbox">
       <li onclick={{action mutateArray 'dcp_ceqrtype' 'Unlisted'}}><a>
         {{filter-checkbox
           value='Unlisted'
@@ -78,7 +78,7 @@
   </div>
   <div class="filter">
     <h6 class="filter-name">FEMA Flood Zone</h6>
-    <ul class="menu vertical medium-horizontal">
+    <ul class="menu vertical medium-horizontal FEMA-checkbox">
       <li onclick={{action toggleBoolean 'dcp_femafloodzonea'}}>
         <a>
           {{fa-icon (if projectFilters.dcp_femafloodzonea 'check-square' 'square-o') class="dark-gray"}} A
@@ -104,7 +104,7 @@
   </div>
   <div class="filter">
     <h6 class="filter-name">ULURP</h6>
-    <ul class="menu vertical medium-horizontal">
+    <ul class="menu vertical medium-horizontal ULURP-checkbox">
       <li  onclick={{action mutateArray 'dcp_ulurp_nonulurp' 'ULURP'}}>
         <a>
           {{filter-checkbox
