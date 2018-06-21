@@ -66,8 +66,9 @@ const CdLookup = [
 ].map(([code, num, boro]) => ({ code, num, boro, searchField: `${boro} ${num}` }));
 
 export default class ProjectFiltersComponent extends Component {
+  classNames = ['project-filters'];
+
   @argument projectFilters = null;
-  @argument closed = true;
 
   communityDistrictOptions = CdLookup
 
