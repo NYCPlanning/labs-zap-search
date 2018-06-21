@@ -6,7 +6,7 @@
         <span class="show-for-sr">Toggle Layer Group</span>
       </label>
     </div>
-    <h6 class="filter-name">Project Status</h6>
+    <h6 class="filter-name" {{action 'toggle'}}>Project Status</h6>
   </div>
   <ul class="menu vertical medium-horizontal">
     <li onclick={{action mutateArray 'dcp_publicstatus' 'Filed'}}>
@@ -57,7 +57,7 @@
         <span class="show-for-sr">Toggle Layer Group</span>
       </label>
     </div>
-    <h6 class="filter-name">Community Districts</h6>
+    <h6 class="filter-name" {{action 'toggle'}}>Community Districts</h6>
   </div>
   <div class="medium-horizontal">
     {{#power-select-multiple
@@ -81,7 +81,7 @@
         <span class="show-for-sr">Toggle Layer Group</span>
       </label>
     </div>
-    <h6 class="filter-name">CEQR Type</h6>
+    <h6 class="filter-name" {{action 'toggle'}}>CEQR Type</h6>
   </div>
   <ul class="menu vertical medium-horizontal">
     <li onclick={{action mutateArray 'dcp_ceqrtype' 'Unlisted'}}><a>
@@ -110,7 +110,7 @@
         <span class="show-for-sr">Toggle Layer Group</span>
       </label>
     </div>
-    <h6 class="filter-name">FEMA Flood Zone</h6>
+    <h6 class="filter-name" {{action 'toggle'}}>FEMA Flood Zone</h6>
   </div>
   <ul class="menu vertical medium-horizontal">
     <li onclick={{action toggleBoolean 'dcp_femafloodzonea'}}>
@@ -145,7 +145,7 @@
         <span class="show-for-sr">Toggle Layer Group</span>
       </label>
     </div>
-    <h6 class="filter-name">ULURP</h6>
+    <h6 class="filter-name" {{action 'toggle'}}>ULURP</h6>
   </div>
   <ul class="menu vertical medium-horizontal">
     <li  onclick={{action mutateArray 'dcp_ulurp_nonulurp' 'ULURP'}}>
@@ -173,7 +173,7 @@
         <span class="show-for-sr">Toggle Layer Group</span>
       </label>
     </div>
-    <h6 class="filter-name">Action Status Reason</h6>
+    <h6 class="filter-name" {{action 'toggle'}}>Action Status Reason</h6>
   </div>
   <ul class="menu vertical medium-horizontal">
     <li><a>{{fa-icon 'square-o' class="medium-gray"}} Active</a></li>
