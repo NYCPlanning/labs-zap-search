@@ -53,8 +53,10 @@
             <p class="text-small dark-gray">
               {{if project.dcp_publicstatus project.dcp_publicstatus "Unknown Status"}}
               <span class="medium-gray">|</span>
-              Certified/Referred {{moment-format project.dcp_certifiedreferred "MMMM D, YYYY" }}
-              <span class="medium-gray">|</span>
+              {{#if project.dcp_certifiedreferred}}
+                Certified/Referred {{moment-format project.dcp_certifiedreferred "MMMM D, YYYY" }}
+                <span class="medium-gray">|</span>
+              {{/if}}
               {{project.dcp_name}}
               {{#if project.dcp_femafloodzonea}}
                 {{fa-icon "tint" class="flood-zone-icon"}} A
