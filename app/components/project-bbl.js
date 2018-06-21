@@ -12,10 +12,10 @@ export default class BBLComponent extends Component {
 
     let boro = bbl.substring(0, 1);
     if (boro == 1) { boro = 'Manhattan' }
-    if (boro == 1) { boro = 'Brooklyn' }
-    if (boro == 1) { boro = 'Queens' }
-    if (boro == 1) { boro = 'Bronx' }
-    if (boro == 1) { boro = 'Staten Island' }
+    if (boro == 2) { boro = 'Brooklyn' }
+    if (boro == 3) { boro = 'Queens' }
+    if (boro == 4) { boro = 'Bronx' }
+    if (boro == 5) { boro = 'Staten Island' }
 
     const block = parseInt(bbl.substring(1, 6), 10);
     const lot = parseInt(bbl.substring(6), 10);
