@@ -7,10 +7,6 @@ export const projectParams = new QueryParams({
     defaultValue: 1,
     refresh: true,
   },
-  'community-district': {
-    defaultValue: '',
-    refresh: true,
-  },
   'community-districts': {
     defaultValue: [],
     refresh: true,
