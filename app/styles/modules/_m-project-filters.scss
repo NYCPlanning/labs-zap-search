@@ -2,12 +2,14 @@
 // Module: Project Filters
 // --------------------------------------------------
 
+$project-filters-font-size: rem-calc(12);
+
 .project-filters {
   padding: rem-calc(4) 0 0;
   background-color: rgba(107,113,123,.06);
   border-right: 1px solid rgba(107,113,123,.1);
   border-left: 1px solid rgba(107,113,123,.1);
-  font-size: rem-calc(12);
+  font-size: $project-filters-font-size;
 
   .filter {
     @include clearfix;
@@ -31,6 +33,26 @@
     text-transform: uppercase;
     outline: none;
   }
+
+  .ember-power-select-multiple-trigger {
+
+    input {
+      margin: 2px 0 2px 3px;
+      line-height: $global-lineheight;
+      height: auto;
+      box-shadow: none;
+
+      &:focus {
+        border: 0;
+        // box-shadow: none;
+      }
+    }
+  }
+
+  .ember-power-select-options {
+    font-size: $project-filters-font-size;
+  }
+
 }
 
 .flood-zone-icon {
