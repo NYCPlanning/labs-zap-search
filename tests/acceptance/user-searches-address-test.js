@@ -10,7 +10,6 @@ module('Acceptance | user searches address', function(hooks) {
   // no longer relevant
   test('visiting / to search for address', async function(assert) {
     server.createList('project', 10);
-    window.XMLHttpRequestFake = window.XMLHttpRequest;
 
     await visit('/');
     await click('.site-name');
@@ -23,7 +22,6 @@ module('Acceptance | user searches address', function(hooks) {
 
   test('user can click first project in recent projects', async function(assert) {
     server.createList('project', 10);
-    window.XMLHttpRequestFake = window.XMLHttpRequest;
     await visit('/');
     await click('.site-name');
     await click('.projects-list li:first-child a');
@@ -35,7 +33,6 @@ module('Acceptance | user searches address', function(hooks) {
 
   test('user can click on site title and return to index page', async function(assert) {
     server.createList('project', 10);
-    window.XMLHttpRequestFake = window.XMLHttpRequest;
     await visit('/projects/1');
     await click('.site-name');
 
