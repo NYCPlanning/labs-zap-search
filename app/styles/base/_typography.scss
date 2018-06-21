@@ -115,6 +115,10 @@ button {
 // --------------------------------------------------
 .label {
   font-size: inherit;
+
+  .project-meta & {
+    margin: 0 0.25em 0.25em 0;
+  }
 }
 
 
