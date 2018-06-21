@@ -10,11 +10,6 @@ export default class ShowProjectController extends Controller {
   @argument shareClosed = true;
   @argument copySuccess = false;
 
-  transformRequest(url) {
-    window.XMLHttpRequest = window.XMLHttpRequestNative;
-    return { url };
-  }
-
   bblFeatureCollectionLayer = {
     "id": "bbl-feature-collection-fill",
     "type": "fill",
