@@ -1,31 +1,33 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
-  {{#mapbox-gl
-      id='project-map'
-      initOptions=(hash
-        zoom=12
-        center=(array -73.96532400540775 40.709710016659386)
-        transformRequest=transformRequest
-      )
-      mapLoaded=(action handleMapLoad model.bbl_featurecollection)
-      as |map|
-  }}
-    {{#if projectCentroidsTileTemplate}}
-      {{#map.source options=projectCentroidsSource as |source|}}
-        {{source.layer
-          layer=projectCentroidsLayer
-          before='boundary_country'
-        }}
-      {{/map.source}}
-    {{/if}}
-    {{map.on 'click' (action 'handleMapClick')}}
-    {{map.on 'mousemove' (action 'handleMapMove')}}
-  {{/mapbox-gl}}
+  {{#projects-map-data as |projects-map|}}
+    {{#mapbox-gl
+        id='project-map'
+        initOptions=(hash
+          zoom=12
+          center=(array -73.96532400540775 40.709710016659386)
+        )
+        mapLoaded=(action projects-map.handleMapLoad)
+        as |map|
+    }}
+      {{#if projects-map.projectCentroidsTileTemplate}}
+        {{#map.source options=projects-map.projectCentroidsSource as |source|}}
+          {{source.layer
+            layer=projects-map.projectCentroidsLayer
+            before='boundary_country'
+          }}
+        {{/map.source}}
+      {{/if}}
+      {{map.on 'click' (action projects-map.handleMapClick)}}
+      {{map.on 'mousemove' (action projects-map.handleMapMove)}}
+    {{/mapbox-gl}}
+  {{/projects-map-data}}
 
   {{project-filters
     projectFilters=allQueryParams
     closed=false
     replaceProperty=(action 'replaceProperty')
+    toggleBoolean=(action 'toggleBoolean')
     mutateArray=(action 'mutateArray')}}
 
 </div>
@@ -50,9 +52,23 @@
               {{/link-to}}
             </h3>
             <p class="text-small dark-gray">
-              Filed {{project.dcp_certifiedreferred}}
+              {{if project.dcp_publicstatus project.dcp_publicstatus "Unknown Status"}}
               <span class="medium-gray">|</span>
-              Certified/Referred {{project.dcp_certifiedreferred}}
+              Certified/Referred {{moment-format project.dcp_certifiedreferred "MMMM D, YYYY" }}
+              <span class="medium-gray">|</span>
+              {{project.dcp_name}}
+              {{#if project.dcp_femafloodzonea}}
+                {{fa-icon "tint" class="flood-zone-icon"}} A
+              {{/if}}
+              {{#if project.dcp_femafloodzoneshadedx}}
+                {{fa-icon "tint" class="flood-zone-icon"}} Shaded X
+              {{/if}}
+              {{#if project.dcp_femafloodzonecoastala}}
+                {{fa-icon "tint" class="flood-zone-icon"}} Coastal A
+              {{/if}}
+              {{#if project.dcp_femafloodzonev}}
+                {{fa-icon "tint" class="flood-zone-icon"}} V
+              {{/if}}
             </p>
           </div>
         </li>

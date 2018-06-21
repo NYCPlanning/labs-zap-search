@@ -79,6 +79,10 @@ export default class ProjectFiltersComponent extends Component {
   @action
   replaceProperty() {}
 
+  @argument
+  @action
+  toggleBoolean() {}
+
   @computed('projectFilters.community-districts')
   get selectedDistricts() {
     const selected = this.get('projectFilters.community-districts');

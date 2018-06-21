@@ -4,7 +4,11 @@
   {{/link-to}}
 </h3>
 <p class="text-small dark-gray">
-  Filed {{project.dcp_certifiedreferred}} <span class="medium-gray">|</span> Certified/Referred {{project.dcp_certifiedreferred}}
+  Filed {{project.dcp_certifiedreferred}}
+  <span class="medium-gray">|</span>
+  {{#if project.dcp_certifiedreferred}}
+    Certified/Referred {{project.dcp_certifiedreferred}}
+  {{/if}}
 </p>
 
 

@@ -9,7 +9,6 @@ module('Acceptance | append only search results work', function(hooks) {
 
   test('visiting /projects?community-districts=asdf', async function(assert) {
     server.createList('project', 10);
-    window.XMLHttpRequestFake = window.XMLHttpRequest;
     await visit('/projects?community-districts=asdf');
 
     assert.equal(currentURL(), '/projects?community-districts=asdf');
@@ -17,7 +16,6 @@ module('Acceptance | append only search results work', function(hooks) {
 
   test('visiting /projects?community-districts=asdf', async function(assert) {
     server.createList('project', 60);
-    window.XMLHttpRequestFake = window.XMLHttpRequest;
     await visit('/projects?community-districts=asdf');
     const listResults = await findAll('li.projects-list-result');
 
@@ -36,7 +34,6 @@ module('Acceptance | append only search results work', function(hooks) {
 
   test('Reaching end of list disables "load more" button', async function(assert) {
     server.createList('project', 40);
-    window.XMLHttpRequestFake = window.XMLHttpRequest;
     await visit('/projects?community-districts=asdf');
     const listResults = await findAll('li.projects-list-result');
 
