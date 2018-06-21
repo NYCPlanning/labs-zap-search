@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, click, pauseTest, fillIn } from '@ember/test-helpers';
+import { visit, currentURL, click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -35,9 +35,8 @@ module('Acceptance | filter checkbox', function(hooks) {
     server.createList('project', 20);
     await visit('/');
     await click('.ULURP-checkbox li:first-child a');
-    await pauseTest();
 
-    assert.equal(currentURL(), '/projects?dcp_femafloodzonea=true&dcp_ulurp_nonulurp=Non-ULURP');
+    assert.equal(currentURL(), '/projects?dcp_ulurp_nonulurp=Non-ULURP');
   });
 
   test('User clicks community district box, fills in community district name, selects CD', async function(assert) {
@@ -54,9 +53,8 @@ module('Acceptance | filter checkbox', function(hooks) {
     server.createList('project', 20);
     await visit('/projects?page=2');
     await click('.status-checkbox li:first-child a');
-    await visit('/projects?dcp_publicstatus=Approved%2CCertified%2CUnknown%2CWithdrawn');
 
-    assert.equal(currentURL(), '/projects?community-districts=BK01');
+    assert.equal(currentURL(), '/projects?dcp_publicstatus=Approved%2CCertified%2CUnknown%2CWithdrawn');
   });
 
 
