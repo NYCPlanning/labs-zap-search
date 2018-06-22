@@ -9,6 +9,7 @@
         mapLoaded=(action projects-map.handleMapLoad)
         as |map|
     }}
+
       {{!-- {{log 'MODEL' model}}
       {{log 'META' meta.tiles}}
       {{#if model}}
@@ -27,6 +28,11 @@
       {{map.on 'click' (action projects-map.handleMapClick)}}
       {{map.on 'mousemove' (action projects-map.handleMapMove)}}
     {{/mapbox-gl}}
+    {{#if projects-map.highlightedFeature}}
+      <div class='map-tooltip' style="top: {{projects-map.tooltipPoint.y}}px;left: {{projects-map.tooltipPoint.x}}px;">
+        {{projects-map.highlightedFeature.properties.dcp_projectname}}
+      </div>
+    {{/if}}
   {{/projects-map-data}}
 
   {{#project-filters as |filters-data|}}
@@ -232,7 +238,11 @@
         <li class="grid-x grid-padding-small projects-list-result">
           <div class="cell shrink">
             <a class="button gray text-orange">
-              {{fa-icon 'map-marker' size=2}}
+              {{#if project.has_centroid}}
+                {{fa-icon 'map-marker' size=2}}
+              {{else}}
+                {{fa-icon 'folder-open' size=2}}
+              {{/if}}
             </a>
           </div>
           <div class="cell auto">
