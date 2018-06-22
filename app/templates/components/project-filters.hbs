@@ -80,22 +80,38 @@
   <ul class="menu vertical medium-horizontal">
     <li onclick={{action toggleBoolean 'dcp_femafloodzonea'}}>
       <a>
-        {{fa-icon (if projectFilters.dcp_femafloodzonea 'check-square' 'square-o') class="dark-gray"}} A
+        {{fa-icon
+          (if projectFilters.dcp_femafloodzonea 'check-square' 'square')
+          prefix=(unless projectFilters.dcp_femafloodzonea 'far')
+          class=(if projectFilters.dcp_femafloodzonea 'dark-gray' 'medium-gray')
+        }} A
       </a>
     </li>
     <li onclick={{action toggleBoolean 'dcp_femafloodzoneshadedx'}}>
       <a>
-        {{fa-icon (if projectFilters.dcp_femafloodzoneshadedx 'check-square' 'square-o') class="dark-gray"}} Shaded X
+        {{fa-icon
+          (if projectFilters.dcp_femafloodzoneshadedx 'check-square' 'square')
+          prefix=(unless projectFilters.dcp_femafloodzoneshadedx 'far')
+          class=(if projectFilters.dcp_femafloodzoneshadedx 'dark-gray' 'medium-gray')
+        }} X
       </a>
     </li>
     <li onclick={{action toggleBoolean 'dcp_femafloodzonecoastala'}}>
       <a>
-        {{fa-icon (if projectFilters.dcp_femafloodzonecoastala 'check-square' 'square-o') class="dark-gray"}} Coastal A
+        {{fa-icon
+          (if projectFilters.dcp_femafloodzonecoastala 'check-square' 'square')
+          prefix=(unless projectFilters.dcp_femafloodzonecoastala 'far')
+          class=(if projectFilters.dcp_femafloodzonecoastala 'dark-gray' 'medium-gray')
+        }} Coastal A
       </a>
     </li>
     <li onclick={{action toggleBoolean 'dcp_femafloodzonev'}}>
       <a>
-        {{fa-icon (if projectFilters.dcp_femafloodzonev 'check-square' 'square-o') class="dark-gray"}} V
+        {{fa-icon
+          (if projectFilters.dcp_femafloodzonev 'check-square' 'square')
+          prefix=(unless projectFilters.dcp_femafloodzonev 'far')
+          class=(if projectFilters.dcp_femafloodzonev 'dark-gray' 'medium-gray')
+        }} V
       </a>
     </li>
   </ul>
@@ -123,12 +139,12 @@
 <div class="filter">
   <h6 class="filter-name">Action Status Reason</h6>
   <ul class="menu vertical medium-horizontal">
-    <li><a>{{fa-icon 'square-o' class="medium-gray"}} Active</a></li>
-    <li><a>{{fa-icon 'square-o' class="medium-gray"}} Certified</a></li>
-    <li><a>{{fa-icon 'square-o' class="medium-gray"}} Referred</a></li>
-    <li><a>{{fa-icon 'square-o' class="medium-gray"}} Approved</a></li>
-    <li><a>{{fa-icon 'square-o' class="medium-gray"}} Withdrawn</a></li>
-    <li><a>{{fa-icon 'square-o' class="medium-gray"}} Terminated</a></li>
+    <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Active</a></li>
+    <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Certified</a></li>
+    <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Referred</a></li>
+    <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Approved</a></li>
+    <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Withdrawn</a></li>
+    <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Terminated</a></li>
   </ul>
 </div>
 {{!-- <div class="filter">Keywords</div> --}}

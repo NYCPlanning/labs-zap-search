@@ -1,12 +1,12 @@
 <li class="grid-x grid-padding-small">
   <div class="cell shrink">
     {{#if isPlanned}}
-      {{#fa-stack size="lg" as |s|}}
-        {{s.stack-2x 'calendar' class='medium-gray'}}
-        {{s.stack-2x 'check' class='lu-green'}}
-      {{/fa-stack}}
+      <span class="fa-layers fa-fw" style="font-size:2.5rem;">
+        {{fa-icon 'calendar' fixedWidth=true class='medium-gray'}}
+        {{fa-icon 'check' fixedWidth=true class='lu-green' transform='shrink-6 right-5 down-1'}}
+      </span>
     {{else}}
-      {{fa-icon 'calendar' size=2 class='dark-gray'}}
+      {{fa-icon 'calendar' fixedWidth=true class='dark-gray'}}
     {{/if}}
   </div>
   <div class="cell auto">
