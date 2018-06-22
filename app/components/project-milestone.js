@@ -18,6 +18,22 @@ export default class ProjectMilestoneComponent extends Component {
     return plannedStartDate;
   }
 
+  @computed('milestone.{dcp_plannedstartdate,dcp_actualstartdate,dcp_plannedcompletiondate,dcp_actualenddate}')
+  get noDates() {
+    const plannedStartDate = this.get('milestone.dcp_plannedstartdate');
+    const plannedEndDate = this.get('milestone.dcp_plannedcompletiondate');
+
+    const hasPlannedDates = !!plannedStartDate && !!plannedEndDate;
+
+    const actualStartDate = this.get('milestone.dcp_actualstartdate');
+    const actualEndDate = this.get('milestone.dcp_actualenddate');
+
+    const hasActualDates = !!actualStartDate && !!actualEndDate;
+
+    // return true if there are no dates
+    return (!hasPlannedDates && !hasActualDates)
+  }
+
   @computed('milestone.{dcp_plannedcompletiondate,dcp_actualenddate}')
   get endDate() {
     const plannedEndDate = this.get('milestone.dcp_plannedcompletiondate');
