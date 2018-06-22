@@ -1,22 +1,45 @@
 <li class="grid-x grid-padding-small">
-  <div class="cell shrink dark-gray">{{fa-icon 'calendar' size=2}}</div>
-  <div class="cell auto">
-    <p class="no-margin"><strong>{{milestone.milestonename}}</strong> <div class="no-margin text-small dark-gray">{{timeOffset}}</div></p>
-    {{#if isPlanned}}
-      {{#if startAndEndAreSameDay}}
-        <p class="text-small dark-gray">{{moment-format milestone.dcp_plannedcompletiondate "MMMM D, YYYY" }} <small>Planned</small></p>
-      {{else}}
-        <p class="no-margin text-small dark-gray">{{moment-format milestone.dcp_plannedstartdate "MMMM D, YYYY" }} <small>Planned Start</small></p>
-        <p class="text-small dark-gray">{{moment-format milestone.dcp_plannedcompletiondate "MMMM D, YYYY" }} <small>Planned End</small></p>
-      {{/if}}
+  <div class="cell shrink">
+    {{#if noDates}}
+      <span class="fa-layers fa-fw" style="font-size:2.5rem;">
+        {{fa-icon 'calendar' fixedWidth=true class='medium-gray'}}
+        {{fa-icon 'question' fixedWidth=true class='lu-red' transform='shrink-6 down-1'}}
+      </span>
     {{else}}
-      {{#if startAndEndAreSameDay}}
-        <p class="text-small dark-gray">{{moment-format milestone.dcp_actualenddate "MMMM D, YYYY" }}</p>
+      {{#if isPlanned}}
+        <span class="fa-layers fa-fw" style="font-size:2.5rem;">
+          {{fa-icon 'calendar' fixedWidth=true class='dark-gray'}}
+        </span>
       {{else}}
-        <p class="no-margin text-small dark-gray">{{moment-format milestone.dcp_actualstartdate "MMMM D, YYYY" }} <small>Start</small></p>
-        <p class="text-small dark-gray">{{moment-format milestone.dcp_actualenddate "MMMM D, YYYY" }} <small>End</small></p>
+        <span class="fa-layers fa-fw" style="font-size:2.5rem;">
+          {{fa-icon 'calendar' fixedWidth=true class='medium-gray'}}
+          {{fa-icon 'check' fixedWidth=true class='lu-green' transform='shrink-6 right-5 down-1'}}
+        </span>
       {{/if}}
     {{/if}}
+  </div>
+  <div class="cell auto">
+    <h5 class="no-margin">{{milestone.milestonename}}</h5>
+    <div class="text-small dark-gray">
+      {{#unless noDates}}
+        <small>{{timeOffset}}</small>
+        {{#if isPlanned}}
+          {{#if startAndEndAreSameDay}}
+            <div>{{moment-format milestone.dcp_plannedcompletiondate "MMMM D, YYYY" }} <small>Planned</small></div>
+          {{else}}
+            <div>{{moment-format milestone.dcp_plannedstartdate "MMMM D, YYYY" }} <small>Planned Start</small></div>
+            <div>{{moment-format milestone.dcp_plannedcompletiondate "MMMM D, YYYY" }} <small>Planned End</small></div>
+          {{/if}}
+        {{else}}
+          {{#if startAndEndAreSameDay}}
+            <div>{{moment-format milestone.dcp_actualenddate "MMMM D, YYYY" }}</div>
+          {{else}}
+            <div>{{moment-format milestone.dcp_actualstartdate "MMMM D, YYYY" }} <small>Start</small></div>
+            <div>{{moment-format milestone.dcp_actualenddate "MMMM D, YYYY" }} <small>End</small></div>
+          {{/if}}
+        {{/if}}
+      {{/unless}}
+    </div>
   </div>
 </li>
 {{yield}}

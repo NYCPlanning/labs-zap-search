@@ -1,4 +1,7 @@
-{{fa-icon (if
-  (contains value currentValues) 'check-square' 'square-o') class="dark-gray"}} {{value}}
+{{fa-icon
+  (if (contains value currentValues) 'check-square' 'square')
+  prefix=(unless (contains value currentValues) 'far')
+  class=(if (contains value currentValues) 'dark-gray' 'medium-gray')
+  }} {{value}}
 
 {{yield}}
