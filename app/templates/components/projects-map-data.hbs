@@ -7,14 +7,8 @@
     mapLoaded=(action 'handleMapLoad')
     as |map|
 }}
-  {{#if projectCentroidsSource.lastSuccessful}}
-    {{#map.source options=projectCentroidsSource.lastSuccessful.value as |source|}}
-      {{source.layer
-        layer=projectCentroidsLayer
-        before='boundary_country'
-      }}
-    {{/map.source}}
+  {{#if meta.tiles}}
+    {{map.on 'click' (action 'handleMapClick')}}
+    {{map.on 'mousemove' (action 'handleMapMove')}}
   {{/if}}
-  {{map.on 'click' (action 'handleMapClick')}}
-  {{map.on 'mousemove' (action 'handleMapMove')}}
 {{/mapbox-gl}}

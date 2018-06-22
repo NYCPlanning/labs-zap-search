@@ -2,8 +2,6 @@ import Component from '@ember/component';
 import { action } from '@ember-decorators/object';
 import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
-import { restartableTask } from 'ember-concurrency-decorators';
-import carto from 'cartobox-promises-utility/utils/carto';
 
 export default class ProjectsMapComponent extends Component {
   @service router;
@@ -24,56 +22,45 @@ export default class ProjectsMapComponent extends Component {
     },
   }
 
-  @restartableTask
-  projectCentroidsSource = function*() {
-    const sourceLayers = [{
-      id: 'project-centroids',
-      sql: 'SELECT * FROM project_centroids',
-    }];
-
-    const tileURL = yield carto.getVectorTileTemplate(sourceLayers);
-
-    return {
-      type: 'vector',
-      tiles: [tileURL],
-    };
-  }
-
   didUpdateAttrs() {
-    console.log('update attrs')
-    // https://github.com/mapbox/mapbox-gl-js/issues/3709#issuecomment-265346656
     const map = this.get('map');
-    var newStyle = map.getStyle();
-    newStyle.sources['project-centroids'].tiles = this.get('meta.tiles');
-    map.setStyle(newStyle);
 
+    if (map) {
+      const newStyle = map.getStyle();
+      const metaTiles = this.get('meta.tiles');
+
+      if (metaTiles) {
+        newStyle.sources['project-centroids'].tiles = this.get('meta.tiles');
+        map.setStyle(newStyle);
+      }
+    }
   }
 
   @action
   handleMapLoad(map) {
     window.map = map;
-    this.set('map', map)
-    // this.get('projectCentroidsSource').perform();
-    console.log(this.get('meta'))
+    this.set('map', map);
+    const tiles = this.get('meta.tiles');
 
-    this.map.addSource('project-centroids',{
-      type: 'vector',
-      tiles: this.get('meta.tiles'),
-    });
+    if (tiles) {
+      this.map.addSource('project-centroids',{
+        type: 'vector',
+        tiles,
+      });
 
-    this.map.addLayer(this.get('projectCentroidsLayer'))
+      this.map.addLayer(this.get('projectCentroidsLayer'));
+    }
   }
 
   @action
   handleMapMove(e) {
-    // show a pointer cursor if there is a feature under the mouse pointer
     const map = this.get('map');
-    const Feature = map.queryRenderedFeatures(
+    const [feature] = map.queryRenderedFeatures(
       e.point,
-      { layers: ['project-centroids-circle']}
-    )[0];
+      { layers: ['project-centroids-circle'] }
+    );
 
-    if (Feature) {
+    if (feature) {
       map.getCanvas().style.cursor = 'pointer';
     } else {
       map.getCanvas().style.cursor = 'default';
@@ -83,13 +70,13 @@ export default class ProjectsMapComponent extends Component {
   @action
   handleMapClick(e) {
     const map = this.get('map');
-    const Feature = map.queryRenderedFeatures(
+    const [feature] = map.queryRenderedFeatures(
       e.point,
-      { layers: ['project-centroids-circle']}
-    )[0];
+      { layers: ['project-centroids-circle'] }
+    );
 
-    if (Feature) {
-      const projectid = Feature.properties.projectid;
+    if (feature) {
+      const projectid = feature.properties.projectid;
       this.get('router').transitionTo('show-project', projectid);
     }
   }

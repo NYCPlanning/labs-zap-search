@@ -1,5 +1,4 @@
 import Component from '@ember/component';
-import { computed, action } from '@ember-decorators/object';
 import { classNames } from '@ember-decorators/component';
 
 const CdLookup = [
