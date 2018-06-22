@@ -98,11 +98,10 @@ export default class ShowGeographyController extends ParachuteController {
     }
   }
 
-
   @action
   replaceProperty(key, value = []) {
     this.resetPagination();
-
+    this.get('community-districts').pushObject('BK12');
     this.set(key, value.map(({ code }) => code));
   }
 

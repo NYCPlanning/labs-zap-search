@@ -1,6 +1,4 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
-import { action, computed } from '@ember-decorators/object';
 import { classNames } from '@ember-decorators/component';
 
 const CdLookup = [
@@ -67,27 +65,6 @@ const CdLookup = [
 ].map(([code, num, boro]) => ({ code, num, boro, searchField: `${boro} ${num}` }));
 
 @classNames('project-filters')
-
 export default class ProjectFiltersComponent extends Component {
-  @argument projectFilters = null;
-
   communityDistrictOptions = CdLookup
-
-  @argument
-  @action
-  mutateArray() {}
-
-  @argument
-  @action
-  replaceProperty() {}
-
-  @argument
-  @action
-  toggleBoolean() {}
-
-  @computed('projectFilters.community-districts')
-  get selectedDistricts() {
-    const selected = this.get('projectFilters.community-districts');
-    return this.get('communityDistrictOptions').filter(({ code } = {}) => selected.includes(code))
-  }
 }

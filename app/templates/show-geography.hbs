@@ -1,33 +1,212 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
+  {{projects-map-data meta=meta}}
 
-  {{#projects-map-data as |projects-map|}}
-    {{#mapbox-gl
-        id='project-map'
-        initOptions=(hash
-          zoom=12
-          center=(array -73.96532400540775 40.709710016659386)
-        )
-        mapLoaded=(action projects-map.handleMapLoad)
-        as |map|
-    }}
-      {{#if projects-map.projectCentroidsSource.lastSuccessful}}
-        {{#map.source options=projects-map.projectCentroidsSource.lastSuccessful.value as |source|}}
-          {{source.layer
-            layer=projects-map.projectCentroidsLayer
-            before='boundary_country'
-          }}
-        {{/map.source}}
-      {{/if}}
-      {{map.on 'click' (action projects-map.handleMapClick)}}
-      {{map.on 'mousemove' (action projects-map.handleMapMove)}}
-    {{/mapbox-gl}}
-  {{/projects-map-data}}
+  {{#project-filters as |filters-data|}}
+    <div class="filter active">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>Project Status</h6>
+      </div>
+      <ul class="menu vertical medium-horizontal status-checkbox">
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Filed'}}>
+          <a>
+            {{filter-checkbox
+              value='Filed'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Approved'}}>
+          <a>
+            {{filter-checkbox
+              value='Approved'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Certified'}}>
+          <a>
+            {{filter-checkbox
+              value='Certified'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Withdrawn'}}>
+          <a>
+            {{filter-checkbox
+              value='Withdrawn'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Unknown'}}>
+          <a>
+            {{filter-checkbox
+              value='Unknown'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+      </ul>
+    </div>
 
-  {{project-filters
-    projectFilters=allQueryParams
-    replaceProperty=(action 'replaceProperty')
-    toggleBoolean=(action 'toggleBoolean')
-    mutateArray=(action 'mutateArray')}}
+    {{!-- <div class="filter">Borough</div> --}}
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>Community Districts</h6>
+      </div>
+      <div class="medium-horizontal">
+        {{#power-select-multiple
+          options=filters-data.community-districts
+          selected=(contains-keys
+            filters-data.community-districts
+            community-districts
+            key='code')
+          placeholder="Select some names..."
+          searchField='searchField'
+          onchange=(action 'replaceProperty' 'community-districts')
+          as |district|
+        }}
+          {{district.boro}} {{district.num}}
+        {{/power-select-multiple}}
+      </div>
+    </div>
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>CEQR Type <sup>{{icon-tooltip tip='The City Environmental Quality Review (CEQR)  identifies any potential adverse environmental effects of proposed actions, assesses their significance, and proposes measures to eliminate or mitigate significant impacts. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup></h6>
+      </div>
+      <ul class="menu vertical medium-horizontal CEQR-checkbox">
+        <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Unlisted'}}><a>
+          {{filter-checkbox
+            value='Unlisted'
+            currentValues=dcp_ceqrtype}}
+        </a></li>
+        <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Type I'}}><a>
+          {{filter-checkbox
+            value='Type I'
+            currentValues=dcp_ceqrtype}}
+        </a></li>
+        <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Type II'}}><a>
+          {{filter-checkbox
+            value='Type II'
+            currentValues=dcp_ceqrtype}}
+        </a></li>
+      </ul>
+    </div>
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>FEMA Flood Zone <sup>{{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones' class="dark-gray" }}</sup></h6>
+      </div>
+      <ul class="menu vertical medium-horizontal FEMA-checkbox">
+        <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonea'}}>
+          <a>
+            {{fa-icon
+              (if dcp_femafloodzonea 'check-square' 'square')
+              prefix=(unless dcp_femafloodzonea 'far')
+              class=(if dcp_femafloodzonea 'dark-gray' 'medium-gray')
+            }} A <sup>{{icon-tooltip tip='A portion of the area subject to flooding from the 1% annual chance flood. These areas are not subject to high velocity wave action but are still considered high risk flooding areas. In A Zones, NYC Building Code requires buildings to be elevated or flood-proofed based on the Base Flood Elevation identified on the FEMA’s FIRMs.' class="dark-gray"}}</sup>
+          </a>
+        </li>
+        <li onclick={{action 'toggleBoolean' 'dcp_femafloodzoneshadedx'}}>
+          <a>
+            {{fa-icon
+              (if dcp_femafloodzoneshadedx 'check-square' 'square')
+              prefix=(unless dcp_femafloodzoneshadedx 'far')
+              class=(if dcp_femafloodzoneshadedx 'dark-gray' 'medium-gray')
+            }} Shaded X <sup>{{icon-tooltip tip='The area of moderate flood risk outside the regulatory 1% annual chance flood but within the limits of the 0.2% annual chance flood level (the 500-year floodplain). There are no current NYC Building Code or FEMA flood insurance purchase requirements for buildings in this zone.' class="dark-gray"}}</sup>
+          </a>
+        </li>
+        <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonecoastala'}}>
+          <a>
+            {{fa-icon
+              (if dcp_femafloodzonecoastala 'check-square' 'square')
+              prefix=(unless dcp_femafloodzonecoastala 'far')
+              class=(if dcp_femafloodzonecoastala 'dark-gray' 'medium-gray')
+            }} Coastal A <sup>{{icon-tooltip tip='A sub-zone of the A Zone where wave heights are expected to be between 1.5 and 3 feet high. This zone is indicated by the Limit of Moderate Wave Action (LiMWA) line on the latest FEMA FIRMs.' class="dark-gray"}}</sup>
+          </a>
+        </li>
+        <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonev'}}>
+          <a>
+            {{fa-icon
+              (if dcp_femafloodzonev 'check-square' 'square')
+              prefix=(unless dcp_femafloodzonev 'far')
+              class=(if dcp_femafloodzonev 'dark-gray' 'medium-gray')
+            }} V <sup>{{icon-tooltip tip='A portion of the 1% annual chance floodplain subject to high velocity wave action (a breaking wave 3 feet high or larger). V Zones are subject to more stringent building requirements than other zones because of the damaging force of waves.' class="dark-gray"}}</sup>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>ULURP <sup>{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a standardized procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames.'}}</sup></h6>
+      </div>
+      <ul class="menu vertical medium-horizontal ULURP-checkbox">
+        <li  onclick={{action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP'}}>
+          <a>
+            {{filter-checkbox
+              value='ULURP'
+              currentValues=dcp_ulurp_nonulurp}}
+          </a>
+        </li>
+        <li  onclick={{action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP'}}>
+          <a>
+            {{filter-checkbox
+              value='Non-ULURP'
+              currentValues=dcp_ulurp_nonulurp}}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>Action Status Reason</h6>
+      </div>
+      <ul class="menu vertical medium-horizontal">
+        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Active</a></li>
+        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Certified</a></li>
+        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Referred</a></li>
+        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Approved</a></li>
+        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Withdrawn</a></li>
+        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Terminated</a></li>
+      </ul>
+    </div>
+  {{/project-filters}}
 
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
