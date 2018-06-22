@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { action } from '@ember-decorators/object';
+import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
 import { restartableTask } from 'ember-concurrency-decorators';
 import carto from 'cartobox-promises-utility/utils/carto';
@@ -7,9 +8,12 @@ import carto from 'cartobox-promises-utility/utils/carto';
 export default class ProjectsMapComponent extends Component {
   @service router;
 
+  @argument meta;
+
   projectCentroidsLayer = {
     id: 'project-centroids-circle',
     type: 'circle',
+    'source': 'project-centroids',
     'source-layer': 'project-centroids',
     paint: {
       'circle-radius': { stops: [[10, 3], [15, 4]] },
@@ -35,11 +39,29 @@ export default class ProjectsMapComponent extends Component {
     };
   }
 
+  didUpdateAttrs() {
+    console.log('update attrs')
+    // https://github.com/mapbox/mapbox-gl-js/issues/3709#issuecomment-265346656
+    const map = this.get('map');
+    var newStyle = map.getStyle();
+    newStyle.sources['project-centroids'].tiles = this.get('meta.tiles');
+    map.setStyle(newStyle);
+
+  }
+
   @action
   handleMapLoad(map) {
     window.map = map;
     this.set('map', map)
-    this.get('projectCentroidsSource').perform();
+    // this.get('projectCentroidsSource').perform();
+    console.log(this.get('meta'))
+
+    this.map.addSource('project-centroids',{
+      type: 'vector',
+      tiles: this.get('meta.tiles'),
+    });
+
+    this.map.addLayer(this.get('projectCentroidsLayer'))
   }
 
   @action
