@@ -20,7 +20,11 @@ module('Integration | Component | project-milestone', function(hooks) {
 
     await render(hbs`{{project-milestone milestone=milestone}}`);
 
-    assert.equal(this.element.textContent.trim(), `Test Milestone 4 months ago
-        February 28, 2018 Planned`);
+    assert.equal(this.element.textContent.trim(),
+    `Test Milestone
+    
+      4 months ago
+          February 28, 2018 Planned`
+    );
   });
 });
