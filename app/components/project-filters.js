@@ -68,17 +68,4 @@ const CdLookup = [
 @classNames('project-filters')
 export default class ProjectFiltersComponent extends Component {
   communityDistrictOptions = CdLookup
-
-  // this should be some kind of composable helper...
-  @computed('projectFilters.community-districts')
-  get selectedDistricts() {
-    const selected = this.get('projectFilters.community-districts');
-    return this.get('communityDistrictOptions').filter(({ code } = {}) => selected.includes(code))
-  }
-
-  @action
-  isIn(selected, { code }) {
-    return selected.includes(code);
-  }
-
 }
