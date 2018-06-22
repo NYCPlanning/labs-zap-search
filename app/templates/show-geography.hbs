@@ -1,33 +1,217 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
+  {{#projects-map-data as |projects-map|}}
+    {{#mapbox-gl
+        id='project-map'
+        initOptions=(hash
+          zoom=12
+          center=(array -73.96532400540775 40.709710016659386)
+        )
+        mapLoaded=(action projects-map.handleMapLoad)
+        as |map|
+    }}
+      {{#if projects-map.projectCentroidsSource.lastSuccessful}}
+        {{#map.source options=projects-map.projectCentroidsSource.lastSuccessful.value as |source|}}
+          {{source.layer
+            layer=projects-map.projectCentroidsLayer
+            before='boundary_country'
+          }}
+        {{/map.source}}
+      {{/if}}
+      {{map.on 'click' (action projects-map.handleMapClick)}}
+      {{map.on 'mousemove' (action projects-map.handleMapMove)}}
+    {{/mapbox-gl}}
+  {{/projects-map-data}}
 
-  {{#mapbox-gl
-      id='project-map'
-      initOptions=(hash
-        zoom=12
-        center=(array -73.96532400540775 40.709710016659386)
-        transformRequest=transformRequest
-      )
-      mapLoaded=(action handleMapLoad model.bbl_featurecollection)
-      as |map|
-  }}
-    {{#if projectCentroidsTileTemplate}}
-      {{#map.source options=projectCentroidsSource as |source|}}
-        {{source.layer
-          layer=projectCentroidsLayer
-          before='boundary_country'
+  {{#project-filters as |filters-data|}}
+    <div class="filter active">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>Project Status</h6>
+      </div>
+      <ul class="menu vertical medium-horizontal status-checkbox">
+        <li onclick={{action mutateArray 'dcp_publicstatus' 'Filed'}}>
+          <a>
+            {{filter-checkbox
+              value='Filed'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+        <li onclick={{action mutateArray 'dcp_publicstatus' 'Approved'}}>
+          <a>
+            {{filter-checkbox
+              value='Approved'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+        <li onclick={{action mutateArray 'dcp_publicstatus' 'Certified'}}>
+          <a>
+            {{filter-checkbox
+              value='Certified'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+        <li onclick={{action mutateArray 'dcp_publicstatus' 'Withdrawn'}}>
+          <a>
+            {{filter-checkbox
+              value='Withdrawn'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+        <li onclick={{action mutateArray 'dcp_publicstatus' 'Unknown'}}>
+          <a>
+            {{filter-checkbox
+              value='Unknown'
+              currentValues=dcp_publicstatus}}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    {{!-- <div class="filter">Borough</div> --}}
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>Community Districts</h6>
+      </div>
+      <div class="medium-horizontal">
+        {{#power-select-multiple
+          options=filters-data.community-districts
+          selected=(contains-keys 
+            filters-data.community-districts 
+            community-districts
+            key='code')
+          placeholder="Select some names..."
+          searchField='searchField'
+          onchange=(action 'replaceProperty' 'community-districts')
+          as |district|
         }}
-      {{/map.source}}
-    {{/if}}
-    {{map.on 'click' (action 'handleMapClick')}}
-    {{map.on 'mousemove' (action 'handleMapMove')}}
-  {{/mapbox-gl}}
+          {{district.boro}} {{district.num}}
+        {{/power-select-multiple}}
+      </div>
+    </div>
 
-  {{project-filters
-    projectFilters=allQueryParams
-    closed=false
-    replaceProperty=(action 'replaceProperty')
-    toggleBoolean=(action 'toggleBoolean')
-    mutateArray=(action 'mutateArray')}}
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>CEQR Type</h6>
+      </div>
+      <ul class="menu vertical medium-horizontal CEQR-checkbox">
+        <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Unlisted'}}><a>
+          {{filter-checkbox
+            value='Unlisted'
+            currentValues=dcp_ceqrtype}}
+        </a></li>
+        <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Type I'}}><a>
+          {{filter-checkbox
+            value='Type I'
+            currentValues=dcp_ceqrtype}}
+        </a></li>
+        <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Type II'}}><a>
+          {{filter-checkbox
+            value='Type II'
+            currentValues=dcp_ceqrtype}}
+        </a></li>
+      </ul>
+    </div>
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>FEMA Flood Zone <sup>{{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones'}}</sup></h6>
+      </div>
+      <ul class="menu vertical medium-horizontal FEMA-checkbox">
+        <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonea'}}>
+          <a>
+            {{fa-icon (if dcp_femafloodzonea 'check-square' 'square-o') class="dark-gray"}} A
+          </a>
+        </li>
+        <li onclick={{action 'toggleBoolean' 'dcp_femafloodzoneshadedx'}}>
+          <a>
+            {{fa-icon (if dcp_femafloodzoneshadedx 'check-square' 'square-o') class="dark-gray"}} Shaded X
+          </a>
+        </li>
+        <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonecoastala'}}>
+          <a>
+            {{fa-icon (if dcp_femafloodzonecoastala 'check-square' 'square-o') class="dark-gray"}} Coastal A
+          </a>
+        </li>
+        <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonev'}}>
+          <a>
+            {{fa-icon (if dcp_femafloodzonev 'check-square' 'square-o') class="dark-gray"}} V
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>ULURP</h6>
+      </div>
+      <ul class="menu vertical medium-horizontal ULURP-checkbox">
+        <li  onclick={{action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP'}}>
+          <a>
+            {{filter-checkbox
+              value='ULURP'
+              currentValues=dcp_ulurp_nonulurp}}
+          </a>
+        </li>
+        <li  onclick={{action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP'}}>
+          <a>
+            {{filter-checkbox
+              value='Non-ULURP'
+              currentValues=dcp_ulurp_nonulurp}}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
+          <label {{action 'toggle'}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Layer Group</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action 'toggle'}}>Action Status Reason</h6>
+      </div>
+      <ul class="menu vertical medium-horizontal">
+        <li><a>{{fa-icon 'square-o' class="medium-gray"}} Active</a></li>
+        <li><a>{{fa-icon 'square-o' class="medium-gray"}} Certified</a></li>
+        <li><a>{{fa-icon 'square-o' class="medium-gray"}} Referred</a></li>
+        <li><a>{{fa-icon 'square-o' class="medium-gray"}} Approved</a></li>
+        <li><a>{{fa-icon 'square-o' class="medium-gray"}} Withdrawn</a></li>
+        <li><a>{{fa-icon 'square-o' class="medium-gray"}} Terminated</a></li>
+      </ul>
+    </div>
+  {{/project-filters}}
 
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">

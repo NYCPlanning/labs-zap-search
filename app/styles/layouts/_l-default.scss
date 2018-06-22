@@ -50,9 +50,26 @@ body {
   margin-top: $global-margin;
   margin-bottom: $global-margin;
 
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 2px rgba(0,0,0,0.1);
+  }
+
   @include breakpoint(large) {
-    height: calc(50vh - 4rem);
-    margin: 1rem 0 0;
+    height: calc(50vh - 3rem);
+    margin: 0;
+
+    &::after {
+      content: '';
+      box-shadow: inset 0 -1px 0 2px rgba(0,0,0,0.1);
+    }
   }
 }
 
@@ -60,7 +77,7 @@ body {
   margin-bottom: $global-margin;
 
   @include breakpoint(large) {
-    max-height: calc(50vh - 3rem);
+    height: calc(50vh - 3rem);
     overflow: auto;
     margin-bottom: 0;
   }

@@ -126,7 +126,6 @@
               initOptions=(hash
                 zoom=12
                 center=(array -73.96532400540775 40.709710016659386)
-                transformRequest=transformRequest
               )
               mapLoaded=(action handleMapLoad model.bbl_featurecollection)
               as |map|
@@ -148,7 +147,7 @@
 
           <p class="text-small"><strong>BBLs:</strong>
             {{#each model.bbls as |bbl|}}
-              {{project-bbl bbl=bbl}}
+              {{~project-bbl bbl=bbl~}}
             {{/each}}
           </p>
 
@@ -185,8 +184,8 @@
           {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
             <p class="text-small">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review'}}</sup>:</strong>
-              {{#if model.dcp_ceqrtype}}<span class="label secondary">{{model.dcp_ceqrtype}}</span>{{/if}}
-              {{#if model.dcp_ceqrnumber}}<span class="label secondary">{{model.dcp_ceqrnumber}}</span>{{/if}}
+              {{#if model.dcp_ceqrtype}}<span class="label secondary">{{model.dcp_ceqrtype}}</span>{{/if~}}
+              {{#if model.dcp_ceqrnumber}}<span class="label secondary">{{model.dcp_ceqrnumber}}</span>{{/if~}}
             </p>
           {{/if}}
 
