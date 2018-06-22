@@ -1,5 +1,5 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
-  {{#projects-map-data as |projects-map|}}
+  {{#projects-map-data meta=meta as |projects-map|}}
     {{#mapbox-gl
         id='project-map'
         initOptions=(hash
@@ -9,14 +9,21 @@
         mapLoaded=(action projects-map.handleMapLoad)
         as |map|
     }}
-      {{#if projects-map.projectCentroidsSource.lastSuccessful}}
-        {{#map.source options=projects-map.projectCentroidsSource.lastSuccessful.value as |source|}}
+      {{!-- {{log 'MODEL' model}}
+      {{log 'META' meta.tiles}}
+      {{#if model}}
+        {{log 'Adding Map'}}
+        {{#map.source options=(hash
+            id='project-centroids'
+            type='vector'
+            tiles=meta.tiles
+          ) as |source|}}
           {{source.layer
             layer=projects-map.projectCentroidsLayer
             before='boundary_country'
           }}
         {{/map.source}}
-      {{/if}}
+      {{/if}} --}}
       {{map.on 'click' (action projects-map.handleMapClick)}}
       {{map.on 'mousemove' (action projects-map.handleMapMove)}}
     {{/mapbox-gl}}
@@ -87,8 +94,8 @@
       <div class="medium-horizontal">
         {{#power-select-multiple
           options=filters-data.community-districts
-          selected=(contains-keys 
-            filters-data.community-districts 
+          selected=(contains-keys
+            filters-data.community-districts
             community-districts
             key='code')
           placeholder="Select some names..."
