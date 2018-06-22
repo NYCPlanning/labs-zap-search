@@ -1,9 +1,14 @@
-{{yield (hash 
-  handleMapLoad=(action 'handleMapLoad')
-  handleMapClick=(action 'handleMapClick')
-  handleMapMove=(action 'handleMapMove')
-  projectCentroidsSource=projectCentroidsSource
-  projectCentroidsLayer=projectCentroidsLayer
-  projectCentroidsTileTemplate=projectCentroidsTileTemplate
-  )
+{{#mapbox-gl
+    id='project-map'
+    initOptions=(hash
+      zoom=12
+      center=(array -73.96532400540775 40.709710016659386)
+    )
+    mapLoaded=(action 'handleMapLoad')
+    as |map|
 }}
+  {{#if meta.tiles}}
+    {{map.on 'click' (action 'handleMapClick')}}
+    {{map.on 'mousemove' (action 'handleMapMove')}}
+  {{/if}}
+{{/mapbox-gl}}

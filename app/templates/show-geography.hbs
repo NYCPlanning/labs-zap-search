@@ -1,26 +1,5 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
-  {{#projects-map-data as |projects-map|}}
-    {{#mapbox-gl
-        id='project-map'
-        initOptions=(hash
-          zoom=12
-          center=(array -73.96532400540775 40.709710016659386)
-        )
-        mapLoaded=(action projects-map.handleMapLoad)
-        as |map|
-    }}
-      {{#if projects-map.projectCentroidsSource.lastSuccessful}}
-        {{#map.source options=projects-map.projectCentroidsSource.lastSuccessful.value as |source|}}
-          {{source.layer
-            layer=projects-map.projectCentroidsLayer
-            before='boundary_country'
-          }}
-        {{/map.source}}
-      {{/if}}
-      {{map.on 'click' (action projects-map.handleMapClick)}}
-      {{map.on 'mousemove' (action projects-map.handleMapMove)}}
-    {{/mapbox-gl}}
-  {{/projects-map-data}}
+  {{projects-map-data meta=meta}}
 
   {{#project-filters as |filters-data|}}
     <div class="filter active">
