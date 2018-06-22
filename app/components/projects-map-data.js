@@ -47,6 +47,8 @@ export default class ProjectsMapComponent extends Component {
     newStyle.sources['project-centroids'].tiles = this.get('meta.tiles');
     map.setStyle(newStyle);
 
+    map.fitBounds(this.get('meta.bounds'), {padding: 20});
+
   }
 
   @action
@@ -62,6 +64,8 @@ export default class ProjectsMapComponent extends Component {
     });
 
     this.map.addLayer(this.get('projectCentroidsLayer'))
+    console.log(this.get('meta.bounds'))
+    map.fitBounds(this.get('meta.bounds'), {padding: 20});
   }
 
   @action
