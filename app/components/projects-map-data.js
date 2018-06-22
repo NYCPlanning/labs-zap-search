@@ -28,10 +28,12 @@ export default class ProjectsMapComponent extends Component {
     if (map) {
       const newStyle = map.getStyle();
       const metaTiles = this.get('meta.tiles');
+      const bounds = this.get('meta.bounds');
 
       if (metaTiles) {
         newStyle.sources['project-centroids'].tiles = this.get('meta.tiles');
         map.setStyle(newStyle);
+        map.fitBounds(bounds, { padding: 20 });
       }
     }
   }
@@ -41,6 +43,7 @@ export default class ProjectsMapComponent extends Component {
     window.map = map;
     this.set('map', map);
     const tiles = this.get('meta.tiles');
+    const bounds = this.get('meta.bounds');
 
     if (tiles) {
       this.map.addSource('project-centroids',{
@@ -49,6 +52,7 @@ export default class ProjectsMapComponent extends Component {
       });
 
       this.map.addLayer(this.get('projectCentroidsLayer'));
+      map.fitBounds(bounds, { padding: 20 });
     }
   }
 
