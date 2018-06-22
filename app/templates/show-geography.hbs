@@ -13,35 +13,35 @@
         <h6 class="filter-name" {{action 'toggle'}}>Project Status</h6>
       </div>
       <ul class="menu vertical medium-horizontal status-checkbox">
-        <li onclick={{action mutateArray 'dcp_publicstatus' 'Filed'}}>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Filed'}}>
           <a>
             {{filter-checkbox
               value='Filed'
               currentValues=dcp_publicstatus}}
           </a>
         </li>
-        <li onclick={{action mutateArray 'dcp_publicstatus' 'Approved'}}>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Approved'}}>
           <a>
             {{filter-checkbox
               value='Approved'
               currentValues=dcp_publicstatus}}
           </a>
         </li>
-        <li onclick={{action mutateArray 'dcp_publicstatus' 'Certified'}}>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Certified'}}>
           <a>
             {{filter-checkbox
               value='Certified'
               currentValues=dcp_publicstatus}}
           </a>
         </li>
-        <li onclick={{action mutateArray 'dcp_publicstatus' 'Withdrawn'}}>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Withdrawn'}}>
           <a>
             {{filter-checkbox
               value='Withdrawn'
               currentValues=dcp_publicstatus}}
           </a>
         </li>
-        <li onclick={{action mutateArray 'dcp_publicstatus' 'Unknown'}}>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Unknown'}}>
           <a>
             {{filter-checkbox
               value='Unknown'
