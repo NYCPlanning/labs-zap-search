@@ -35,11 +35,11 @@ export function getActionTooltip([actioncode]) {
     case 'EU':
       return 'CEQR Application';
     case 'FT':
-      return '(ULURP) Fast Track ';
+      return '(ULURP) Fast Track is an expedited review process for certain, qualifying applications that do not require detailed environmental review. The goal of the Fast Track process is to move uncomplicated applications through the Department ("DCP") in less than 180 days. Fast Track has no impact on the post-Referral process (public review) of any project.';
     case 'GF':
       return '(ULURP) A revocable consent is a grant by the city, revocable at will, for private use on, over or under city property such as bridges over streets or street furniture. Revocable consents that the Department of City Planning has determined do not have land use impacts or implications are not subject to ULURP.';
     case 'HA':
-      return '(ULURP) Housing and urban renewal plans and projects, pursuant to city, state and federal laws are required to be reviewed by the City Planning Commission. This action is subject to the Uniform Land Use Review Procedure.';
+      return '(ULURP) Housing and urban renewal plans and projects, pursuant to city, state and federal laws are required to be reviewed by the City Planning Commission.';
     case 'HC':
       return '(Non-ULURP) Minor Change ';
     case 'HD':
@@ -137,7 +137,7 @@ export function getActionTooltip([actioncode]) {
     case 'UC':
       return 'Unenclosed Café';
     case 'UK':
-      return '(ULURP) Unknown Action ';
+      return 'Unknown Action ';
     case 'VT':
       return 'Cable TV';
     case 'WR':

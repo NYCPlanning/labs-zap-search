@@ -109,7 +109,7 @@
             <span class="show-for-sr">Toggle Layer Group</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>CEQR Type</h6>
+        <h6 class="filter-name" {{action 'toggle'}}>CEQR Type <sup>{{icon-tooltip tip='The City Environmental Quality Review (CEQR)  identifies any potential adverse environmental effects of proposed actions, assesses their significance, and proposes measures to eliminate or mitigate significant impacts. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup></h6>
       </div>
       <ul class="menu vertical medium-horizontal CEQR-checkbox">
         <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Unlisted'}}><a>
@@ -138,28 +138,28 @@
             <span class="show-for-sr">Toggle Layer Group</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>FEMA Flood Zone <sup>{{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones'}}</sup></h6>
+        <h6 class="filter-name" {{action 'toggle'}}>FEMA Flood Zone <sup>{{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones' class="dark-gray" }}</sup></h6>
       </div>
       <ul class="menu vertical medium-horizontal FEMA-checkbox">
         <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonea'}}>
           <a>
-            {{fa-icon (if dcp_femafloodzonea 'check-square' 'square-o') class="dark-gray"}} A
+            {{fa-icon (if dcp_femafloodzonea 'check-square' 'square-o') class="dark-gray"}} A <sup>{{icon-tooltip tip='A portion of the area subject to flooding from the 1% annual chance flood. These areas are not subject to high velocity wave action but are still considered high risk flooding areas. In A Zones, NYC Building Code requires buildings to be elevated or flood-proofed based on the Base Flood Elevation identified on the FEMA’s FIRMs.' class="dark-gray"}}</sup>
           </a>
         </li>
         <li onclick={{action 'toggleBoolean' 'dcp_femafloodzoneshadedx'}}>
           <a>
-            {{fa-icon (if dcp_femafloodzoneshadedx 'check-square' 'square-o') class="dark-gray"}} Shaded X
-          </a>
+            {{fa-icon (if dcp_femafloodzoneshadedx 'check-square' 'square-o') class="dark-gray"}} Shaded X <sup>{{icon-tooltip tip='The area of moderate flood risk outside the regulatory 1% annual chance flood but within the limits of the 0.2% annual chance flood level (the 500-year floodplain). There are no current NYC Building Code or FEMA flood insurance purchase requirements for buildings in this zone.' class="dark-gray"}}</sup>
+          </a> 
         </li>
         <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonecoastala'}}>
           <a>
-            {{fa-icon (if dcp_femafloodzonecoastala 'check-square' 'square-o') class="dark-gray"}} Coastal A
+            {{fa-icon (if dcp_femafloodzonecoastala 'check-square' 'square-o') class="dark-gray"}} Coastal A <sup>{{icon-tooltip tip='A sub-zone of the A Zone where wave heights are expected to be between 1.5 and 3 feet high. This zone is indicated by the Limit of Moderate Wave Action (LiMWA) line on the latest FEMA FIRMs.' class="dark-gray"}}</sup>
           </a>
         </li>
         <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonev'}}>
           <a>
-            {{fa-icon (if dcp_femafloodzonev 'check-square' 'square-o') class="dark-gray"}} V
-          </a>
+            {{fa-icon (if dcp_femafloodzonev 'check-square' 'square-o') class="dark-gray"}} V <sup>{{icon-tooltip tip='A portion of the 1% annual chance floodplain subject to high velocity wave action (a breaking wave 3 feet high or larger). V Zones are subject to more stringent building requirements than other zones because of the damaging force of waves.' class="dark-gray"}}</sup>
+          </a> 
         </li>
       </ul>
     </div>
@@ -172,7 +172,7 @@
             <span class="show-for-sr">Toggle Layer Group</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>ULURP</h6>
+        <h6 class="filter-name" {{action 'toggle'}}>ULURP <sup>{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a standardized procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames.'}}</sup></h6>
       </div>
       <ul class="menu vertical medium-horizontal ULURP-checkbox">
         <li  onclick={{action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP'}}>
@@ -241,16 +241,16 @@
               <span class="medium-gray">|</span>
               {{project.dcp_name}}
               {{#if project.dcp_femafloodzonea}}
-                {{fa-icon "tint" class="flood-zone-icon"}} A
+                {{fa-icon "tint" class="flood-zone-icon"}} A 
               {{/if}}
               {{#if project.dcp_femafloodzoneshadedx}}
-                {{fa-icon "tint" class="flood-zone-icon"}} Shaded X
+                {{fa-icon "tint" class="flood-zone-icon"}} Shaded X 
               {{/if}}
               {{#if project.dcp_femafloodzonecoastala}}
-                {{fa-icon "tint" class="flood-zone-icon"}} Coastal A
+                {{fa-icon "tint" class="flood-zone-icon"}} Coastal A 
               {{/if}}
               {{#if project.dcp_femafloodzonev}}
-                {{fa-icon "tint" class="flood-zone-icon"}} V
+                {{fa-icon "tint" class="flood-zone-icon"}} V 
               {{/if}}
             </p>
           </div>

@@ -62,7 +62,7 @@
           </p>
           {{#if model.dcp_ulurp_nonulurp}}
             <p class="cell small-6 text-right">
-              <span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}</span>
+              <span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}<sup>{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. A project is designated ULURP if a minimum of one action (e.g. a Zoning Map Amendment) within the application process is designated ULURP. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}</sup></span>
             </p>
           {{/if}}
         </div>
@@ -83,9 +83,9 @@
                       <span class="medium-gray">|</span>
                       {{#if action.dcp_ulurpnumber}}
                         {{#if (eq action.statuscode "Approved")}}
-                          <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">{{action.dcp_ulurpnumber}}</a>
+                          <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">{{action.dcp_ulurpnumber}}</a><sup class="dark-gray">{{icon-tooltip tip='ULURP Number (click on this number to access the City Planning Commision Report).'}}</sup>
                         {{else}}
-                          {{action.dcp_ulurpnumber}}
+                          {{action.dcp_ulurpnumber}}<sup class="dark-gray">{{icon-tooltip tip='ULURP Number'}}</sup>
                         {{/if}}
                       {{else}}
                         No ULURP Number
@@ -183,7 +183,7 @@
 
           {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
             <p class="text-small">
-              <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review'}}</sup>:</strong>
+              <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
               {{#if model.dcp_ceqrtype}}<span class="label secondary">{{model.dcp_ceqrtype}}</span>{{/if~}}
               {{#if model.dcp_ceqrnumber}}<span class="label secondary">{{model.dcp_ceqrnumber}}</span>{{/if~}}
             </p>
