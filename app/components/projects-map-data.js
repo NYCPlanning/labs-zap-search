@@ -3,8 +3,6 @@ import mapboxgl from 'mapbox-gl';
 import { action } from '@ember-decorators/object';
 import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
-import { restartableTask } from 'ember-concurrency-decorators';
-import carto from 'cartobox-promises-utility/utils/carto';
 
 export default class ProjectsMapComponent extends Component {
   @service router;
@@ -33,30 +31,22 @@ export default class ProjectsMapComponent extends Component {
    closeOnClick: false,
  })
 
-  @restartableTask
-  projectCentroidsSource = function*() {
-    const sourceLayers = [{
-      id: 'project-centroids',
-      sql: 'SELECT * FROM project_centroids',
-    }];
-
-    const tileURL = yield carto.getVectorTileTemplate(sourceLayers);
-
-    return {
-      type: 'vector',
-      tiles: [tileURL],
-    };
-  }
 
   didUpdateAttrs() {
     // https://github.com/mapbox/mapbox-gl-js/issues/3709#issuecomment-265346656
     const map = this.get('map');
-    var newStyle = map.getStyle();
-    newStyle.sources['project-centroids'].tiles = this.get('meta.tiles');
-    map.setStyle(newStyle);
 
-    map.fitBounds(this.get('meta.bounds'), {padding: 20});
+    if (map) {
+      const newStyle = map.getStyle();
+      const metaTiles = this.get('meta.tiles');
+      const bounds = this.get('meta.bounds');
 
+      if (metaTiles) {
+        newStyle.sources['project-centroids'].tiles = this.get('meta.tiles');
+        map.setStyle(newStyle);
+        map.fitBounds(bounds, { padding: 20 });
+      }
+    }
   }
 
   @action
@@ -64,27 +54,31 @@ export default class ProjectsMapComponent extends Component {
     window.map = map;
     this.set('map', map)
 
-    this.map.addSource('project-centroids',{
-      type: 'vector',
-      tiles: this.get('meta.tiles'),
-    });
+    const tiles = this.get('meta.tiles');
+    const bounds = this.get('meta.bounds');
 
-    this.map.addLayer(this.get('projectCentroidsLayer'))
-    map.fitBounds(this.get('meta.bounds'), {padding: 20});
+    if (tiles) {
+      this.map.addSource('project-centroids',{
+        type: 'vector',
+        tiles,
+      });
+
+      this.map.addLayer(this.get('projectCentroidsLayer'));
+      map.fitBounds(bounds, { padding: 20 });
+    }
   }
 
   @action
   handleMapMove(e) {
-    // show a pointer cursor if there is a feature under the mouse pointer
     const map = this.get('map');
-    const Feature = map.queryRenderedFeatures(
+    const [feature] = map.queryRenderedFeatures(
       e.point,
-      { layers: ['project-centroids-circle']}
-    )[0];
+      { layers: ['project-centroids-circle'] }
+    );
 
 
-    if (Feature) {
-      this.set('highlightedFeature', Feature);
+    if (feature) {
+      this.set('highlightedFeature', feature);
 
       this.set('tooltipPoint', {
         x: e.point.x + 20,
@@ -104,13 +98,13 @@ export default class ProjectsMapComponent extends Component {
   @action
   handleMapClick(e) {
     const map = this.get('map');
-    const Feature = map.queryRenderedFeatures(
+    const [feature] = map.queryRenderedFeatures(
       e.point,
-      { layers: ['project-centroids-circle']}
-    )[0];
+      { layers: ['project-centroids-circle'] }
+    );
 
-    if (Feature) {
-      const projectid = Feature.properties.projectid;
+    if (feature) {
+      const projectid = feature.properties.projectid;
       this.get('router').transitionTo('show-project', projectid);
     }
   }

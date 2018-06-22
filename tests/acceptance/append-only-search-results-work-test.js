@@ -10,7 +10,6 @@ module('Acceptance | append only search results work', function(hooks) {
   test('visiting /projects?community-districts=asdf', async function(assert) {
     server.createList('project', 10);
     await visit('/projects?community-districts=asdf');
-
     assert.equal(currentURL(), '/projects?community-districts=asdf');
   });
 
