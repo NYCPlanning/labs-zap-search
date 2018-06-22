@@ -23,8 +23,8 @@ module('Integration | Component | project-milestone', function(hooks) {
     assert.equal(this.element.textContent.trim(),
     `Test Milestone
     
-      4 months ago
-          February 28, 2018 Planned`
+        4 months ago
+            February 28, 2018 Planned`
     );
   });
 });

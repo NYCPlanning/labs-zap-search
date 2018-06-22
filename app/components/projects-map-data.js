@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import mapboxgl from 'mapbox-gl';
 import { action } from '@ember-decorators/object';
 import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
@@ -22,7 +23,17 @@ export default class ProjectsMapComponent extends Component {
     },
   }
 
+  tooltipPoint = { x: 0, y: 0 }
+
+  highlightedFeature = null
+
+  popup = new mapboxgl.Popup({
+   closeOnClick: false,
+ })
+
+
   didUpdateAttrs() {
+    // https://github.com/mapbox/mapbox-gl-js/issues/3709#issuecomment-265346656
     const map = this.get('map');
 
     if (map) {
@@ -41,7 +52,8 @@ export default class ProjectsMapComponent extends Component {
   @action
   handleMapLoad(map) {
     window.map = map;
-    this.set('map', map);
+    this.set('map', map)
+
     const tiles = this.get('meta.tiles');
     const bounds = this.get('meta.bounds');
 
@@ -64,10 +76,22 @@ export default class ProjectsMapComponent extends Component {
       { layers: ['project-centroids-circle'] }
     );
 
+
     if (feature) {
+      this.set('highlightedFeature', feature);
+
+      this.set('tooltipPoint', {
+        x: e.point.x + 20,
+        y: e.point.y + 20,
+      });
+
       map.getCanvas().style.cursor = 'pointer';
+
     } else {
+      this.set('highlightedFeature', null);
+
       map.getCanvas().style.cursor = 'default';
+
     }
   }
 

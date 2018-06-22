@@ -12,3 +12,9 @@
     {{map.on 'mousemove' (action 'handleMapMove')}}
   {{/if}}
 {{/mapbox-gl}}
+
+{{#if highlightedFeature}}
+  <div class='map-tooltip' style="top: {{tooltipPoint.y}}px;left: {{tooltipPoint.x}}px;">
+    {{highlightedFeature.properties.dcp_projectname}}
+  </div>
+{{/if}}

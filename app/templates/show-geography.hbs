@@ -1,4 +1,5 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
+
   {{projects-map-data meta=meta}}
 
   {{#project-filters as |filters-data|}}
@@ -23,7 +24,7 @@
         <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Approved'}}>
           <a>
             {{filter-checkbox
-              value='Approved'
+              value='Complete'
               currentValues=dcp_publicstatus}}
           </a>
         </li>
@@ -220,7 +221,14 @@
         <li class="grid-x grid-padding-small projects-list-result">
           <div class="cell shrink">
             <a class="button gray text-orange">
-              {{fa-icon 'map-marker-alt' size='2x'}}
+              <span class="fa-layers fa-fw" style="font-size: 1.5rem;">
+                {{#if project.has_centroid}}
+                    {{fa-icon 'map-marker-alt' fixedWidth=true}}
+                {{else}}
+                    {{fa-icon 'map-marker-alt' fixedWidth=true class='medium-gray'}}
+                    {{fa-icon 'ban' fixedWidth=true class='lu-red' transform='grow-8'}}
+                {{/if}}
+              </span>
             </a>
           </div>
           <div class="cell auto">

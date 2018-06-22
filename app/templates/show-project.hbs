@@ -124,7 +124,7 @@
 
       </div>
       <div class="cell large-5">
-        {{#if model.bblFeatureCollectionSource}}
+        {{#if model.bblFeatureCollection}}
           {{#mapbox-gl
               id='project-map'
               initOptions=(hash
@@ -142,8 +142,8 @@
             {{/map.source}}
           {{/mapbox-gl}}
         {{else}}
-          <div id='project-map' style="border: 1px solid darkgray;">
-            <h2>No Map Available</h2>
+          <div id='project-map' class="align-middle grid-x" style="border: 1px solid darkgray; background:#EEE; color:gray;">
+            <h4 class="cell text-center">No Map Available</h4>
           </div>
         {{/if}}
 
