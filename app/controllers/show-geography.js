@@ -21,9 +21,10 @@ export const projectParams = new QueryParams({
     },
   },
   dcp_publicstatus: {
-    defaultValue: ['Approved', 'Certified', 'Filed', 'Withdrawn'].sort(),
+    defaultValue: ['Filed', 'Certified', 'Complete'].sort(),
     refresh: true,
     serialize(value) {
+      value = value.filter(d => d !== '')
       return value.toString();
     },
     deserialize(value = '') {
@@ -123,7 +124,6 @@ export default class ShowGeographyController extends ParachuteController {
   @action
   mutateArray(key, value) {
     const values = this.get(key);
-
     this.resetPagination();
 
     if (values.includes(value)) {
@@ -131,6 +131,8 @@ export default class ShowGeographyController extends ParachuteController {
     } else {
       values.pushObject(value);
     }
+
+    this.set(key, values)
   }
 
   @action

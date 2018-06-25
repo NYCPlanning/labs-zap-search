@@ -14,7 +14,7 @@
         <h6 class="filter-name" {{action (toggle 'status' this)}}>Project Status</h6>
       </div>
       <ul class="menu vertical medium-horizontal status-checkbox">
-        {{#each (array 'Filed' 'Approved' 'Certified' 'Withdrawn' 'Unknown') as |type|}}
+        {{#each (array 'Filed' 'Certified' 'Complete' 'Unknown') as |type|}}
           <li onclick={{action 'mutateArray' 'dcp_publicstatus' type}}>
             <a>
               {{filter-checkbox
