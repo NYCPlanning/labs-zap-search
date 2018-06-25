@@ -11,20 +11,13 @@
             <span class="show-for-sr">Toggle Layer Group</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>Project Status</h6>
+        <h6 class="filter-name" {{action 'toggle'}}>Project Stage</h6>
       </div>
       <ul class="menu vertical medium-horizontal status-checkbox">
         <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Filed'}}>
           <a>
             {{filter-checkbox
               value='Filed'
-              currentValues=dcp_publicstatus}}
-          </a>
-        </li>
-        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Approved'}}>
-          <a>
-            {{filter-checkbox
-              value='Approved'
               currentValues=dcp_publicstatus}}
           </a>
         </li>
@@ -35,10 +28,10 @@
               currentValues=dcp_publicstatus}}
           </a>
         </li>
-        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Withdrawn'}}>
+        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Complete'}}>
           <a>
             {{filter-checkbox
-              value='Withdrawn'
+              value='Complete'
               currentValues=dcp_publicstatus}}
           </a>
         </li>
