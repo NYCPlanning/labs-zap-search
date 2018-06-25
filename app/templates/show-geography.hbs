@@ -258,13 +258,15 @@
       {{/each}}
     </ul>
 
-    <div
-      class="button projects-load-more-button expanded gray text-orange"
-      onclick={{action (mut page) (add page 1)}}
-      disabled={{noMoreRecords}}
-    >
-      Load More
-    </div>
+    <p class="text-center">
+      <span
+        class="button projects-load-more-button gray text-orange"
+        onclick={{action (mut page) (add page 1)}}
+        disabled={{noMoreRecords}}
+      >
+        &nbsp;LOAD MORE&nbsp;
+      </span>
+    </p>
 
   </div>
 
