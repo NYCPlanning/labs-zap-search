@@ -12,7 +12,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/');
     await click('.status-checkbox li:first-child a');
 
-    assert.equal(currentURL(), '/projects?dcp_publicstatus=Approved%2CCertified%2CWithdrawn');
+    assert.equal(currentURL(), '/projects?dcp_publicstatus=Certified%2CComplete');
   });
 
   test('User clicks first CEQR Status and it filters', async function(assert) {
@@ -54,7 +54,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/projects?page=2');
     await click('.status-checkbox li:first-child a');
 
-    assert.equal(currentURL(), '/projects?dcp_publicstatus=Approved%2CCertified%2CWithdrawn');
+    assert.equal(currentURL(), '/projects?dcp_publicstatus=Certified%2CComplete');
   });
 
   test('Page reloads (pagination reset) when click new filter', async function(assert) {
