@@ -97,6 +97,12 @@ export const projectParams = new QueryParams({
 const ParachuteController = Controller.extend(projectParams.Mixin);
 
 export default class ShowGeographyController extends ParachuteController {
+  queryParamsDidChange({ shouldRefresh }) {
+    if (shouldRefresh) {
+      this.send('refreshModel');
+    }
+  }
+
   // project filters
   @computed('meta.total', 'page')
   get noMoreRecords() {

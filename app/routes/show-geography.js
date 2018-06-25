@@ -1,54 +1,6 @@
 import Route from '@ember/routing/route';
 
 export default class ShowGeographyRoute extends Route {
-  queryParams = {
-    page: {
-      refreshModel: true,
-    },
-    dcp_publicstatus: {
-      refreshModel: true,
-    },
-    dcp_ceqrtype: {
-      refreshModel: true,
-    },
-    dcp_ulurp_nonulurp: {
-      refreshModel: true,
-    },
-    'community-districts': {
-      refreshModel: true,
-    },
-    dcp_femafloodzonea: {
-      refreshModel: true,
-    },
-    dcp_femafloodzonecoastala: {
-      refreshModel: true,
-    },
-    dcp_femafloodzoneshadedx: {
-      refreshModel: true,
-    },
-    dcp_femafloodzonev: {
-      refreshModel: true,
-    },
-    status: {
-      refreshModel: true,
-    },
-    cds: {
-      refreshModel: true,
-    },
-    ceqr: {
-      refreshModel: true,
-    },
-    fema: {
-      refreshModel: true,
-    },
-    ulurp: {
-      refreshModel: true,
-    },
-    action_status: {
-      refreshModel: true,
-    },
-  };
-
   async model(params) {
     const {
       // pagination
