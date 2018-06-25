@@ -88,7 +88,7 @@ export default class ShowGeographyController extends ParachuteController {
 
   @action
   mutateArray(key, value) {
-    let values = this.get(key);
+    const values = this.get(key);
     this.resetPagination();
 
     if (values.includes(value)) {
