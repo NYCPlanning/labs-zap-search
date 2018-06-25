@@ -29,10 +29,17 @@ export default class ShowGeographyRoute extends Route {
     dcp_femafloodzonev: {
       refreshModel: true,
     },
+    status: {
+      refreshModel: true,
+    }
   };
 
   async model(params) {
     const {
+      // pagination
+      page = 1,
+
+      // filter values
       'community-districts': communityDistricts = [],
       dcp_publicstatus,
       dcp_ceqrtype,
@@ -41,24 +48,35 @@ export default class ShowGeographyRoute extends Route {
       dcp_femafloodzonecoastala,
       dcp_femafloodzoneshadedx,
       dcp_femafloodzonev,
-      page = 1,
 
+      // toggle filters
+      status = true,
+      cds = false,
+      ceqr = false,
+      fema = false,
+      ulurp = false,
+      // action_status = false,
     } = params;
 
     const queryOptions = {
       'community-districts': communityDistricts,
-      dcp_publicstatus,
       dcp_ceqrtype,
       dcp_ulurp_nonulurp,
       page,
     }
 
-    // special handling for FEMA flood zones
     // only add to the api call if set to true
-    if (dcp_femafloodzonea) queryOptions.dcp_femafloodzonea = true;
-    if (dcp_femafloodzonecoastala) queryOptions.dcp_femafloodzonecoastala = true;
-    if (dcp_femafloodzoneshadedx) queryOptions.dcp_femafloodzoneshadedx = true;
-    if (dcp_femafloodzonev) queryOptions.dcp_femafloodzonev = true;
+    if (fema) {
+      if (dcp_femafloodzonea) queryOptions.dcp_femafloodzonea = true;
+      if (dcp_femafloodzonecoastala) queryOptions.dcp_femafloodzonecoastala = true;
+      if (dcp_femafloodzoneshadedx) queryOptions.dcp_femafloodzoneshadedx = true;
+      if (dcp_femafloodzonev) queryOptions.dcp_femafloodzonev = true;
+    }
+    if (status) queryOptions.dcp_publicstatus = dcp_publicstatus;
+    if (cds) queryOptions.communityDistricts = communityDistricts;
+    if (ceqr) queryOptions.dcp_ceqrtype = dcp_ceqrtype;
+    if (ulurp) queryOptions.dcp_ulurp_nonulurp = dcp_ulurp_nonulurp;
+    // if (action_status) queryOptions
 
     const projects = await this.store.query('project', queryOptions);
 

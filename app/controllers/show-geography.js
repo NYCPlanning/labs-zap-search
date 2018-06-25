@@ -3,10 +3,13 @@ import { action, computed } from '@ember-decorators/object';
 import QueryParams from 'ember-parachute';
 
 export const projectParams = new QueryParams({
+  // pagination
   page: {
     defaultValue: 1,
     refresh: true,
   },
+
+  // filter values
   'community-districts': {
     defaultValue: [],
     refresh: true,
@@ -60,6 +63,32 @@ export const projectParams = new QueryParams({
     refresh: true,
   },
   dcp_femafloodzonev: {
+    defaultValue: false,
+    refresh: true,
+  },
+
+  // params for whether filters are applied or not
+  status: {
+    defaultValue: true,
+    refresh: true,
+  },
+  cds: {
+    defaultValue: true,
+    refresh: true,
+  },
+  ceqr: {
+    defaultValue: false,
+    refresh: true,
+  },
+  fema: {
+    defaultValue: false,
+    refresh: true,
+  },
+  ulurp: {
+    defaultValue: false,
+    refresh: true,
+  },
+  action_status: {
     defaultValue: false,
     refresh: true,
   },

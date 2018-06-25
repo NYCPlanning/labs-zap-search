@@ -40,26 +40,4 @@ module('Acceptance | user searches address', function(hooks) {
 
     assert.equal(currentURL(), '/');
   });
-
 });
-
-// function () {
-//   return 'something';
-// }
-
-// // returns a promise
-
-// function() {
-//   return fetch('http://example.com/movies.json')
-//   .then(function(response) {
-//     return response.json();
-//   })
-//   .then(function(myJson) {
-//     console.log(myJson);
-//   });
-// }
-
-// async function () {
-//   const response = await fetch('http://example.com/movies.json');
-//   return response.json();
-// }
