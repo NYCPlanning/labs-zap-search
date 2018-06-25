@@ -62,6 +62,6 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/projects?page=2');
     await click('.status-checkbox li:first-child a');
 
-    assert.equal(currentURL(), '/projects?dcp_publicstatus=Approved%2CCertified%2CWithdrawn');
+    assert.equal(currentURL(), '/projects?dcp_publicstatus=Certified%2CComplete');
   });
 });
