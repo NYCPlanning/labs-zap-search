@@ -31,7 +31,22 @@ export default class ShowGeographyRoute extends Route {
     },
     status: {
       refreshModel: true,
-    }
+    },
+    cds: {
+      refreshModel: true,
+    },
+    ceqr: {
+      refreshModel: true,
+    },
+    fema: {
+      refreshModel: true,
+    },
+    ulurp: {
+      refreshModel: true,
+    },
+    action_status: {
+      refreshModel: true,
+    },
   };
 
   async model(params) {
@@ -59,9 +74,6 @@ export default class ShowGeographyRoute extends Route {
     } = params;
 
     const queryOptions = {
-      'community-districts': communityDistricts,
-      dcp_ceqrtype,
-      dcp_ulurp_nonulurp,
       page,
     }
 
@@ -72,8 +84,9 @@ export default class ShowGeographyRoute extends Route {
       if (dcp_femafloodzoneshadedx) queryOptions.dcp_femafloodzoneshadedx = true;
       if (dcp_femafloodzonev) queryOptions.dcp_femafloodzonev = true;
     }
+
     if (status) queryOptions.dcp_publicstatus = dcp_publicstatus;
-    if (cds) queryOptions.communityDistricts = communityDistricts;
+    if (cds) queryOptions['community-districts'] = communityDistricts;
     if (ceqr) queryOptions.dcp_ceqrtype = dcp_ceqrtype;
     if (ulurp) queryOptions.dcp_ulurp_nonulurp = dcp_ulurp_nonulurp;
     // if (action_status) queryOptions
