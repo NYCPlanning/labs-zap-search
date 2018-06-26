@@ -13,7 +13,7 @@ export function lookupMilestoneLabel([dcp_name]) {
     case 'Community Board Referral':
       return 'Community Board Review';
     case 'CPC Public Meeting - Public Hearing':
-      return 'City Planning Commission Public Hearing';
+      return 'City Planning Commission Review / Public Hearing';
     case 'CPC Public Meeting - Vote':
       return 'City Planning Commission Vote';
     case 'DEIS Public Hearing Held':

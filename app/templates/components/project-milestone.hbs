@@ -22,7 +22,11 @@
     {{log milestone}}
     <h5 class="no-margin">{{lookup-milestone-label milestone.milestonename}}</h5>
     <div class="text-small dark-gray">
-      {{#unless noDates}}
+      {{#each milestoneDisplayDates as |displayDate|}}
+        {{displayDate.actual}}
+        {{displayDate.date}}
+      {{/each}}
+      {{!-- {{#unless noDates}}
         <small>{{timeOffset}}</small>
         {{#if isPlanned}}
           {{#if startAndEndAreSameDay}}
@@ -39,7 +43,7 @@
             <div>{{moment-format milestone.dcp_actualenddate "MMMM D, YYYY" }} <small>End</small></div>
           {{/if}}
         {{/if}}
-      {{/unless}}
+      {{/unless}} --}}
     </div>
   </div>
 </li>
