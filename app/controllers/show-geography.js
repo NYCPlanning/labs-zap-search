@@ -69,7 +69,7 @@ export const projectParams = new QueryParams({
   },
 
   // params for whether filters are applied or not
-  status: {
+  stage: {
     defaultValue: true,
     refresh: true,
   },
