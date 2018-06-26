@@ -58,6 +58,33 @@
     <div class="filter">
       <div class="filter-header">
         <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if project-action 'checked'}}>
+          <label {{action (toggle 'project-action' this)}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Action Codes</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action (toggle 'project-action' this)}}>Action Codes</h6>
+      </div>
+      <div class="medium-horizontal">
+        {{#power-select-multiple
+          options=filters-data.actions
+          selected=(contains-keys
+            filters-data.actions
+            project-actions
+            key='code')
+          placeholder="Select some actions..."
+          searchField='searchField'
+          onchange=(action 'replaceProperty' 'project-actions')
+          as |action|
+        }}
+          {{action.code}} ({{action.description}})
+        {{/power-select-multiple}}
+      </div>
+    </div>
+
+    <div class="filter">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
           <input class="switch-input" type="checkbox" checked={{if ceqr 'checked'}}>
           <label {{action (toggle 'ceqr' this)}} class="switch-paddle">
             <span class="show-for-sr">Toggle Layer Group</span>

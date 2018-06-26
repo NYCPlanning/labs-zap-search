@@ -20,6 +20,17 @@ export const projectParams = new QueryParams({
       return value.split(',');
     },
   },
+  // filter values
+  'project-actions': {
+    defaultValue: [],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',');
+    },
+  },
   dcp_publicstatus: {
     defaultValue: ['Filed', 'Certified', 'Complete'].sort(),
     refresh: true,
@@ -86,6 +97,10 @@ export const projectParams = new QueryParams({
     refresh: true,
   },
   ulurp: {
+    defaultValue: false,
+    refresh: true,
+  },
+  'project-action': {
     defaultValue: false,
     refresh: true,
   },
