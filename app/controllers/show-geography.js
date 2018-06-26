@@ -1,140 +1,21 @@
-import Controller from '@ember/controller';
 import { action, computed } from '@ember-decorators/object';
-import QueryParams from 'ember-parachute';
 import { restartableTask } from 'ember-concurrency-decorators';
+import GeographyParachuteController from './query-parameters/show-geography';
 
-export const projectParams = new QueryParams({
-  // pagination
-  page: {
-    defaultValue: 1,
-    refresh: true,
-  },
-
-  // filter values
-  'community-districts': {
-    defaultValue: [],
-    refresh: true,
-    serialize(value) {
-      return value.toString();
-    },
-    deserialize(value = '') {
-      return value.split(',');
-    },
-  },
-  'action-types': {
-    defaultValue: [],
-    refresh: true,
-    serialize(value) {
-      return value.toString();
-    },
-    deserialize(value = '') {
-      return value.split(',');
-    },
-  },
-  'action-reasons': {
-    defaultValue: [],
-    refresh: true,
-    serialize(value) {
-      return value.toString();
-    },
-    deserialize(value = '') {
-      return value.split(',');
-    },
-  },
-  dcp_publicstatus: {
-    defaultValue: ['Filed', 'Certified', 'Complete'].sort(),
-    refresh: true,
-    serialize(value) {
-      value = value.filter(d => d !== '')
-      return value.toString();
-    },
-    deserialize(value = '') {
-      return value.split(',').sort();
-    },
-  },
-  dcp_ceqrtype: {
-    defaultValue: ['Type I', 'Type II', 'Unlisted', 'Unknown'].sort(),
-    refresh: true,
-    serialize(value) {
-      return value.toString();
-    },
-    deserialize(value = '') {
-      return value.split(',').sort();
-    },
-  },
-  dcp_ulurp_nonulurp: {
-    defaultValue: ['ULURP', 'Non-ULURP'].sort(),
-    refresh: true,
-    serialize(value) {
-      return value.toString();
-    },
-    deserialize(value = '') {
-      return value.split(',').sort();
-    },
-  },
-  dcp_femafloodzonea: {
-    defaultValue: false,
-    refresh: true,
-  },
-  dcp_femafloodzonecoastala: {
-    defaultValue: false,
-    refresh: true,
-  },
-  dcp_femafloodzoneshadedx: {
-    defaultValue: false,
-    refresh: true,
-  },
-  dcp_femafloodzonev: {
-    defaultValue: false,
-    refresh: true,
-  },
-
-  // params for whether filters are applied or not
-  stage: {
-    defaultValue: true,
-    refresh: true,
-  },
-  cds: {
-    defaultValue: true,
-    refresh: true,
-  },
-  ceqr: {
-    defaultValue: false,
-    refresh: true,
-  },
-  fema: {
-    defaultValue: false,
-    refresh: true,
-  },
-  ulurp: {
-    defaultValue: false,
-    refresh: true,
-  },
-  'action-type': {
-    defaultValue: false,
-    refresh: true,
-  },
-  'action-reason': {
-    defaultValue: false,
-    refresh: true,
-  },
-});
-
-const ParachuteController = Controller.extend(projectParams.Mixin);
-
-export default class ShowGeographyController extends ParachuteController {
-  setup({ queryParams }) {
-    this.get('fetchData').perform(queryParams);
+export default class ShowGeographyController extends GeographyParachuteController {
+  setup() {
+    this.get('fetchData').perform();
   }
 
-  queryParamsDidChange({ shouldRefresh, queryParams }) {
+  queryParamsDidChange({ shouldRefresh }) {
     if (shouldRefresh) {
-      this.get('fetchData').perform(queryParams)
+      this.get('fetchData').perform();
     }
   }
 
   @restartableTask
-  fetchData = function*(params) {
+  fetchData = function*() {
+    const params = this.get('allQueryParams');
     const {
       // pagination
       page = 1,
