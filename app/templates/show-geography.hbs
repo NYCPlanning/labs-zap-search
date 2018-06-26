@@ -1,5 +1,4 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
-
   {{projects-map-data meta=meta}}
 
   <div class="project-filters">
@@ -209,16 +208,22 @@
         {{/each}}
       </ul>
     </div>
+    <div class="filter">
+      <p class="text-center">
+        <span
+          class="button projects-reset-filters-button gray text-orange"
+          onClick={{action 'resetAll'}}>
+          RESET FILTERS
+        </span>
+      </p>
+    </div>
   </div>
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
-
   <div class="results">
-
     <h3 class="header-large">{{meta.total}} Results</h3>
-
     <ul class="no-bullet">
-      {{#each model as |project|}}
+      {{#each projects as |project|}}
         <li class="grid-x grid-padding-small projects-list-result">
           <div class="cell shrink">
             <a class="button gray text-orange">

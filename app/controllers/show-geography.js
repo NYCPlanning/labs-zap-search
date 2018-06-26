@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { action, computed } from '@ember-decorators/object';
 import QueryParams from 'ember-parachute';
+import { restartableTask } from 'ember-concurrency-decorators';
 
 export const projectParams = new QueryParams({
   // pagination
@@ -122,13 +123,73 @@ export const projectParams = new QueryParams({
 const ParachuteController = Controller.extend(projectParams.Mixin);
 
 export default class ShowGeographyController extends ParachuteController {
-  queryParamsDidChange({ shouldRefresh }) {
+  setup({ queryParams }) {
+    this.get('fetchData').perform(queryParams);
+  }
+
+  queryParamsDidChange({ shouldRefresh, queryParams }) {
     if (shouldRefresh) {
-      this.send('refreshModel');
+      this.get('fetchData').perform(queryParams)
     }
   }
 
-  // project filters
+  @restartableTask
+  fetchData = function*(params) {
+    const {
+      // pagination
+      page = 1,
+
+      // filter values
+      'community-districts': communityDistricts = [],
+      'action-types': actionTypes = [],
+      'action-reasons': actionReasons = [],
+      dcp_publicstatus,
+      dcp_ceqrtype,
+      dcp_ulurp_nonulurp,
+      dcp_femafloodzonea,
+      dcp_femafloodzonecoastala,
+      dcp_femafloodzoneshadedx,
+      dcp_femafloodzonev,
+
+      // toggle filters
+      status = true,
+      cds = false,
+      ceqr = false,
+      fema = false,
+      ulurp = false,
+      'action-type': actionType = false,
+      'action-reason': actionReason = false,
+    } = params;
+
+    const queryOptions = {
+      page,
+    }
+
+    // only add to the api call if set to true
+    if (fema) {
+      if (dcp_femafloodzonea) queryOptions.dcp_femafloodzonea = true;
+      if (dcp_femafloodzonecoastala) queryOptions.dcp_femafloodzonecoastala = true;
+      if (dcp_femafloodzoneshadedx) queryOptions.dcp_femafloodzoneshadedx = true;
+      if (dcp_femafloodzonev) queryOptions.dcp_femafloodzonev = true;
+    }
+
+    if (actionType) queryOptions['action-types'] = actionTypes;
+    if (actionReason) queryOptions['action-reasons'] = actionReasons;
+    if (status) queryOptions.dcp_publicstatus = dcp_publicstatus;
+    if (cds) queryOptions['community-districts'] = communityDistricts;
+    if (ceqr) queryOptions.dcp_ceqrtype = dcp_ceqrtype;
+    if (ulurp) queryOptions.dcp_ulurp_nonulurp = dcp_ulurp_nonulurp;
+
+    // fetch any new projects
+    const projects = yield this.store.query('project', queryOptions);
+    const meta = projects.get('meta');
+
+    // include the entire, un-paginated response
+    const allProjects = this.store.peekAll('project');
+    this.set('projects', allProjects);
+    this.set('meta', meta);
+  }
+
   @computed('meta.{total,pageTotal}', 'page')
   get noMoreRecords() {
     const pageTotal = this.get('meta.pageTotal');
@@ -170,5 +231,10 @@ export default class ShowGeographyController extends ParachuteController {
     this.resetPagination();
 
     this.set(key, !this.get(key));
+  }
+
+  @action
+  resetAll() {
+    this.resetQueryParams();
   }
 }
