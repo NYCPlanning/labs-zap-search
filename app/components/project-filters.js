@@ -65,10 +65,10 @@ export const CdLookup = [
   ['SI95', '95', 'Staten Island'],
 ].map(([code, num, boro]) => ({ code, num, boro, searchField: `${boro} ${num}` }));
 
-export const actionsOptions = actions.map(([code, description]) => ({ code, description, searchField: `${code}: ${description}` }));
+export const actionTypes = actions.map(([code, description]) => ({ code, description, searchField: `${code}: ${description}` }));
 
 @classNames('project-filters')
 export default class ProjectFiltersComponent extends Component {
   communityDistrictOptions = CdLookup;
-  actionsOptions = actionsOptions;
+  actionTypes = actionTypes;
 }

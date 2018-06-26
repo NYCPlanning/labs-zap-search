@@ -21,7 +21,7 @@ export const projectParams = new QueryParams({
     },
   },
   // filter values
-  'project-actions': {
+  'action-types': {
     defaultValue: [],
     refresh: true,
     serialize(value) {
@@ -100,7 +100,7 @@ export const projectParams = new QueryParams({
     defaultValue: false,
     refresh: true,
   },
-  'project-action': {
+  'action-type': {
     defaultValue: false,
     refresh: true,
   },

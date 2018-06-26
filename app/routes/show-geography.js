@@ -8,6 +8,7 @@ export default class ShowGeographyRoute extends Route {
 
       // filter values
       'community-districts': communityDistricts = [],
+      'action-types': actionTypes = [],
       dcp_publicstatus,
       dcp_ceqrtype,
       dcp_ulurp_nonulurp,
@@ -22,6 +23,7 @@ export default class ShowGeographyRoute extends Route {
       ceqr = false,
       fema = false,
       ulurp = false,
+      'action-type': actionType = false,
       // action_status = false,
     } = params;
 
@@ -37,6 +39,7 @@ export default class ShowGeographyRoute extends Route {
       if (dcp_femafloodzonev) queryOptions.dcp_femafloodzonev = true;
     }
 
+    if (actionType) queryOptions['action-types'] = actionTypes;
     if (status) queryOptions.dcp_publicstatus = dcp_publicstatus;
     if (cds) queryOptions['community-districts'] = communityDistricts;
     if (ceqr) queryOptions.dcp_ceqrtype = dcp_ceqrtype;

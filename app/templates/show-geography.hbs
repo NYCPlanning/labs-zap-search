@@ -58,23 +58,23 @@
     <div class="filter">
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if project-action 'checked'}}>
-          <label {{action (toggle 'project-action' this)}} class="switch-paddle">
+          <input class="switch-input" type="checkbox" checked={{if action-type 'checked'}}>
+          <label {{action (toggle 'action-type' this)}} class="switch-paddle">
             <span class="show-for-sr">Toggle Action Codes</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action (toggle 'project-action' this)}}>Action Codes</h6>
+        <h6 class="filter-name" {{action (toggle 'action-type' this)}}>Action Codes</h6>
       </div>
       <div class="medium-horizontal">
         {{#power-select-multiple
-          options=filters-data.actions
+          options=filters-data.action-types
           selected=(contains-keys
-            filters-data.actions
-            project-actions
+            filters-data.action-types
+            action-types
             key='code')
           placeholder="Select some actions..."
           searchField='searchField'
-          onchange=(action 'replaceProperty' 'project-actions')
+          onchange=(action 'replaceProperty' 'action-types')
           as |action|
         }}
           {{action.code}} ({{action.description}})
