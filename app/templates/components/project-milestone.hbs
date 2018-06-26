@@ -19,7 +19,8 @@
     {{/if}}
   </div>
   <div class="cell auto">
-    <h5 class="no-margin">{{milestone.milestonename}}</h5>
+    {{log milestone}}
+    <h5 class="no-margin">{{lookup-milestone-label milestone.milestonename}}</h5>
     <div class="text-small dark-gray">
       {{#unless noDates}}
         <small>{{timeOffset}}</small>
