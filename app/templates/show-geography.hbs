@@ -232,27 +232,22 @@
             </a>
           </div>
           <div class="cell auto">
-            <h3 class="no-margin">
+            <h3 class="header-medium no-margin">
               {{#link-to 'show-project' project.id}}
                 {{project.dcp_projectname}}
               {{/link-to}}
             </h3>
-            <p class ="text-small dark-gray">
-              {{if project.dcp_publicstatus project.dcp_publicstatus "Unknown Status"}}
-              <span class="medium-gray">|</span>
-              {{project.dcp_borough}}
-              <span class="medium-gray">|</span>
-              {{project.dcp_communitydistricts}}
-              <span class="medium-gray">|</span>
-              {{project.dcp_ulurp_nonulurp}}
-              <span class="medium-gray">|</span>
-              {{#each project.ulurpnumbers as |ulurpnumber index|}}
-              {{if index ','}}
-              {{ulurpnumber}}
-              {{/each}}
-            </p>
-            <p class ="text-small dark-grey">
+            <p class="no-margin text-small dark-grey">
               {{substring-projectbrief project.dcp_projectbrief}}
+            </p>
+            <p class="no-margin text-tiny dark-gray">
+              <span class="label light-gray">{{if project.dcp_publicstatus project.dcp_publicstatus "Unknown Status"}}</span>
+              {{#if project.dcp_borough}}<span class="label light-gray">{{project.dcp_borough}}</span>{{/if}}
+              {{#if project.dcp_communitydistricts}}<span class="label light-gray">{{project.dcp_communitydistricts}}</span>{{/if}}
+              {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray">{{project.dcp_ulurp_nonulurp}}</span>{{/if}}
+              {{#each project.ulurpnumbers as |ulurpnumber|}}
+                <span class="label light-gray">{{ulurpnumber}}</span>
+              {{/each}}
             </p>
           </div>
         </li>
