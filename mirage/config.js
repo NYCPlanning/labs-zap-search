@@ -16,7 +16,18 @@ export default function() {
     let offset = offsetParam - 1;
     let begin = 0 + (30 * offset);
 
-    return schema.projects.all().slice(begin, begin + 30);
+    const json = this.serialize(
+      schema.projects.all().slice(begin, begin + 30)
+    );
+
+    json.meta = {
+      total: schema.projects.all().length,
+      pageTotal: 30,
+      tiles: ['http://localhost:4200/test-data/tiles/96.mvt'],
+      bounds: [[-73.9916082509177, 40.6824244259472],[-73.8847869770557, 40.8933091086328]],
+    };
+
+    return json;
   });
 
   this.get('/projects/:id', function(schema, request) {

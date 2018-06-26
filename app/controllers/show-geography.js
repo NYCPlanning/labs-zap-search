@@ -105,13 +105,13 @@ export default class ShowGeographyController extends ParachuteController {
   }
 
   // project filters
-  @computed('meta.total', 'page')
+  @computed('meta.{total,pageTotal}', 'page')
   get noMoreRecords() {
     const pageTotal = this.get('meta.pageTotal');
     const total = this.get('meta.total');
     const page = this.get('page');
 
-    return (pageTotal < 30) || ((page * 30) === total);
+    return (pageTotal < 30) || ((page * 30) >= total);
   }
 
   @action
