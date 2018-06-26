@@ -190,6 +190,12 @@ export default class ProjectMilestoneComponent extends Component {
   // 'Review Session - Certified / Referred' - date
 
   @computed('milestonename')
+  get isRange() {
+    const milestonename = this.get('milestone.milestonename');
+    return milestoneLookup[milestonename].dateFormat === 'range';
+  }
+
+  @computed('milestonename')
   get milestoneDisplayDates() {
     const milestonename = this.get('milestone.milestonename');
     const dateFormat = milestoneLookup[milestonename].dateFormat;
@@ -204,7 +210,7 @@ export default class ProjectMilestoneComponent extends Component {
         return [
           {
             actual: true,
-            date: [actualStartDate],
+            date: actualStartDate,
           }
         ]
     }
@@ -229,7 +235,7 @@ export default class ProjectMilestoneComponent extends Component {
       return [
         {
           actual: actualEndDate ? true : false,
-          date: [ actualEndDate ? actualEndDate : plannedEndDate ],
+          date: actualEndDate ? actualEndDate : plannedEndDate,
         }
       ]
     }
