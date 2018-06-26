@@ -22,10 +22,15 @@
     {{log milestone}}
     <h5 class="no-margin">{{lookup-milestone-label milestone.milestonename}}</h5>
     <div class="text-small dark-gray">
-      {{#each milestoneDisplayDates as |displayDate|}}
-        {{displayDate.actual}}
-        {{displayDate.date}}
-      {{/each}}
+      {{#if milestoneDisplayDates}}
+        {{milestoneDisplayDatesFormat}}
+        {{#if milestoneDisplayDates.[0]}}
+          <div>{{moment-format milestoneDisplayDates.[0].date "MMMM D, YYYY" }} {{#if isRange}}<small>Start</small>{{/if}}</div>
+        {{/if}}
+        {{#if milestoneDisplayDates.[1]}}
+          <div>{{moment-format milestoneDisplayDates.[1].date "MMMM D, YYYY" }} <small>End</small></div>
+        {{/if}}
+      {{/if}}
       {{!-- {{#unless noDates}}
         <small>{{timeOffset}}</small>
         {{#if isPlanned}}
