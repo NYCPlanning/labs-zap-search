@@ -228,7 +228,7 @@
 
     <div
       class="button projects-load-more-button expanded gray text-orange"
-      onclick={{action (mut page) (add page 1)}}
+      onClick={{unless noMoreRecords (action (mut page) (add page 1))}}
       disabled={{noMoreRecords}}
     >
       Load More

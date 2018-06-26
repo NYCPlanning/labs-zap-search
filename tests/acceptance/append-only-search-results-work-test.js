@@ -45,5 +45,10 @@ module('Acceptance | append only search results work', function(hooks) {
 
     // should be disabled
     assert.equal(!!loadMoreButton.attributes.disabled, true);
+
+    await click('.projects-load-more-button');
+
+    // should not increase page number
+    assert.equal(currentURL(), '/projects?community-districts=asdf&page=2')
   });
 });
