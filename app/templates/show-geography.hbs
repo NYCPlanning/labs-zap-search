@@ -226,13 +226,15 @@
       {{/each}}
     </ul>
 
-    <div
-      class="button projects-load-more-button expanded gray text-orange"
-      onClick={{unless noMoreRecords (action (mut page) (add page 1))}}
-      disabled={{noMoreRecords}}
-    >
-      Load More
-    </div>
+    <p class="text-center" style="margin:3rem 0 6rem;">
+      <span
+        class="button projects-load-more-button gray text-orange"
+        onClick={{unless noMoreRecords (action (mut page) (add page 1))}}
+        disabled={{noMoreRecords}}
+      >
+        &nbsp;LOAD MORE&nbsp;
+      </span>
+    </p>
 
   </div>
 
