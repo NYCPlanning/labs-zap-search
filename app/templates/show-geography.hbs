@@ -6,42 +6,23 @@
     <div class="filter active">
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
-          <label {{action 'toggle'}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Layer Group</span>
+          <input class="switch-input" type="checkbox" checked={{if status 'checked'}}>
+          <label {{action (toggle 'status' this)}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Project Status</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>Project Stage</h6>
+        <h6 class="filter-name" {{action (toggle 'status' this)}}>Project Status</h6>
       </div>
       <ul class="menu vertical medium-horizontal status-checkbox">
-        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Filed'}}>
-          <a>
-            {{filter-checkbox
-              value='Filed'
-              currentValues=dcp_publicstatus}}
-          </a>
-        </li>
-        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Certified'}}>
-          <a>
-            {{filter-checkbox
-              value='Certified'
-              currentValues=dcp_publicstatus}}
-          </a>
-        </li>
-        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Complete'}}>
-          <a>
-            {{filter-checkbox
-              value='Complete'
-              currentValues=dcp_publicstatus}}
-          </a>
-        </li>
-        <li onclick={{action 'mutateArray' 'dcp_publicstatus' 'Unknown'}}>
-          <a>
-            {{filter-checkbox
-              value='Unknown'
-              currentValues=dcp_publicstatus}}
-          </a>
-        </li>
+        {{#each (array 'Filed' 'Certified' 'Complete' 'Unknown') as |type|}}
+          <li onclick={{action 'mutateArray' 'dcp_publicstatus' type}}>
+            <a>
+              {{filter-checkbox
+                value=type
+                currentValues=dcp_publicstatus}}
+            </a>
+          </li>
+        {{/each}}
       </ul>
     </div>
 
@@ -50,12 +31,12 @@
     <div class="filter">
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
-          <label {{action 'toggle'}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Layer Group</span>
+          <input class="switch-input" type="checkbox" checked={{if cds 'checked'}}>
+          <label {{action (toggle 'cds' this)}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Community Districts</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>Community Districts</h6>
+        <h6 class="filter-name" {{action (toggle 'cds' this)}}>Community Districts</h6>
       </div>
       <div class="medium-horizontal">
         {{#power-select-multiple
@@ -77,41 +58,35 @@
     <div class="filter">
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
-          <label {{action 'toggle'}} class="switch-paddle">
+          <input class="switch-input" type="checkbox" checked={{if ceqr 'checked'}}>
+          <label {{action (toggle 'ceqr' this)}} class="switch-paddle">
             <span class="show-for-sr">Toggle Layer Group</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>CEQR Type <sup>{{icon-tooltip tip='The City Environmental Quality Review (CEQR)  identifies any potential adverse environmental effects of proposed actions, assesses their significance, and proposes measures to eliminate or mitigate significant impacts. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup></h6>
+        <h6 class="filter-name" {{action (toggle 'ceqr' this)}}>CEQR Type <sup>{{icon-tooltip tip='The City Environmental Quality Review (CEQR)  identifies any potential adverse environmental effects of proposed actions, assesses their significance, and proposes measures to eliminate or mitigate significant impacts. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup></h6>
       </div>
       <ul class="menu vertical medium-horizontal CEQR-checkbox">
-        <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Unlisted'}}><a>
-          {{filter-checkbox
-            value='Unlisted'
-            currentValues=dcp_ceqrtype}}
-        </a></li>
-        <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Type I'}}><a>
-          {{filter-checkbox
-            value='Type I'
-            currentValues=dcp_ceqrtype}}
-        </a></li>
-        <li onclick={{action 'mutateArray' 'dcp_ceqrtype' 'Type II'}}><a>
-          {{filter-checkbox
-            value='Type II'
-            currentValues=dcp_ceqrtype}}
-        </a></li>
+        {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
+          <li onclick={{action 'mutateArray' 'dcp_ceqrtype' type}}>
+            <a>
+              {{filter-checkbox
+                value=type
+                currentValues=dcp_ceqrtype}}
+            </a>
+          </li>
+        {{/each}}
       </ul>
     </div>
 
     <div class="filter">
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
-          <label {{action 'toggle'}} class="switch-paddle">
+          <input class="switch-input" type="checkbox" checked={{if fema 'checked'}}>
+          <label {{action (toggle 'fema' this)}} class="switch-paddle">
             <span class="show-for-sr">Toggle Layer Group</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>FEMA Flood Zone <sup>{{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones' class="dark-gray" }}</sup></h6>
+        <h6 class="filter-name" {{action (toggle 'fema' this)}}>FEMA Flood Zone <sup>{{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones' class="dark-gray" }}</sup></h6>
       </div>
       <ul class="menu vertical medium-horizontal FEMA-checkbox">
         <li onclick={{action 'toggleBoolean' 'dcp_femafloodzonea'}}>
@@ -156,12 +131,12 @@
     <div class="filter">
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
-          <label {{action 'toggle'}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Layer Group</span>
+          <input class="switch-input" type="checkbox" checked={{if ulurp 'checked'}}>
+          <label {{action (toggle 'ulurp' this)}} class="switch-paddle">
+            <span class="show-for-sr">Toggle ULURP</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>ULURP <sup>{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a standardized procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames.'}}</sup></h6>
+        <h6 class="filter-name" {{action (toggle 'ulurp' this)}}>ULURP <sup>{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a standardized procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames.'}}</sup></h6>
       </div>
       <ul class="menu vertical medium-horizontal ULURP-checkbox">
         <li  onclick={{action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP'}}>
@@ -181,15 +156,15 @@
       </ul>
     </div>
 
-    {{!-- <div class="filter">
+    <div class="filter">
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if active 'checked'}}>
-          <label {{action 'toggle'}} class="switch-paddle">
+          <input class="switch-input" type="checkbox" checked={{if action_status 'checked'}}>
+          <label {{action (toggle 'action_status' this)}} class="switch-paddle">
             <span class="show-for-sr">Toggle Layer Group</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action 'toggle'}}>Action Status Reason</h6>
+        <h6 class="filter-name" {{action (toggle 'action_status' this)}}>Action Status Reason</h6>
       </div>
       <ul class="menu vertical medium-horizontal">
         <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Active</a></li>
@@ -199,7 +174,7 @@
         <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Withdrawn</a></li>
         <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Terminated</a></li>
       </ul>
-    </div> --}}
+    </div>
   {{/project-filters}}
 
 </div>
@@ -258,15 +233,13 @@
       {{/each}}
     </ul>
 
-    <p class="text-center">
-      <span
-        class="button projects-load-more-button gray text-orange"
-        onclick={{action (mut page) (add page 1)}}
-        disabled={{noMoreRecords}}
-      >
-        &nbsp;LOAD MORE&nbsp;
-      </span>
-    </p>
+    <div
+      class="button projects-load-more-button expanded gray text-orange"
+      onclick={{action (mut page) (add page 1)}}
+      disabled={{noMoreRecords}}
+    >
+      Load More
+    </div>
 
   </div>
 
