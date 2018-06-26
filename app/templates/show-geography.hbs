@@ -190,24 +190,26 @@
     <div class="filter">
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if action_status 'checked'}}>
-          <label {{action (toggle 'action_status' this)}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Layer Group</span>
+          <input class="switch-input" type="checkbox" checked={{if action-reason 'checked'}}>
+          <label {{action (toggle 'action-reason' this)}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Action Status Reason</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action (toggle 'action_status' this)}}>Action Status Reason</h6>
+        <h6 class="filter-name" {{action (toggle 'action-reason' this)}}>Action Status Reason</h6>
       </div>
       <ul class="menu vertical medium-horizontal">
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Active</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Certified</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Referred</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Approved</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Withdrawn</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Terminated</a></li>
+        {{#each (array 'Active' 'Certified' 'Referred' 'Approved' 'Withdrawn' 'Terminated') as |type|}}
+          <li onclick={{action 'mutateArray' 'action-reasons' type}}>
+            <a>
+              {{filter-checkbox
+                value=type
+                currentValues=action-reasons}}
+            </a>
+          </li>
+        {{/each}}
       </ul>
     </div>
   </div>
-
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
 
