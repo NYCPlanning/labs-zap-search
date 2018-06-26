@@ -1,8 +1,8 @@
 import { helper } from '@ember/component/helper';
 
 function shortenProjectBrief([projectbrief]) {
-if (projectbrief != null && projectbrief.length > 120) {
-    var shortenedString = `${projectbrief.substring(0,120)}...`;
+  if (projectbrief != null && projectbrief.length > 120) {
+    const shortenedString = `${projectbrief.substring(0,120)}...`;
     return shortenedString;
   }
   else {

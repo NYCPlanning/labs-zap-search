@@ -2,7 +2,7 @@
 
   {{projects-map-data meta=meta}}
 
-  {{#project-filters as |filters-data|}}
+  <div class="project-filters">
     <div class="filter active">
       <div class="filter-header">
         <div class="switch tiny float-left">
@@ -40,9 +40,9 @@
       </div>
       <div class="medium-horizontal">
         {{#power-select-multiple
-          options=filters-data.community-districts
+          options=(lookup-community-district)
           selected=(contains-keys
-            filters-data.community-districts
+            (lookup-community-district)
             community-districts
             key='code')
           placeholder="Select some names..."
@@ -67,9 +67,9 @@
       </div>
       <div class="medium-horizontal">
         {{#power-select-multiple
-          options=filters-data.action-types
+          options=(lookup-action-type)
           selected=(contains-keys
-            filters-data.action-types
+            (lookup-action-type)
             action-types
             key='code')
           placeholder="Select some actions..."
@@ -77,7 +77,7 @@
           onchange=(action 'replaceProperty' 'action-types')
           as |action|
         }}
-          {{action.code}} ({{action.description}})
+          {{action.code}} ({{action.short}})
         {{/power-select-multiple}}
       </div>
     </div>
@@ -202,7 +202,7 @@
         <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Terminated</a></li>
       </ul>
     </div>
-  {{/project-filters}}
+  </div>
 
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">

@@ -81,7 +81,7 @@
                     </span>
                   </div>
                   <div class="cell auto">
-                    <p class="no-margin"><strong><a href="#">{{action.dcp_name}}</a></strong><sup class="dark-gray">{{icon-tooltip tip=(get-action-tooltip action.actioncode)}}</sup></p>
+                    <p class="no-margin"><strong><a href="#">{{action.dcp_name}}</a></strong><sup class="dark-gray">{{icon-tooltip tip=(lookup-action-type action.actioncode)}}</sup></p>
                     <p class="text-small dark-gray">
                       {{if action.dcp_prefix action.dcp_prefix "No Prefix"}}
                       <span class="medium-gray">|</span>
