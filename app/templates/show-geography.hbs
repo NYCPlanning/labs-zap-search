@@ -3,17 +3,17 @@
   {{projects-map-data meta=meta}}
 
   <div class="project-filters">
-    <div class="filter active">
+    <div class="filter {{if stage 'active' 'inactive'}}">
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if status 'checked'}}>
-          <label {{action (toggle 'status' this)}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Project Status</span>
+          <input class="switch-input" type="checkbox" checked={{if stage 'checked'}}>
+          <label {{action (toggle 'stage' this)}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Project Stage Filter</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action (toggle 'status' this)}}>Project Status</h6>
+        <h6 class="filter-name" {{action (toggle 'stage' this)}}>Project Stage</h6>
       </div>
-      <ul class="menu vertical medium-horizontal status-checkbox">
+      <ul class="menu vertical medium-horizontal stage-checkbox">
         {{#each (array 'Filed' 'Certified' 'Complete' 'Unknown') as |type|}}
           <li onclick={{action 'mutateArray' 'dcp_publicstatus' type}}>
             <a>
@@ -28,12 +28,12 @@
 
     {{!-- <div class="filter">Borough</div> --}}
 
-    <div class="filter">
+    <div class="filter {{if cds 'active' 'inactive'}}">
       <div class="filter-header">
         <div class="switch tiny float-left">
           <input class="switch-input" type="checkbox" checked={{if cds 'checked'}}>
           <label {{action (toggle 'cds' this)}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Community Districts</span>
+            <span class="show-for-sr">Toggle Community Districts Filter</span>
           </label>
         </div>
         <h6 class="filter-name" {{action (toggle 'cds' this)}}>Community Districts</h6>
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div class="filter">
+    <div class="filter {{if action-type 'active' 'inactive'}}">
       <div class="filter-header">
         <div class="switch tiny float-left">
           <input class="switch-input" type="checkbox" checked={{if action-type 'checked'}}>
@@ -86,12 +86,12 @@
       </div>
     </div>
 
-    <div class="filter">
+    <div class="filter {{if ceqr 'active' 'inactive'}}">
       <div class="filter-header">
         <div class="switch tiny float-left">
           <input class="switch-input" type="checkbox" checked={{if ceqr 'checked'}}>
           <label {{action (toggle 'ceqr' this)}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Layer Group</span>
+            <span class="show-for-sr">Toggle CEQR Type Filter</span>
           </label>
         </div>
         <h6 class="filter-name" {{action (toggle 'ceqr' this)}}>CEQR Type <sup>{{icon-tooltip tip='The City Environmental Quality Review (CEQR)  identifies any potential adverse environmental effects of proposed actions, assesses their significance, and proposes measures to eliminate or mitigate significant impacts. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup></h6>
@@ -109,12 +109,12 @@
       </ul>
     </div>
 
-    <div class="filter">
+    <div class="filter {{if fema 'active' 'inactive'}}">
       <div class="filter-header">
         <div class="switch tiny float-left">
           <input class="switch-input" type="checkbox" checked={{if fema 'checked'}}>
           <label {{action (toggle 'fema' this)}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Layer Group</span>
+            <span class="show-for-sr">Toggle FEMA Flood Zone Filter</span>
           </label>
         </div>
         <h6 class="filter-name" {{action (toggle 'fema' this)}}>FEMA Flood Zone <sup>{{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones' class="dark-gray" }}</sup></h6>
@@ -159,12 +159,12 @@
       </ul>
     </div>
 
-    <div class="filter">
+    <div class="filter {{if ulurp 'active' 'inactive'}}">
       <div class="filter-header">
         <div class="switch tiny float-left">
           <input class="switch-input" type="checkbox" checked={{if ulurp 'checked'}}>
           <label {{action (toggle 'ulurp' this)}} class="switch-paddle">
-            <span class="show-for-sr">Toggle ULURP</span>
+            <span class="show-for-sr">Toggle ULURP Filter</span>
           </label>
         </div>
         <h6 class="filter-name" {{action (toggle 'ulurp' this)}}>ULURP <sup>{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a standardized procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames.'}}</sup></h6>
@@ -187,12 +187,12 @@
       </ul>
     </div>
 
-    <div class="filter">
+    <div class="filter {{if action-reason 'active' 'inactive'}}">
       <div class="filter-header">
         <div class="switch tiny float-left">
           <input class="switch-input" type="checkbox" checked={{if action-reason 'checked'}}>
           <label {{action (toggle 'action-reason' this)}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Action Status Reason</span>
+            <span class="show-for-sr">Toggle Action Status Reason Filter</span>
           </label>
         </div>
         <h6 class="filter-name" {{action (toggle 'action-reason' this)}}>Action Status Reason</h6>
@@ -259,13 +259,15 @@
       {{/each}}
     </ul>
 
-    <div
-      class="button projects-load-more-button expanded gray text-orange"
-      onClick={{unless noMoreRecords (action (mut page) (add page 1))}}
-      disabled={{noMoreRecords}}
-    >
-      Load More
-    </div>
+    <p class="text-center" style="margin:3rem 0 6rem;">
+      <span
+        class="button projects-load-more-button gray text-orange"
+        onClick={{unless noMoreRecords (action (mut page) (add page 1))}}
+        disabled={{noMoreRecords}}
+      >
+        &nbsp;LOAD MORE&nbsp;
+      </span>
+    </p>
 
   </div>
 
