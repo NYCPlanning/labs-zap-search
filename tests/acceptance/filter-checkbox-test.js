@@ -81,4 +81,15 @@ module('Acceptance | filter checkbox', function(hooks) {
 
     assert.equal(currentURL(), '/projects');
   });
+
+  test('User can click on filter switches with updated state', async function(assert) {
+    server.createList('project', 20);
+    await visit('/projects');
+    await click('.filter-section-fema-flood-zone .switch-paddle');
+
+    assert.equal(currentURL(), '/projects?applied-filters=action-types%2Ccommunity-districts%2Cdcp_femafloodzonea%2Cdcp_femafloodzonecoastala%2Cdcp_femafloodzoneshadedx%2Cdcp_femafloodzonev%2Cdcp_publicstatus');
+    await click('.filter-section-fema-flood-zone .switch-paddle');
+
+    assert.equal(currentURL(), '/projects');
+  });
 });
