@@ -34,6 +34,10 @@ $tooltipster-border-color: #3a3c47;
       }
     }
   }
+
+  sup & {
+    margin-left: 1px;
+  }
 }
 
 .tooltipster-box {
