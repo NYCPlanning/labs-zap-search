@@ -7,7 +7,7 @@ import { contains } from 'ember-composable-helpers/helpers/contains';
 @classNames('filter')
 export default class FilterSectionComponent extends Component {
   @argument
-  filterTitle;
+  filterTitle = '';
 
   @argument
   filterNames;
@@ -22,6 +22,13 @@ export default class FilterSectionComponent extends Component {
     const appliedFilters = this.get('appliedFilters');
 
     return contains(filterNames, appliedFilters) ? 'active' : 'inactive';
+  }
+
+  @className
+  @computed('filterTitle')
+  get dasherizedFilterTitle() {
+    const dasherizedFilterTitle = this.get('filterTitle').dasherize();
+    return `filter-section-${dasherizedFilterTitle}`;
   }
 
   @argument
