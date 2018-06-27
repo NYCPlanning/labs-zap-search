@@ -10,7 +10,7 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('User clicks first project status and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');
-    await click('.status-checkbox li:first-child a');
+    await click('.stage-checkbox li:first-child a');
 
     assert.equal(currentURL(), '/projects?dcp_publicstatus=Certified%2CComplete');
   });
@@ -52,7 +52,7 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('Page reloads (pagination reset) when click new filter', async function(assert) {
     server.createList('project', 20);
     await visit('/projects?page=2');
-    await click('.status-checkbox li:first-child a');
+    await click('.stage-checkbox li:first-child a');
 
     assert.equal(currentURL(), '/projects?dcp_publicstatus=Certified%2CComplete');
   });
@@ -60,7 +60,7 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('Page reloads (pagination reset) when click new filter', async function(assert) {
     server.createList('project', 20);
     await visit('/projects?page=2');
-    await click('.status-checkbox li:first-child a');
+    await click('.stage-checkbox li:first-child a');
 
     assert.equal(currentURL(), '/projects?dcp_publicstatus=Certified%2CComplete');
   });

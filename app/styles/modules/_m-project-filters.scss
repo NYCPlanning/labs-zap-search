@@ -21,6 +21,8 @@ $project-filters-font-size: rem-calc(12);
     float: left;
     width: 15em;
     padding-right: 0.4rem;
+    position: relative;
+    z-index: 2;
 
     .filter-name {
       color: $dark-gray;
@@ -48,6 +50,14 @@ $project-filters-font-size: rem-calc(12);
         input:checked ~ .switch-paddle::after { left: 0.625rem; }
       }
     }
+  }
+
+  .filter.inactive .filter-header ~ * {
+    opacity: 0.4;
+  }
+
+  .filter.active .filter-name {
+    color: $black;
   }
 
   .menu a {
