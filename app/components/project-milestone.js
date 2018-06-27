@@ -30,7 +30,7 @@ const milestoneLookup = {
     hideIfFiled: true,
   },
   'CPC Public Meeting - Public Hearing': {
-    displayName: 'City Planning Commission Review / Public Hearing',
+    displayName: 'City Planning Commission Review',
     dateFormat: 'range',
     hideIfFiled: true,
   },
@@ -162,25 +162,21 @@ export default class ProjectMilestoneComponent extends Component {
     return moment(start).format('YYYMMDD') === moment(end).format('YYYMMDD');
   }
 
-  @computed('startDate', 'endDate')
-  get timeOffset() {
-
-    const startDate = this.get('startDate');
-    const endDate = this.get('endDate');
-
-    // if startDate is in the future, use startDate
-    if (moment(startDate).isAfter()) {
-      return moment(startDate).fromNow();
-    }
-    // otherwise use endDate
-    return moment(endDate).fromNow();
-
+  @computed('milestone.milestonename')
+  get displayName() {
+    const milestonename = this.get('milestone.milestonename');
+    return milestoneLookup[milestonename].displayName;
   }
 
-  // Returns an array of  2 or fewer
+
+
+  // Returns an array
+  // first item in array is the offset string
+  // subsquent items are time objects
   // Each object contains _actual_ (boolean) and _date_ (date)
   //
   // [
+  //   {time offset string},
   //   {
   //     actual: true,
   //     date: date,
@@ -190,26 +186,6 @@ export default class ProjectMilestoneComponent extends Component {
   //     date: date,
   //   },
   // ]
-
-  // 'Borough Board Referral' - range
-  // 'Borough President Referral' - range
-  // 'CEQR Fee Payment' - date
-  // 'City Council Review' - range
-  // 'Community Board Referral' - range
-  // 'CPC Public Meeting - Public Hearing' - range
-  // 'CPC Public Meeting - Vote' - date
-  // 'DEIS Public Hearing Held' - date
-  // 'EIS Draft Scope Review' - start
-  // 'EIS Public Scoping Meeting' - date
-  // 'FEIS Submitted and Review' - start
-  // 'Filed EAS Review' - start
-  // 'Final Letter Sent' - date
-  // 'Final Scope of Work Issued' - date
-  // 'Land Use Application Filed Review' - start
-  // 'Land Use Fee Payment' - date
-  // 'Mayoral Veto' - range
-  // 'NOC of Draft EIS Issued' - date
-  // 'Review Session - Certified / Referred' - date
 
   // useful so handlebars knows whether to append "start" and "end" labels to dates
   @computed('milestonename')
@@ -230,16 +206,22 @@ export default class ProjectMilestoneComponent extends Component {
     const actualStartDate = this.get('milestone.dcp_actualstartdate');
     const actualEndDate = this.get('milestone.dcp_actualenddate');
 
+    console.log(milestonename);
+
+
     // return null if current project isFiled and this milestone has showIfFiled = false
     if (isFiled && hideIfFiled) return null;
+
+    console.log('gonna show dates');
 
     // only show actualstart date
     if (dateFormat === 'start' && actualStartDate) {
         return [
+          moment(actualStartDate).fromNow(),
           {
             actual: true,
             date: actualStartDate,
-          }
+          },
         ]
     }
 
@@ -255,16 +237,26 @@ export default class ProjectMilestoneComponent extends Component {
           date: actualEndDate ? actualEndDate : plannedEndDate,
         }
 
-        return [ startDateObject, endDateObject ];
+        const offsetDate = moment(startDateObject.date).isAfter() ? startDateObject.date : endDateObject.date;
+        let offsetString = moment(offsetDate).fromNow()
+        // if now is within the range, manually set the offset string
+        if (moment(startDateObject.date).isBefore() && moment(endDateObject.date).isAfter()) {
+          offsetString = 'In Progress'
+        }
+
+        return [ offsetString, startDateObject, endDateObject];
     }
 
     // show end
-    if (dateFormat === 'end' && (plannedEndDate || actualEndDate)) {
+    if (dateFormat === 'end' && (actualEndDate)) {
+      const dateObject = {
+        actual: true,
+        date: actualEndDate,
+      };
+
       return [
-        {
-          actual: actualEndDate ? true : false,
-          date: actualEndDate ? actualEndDate : plannedEndDate,
-        }
+        moment(dateObject.date).fromNow(),
+        dateObject,
       ]
     }
     return null;
