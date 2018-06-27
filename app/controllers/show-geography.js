@@ -17,49 +17,17 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   fetchData = function*() {
     const params = this.get('allQueryParams');
     const {
-      // pagination
       page = 1,
-
-      // filter values
-      'community-districts': communityDistricts = [],
-      'action-types': actionTypes = [],
-      'action-reasons': actionReasons = [],
-      dcp_publicstatus,
-      dcp_ceqrtype,
-      dcp_ulurp_nonulurp,
-      dcp_femafloodzonea,
-      dcp_femafloodzonecoastala,
-      dcp_femafloodzoneshadedx,
-      dcp_femafloodzonev,
-
-      // toggle filters
-      status = true,
-      cds = false,
-      ceqr = false,
-      fema = false,
-      ulurp = false,
-      'action-type': actionType = false,
-      'action-reason': actionReason = false,
+      'applied-filters': appliedFilters,
     } = params;
 
     const queryOptions = {
       page,
     }
 
-    // only add to the api call if set to true
-    if (fema) {
-      if (dcp_femafloodzonea) queryOptions.dcp_femafloodzonea = true;
-      if (dcp_femafloodzonecoastala) queryOptions.dcp_femafloodzonecoastala = true;
-      if (dcp_femafloodzoneshadedx) queryOptions.dcp_femafloodzoneshadedx = true;
-      if (dcp_femafloodzonev) queryOptions.dcp_femafloodzonev = true;
+    for (const key of appliedFilters) {
+      queryOptions[key] = params[key];
     }
-
-    if (actionType) queryOptions['action-types'] = actionTypes;
-    if (actionReason) queryOptions['action-reasons'] = actionReasons;
-    if (status) queryOptions.dcp_publicstatus = dcp_publicstatus;
-    if (cds) queryOptions['community-districts'] = communityDistricts;
-    if (ceqr) queryOptions.dcp_ceqrtype = dcp_ceqrtype;
-    if (ulurp) queryOptions.dcp_ulurp_nonulurp = dcp_ulurp_nonulurp;
 
     // fetch any new projects
     const projects = yield this.store.query('project', queryOptions);
@@ -88,17 +56,20 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   @action
-  mutateArray(key, value) {
-    const values = this.get(key);
+  mutateArray(key, ...values) {
+    // BEWARE: binding this to 'onClick=' will insert the mouseEvent
+    const targetArray = this.get(key);
     this.resetPagination();
 
-    if (values.includes(value)) {
-      values.removeObject(value);
-    } else {
-      values.pushObject(value);
+    for (const value of values) {
+      if (targetArray.includes(value)) {
+        targetArray.removeObject(value);
+      } else {
+        targetArray.pushObject(value);
+      }
     }
 
-    this.set(key, values)
+    this.set(key, targetArray.sort())
   }
 
   @action

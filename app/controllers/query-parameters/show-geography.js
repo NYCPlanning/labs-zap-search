@@ -8,6 +8,19 @@ export const projectParams = new QueryParams({
     refresh: true,
   },
 
+  // meta
+  'applied-filters': {
+    defaultValue: ['community-districts', 'dcp_publicstatus', 'action-types'].sort(),
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value) {
+      if (!value) return [];
+      return value.split(',').sort();
+    },
+  },
+
   // filter values
   'community-districts': {
     defaultValue: [],
@@ -83,36 +96,6 @@ export const projectParams = new QueryParams({
     refresh: true,
   },
   dcp_femafloodzonev: {
-    defaultValue: false,
-    refresh: true,
-  },
-
-  // params for whether filters are applied or not
-  stage: {
-    defaultValue: true,
-    refresh: true,
-  },
-  cds: {
-    defaultValue: true,
-    refresh: true,
-  },
-  ceqr: {
-    defaultValue: false,
-    refresh: true,
-  },
-  fema: {
-    defaultValue: false,
-    refresh: true,
-  },
-  ulurp: {
-    defaultValue: false,
-    refresh: true,
-  },
-  'action-type': {
-    defaultValue: false,
-    refresh: true,
-  },
-  'action-reason': {
     defaultValue: false,
     refresh: true,
   },
