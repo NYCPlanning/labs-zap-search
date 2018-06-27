@@ -1,4 +1,4 @@
-import { module, test } from 'qunit';
+import { module, skip } from 'qunit';
 import { visit, currentURL, fillIn, triggerKeyEvent, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -8,7 +8,7 @@ module('Acceptance | user searches address', function(hooks) {
   setupMirage(hooks);
 
   // no longer relevant
-  test('visiting / to search for address', async function(assert) {
+  skip('visiting / to search for address', async function(assert) {
     server.createList('project', 10);
 
     await visit('/');
@@ -20,7 +20,7 @@ module('Acceptance | user searches address', function(hooks) {
   });
 
 
-  test('user can click first project in recent projects', async function(assert) {
+  skip('user can click first project in recent projects', async function(assert) {
     server.createList('project', 10);
     await visit('/');
     await click('.site-name');
@@ -31,7 +31,7 @@ module('Acceptance | user searches address', function(hooks) {
     assert.equal(currentURL(), '/projects/1');
   });
 
-  test('user can click on site title and return to index page', async function(assert) {
+  skip('user can click on site title and return to index page', async function(assert) {
     server.createList('project', 10);
     await visit('/projects/1');
     await click('.site-name');

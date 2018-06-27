@@ -25,7 +25,7 @@ export default class ShowProjectController extends Controller {
     window.map = map;
 
     map.fitBounds(turfBbox(bblFeatureCollection), {
-      padding: 10,
+      padding: 50,
       linear: true,
       duration: 0,
     });
