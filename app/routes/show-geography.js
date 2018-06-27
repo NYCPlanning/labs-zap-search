@@ -8,6 +8,8 @@ export default class ShowGeographyRoute extends Route {
 
       // filter values
       'community-districts': communityDistricts = [],
+      'action-types': actionTypes = [],
+      'action-reasons': actionReasons = [],
       dcp_publicstatus,
       dcp_ceqrtype,
       dcp_ulurp_nonulurp,
@@ -22,7 +24,8 @@ export default class ShowGeographyRoute extends Route {
       ceqr = false,
       fema = false,
       ulurp = false,
-      // action_status = false,
+      'action-type': actionType = false,
+      'action-reason': actionReason = false,
     } = params;
 
     const queryOptions = {
@@ -37,14 +40,14 @@ export default class ShowGeographyRoute extends Route {
       if (dcp_femafloodzonev) queryOptions.dcp_femafloodzonev = true;
     }
 
+    if (actionType) queryOptions['action-types'] = actionTypes;
+    if (actionReason) queryOptions['action-reasons'] = actionReasons;
     if (status) queryOptions.dcp_publicstatus = dcp_publicstatus;
     if (cds) queryOptions['community-districts'] = communityDistricts;
     if (ceqr) queryOptions.dcp_ceqrtype = dcp_ceqrtype;
     if (ulurp) queryOptions.dcp_ulurp_nonulurp = dcp_ulurp_nonulurp;
-    // if (action_status) queryOptions
 
     const projects = await this.store.query('project', queryOptions);
-
     const meta = projects.get('meta');
 
     return {
