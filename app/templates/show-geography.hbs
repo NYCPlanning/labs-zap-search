@@ -2,7 +2,12 @@
   {{projects-map-data meta=meta}}
 
   <div class="project-filters">
-    {{#filter-section appliedFilters=applied-filters filterNames='dcp_publicstatus' mutateArray=(action 'mutateArray')}}
+    {{#filter-section
+      filterTitle='Project Stage' 
+      appliedFilters=applied-filters 
+      filterNames='dcp_publicstatus' 
+      mutateArray=(action 'mutateArray')
+    }}
       <ul class="menu vertical medium-horizontal stage-checkbox">
         {{#each (array 'Filed' 'Certified' 'Complete' 'Unknown') as |type|}}
           <li {{action 'mutateArray' 'dcp_publicstatus' type}} class={{concat 'public-status-option-' type}}>
@@ -18,7 +23,12 @@
 
     {{!-- <div class="filter">Borough</div> --}}
 
-    {{#filter-section appliedFilters=applied-filters filterNames='community-districts' mutateArray=(action 'mutateArray')}}
+    {{#filter-section
+      filterTitle='Community Districts' 
+      appliedFilters=applied-filters 
+      filterNames='community-districts' 
+      mutateArray=(action 'mutateArray')
+    }}
       <div class="medium-horizontal">
         {{#power-select-multiple
           options=(lookup-community-district)
@@ -36,7 +46,12 @@
       </div>
     {{/filter-section}}
 
-    {{#filter-section appliedFilters=applied-filters filterNames='action-types' mutateArray=(action 'mutateArray')}}
+    {{#filter-section
+      filterTitle='Action Types' 
+      appliedFilters=applied-filters 
+      filterNames='action-types' 
+      mutateArray=(action 'mutateArray')
+    }}
       <div class="medium-horizontal">
         {{#power-select-multiple
           options=(lookup-action-type)
@@ -58,7 +73,12 @@
       </div>
     {{/filter-section}}
 
-    {{#filter-section appliedFilters=applied-filters filterNames='dcp_ceqrtype' mutateArray=(action 'mutateArray')}}
+    {{#filter-section
+      filterTitle='CEQR Type' 
+      appliedFilters=applied-filters 
+      filterNames='dcp_ceqrtype' 
+      mutateArray=(action 'mutateArray')
+    }}
       <ul class="menu vertical medium-horizontal CEQR-checkbox">
         {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
           <li {{action 'mutateArray' 'dcp_ceqrtype' type}}>
@@ -73,6 +93,7 @@
     {{/filter-section}}
 
     {{#filter-section
+      filterTitle='FEMA Flood Zone'
       appliedFilters=applied-filters 
       filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')  
       mutateArray=(action 'mutateArray')
@@ -117,16 +138,12 @@
       </ul>
     {{/filter-section}}
 
-    <div class="filter {{if (contains 'dcp_ulurp_nonulurp' applied-filters) 'active' 'inactive'}}">
-      <div class="filter-header">
-        <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if (contains 'dcp_ulurp_nonulurp' applied-filters) 'checked'}}>
-          <label {{action 'mutateArray' 'applied-filters' 'dcp_ulurp_nonulurp'}} class="switch-paddle">
-            <span class="show-for-sr">Toggle ULURP Filter</span>
-          </label>
-        </div>
-        <h6 class="filter-name" {{action 'mutateArray' 'applied-filters' 'dcp_ulurp_nonulurp'}}>ULURP <sup>{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a standardized procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames.'}}</sup></h6>
-      </div>
+    {{#filter-section
+      filterTitle='ULURP'
+      appliedFilters=applied-filters 
+      filterNames='dcp_ulurp_nonulurp'
+      mutateArray=(action 'mutateArray')
+    }}
       <ul class="menu vertical medium-horizontal ULURP-checkbox">
         <li {{action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP'}}>
           <a>
@@ -143,20 +160,14 @@
           </a>
         </li>
       </ul>
-    </div>
+    {{/filter-section}}
 
-    <div class="filter {{if (contains 'action-reasons' applied-filters) 'active' 'inactive'}}">
-      <div class="filter-header">
-        <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if (contains 'action-reasons' applied-filters) 'checked'}}>
-          <label {{action 'mutateArray' 'applied-filters' 'action-reasons'}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Action Status Reason Filter</span>
-          </label>
-        </div>
-        <h6 class="filter-name" {{action 'mutateArray' 'applied-filters' 'action-reasons'}}>
-          Action Status Reason
-        </h6>
-      </div>
+    {{#filter-section
+      filterTitle='Action Status Reason'
+      appliedFilters=applied-filters 
+      filterNames='action-reasons'
+      mutateArray=(action 'mutateArray')
+    }}
       <ul class="menu vertical medium-horizontal">
         {{#each (array 'Active' 'Certified' 'Referred' 'Approved' 'Withdrawn' 'Terminated') as |type|}}
           <li {{action 'mutateArray' 'action-reasons' type}}>
@@ -168,7 +179,8 @@
           </li>
         {{/each}}
       </ul>
-    </div>
+    {{/filter-section}}
+
     <div class="filter">
       <p class="text-center">
         <span

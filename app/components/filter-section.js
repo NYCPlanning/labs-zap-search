@@ -7,6 +7,9 @@ import { contains } from 'ember-composable-helpers/helpers/contains';
 @classNames('filter')
 export default class FilterSectionComponent extends Component {
   @argument
+  filterTitle;
+
+  @argument
   filterNames;
 
   @argument
