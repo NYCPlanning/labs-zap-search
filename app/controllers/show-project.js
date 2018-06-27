@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { argument } from '@ember-decorators/argument';
 import { run } from '@ember/runloop';
 import turfBbox from '@turf/bbox';
@@ -18,6 +18,11 @@ export default class ShowProjectController extends Controller {
       'fill-opacity': 0.5,
       'fill-outline-color': 'rgba(255, 255, 255, 1)',
     },
+  }
+
+  @computed()
+  get isFiled() {
+    return this.get('model.dcp_publicstatus') === 'Filed';
   }
 
   @action
