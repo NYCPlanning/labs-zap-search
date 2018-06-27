@@ -103,11 +103,21 @@ const milestoneLookup = {
 
 
 export default class ProjectMilestoneComponent extends Component {
+  tagName = 'li';
+
+  classNameBindings = ['getClassNames'];
+
   @argument
   milestone
 
   @argument
   isFiled
+
+  @computed('tense')
+  get getClassNames() {
+    const tense = this.get('tense');
+    return `grid-x grid-padding-small milestone ${tense}`
+  }
 
   @computed('milestone.{dcp_plannedstartdate,dcp_actualstartdate}')
   get startDate() {
@@ -145,13 +155,30 @@ export default class ProjectMilestoneComponent extends Component {
     return plannedEndDate;
   }
 
-  // either actualstart or actualend is null
-  @computed('milestone.{dcp_actualstartdate,milestone.dcp_actualenddate}')
-  get isPlanned() {
-    const actualStartDate = this.get('milestone.dcp_actualstartdate');
-    const actualEndDate = this.get('milestone.dcp_actualenddate');
+  // one of 'past', 'present', or 'future'
+  @computed('milestoneDisplayDates')
+  get tense() {
 
-    return actualStartDate === null && actualEndDate === null;
+    // if all dates are in the past, return past
+    // if all the dates are in the future, return future
+    // else return present
+
+
+    const displayDates = this.get('milestoneDisplayDates');
+    // if no display dates, code as future
+    if (!displayDates) return 'future';
+
+    const [offset, firstDate, secondDate] = displayDates;
+
+    // check if all dates are in the past
+    const firstDatePast = moment(firstDate.date).isBefore();
+    let secondDatePast = firstDatePast;
+    if (secondDate) {
+      secondDatePast = moment(secondDate.date).isBefore();
+      if (firstDatePast && !secondDatePast) return 'present';
+    }
+
+    return (firstDatePast && secondDatePast) ? 'past' : 'future';
   }
 
   @computed('startDate','endDate')
@@ -206,13 +233,8 @@ export default class ProjectMilestoneComponent extends Component {
     const actualStartDate = this.get('milestone.dcp_actualstartdate');
     const actualEndDate = this.get('milestone.dcp_actualenddate');
 
-    console.log(milestonename);
-
-
     // return null if current project isFiled and this milestone has showIfFiled = false
     if (isFiled && hideIfFiled) return null;
-
-    console.log('gonna show dates');
 
     // only show actualstart date
     if (dateFormat === 'start' && actualStartDate) {
