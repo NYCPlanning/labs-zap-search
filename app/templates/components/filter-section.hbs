@@ -1,0 +1,13 @@
+<div class="filter-header">
+  <div class="switch tiny float-left">
+    <input class="switch-input" type="checkbox" checked={{if (contains filterNames appliedFilters) 'checked'}}>
+    <label {{action mutateArray 'applied-filters' filterNames}} class="switch-paddle">
+      <span class="show-for-sr">Toggle Project Stage Filter</span>
+    </label>
+  </div>
+  <h6 class="filter-name" {{action mutateArray 'applied-filters' filterNames}}>
+    Project Stage
+  </h6>
+</div>
+
+{{yield}}

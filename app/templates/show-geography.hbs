@@ -2,16 +2,7 @@
   {{projects-map-data meta=meta}}
 
   <div class="project-filters">
-    <div class="filter {{if (contains 'dcp_publicstatus' applied-filters) 'active' 'inactive'}}">
-      <div class="filter-header">
-        <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if (contains 'dcp_publicstatus' applied-filters) 'checked'}}>
-          <label {{action 'mutateArray' 'applied-filters' 'dcp_publicstatus'}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Project Stage Filter</span>
-          </label>
-        </div>
-        <h6 class="filter-name" {{action 'mutateArray' 'applied-filters' 'dcp_publicstatus'}}>Project Stage</h6>
-      </div>
+    {{#filter-section appliedFilters=applied-filters filterNames='dcp_publicstatus' mutateArray=(action 'mutateArray')}}
       <ul class="menu vertical medium-horizontal stage-checkbox">
         {{#each (array 'Filed' 'Certified' 'Complete' 'Unknown') as |type|}}
           <li {{action 'mutateArray' 'dcp_publicstatus' type}} class={{concat 'public-status-option-' type}}>
@@ -23,20 +14,11 @@
           </li>
         {{/each}}
       </ul>
-    </div>
+    {{/filter-section}}
 
     {{!-- <div class="filter">Borough</div> --}}
 
-    <div class="filter {{if (contains 'community-districts' applied-filters) 'active' 'inactive'}}">
-      <div class="filter-header">
-        <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if (contains 'community-districts' applied-filters) 'checked'}}>
-          <label {{action 'mutateArray' 'applied-filters' 'community-districts'}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Community Districts Filter</span>
-          </label>
-        </div>
-        <h6 class="filter-name" {{action 'mutateArray' 'applied-filters' 'community-districts'}}>Community Districts</h6>
-      </div>
+    {{#filter-section appliedFilters=applied-filters filterNames='community-districts' mutateArray=(action 'mutateArray')}}
       <div class="medium-horizontal">
         {{#power-select-multiple
           options=(lookup-community-district)
@@ -52,18 +34,9 @@
           {{district.boro}} {{district.num}}
         {{/power-select-multiple}}
       </div>
-    </div>
+    {{/filter-section}}
 
-    <div class="filter {{if (contains 'action-types' applied-filters) 'active' 'inactive'}}">
-      <div class="filter-header">
-        <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if (contains 'action-types' applied-filters) 'checked'}}>
-          <label {{action 'mutateArray' 'applied-filters' 'action-types'}} class="switch-paddle">
-            <span class="show-for-sr">Toggle Action Types</span>
-          </label>
-        </div>
-        <h6 class="filter-name" {{action 'mutateArray' 'applied-filters' 'action-types'}}>Action Types</h6>
-      </div>
+    {{#filter-section appliedFilters=applied-filters filterNames='action-types' mutateArray=(action 'mutateArray')}}
       <div class="medium-horizontal">
         {{#power-select-multiple
           options=(lookup-action-type)
@@ -83,23 +56,9 @@
           {{/if}}
         {{/power-select-multiple}}
       </div>
-    </div>
+    {{/filter-section}}
 
-    <div class="filter {{if (contains 'dcp_ceqrtype' applied-filters) 'active' 'inactive'}}">
-      <div class="filter-header">
-        <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if (contains 'dcp_ceqrtype' applied-filters) 'checked'}}>
-          <label {{action 'mutateArray' 'applied-filters' 'dcp_ceqrtype'}} class="switch-paddle">
-            <span class="show-for-sr">Toggle CEQR Type Filter</span>
-          </label>
-        </div>
-        <h6 class="filter-name" {{action 'mutateArray' 'applied-filters' 'dcp_ceqrtype'}}>
-          CEQR Type 
-          <sup>
-            {{icon-tooltip tip='The City Environmental Quality Review (CEQR)  identifies any potential adverse environmental effects of proposed actions, assesses their significance, and proposes measures to eliminate or mitigate significant impacts. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}
-          </sup>
-        </h6>
-      </div>
+    {{#filter-section appliedFilters=applied-filters filterNames='dcp_ceqrtype' mutateArray=(action 'mutateArray')}}
       <ul class="menu vertical medium-horizontal CEQR-checkbox">
         {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
           <li {{action 'mutateArray' 'dcp_ceqrtype' type}}>
@@ -111,42 +70,13 @@
           </li>
         {{/each}}
       </ul>
-    </div>
+    {{/filter-section}}
 
-    <div 
-      class="filter
-        {{if (contains 
-            (array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev') 
-            applied-filters) 
-          'active' 'inactive'}}">
-      <div class="filter-header">
-        <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if (contains 'dcp_femafloodzonea' applied-filters) 'checked'}}>
-          <label {{action 
-            'mutateArray' 
-            'applied-filters' 
-            'dcp_femafloodzonea' 
-            'dcp_femafloodzoneshadedx' 
-            'dcp_femafloodzonecoastala' 
-            'dcp_femafloodzonev'}} 
-          class="switch-paddle">
-            <span class="show-for-sr">Toggle FEMA Flood Zone Filter</span>
-          </label>
-        </div>
-        <h6 class="filter-name" {{action 
-          'mutateArray' 
-          'applied-filters' 
-          'dcp_femafloodzonea' 
-          'dcp_femafloodzoneshadedx' 
-          'dcp_femafloodzonecoastala' 
-          'dcp_femafloodzonev'}}
-        >
-          FEMA Flood Zone 
-          <sup>
-            {{icon-tooltip tip='FEMA flood zone filters are applied collectively, checking more than one will yield only projects affected by all checked zones' class="dark-gray" }}
-          </sup>
-        </h6>
-      </div>
+    {{#filter-section
+      appliedFilters=applied-filters 
+      filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')  
+      mutateArray=(action 'mutateArray')
+    }}
       <ul class="menu vertical medium-horizontal FEMA-checkbox">
         <li {{action 'toggleBoolean' 'dcp_femafloodzonea'}}>
           <a>
@@ -185,7 +115,7 @@
           </a>
         </li>
       </ul>
-    </div>
+    {{/filter-section}}
 
     <div class="filter {{if (contains 'dcp_ulurp_nonulurp' applied-filters) 'active' 'inactive'}}">
       <div class="filter-header">

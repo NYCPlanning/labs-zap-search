@@ -1,6 +1,7 @@
 import { action, computed } from '@ember-decorators/object';
 import { restartableTask } from 'ember-concurrency-decorators';
 import GeographyParachuteController from './query-parameters/show-geography';
+import { isArray } from '@ember/array';
 
 export default class ShowGeographyController extends GeographyParachuteController {
   setup() {
@@ -61,7 +62,11 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     const targetArray = this.get(key);
     this.resetPagination();
 
-    for (const value of values) {
+    // ember handlebars can't use spread/rest syntax for actions yet
+    // so we check if array is passed
+    const unnestedValues = (isArray(values[0]) && values.length === 1) ? values[0] : values;
+
+    for (const value of unnestedValues) {
       if (targetArray.includes(value)) {
         targetArray.removeObject(value);
       } else {
