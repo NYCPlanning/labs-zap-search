@@ -8,22 +8,20 @@
     {{else}}
       {{#if isPlanned}}
         <span class="fa-layers fa-fw" style="font-size:2.5rem;">
-          {{fa-icon 'calendar' fixedWidth=true class='dark-gray'}}
+          {{fa-icon 'calendar' fixedWidth=true class='medium-gray'}}
         </span>
       {{else}}
         <span class="fa-layers fa-fw" style="font-size:2.5rem;">
-          {{fa-icon 'calendar' fixedWidth=true class='medium-gray'}}
+          {{fa-icon 'calendar' fixedWidth=true class='dark-gray'}}
           {{fa-icon 'check' fixedWidth=true class='lu-green' transform='shrink-6 right-5 down-1'}}
         </span>
       {{/if}}
     {{/if}}
   </div>
   <div class="cell auto">
-    {{log milestone}}
     <h5 class="no-margin">{{lookup-milestone-label milestone.milestonename}}</h5>
     <div class="text-small dark-gray">
       {{#if milestoneDisplayDates}}
-        {{milestoneDisplayDatesFormat}}
         {{#if milestoneDisplayDates.[0]}}
           <div>{{moment-format milestoneDisplayDates.[0].date "MMMM D, YYYY" }} {{#if isRange}}<small>Start</small>{{/if}}</div>
         {{/if}}
