@@ -2,7 +2,7 @@
 
   {{projects-map-data meta=meta}}
 
-  {{#project-filters as |filters-data|}}
+  <div class="project-filters">
     <div class="filter {{if stage 'active' 'inactive'}}">
       <div class="filter-header">
         <div class="switch tiny float-left">
@@ -40,9 +40,9 @@
       </div>
       <div class="medium-horizontal">
         {{#power-select-multiple
-          options=filters-data.community-districts
+          options=(lookup-community-district)
           selected=(contains-keys
-            filters-data.community-districts
+            (lookup-community-district)
             community-districts
             key='code')
           placeholder="Select some names..."
@@ -51,6 +51,37 @@
           as |district|
         }}
           {{district.boro}} {{district.num}}
+        {{/power-select-multiple}}
+      </div>
+    </div>
+
+    <div class="filter {{if action-type 'active' 'inactive'}}">
+      <div class="filter-header">
+        <div class="switch tiny float-left">
+          <input class="switch-input" type="checkbox" checked={{if action-type 'checked'}}>
+          <label {{action (toggle 'action-type' this)}} class="switch-paddle">
+            <span class="show-for-sr">Toggle Action Types</span>
+          </label>
+        </div>
+        <h6 class="filter-name" {{action (toggle 'action-type' this)}}>Action Types</h6>
+      </div>
+      <div class="medium-horizontal">
+        {{#power-select-multiple
+          options=(lookup-action-type)
+          selected=(contains-keys
+            (lookup-action-type)
+            action-types
+            key='code')
+          placeholder="Select some actions..."
+          searchField='searchField'
+          onchange=(action 'replaceProperty' 'action-types')
+          as |action|
+        }}
+          {{action.code}}
+
+          {{#if action.short}}
+            ({{action.short}})
+          {{/if}}
         {{/power-select-multiple}}
       </div>
     </div>
@@ -156,26 +187,30 @@
       </ul>
     </div>
 
-    <div class="filter {{if action_status 'active' 'inactive'}}">
+    <div class="filter {{if action-reason 'active' 'inactive'}}">
+
       <div class="filter-header">
         <div class="switch tiny float-left">
-          <input class="switch-input" type="checkbox" checked={{if action_status 'checked'}}>
-          <label {{action (toggle 'action_status' this)}} class="switch-paddle">
+          <input class="switch-input" type="checkbox" checked={{if action-reason 'checked'}}>
+          <label {{action (toggle 'action-reason' this)}} class="switch-paddle">
             <span class="show-for-sr">Toggle Action Status Reason Filter</span>
           </label>
         </div>
-        <h6 class="filter-name" {{action (toggle 'action_status' this)}}>Action Status Reason</h6>
+        <h6 class="filter-name" {{action (toggle 'action-reason' this)}}>Action Status Reason</h6>
       </div>
       <ul class="menu vertical medium-horizontal">
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Active</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Certified</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Referred</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Approved</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Withdrawn</a></li>
-        <li><a>{{fa-icon 'square' prefix='far' class="medium-gray"}} Terminated</a></li>
+        {{#each (array 'Active' 'Certified' 'Referred' 'Approved' 'Withdrawn' 'Terminated') as |type|}}
+          <li onclick={{action 'mutateArray' 'action-reasons' type}}>
+            <a>
+              {{filter-checkbox
+                value=type
+                currentValues=action-reasons}}
+            </a>
+          </li>
+        {{/each}}
       </ul>
     </div>
-  {{/project-filters}}
+  </div>
 
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
