@@ -23,7 +23,7 @@
     }}
       <ul class="menu vertical medium-horizontal stage-checkbox">
         {{#each (array 'Filed' 'In Public Review' 'Complete' 'Unknown') as |type|}}
-          <li {{action 'mutateArray' 'dcp_publicstatus' type}} class={{concat 'public-status-option-' type}}>
+          <li {{action 'mutateArray' 'dcp_publicstatus' type}}>
             <a>
               {{filter-checkbox
                 value=type

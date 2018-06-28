@@ -12,7 +12,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/');
     await click('.stage-checkbox li:first-child a');
 
-    assert.equal(currentURL(), '/projects?dcp_publicstatus=Certified%2CComplete');
+    assert.equal(currentURL(), '/projects?dcp_publicstatus=Complete%2CIn%20Public%20Review');
   });
 
   test('User clicks first CEQR Status and it filters', async function(assert) {
@@ -54,7 +54,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/projects?page=2');
     await click('.stage-checkbox li:first-child a');
 
-    assert.equal(currentURL(), '/projects?dcp_publicstatus=Certified%2CComplete');
+    assert.equal(currentURL(), '/projects?dcp_publicstatus=Complete%2CIn%20Public%20Review');
   });
 
   test('Reset filters button works', async function(assert) {
@@ -72,12 +72,12 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('Landing on QP default leads to cleaned URL', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
-    await click('.public-status-option-Filed');
-    await click('.public-status-option-Complete');
-    await click('.public-status-option-Certified');
-    await click('.public-status-option-Complete');
-    await click('.public-status-option-Certified');
-    await click('.public-status-option-Filed');
+    await click('.stage-checkbox li:nth-child(1)');
+    await click('.stage-checkbox li:nth-child(2)');
+    await click('.stage-checkbox li:nth-child(3)');
+    await click('.stage-checkbox li:nth-child(3)');
+    await click('.stage-checkbox li:nth-child(2)');
+    await click('.stage-checkbox li:nth-child(1)');
 
     assert.equal(currentURL(), '/projects');
   });
