@@ -1,16 +1,19 @@
   <div class="cell shrink">
     {{#if (eq tense "past")}}
-    <span class="fa-layers fa-fw" style="font-size:2.5rem;">
-      {{fa-icon 'calendar' fixedWidth=true class='dark-gray'}}
-      {{fa-icon 'check' fixedWidth=true class='lu-green' transform='shrink-6 right-5 down-1'}}
+    <span class="milestone-icon fa-layers fa-fw">
+      {{fa-icon 'circle' fixedWidth=true class='dark-gray'}}
+      {{fa-icon 'calendar' fixedWidth=true class='black' transform='shrink-8'}}
+      {{fa-icon 'check' fixedWidth=true class='lu-green' transform='shrink-4 right-5 up-2'}}
     </span>
     {{else if (eq tense "present")}}
-      <span class="fa-layers fa-fw" style="font-size:2.5rem;">
-        {{fa-icon 'calendar' fixedWidth=true class='lu-green'}}
+      <span class="milestone-icon fa-layers fa-fw">
+        {{fa-icon 'circle' fixedWidth=true class='lu-green'}}
+        {{fa-icon 'calendar' fixedWidth=true class='light-gray' transform='shrink-8'}}
       </span>
-    {{else}}
-      <span class="fa-layers fa-fw" style="font-size:2.5rem;">
-        {{fa-icon 'calendar' fixedWidth=true class='medium-gray'}}
+    {{else}}{{!-- future --}}
+      <span class="milestone-icon fa-layers fa-fw">
+        {{fa-icon 'circle' fixedWidth=true class='medium-gray'}}
+        {{fa-icon 'calendar' fixedWidth=true class='light-gray' transform='shrink-8'}}
       </span>
     {{/if}}
   </div>
@@ -37,7 +40,9 @@
           {{#if milestoneDisplayDates.[2]}}
             <div>{{moment-format milestoneDisplayDates.[2].date "MMMM D, YYYY" }} <small>End</small></div>
           {{/if}}
-          <small>{{milestoneDisplayDates.[0]}}</small>
+          {{#if milestoneDisplayDates.[0]}}
+            <div class="milestone-offset">{{milestoneDisplayDates.[0]}}</div>
+          {{/if}}
         </div>
       {{/if}}
   </div>
