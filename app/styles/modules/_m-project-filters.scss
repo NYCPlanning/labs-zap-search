@@ -52,6 +52,10 @@ $project-filters-font-size: rem-calc(12);
     }
   }
 
+  .filter-controls {
+    margin-left: 15em;
+  }
+
   .filter.inactive .filter-header ~ * {
     opacity: 0.4;
   }
@@ -90,6 +94,11 @@ $project-filters-font-size: rem-calc(12);
 
 }
 
-.flood-zone-icon {
-  color: steelblue;
+.filter-text-input {
+  // width: auto;
+  font-size: inherit;
+  line-height: $global-lineheight;
+  height: auto;
+  padding: 0.25em 0.5em;
+  margin: 0;
 }

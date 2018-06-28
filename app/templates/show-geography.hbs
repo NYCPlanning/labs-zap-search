@@ -9,7 +9,9 @@
       filterNames='text_query'
       mutateArray=(action 'mutateArray')
     }}
-      <input type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}} />
+      <div class="filter-controls">
+        <input class="filter-text-input" type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}}>
+      </div>
       {{!-- {{input type='text' value=text_query}} --}}
     {{/filter-section}}
 
@@ -228,7 +230,7 @@
               {{/link-to}}
             </h3>
             <p class="no-margin text-small dark-grey">
-              {{substring-projectbrief project.dcp_projectbrief}}
+              <strong>{{project.dcp_applicant}}</strong> &mdash; {{substring-projectbrief project.dcp_projectbrief}}
             </p>
             <p class="no-margin text-tiny dark-gray">
               <span class="label light-gray">{{if project.dcp_publicstatus_simp project.dcp_publicstatus_simp 'Unknown Status'}}</span>
