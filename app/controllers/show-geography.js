@@ -20,6 +20,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   @restartableTask
   debouncedSet = function*(key, value) {
     yield timeout(DEBOUNCE_MS);
+    this.resetPagination();
     this.set(key, value);
   }
 
@@ -95,7 +96,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   @action
   toggleBoolean(key) {
     this.resetPagination();
-
     this.set(key, !this.get(key));
   }
 
