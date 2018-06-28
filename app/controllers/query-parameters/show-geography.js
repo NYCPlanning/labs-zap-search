@@ -53,7 +53,7 @@ export const projectParams = new QueryParams({
     },
   },
   dcp_publicstatus: {
-    defaultValue: ['Filed', 'Certified', 'Complete'].sort(),
+    defaultValue: ['Filed', 'In Public Review', 'Complete'].sort(),
     refresh: true,
     serialize(value) {
       value = value.filter(d => d !== '')
@@ -106,4 +106,3 @@ export const projectParams = new QueryParams({
 });
 
 export default Controller.extend(projectParams.Mixin);
-
