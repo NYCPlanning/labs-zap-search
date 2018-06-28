@@ -31,7 +31,7 @@ export default class ProjectModel extends Model {
   @attr('boolean') dcp_previousactiononsite;
   @attr('string') dcp_projectbrief;
   @attr('string') dcp_projectname;
-  @attr() dcp_publicstatus;
+  @attr() dcp_publicstatus_simp;
   @attr() dcp_hiddenprojectmetrictarget;
   @attr('boolean') dcp_sischoolseat;
   @attr('boolean') dcp_sisubdivision;

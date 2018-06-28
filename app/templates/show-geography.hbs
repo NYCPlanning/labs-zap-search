@@ -220,7 +220,7 @@
               {{substring-projectbrief project.dcp_projectbrief}}
             </p>
             <p class="no-margin text-tiny dark-gray">
-              <span class="label light-gray">{{if project.dcp_publicstatus project.dcp_publicstatus "Unknown Status"}}</span>
+              <span class="label light-gray">{{if project.dcp_publicstatus_simp project.dcp_publicstatus_simp 'Unknown Status'}}</span>
               {{#if project.dcp_borough}}<span class="label light-gray">{{project.dcp_borough}}</span>{{/if}}
               {{#if project.dcp_communitydistricts}}<span class="label light-gray">{{project.dcp_communitydistricts}}</span>{{/if}}
               {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray">{{project.dcp_ulurp_nonulurp}}</span>{{/if}}
