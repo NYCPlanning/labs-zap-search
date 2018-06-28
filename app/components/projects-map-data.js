@@ -41,7 +41,7 @@ export default class ProjectsMapComponent extends Component {
       const metaTiles = this.get('meta.tiles');
       const bounds = this.get('meta.bounds');
 
-      if (metaTiles) {
+      if (metaTiles && newStyle.sources['project-centroids']) {
         newStyle.sources['project-centroids'].tiles = this.get('meta.tiles');
         map.setStyle(newStyle);
         map.fitBounds(bounds, { padding: 20 });
