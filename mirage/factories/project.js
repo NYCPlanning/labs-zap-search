@@ -14,7 +14,7 @@ export default Factory.extend({
     return faker.random.number();
   },
 
-  dcp_applicant_customer() {
+  dcp_applicant() {
     return faker.company.companyName();
   },
 

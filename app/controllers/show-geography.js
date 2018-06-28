@@ -1,7 +1,10 @@
 import { action, computed } from '@ember-decorators/object';
 import { restartableTask } from 'ember-concurrency-decorators';
+import { timeout } from 'ember-concurrency';
 import GeographyParachuteController from './query-parameters/show-geography';
 import { isArray } from '@ember/array';
+
+const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
   setup() {
@@ -12,6 +15,13 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     if (shouldRefresh) {
       this.get('fetchData').perform();
     }
+  }
+
+  @restartableTask
+  debouncedSet = function*(key, value) {
+    yield timeout(DEBOUNCE_MS);
+    this.resetPagination();
+    this.set(key, value);
   }
 
   @restartableTask
@@ -86,8 +96,12 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   @action
   toggleBoolean(key) {
     this.resetPagination();
-
     this.set(key, !this.get(key));
+  }
+
+  @action
+  setDebouncedText(key, { target: { value } }) {
+    this.get('debouncedSet').perform(key, value);
   }
 
   @action

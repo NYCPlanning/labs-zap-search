@@ -1,7 +1,20 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
+  {{log projects}}
   {{projects-map-data meta=meta}}
 
   <div class="project-filters">
+    {{#filter-section
+      filterTitle='Text Match'
+      appliedFilters=applied-filters
+      filterNames='text_query'
+      mutateArray=(action 'mutateArray')
+    }}
+      <div class="filter-controls">
+        <input class="filter-text-input" type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}}>
+      </div>
+      {{!-- {{input type='text' value=text_query}} --}}
+    {{/filter-section}}
+
     {{#filter-section
       filterTitle='Project Stage'
       appliedFilters=applied-filters
@@ -9,8 +22,8 @@
       mutateArray=(action 'mutateArray')
     }}
       <ul class="menu vertical medium-horizontal stage-checkbox">
-        {{#each (array 'Filed' 'Certified' 'Complete' 'Unknown') as |type|}}
-          <li {{action 'mutateArray' 'dcp_publicstatus' type}} class={{concat 'public-status-option-' type}}>
+        {{#each (array 'Filed' 'In Public Review' 'Complete' 'Unknown') as |type|}}
+          <li {{action 'mutateArray' 'dcp_publicstatus' type}}>
             <a>
               {{filter-checkbox
                 value=type
@@ -162,7 +175,7 @@
       </ul>
     {{/filter-section}}
 
-    {{#filter-section
+{{!--     {{#filter-section
       filterTitle='Action Status Reason'
       appliedFilters=applied-filters
       filterNames='action-reasons'
@@ -179,7 +192,7 @@
           </li>
         {{/each}}
       </ul>
-    {{/filter-section}}
+    {{/filter-section}} --}}
 
     <div class="filter">
       <p class="text-center">
@@ -217,7 +230,7 @@
               {{/link-to}}
             </h3>
             <p class="no-margin text-small dark-grey">
-              {{substring-projectbrief project.dcp_projectbrief}}
+              <strong>{{project.dcp_applicant}}</strong> &mdash; {{substring-projectbrief project.dcp_projectbrief}}
             </p>
             <p class="no-margin text-tiny dark-gray">
               <span class="label light-gray">{{if project.dcp_publicstatus_simp project.dcp_publicstatus_simp 'Unknown Status'}}</span>
@@ -230,11 +243,11 @@
             </p>
           </div>
         </li>
-      {{else}}
-        {{#unless (eq meta.total 0)}}
-          <p class="lead text-center">{{fa-icon 'spinner' class="fa-spin medium-gray" size=3}}</p>
-        {{/unless}}
       {{/each}}
+
+      {{#if fetchData.isRunning}}
+        <p class="lead text-center">{{fa-icon 'spinner' class="fa-spin medium-gray" size=3}}</p>
+      {{/if}}
     </ul>
 
     <p class="text-center" style="margin:3rem 0 6rem;">

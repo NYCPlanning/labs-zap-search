@@ -876,8 +876,8 @@ babel-core@^6.20.0, babel-core@^6.24.1, babel-core@^6.26.0, babel-core@^6.26.3:
     source-map "^0.5.7"
 
 babel-eslint@^8.0.0:
-  version "8.2.3"
-  resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-8.2.3.tgz#1a2e6681cc9bc4473c32899e59915e19cd6733cf"
+  version "8.2.5"
+  resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-8.2.5.tgz#dc2331c259d36782aa189da510c43dedd5adc7a3"
   dependencies:
     "@babel/code-frame" "7.0.0-beta.44"
     "@babel/traverse" "7.0.0-beta.44"
@@ -2223,8 +2223,8 @@ can-symlink@^1.0.0:
     tmp "0.0.28"
 
 caniuse-lite@^1.0.30000844:
-  version "1.0.30000856"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000856.tgz#ecc16978135a6f219b138991eb62009d25ee8daa"
+  version "1.0.30000860"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000860.tgz#c902e3df3cc4303f631abc7a1579a3ce0a6153a3"
 
 capture-exit@^1.1.0, capture-exit@^1.2.0:
   version "1.2.0"
@@ -3892,9 +3892,9 @@ engine.io@~3.2.0:
     engine.io-parser "~2.1.0"
     ws "~3.3.1"
 
-enhanced-resolve@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-4.0.0.tgz#e34a6eaa790f62fccd71d93959f56b2b432db10a"
+enhanced-resolve@^4.0.0, enhanced-resolve@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-4.1.0.tgz#41c7e0bfdfe74ac1ffe1e57ad6a5c6c9f3742a7f"
   dependencies:
     graceful-fs "^4.1.2"
     memory-fs "^0.4.0"
@@ -4154,10 +4154,10 @@ exec-file-sync@^2.0.0:
     spawn-sync "^1.0.11"
 
 exec-sh@^0.2.0:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/exec-sh/-/exec-sh-0.2.1.tgz#163b98a6e89e6b65b47c2a28d215bc1f63989c38"
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/exec-sh/-/exec-sh-0.2.2.tgz#2a5e7ffcbd7d0ba2755bdecb16e5a427dfbdec36"
   dependencies:
-    merge "^1.1.3"
+    merge "^1.2.0"
 
 execa@^0.10.0:
   version "0.10.0"
@@ -5133,8 +5133,8 @@ homedir-polyfill@^1.0.1:
     parse-passwd "^1.0.0"
 
 hosted-git-info@^2.1.4, hosted-git-info@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.6.0.tgz#23235b29ab230c576aab0d4f13fc046b0b038222"
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.6.1.tgz#6e4cee78b01bb849dcf93527708c69fdbee410df"
 
 http-cache-semantics@3.8.1:
   version "3.8.1"
@@ -5491,12 +5491,6 @@ is-obj@^1.0.0:
 is-object@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-object/-/is-object-1.0.1.tgz#8952688c5ec2ffd6b03ecc85e769e02903083470"
-
-is-odd@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/is-odd/-/is-odd-2.0.0.tgz#7646624671fd7ea558ccd9a2795182f2958f1b24"
-  dependencies:
-    is-number "^4.0.0"
 
 is-path-cwd@^1.0.0:
   version "1.0.0"
@@ -6475,7 +6469,7 @@ merge-trees@^2.0.0:
     fs-updater "^1.0.4"
     heimdalljs "^0.2.5"
 
-merge@^1.1.3, merge@^1.2.0:
+merge@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/merge/-/merge-1.2.0.tgz#7531e39d4949c281a66b8c5a6e0265e8b05894da"
 
@@ -6632,8 +6626,8 @@ mktemp@~0.4.0:
   resolved "https://registry.yarnpkg.com/mktemp/-/mktemp-0.4.0.tgz#6d0515611c8a8c84e484aa2000129b98e981ff0b"
 
 moment-timezone@^0.5.13:
-  version "0.5.20"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.20.tgz#fe66da425dd9f9bbf416f131bf17659680aabb99"
+  version "0.5.21"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.21.tgz#3cba247d84492174dbf71de2a9848fa13207b845"
   dependencies:
     moment ">= 2.9.0"
 
@@ -6693,15 +6687,14 @@ nan@^2.10.0, nan@^2.9.2:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
 
 nanomatch@^1.2.9:
-  version "1.2.9"
-  resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.9.tgz#879f7150cb2dab7a471259066c104eee6e0fa7c2"
+  version "1.2.13"
+  resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.13.tgz#b87a8aa4fc0de8fe6be88895b38983ff265bd119"
   dependencies:
     arr-diff "^4.0.0"
     array-unique "^0.3.2"
     define-property "^2.0.2"
     extend-shallow "^3.0.2"
     fragment-cache "^0.2.1"
-    is-odd "^2.0.0"
     is-windows "^1.0.2"
     kind-of "^6.0.2"
     object.pick "^1.3.0"
@@ -6817,8 +6810,8 @@ node-notifier@^5.0.1:
     which "^1.3.0"
 
 node-pre-gyp@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.0.tgz#6e4ef5bb5c5203c6552448828c852c40111aac46"
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.2.tgz#e8945c20ef6795a20aac2b44f036eb13cf5146e3"
   dependencies:
     detect-libc "^1.0.2"
     mkdirp "^0.5.1"
@@ -6826,7 +6819,7 @@ node-pre-gyp@^0.10.0:
     nopt "^4.0.1"
     npm-packlist "^1.1.6"
     npmlog "^4.0.2"
-    rc "^1.1.7"
+    rc "^1.2.7"
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
@@ -7528,7 +7521,7 @@ raw-body@~1.1.0:
     bytes "1"
     string_decoder "0.10"
 
-rc@^1.1.7:
+rc@^1.2.7:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
   dependencies:
@@ -8913,8 +8906,8 @@ uglify-to-browserify@~1.0.0:
   resolved "https://registry.yarnpkg.com/uglify-to-browserify/-/uglify-to-browserify-1.0.2.tgz#6e0924d6bda6b5afe349e39a6d632850a0f882b7"
 
 uglifyjs-webpack-plugin@^1.2.4:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-1.2.6.tgz#f4bb44f02431e82b301d8d4624330a6a35729381"
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-1.2.7.tgz#57638dd99c853a1ebfe9d97b42160a8a507f9d00"
   dependencies:
     cacache "^10.0.4"
     find-cache-dir "^1.0.0"
@@ -9102,8 +9095,8 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
 uuid@^3.0.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.3"
@@ -9207,8 +9200,8 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-map "~0.6.1"
 
 webpack@^4.12.0:
-  version "4.12.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.12.0.tgz#14758e035ae69747f68dd0edf3c5a572a82bdee9"
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.13.0.tgz#9a7bb953109a4079e4a32843610d2dc0184dfbe6"
   dependencies:
     "@webassemblyjs/ast" "1.5.12"
     "@webassemblyjs/helper-module-context" "1.5.12"
@@ -9220,7 +9213,7 @@ webpack@^4.12.0:
     ajv "^6.1.0"
     ajv-keywords "^3.1.0"
     chrome-trace-event "^1.0.0"
-    enhanced-resolve "^4.0.0"
+    enhanced-resolve "^4.1.0"
     eslint-scope "^3.7.1"
     json-parse-better-errors "^1.0.2"
     loader-runner "^2.3.0"

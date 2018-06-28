@@ -53,7 +53,7 @@ export const projectParams = new QueryParams({
     },
   },
   dcp_publicstatus: {
-    defaultValue: ['Filed', 'Certified', 'Complete'].sort(),
+    defaultValue: ['Filed', 'In Public Review', 'Complete'].sort(),
     refresh: true,
     serialize(value) {
       value = value.filter(d => d !== '')
@@ -83,7 +83,7 @@ export const projectParams = new QueryParams({
       return value.split(',').sort();
     },
   },
-  dcp_femafloodzonea: {
+  dcp_femafloodzonev: {
     defaultValue: false,
     refresh: true,
   },
@@ -91,15 +91,18 @@ export const projectParams = new QueryParams({
     defaultValue: false,
     refresh: true,
   },
+  dcp_femafloodzonea: {
+    defaultValue: false,
+    refresh: true,
+  },
   dcp_femafloodzoneshadedx: {
     defaultValue: false,
     refresh: true,
   },
-  dcp_femafloodzonev: {
-    defaultValue: false,
+  text_query: {
+    defaultValue: '',
     refresh: true,
   },
 });
 
 export default Controller.extend(projectParams.Mixin);
-
