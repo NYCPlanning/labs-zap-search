@@ -11,20 +11,11 @@ module('Integration | Component | project-milestone', function(hooks) {
     // Handle any actions with this.set('myAction', function(val) { ... });
 
     this.set('milestone', {
-      milestonename: 'Test Milestone',
-      dcp_plannedstartdate: '2018-02-28T05:00:00',
-      dcp_plannedcompletiondate: '2018-02-28T05:00:00',
-      dcp_actualstartdate: null,
-      dcp_actualenddate: null,
+      milestonename: 'Community Board Referral',
     });
 
     await render(hbs`{{project-milestone milestone=milestone}}`);
 
-    assert.equal(this.element.textContent.trim(),
-    `Test Milestone
-    
-        4 months ago
-            February 28, 2018 Planned`
-    );
+    assert.equal(this.element.textContent.trim(),'Community Board Review');
   });
 });

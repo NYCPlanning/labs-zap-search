@@ -101,7 +101,6 @@ const milestoneLookup = {
   }
 }
 
-
 export default class ProjectMilestoneComponent extends Component {
   tagName = 'li';
   classNameBindings = ['getClassNames'];
