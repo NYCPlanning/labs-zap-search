@@ -3,6 +3,15 @@
 
   <div class="project-filters">
     {{#filter-section
+      filterTitle='Text Match'
+      appliedFilters=applied-filters
+      filterNames='text_query'
+      mutateArray=(action 'mutateArray')
+    }}
+      <input type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}} />
+    {{/filter-section}}
+
+    {{#filter-section
       filterTitle='Project Stage'
       appliedFilters=applied-filters
       filterNames='dcp_publicstatus'
@@ -162,7 +171,7 @@
       </ul>
     {{/filter-section}}
 
-    {{#filter-section
+{{!--     {{#filter-section
       filterTitle='Action Status Reason'
       appliedFilters=applied-filters
       filterNames='action-reasons'
@@ -179,7 +188,7 @@
           </li>
         {{/each}}
       </ul>
-    {{/filter-section}}
+    {{/filter-section}} --}}
 
     <div class="filter">
       <p class="text-center">
