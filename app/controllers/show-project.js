@@ -12,11 +12,29 @@ export default class ShowProjectController extends Controller {
 
   bblFeatureCollectionLayer = {
     "id": "bbl-feature-collection-fill",
-    "type": "fill",
+    "type": "line",
+    "layout": {
+      'line-cap': 'round',
+    },
     "paint": {
-      'fill-color': 'rgba(81, 111, 217, 1)',
-      'fill-opacity': 0.5,
-      'fill-outline-color': 'rgba(255, 255, 255, 1)',
+      'line-opacity': 0.9,
+      'line-color': 'rgba(0, 10, 90, 1)',
+      'line-width': {
+        stops: [
+          [
+            14,
+            2,
+          ],
+          [
+            19,
+            7,
+          ],
+        ],
+      },
+      'line-dasharray': [
+        2,
+        1.5,
+      ],
     },
   }
 
