@@ -104,7 +104,6 @@ const milestoneLookup = {
 
 export default class ProjectMilestoneComponent extends Component {
   tagName = 'li';
-
   classNameBindings = ['getClassNames'];
 
   @argument
@@ -119,53 +118,12 @@ export default class ProjectMilestoneComponent extends Component {
     return `grid-x grid-padding-small milestone ${tense}`
   }
 
-  @computed('milestone.{dcp_plannedstartdate,dcp_actualstartdate}')
-  get startDate() {
-    const plannedStartDate = this.get('milestone.dcp_plannedstartdate');
-    const actualStartDate = this.get('milestone.dcp_actualstartdate');
-
-    if (actualStartDate) return actualStartDate;
-
-    return plannedStartDate;
-  }
-
-  @computed('milestone.{dcp_plannedstartdate,dcp_actualstartdate,dcp_plannedcompletiondate,dcp_actualenddate}')
-  get noDates() {
-    const plannedStartDate = this.get('milestone.dcp_plannedstartdate');
-    const plannedEndDate = this.get('milestone.dcp_plannedcompletiondate');
-
-    const hasPlannedDates = !!plannedStartDate && !!plannedEndDate;
-
-    const actualStartDate = this.get('milestone.dcp_actualstartdate');
-    const actualEndDate = this.get('milestone.dcp_actualenddate');
-
-    const hasActualDates = !!actualStartDate && !!actualEndDate;
-
-    // return true if there are no dates
-    return (!hasPlannedDates && !hasActualDates)
-  }
-
-  @computed('milestone.{dcp_plannedcompletiondate,dcp_actualenddate}')
-  get endDate() {
-    const plannedEndDate = this.get('milestone.dcp_plannedcompletiondate');
-    const actualEndDate = this.get('milestone.dcp_actualenddate');
-
-    if (actualEndDate) return actualEndDate;
-
-    return plannedEndDate;
-  }
-
   // one of 'past', 'present', or 'future'
   @computed('milestoneDisplayDates')
   get tense() {
 
-    // if all dates are in the past, return past
-    // if all the dates are in the future, return future
-    // else return present
-
-
     const displayDates = this.get('milestoneDisplayDates');
-    // if no display dates, code as future
+    // if no display dates, return future
     if (!displayDates) return 'future';
 
     const [, firstDate, secondDate] = displayDates;
@@ -181,21 +139,11 @@ export default class ProjectMilestoneComponent extends Component {
     return (firstDatePast && secondDatePast) ? 'past' : 'future';
   }
 
-  @computed('startDate','endDate')
-  get startAndEndAreSameDay() {
-    const start = this.get('startDate');
-    const end = this.get('endDate');
-
-    return moment(start).format('YYYMMDD') === moment(end).format('YYYMMDD');
-  }
-
   @computed('milestone.milestonename')
   get displayName() {
     const milestonename = this.get('milestone.milestonename');
     return milestoneLookup[milestonename].displayName;
   }
-
-
 
   // Returns an array
   // first item in array is the offset string
