@@ -1,0 +1,49 @@
+// --------------------------------------------------
+// Module: Milestones
+// --------------------------------------------------
+
+.milestones-list {
+  box-shadow: inset rem-calc(26) 0 0 $body-background, inset rem-calc(28) 0 0 darken($body-background, 10%);
+}
+
+.milestone {
+  position: relative;
+
+  &.past {}
+
+  &.present {
+    border: rem-calc(6) solid $lu-green;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0 0;
+    margin-bottom: 0.5rem;
+  }
+
+  &.future {}
+
+  .dates {
+    color: $dark-gray;
+  }
+}
+
+
+.milestone.past + .milestone.future {
+  border-top: 0.25rem solid $lu-green;
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+
+  &::after {
+    content: "now";
+    display: block;
+    position: absolute;
+    top: rem-calc(-2);
+    left: $global-margin;
+    background-color: $lu-green;
+    color: $white;
+    padding: 0 0.5em;
+    line-height: 1.8;
+    font-size: rem-calc(10);
+    text-transform: uppercase;
+    transform: translateY(-50%);
+    border-radius: 0.5rem;
+  }
+}

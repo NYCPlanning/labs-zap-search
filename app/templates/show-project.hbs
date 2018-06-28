@@ -119,10 +119,10 @@
           </div>
           <div class="cell medium-6">
             <h2>Milestones</h2>
-            <ul class="no-bullet">
+            <ul class="no-bullet milestones-list">
               {{#if model.milestones}}
                 {{#each model.milestones as | milestone |}}
-                  {{project-milestone milestone=milestone}}
+                  {{project-milestone milestone=milestone isFiled=isFiled}}
                 {{/each}}
               {{else}}
                 No Milestones

@@ -28,7 +28,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/');
     await click('.FEMA-checkbox li:first-child a');
 
-    assert.equal(currentURL(), '/projects?dcp_femafloodzonea=true');
+    assert.equal(currentURL(), '/projects?dcp_femafloodzonev=true');
   });
 
   test('User clicks first ULURP status and it filters', async function(assert) {
