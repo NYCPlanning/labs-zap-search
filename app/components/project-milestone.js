@@ -168,7 +168,7 @@ export default class ProjectMilestoneComponent extends Component {
     // if no display dates, code as future
     if (!displayDates) return 'future';
 
-    const [offset, firstDate, secondDate] = displayDates;
+    const [, firstDate, secondDate] = displayDates;
 
     // check if all dates are in the past
     const firstDatePast = moment(firstDate.date).isBefore();
