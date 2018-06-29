@@ -1,5 +1,11 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
-  {{projects-map-data meta=meta}}
+
+  {{#projects-map-data as |projects|}}
+    {{#if fetchData.lastSuccessful}} 
+      {{projects.dynamic-tiles tiles=fetchData.lastSuccessful.value.meta.tiles}}
+      {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds (hash padding=20)}}
+    {{/if}}
+  {{/projects-map-data}}
 
   <div class="project-filters">
     {{#filter-section
@@ -8,10 +14,8 @@
       filterNames='text_query'
       mutateArray=(action 'mutateArray')
     }}
-      <div class="filter-controls">
-        <input class="filter-text-input" type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}}>
-      </div>
-      {{!-- {{input type='text' value=text_query}} --}}
+
+       <input class="filter-text-input" type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}}>
     {{/filter-section}}
 
     {{#filter-section
@@ -33,56 +37,78 @@
       </ul>
     {{/filter-section}}
 
-    {{!-- <div class="filter">Borough</div> --}}
+    {{#filter-section
+      filterTitle='Borough'
+      appliedFilters=applied-filters
+      filterNames='boroughs'
+      mutateArray=(action 'mutateArray')
+    }}
+      <ul class="menu vertical medium-horizontal stage-checkbox">
+        {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
+          <li {{action 'mutateArray' 'boroughs' type}}>
+            <a>
+              {{filter-checkbox
+                value=type
+                currentValues=boroughs}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    {{/filter-section}}
 
     {{#filter-section
-      filterTitle='Community Districts'
+      filterTitle='Block'
+      appliedFilters=applied-filters
+      filterNames='block'
+      mutateArray=(action 'mutateArray')
+    }}
+      <input class="filter-text-input" type="text" value={{block}} oninput={{action 'setDebouncedText' 'block'}}>
+    {{/filter-section}}
+
+    {{#filter-section
+      filterTitle='Community District'
       appliedFilters=applied-filters
       filterNames='community-districts'
       mutateArray=(action 'mutateArray')
     }}
-      <div class="medium-horizontal">
-        {{#power-select-multiple
-          options=(lookup-community-district)
-          selected=(contains-keys
-            (lookup-community-district)
-            community-districts
-            key='code')
-          placeholder="Select some names..."
-          searchField='searchField'
-          onchange=(action 'replaceProperty' 'community-districts')
-          as |district|
-        }}
-          {{district.boro}} {{district.num}}
-        {{/power-select-multiple}}
-      </div>
+      {{#power-select-multiple
+        options=(lookup-community-district)
+        selected=(contains-keys
+          (lookup-community-district)
+          community-districts
+          key='code')
+        placeholder="Select some names..."
+        searchField='searchField'
+        onchange=(action 'replaceProperty' 'community-districts')
+        as |district|
+      }}
+        {{district.boro}} {{district.num}}
+      {{/power-select-multiple}}
     {{/filter-section}}
 
     {{#filter-section
-      filterTitle='Action Types'
+      filterTitle='Action Type'
       appliedFilters=applied-filters
       filterNames='action-types'
       mutateArray=(action 'mutateArray')
     }}
-      <div class="medium-horizontal">
-        {{#power-select-multiple
-          options=(lookup-action-type)
-          selected=(contains-keys
-            (lookup-action-type)
-            action-types
-            key='code')
-          placeholder="Select some actions..."
-          searchField='searchField'
-          onchange=(action 'replaceProperty' 'action-types')
-          as |action|
-        }}
-          {{action.code}}
+      {{#power-select-multiple
+        options=(lookup-action-type)
+        selected=(contains-keys
+          (lookup-action-type)
+          action-types
+          key='code')
+        placeholder="Select some actions..."
+        searchField='searchField'
+        onchange=(action 'replaceProperty' 'action-types')
+        as |action|
+      }}
+        {{action.code}}
 
-          {{#if action.short}}
-            - {{action.short}}
-          {{/if}}
-        {{/power-select-multiple}}
-      </div>
+        {{#if action.short}}
+          - {{action.short}}
+        {{/if}}
+      {{/power-select-multiple}}
     {{/filter-section}}
 
     {{#filter-section
@@ -173,26 +199,7 @@
         </li>
       </ul>
     {{/filter-section}}
-
-{{!--     {{#filter-section
-      filterTitle='Action Status Reason'
-      appliedFilters=applied-filters
-      filterNames='action-reasons'
-      mutateArray=(action 'mutateArray')
-    }}
-      <ul class="menu vertical medium-horizontal">
-        {{#each (array 'Active' 'Certified' 'Referred' 'Approved' 'Withdrawn' 'Terminated') as |type|}}
-          <li {{action 'mutateArray' 'action-reasons' type}}>
-            <a>
-              {{filter-checkbox
-                value=type
-                currentValues=action-reasons}}
-            </a>
-          </li>
-        {{/each}}
-      </ul>
-    {{/filter-section}} --}}
-
+    
     <div class="filter">
       <p class="text-center no-margin">
         <span
@@ -201,14 +208,14 @@
           &nbsp;RESET&nbsp;FILTERS&nbsp;
         </span>
       </p>
-    </div>
+    </div> --}}
   </div>
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
   <div class="results">
-    <h3 class="results-header header-large">{{meta.total}} Results</h3>
+    <h3 class="results-header header-large">{{fetchData.lastSuccessful.value.meta.total}} Results</h3>
     <ul class="results-list no-bullet">
-      {{#each projects as |project|}}
+      {{#each fetchData.lastSuccessful.value.projects as |project|}}
         <li class="grid-x grid-padding-small projects-list-result">
           <div class="cell shrink">
             <a class="button gray text-orange">
@@ -243,19 +250,19 @@
           </div>
         </li>
       {{/each}}
-
-      {{#if fetchData.isRunning}}
-        <p class="lead text-center">{{fa-icon 'spinner' class="fa-spin medium-gray" size=3}}</p>
-      {{/if}}
     </ul>
 
     <p class="text-center" style="margin:3rem 0 6rem;">
       <span
         class="button projects-load-more-button gray text-orange"
-        onClick={{unless noMoreRecords (action (mut page) (add page 1))}}
-        disabled={{noMoreRecords}}
+        onClick={{unless noMoreRecords (queue (action (mut page) (add page 1)) (perform fetchData))}}
+        disabled={{or noMoreRecords fetchData.isRunning}}
       >
-        &nbsp;LOAD&nbsp;MORE&nbsp;
+        {{#if fetchData.isRunning}}
+          {{fa-icon 'spinner' class="fa-spin" transform='grow-8'}}
+        {{else}}
+          LOAD MORE
+        {{/if}}
       </span>
     </p>
 
