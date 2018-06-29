@@ -203,11 +203,11 @@
       </div>
     {{/filter-section}}
     <div class="filter">
-      <p class="text-center">
+      <p class="text-center no-margin">
         <span
-          class="button projects-reset-filters-button gray text-orange"
+          class="button projects-reset-filters-button small gray text-orange no-margin"
           onClick={{action 'resetAll'}}>
-          RESET FILTERS
+          &nbsp;RESET&nbsp;FILTERS&nbsp;
         </span>
       </p>
     </div>
@@ -264,7 +264,7 @@
         onClick={{unless noMoreRecords (action (mut page) (add page 1))}}
         disabled={{noMoreRecords}}
       >
-        &nbsp;LOAD MORE&nbsp;
+        &nbsp;LOAD&nbsp;MORE&nbsp;
       </span>
     </p>
 
