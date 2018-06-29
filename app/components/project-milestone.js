@@ -144,6 +144,13 @@ export default class ProjectMilestoneComponent extends Component {
     return milestoneLookup[milestonename].displayName;
   }
 
+  // useful so handlebars knows whether to append "start" and "end" labels to dates
+  @computed('milestonename')
+  get isRange() {
+    const milestonename = this.get('milestone.milestonename');
+    return milestoneLookup[milestonename].dateFormat === 'range';
+  }
+
   // Returns an array
   // first item in array is the offset string
   // subsquent items are time objects
@@ -160,13 +167,6 @@ export default class ProjectMilestoneComponent extends Component {
   //     date: date,
   //   },
   // ]
-
-  // useful so handlebars knows whether to append "start" and "end" labels to dates
-  @computed('milestonename')
-  get isRange() {
-    const milestonename = this.get('milestone.milestonename');
-    return milestoneLookup[milestonename].dateFormat === 'range';
-  }
 
   @computed('milestonename')
   get milestoneDisplayDates() {
