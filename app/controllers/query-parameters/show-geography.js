@@ -2,12 +2,6 @@ import QueryParams from 'ember-parachute';
 import Controller from '@ember/controller';
 
 export const projectParams = new QueryParams({
-  // pagination
-  page: {
-    defaultValue: 1,
-    refresh: true,
-  },
-
   // meta
   'applied-filters': {
     defaultValue: ['community-districts', 'dcp_publicstatus', 'action-types'].sort(),
