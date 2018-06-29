@@ -2,7 +2,7 @@
   {{#projects-map-data as |projects|}}
     {{#if fetchData.lastSuccessful}} 
       {{projects.dynamic-tiles tiles=fetchData.lastSuccessful.value.meta.tiles}}
-      {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds}}
+      {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds (hash padding=20)}}
     {{/if}}
   {{/projects-map-data}}
 
