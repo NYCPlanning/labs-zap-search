@@ -1,7 +1,7 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
   {{#projects-map-data as |projects|}}
-    {{#if fetchData.lastSuccessful}} 
+    {{#if fetchData.lastSuccessful}}
       {{projects.dynamic-tiles tiles=fetchData.lastSuccessful.value.meta.tiles}}
       {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds (hash padding=20)}}
     {{/if}}
@@ -199,7 +199,7 @@
         </li>
       </ul>
     {{/filter-section}}
-    
+
     <div class="filter">
       <p class="text-center no-margin">
         <span
@@ -208,7 +208,7 @@
           &nbsp;RESET&nbsp;FILTERS&nbsp;
         </span>
       </p>
-    </div> --}}
+    </div>
   </div>
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
