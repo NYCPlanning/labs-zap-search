@@ -7,10 +7,13 @@
     mapLoaded=(action 'handleMapLoad')
     as |map|
 }}
-  {{#if meta.tiles}}
-    {{map.on 'click' (action 'handleMapClick')}}
-    {{map.on 'mousemove' (action 'handleMapMove')}}
-  {{/if}}
+  {{yield (hash 
+    dynamic-tiles=(component 'mapbox-gl-dynamic-tiles' map=map mapInstance=mapInstance layer=projectCentroidsLayer)
+    map=map
+  )}}
+
+  {{map.on 'click' (action 'handleMapClick')}}
+  {{map.on 'mousemove' (action 'handleMapMove')}}
 {{/mapbox-gl}}
 
 {{#if highlightedFeature}}

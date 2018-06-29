@@ -7,7 +7,8 @@ import { service } from '@ember-decorators/service';
 export default class ProjectsMapComponent extends Component {
   @service router;
 
-  @argument meta;
+  // required
+  @argument meta = {};
 
   projectCentroidsLayer = {
     id: 'project-centroids-circle',
@@ -29,48 +30,17 @@ export default class ProjectsMapComponent extends Component {
 
   popup = new mapboxgl.Popup({
    closeOnClick: false,
- })
-
-
-  didUpdateAttrs() {
-    // https://github.com/mapbox/mapbox-gl-js/issues/3709#issuecomment-265346656
-    const map = this.get('map');
-
-    if (map) {
-      const newStyle = map.getStyle();
-      const metaTiles = this.get('meta.tiles');
-      const bounds = this.get('meta.bounds');
-
-      if (metaTiles && newStyle.sources['project-centroids']) {
-        newStyle.sources['project-centroids'].tiles = this.get('meta.tiles');
-        map.setStyle(newStyle);
-        map.fitBounds(bounds, { padding: 20 });
-      }
-    }
-  }
+  });
 
   @action
   handleMapLoad(map) {
     window.map = map;
-    this.set('map', map)
-
-    const tiles = this.get('meta.tiles');
-    const bounds = this.get('meta.bounds');
-
-    if (tiles) {
-      this.map.addSource('project-centroids',{
-        type: 'vector',
-        tiles,
-      });
-
-      this.map.addLayer(this.get('projectCentroidsLayer'));
-      map.fitBounds(bounds, { padding: 20 });
-    }
+    this.set('mapInstance', map);
   }
 
   @action
   handleMapMove(e) {
-    const map = this.get('map');
+    const map = this.get('mapInstance');
     const [feature] = map.queryRenderedFeatures(
       e.point,
       { layers: ['project-centroids-circle'] }
@@ -97,7 +67,7 @@ export default class ProjectsMapComponent extends Component {
 
   @action
   handleMapClick(e) {
-    const map = this.get('map');
+    const map = this.get('mapInstance');
     const [feature] = map.queryRenderedFeatures(
       e.point,
       { layers: ['project-centroids-circle'] }

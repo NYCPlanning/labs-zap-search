@@ -1,4 +1,4 @@
-import { module, test } from 'qunit';
+import { module, test, skip } from 'qunit';
 import { visit, currentURL, click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -57,7 +57,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL(), '/projects?dcp_publicstatus=Complete%2CIn%20Public%20Review');
   });
 
-  test('Reset filters button works', async function(assert) {
+  skip('Reset filters button works', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
     await click('.ULURP-checkbox li:first-child a');
