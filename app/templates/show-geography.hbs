@@ -7,9 +7,7 @@
       filterNames='text_query'
       mutateArray=(action 'mutateArray')
     }}
-      <div class="filter-controls">
-        <input class="filter-text-input" type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}}>
-      </div>
+      <input class="filter-text-input" type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}}>
     {{/filter-section}}
 
     {{#filter-section
@@ -48,6 +46,15 @@
           </li>
         {{/each}}
       </ul>
+    {{/filter-section}}
+
+    {{#filter-section
+      filterTitle='Block'
+      appliedFilters=applied-filters
+      filterNames='block'
+      mutateArray=(action 'mutateArray')
+    }}
+      <input class="filter-text-input" type="text" value={{block}} oninput={{action 'setDebouncedText' 'block'}}>
     {{/filter-section}}
 
     {{#filter-section
@@ -187,17 +194,6 @@
           </a>
         </li>
       </ul>
-    {{/filter-section}}
-
-    {{#filter-section
-      filterTitle='Block'
-      appliedFilters=applied-filters
-      filterNames='block'
-      mutateArray=(action 'mutateArray')
-    }}
-      <div class="filter-controls">
-        <input class="filter-text-input" type="text" value={{block}} oninput={{action 'setDebouncedText' 'block'}}>
-      </div>
     {{/filter-section}}
     <div class="filter">
       <p class="text-center no-margin">
