@@ -15,6 +15,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     if (shouldRefresh) {
       this.get('fetchData').perform();
     }
+    this.resetPagination();
   }
 
   @restartableTask
@@ -50,7 +51,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     this.set('meta', meta);
   }
 
-  @computed('meta.{total,pageTotal}', 'page')
+  @computed('fetchData.lastSuccessful.value.meta.{pageTotal,total}', 'page')
   get noMoreRecords() {
     const pageTotal = this.get('meta.pageTotal');
     const total = this.get('meta.total');
