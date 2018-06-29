@@ -2,7 +2,12 @@
 // Module: Milestones
 // --------------------------------------------------
 
+.actions-list,
 .milestones-list {
+}
+
+.action {
+
 }
 
 .milestone {
@@ -17,8 +22,6 @@
     border-radius: 0.5rem;
     padding: 0.25rem 0;
     z-index: 2;
-    // margin-bottom: 1rem;
-    // margin-top: 1rem;
   }
 
   &.future {}

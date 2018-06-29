@@ -72,9 +72,9 @@
         <div class="grid-x grid-padding-x">
           <div class="cell medium-6">
             <h2>Actions</h2>
-            <ul class="no-bullet">
+            <ul class="actions-list no-bullet">
               {{#each model.actions as |action|}}
-                <li class="grid-x grid-padding-small">
+                <li class="grid-x grid-padding-small action">
                   <div class="cell shrink">
                     <span class="action-icon fa-layers fa-fw">
                       {{fa-icon 'circle' fixedWidth=true class='dark-gray'}}
@@ -82,30 +82,25 @@
                     </span>
                   </div>
                   <div class="cell auto">
-                    <p class="no-margin">
-                      <strong>
-                        <a href="#">
-                          {{action.dcp_name}}
-                        </a>
-                      </strong>
-                      <sup class="dark-gray">
-                        {{icon-tooltip tip=(lookup-action-type action.actioncode)}}
-                      </sup>
-                    </p>
-                    <p class="text-small dark-gray">
-                      {{if action.dcp_prefix action.dcp_prefix "No Prefix"}}
-                      <span class="medium-gray">|</span>
-                      {{#if action.dcp_ulurpnumber}}
-                        {{#if (eq action.statuscode "Approved")}}
-                          <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">{{action.dcp_ulurpnumber}}</a><sup class="dark-gray">{{icon-tooltip tip='ULURP Number (click on this number to access the City Planning Commision Report).'}}</sup>
+                    <h5 class="no-margin">{{action.dcp_name}}<sup class="dark-gray">{{icon-tooltip tip=(lookup-action-type action.actioncode)}}</sup></h5>
+                    <p class="text-tiny label-group">
+                      <span class="label light-gray">
+                        {{if action.dcp_prefix action.dcp_prefix "No Prefix"}}
+                      </span>{{!-- remove whitespace
+                  --}}<span class="label light-gray">
+                        {{#if action.dcp_ulurpnumber}}
+                          {{#if (eq action.statuscode "Approved")}}
+                            <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">{{action.dcp_ulurpnumber}}</a><sup class="dark-gray">{{icon-tooltip tip='ULURP Number (click on this number to access the City Planning Commision Report).'}}</sup>
+                          {{else}}
+                            {{action.dcp_ulurpnumber}}<sup class="dark-gray">{{icon-tooltip tip='ULURP Number'}}</sup>
+                          {{/if}}
                         {{else}}
-                          {{action.dcp_ulurpnumber}}<sup class="dark-gray">{{icon-tooltip tip='ULURP Number'}}</sup>
+                          No ULURP Number
                         {{/if}}
-                      {{else}}
-                        No ULURP Number
-                      {{/if}}
-                      <span class="medium-gray">|</span>
-                      {{if action.statuscode action.statuscode "No Status Code"}}
+                      </span>{{!-- remove whitespace
+                  --}}<span class="label light-gray">
+                        {{if action.statuscode action.statuscode "No Status Code"}}
+                      </span>
                     </p>
                     {{#if action.dcp_zoningresolution}}
                       <p class="text-small dark-gray">Zoning Resolution: <a href="{{build-url "zoningResolution" action.dcp_zoningresolution}}" target="_blank">{{action.dcp_zoningresolution}}</a></p>
@@ -159,7 +154,7 @@
 
         <div class="project-meta">
 
-          <p class="text-small">
+          <p class="text-small label-group">
             <strong>Keywords:</strong>
             {{#if model.keywords}}
               {{#each model.keywords as |keyword|}}
@@ -171,7 +166,7 @@
           </p>
 
           {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
-            <p class="text-small">
+            <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
               {{#if model.dcp_ceqrtype}}<span class="label secondary">{{model.dcp_ceqrtype}}</span>{{/if~}}
               {{#if model.dcp_ceqrnumber}}<span class="label secondary">{{model.dcp_ceqrnumber}}</span>{{/if~}}
@@ -234,7 +229,7 @@
             {{/each}}
           </p>
 
-          <p class="text-small"><strong>BBLs:</strong>
+          <p class="text-small label-group"><strong>BBLs:</strong>
             {{#each model.bbls as |bbl|}}
               {{~project-bbl bbl=bbl~}}
             {{/each}}
