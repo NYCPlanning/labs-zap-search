@@ -178,10 +178,10 @@ export default Factory.extend({
         milestonename: "Land Use Fee Payment",
         dcp_plannedstartdate: "2018-10-31T01:21:46",
         dcp_plannedcompletiondate: "2018-11-02T01:21:46",
-        dcp_actualstartdate: null,
-        dcp_actualenddate: null,
-        statuscode: "Overridden",
-        dcp_milestonesequence: 28
+        dcp_actualstartdate: "2018-05-11T04:00:00",
+        dcp_actualenddate: "2018-05-12T04:00:00",
+        statuscode: "Completed",
+        dcp_milestonesequence: 28,
       },
       {
         dcp_name: "ZC - Land Use Application Filed Review ",
@@ -192,6 +192,16 @@ export default Factory.extend({
         dcp_actualenddate: null,
         statuscode: "Overridden",
         dcp_milestonesequence: 29
+      },
+      {
+        dcp_name: "ZC - City Council Review ",
+        milestonename: "City Council Review",
+        dcp_plannedstartdate: null,
+        dcp_plannedcompletiondate: null,
+        dcp_actualstartdate: "2016-04-22T01:40:24",
+        dcp_actualenddate: "2022-05-02T01:40:24",
+        statuscode: "Not Started",
+        dcp_milestonesequence: 60
       },
       {
         dcp_name: "ZC - Final Letter Sent ",
