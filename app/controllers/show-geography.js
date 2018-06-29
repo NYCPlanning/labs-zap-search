@@ -112,6 +112,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
   @action
   resetAll() {
+    this.resetPagination();
     this.resetQueryParams();
   }
 }

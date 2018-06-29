@@ -197,7 +197,7 @@
       </ul>
     {{/filter-section}} --}}
 
-    <div class="filter">
+{{!--     <div class="filter">
       <p class="text-center">
         <span
           class="button projects-reset-filters-button gray text-orange"
@@ -205,7 +205,7 @@
           RESET FILTERS
         </span>
       </p>
-    </div>
+    </div> --}}
   </div>
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
@@ -248,9 +248,7 @@
         </li>
       {{/each}}
 
-      {{#if fetchData.isRunning}}
-        <p class="lead text-center">{{fa-icon 'spinner' class="fa-spin medium-gray" size=3}}</p>
-      {{/if}}
+
     </ul>
 
     <p class="text-center" style="margin:3rem 0 6rem;">
@@ -259,7 +257,11 @@
         onClick={{unless noMoreRecords (queue (action (mut page) (add page 1)) (perform fetchData))}}
         disabled={{or noMoreRecords fetchData.isRunning}}
       >
-        &nbsp;LOAD MORE&nbsp;
+        {{#if fetchData.isRunning}}
+          {{fa-icon 'spinner' class="fa-spin" transform='grow-8'}}
+        {{else}}
+          LOAD MORE
+        {{/if}}
       </span>
     </p>
 
