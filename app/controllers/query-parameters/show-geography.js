@@ -115,6 +115,10 @@ export const projectParams = new QueryParams({
     defaultValue: '',
     refresh: true,
   },
+  block: {
+    defaultValue: '',
+    refresh: true,
+  },
 });
 
 export default Controller.extend(projectParams.Mixin);

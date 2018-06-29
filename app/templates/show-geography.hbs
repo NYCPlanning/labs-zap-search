@@ -10,7 +10,6 @@
       <div class="filter-controls">
         <input class="filter-text-input" type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}}>
       </div>
-      {{!-- {{input type='text' value=text_query}} --}}
     {{/filter-section}}
 
     {{#filter-section
@@ -193,25 +192,16 @@
       </ul>
     {{/filter-section}}
 
-{{!--     {{#filter-section
-      filterTitle='Action Status Reason'
+    {{#filter-section
+      filterTitle='Block'
       appliedFilters=applied-filters
-      filterNames='action-reasons'
+      filterNames='block'
       mutateArray=(action 'mutateArray')
     }}
-      <ul class="menu vertical medium-horizontal">
-        {{#each (array 'Active' 'Certified' 'Referred' 'Approved' 'Withdrawn' 'Terminated') as |type|}}
-          <li {{action 'mutateArray' 'action-reasons' type}}>
-            <a>
-              {{filter-checkbox
-                value=type
-                currentValues=action-reasons}}
-            </a>
-          </li>
-        {{/each}}
-      </ul>
-    {{/filter-section}} --}}
-
+      <div class="filter-controls">
+        <input class="filter-text-input" type="text" value={{block}} oninput={{action 'setDebouncedText' 'block'}}>
+      </div>
+    {{/filter-section}}
     <div class="filter">
       <p class="text-center">
         <span
