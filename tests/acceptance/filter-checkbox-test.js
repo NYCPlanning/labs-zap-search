@@ -42,8 +42,8 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('User clicks community district box, fills in community district name, selects CD', async function(assert) {
     server.createList('project', 20);
     await visit('/');
-    await click('.ember-power-select-multiple-options');
-    await fillIn('.ember-power-select-multiple-options input', 'Brooklyn 1');
+    await click('.filter-section-community-districts .ember-power-select-multiple-options');
+    await fillIn('.filter-section-community-districts .ember-power-select-multiple-options input', 'Brooklyn 1');
     await click ('.ember-power-select-options li:first-child');
 
     assert.equal(currentURL(), '/projects?community-districts=BK01');
