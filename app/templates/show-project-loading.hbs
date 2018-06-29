@@ -1,0 +1,35 @@
+<div class="cell">
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x grid-padding-y">
+      <div class="cell large-7">
+        <div class="grid-x">
+          <div class="cell auto">
+            {{#content-placeholders as |placeholder|}}
+              {{placeholder.heading}}
+              {{placeholder.heading}}
+              {{placeholder.text lines=6}}
+            {{/content-placeholders}}
+            <hr>
+            <div class="grid-x grid-padding-x">
+              <div class="cell medium-6">
+                {{#content-placeholders as |placeholder|}}
+                  {{placeholder.text lines=10}}
+                {{/content-placeholders}}
+              </div>
+              <div class="cell medium-6">
+                {{#content-placeholders as |placeholder|}}
+                  {{placeholder.text lines=10}}
+                {{/content-placeholders}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cell large-5">
+        {{#content-placeholders as |placeholder|}}
+          {{placeholder.img}}
+        {{/content-placeholders}}
+      </div>
+    </div>
+  </div>
+</div>
