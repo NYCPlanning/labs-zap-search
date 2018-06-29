@@ -17,6 +17,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     }
   }
 
+  page = 1;
+
   @restartableTask
   debouncedSet = function*(key, value) {
     yield timeout(DEBOUNCE_MS);
@@ -30,10 +32,9 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
     const params = this.get('allQueryParams');
     const {
-      page = 1,
       'applied-filters': appliedFilters,
     } = params;
-
+    const page = this.get('page');
     const queryOptions = {
       page,
     }
