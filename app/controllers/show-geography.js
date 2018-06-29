@@ -26,6 +26,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
   @restartableTask
   fetchData = function*() {
+    yield {};
+
     const params = this.get('allQueryParams');
     const {
       page = 1,
@@ -46,14 +48,17 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
     // include the entire, un-paginated response
     const allProjects = this.store.peekAll('project');
-    this.set('projects', allProjects);
-    this.set('meta', meta);
+
+    return {
+      meta,
+      projects: allProjects,
+    }
   }
 
-  @computed('meta.{total,pageTotal}', 'page')
+  @computed('fetchData', 'page')
   get noMoreRecords() {
-    const pageTotal = this.get('meta.pageTotal');
-    const total = this.get('meta.total');
+    const pageTotal = this.get('fetchData.lastSuccessful.value.meta.pageTotal');
+    const total = this.get('fetchData.lastSuccessful.value.meta.total');
     const page = this.get('page');
 
     return (pageTotal < 30) || ((page * 30) >= total);

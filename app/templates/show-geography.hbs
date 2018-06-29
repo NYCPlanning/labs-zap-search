@@ -1,5 +1,10 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
-  {{projects-map-data meta=meta}}
+  {{#projects-map-data as |projects|}}
+    {{#if fetchData.lastSuccessful}} 
+      {{projects.dynamic-tiles tiles=fetchData.lastSuccessful.value.meta.tiles}}
+      {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds}}
+    {{/if}}
+  {{/projects-map-data}}
 
   <div class="project-filters">
     {{#filter-section
@@ -11,7 +16,6 @@
       <div class="filter-controls">
         <input class="filter-text-input" type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}}>
       </div>
-      {{!-- {{input type='text' value=text_query}} --}}
     {{/filter-section}}
 
     {{#filter-section
@@ -206,9 +210,9 @@
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
   <div class="results">
-    <h3 class="results-header header-large">{{meta.total}} Results</h3>
+    <h3 class="results-header header-large">{{fetchData.lastSuccessful.value.meta.total}} Results</h3>
     <ul class="results-list no-bullet">
-      {{#each projects as |project|}}
+      {{#each fetchData.lastSuccessful.value.projects as |project|}}
         <li class="grid-x grid-padding-small projects-list-result">
           <div class="cell shrink">
             <a class="button gray text-orange">
@@ -253,7 +257,7 @@
       <span
         class="button projects-load-more-button gray text-orange"
         onClick={{unless noMoreRecords (action (mut page) (add page 1))}}
-        disabled={{noMoreRecords}}
+        disabled={{or noMoreRecords fetchData.isRunning}}
       >
         &nbsp;LOAD MORE&nbsp;
       </span>
