@@ -23,7 +23,7 @@ module('Acceptance | append only search results work', function(hooks) {
 
     await click('.projects-load-more-button');
 
-    assert.equal(currentURL(), '/projects?community-districts=asdf&page=2');
+    assert.equal(currentURL(), '/projects?community-districts=asdf');
 
     const listResults2 = await findAll('li.projects-list-result');
 
@@ -49,6 +49,6 @@ module('Acceptance | append only search results work', function(hooks) {
     await click('.projects-load-more-button');
 
     // should not increase page number
-    assert.equal(currentURL(), '/projects?community-districts=asdf&page=2')
+    assert.equal(currentURL(), '/projects?community-districts=asdf')
   });
 });

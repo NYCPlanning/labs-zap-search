@@ -2,12 +2,6 @@ import QueryParams from 'ember-parachute';
 import Controller from '@ember/controller';
 
 export const projectParams = new QueryParams({
-  // pagination
-  page: {
-    defaultValue: 1,
-    refresh: true,
-  },
-
   // meta
   'applied-filters': {
     defaultValue: ['community-districts', 'dcp_publicstatus', 'action-types'].sort(),
@@ -22,6 +16,19 @@ export const projectParams = new QueryParams({
   },
 
   // filter values
+
+  'boroughs': {
+    defaultValue: [],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',');
+    },
+  },
+
+
   'community-districts': {
     defaultValue: [],
     refresh: true,
@@ -100,6 +107,10 @@ export const projectParams = new QueryParams({
     refresh: true,
   },
   text_query: {
+    defaultValue: '',
+    refresh: true,
+  },
+  block: {
     defaultValue: '',
     refresh: true,
   },
