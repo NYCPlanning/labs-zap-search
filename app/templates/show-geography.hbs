@@ -37,29 +37,26 @@
       filterNames='boroughs'
       mutateArray=(action 'mutateArray')
     }}
-    <div class="medium-horizontal">
-      {{#power-select-multiple
-        options=(lookup-borough)
-        selected=(contains-keys
-          (lookup-borough)
-          boroughs
-          key='code')
-        placeholder="Select boroughs..."
-        searchField='searchField'
-        onchange=(action 'replaceProperty' 'boroughs')
-        as |borough|
-      }}
-        {{borough.code}}
-      {{/power-select-multiple}}
-    </div>
+      <ul class="menu vertical medium-horizontal stage-checkbox">
+        {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
+          <li {{action 'mutateArray' 'boroughs' type}}>
+            <a>
+              {{filter-checkbox
+                value=type
+                currentValues=boroughs}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
     {{/filter-section}}
+
     {{#filter-section
       filterTitle='Community Districts'
       appliedFilters=applied-filters
       filterNames='community-districts'
       mutateArray=(action 'mutateArray')
     }}
-      <div class="medium-horizontal">
+      <div>
         {{#power-select-multiple
           options=(lookup-community-district)
           selected=(contains-keys
@@ -82,7 +79,7 @@
       filterNames='action-types'
       mutateArray=(action 'mutateArray')
     }}
-      <div class="medium-horizontal">
+      <div>
         {{#power-select-multiple
           options=(lookup-action-type)
           selected=(contains-keys
