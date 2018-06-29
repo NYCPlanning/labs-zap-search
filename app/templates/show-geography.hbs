@@ -63,21 +63,19 @@
       filterNames='community-districts'
       mutateArray=(action 'mutateArray')
     }}
-      <div>
-        {{#power-select-multiple
-          options=(lookup-community-district)
-          selected=(contains-keys
-            (lookup-community-district)
-            community-districts
-            key='code')
-          placeholder="Select some names..."
-          searchField='searchField'
-          onchange=(action 'replaceProperty' 'community-districts')
-          as |district|
-        }}
-          {{district.boro}} {{district.num}}
-        {{/power-select-multiple}}
-      </div>
+      {{#power-select-multiple
+        options=(lookup-community-district)
+        selected=(contains-keys
+          (lookup-community-district)
+          community-districts
+          key='code')
+        placeholder="Select some names..."
+        searchField='searchField'
+        onchange=(action 'replaceProperty' 'community-districts')
+        as |district|
+      }}
+        {{district.boro}} {{district.num}}
+      {{/power-select-multiple}}
     {{/filter-section}}
 
     {{#filter-section
@@ -86,25 +84,23 @@
       filterNames='action-types'
       mutateArray=(action 'mutateArray')
     }}
-      <div>
-        {{#power-select-multiple
-          options=(lookup-action-type)
-          selected=(contains-keys
-            (lookup-action-type)
-            action-types
-            key='code')
-          placeholder="Select some actions..."
-          searchField='searchField'
-          onchange=(action 'replaceProperty' 'action-types')
-          as |action|
-        }}
-          {{action.code}}
+      {{#power-select-multiple
+        options=(lookup-action-type)
+        selected=(contains-keys
+          (lookup-action-type)
+          action-types
+          key='code')
+        placeholder="Select some actions..."
+        searchField='searchField'
+        onchange=(action 'replaceProperty' 'action-types')
+        as |action|
+      }}
+        {{action.code}}
 
-          {{#if action.short}}
-            - {{action.short}}
-          {{/if}}
-        {{/power-select-multiple}}
-      </div>
+        {{#if action.short}}
+          - {{action.short}}
+        {{/if}}
+      {{/power-select-multiple}}
     {{/filter-section}}
 
     {{#filter-section
