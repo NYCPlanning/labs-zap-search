@@ -1,6 +1,5 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
   {{projects-map-data meta=meta}}
-
   <div class="project-filters">
     {{#filter-section
       filterTitle='Text Match'
@@ -33,8 +32,28 @@
       </ul>
     {{/filter-section}}
 
-    {{!-- <div class="filter">Borough</div> --}}
-
+    {{#filter-section
+      filterTitle='Boroughs'
+      appliedFilters=applied-filters
+      filterNames='boroughs'
+      mutateArray=(action 'mutateArray')
+    }}
+    <div class="medium-horizontal">
+      {{#power-select-multiple
+        options=(lookup-borough)
+        selected=(contains-keys
+          (lookup-borough)
+          boroughs
+          key='code')
+        placeholder="Select boroughs..."
+        searchField='searchField'
+        onchange=(action 'replaceProperty' 'boroughs')
+        as |borough|
+      }}
+        {{borough.boroname}}
+      {{/power-select-multiple}}
+    </div>
+    {{/filter-section}}
     {{#filter-section
       filterTitle='Community Districts'
       appliedFilters=applied-filters

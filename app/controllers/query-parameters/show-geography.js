@@ -22,6 +22,18 @@ export const projectParams = new QueryParams({
   },
 
   // filter values
+  'boroughs': {
+    defaultValue: [],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',');
+    },
+  },
+
+  // filter values
   'community-districts': {
     defaultValue: [],
     refresh: true,
