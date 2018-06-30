@@ -39,14 +39,43 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL(), '/projects?dcp_ulurp_nonulurp=Non-ULURP');
   });
 
-  test('User clicks community district box, fills in community district name, selects CD', async function(assert) {
+   test('User clicks community district box, fills in community district name, selects CD', async function(assert) {
     server.createList('project', 20);
+
     await visit('/');
     await click('.filter-section-community-district .ember-power-select-multiple-options');
     await fillIn('.filter-section-community-district .ember-power-select-multiple-options input', 'Brooklyn 1');
     await click ('.ember-power-select-options li:first-child');
 
     assert.equal(currentURL(), '/projects?community-districts=BK01');
+  });
+
+  test('User clicks action code box, fills in action code name, selects action code', async function(assert) {
+    server.createList('project', 20);
+    await visit('/projects');
+    await click('.filter-section-action-types .ember-power-select-multiple-options');
+    await fillIn('.filter-section-action-types .ember-power-select-multiple-options input', 'BD');
+    await click('.ember-power-select-options li:first-child');
+
+    assert.equal(currentURL(), '/projects?action-types=BD')
+  });
+
+  test('User clicks on switch paddle and turns off filters', async function(assert) {
+    server.createList('project', 20);
+    await visit('/projects');
+    await click('.filter-section-project-stage .switch-paddle');
+
+    assert.equal(currentURL(), '/projects?applied-filters=action-types%2Ccommunity-districts');
+  });
+
+  test('User types word into Search Box, and list filters', async function(assert) {
+    server.createList('project', 20);
+    await visit('/projects');
+    await click('.filter-section-text-match .switch-paddle')
+    await click('.filter-text-input')
+    await fillIn('.filter-text-input', 'waterfront');
+
+    assert.equal(currentURL(), '/projects?applied-filters=action-types%2Ccommunity-districts%2Cdcp_publicstatus%2Ctext_query&text_query=waterfront');
   });
 
   test('Page reloads (pagination reset) when click new filter', async function(assert) {
