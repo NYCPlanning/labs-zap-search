@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { computed } from '@ember-decorators/object';
+import { computed, action } from '@ember-decorators/object';
 import { classNames, className } from '@ember-decorators/component';
 import { argument } from '@ember-decorators/argument';
 import { contains } from 'ember-composable-helpers/helpers/contains';
@@ -33,4 +33,15 @@ export default class FilterSectionComponent extends Component {
 
   @argument
   mutateArray() {}
+
+  @action
+  notifyAppliedFilters(changedProperty) {
+    // mutateArray 'applied-filters' filterNames
+    const filterNames = this.get('filterNames');
+    const appliedFilters = this.get('appliedFilters');
+    
+    if (!appliedFilters.includes(changedProperty)) {
+      this.get('mutateArray')('applied-filters', filterNames)
+    }
+  }
 }
