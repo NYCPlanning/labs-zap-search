@@ -239,7 +239,7 @@
               <strong>{{if project.dcp_applicant project.dcp_applicant "Unknown Applicant"}}</strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
             </p>
             <p class="no-margin text-tiny dark-gray">
-              <span class="label light-gray">{{if project.dcp_publicstatus_simp project.dcp_publicstatus_simp 'Unknown Status'}}</span>
+              <span class="label publicstatus-{{dasherize project.dcp_publicstatus_simp}}">{{unless (eq project.dcp_publicstatus_simp 'Unknown') project.dcp_publicstatus_simp "Unknown Status"}}</span>
               {{#if project.dcp_borough}}<span class="label light-gray">{{project.dcp_borough}}</span>{{/if}}
               {{#if project.dcp_communitydistricts}}<span class="label light-gray">{{project.dcp_communitydistricts}}</span>{{/if}}
               {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray">{{project.dcp_ulurp_nonulurp}}</span>{{/if}}
