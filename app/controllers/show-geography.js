@@ -96,6 +96,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   @action
   toggleBoolean(key) {
     this.set(key, !this.get(key));
+
+    return key;
   }
 
   @action
