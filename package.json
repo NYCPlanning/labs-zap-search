@@ -76,6 +76,7 @@
     "@turf/boolean-point-in-polygon": "6.0.1",
     "@turf/intersect": "6.1.2",
     "ember-concurrency-decorators": "machty/ember-concurrency-decorators",
-    "foundation-sites": "^6.4.3"
+    "foundation-sites": "^6.4.3",
+    "numeral": "^2.0.6"
   }
 }
