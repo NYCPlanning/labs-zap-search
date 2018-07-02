@@ -135,42 +135,67 @@
       appliedFilters=applied-filters
       filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
       mutateArray=(action 'mutateArray')
+      as |section|
     }}
       <ul class="menu vertical medium-horizontal FEMA-checkbox">
-        <li {{action 'toggleBoolean' 'dcp_femafloodzonev'}}>
+        <li {{action (pipe (action 'toggleBoolean' 'dcp_femafloodzonev') (action section.notify-applied-filters))}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzonev 'check-square' 'square')
               prefix=(unless dcp_femafloodzonev 'far')
               class=(if dcp_femafloodzonev 'dark-gray' 'medium-gray')
-            }} V <sup>{{icon-tooltip tip='A portion of the 1% annual chance floodplain subject to high velocity wave action (a breaking wave 3 feet high or larger). V Zones are subject to more stringent building requirements than other zones because of the damaging force of waves.' class="dark-gray"}}</sup>
+            }} V 
+            <sup>
+              {{icon-tooltip 
+                tip='A portion of the 1% annual chance floodplain subject to high velocity wave action (a breaking wave 3 feet high or larger). V Zones are subject to more stringent building requirements than other zones because of the damaging force of waves.' 
+                class="dark-gray"
+              }}
+            </sup>
           </a>
         </li>
-        <li {{action 'toggleBoolean' 'dcp_femafloodzonecoastala'}}>
+        <li {{action (pipe (action 'toggleBoolean' 'dcp_femafloodzonecoastala') (action section.notify-applied-filters))}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzonecoastala 'check-square' 'square')
               prefix=(unless dcp_femafloodzonecoastala 'far')
               class=(if dcp_femafloodzonecoastala 'dark-gray' 'medium-gray')
-            }} Coastal A <sup>{{icon-tooltip tip='A sub-zone of the A Zone where wave heights are expected to be between 1.5 and 3 feet high. This zone is indicated by the Limit of Moderate Wave Action (LiMWA) line on the latest FEMA FIRMs.' class="dark-gray"}}</sup>
+            }} Coastal A 
+            <sup>
+              {{icon-tooltip 
+                tip='A sub-zone of the A Zone where wave heights are expected to be between 1.5 and 3 feet high. This zone is indicated by the Limit of Moderate Wave Action (LiMWA) line on the latest FEMA FIRMs.' 
+                class="dark-gray"
+              }}
+            </sup>
           </a>
         </li>
-        <li {{action 'toggleBoolean' 'dcp_femafloodzonea'}}>
+        <li {{action (pipe (action 'toggleBoolean' 'dcp_femafloodzonea') (action section.notify-applied-filters))}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzonea 'check-square' 'square')
               prefix=(unless dcp_femafloodzonea 'far')
               class=(if dcp_femafloodzonea 'dark-gray' 'medium-gray')
-            }} A <sup>{{icon-tooltip tip='A portion of the area subject to flooding from the 1% annual chance flood. These areas are not subject to high velocity wave action but are still considered high risk flooding areas. In A Zones, NYC Building Code requires buildings to be elevated or flood-proofed based on the Base Flood Elevation identified on the FEMA’s FIRMs.' class="dark-gray"}}</sup>
+            }} A 
+            <sup>
+              {{icon-tooltip 
+                tip='A portion of the area subject to flooding from the 1% annual chance flood. These areas are not subject to high velocity wave action but are still considered high risk flooding areas. In A Zones, NYC Building Code requires buildings to be elevated or flood-proofed based on the Base Flood Elevation identified on the FEMA’s FIRMs.' 
+                class="dark-gray"
+              }}
+            </sup>
           </a>
         </li>
-        <li {{action 'toggleBoolean' 'dcp_femafloodzoneshadedx'}}>
+        <li {{action (pipe (action 'toggleBoolean' 'dcp_femafloodzoneshadedx') (action section.notify-applied-filters))}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzoneshadedx 'check-square' 'square')
               prefix=(unless dcp_femafloodzoneshadedx 'far')
               class=(if dcp_femafloodzoneshadedx 'dark-gray' 'medium-gray')
-            }} Shaded X <sup>{{icon-tooltip tip='The area of moderate flood risk outside the regulatory 1% annual chance flood but within the limits of the 0.2% annual chance flood level (the 500-year floodplain). There are no current NYC Building Code or FEMA flood insurance purchase requirements for buildings in this zone.' class="dark-gray"}}</sup>
+            }} Shaded X 
+            <sup>
+              {{icon-tooltip 
+                tip='The area of moderate flood risk outside the regulatory 1% annual chance flood but within the limits of the 0.2% annual chance flood level (the 500-year floodplain). There are no current NYC Building Code or FEMA flood insurance purchase requirements for buildings in this zone.' 
+                class="dark-gray"
+              }}
+            </sup>
           </a>
         </li>
       </ul>
