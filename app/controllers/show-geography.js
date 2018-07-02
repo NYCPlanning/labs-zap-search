@@ -13,9 +13,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
   queryParamsDidChange({ shouldRefresh }) {
     if (shouldRefresh) {
-      this.get('fetchData').perform();
+      this.get('fetchData').perform({ unloadAll: true });
     }
-    this.resetPagination();
   }
 
   page = 1;
@@ -23,13 +22,16 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   @restartableTask
   debouncedSet = function*(key, value) {
     yield timeout(DEBOUNCE_MS);
-    this.resetPagination();
     this.set(key, value);
   }
 
   @restartableTask
-  fetchData = function*() {
-    yield {};
+  fetchData = function*({ unloadAll = false } = {}) {
+    // unload all if query changes
+    if (unloadAll) {
+      this.set('page', 1);
+      this.get('store').unloadAll('project');
+    }
 
     const params = this.get('allQueryParams');
     const {
@@ -67,17 +69,9 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   @action
-  resetPagination() {
-    // reset pagination
-    this.set('page', 1);
-    this.get('store').unloadAll('project');
-  }
-
-  @action
   mutateArray(key, ...values) {
     // BEWARE: binding this to 'onClick=' will insert the mouseEvent
     const targetArray = this.get(key);
-    this.resetPagination();
 
     // ember handlebars can't use spread/rest syntax for actions yet
     // so we check if array is passed
@@ -96,13 +90,11 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
   @action
   replaceProperty(key, value = []) {
-    this.resetPagination();
     this.set(key, value.map(({ code }) => code));
   }
 
   @action
   toggleBoolean(key) {
-    this.resetPagination();
     this.set(key, !this.get(key));
   }
 
@@ -113,7 +105,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
   @action
   resetAll() {
-    this.resetPagination();
     this.resetQueryParams();
   }
 }
