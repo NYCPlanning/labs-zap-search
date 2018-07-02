@@ -54,11 +54,11 @@
           <strong>Project Brief:</strong>
           {{if model.dcp_projectbrief model.dcp_projectbrief "No Project Brief"}}
         </p>
-
+        {{log model.dcp_publicstatus_simp}}
         <div class="grid-x grid-padding-x">
           <p class="cell auto">
             <strong>Status:</strong>
-            <span class="label dark-gray">{{if model.dcp_publicstatus model.dcp_publicstatus "Unknown"}}</span>
+            <span class="label dark-gray">{{model.dcp_publicstatus_simp}}</span>
           </p>
           {{#if model.dcp_ulurp_nonulurp}}
             <p class="cell small-6 text-right">
