@@ -43,7 +43,7 @@
       filterNames='boroughs'
       mutateArray=(action 'mutateArray')
     }}
-      <ul class="menu vertical medium-horizontal stage-checkbox">
+      <ul class="menu vertical medium-horizontal borough-checkbox">
         {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
           <li {{action 'mutateArray' 'boroughs' type}}>
             <a>
@@ -117,7 +117,7 @@
       filterNames='dcp_ceqrtype'
       mutateArray=(action 'mutateArray')
     }}
-      <ul class="menu vertical medium-horizontal CEQR-checkbox">
+      <ul class="menu vertical medium-horizontal ceqr-checkbox">
         {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
           <li {{action 'mutateArray' 'dcp_ceqrtype' type}}>
             <a>
@@ -136,7 +136,7 @@
       filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
       mutateArray=(action 'mutateArray')
     }}
-      <ul class="menu vertical medium-horizontal FEMA-checkbox">
+      <ul class="menu vertical medium-horizontal fema-checkbox">
         <li {{action 'toggleBoolean' 'dcp_femafloodzonev'}}>
           <a>
             {{fa-icon
@@ -182,7 +182,7 @@
       filterNames='dcp_ulurp_nonulurp'
       mutateArray=(action 'mutateArray')
     }}
-      <ul class="menu vertical medium-horizontal ULURP-checkbox">
+      <ul class="menu vertical medium-horizontal ulurp-checkbox">
         <li {{action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP'}}>
           <a>
             {{filter-checkbox
