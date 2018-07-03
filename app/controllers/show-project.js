@@ -8,10 +8,11 @@ import turfBbox from '@turf/bbox';
 export default class ShowProjectController extends Controller {
   @argument shareURL = window.location.href;
   @argument shareClosed = true;
-  @argument flagClosed = false;
   @argument copySuccess = false;
 
-  flagText = 'test';
+  flagText = '';
+  flagClosed = true;
+  flagSuccess = false;
 
   bblFeatureCollectionLayer = {
     "id": "bbl-feature-collection-fill",
@@ -96,15 +97,30 @@ export default class ShowProjectController extends Controller {
   }
 
   @action
-  handleFlagTextChange() {
-    const flagText = this.get('flagText');
-    console.log(flagText);
-  }
-
-  @action
   submitFlag() {
-    console.log('submitting')
-    // const flagText = this.get('flagText');
-    // console.log(flagText);
+    const projectid = this.get('model.dcp_projectname');
+    const flagText = this.get('flagText');
+
+    fetch(`http://localhost:3000/projects/feedback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {
+        projectid,
+        text: flagText,
+      },
+    })
+      .then(res => res.json())
+      .then(({status}) => {
+          if (status === 'success') {
+            this.set('flagSuccess', true);
+            run.later(() => {
+              this.set('flagSuccess', false);
+              this.set('flagText', '');
+              this.set('flagClosed', true);
+            }, 2000);
+          }
+      });
   }
 }

@@ -80,3 +80,23 @@
     75%  {opacity:1;}
     100% {opacity:0;}
 }
+
+@keyframes flagfade {
+    0%   {opacity:0;}
+    10%  {opacity:1;}
+    100% {opacity:1;}
+}
+
+// Feedback Controls
+.flag-success {
+  color: #78d270;
+  padding-left: 13px;
+  opacity: 0;
+  animation: flagfade 2s;
+
+  .text {
+    position: relative;
+    top: -7px;
+    padding-left: 8px;
+  }
+}
