@@ -13,6 +13,7 @@ export default class ShowProjectController extends Controller {
   flagText = '';
   flagClosed = true;
   flagSuccess = false;
+  reCaptchaResponse = null;
 
   bblFeatureCollectionLayer = {
     "id": "bbl-feature-collection-fill",
@@ -89,27 +90,26 @@ export default class ShowProjectController extends Controller {
   }
 
   @action
-  handleFlagSuccess() {
-    // this.set('copySuccess', true);
-    // run.later(() => {
-    //   this.set('copySuccess', false);
-    // }, 2000);
+  onCaptchaResolved(reCaptchaResponse) {
+    this.set('reCaptchaResponse', reCaptchaResponse);
   }
 
   @action
   submitFlag() {
     const projectid = this.get('model.dcp_projectname');
     const flagText = this.get('flagText');
+    const reCaptchaResponse = this.get('reCaptchaResponse');
 
     fetch(`http://localhost:3000/projects/feedback`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: {
+      body: JSON.stringify({
         projectid,
         text: flagText,
-      },
+        reCaptchaResponse,
+      }),
     })
       .then(res => res.json())
       .then(({status}) => {

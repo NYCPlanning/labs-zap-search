@@ -78,7 +78,9 @@
                 <label>What's the issue?
                   {{textarea rows="5" value=flagText disabled=flagSuccess}}
                 </label>
-                <button type="submit" class="button" disabled={{or (lt flagText.length 10) flagSuccess}} >Submit</button>
+                {{g-recaptcha onSuccess=(action "onCaptchaResolved")}}
+
+                <button type="submit" class="button" disabled={{xor flagSuccess (or (lt flagText.length 10) (eq reCaptchaResponse null))}} >Submit</button>
                 {{#if flagSuccess}}
                   <span class="flag-success">
                     <strong><span>{{fa-icon icon="check" size="3x"}}</span> <span class="text">Thanks for the feedback!</span></strong>
