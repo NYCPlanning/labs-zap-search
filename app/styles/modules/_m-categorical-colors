@@ -1,0 +1,107 @@
+// --------------------------------------------------
+// Module: Categorical Colors
+// --------------------------------------------------
+
+$filed: #deebf7;
+$in-public-review: #9ecae1;
+$complete: #3182bd;
+
+.label.publicstatus-filed {
+  background: $filed;
+  color: #1a2a2a;
+}
+
+.circle.publicstatus-filed {
+  color: $filed;
+}
+
+.label.publicstatus-in-public-review {
+  background: $in-public-review;
+  color: #1a2a2a;
+}
+
+.circle.publicstatus-in-public-review {
+  color: $in-public-review;
+}
+
+
+.label.publicstatus-complete {
+ background: $complete;
+ color: #FFF;
+}
+
+.circle.publicstatus-complete {
+  color: $complete;
+}
+
+.label.publicstatus-unknown {
+ background: $dark-gray;
+ color: #FFF;
+}
+
+.circle.publicstatus-unknown {
+ color: $dark-gray;
+}
+
+// Boroughs
+
+$manhattan: #66c2a5;
+$bronx: #fc8d62;
+$brooklyn: #8da0cb;
+$queens: #e78ac3;
+$statenisland: #a6d854;
+$citywide: #ffd92f;
+
+.label {
+  &.borough-manhattan {
+    background: $manhattan;
+  }
+
+  &.borough-bronx {
+    background: $bronx;
+  }
+
+  &.borough-brooklyn {
+    background: $brooklyn;
+  }
+
+  &.borough-queens {
+    background: $queens;
+  }
+
+  &.borough-staten-island {
+    background: $statenisland;
+    color: $dark-gray;
+  }
+
+  &.borough-citywide {
+    background: $citywide;
+    color: $dark-gray;
+  }
+}
+
+.circle {
+  &.borough-manhattan {
+    color: $manhattan;
+  }
+
+  &.borough-bronx {
+    color: $bronx;
+  }
+
+  &.borough-brooklyn {
+    color: $brooklyn;
+  }
+
+  &.borough-queens {
+    color: $queens;
+  }
+
+  &.borough-staten-island {
+    color: $statenisland;
+  }
+
+  &.borough-citywide {
+    color: $citywide;
+  }
+}

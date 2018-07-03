@@ -30,7 +30,9 @@
             <a>
               {{filter-checkbox
                 value=type
-                currentValues=dcp_publicstatus}}
+                currentValues=dcp_publicstatus
+                classPrefix="publicstatus"
+              }}
             </a>
           </li>
         {{/each}}
@@ -49,7 +51,9 @@
             <a>
               {{filter-checkbox
                 value=type
-                currentValues=boroughs}}
+                currentValues=boroughs
+                classPrefix="borough"
+              }}
             </a>
           </li>
         {{/each}}
@@ -57,7 +61,7 @@
     {{/filter-section}}
 
     {{#filter-section
-      filterTitle='Block'
+      filterTitle='Tax Block'
       appliedFilters=applied-filters
       filterNames='block'
       mutateArray=(action 'mutateArray')
@@ -213,7 +217,7 @@
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
   <div class="results">
-    <h3 class="results-header header-large">{{fetchData.lastSuccessful.value.meta.total}} Results</h3>
+    <h3 class="results-header header-large">{{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}} project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}} match{{if (eq fetchData.lastSuccessful.value.meta.total 1) 'es'}} your filters</h3>
     <ul class="results-list no-bullet">
       {{#each fetchData.lastSuccessful.value.projects as |project|}}
         <li class="grid-x grid-padding-small projects-list-result">
@@ -232,16 +236,16 @@
           <div class="cell auto">
             <h3 class="header-medium no-margin">
               {{#link-to 'show-project' project.id}}
-                {{project.dcp_projectname}}
+                {{if project.dcp_projectname project.dcp_projectname "No Project Name"}}
               {{/link-to}}
             </h3>
             <p class="no-margin text-small dark-grey">
-              <strong>{{project.dcp_applicant}}</strong> &mdash; {{substring-projectbrief project.dcp_projectbrief}}
+              <strong>{{if project.dcp_applicant project.dcp_applicant "Unknown Applicant"}}</strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
             </p>
             <p class="no-margin text-tiny dark-gray">
-              <span class="label light-gray">{{if project.dcp_publicstatus_simp project.dcp_publicstatus_simp 'Unknown Status'}}</span>
-              {{#if project.dcp_borough}}<span class="label light-gray">{{project.dcp_borough}}</span>{{/if}}
-              {{#if project.dcp_communitydistricts}}<span class="label light-gray">{{project.dcp_communitydistricts}}</span>{{/if}}
+              <span class="label publicstatus-{{dasherize project.dcp_publicstatus_simp}}">{{unless (eq project.dcp_publicstatus_simp 'Unknown') project.dcp_publicstatus_simp "Unknown Status"}}</span>
+              {{#if project.dcp_borough}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_borough}}</span>{{/if}}
+              {{#if project.dcp_communitydistricts}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_communitydistricts}}</span>{{/if}}
               {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray">{{project.dcp_ulurp_nonulurp}}</span>{{/if}}
               {{#each project.ulurpnumbers as |ulurpnumber|}}
                 <span class="label light-gray">{{ulurpnumber}}</span>
