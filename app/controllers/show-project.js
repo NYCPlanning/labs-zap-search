@@ -8,6 +8,7 @@ import turfBbox from '@turf/bbox';
 export default class ShowProjectController extends Controller {
   @argument shareURL = window.location.href;
   @argument shareClosed = true;
+  @argument flagClosed = false;
   @argument copySuccess = false;
 
   bblFeatureCollectionLayer = {
@@ -71,5 +72,24 @@ export default class ShowProjectController extends Controller {
     run.later(() => {
       this.set('copySuccess', false);
     }, 2000);
+  }
+
+  @action
+  handleFlagOpen() {
+    this.set('flagClosed', false);
+  }
+
+  @action
+  handleFlagClose() {
+    this.set('flagClosed', true);
+    // this.set('copySuccess', false);
+  }
+
+  @action
+  handleFlagSuccess() {
+    // this.set('copySuccess', true);
+    // run.later(() => {
+    //   this.set('copySuccess', false);
+    // }, 2000);
   }
 }

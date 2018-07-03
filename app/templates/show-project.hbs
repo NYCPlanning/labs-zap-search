@@ -66,6 +66,24 @@
           {{/if}}
         </div>
 
+        <div class="cell shrink">
+          <div class="share-controls" style="float:left;">
+            <button {{action 'handleFlagOpen'}} class="share-button button">{{fa-icon 'flag'}}</button>
+            Report an Issue
+            {{#unless flagClosed}}
+            <div class="share-controls-content" style="right: auto;">
+              <button {{action 'handleFlagClose'}} class="close-button" aria-label="Close alert" type="button"><span aria-hidden="true">&times;</span></button>
+              <h3 class="header header-small">Report an issue with project {{model.dcp_name}}</h3>
+              <label>What's the issue?
+                <textarea rows="5"></textarea>
+              </label>
+
+              <span class="button">Submit</span>
+            </div>
+            {{/unless}}
+          </div>
+        </div>
+
         <hr>
 
         <div class="grid-x grid-padding-x">
