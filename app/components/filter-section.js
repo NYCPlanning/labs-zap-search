@@ -35,12 +35,22 @@ export default class FilterSectionComponent extends Component {
   mutateArray() {}
 
   @action
-  notifyAppliedFilters(changedProperty) {
-    // mutateArray 'applied-filters' filterNames
+  mutateWithAction() {
+   const filterNames = this.get('filterNames');
+   this.get('mutateArray')('applied-filters', filterNames);
+  }
+
+  /*
+    Groupings of filters were originally IMPLIED based on the markup.
+    Now filter-section explicitly knows these groupings and can
+    enforce changes to their state if needed.
+  */
+  @action
+  notifyAppliedFilters() {
     const filterNames = this.get('filterNames');
     const appliedFilters = this.get('appliedFilters');
-    
-    if (!appliedFilters.includes(changedProperty)) {
+
+    if (!contains(filterNames, appliedFilters)) {
       this.get('mutateArray')('applied-filters', filterNames)
     }
   }

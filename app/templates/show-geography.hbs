@@ -13,9 +13,16 @@
       appliedFilters=applied-filters
       filterNames='text_query'
       mutateArray=(action 'mutateArray')
+      as |section|
     }}
-
-       <input class="filter-text-input" type="text" value={{text_query}} oninput={{action 'setDebouncedText' 'text_query'}}>
+       <input 
+        class="filter-text-input" 
+        type="text" 
+        value={{text_query}} 
+        oninput={{queue
+          (action 'setDebouncedText' 'text_query')
+          (action section.notify-applied-filters)
+        }}>
     {{/filter-section}}
 
     {{#filter-section
@@ -23,10 +30,16 @@
       appliedFilters=applied-filters
       filterNames='dcp_publicstatus'
       mutateArray=(action 'mutateArray')
+      as |section|
     }}
       <ul class="menu vertical medium-horizontal stage-checkbox">
         {{#each (array 'Filed' 'In Public Review' 'Complete' 'Unknown') as |type|}}
-          <li {{action 'mutateArray' 'dcp_publicstatus' type}}>
+          <li {{action 
+            (queue 
+              (action 'mutateArray' 'dcp_publicstatus' type) 
+              (action section.notify-applied-filters)
+            )
+          }}>
             <a>
               {{filter-checkbox
                 value=type
@@ -42,10 +55,16 @@
       appliedFilters=applied-filters
       filterNames='boroughs'
       mutateArray=(action 'mutateArray')
+      as |section|
     }}
       <ul class="menu vertical medium-horizontal stage-checkbox">
         {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
-          <li {{action 'mutateArray' 'boroughs' type}}>
+          <li {{action 
+            (queue
+              (action 'mutateArray' 'boroughs' type)
+              (action section.notify-applied-filters)
+            )
+          }}>
             <a>
               {{filter-checkbox
                 value=type
@@ -61,8 +80,16 @@
       appliedFilters=applied-filters
       filterNames='block'
       mutateArray=(action 'mutateArray')
+      as |section|
     }}
-      <input class="filter-text-input" type="text" value={{block}} oninput={{action 'setDebouncedText' 'block'}}>
+      <input 
+        class="filter-text-input" 
+        type="text" 
+        value={{block}} 
+        oninput={{action (queue 
+          (action 'setDebouncedText' 'block')
+          (action section.notify-applied-filters)
+        )}}>
     {{/filter-section}}
 
     {{#filter-section
@@ -70,6 +97,7 @@
       appliedFilters=applied-filters
       filterNames='community-districts'
       mutateArray=(action 'mutateArray')
+      as |section|
     }}
       {{#power-select-multiple
         options=(lookup-community-district)
@@ -79,7 +107,10 @@
           key='code')
         placeholder="Select some names..."
         searchField='searchField'
-        onchange=(action 'replaceProperty' 'community-districts')
+        onchange=(queue
+          (action 'replaceProperty' 'community-districts')
+          (action section.notify-applied-filters)
+        )
         as |district|
       }}
         {{district.boro}} {{district.num}}
@@ -91,6 +122,7 @@
       appliedFilters=applied-filters
       filterNames='action-types'
       mutateArray=(action 'mutateArray')
+      as |section|
     }}
       {{#power-select-multiple
         options=(lookup-action-type)
@@ -100,7 +132,10 @@
           key='code')
         placeholder="Select some actions..."
         searchField='searchField'
-        onchange=(action 'replaceProperty' 'action-types')
+        onchange=(queue
+          (action 'replaceProperty' 'action-types')
+          (action section.notify-applied-filters)
+        )
         as |action|
       }}
         {{action.code}}
@@ -116,10 +151,16 @@
       appliedFilters=applied-filters
       filterNames='dcp_ceqrtype'
       mutateArray=(action 'mutateArray')
+      as |section|
     }}
       <ul class="menu vertical medium-horizontal CEQR-checkbox">
         {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
-          <li {{action 'mutateArray' 'dcp_ceqrtype' type}}>
+          <li {{action 
+            (queue
+              (action 'mutateArray' 'dcp_ceqrtype' type)
+              (action section.notify-applied-filters)
+            )
+          }}>
             <a>
               {{filter-checkbox
                 value=type
@@ -138,7 +179,10 @@
       as |section|
     }}
       <ul class="menu vertical medium-horizontal FEMA-checkbox">
-        <li {{action (pipe (action 'toggleBoolean' 'dcp_femafloodzonev') (action section.notify-applied-filters))}}>
+        <li {{action (queue 
+          (action 'toggleBoolean' 'dcp_femafloodzonev') 
+          (action section.notify-applied-filters)
+        )}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzonev 'check-square' 'square')
@@ -153,7 +197,10 @@
             </sup>
           </a>
         </li>
-        <li {{action (pipe (action 'toggleBoolean' 'dcp_femafloodzonecoastala') (action section.notify-applied-filters))}}>
+        <li {{action (queue 
+          (action 'toggleBoolean' 'dcp_femafloodzonecoastala') 
+          (action section.notify-applied-filters)
+        )}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzonecoastala 'check-square' 'square')
@@ -168,7 +215,10 @@
             </sup>
           </a>
         </li>
-        <li {{action (pipe (action 'toggleBoolean' 'dcp_femafloodzonea') (action section.notify-applied-filters))}}>
+        <li {{action (queue 
+          (action 'toggleBoolean' 'dcp_femafloodzonea') 
+          (action section.notify-applied-filters)
+        )}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzonea 'check-square' 'square')
@@ -183,7 +233,10 @@
             </sup>
           </a>
         </li>
-        <li {{action (pipe (action 'toggleBoolean' 'dcp_femafloodzoneshadedx') (action section.notify-applied-filters))}}>
+        <li {{action (queue 
+          (action 'toggleBoolean' 'dcp_femafloodzoneshadedx') 
+          (action section.notify-applied-filters)
+        )}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzoneshadedx 'check-square' 'square')
@@ -206,16 +259,27 @@
       appliedFilters=applied-filters
       filterNames='dcp_ulurp_nonulurp'
       mutateArray=(action 'mutateArray')
+      as |section|
     }}
       <ul class="menu vertical medium-horizontal ULURP-checkbox">
-        <li {{action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP'}}>
+        <li {{action 
+          (queue 
+            (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')
+            (action section.notify-applied-filters)
+          )
+        }}>
           <a>
             {{filter-checkbox
               value='ULURP'
               currentValues=dcp_ulurp_nonulurp}}
           </a>
         </li>
-        <li {{action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP'}}>
+        <li {{action 
+          (queue 
+            (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')
+            (action section.notify-applied-filters)
+          )
+        }}>
           <a>
             {{filter-checkbox
               value='Non-ULURP'
@@ -290,9 +354,7 @@
         {{/if}}
       </span>
     </p>
-
   </div>
-
 </div>
 
 {{outlet}}

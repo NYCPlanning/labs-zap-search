@@ -69,6 +69,23 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   @action
+  setDebouncedText(key, { target: { value } }) {
+    this.get('debouncedSet').perform(key, value);
+
+    return key
+  }
+
+  @action
+  resetAll() {
+    this.resetQueryParams();
+  }
+
+  /*
+    `mutateArray` can accept either multiple parameters of strings, a single string, 
+    or an array of strings. The rest param coerces it into an array. 
+
+  */
+  @action
   mutateArray(key, ...values) {
     // BEWARE: binding this to 'onClick=' will insert the mouseEvent
     const targetArray = this.get(key);
@@ -85,12 +102,16 @@ export default class ShowGeographyController extends GeographyParachuteControlle
       }
     }
 
-    this.set(key, targetArray.sort())
+    this.set(key, targetArray.sort());
+
+    return key;
   }
 
   @action
   replaceProperty(key, value = []) {
     this.set(key, value.map(({ code }) => code));
+
+    return key;
   }
 
   @action
@@ -98,15 +119,5 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     this.set(key, !this.get(key));
 
     return key;
-  }
-
-  @action
-  setDebouncedText(key, { target: { value } }) {
-    this.get('debouncedSet').perform(key, value);
-  }
-
-  @action
-  resetAll() {
-    this.resetQueryParams();
   }
 }
