@@ -51,7 +51,9 @@
             <a>
               {{filter-checkbox
                 value=type
-                currentValues=boroughs}}
+                currentValues=boroughs
+                classPrefix="borough"
+              }}
             </a>
           </li>
         {{/each}}
@@ -242,8 +244,8 @@
             </p>
             <p class="no-margin text-tiny dark-gray">
               <span class="label publicstatus-{{dasherize project.dcp_publicstatus_simp}}">{{unless (eq project.dcp_publicstatus_simp 'Unknown') project.dcp_publicstatus_simp "Unknown Status"}}</span>
-              {{#if project.dcp_borough}}<span class="label light-gray">{{project.dcp_borough}}</span>{{/if}}
-              {{#if project.dcp_communitydistricts}}<span class="label light-gray">{{project.dcp_communitydistricts}}</span>{{/if}}
+              {{#if project.dcp_borough}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_borough}}</span>{{/if}}
+              {{#if project.dcp_communitydistricts}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_communitydistricts}}</span>{{/if}}
               {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray">{{project.dcp_ulurp_nonulurp}}</span>{{/if}}
               {{#each project.ulurpnumbers as |ulurpnumber|}}
                 <span class="label light-gray">{{ulurpnumber}}</span>
