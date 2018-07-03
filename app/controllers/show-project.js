@@ -11,6 +11,8 @@ export default class ShowProjectController extends Controller {
   @argument flagClosed = false;
   @argument copySuccess = false;
 
+  flagText = 'test';
+
   bblFeatureCollectionLayer = {
     "id": "bbl-feature-collection-fill",
     "type": "line",
@@ -91,5 +93,18 @@ export default class ShowProjectController extends Controller {
     // run.later(() => {
     //   this.set('copySuccess', false);
     // }, 2000);
+  }
+
+  @action
+  handleFlagTextChange() {
+    const flagText = this.get('flagText');
+    console.log(flagText);
+  }
+
+  @action
+  submitFlag() {
+    console.log('submitting')
+    // const flagText = this.get('flagText');
+    // console.log(flagText);
   }
 }
