@@ -44,6 +44,7 @@
             <div class="milestone-offset">{{milestoneDisplayDates.[0]}}</div>
           {{/if}}
         </div>
+        {{#if milestone.outcome}} <span class="label dark-gray">{{milestone.outcome}}</span> {{/if}}
       {{/if}}
   </div>
 {{yield}}
