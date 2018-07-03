@@ -2,22 +2,43 @@
 // Module: Categorical Colors
 // --------------------------------------------------
 
-.publicstatus-filed {
-  background: #deebf7;
+$filed: #deebf7;
+$in-public-review: #9ecae1;
+$complete: #3182bd;
+
+.label.publicstatus-filed {
+  background: $filed;
   color: #1a2a2a;
 }
 
-.publicstatus-in-public-review {
-  background: #9ecae1;
+.circle.publicstatus-filed {
+  color: $filed;
+}
+
+.label.publicstatus-in-public-review {
+  background: $in-public-review;
   color: #1a2a2a;
 }
 
-.publicstatus-complete {
- background: #3182bd;
+.circle.publicstatus-in-public-review {
+  color: $in-public-review;
+}
+
+
+.label.publicstatus-complete {
+ background: $complete;
  color: #FFF;
 }
 
-.publicstatus-unknown {
+.circle.publicstatus-complete {
+  color: $complete;
+}
+
+.label.publicstatus-unknown {
  background: $dark-gray;
  color: #FFF;
+}
+
+.circle.publicstatus-unknown {
+ color: $dark-gray;
 }
