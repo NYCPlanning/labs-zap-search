@@ -71,8 +71,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   @action
   setDebouncedText(key, { target: { value } }) {
     this.get('debouncedSet').perform(key, value);
-
-    return key
   }
 
   @action
