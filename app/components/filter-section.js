@@ -41,11 +41,20 @@ export default class FilterSectionComponent extends Component {
   }
 
   /*
+    This special action wraps a given passed action with a 
+    notifier trigger. 
+  */
+  @action
+  delegateMutation(action = function() {}, ...params) {
+    action(...params);
+    this.notifyAppliedFilters();
+  }
+
+  /*
     Groupings of filters were originally IMPLIED based on the markup.
     Now filter-section explicitly knows these groupings and can
     enforce changes to their state if needed.
   */
-  @action
   notifyAppliedFilters() {
     const filterNames = this.get('filterNames');
     const appliedFilters = this.get('appliedFilters');

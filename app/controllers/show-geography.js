@@ -83,7 +83,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   /*
     `mutateArray` can accept either multiple parameters of strings, a single string, 
     or an array of strings. The rest param coerces it into an array. 
-
   */
   @action
   mutateArray(key, ...values) {
@@ -103,21 +102,15 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     }
 
     this.set(key, targetArray.sort());
-
-    return key;
   }
 
   @action
   replaceProperty(key, value = []) {
     this.set(key, value.map(({ code }) => code));
-
-    return key;
   }
 
   @action
   toggleBoolean(key) {
     this.set(key, !this.get(key));
-
-    return key;
   }
 }

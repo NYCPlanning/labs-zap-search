@@ -10,5 +10,7 @@
   </h6>
 </div>
 <div class="filter-controls">
-  {{yield (hash notify-applied-filters=(action 'notifyAppliedFilters'))}}
+  {{yield (hash 
+    delegate-mutation=(action 'delegateMutation')
+  )}}
 </div>

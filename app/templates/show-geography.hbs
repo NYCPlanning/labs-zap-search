@@ -19,10 +19,7 @@
         class="filter-text-input" 
         type="text" 
         value={{text_query}} 
-        oninput={{queue
-          (action 'setDebouncedText' 'text_query')
-          (action section.notify-applied-filters)
-        }}>
+        oninput={{action section.delegate-mutation (action 'setDebouncedText' 'text_query')}}>
     {{/filter-section}}
 
     {{#filter-section
@@ -34,12 +31,7 @@
     }}
       <ul class="menu vertical medium-horizontal stage-checkbox">
         {{#each (array 'Filed' 'In Public Review' 'Complete' 'Unknown') as |type|}}
-          <li {{action 
-            (queue 
-              (action 'mutateArray' 'dcp_publicstatus' type) 
-              (action section.notify-applied-filters)
-            )
-          }}>
+          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
             <a>
               {{filter-checkbox
                 value=type
@@ -59,12 +51,7 @@
     }}
       <ul class="menu vertical medium-horizontal stage-checkbox">
         {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
-          <li {{action 
-            (queue
-              (action 'mutateArray' 'boroughs' type)
-              (action section.notify-applied-filters)
-            )
-          }}>
+          <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}>
             <a>
               {{filter-checkbox
                 value=type
@@ -86,10 +73,7 @@
         class="filter-text-input" 
         type="text" 
         value={{block}} 
-        oninput={{action (queue 
-          (action 'setDebouncedText' 'block')
-          (action section.notify-applied-filters)
-        )}}>
+        oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
     {{/filter-section}}
 
     {{#filter-section
@@ -107,10 +91,7 @@
           key='code')
         placeholder="Select some names..."
         searchField='searchField'
-        onchange=(queue
-          (action 'replaceProperty' 'community-districts')
-          (action section.notify-applied-filters)
-        )
+        onchange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
         as |district|
       }}
         {{district.boro}} {{district.num}}
@@ -132,10 +113,7 @@
           key='code')
         placeholder="Select some actions..."
         searchField='searchField'
-        onchange=(queue
-          (action 'replaceProperty' 'action-types')
-          (action section.notify-applied-filters)
-        )
+        onchange=(action section.delegate-mutation (action 'replaceProperty' 'action-types'))
         as |action|
       }}
         {{action.code}}
@@ -155,12 +133,7 @@
     }}
       <ul class="menu vertical medium-horizontal CEQR-checkbox">
         {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
-          <li {{action 
-            (queue
-              (action 'mutateArray' 'dcp_ceqrtype' type)
-              (action section.notify-applied-filters)
-            )
-          }}>
+          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ceqrtype' type)}}>
             <a>
               {{filter-checkbox
                 value=type
@@ -179,10 +152,7 @@
       as |section|
     }}
       <ul class="menu vertical medium-horizontal FEMA-checkbox">
-        <li {{action (queue 
-          (action 'toggleBoolean' 'dcp_femafloodzonev') 
-          (action section.notify-applied-filters)
-        )}}>
+        <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonev')}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzonev 'check-square' 'square')
@@ -197,10 +167,7 @@
             </sup>
           </a>
         </li>
-        <li {{action (queue 
-          (action 'toggleBoolean' 'dcp_femafloodzonecoastala') 
-          (action section.notify-applied-filters)
-        )}}>
+        <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonecoastala')}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzonecoastala 'check-square' 'square')
@@ -215,10 +182,7 @@
             </sup>
           </a>
         </li>
-        <li {{action (queue 
-          (action 'toggleBoolean' 'dcp_femafloodzonea') 
-          (action section.notify-applied-filters)
-        )}}>
+        <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonea')}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzonea 'check-square' 'square')
@@ -233,10 +197,7 @@
             </sup>
           </a>
         </li>
-        <li {{action (queue 
-          (action 'toggleBoolean' 'dcp_femafloodzoneshadedx') 
-          (action section.notify-applied-filters)
-        )}}>
+        <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzoneshadedx')}}>
           <a>
             {{fa-icon
               (if dcp_femafloodzoneshadedx 'check-square' 'square')
@@ -262,24 +223,14 @@
       as |section|
     }}
       <ul class="menu vertical medium-horizontal ULURP-checkbox">
-        <li {{action 
-          (queue 
-            (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')
-            (action section.notify-applied-filters)
-          )
-        }}>
+        <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}>
           <a>
             {{filter-checkbox
               value='ULURP'
               currentValues=dcp_ulurp_nonulurp}}
           </a>
         </li>
-        <li {{action 
-          (queue 
-            (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')
-            (action section.notify-applied-filters)
-          )
-        }}>
+        <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}>
           <a>
             {{filter-checkbox
               value='Non-ULURP'
