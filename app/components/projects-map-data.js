@@ -17,7 +17,16 @@ export default class ProjectsMapComponent extends Component {
     'source-layer': 'project-centroids',
     paint: {
       'circle-radius': { stops: [[10, 3], [15, 4]] },
-      'circle-color': '#ae561f',
+      'circle-color': {
+        property: 'dcp_publicstatus_simp',
+        type: 'categorical',
+        stops: [
+          ['Filed', '#deebf7'],
+          ['In Public Review', '#9ecae1'],
+          ['Complete', '#3182bd'],
+          ['Unknown', '#6b717b'],
+        ],
+      },
       'circle-opacity': 1,
       'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
       'circle-stroke-color': '#FFFFFF',
@@ -45,7 +54,6 @@ export default class ProjectsMapComponent extends Component {
       e.point,
       { layers: ['project-centroids-circle'] }
     );
-
 
     if (feature) {
       this.set('highlightedFeature', feature);
