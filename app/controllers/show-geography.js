@@ -1,8 +1,9 @@
 import { action, computed } from '@ember-decorators/object';
 import { restartableTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
-import GeographyParachuteController from './query-parameters/show-geography';
 import { isArray } from '@ember/array';
+import GeographyParachuteController from './query-parameters/show-geography';
+
 
 const DEBOUNCE_MS = 500;
 
@@ -27,7 +28,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
   @restartableTask
   fetchData = function*({ unloadAll = false } = {}) {
-    // unload all if query changes
+    yield timeout(DEBOUNCE_MS);
+
     if (unloadAll) {
       this.set('page', 1);
       this.get('store').unloadAll('project');
@@ -56,7 +58,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     return {
       meta,
       projects: allProjects,
-    }
+    };
   }
 
   @computed('fetchData.lastSuccessful.value.meta.{pageTotal,total}', 'page')
