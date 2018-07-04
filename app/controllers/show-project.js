@@ -96,7 +96,8 @@ export default class ShowProjectController extends Controller {
 
   @action
   submitFlag() {
-    const projectid = this.get('model.dcp_projectname');
+    const projectname = this.get('model.dcp_projectname');
+    const projectid = this.get('model.dcp_name');
     const flagText = this.get('flagText');
     const reCaptchaResponse = this.get('reCaptchaResponse');
 
@@ -106,9 +107,10 @@ export default class ShowProjectController extends Controller {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        projectname,
         projectid,
         text: flagText,
-        reCaptchaResponse,
+        'g-recaptcha-response': reCaptchaResponse,
       }),
     })
       .then(res => res.json())
