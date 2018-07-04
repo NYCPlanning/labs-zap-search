@@ -198,17 +198,16 @@ export default class ProjectMilestoneComponent extends Component {
   get tooltip() {
 
     const milestonename = this.get('milestone.milestonename');
-    const displayname = milestoneLookup[milestonename].displayName;
     const nonulurptip = milestoneLookup[milestonename].nonulurptooltip;
     const ulurptip = milestoneLookup[milestonename].ulurptooltip;
     const isUlurp = this.get('isUlurp');
 
   if (isUlurp) {
-    const  tooltip   = `${ulurptip}` || '';
-    return  tooltip  || `Tooltip not found for milestone ${displayname}`; 
+    const  tooltip   = `${ulurptip}`;
+    return  tooltip; 
   } else {
-    const  tooltip  = `${nonulurptip}` || '';
-    return tooltip || `Tooltip not found for milestone ${displayname}`; 
+    const  tooltip  = `${nonulurptip}`;
+    return tooltip; 
   }
  }
 
