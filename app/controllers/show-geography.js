@@ -8,17 +8,48 @@ import GeographyParachuteController from './query-parameters/show-geography';
 const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
+  currentParamState = {};
+  page = 1;
+
   setup() {
     this.get('fetchData').perform();
   }
 
-  queryParamsDidChange({ shouldRefresh }) {
+  queryParamsDidChange({ shouldRefresh, queryParams }) {
+    this.set('currentParamState', queryParams);
+
     if (shouldRefresh) {
       this.get('fetchData').perform({ unloadAll: true });
     }
   }
 
-  page = 1;
+  @computed('fetchData.lastSuccessful.value.meta.{pageTotal,total}', 'page')
+  get noMoreRecords() {
+    const pageTotal = this.get('fetchData.lastSuccessful.value.meta.pageTotal');
+    const total = this.get('fetchData.lastSuccessful.value.meta.total');
+    const page = this.get('page');
+
+    return (pageTotal < 30) || ((page * 30) >= total);
+  }
+
+  @computed('allQueryParams')
+  get appliedQueryParams() {
+    // construct query object only with applied params
+    const params = this.get('allQueryParams');
+    const {
+      'applied-filters': appliedFilters,
+    } = params;
+    const page = this.get('page');
+    const queryOptions = {
+      page,
+    }
+
+    for (const key of appliedFilters) {
+      queryOptions[key] = params[key];
+    }
+
+    return queryOptions;
+  }
 
   @restartableTask
   debouncedSet = function*(key, value) {
@@ -35,18 +66,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
       this.get('store').unloadAll('project');
     }
 
-    const params = this.get('allQueryParams');
-    const {
-      'applied-filters': appliedFilters,
-    } = params;
-    const page = this.get('page');
-    const queryOptions = {
-      page,
-    }
-
-    for (const key of appliedFilters) {
-      queryOptions[key] = params[key];
-    }
+    const queryOptions = this.get('appliedQueryParams');
 
     // fetch any new projects
     const projects = yield this.store.query('project', queryOptions);
@@ -59,15 +79,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
       meta,
       projects: allProjects,
     };
-  }
-
-  @computed('fetchData.lastSuccessful.value.meta.{pageTotal,total}', 'page')
-  get noMoreRecords() {
-    const pageTotal = this.get('fetchData.lastSuccessful.value.meta.pageTotal');
-    const total = this.get('fetchData.lastSuccessful.value.meta.total');
-    const page = this.get('page');
-
-    return (pageTotal < 30) || ((page * 30) >= total);
   }
 
   @action
