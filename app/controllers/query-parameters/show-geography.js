@@ -114,7 +114,11 @@ export const projectParams = new QueryParams({
     defaultValue: false,
     refresh: true,
   },
-  text_query: {
+  project_applicant_text: {
+    defaultValue: '',
+    refresh: true,
+  },
+  ulurp_ceqr_text: {
     defaultValue: '',
     refresh: true,
   },
