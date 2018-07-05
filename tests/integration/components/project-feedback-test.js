@@ -12,15 +12,6 @@ module('Integration | Component | project-feedback', function(hooks) {
 
     await render(hbs`{{project-feedback}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#project-feedback}}
-        template block text
-      {{/project-feedback}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'Report an Issue');
   });
 });
