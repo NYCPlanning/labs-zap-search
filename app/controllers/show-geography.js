@@ -13,16 +13,13 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     this.set('cachedProjects', []);
   }
 
-  currentParamState = {};
   page = 1;
 
   setup() {
     this.get('fetchData').perform();
   }
 
-  queryParamsDidChange({ shouldRefresh, queryParams }) {
-    this.set('currentParamState', queryParams);
-
+  queryParamsDidChange({ shouldRefresh }) {
     if (shouldRefresh) {
       this.get('fetchData').perform({ unloadAll: true });
     }
@@ -37,14 +34,15 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     return (pageTotal < 30) || ((page * 30) >= total);
   }
 
-  @computed('allQueryParams')
+  @computed('allQueryParams', 'page')
   get appliedQueryParams() {
     // construct query object only with applied params
     const params = this.get('allQueryParams');
+    const page = this.get('page');
     const {
       'applied-filters': appliedFilters,
     } = params;
-    const page = this.get('page');
+
     const queryOptions = {
       page,
     }

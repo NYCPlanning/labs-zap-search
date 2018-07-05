@@ -1,5 +1,6 @@
 import QueryParams from 'ember-parachute';
 import Controller from '@ember/controller';
+import moment from 'moment';
 
 export const projectParams = new QueryParams({
   // meta
@@ -16,7 +17,16 @@ export const projectParams = new QueryParams({
   },
 
   // filter values
-
+  'dcp_certifiedreferred': {
+    defaultValue: [-2114380799, parseInt(moment().utc().endOf('year').format('X'), 10)],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',').map(date => parseInt(date, 10));
+    },
+  },
   'boroughs': {
     defaultValue: [],
     refresh: true,
@@ -27,8 +37,6 @@ export const projectParams = new QueryParams({
       return value.split(',');
     },
   },
-
-
   'community-districts': {
     defaultValue: [],
     refresh: true,

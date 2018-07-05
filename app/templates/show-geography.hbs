@@ -9,6 +9,19 @@
 
   <div class="project-filters">
     {{#filter-section
+      filterTitle='Certification Date'
+      appliedFilters=applied-filters
+      filterNames='dcp_certifiedreferred'
+      mutateArray=(action 'mutateArray')
+      as |section|
+    }}
+      {{slider-filter 
+        start=dcp_certifiedreferred
+        max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
+        replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
+    {{/filter-section}}
+
+    {{#filter-section
       filterTitle='Text Match'
       appliedFilters=applied-filters
       filterNames='text_query'
