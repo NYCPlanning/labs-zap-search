@@ -1,5 +1,5 @@
 import { action, computed } from '@ember-decorators/object';
-import { restartableTask } from 'ember-concurrency-decorators';
+import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
 import GeographyParachuteController from './query-parameters/show-geography';
@@ -8,6 +8,11 @@ import GeographyParachuteController from './query-parameters/show-geography';
 const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
+  constructor() {
+    super(...arguments);
+    this.set('cachedProjects', []);
+  }
+
   currentParamState = {};
   page = 1;
 
@@ -57,15 +62,9 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     this.set(key, value);
   }
 
-  @restartableTask
+  @keepLatestTask
   fetchData = function*({ unloadAll = false } = {}) {
-    yield timeout(DEBOUNCE_MS);
-
-    if (unloadAll) {
-      this.set('page', 1);
-      this.get('store').unloadAll('project');
-    }
-
+    const cachedProjects = this.get('cachedProjects');
     const queryOptions = this.get('appliedQueryParams');
 
     // fetch any new projects
@@ -73,11 +72,16 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     const meta = projects.get('meta');
 
     // include the entire, un-paginated response
-    const allProjects = this.store.peekAll('project');
+    if (unloadAll) {
+      this.set('page', 1);
+      cachedProjects.clear();
+    }
+
+    cachedProjects.pushObjects(projects.toArray());
 
     return {
       meta,
-      projects: allProjects,
+      projects: cachedProjects,
     };
   }
 
