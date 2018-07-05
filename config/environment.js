@@ -36,6 +36,11 @@ module.exports = function(environment) {
         center: [ -73.9868, 40.724 ]
       }
     },
+
+    gReCaptcha: {
+      jsUrl: 'https://www.google.com/recaptcha/api.js?render=explicit', // default
+      siteKey: '6LdWI2IUAAAAACg5LHP4ucs7Ep1UzaFsl96FHyPK',
+    },
   };
 
   if (environment === 'development') {

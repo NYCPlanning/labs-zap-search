@@ -3600,6 +3600,12 @@ ember-font-awesome@4.0.0-rc.4:
     postcss "^6.0.14"
     sync-disk-cache "^1.3.2"
 
+ember-g-recaptcha@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/ember-g-recaptcha/-/ember-g-recaptcha-0.9.0.tgz#b1ab28bf736a70b1dda98275656eb8fa5b73d369"
+  dependencies:
+    ember-cli-babel "^6.6.0"
+
 ember-get-config@^0.2.2, ember-get-config@^0.2.3, ember-get-config@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/ember-get-config/-/ember-get-config-0.2.4.tgz#118492a2a03d73e46004ed777928942021fe1ecd"
