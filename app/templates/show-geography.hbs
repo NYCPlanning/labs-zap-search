@@ -314,6 +314,7 @@
               {{#if project.dcp_borough}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_borough}}</span>{{/if}}
               {{#if project.dcp_communitydistricts}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_communitydistricts}}</span>{{/if}}
               {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray">{{project.dcp_ulurp_nonulurp}}</span>{{/if}}
+              {{#if project.dcp_ceqrnumber}}<span class="label light-gray">CEQR {{project.dcp_ceqrnumber}}</span>{{/if}}
               {{#each project.ulurpnumbers as |ulurpnumber|}}
                 <span class="label light-gray">{{ulurpnumber}}</span>
               {{/each}}
