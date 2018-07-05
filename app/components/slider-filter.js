@@ -14,8 +14,10 @@ export default class SliderFilterComponent extends Component {
   @argument
   start = defaultStart;
 
+  @argument
   min = defaultStart[0];
 
+  @argument
   max = defaultStart[1];
 
   format = {

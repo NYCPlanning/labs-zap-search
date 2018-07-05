@@ -17,6 +17,7 @@
     }}
       {{slider-filter 
         start=cert_date
+        max=(object-at 1 queryParamsState.cert_date.defaultValue)
         replaceProperty=(action section.delegate-mutation (action (mut cert_date)))}}
     {{/filter-section}}
 
