@@ -18,7 +18,7 @@ export const projectParams = new QueryParams({
 
   // filter values
   'dcp_certifiedreferred': {
-    defaultValue: [-2114380799, parseInt(moment().utc().endOf('year').format('X'), 10)],
+    defaultValue: [0, parseInt(moment().utc().endOf('year').format('X'), 10)],
     refresh: true,
     serialize(value) {
       return value.toString();
