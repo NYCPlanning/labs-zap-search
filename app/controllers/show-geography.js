@@ -14,6 +14,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   page = 1;
+  tiles = [];
+  bounds = [];
 
   setup() {
     this.get('fetchData').perform();
@@ -73,6 +75,11 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     if (unloadAll) {
       this.set('page', 1);
       cachedProjects.clear();
+    }
+
+    if (meta.tiles && meta.bounds) {
+      this.set('tiles', meta.tiles);
+      this.set('bounds', meta.bounds);
     }
 
     cachedProjects.pushObjects(projects.toArray());
