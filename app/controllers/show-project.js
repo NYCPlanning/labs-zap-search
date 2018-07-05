@@ -10,11 +10,6 @@ export default class ShowProjectController extends Controller {
   @argument shareClosed = true;
   @argument copySuccess = false;
 
-  flagText = '';
-  flagClosed = true;
-  flagSuccess = false;
-  reCaptchaResponse = null;
-
   bblFeatureCollectionLayer = {
     "id": "bbl-feature-collection-fill",
     "type": "line",
@@ -76,53 +71,5 @@ export default class ShowProjectController extends Controller {
     run.later(() => {
       this.set('copySuccess', false);
     }, 2000);
-  }
-
-  @action
-  handleFlagOpen() {
-    this.set('flagClosed', false);
-  }
-
-  @action
-  handleFlagClose() {
-    this.set('flagClosed', true);
-    // this.set('copySuccess', false);
-  }
-
-  @action
-  onCaptchaResolved(reCaptchaResponse) {
-    this.set('reCaptchaResponse', reCaptchaResponse);
-  }
-
-  @action
-  submitFlag() {
-    const projectname = this.get('model.dcp_projectname');
-    const projectid = this.get('model.dcp_name');
-    const flagText = this.get('flagText');
-    const reCaptchaResponse = this.get('reCaptchaResponse');
-
-    fetch(`http://localhost:3000/projects/feedback`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        projectname,
-        projectid,
-        text: flagText,
-        'g-recaptcha-response': reCaptchaResponse,
-      }),
-    })
-      .then(res => res.json())
-      .then(({status}) => {
-          if (status === 'success') {
-            this.set('flagSuccess', true);
-            run.later(() => {
-              this.set('flagSuccess', false);
-              this.set('flagText', '');
-              this.set('flagClosed', true);
-            }, 2000);
-          }
-      });
   }
 }

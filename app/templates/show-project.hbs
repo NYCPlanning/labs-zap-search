@@ -66,31 +66,7 @@
           {{/if}}
         </div>
 
-        <div class="cell shrink">
-          <div class="share-controls" style="float:left;">
-            <button {{action 'handleFlagOpen'}} class="share-button button">{{fa-icon 'flag'}}</button>
-            Report an Issue
-            {{#unless flagClosed}}
-            <div class="share-controls-content" style="right: auto;">
-              <button {{action 'handleFlagClose'}} class="close-button" aria-label="Close alert" type="button"><span aria-hidden="true">&times;</span></button>
-              <h3 class="header header-small">Report an issue with project {{model.dcp_name}}</h3>
-              <form {{action "submitFlag" on="submit"}}>
-                <label>What's the issue?
-                  {{textarea rows="5" value=flagText disabled=flagSuccess}}
-                </label>
-                {{g-recaptcha onSuccess=(action "onCaptchaResolved")}}
-
-                <button type="submit" class="button" disabled={{xor flagSuccess (or (lt flagText.length 10) (eq reCaptchaResponse null))}} >Submit</button>
-                {{#if flagSuccess}}
-                  <span class="flag-success">
-                    <strong><span>{{fa-icon icon="check" size="3x"}}</span> <span class="text">Thanks for the feedback!</span></strong>
-                  </span>
-                {{/if}}
-              </form>
-            </div>
-            {{/unless}}
-          </div>
-        </div>
+        {{project-feedback project=model}}
 
         <hr>
 
