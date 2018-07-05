@@ -4,7 +4,6 @@ import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
 import GeographyParachuteController from './query-parameters/show-geography';
 
-
 const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
@@ -18,7 +17,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   bounds = [];
 
   setup() {
-    this.get('fetchData').perform();
+    this.get('fetchData').perform({ unloadAll: true });
+    console.log('called');
   }
 
   queryParamsDidChange({ shouldRefresh }) {
