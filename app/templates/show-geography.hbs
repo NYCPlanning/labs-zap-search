@@ -1,9 +1,8 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
-
   {{#projects-map-data as |projects|}}
     {{#if fetchData.lastSuccessful}}
-      {{projects.dynamic-tiles tiles=fetchData.lastSuccessful.value.meta.tiles}}
-      {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds (hash padding=20)}}
+      {{projects.dynamic-tiles tiles=tiles}}
+      {{projects.map.call 'fitBounds' bounds (hash padding=20)}}
     {{/if}}
   {{/projects-map-data}}
 
