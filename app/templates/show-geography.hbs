@@ -259,7 +259,7 @@
   <div class="results">
     <h3 class="results-header header-large">{{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}} project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}} match{{if (eq fetchData.lastSuccessful.value.meta.total 1) 'es'}} your filters</h3>
     <ul class="results-list no-bullet">
-      {{#each fetchData.lastSuccessful.value.projects as |project|}}
+      {{#each cachedProjects as |project|}}
         <li class="grid-x grid-padding-small projects-list-result">
           <div class="cell shrink">
             <a class="button gray text-orange">

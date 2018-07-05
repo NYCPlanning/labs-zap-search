@@ -1,5 +1,5 @@
 import { action, computed } from '@ember-decorators/object';
-import { restartableTask } from 'ember-concurrency-decorators';
+import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
 import GeographyParachuteController from './query-parameters/show-geography';
@@ -8,33 +8,38 @@ import GeographyParachuteController from './query-parameters/show-geography';
 const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
+  constructor() {
+    super(...arguments);
+    this.set('cachedProjects', []);
+  }
+
+  currentParamState = {};
+  page = 1;
+
   setup() {
     this.get('fetchData').perform();
   }
 
-  queryParamsDidChange({ shouldRefresh }) {
+  queryParamsDidChange({ shouldRefresh, queryParams }) {
+    this.set('currentParamState', queryParams);
+
     if (shouldRefresh) {
       this.get('fetchData').perform({ unloadAll: true });
     }
   }
 
-  page = 1;
+  @computed('fetchData.lastSuccessful.value.meta.{pageTotal,total}', 'page')
+  get noMoreRecords() {
+    const pageTotal = this.get('fetchData.lastSuccessful.value.meta.pageTotal');
+    const total = this.get('fetchData.lastSuccessful.value.meta.total');
+    const page = this.get('page');
 
-  @restartableTask
-  debouncedSet = function*(key, value) {
-    yield timeout(DEBOUNCE_MS);
-    this.set(key, value);
+    return (pageTotal < 30) || ((page * 30) >= total);
   }
 
-  @restartableTask
-  fetchData = function*({ unloadAll = false } = {}) {
-    yield timeout(DEBOUNCE_MS);
-
-    if (unloadAll) {
-      this.set('page', 1);
-      this.get('store').unloadAll('project');
-    }
-
+  @computed('allQueryParams')
+  get appliedQueryParams() {
+    // construct query object only with applied params
     const params = this.get('allQueryParams');
     const {
       'applied-filters': appliedFilters,
@@ -48,26 +53,36 @@ export default class ShowGeographyController extends GeographyParachuteControlle
       queryOptions[key] = params[key];
     }
 
+    return queryOptions;
+  }
+
+  @restartableTask
+  debouncedSet = function*(key, value) {
+    yield timeout(DEBOUNCE_MS);
+    this.set(key, value);
+  }
+
+  @keepLatestTask
+  fetchData = function*({ unloadAll = false } = {}) {
+    const cachedProjects = this.get('cachedProjects');
+    const queryOptions = this.get('appliedQueryParams');
+
     // fetch any new projects
     const projects = yield this.store.query('project', queryOptions);
     const meta = projects.get('meta');
 
     // include the entire, un-paginated response
-    const allProjects = this.store.peekAll('project');
+    if (unloadAll) {
+      this.set('page', 1);
+      cachedProjects.clear();
+    }
+
+    cachedProjects.pushObjects(projects.toArray());
 
     return {
       meta,
-      projects: allProjects,
+      projects: cachedProjects,
     };
-  }
-
-  @computed('fetchData.lastSuccessful.value.meta.{pageTotal,total}', 'page')
-  get noMoreRecords() {
-    const pageTotal = this.get('fetchData.lastSuccessful.value.meta.pageTotal');
-    const total = this.get('fetchData.lastSuccessful.value.meta.total');
-    const page = this.get('page');
-
-    return (pageTotal < 30) || ((page * 30) >= total);
   }
 
   @action
