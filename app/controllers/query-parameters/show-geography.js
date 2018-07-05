@@ -17,7 +17,7 @@ export const projectParams = new QueryParams({
   },
 
   // filter values
-  'cert_date': {
+  'dcp_certifiedreferred': {
     defaultValue: [-2114380799, parseInt(moment().utc().endOf('year').format('X'), 10)],
     refresh: true,
     serialize(value) {

@@ -11,14 +11,14 @@
     {{#filter-section
       filterTitle='Certification Date'
       appliedFilters=applied-filters
-      filterNames='cert_date'
+      filterNames='dcp_certifiedreferred'
       mutateArray=(action 'mutateArray')
       as |section|
     }}
       {{slider-filter 
-        start=cert_date
-        max=(object-at 1 queryParamsState.cert_date.defaultValue)
-        replaceProperty=(action section.delegate-mutation (action (mut cert_date)))}}
+        start=dcp_certifiedreferred
+        max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
+        replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
     {{/filter-section}}
 
     {{#filter-section
