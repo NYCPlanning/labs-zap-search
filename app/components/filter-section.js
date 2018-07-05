@@ -41,8 +41,8 @@ export default class FilterSectionComponent extends Component {
   }
 
   /*
-    This special action wraps a given passed action with a 
-    notifier trigger. 
+    This special action wraps a given passed action with a
+    notifier trigger.
   */
   @action
   delegateMutation(action = function() {}, ...params) {
