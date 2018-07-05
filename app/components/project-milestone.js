@@ -8,96 +8,135 @@ const milestoneLookup = {
     displayName: 'Borough Board Review',
     dateFormat: 'range',
     hideIfFiled: true,
+    ulurptooltip: 'The Borough Board has 30 days concurrent with the Borough President’s review period to review the application and issue a recommendation.',
+    nonulurptooltip: '',
   },
   'Borough President Referral': {
     displayName: 'Borough President Review',
     dateFormat: 'range',
     hideIfFiled: true,
+    ulurptooltip: 'The Borough President has 30 days after the Community Board issues a recommendation to review the application and issue a recommendation.',
+    nonulurptooltip: '',
   },
   'CEQR Fee Payment': {
     displayName: 'CEQR Fee Paid',
     dateFormat: 'end',
     hideIfFiled: false,
+    ulurptooltip: '',
+    nonulurptooltip: '',
   },
   'City Council Review': {
     displayName: 'City Council Review',
     dateFormat: 'range',
     hideIfFiled: true,
+    ulurptooltip: 'The City Council has 50 days from receiving the City Planning Commission report to call up the application, hold a hearing and vote on the application.',
+    nonulurptooltip: 'The City Council reviews text amendments and a few other non-ULURP items.',
   },
   'Community Board Referral': {
     displayName: 'Community Board Review',
     dateFormat: 'range',
     hideIfFiled: true,
+    ulurptooltip: 'The Community Board has 60 days from the time of referral (nine days after certification) to hold a hearing and issue a recommendation.',
+    nonulurptooltip: 'The City Planning Commission refers to the Community Board for 30, 45 or 60 days.',
   },
   'CPC Public Meeting - Public Hearing': {
     displayName: 'City Planning Commission Review',
     dateFormat: 'range',
     hideIfFiled: true,
+    ulurptooltip: 'The City Planning Commission has 60 days after the Borough President issues a recommendation to hold a hearing and vote on an application.',
+    nonulurptooltip: 'The City Planning Commission does not have a clock for non-ULURP items. It may or may not hold a hearing depending on the action.',
   },
   'CPC Public Meeting - Vote': {
     displayName: 'City Planning Commission Vote',
     dateFormat: 'end',
     hideIfFiled: true,
+    ulurptooltip: '',
+    nonulurptooltip: '',
+
   },
   'DEIS Public Hearing Held': {
     displayName: 'Draft Environmental Impact Statement Public Hearing',
     dateFormat: 'end',
     hideIfFiled: true,
+    ulurptooltip: '',
+    nonulurptooltip: '',
   },
   'EIS Draft Scope Review': {
-    displayName: 'Draft Scope of Work for EIS Received',
+    displayName: 'Draft Scope of Work for Environmental Impact Statement Received',
     dateFormat: 'start',
     hideIfFiled: true,
+    ulurptooltip: 'A Draft Scope of Work must be recieved 30 days prior to the Public Scoping Meeting.',
+    nonulurptooltip: 'A Draft Scope of Work must be recieved 30 days prior to the Public Scoping Meeting.',
   },
   'EIS Public Scoping Meeting': {
     displayName: 'Environmental Impact Statement Public Scoping Meeting',
     dateFormat: 'end',
     hideIfFiled: true,
+    ulurptooltip: '',
+    nonulurptooltip: '',
   },
   'FEIS Submitted and Review': {
     displayName: 'Final Environmental Impact Statement Submitted',
     dateFormat: 'start',
     hideIfFiled: true,
+    ulurptooltip: 'A Final Environmental Impact Statement (FEIS) must be completed ten days prior to the City Planning Commission vote.',
+    nonulurptooltip: 'A Final Environmental Impact Statement (FEIS) must be completed ten days prior to the City Planning Commission vote.',
   },
   'Filed EAS Review': {
     displayName: 'Environmental Assessment Statement Filed',
     dateFormat: 'start',
     hideIfFiled: false,
+    ulurptooltip: '',
+    nonulurptooltip: '',
   },
   'Final Letter Sent': {
     displayName: 'Approval Letter Sent to Responsible Agency',
     dateFormat: 'end',
     hideIfFiled: true,
+    ulurptooltip: '',
+    nonulurptooltip: 'For many non-ULURP actions this is the final action and record of the decision.',
   },
   'Final Scope of Work Issued': {
     displayName: 'Final Scope of Work for Environmental Impact Statement Issued',
     dateFormat: 'end',
     hideIfFiled: true,
+    ulurptooltip: '',
+    nonulurptooltip: '',
   },
   'Land Use Application Filed Review': {
     displayName: 'Land Use Application Filed',
     dateFormat: 'start',
     hideIfFiled: false,
+    ulurptooltip: '',
+    nonulurptooltip: '', 
   },
   'Land Use Fee Payment': {
     displayName: 'Land Use Fee Paid',
     dateFormat: 'end',
     hideIfFiled: false,
+    ulurptooltip: '',
+    nonulurptooltip: '',
   },
   'Mayoral Veto': {
     displayName: 'Mayoral Review',
     dateFormat: 'range',
     hideIfFiled: true,
+    ulurptooltip: "The Mayor has five days to review the City Council's decision and issue a veto.",
+    nonulurptooltip: '',
   },
   'NOC of Draft EIS Issued': {
     displayName: 'Draft Environmental Impact Statement Completed',
     dateFormat: 'end',
     hideIfFiled: true,
+    ulurptooltip: 'A Draft Environmental Impact Statement must be completed prior to the City Planning Commission certifying or referring a project for public review.',
+    nonulurptooltip: 'A Draft Environmental Impact Statement must be completed prior to the City Planning Commission certifying or referring a project for public review.',
   },
   'Review Session - Certified / Referred': {
     displayName: 'Application Certified / Referred at City Planning Commission Review Session',
     dateFormat: 'end',
     hideIfFiled: true,
+    ulurptooltip: '',
+    nonulurptooltip: '',
   }
 }
 
@@ -110,6 +149,9 @@ export default class ProjectMilestoneComponent extends Component {
 
   @argument
   isFiled
+
+  @argument
+  isUlurp
 
   @computed('tense')
   get getClassNames() {
@@ -138,6 +180,7 @@ export default class ProjectMilestoneComponent extends Component {
     return (firstDatePast && secondDatePast) ? 'past' : 'future';
   }
 
+
   @computed('milestone.milestonename')
   get displayName() {
     const milestonename = this.get('milestone.milestonename');
@@ -150,6 +193,23 @@ export default class ProjectMilestoneComponent extends Component {
     const milestonename = this.get('milestone.milestonename');
     return milestoneLookup[milestonename].dateFormat === 'range';
   }
+
+  @computed('milestone.milestonename')
+  get tooltip() {
+
+    const milestonename = this.get('milestone.milestonename');
+    const nonulurptip = milestoneLookup[milestonename].nonulurptooltip;
+    const ulurptip = milestoneLookup[milestonename].ulurptooltip;
+    const isUlurp = this.get('isUlurp');
+
+  if (isUlurp) {
+    const  tooltip   = `${ulurptip}`;
+    return  tooltip; 
+  } else {
+    const  tooltip  = `${nonulurptip}`;
+    return tooltip; 
+  }
+ }
 
   // Returns an array
   // first item in array is the offset string
