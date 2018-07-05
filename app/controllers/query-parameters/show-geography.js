@@ -16,7 +16,16 @@ export const projectParams = new QueryParams({
   },
 
   // filter values
-
+  'cert_date': {
+    defaultValue: [-2114380799, 2114380799],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',').map(date => parseInt(date, 10));
+    },
+  },
   'boroughs': {
     defaultValue: [],
     refresh: true,
@@ -27,8 +36,6 @@ export const projectParams = new QueryParams({
       return value.split(',');
     },
   },
-
-
   'community-districts': {
     defaultValue: [],
     refresh: true,

@@ -9,6 +9,18 @@
 
   <div class="project-filters">
     {{#filter-section
+      filterTitle='Certification Date'
+      appliedFilters=applied-filters
+      filterNames='cert_date'
+      mutateArray=(action 'mutateArray')
+      as |section|
+    }}
+      {{slider-filter 
+        start=cert_date
+        replaceProperty=(action section.delegate-mutation (action (mut cert_date)))}}
+    {{/filter-section}}
+
+    {{#filter-section
       filterTitle='Text Match'
       appliedFilters=applied-filters
       filterNames='text_query'
