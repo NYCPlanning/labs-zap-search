@@ -18,7 +18,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
   setup() {
     this.get('fetchData').perform({ unloadAll: true });
-    console.log('called');
   }
 
   queryParamsDidChange({ shouldRefresh }) {
