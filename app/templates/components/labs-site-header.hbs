@@ -4,7 +4,17 @@
     <div class="branding cell shrink large-auto">
       <a class="dcp-link" href="http://www1.nyc.gov/site/planning/index.page"><img class="dcp-logo" src="https://raw.githubusercontent.com/NYCPlanning/logo/master/dcp_logo_772.png" alt="NYC Planning"></a>
       {{#link-to 'show-geography' classNames='site-name' click=(action (mut closed) true)}}Zoning Application Search <small class="site-subtitle show-for-medium"></small>{{/link-to}}
+    </div>
+    <div class="cell auto hide-for-large text-right">
+      <button {{action (mut closed) (not closed)}} class="responsive-nav-toggler hide-for-print" data-toggle="responsive-menu">Menu</button>
+    </div>
+    <div id="responsive-menu" class="cell large-shrink {{if closed 'show-for-large'}} hide-for-print" data-toggler=".show-for-large">
+      <nav role="navigation">
+        <ul class="vertical large-horizontal menu">
+          <li>{{link-to 'Find Applications' 'show-geography' click=(action (mut closed))}}</li>
 
+        </ul>
+      </nav>
     </div>
   </div>
 </header>
