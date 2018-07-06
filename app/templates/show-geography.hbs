@@ -17,6 +17,7 @@
     }}
       {{slider-filter
         start=dcp_certifiedreferred
+        min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
         max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
         replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
     {{/filter-section}}
