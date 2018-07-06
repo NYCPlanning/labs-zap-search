@@ -1,8 +1,9 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
+
   {{#projects-map-data as |projects|}}
     {{#if fetchData.lastSuccessful}}
-      {{projects.dynamic-tiles tiles=tiles}}
-      {{projects.map.call 'fitBounds' bounds (hash padding=20)}}
+      {{projects.dynamic-tiles tiles=fetchData.lastSuccessful.value.meta.tiles}}
+      {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds (hash padding=20)}}
     {{/if}}
   {{/projects-map-data}}
 
@@ -16,7 +17,6 @@
     }}
       {{slider-filter
         start=dcp_certifiedreferred
-        min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
         max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
         replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
     {{/filter-section}}
@@ -72,9 +72,9 @@
     {{/filter-section}}
 
     {{#filter-section
-      filterTitle='Borough'
+      filterTitle='Borough / Block'
       appliedFilters=applied-filters
-      filterNames='boroughs'
+      filterNames=(array 'boroughs' 'block')
       mutateArray=(action 'mutateArray')
       as |section|
     }}
@@ -91,19 +91,11 @@
           </li>
         {{/each}}
       </ul>
-    {{/filter-section}}
-
-    {{#filter-section
-      filterTitle='Tax Block'
-      appliedFilters=applied-filters
-      filterNames='block'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      <input
-        class="filter-text-input"
-        type="text"
+      <input 
+        class="filter-text-input" 
+        type="text" 
         value={{block}}
+        placeholder="Block Number (e.g. '1000')"
         oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
     {{/filter-section}}
 
@@ -314,7 +306,6 @@
               {{#if project.dcp_borough}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_borough}}</span>{{/if}}
               {{#if project.dcp_communitydistricts}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_communitydistricts}}</span>{{/if}}
               {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray">{{project.dcp_ulurp_nonulurp}}</span>{{/if}}
-              {{#if project.dcp_ceqrnumber}}<span class="label light-gray">CEQR {{project.dcp_ceqrnumber}}</span>{{/if}}
               {{#each project.ulurpnumbers as |ulurpnumber|}}
                 <span class="label light-gray">{{ulurpnumber}}</span>
               {{/each}}
