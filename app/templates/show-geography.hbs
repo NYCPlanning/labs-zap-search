@@ -58,9 +58,9 @@
     {{/filter-section}}
 
     {{#filter-section
-      filterTitle='Borough'
+      filterTitle='Borough / Block'
       appliedFilters=applied-filters
-      filterNames='boroughs'
+      filterNames=(array 'boroughs' 'block')
       mutateArray=(action 'mutateArray')
       as |section|
     }}
@@ -77,19 +77,11 @@
           </li>
         {{/each}}
       </ul>
-    {{/filter-section}}
-
-    {{#filter-section
-      filterTitle='Tax Block'
-      appliedFilters=applied-filters
-      filterNames='block'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
       <input 
         class="filter-text-input" 
         type="text" 
-        value={{block}} 
+        value={{block}}
+        placeholder="Block Number (e.g. '1000')"
         oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
     {{/filter-section}}
 

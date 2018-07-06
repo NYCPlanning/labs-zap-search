@@ -104,11 +104,11 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL().includes('text_query'), true);
     assert.equal(currentURL().includes('applied-filters'), true);
 
-    await find('.filter-section-borough.inactive');
-    await click('.filter-section-borough li:nth-child(1)');
-    await click('.filter-section-borough li:nth-child(2)');
-    await click('.filter-section-borough li:nth-child(3)');
-    await find('.filter-section-borough.active');
+    await find('.filter-section-borough--block.inactive');
+    await click('.filter-section-borough--block li:nth-child(1)');
+    await click('.filter-section-borough--block li:nth-child(2)');
+    await click('.filter-section-borough--block li:nth-child(3)');
+    await find('.filter-section-borough--block.active');
 
     assert.equal(currentURL().includes('boroughs=Bronx%2CCitywide%2CManhattan'), true);
 

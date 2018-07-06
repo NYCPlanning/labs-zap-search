@@ -27,7 +27,7 @@ export default class FilterSectionComponent extends Component {
   @className
   @computed('filterTitle')
   get dasherizedFilterTitle() {
-    const dasherizedFilterTitle = this.get('filterTitle').dasherize();
+    const dasherizedFilterTitle = this.get('filterTitle').dasherize().replace('/','');
     return `filter-section-${dasherizedFilterTitle}`;
   }
 
