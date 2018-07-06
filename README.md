@@ -2,8 +2,7 @@
 
 # labs-zap-search
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+An ambitious web app for filtering and viewing NYC land use application records stored in DCP's Zoning Application Portal (ZAP).
 
 ## Prerequisites
 
@@ -16,43 +15,28 @@ You will need the following things properly installed on your computer.
 
 ## Installation
 
-* `git clone <repository-url>` this repository
+* `git clone https://github.com/NYCPlanning/labs-zap-search` this repository
 * `cd labs-zap-search`
-* `npm install`
+* Install dependencies `yarn`
 
 ## Running / Development
 
-* `ember serve`
+* `ember serve` - Uses dummy API responses provided by mirage
+* `ember serve --environment=devlocal` - Sends api calls to `localhost:3000`, assumes you are running [labs-zap-api](https://github.com/NYCPlanning/labs-zap-api) locally.
 * Visit your app at [http://localhost:4200](http://localhost:4200).
-* Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
-
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
 
 ### Running Tests
 
 * `ember test`
 * `ember test --server`
 
-### Linting
-
-* `npm run lint:js`
-* `npm run lint:js -- --fix`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
 ### Deploying
 
-Specify what it takes to deploy your app.
+This api is easily deployed with dokku.
 
-## Further Reading / Useful Links
+Create a new remote: `git remote add dokku dokku@{host}:zap-search`
+Deploy with a git push `git push dokku master` or alias another branch to master `git push dokku {other-branch}:master`
 
-* [ember.js](https://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+## Contact us
+
+You can find us on Twitter at [@nycplanninglabs](https://twitter.com/nycplanninglabs), or comment on issues and we'll follow up as soon as we can. If you'd like to send an email, use [labs_dl@planning.nyc.gov](mailto:labs_dl@planning.nyc.gov)
