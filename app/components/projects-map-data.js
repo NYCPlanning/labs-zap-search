@@ -6,6 +6,7 @@ import { service } from '@ember-decorators/service';
 
 export default class ProjectsMapComponent extends Component {
   @service router;
+  @service resultMapEvents;
 
   // required
   @argument meta = {};
