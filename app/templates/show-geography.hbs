@@ -2,21 +2,22 @@
 
   {{#projects-map-data as |projects|}}
     {{#if fetchData.lastSuccessful}}
+      {{!-- High-level dynamic tiles configuration --}}
       {{#projects.dynamic-tiles 
         tiles=fetchData.lastSuccessful.value.meta.tiles 
         layer=(hash
-          id = 'project-centroids-circle'
-          type = 'circle'
-          source = 'project-centroids'
-          source-layer = 'project-centroids'
-          paint = (hash
-            circle-radius = (hash 
-              stops = (array (array 10 3) (array 15 4))
+          id='project-centroids-circle'
+          type='circle'
+          source='project-centroids'
+          source-layer='project-centroids'
+          paint=(hash
+            circle-radius=(hash 
+              stops=(array (array 10 3) (array 15 4))
             )
-            circle-color = (hash
-              property = 'dcp_publicstatus_simp'
-              type = 'categorical'
-              stops = (array 
+            circle-color=(hash
+              property='dcp_publicstatus_simp'
+              type='categorical'
+              stops=(array 
                 (array 'Filed' '#deebf7')
                 (array 'In Public Review' '#9ecae1')
                 (array 'Complete' '#3182bd')
@@ -29,17 +30,17 @@
           )
         )
       }}
+        {{!-- Anything else for dynamic tiles, like hovers --}}
         {{projects.map.layer 
           layer=(hash
             id='project-centroids-circle-hover'
             type='circle'
             source='project-centroids'
             source-layer='project-centroids'
+            layout=(hash visibility='none')
             paint=(hash
-              circle-radius=(hash 
-                stops=(array (array 10 3) (array 15 4))
-              )
-              circle-color='#000000'
+              circle-radius=5
+              circle-color='#ae561f'
               circle-opacity = 1
               circle-stroke-width = (hash stops = (array (array 10 1) (array 15 2)) )
               circle-stroke-color = '#FFFFFF'
