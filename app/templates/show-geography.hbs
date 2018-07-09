@@ -277,7 +277,14 @@
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
   <div class="results">
-    <h3 class="results-header header-large">{{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}} project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}} match{{if (eq fetchData.lastSuccessful.value.meta.total 1) 'es'}} your filters</h3>
+    <h3 class="results-header header-large">
+      {{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}}
+      application{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}} match
+      {{if (eq fetchData.lastSuccessful.value.meta.total 1) 'es'}} your filters
+      <small>
+        (showing {{numeral-format cachedProjects.length '0,0'}})
+      </small>
+    </h3>
     <ul class="results-list no-bullet">
       {{#each cachedProjects as |project|}}
         <li class="grid-x grid-padding-small projects-list-result">
