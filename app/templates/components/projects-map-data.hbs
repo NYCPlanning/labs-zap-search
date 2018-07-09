@@ -8,7 +8,34 @@
     as |map|
 }}
   {{yield (hash 
-    dynamic-tiles=(component 'mapbox-gl-dynamic-tiles' map=map mapInstance=mapInstance layer=projectCentroidsLayer)
+    dynamic-tiles=(component 'mapbox-gl-dynamic-tiles' 
+      map=map 
+      mapInstance=mapInstance 
+      layer=(hash
+        id = 'project-centroids-circle'
+        type = 'circle'
+        source = 'project-centroids'
+        source-layer = 'project-centroids'
+        paint = (hash
+          circle-radius = (hash 
+            stops = (array (array 10 3) (array 15 4))
+          )
+          circle-color = (hash
+            property = 'dcp_publicstatus_simp'
+            type = 'categorical'
+            stops = (array 
+              (array 'Filed' '#deebf7')
+              (array 'In Public Review' '#9ecae1')
+              (array 'Complete' '#3182bd')
+              (array 'Unknown' '#6b717b')
+            )
+          )
+          circle-opacity = 1
+          circle-stroke-width = (hash stops = (array (array 10 1) (array 15 2)) )
+          circle-stroke-color = '#FFFFFF'
+        )
+      )
+    )
     map=map
   )}}
 
@@ -17,7 +44,7 @@
 {{/mapbox-gl}}
 
 {{#if highlightedFeature}}
-  <div class='map-tooltip' style="top: {{tooltipPoint.y}}px;left: {{tooltipPoint.x}}px;">
+  <div class='map-tooltip' style="top = {{tooltipPoint.y}}px;left: {{tooltipPoint.x}}px;">
     {{highlightedFeature.properties.dcp_projectname}}
   </div>
 {{/if}}

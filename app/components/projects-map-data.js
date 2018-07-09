@@ -5,34 +5,16 @@ import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
 
 export default class ProjectsMapComponent extends Component {
+  constructor() {
+    super(...arguments);
+    this.get('resultMapEvents').on('hover', this, 'hoverPoint')
+  }
+
   @service router;
   @service resultMapEvents;
 
   // required
   @argument meta = {};
-
-  projectCentroidsLayer = {
-    id: 'project-centroids-circle',
-    type: 'circle',
-    'source': 'project-centroids',
-    'source-layer': 'project-centroids',
-    paint: {
-      'circle-radius': { stops: [[10, 3], [15, 4]] },
-      'circle-color': {
-        property: 'dcp_publicstatus_simp',
-        type: 'categorical',
-        stops: [
-          ['Filed', '#deebf7'],
-          ['In Public Review', '#9ecae1'],
-          ['Complete', '#3182bd'],
-          ['Unknown', '#6b717b'],
-        ],
-      },
-      'circle-opacity': 1,
-      'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
-      'circle-stroke-color': '#FFFFFF',
-    },
-  }
 
   tooltipPoint = { x: 0, y: 0 }
 
@@ -86,5 +68,9 @@ export default class ProjectsMapComponent extends Component {
       const projectid = feature.properties.projectid;
       this.get('router').transitionTo('show-project', projectid);
     }
+  }
+
+  hoverPoint({ id }) {
+    this.get('mapInstance').setFilter(`project-centroids-circle-hover`, ["==", ["get", "projectid"], id]);
   }
 }
