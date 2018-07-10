@@ -3,6 +3,9 @@ import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
 import GeographyParachuteController from './query-parameters/show-geography';
+import ENV from 'labs-zap-search/config/environment';
+import queryString from 'query-string';
+
 
 const DEBOUNCE_MS = 500;
 
@@ -53,6 +56,15 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     }
 
     return queryOptions;
+  }
+
+  @computed('allQueryParams')
+  get downloadURL() {
+    // construct query object only with applied params
+    const href = `${ENV.host}/projects/download.csv`;
+    let queryParams = this.get('appliedQueryParams');
+
+    return `${href}?${queryString.stringify(queryParams, {arrayFormat: 'bracket'})}`;
   }
 
   @restartableTask

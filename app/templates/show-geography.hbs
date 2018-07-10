@@ -331,6 +331,13 @@
         {{else}}
            listing 1-{{numeral-format cachedProjects.length '0,0'}}
         {{/if}}
+        &nbsp;<span class="medium-gray">|</span>&nbsp;
+        {{#tool-tipster
+          content='Download all applications that match your filters'
+          tagName='span'
+        }}
+          <a href={{downloadURL}} >{{fa-icon 'download'}} <small>(CSV)</small></a>
+        {{/tool-tipster}}
       </span>
     </h3>
     <ul class="results-list no-bullet">
