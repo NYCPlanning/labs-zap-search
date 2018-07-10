@@ -1,59 +1,64 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
-  {{#projects-map-data as |projects|}}
-    {{#if fetchData.lastSuccessful}}
-      {{!-- High-level dynamic tiles configuration --}}
-      {{#projects.dynamic-tiles 
-        tiles=tiles 
-        layer=(hash
-          id='project-centroids-circle'
-          type='circle'
-          source='project-centroids'
-          source-layer='project-centroids'
-          paint=(hash
-            circle-radius=(hash 
-              stops=(array (array 10 3) (array 15 4))
-            )
-            circle-color=(hash
-              property='dcp_publicstatus_simp'
-              type='categorical'
-              stops=(array 
-                (array 'Filed' '#deebf7')
-                (array 'In Public Review' '#9ecae1')
-                (array 'Complete' '#3182bd')
-                (array 'Unknown' '#6b717b')
-              )
-            )
-            circle-opacity = 1
-            circle-stroke-width = (hash stops = (array (array 10 1) (array 15 2)) )
-            circle-stroke-color = '#FFFFFF'
-          )
-        )
-      }}
-        {{!-- Anything else for dynamic tiles, like hovers --}}
-        {{projects.map.layer 
-          layer=(hash
-            id='project-centroids-circle-hover'
-            type='circle'
-            source='project-centroids'
-            source-layer='project-centroids'
-            layout=(hash visibility='none')
-            paint=(hash
-              circle-radius=5
-              circle-color='#ae561f'
-              circle-opacity = 1
-              circle-stroke-width = (hash stops = (array (array 10 1) (array 15 2)) )
-              circle-stroke-color = '#FFFFFF'
-            )
-          )
-        }}
-      {{/projects.dynamic-tiles}}
-
-      {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds (hash padding=20)}}
-    {{/if}}
-  {{/projects-map-data}}
+  {{structural/project-list-map
+    tiles=tiles
+    bounds=bounds}}
 
   <div class="project-filters">
+{{!--     {{filters/certification-date
+      appliedFilters=applied-filters
+      queryParamsState=queryParamsState
+      queryParam=dcp_certifiedreferred
+      mutateArray=(action 'mutateArray')}}
+
+    {{filters/project-name-description-applicant
+      appliedFilters=applied-filters
+      queryParam=project_applicant_text
+      mutateArray=(action 'mutateArray')
+      setDebouncedText=(action 'setDebouncedText')}}
+
+    {{filters/ulurp-ceqr-number
+      appliedFilters=applied-filters
+      queryParam=ulurp_ceqr_text
+      mutateArray=(action 'mutateArray')
+      setDebouncedText=(action 'setDebouncedText')}}
+
+    {{filters/project-stage
+      appliedFilters=applied-filters
+      queryParam=dcp_publicstatus
+      mutateArray=(action 'mutateArray')}}
+
+    TODO: this is not done
+      it breaks down here because now we have two QPs
+    {{filters/borough-block
+      appliedFilters=applied-filters
+      mutateArray=(action 'mutateArray')
+      setDebouncedText=(action 'setDebouncedText')}}
+
+    {{filters/community-district
+      appliedFilters=applied-filters
+      queryParam=community-districts
+      replaceProperty=(action 'replaceProperty')
+      mutateArray=(action 'mutateArray')}}
+
+
+    {{filters/action-type
+      appliedFilters=applied-filters
+      mutateArray=(action 'mutateArray')}}
+
+    {{filters/ceqr-type
+      appliedFilters=applied-filters
+      mutateArray=(action 'mutateArray')}}
+
+    {{filters/fema-flood-zone
+      appliedFilters=applied-filters
+      mutateArray=(action 'mutateArray')}}
+
+    {{filters/ulurp-type
+      appliedFilters=applied-filters
+      mutateArray=(action 'mutateArray')}} --}}
+
+
     {{#filter-section
       filterTitle='Certification Date'
       appliedFilters=applied-filters

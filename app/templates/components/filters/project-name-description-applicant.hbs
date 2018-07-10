@@ -1,0 +1,13 @@
+{{#filter-section
+  filterTitle='Project Name / Description / Applicant'
+  appliedFilters=appliedFilters
+  filterNames='project_applicant_text'
+  mutateArray=(action mutateArray)
+  as |section|
+}}
+   <input
+    class="filter-text-input"
+    type="text"
+    value={{queryParam}}
+    oninput={{action section.delegate-mutation (action setDebouncedText 'project_applicant_text')}}>
+{{/filter-section}}

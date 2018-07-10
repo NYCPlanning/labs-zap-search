@@ -1,0 +1,21 @@
+{{#filter-section
+  filterTitle='Community District'
+  appliedFilters=appliedFilters
+  filterNames='community-districts'
+  mutateArray=(action mutateArray)
+  as |section|
+}}
+  {{#power-select-multiple
+    options=(lookup-community-district)
+    selected=(contains-keys
+      (lookup-community-district)
+      queryParam
+      key='code')
+    placeholder="Select some names..."
+    searchField='searchField'
+    onchange=(action section.delegate-mutation (action replaceProperty 'community-districts'))
+    as |district|
+  }}
+    {{district.boro}} {{district.num}}
+  {{/power-select-multiple}}
+{{/filter-section}}
