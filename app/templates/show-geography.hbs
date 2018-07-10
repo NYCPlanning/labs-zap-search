@@ -3,26 +3,26 @@
   {{#projects-map-data as |projects|}}
     {{#if fetchData.lastSuccessful}}
       {{!-- High-level dynamic tiles configuration --}}
-      {{#projects.dynamic-tiles 
-        tiles=tiles 
+      {{#projects.dynamic-tiles
+        tiles=tiles
         layer=(hash
           id='project-centroids-circle'
           type='circle'
           source='project-centroids'
           source-layer='project-centroids'
           paint=(hash
-            circle-radius=(hash 
+            circle-radius=(hash
               stops=(array (array 10 3) (array 15 4))
             )
             circle-color=(hash
               property='dcp_publicstatus_simp'
               type='categorical'
-              stops=(array 
+              stops=(array
                 (array 'Filed' '#deebf7')
                 (array 'In Public Review' '#9ecae1')
                 (array 'Complete' '#3182bd')
-                (array 'Unknown' '#6b717b')
               )
+              default='#6b717b'
             )
             circle-opacity = 1
             circle-stroke-width = (hash stops = (array (array 10 1) (array 15 2)) )
@@ -31,7 +31,7 @@
         )
       }}
         {{!-- Anything else for dynamic tiles, like hovers --}}
-        {{projects.map.layer 
+        {{projects.map.layer
           layer=(hash
             id='project-centroids-circle-hover'
             type='circle'
