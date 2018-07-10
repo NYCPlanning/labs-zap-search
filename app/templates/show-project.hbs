@@ -86,9 +86,6 @@
                     <h5 class="no-margin">{{action.dcp_name}}<sup class="dark-gray">{{icon-tooltip tip=(lookup-action-type action.actioncode)}}</sup></h5>
                     <p class="text-tiny label-group">
                       <span class="label light-gray">
-                        {{if action.dcp_prefix action.dcp_prefix "No Prefix"}}
-                      </span>{{!-- remove whitespace
-                  --}}<span class="label light-gray">
                         {{#if action.dcp_ulurpnumber}}
                           {{#if (eq action.statuscode "Approved")}}
                             <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">{{action.dcp_ulurpnumber}}</a><sup class="dark-gray">{{icon-tooltip tip='ULURP Number (click on this number to access the City Planning Commision Report).'}}</sup>
@@ -99,7 +96,7 @@
                           No ULURP Number
                         {{/if}}
                       </span>{{!-- remove whitespace
-                  --}}<span class="label light-gray">
+                  --}}<span class="label light-gray statuscode {{dasherize action.statuscode}}">
                         {{if action.statuscode action.statuscode "No Status Code"}}
                       </span>
                     </p>

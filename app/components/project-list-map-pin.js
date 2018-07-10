@@ -5,7 +5,7 @@ import { tagName } from '@ember-decorators/component';
 import { argument } from '@ember-decorators/argument';
 
 @tagName('a')
-@classNames('button gray text-orange')
+@classNames('button hollow expanded map-marker-button')
 export default class ProjectListMapPinComponent extends Component {
   constructor() {
     super(...arguments);
