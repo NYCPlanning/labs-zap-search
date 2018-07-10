@@ -8,7 +8,7 @@ export default class ProjectsMapComponent extends Component {
   constructor() {
     super(...arguments);
     this.get('resultMapEvents').on('hover', this, 'hoverPoint');
-    this.get('resultMapEvents').on('unhover', this, 'unHoverPoint')
+    this.get('resultMapEvents').on('unhover', this, 'unHoverPoint');
   }
 
   @service router;
@@ -80,5 +80,10 @@ export default class ProjectsMapComponent extends Component {
   unHoverPoint({ layerId }) {
     this.get('mapInstance')
       .setLayoutProperty(layerId, 'visibility', 'none');
+  }
+
+  willDestroyElement() {
+    this.get('resultMapEvents').off('hover', this, 'hoverPoint');
+    this.get('resultMapEvents').off('unhover', this, 'unHoverPoint');
   }
 }
