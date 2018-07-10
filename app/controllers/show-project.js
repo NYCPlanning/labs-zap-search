@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import mapboxgl from 'mapbox-gl';
 import { action, computed } from '@ember-decorators/object';
 import { argument } from '@ember-decorators/argument';
 import { run } from '@ember/runloop';
@@ -46,6 +47,9 @@ export default class ShowProjectController extends Controller {
   @action
   handleMapLoad(bblFeatureCollection, map) {
     window.map = map;
+
+    const navigationControl = new mapboxgl.NavigationControl();
+    map.addControl(navigationControl, 'top-left');
 
     map.fitBounds(turfBbox(bblFeatureCollection), {
       padding: 50,

@@ -24,8 +24,8 @@ export default class ProjectsMapComponent extends Component {
           ['Filed', '#deebf7'],
           ['In Public Review', '#9ecae1'],
           ['Complete', '#3182bd'],
-          ['Unknown', '#6b717b'],
         ],
+        default: '#6b717b',
       },
       'circle-opacity': 1,
       'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
@@ -45,6 +45,18 @@ export default class ProjectsMapComponent extends Component {
   handleMapLoad(map) {
     window.map = map;
     this.set('mapInstance', map);
+
+    const navigationControl = new mapboxgl.NavigationControl();
+    map.addControl(navigationControl, 'top-left');
+
+    const geoLocateControl = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
+    map.addControl(geoLocateControl, 'top-left');
+    this.set('geoLocateControl', geoLocateControl);
   }
 
   @action
