@@ -105,7 +105,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   */
   @action
   mutateArray(key, ...values) {
-    console.log('mutating')
     // BEWARE: binding this to 'onClick=' will insert the mouseEvent
     const targetArray = this.get(key);
 
