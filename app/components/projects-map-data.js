@@ -27,6 +27,18 @@ export default class ProjectsMapComponent extends Component {
   handleMapLoad(map) {
     window.map = map;
     this.set('mapInstance', map);
+
+    const navigationControl = new mapboxgl.NavigationControl();
+    map.addControl(navigationControl, 'top-left');
+
+    const geoLocateControl = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
+    map.addControl(geoLocateControl, 'top-left');
+
     this.get('resultMapEvents').on('hover', this, 'hoverPoint');
     this.get('resultMapEvents').on('unhover', this, 'unHoverPoint');
   }
