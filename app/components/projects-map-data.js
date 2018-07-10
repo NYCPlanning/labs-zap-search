@@ -7,8 +7,6 @@ import { service } from '@ember-decorators/service';
 export default class ProjectsMapComponent extends Component {
   constructor() {
     super(...arguments);
-    this.get('resultMapEvents').on('hover', this, 'hoverPoint');
-    this.get('resultMapEvents').on('unhover', this, 'unHoverPoint');
   }
 
   @service router;
@@ -29,6 +27,8 @@ export default class ProjectsMapComponent extends Component {
   handleMapLoad(map) {
     window.map = map;
     this.set('mapInstance', map);
+    this.get('resultMapEvents').on('hover', this, 'hoverPoint');
+    this.get('resultMapEvents').on('unhover', this, 'unHoverPoint');
   }
 
   @action
@@ -74,11 +74,13 @@ export default class ProjectsMapComponent extends Component {
   hoverPoint({ id, layerId }) {
     this.get('mapInstance')
       .setLayoutProperty(layerId, 'visibility', 'visible')
+      .setPaintProperty('project-centroids-circle', 'circle-blur', 0.9)
       .setFilter(layerId, ["==", ["get", "projectid"], id]);
   }
 
   unHoverPoint({ layerId }) {
     this.get('mapInstance')
+      .setPaintProperty('project-centroids-circle', 'circle-blur', 0)
       .setLayoutProperty(layerId, 'visibility', 'none');
   }
 
