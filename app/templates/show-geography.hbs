@@ -23,12 +23,12 @@
     {{/filter-section}}
 
     {{#filter-section
-      filterTitle='Project Name / Description / Applicant' 
+      filterTitle='Project Name / Description / Applicant'
       appliedFilters=applied-filters
       filterNames='project_applicant_text'
       mutateArray=(action 'mutateArray')
       as |section|
-    }} 
+    }}
        <input
         class="filter-text-input"
         type="text"
@@ -92,9 +92,9 @@
           </li>
         {{/each}}
       </ul>
-      <input 
-        class="filter-text-input" 
-        type="text" 
+      <input
+        class="filter-text-input"
+        type="text"
         value={{block}}
         placeholder="Block Number (e.g. '1000')"
         oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
@@ -277,7 +277,8 @@
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
   <div class="results">
-    <h3 class="results-header header-large">{{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}} project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}} match{{if (eq fetchData.lastSuccessful.value.meta.total 1) 'es'}} your filters</h3>
+    <h3 class="results-header header-large">{{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}} project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}} match{{if (eq fetchData.lastSuccessful.value.meta.total 1) 'es'}} your filters <a href={{downloadURL}} ><span class='label'>{{fa-icon 'download'}} Download CSV</span></a></h3>
+
     <ul class="results-list no-bullet">
       {{#each cachedProjects as |project|}}
         <li class="grid-x grid-padding-small projects-list-result">

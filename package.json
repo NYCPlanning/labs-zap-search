@@ -80,6 +80,7 @@
     "@turf/intersect": "6.1.2",
     "ember-concurrency-decorators": "machty/ember-concurrency-decorators",
     "foundation-sites": "^6.4.3",
-    "numeral": "^2.0.6"
+    "numeral": "^2.0.6",
+    "query-string": "^6.1.0"
   }
 }
