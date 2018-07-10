@@ -334,6 +334,7 @@
            listing 1-{{numeral-format cachedProjects.length '0,0'}}
         {{/if}}
       </span>
+      <a href={{downloadURL}} ><span class='label'>{{fa-icon 'download'}} Download CSV</span></a>
     </h3>
     <ul class="results-list no-bullet">
       {{#each cachedProjects as |project|}}
