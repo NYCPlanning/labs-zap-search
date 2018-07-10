@@ -100,8 +100,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   /*
-    `mutateArray` can accept either multiple parameters of strings, a single string, 
-    or an array of strings. The rest param coerces it into an array. 
+    `mutateArray` can accept either multiple parameters of strings, a single string,
+    or an array of strings. The rest param coerces it into an array.
   */
   @action
   mutateArray(key, ...values) {

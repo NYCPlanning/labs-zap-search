@@ -1,0 +1,62 @@
+// --------------------------------------------------
+// Module: Categorical Colors
+// --------------------------------------------------
+
+.label {
+  .publicstatus-filed & {
+    background: lighten($filed-color, 15%);
+    color: color-pick-contrast(lighten($filed-color, 15%), ($label-color, $label-color-alt));
+  }
+  .publicstatus-in-public-review & {
+    background: lighten($in-public-review-color, 15%);
+    color: color-pick-contrast(lighten($in-public-review-color, 15%), ($label-color, $label-color-alt));
+  }
+  .publicstatus-complete & {
+   background: lighten($complete-color, 15%);
+   color: color-pick-contrast(lighten($complete-color, 15%), ($label-color, $label-color-alt));
+  }
+  .publicstatus-unknown & {
+   background: lighten($dark-gray, 15%);
+   color: color-pick-contrast(lighten($dark-gray, 15%), ($label-color, $label-color-alt));
+  }
+}
+
+.fa-map-marker-alt {
+  .publicstatus-filed & {
+    color: $filed-color;
+  }
+  .publicstatus-in-public-review & {
+    color: $in-public-review-color;
+  }
+  .publicstatus-complete & {
+   color: $complete-color;
+  }
+  .publicstatus-unknown & {
+   color: $dark-gray;
+  }
+
+  .publicstatus-filed .button:hover &,
+  .publicstatus-in-public-review .button:hover &,
+  .publicstatus-complete .button:hover &,
+  .publicstatus-unknown .button:hover & {
+    color: $primary-color;
+  }
+}
+
+.label {
+  &.statuscode {
+    &.withdrawn,
+    &.mistake,
+    &.terminated {
+      background-color: lighten($lu-red, 15%);
+      color: color-pick-contrast(lighten($lu-red, 15%), ($label-color, $label-color-alt));
+    }
+    &.approved {
+      background-color: lighten($lu-green, 15%);
+      color: color-pick-contrast(lighten($lu-green, 15%), ($label-color, $label-color-alt));
+    }
+    // &.certified {}
+    // &.referred {}
+    // &.active { }
+  }
+}

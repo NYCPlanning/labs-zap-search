@@ -18,9 +18,9 @@
               property='dcp_publicstatus_simp'
               type='categorical'
               stops=(array
-                (array 'Filed' '#deebf7')
-                (array 'In Public Review' '#9ecae1')
-                (array 'Complete' '#3182bd')
+                (array 'Filed' '#FF9400')
+                (array 'In Public Review' '#78D271')
+                (array 'Complete' '#44A3D5')
               )
               default='#6b717b'
             )
@@ -110,7 +110,6 @@
               {{filter-checkbox
                 value=type
                 currentValues=dcp_publicstatus
-                classPrefix="publicstatus"
               }}
             </a>
           </li>
@@ -132,7 +131,6 @@
               {{filter-checkbox
                 value=type
                 currentValues=boroughs
-                classPrefix="borough"
               }}
             </a>
           </li>
@@ -337,30 +335,7 @@
     </h3>
     <ul class="results-list no-bullet">
       {{#each cachedProjects as |project|}}
-        <li class="grid-x grid-padding-small projects-list-result">
-          <div class="cell shrink">
-            {{project-list-map-pin project=project}}
-          </div>
-          <div class="cell auto">
-            <h3 class="header-medium no-margin">
-              {{#link-to 'show-project' project.id}}
-                {{if project.dcp_projectname project.dcp_projectname "No Project Name"}}
-              {{/link-to}}
-            </h3>
-            <p class="no-margin text-small dark-grey">
-              <strong>{{if project.dcp_applicant project.dcp_applicant "Unknown Applicant"}}</strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
-            </p>
-            <p class="no-margin text-tiny dark-gray">
-              <span class="label publicstatus-{{dasherize project.dcp_publicstatus_simp}}">{{unless (eq project.dcp_publicstatus_simp 'Unknown') project.dcp_publicstatus_simp "Unknown Status"}}</span>
-              {{#if project.dcp_borough}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_borough}}</span>{{/if}}
-              {{#if project.dcp_communitydistricts}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_communitydistricts}}</span>{{/if}}
-              {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray">{{project.dcp_ulurp_nonulurp}}</span>{{/if}}
-              {{#each project.ulurpnumbers as |ulurpnumber|}}
-                <span class="label light-gray">{{ulurpnumber}}</span>
-              {{/each}}
-            </p>
-          </div>
-        </li>
+        {{project-list-item project=project}}
       {{/each}}
     </ul>
 
