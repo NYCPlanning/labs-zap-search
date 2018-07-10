@@ -1,6 +1,3 @@
-{{#if classPrefix}}
-  <span class="circle {{classPrefix}}-{{dasherize value}}">{{fa-icon 'circle'}}</span>
-{{/if}}
 {{fa-icon
   (if (contains value currentValues) 'check-square' 'square')
   prefix=(unless (contains value currentValues) 'far')
