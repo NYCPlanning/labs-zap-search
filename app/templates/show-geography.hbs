@@ -2,7 +2,53 @@
 
   {{#projects-map-data as |projects|}}
     {{#if fetchData.lastSuccessful}}
-      {{projects.dynamic-tiles tiles=fetchData.lastSuccessful.value.meta.tiles}}
+      {{!-- High-level dynamic tiles configuration --}}
+      {{#projects.dynamic-tiles
+        tiles=tiles
+        layer=(hash
+          id='project-centroids-circle'
+          type='circle'
+          source='project-centroids'
+          source-layer='project-centroids'
+          paint=(hash
+            circle-radius=(hash
+              stops=(array (array 10 3) (array 15 4))
+            )
+            circle-color=(hash
+              property='dcp_publicstatus_simp'
+              type='categorical'
+              stops=(array
+                (array 'Filed' '#deebf7')
+                (array 'In Public Review' '#9ecae1')
+                (array 'Complete' '#3182bd')
+              )
+              default='#6b717b'
+            )
+            circle-opacity = 1
+            circle-stroke-width = (hash stops = (array (array 10 1) (array 15 2)) )
+            circle-stroke-color = '#FFFFFF'
+          )
+        )
+      }}
+        {{!-- Anything else for dynamic tiles, like hovers --}}
+        {{projects.map.layer
+          layer=(hash
+            id='project-centroids-circle-hover'
+            type='circle'
+            source='project-centroids'
+            source-layer='project-centroids'
+            layout=(hash visibility='none')
+            paint=(hash
+              circle-radius=5
+              circle-color='#ae561f'
+              circle-opacity = 1
+              circle-stroke-width = (hash stops = (array (array 10 1) (array 15 2)) )
+              circle-stroke-color = '#FFFFFF'
+            )
+          )
+        }}
+      {{/projects.dynamic-tiles}}
+
       {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds (hash padding=20)}}
     {{/if}}
   {{/projects-map-data}}
@@ -277,22 +323,24 @@
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
   <div class="results">
-    <h3 class="results-header header-large">{{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}} project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}} match{{if (eq fetchData.lastSuccessful.value.meta.total 1) 'es'}} your filters <a href={{downloadURL}} ><span class='label'>{{fa-icon 'download'}} Download CSV</span></a></h3>
-
+    <h3 class="results-header header-medium">
+      {{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}}
+      application{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}}
+      {{if (eq fetchData.lastSuccessful.value.meta.total 1) 'matches' 'match'}} your filters
+      <span class="float-right results-header-count">
+        {{#if fetchData.isRunning}}
+          {{fa-icon 'spinner' class="fa-spin medium-gray"}}
+        {{else}}
+           listing 1-{{numeral-format cachedProjects.length '0,0'}}
+        {{/if}}
+      </span>
+      <a href={{downloadURL}} ><span class='label'>{{fa-icon 'download'}} Download CSV</span></a>
+    </h3>
     <ul class="results-list no-bullet">
       {{#each cachedProjects as |project|}}
         <li class="grid-x grid-padding-small projects-list-result">
           <div class="cell shrink">
-            <a class="button gray text-orange">
-              <span class="fa-layers fa-fw" style="font-size: 1.5rem;">
-                {{#if project.has_centroid}}
-                    {{fa-icon 'map-marker-alt' fixedWidth=true}}
-                {{else}}
-                    {{fa-icon 'map-marker-alt' fixedWidth=true class='medium-gray'}}
-                    {{fa-icon 'ban' fixedWidth=true class='lu-red' transform='grow-8'}}
-                {{/if}}
-              </span>
-            </a>
+            {{project-list-map-pin project=project}}
           </div>
           <div class="cell auto">
             <h3 class="header-medium no-margin">
