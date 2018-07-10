@@ -4,7 +4,7 @@
     {{#if fetchData.lastSuccessful}}
       {{!-- High-level dynamic tiles configuration --}}
       {{#projects.dynamic-tiles 
-        tiles=fetchData.lastSuccessful.value.meta.tiles 
+        tiles=tiles 
         layer=(hash
           id='project-centroids-circle'
           type='circle'
