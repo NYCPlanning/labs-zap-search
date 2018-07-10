@@ -81,7 +81,7 @@
     "ember-concurrency-decorators": "machty/ember-concurrency-decorators",
     "foundation-sites": "^6.4.3",
     "numeral": "^2.0.6",
-    "query-string": "^6.1.0"
+    "query-string": "^6.1.0",
     "underscore": "^1.9.1"
   }
 }
