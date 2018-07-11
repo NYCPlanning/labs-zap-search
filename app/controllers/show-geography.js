@@ -4,7 +4,7 @@ import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
 import GeographyParachuteController from './query-parameters/show-geography';
 import ENV from 'labs-zap-search/config/environment';
-import queryString from 'query-string';
+import queryString from 'qs';
 
 
 const DEBOUNCE_MS = 500;

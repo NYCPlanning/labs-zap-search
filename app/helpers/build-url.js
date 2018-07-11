@@ -42,11 +42,17 @@ function cpcReport(ulurp) {
   return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumber}.pdf`;
 }
 
+function acris(bbl) {
+  const { boro, block, lot} = bblDemux(bbl);
+  return `http://a836-acris.nyc.gov/bblsearch/bblsearch.asp?borough=${boro}&block=${block}&lot=${lot}`;
+}
+
 export function buildUrl([type, value]) {
   if (type === "zoningResolution") return zoningResolution(value);
   if (type === "zola") return zola(value);
   if (type === "bisweb") return bisweb(value);
   if (type === "cpcReport") return cpcReport(value);
+  if (type === "acris") return acris(value);
 
   throw 'invalid type passed to build-url helper';
 }
