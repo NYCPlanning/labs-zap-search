@@ -12,15 +12,6 @@ module('Integration | Component | structural/project-list-map', function(hooks) 
 
     await render(hbs`{{structural/project-list-map}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#structural/project-list-map}}
-        template block text
-      {{/structural/project-list-map}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'Missing Mapbox GL JS CSS');
   });
 });

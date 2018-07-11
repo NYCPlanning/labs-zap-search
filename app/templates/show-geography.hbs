@@ -8,13 +8,11 @@
     {{#filter-mutators
       mutateArray=(action 'mutateArray')
       appliedFilters=applied-filters
-      as |filters|
-    }}
+      as |filters|}}
       {{#filters.section
         filterTitle='Certification Date'
         filterNames='dcp_certifiedreferred'
-        as |section|
-      }}
+        as |section|}}
         {{slider-filter
           start=dcp_certifiedreferred
           min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
@@ -25,8 +23,7 @@
       {{#filters.section
         filterTitle='Project Name / Description / Applicant'
         filterNames='project_applicant_text'
-        as |section|
-      }}
+        as |section|}}
          <input
           class="filter-text-input"
           type="text"
@@ -37,8 +34,7 @@
       {{#filters.section
         filterTitle='ULURP / CEQR Number'
         filterNames='ulurp_ceqr_text'
-        as |section|
-      }}
+        as |section|}}
          <input
           class="filter-text-input"
           type="text"
@@ -49,8 +45,7 @@
       {{#filters.section
         filterTitle='Project Stage'
         filterNames='dcp_publicstatus'
-        as |section|
-      }}
+        as |section|}}
         <ul class="menu vertical medium-horizontal stage-checkbox">
           {{#each (array 'Filed' 'In Public Review' 'Complete' 'Unknown') as |type|}}
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
@@ -69,8 +64,7 @@
       {{#filters.section
         filterTitle='Borough / Block'
         filterNames=(array 'boroughs' 'block')
-        as |section|
-      }}
+        as |section|}}
         <ul class="menu vertical medium-horizontal stage-checkbox">
           {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
             <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}>
@@ -95,8 +89,7 @@
       {{#filters.section
         filterTitle='Community District'
         filterNames='community-districts'
-        as |section|
-      }}
+        as |section|}}
         {{#power-select-multiple
           options=(lookup-community-district)
           selected=(contains-keys
@@ -115,8 +108,7 @@
       {{#filters.section
         filterTitle='Action Type'
         filterNames='action-types'
-        as |section|
-      }}
+        as |section|}}
         {{#power-select-multiple
           options=(lookup-action-type)
           selected=(contains-keys
@@ -139,8 +131,7 @@
       {{#filters.section
         filterTitle='CEQR Type'
         filterNames='dcp_ceqrtype'
-        as |section|
-      }}
+        as |section|}}
         <ul class="menu vertical medium-horizontal CEQR-checkbox">
           {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ceqrtype' type)}}>
@@ -157,8 +148,7 @@
       {{#filters.section
         filterTitle='FEMA Flood Zone'
         filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
-        as |section|
-      }}
+        as |section|}}
         <ul class="menu vertical medium-horizontal FEMA-checkbox">
           <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonev')}}>
             {{#filters/named-checkbox
@@ -214,8 +204,7 @@
       {{#filters.section
         filterTitle='ULURP'
         filterNames='dcp_ulurp_nonulurp'
-        as |section|
-      }}
+        as |section|}}
         <ul class="menu vertical medium-horizontal ULURP-checkbox">
           <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}>
             <a>
@@ -273,15 +262,33 @@
               {{/link-to}}
             </h3>
             <p class="no-margin text-small dark-grey">
-              <strong>{{if project.dcp_applicant project.dcp_applicant "Unknown Applicant"}}</strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
+              <strong>
+                {{if project.dcp_applicant project.dcp_applicant "Unknown Applicant"}}
+              </strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
             </p>
             <p class="no-margin text-tiny dark-gray">
-              <span class="label publicstatus-{{dasherize project.dcp_publicstatus_simp}}">{{unless (eq project.dcp_publicstatus_simp 'Unknown') project.dcp_publicstatus_simp "Unknown Status"}}</span>
-              {{#if project.dcp_borough}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_borough}}</span>{{/if}}
-              {{#if project.dcp_communitydistricts}}<span class="label borough-{{dasherize project.dcp_borough}}">{{project.dcp_communitydistricts}}</span>{{/if}}
-              {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray">{{project.dcp_ulurp_nonulurp}}</span>{{/if}}
+              <span class="label publicstatus-{{dasherize project.dcp_publicstatus_simp}}">
+                {{unless (eq project.dcp_publicstatus_simp 'Unknown') project.dcp_publicstatus_simp "Unknown Status"}}
+              </span>
+              {{#if project.dcp_borough}}
+                <span class="label borough-{{dasherize project.dcp_borough}}">
+                  {{project.dcp_borough}}
+                </span>
+              {{/if}}
+              {{#if project.dcp_communitydistricts}}
+                <span class="label borough-{{dasherize project.dcp_borough}}">
+                  {{project.dcp_communitydistricts}}
+                </span>
+              {{/if}}
+              {{#if project.dcp_ulurp_nonulurp}}
+                <span class="label light-gray">
+                  {{project.dcp_ulurp_nonulurp}}
+                </span>
+              {{/if}}
               {{#each project.ulurpnumbers as |ulurpnumber|}}
-                <span class="label light-gray">{{ulurpnumber}}</span>
+                <span class="label light-gray">
+                  {{ulurpnumber}}
+                </span>
               {{/each}}
             </p>
           </div>
@@ -289,19 +296,10 @@
       {{/each}}
     </ul>
 
-    <p class="text-center" style="margin:3rem 0 6rem;">
-      <span
-        class="button projects-load-more-button gray text-orange"
-        onClick={{unless noMoreRecords (queue (action (mut page) (add page 1)) (perform fetchData))}}
-        disabled={{or noMoreRecords fetchData.isRunning}}
-      >
-        {{#if fetchData.isRunning}}
-          {{fa-icon 'spinner' class="fa-spin" transform='grow-8'}}
-        {{else}}
-          LOAD MORE
-        {{/if}}
-      </span>
-    </p>
+    {{load-more-button
+      page=page
+      noMoreRecords=noMoreRecords
+      task=fetchData}}
   </div>
 </div>
 
