@@ -41,6 +41,20 @@ module.exports = function(environment) {
       jsUrl: 'https://www.google.com/recaptcha/api.js?render=explicit', // default
       siteKey: '6LdWI2IUAAAAACg5LHP4ucs7Ep1UzaFsl96FHyPK',
     },
+
+    metricsAdapters: [
+      {
+        name: 'GoogleAnalytics',
+        environments: ['development', 'production'],
+        config: {
+          id: 'UA-84250233-13',
+          debug: environment === 'development',
+          trace: environment === 'development',
+          // Ensure development env hits aren't sent to GA
+          sendHitTask: (environment !== 'development' && environment !== 'devlocal'),
+        }
+      }
+    ],
   };
 
   if (environment === 'development') {
