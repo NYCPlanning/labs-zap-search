@@ -19,7 +19,7 @@ $project-filters-font-size: rem-calc(12);
 
   .filter-header {
     float: left;
-    width: 15em;
+    width: 16em;
     padding-right: 0.4rem;
     position: relative;
     z-index: 2;
@@ -53,7 +53,7 @@ $project-filters-font-size: rem-calc(12);
   }
 
   .filter-controls {
-    margin-left: 15em;
+    margin-left: 16em;
   }
 
   .filter.inactive .filter-header ~ * {
