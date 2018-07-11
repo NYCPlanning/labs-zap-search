@@ -155,7 +155,7 @@ export default class ProjectMilestoneComponent extends Component {
 
   @computed('tense')
   get getClassNames() {
-    const tense = this.get('tense');
+    const tense = this.tense;
     return `grid-x grid-padding-small milestone ${tense}`
   }
 
@@ -200,7 +200,7 @@ export default class ProjectMilestoneComponent extends Component {
     const milestonename = this.get('milestone.milestonename');
     const nonulurptip = milestoneLookup[milestonename].nonulurptooltip;
     const ulurptip = milestoneLookup[milestonename].ulurptooltip;
-    const isUlurp = this.get('isUlurp');
+    const isUlurp = this.isUlurp;
 
   if (isUlurp) {
     const  tooltip   = `${ulurptip}`;
@@ -233,7 +233,7 @@ export default class ProjectMilestoneComponent extends Component {
     const milestonename = this.get('milestone.milestonename');
     const { dateFormat, hideIfFiled } = milestoneLookup[milestonename];
 
-    const isFiled = this.get('isFiled');
+    const isFiled = this.isFiled;
 
     const plannedStartDate = this.get('milestone.dcp_plannedstartdate');
     const plannedEndDate = this.get('milestone.dcp_plannedcompletiondate');

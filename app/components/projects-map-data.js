@@ -45,7 +45,7 @@ export default class ProjectsMapComponent extends Component {
 
   @action
   handleMouseMove(e) {
-    const map = this.get('mapInstance');
+    const map = this.mapInstance;
     const [feature] = map.queryRenderedFeatures(
       e.point,
       { layers: ['project-centroids-circle'] }
@@ -71,7 +71,7 @@ export default class ProjectsMapComponent extends Component {
 
   @action
   handleMapClick(e) {
-    const map = this.get('mapInstance');
+    const map = this.mapInstance;
     const [feature] = map.queryRenderedFeatures(
       e.point,
       { layers: ['project-centroids-circle'] }
@@ -79,25 +79,25 @@ export default class ProjectsMapComponent extends Component {
 
     if (feature) {
       const projectid = feature.properties.projectid;
-      this.get('router').transitionTo('show-project', projectid);
+      this.router.transitionTo('show-project', projectid);
     }
   }
 
   hoverPoint({ id, layerId }) {
-    this.get('mapInstance')
+    this.mapInstance
       .setLayoutProperty(layerId, 'visibility', 'visible')
       .setPaintProperty('project-centroids-circle', 'circle-blur', 0.9)
       .setFilter(layerId, ["==", ["get", "projectid"], id]);
   }
 
   unHoverPoint({ layerId }) {
-    this.get('mapInstance')
+    this.mapInstance
       .setPaintProperty('project-centroids-circle', 'circle-blur', 0)
       .setLayoutProperty(layerId, 'visibility', 'none');
   }
 
   willDestroyElement() {
-    this.get('resultMapEvents').off('hover', this, 'hoverPoint');
-    this.get('resultMapEvents').off('unhover', this, 'unHoverPoint');
+    this.resultMapEvents.off('hover', this, 'hoverPoint');
+    this.resultMapEvents.off('unhover', this, 'unHoverPoint');
   }
 }

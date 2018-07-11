@@ -35,6 +35,6 @@ export default class SliderFilterComponent extends Component {
     const minStart = parseInt(moment(min, 'X').utc().startOf('year').format('X'), 10);
     const maxEnd = parseInt(moment(max, 'X').utc().endOf('year').format('X'), 10);
 
-    this.get('replaceProperty')([minStart, maxEnd]);
+    this.replaceProperty([minStart, maxEnd]);
   }
 }

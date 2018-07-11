@@ -15,9 +15,9 @@ export default class MapboxGlDynamicTilesComponent extends Component {
   mapInstance;
 
   didUpdateAttrs() {
-    const map = this.get('mapInstance');
+    const map = this.mapInstance;
     const newStyle = map.getStyle();
-    const tiles = this.get('tiles');
+    const tiles = this.tiles;
 
     newStyle.sources['project-centroids'].tiles = tiles;
     map.setStyle(newStyle);

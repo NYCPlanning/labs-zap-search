@@ -8,7 +8,7 @@ export default class BBLComponent extends Component {
 
   @computed('bbl')
   get tooltip() {
-    const bbl = this.get('bbl');
+    const bbl = this.bbl;
 
     let boro = bbl.substring(0, 1);
     if (boro == 1) { boro = 'Manhattan' }

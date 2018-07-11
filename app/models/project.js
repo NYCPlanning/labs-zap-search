@@ -51,7 +51,7 @@ export default class ProjectModel extends Model {
 
   @computed('bbl_featurecollection')
   get bblFeatureCollectionSource() {
-    const data = this.get('bbl_featurecollection');
+    const data = this.bbl_featurecollection;
     return {
       type: 'geojson',
       data,
