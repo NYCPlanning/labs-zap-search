@@ -17,7 +17,12 @@ export default class ProjectsMapComponent extends Component {
 
   tooltipPoint = { x: 0, y: 0 }
 
-  highlightedFeature = null
+  highlightedFeature = null;
+  geocodedFeature = null;
+  geocodedLayer = {
+    type: 'circle',
+    paint: { 'circle-color': '#007cbf', 'circle-radius': 10 },
+  }
 
   popup = new mapboxgl.Popup({
    closeOnClick: false,
@@ -81,6 +86,15 @@ export default class ProjectsMapComponent extends Component {
       const projectid = feature.properties.projectid;
       this.router.transitionTo('show-project', projectid);
     }
+  }
+
+  @action
+  selectSearchResult({ geometry }) {
+    const { coordinates } = geometry;
+    const { mapInstance: map } = this;
+    
+    this.set('geocodedFeature', { type: 'geojson', data: geometry });
+    map.flyTo({ center: coordinates, zoom: 16 });
   }
 
   hoverPoint({ id, layerId }) {
