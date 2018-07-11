@@ -1,48 +1,31 @@
 // --------------------------------------------------
-// Module: Share Controls
+// Module: Modal Controls
 // --------------------------------------------------
 
-.custom-controls {
-  position: absolute;
-  top: 10px;
-  left: 50px;
-  z-index: 2;
+.modal-controls {
+  position: relative;
   overflow: visible;
-
-  .mapboxgl-ctrl-icon {
-    color: #333333;
-  }
-
-  .mapboxgl-ctrl-group {
-    position: absolute;
-    right: auto;
-    bottom: auto;
-    left: 0;
-    overflow: visible;
-
-    &.share-controls {
-      top: 0;
-      z-index: 3;
-    }
-    &.data-controls  {
-      top: 40px;
-      z-index: 2;
-    }
-    &.print-controls {
-      top: 80px;
-      z-index: 1;
-    }
-  }
+  display: inline-block;
 }
 
-.custom-controls-content {
+.modal-button.button {
+  padding: 0.4rem 0.6rem;
+  outline: 0;
+}
+
+.modal-controls-content {
+  position: absolute;
+  top: 0;
+  right: 0;
   width: 23rem;
+  z-index: 99;
   max-width: calc(100vw - 60px);
   max-height: calc(100vh - 13em);
   padding: rem-calc(10);
-  background-color: $body-background;
+  background-color: $white;
   border-radius: 4px;
   overflow: scroll;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
 
   @include breakpoint(medium) {
     max-width: 50vw;
@@ -54,13 +37,15 @@
     font-size: rem-calc(12);
   }
 
-  h3, p {
-    margin-bottom: rem-calc(6);
+  .header {
+    margin-bottom: rem-calc(10);
+    padding-right: 2rem;
   }
 
   .close-button {
     right: 0.75rem;
     top: 0.25rem;
+    outline: 0;
   }
 }
 
@@ -90,4 +75,24 @@
     10%  {opacity:1;}
     75%  {opacity:1;}
     100% {opacity:0;}
+}
+
+@keyframes flagfade {
+    0%   {opacity:0;}
+    10%  {opacity:1;}
+    100% {opacity:1;}
+}
+
+// Feedback Controls
+.flag-success {
+  color: #78d270;
+  padding-left: 13px;
+  opacity: 0;
+  animation: flagfade 2s;
+
+  .text {
+    position: relative;
+    top: -7px;
+    padding-left: 8px;
+  }
 }

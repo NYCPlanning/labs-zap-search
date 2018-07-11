@@ -4,33 +4,62 @@ import { argument } from '@ember-decorators/argument';
 import { run } from '@ember/runloop';
 import ENV from 'labs-zap-search/config/environment';
 
-
 export default class ProjectFeedbackComponent extends Component {
   @argument
   project
 
+  @argument
+  shareURL = window.location.href;
+
+  @argument
+  shareClosed = true;
+
+  @argument
+  copySuccess = false;
+
+  @argument
   flagText = '';
+
+  @argument
   flagClosed = true;
+
+  @argument
   flagSuccess = false;
+
+  @argument
   reCaptchaResponse = null;
 
-
   @action
-  handleFlagOpen() {
-    this.set('flagClosed', false);
+  handleModalClose() {
+    this.set('shareClosed', true);
+    this.set('flagClosed', true);
+    this.set('copySuccess', false);
   }
 
   @action
-  handleFlagClose() {
+  handleShareOpen() {
+    this.set('shareClosed', false);
     this.set('flagClosed', true);
-    // this.set('copySuccess', false);
+}
+
+  @action
+  handleShareSuccess() {
+    this.set('copySuccess', true);
+    run.later(() => {
+      this.set('copySuccess', false);
+    }, 2000);
+  }
+
+  @action
+  handleFlagOpen() {
+    this.set('shareClosed', true);
+    this.set('flagClosed', false);
   }
 
   @action
   onCaptchaResolved(reCaptchaResponse) {
     this.set('reCaptchaResponse', reCaptchaResponse);
   }
-
 
   @action
   submitFlag() {
