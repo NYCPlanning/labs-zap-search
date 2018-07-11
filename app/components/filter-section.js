@@ -22,8 +22,8 @@ export default class FilterSectionComponent extends Component {
   @className
   @computed('filterNames', 'appliedFilters')
   get activeState() {
-    const filterNames = this.get('filterNames');
-    const appliedFilters = this.get('appliedFilters');
+    const filterNames = this.filterNames;
+    const appliedFilters = this.appliedFilters;
 
     return contains(filterNames, appliedFilters) ? 'active' : 'inactive';
   }
@@ -31,7 +31,7 @@ export default class FilterSectionComponent extends Component {
   @className
   @computed('filterTitle')
   get dasherizedFilterTitle() {
-    const dasherizedFilterTitle = this.get('filterTitle').dasherize();
+    const dasherizedFilterTitle = this.filterTitle.dasherize();
     return `filter-section-${dasherizedFilterTitle}`;
   }
 
@@ -40,8 +40,8 @@ export default class FilterSectionComponent extends Component {
 
   @action
   mutateWithAction() {
-   const filterNames = this.get('filterNames');
-   this.get('mutateArray')('applied-filters', filterNames);
+   const filterNames = this.filterNames;
+   this.mutateArray('applied-filters', filterNames);
   }
 
   /*
@@ -60,11 +60,11 @@ export default class FilterSectionComponent extends Component {
     enforce changes to their state if needed.
   */
   notifyAppliedFilters() {
-    const filterNames = this.get('filterNames');
-    const appliedFilters = this.get('appliedFilters');
+    const filterNames = this.filterNames;
+    const appliedFilters = this.appliedFilters;
 
     if (!contains(filterNames, appliedFilters)) {
-      this.get('mutateArray')('applied-filters', filterNames)
+      this.mutateArray('applied-filters', filterNames)
     }
   }
 }

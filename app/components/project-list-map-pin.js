@@ -18,12 +18,12 @@ export default class ProjectListMapPinComponent extends Component {
   project = null;
 
   mouseEnter() {
-    const { id } = this.get('project');
+    const { id } = this.project;
 
-    this.get('resultMapEvents').trigger('hover', { id, layerId: 'project-centroids-circle-hover' });
+    this.resultMapEvents.trigger('hover', { id, layerId: 'project-centroids-circle-hover' });
   }
 
   mouseLeave() {
-    this.get('resultMapEvents').trigger('unhover', { layerId: 'project-centroids-circle-hover' });
+    this.resultMapEvents.trigger('unhover', { layerId: 'project-centroids-circle-hover' });
   }
 }
