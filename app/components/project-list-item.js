@@ -33,8 +33,7 @@ export default class ProjectListComponent extends Component {
   @computed('project.applicants')
   get firstApplicant() {
     const applicants = this.get('project.applicants');
-    console.log(applicants)
-    return applicants.split(';')[0];
+    return applicants ? applicants.split(';')[0] : 'Unknown';
   }
 
   @argument

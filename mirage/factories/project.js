@@ -14,14 +14,6 @@ export default Factory.extend({
     return faker.random.number();
   },
 
-  dcp_applicant() {
-    return faker.company.companyName();
-  },
-
-  dcp_applicanttype() {
-    return faker.random.arrayElement(['Private', 'Other Public Agency', 'DCP']);
-  },
-
   dcp_borough() {
     return faker.random.arrayElement(['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']);
   },
@@ -221,4 +213,17 @@ export default Factory.extend({
       "IBZ"
     ];
   },
+
+  applicants() {
+    return "BURLINGTON COAT FACTORY OF TEXAS, INC.;BURLINGTON COAT FACTORY OF TEXAS, INC.";
+  },
+
+  applicantteam() {
+    return [
+      {
+        role: "Applicant",
+        name: "BURLINGTON COAT FACTORY OF TEXAS, INC."
+      }
+    ];
+  }
 });
