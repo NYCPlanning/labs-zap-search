@@ -1,0 +1,61 @@
+<div class="modal-controls">
+
+  <button {{action 'handleShareOpen'}} class="modal-button button small gray text-orange">{{fa-icon 'share-alt'}} Share Project</button>
+  <button {{action 'handleFlagOpen'}} class="modal-button button small gray text-orange">{{fa-icon 'flag'}} Report Data Issue</button>
+
+  {{#unless (and shareClosed flagClosed)}}
+    <div class="modal-controls-content">
+      <button {{action 'handleModalClose'}} class="close-button" aria-label="Close alert" type="button"><span aria-hidden="true">&times;</span></button>
+
+      {{#unless shareClosed}}
+        <h3 class="header header-small">Share Project {{model.dcp_name}}:</h3>
+        <div class="input-group">
+          <input id="share-url" class="input-group-field" type="text" value="{{shareURL}}">
+          <div class="input-group-button">
+            {{#copy-button
+              clipboardTarget="#share-url"
+              success=(action 'handleShareSuccess')
+              error=(action 'handleModalClose')
+              class="button"
+            }}
+              {{fa-icon 'paste'}} Copy Link
+            {{/copy-button}}
+          </div>
+        </div>
+        {{#if copySuccess}}
+        <div class="share-controls-copy-success">
+          <div class="share-controls-copy-success-message">{{fa-icon 'check'}} Copied</div>
+        </div>
+        {{/if}}
+      {{/unless}}
+
+      {{#unless flagClosed}}
+        <h3 class="header header-medium">Report a Data Issue {{model.dcp_name}}</h3>
+        <p class="text-tiny callout secondary" style="padding:0.5rem;">This form is for reporting data problems. For general public feedback, go to <strong><a href="https://a002-irm.nyc.gov/EventRegistration/RegForm.aspx?eventGuid=fa206f3d-6400-4a95-8b39-87b1bfa975ef" target="_blank">City Planning Commission Public Hearing Comments</a></strong>.</p>
+
+        <ul class="text-small dark-gray">
+          <li><a href="https://github.com/NYCPlanning/zap-data-feedback/issues/new" target="_blank">Add an issue on GitHub</a></li>
+          <li><a href="https://github.com/NYCPlanning/zap-data-feedback/issues" target="_blank">View all issues</a></li>
+          <li>Use this form to add an issue to the public repository:</li>
+        </ul>
+
+        <form {{action "submitFlag" on="submit"}}>
+          <label>What is the issue with this application's data?
+            {{textarea rows="5" value=flagText disabled=flagSuccess}}
+          </label>
+
+          {{g-recaptcha onSuccess=(action "onCaptchaResolved") tagName='p'}}
+
+          <button type="submit" class="button" disabled={{xor flagSuccess (or (lt flagText.length 10) (eq reCaptchaResponse null))}} >Submit</button>
+          {{#if flagSuccess}}
+            <span class="flag-success">
+              <strong><span>{{fa-icon icon="check" size="3x"}}</span> <span class="text">Thanks for the feedback!</span></strong>
+            </span>
+          {{/if}}
+        </form>
+      {{/unless}}
+
+    </div>
+  {{/unless}}
+
+</div>
