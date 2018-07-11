@@ -14,8 +14,10 @@
         <div class="grid-x">
           <div class="cell medium-auto">
             <p class="lead">
-              <strong>Applicant:</strong>
-              {{if model.dcp_applicant model.dcp_applicant "Unknown"}}
+              <strong>Applicant Team:</strong>
+                {{#each model.applicantteam as |applicant|}}
+                  <p style="font-size: 1rem;margin-left: 20px;"><strong>{{applicant.role}}</strong> | {{applicant.name}}</p>
+                {{/each}}
             </p>
           </div>
           <div class="cell medium-shrink">
@@ -23,16 +25,8 @@
           </div>
         </div>
 
-<<<<<<< HEAD
-        <p class="lead">
-          <strong>Applicant Team:</strong>
-            {{#each model.applicantteam as |applicant|}}
-              <p style="font-size: 1rem;margin-left: 20px;"><strong>{{applicant.role}}</strong> | {{applicant.name}}</p>
-            {{/each}}
-        </p>
 
-=======
->>>>>>> refactor share and report modals to be aware of each other
+
         <p>
           <strong>Project Brief:</strong>
           {{if model.dcp_projectbrief model.dcp_projectbrief "No Project Brief"}}
