@@ -20,12 +20,12 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   bounds = [];
 
   setup() {
-    this.get('fetchData').perform({ unloadAll: true });
+    this.fetchData.perform({ unloadAll: true });
   }
 
   queryParamsDidChange({ shouldRefresh }) {
     if (shouldRefresh) {
-      this.get('fetchData').perform({ unloadAll: true });
+      this.fetchData.perform({ unloadAll: true });
     }
   }
 
@@ -33,7 +33,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   get noMoreRecords() {
     const pageTotal = this.get('fetchData.lastSuccessful.value.meta.pageTotal');
     const total = this.get('fetchData.lastSuccessful.value.meta.total');
-    const page = this.get('page');
+    const page = this.page;
 
     return (pageTotal < 30) || ((page * 30) >= total);
   }
@@ -41,8 +41,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   @computed('allQueryParams', 'page')
   get appliedQueryParams() {
     // construct query object only with applied params
-    const params = this.get('allQueryParams');
-    const page = this.get('page');
+    const params = this.allQueryParams;
+    const page = this.page;
     const {
       'applied-filters': appliedFilters,
     } = params;
@@ -62,7 +62,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   get downloadURL() {
     // construct query object only with applied params
     const href = `${ENV.host}/projects/download.csv`;
-    let queryParams = this.get('appliedQueryParams');
+    let queryParams = this.appliedQueryParams;
 
     return `${href}?${queryString.stringify(queryParams, {arrayFormat: 'bracket'})}`;
   }
@@ -75,8 +75,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
   @keepLatestTask
   fetchData = function*({ unloadAll = false } = {}) {
-    const cachedProjects = this.get('cachedProjects');
-    const queryOptions = this.get('appliedQueryParams');
+    const cachedProjects = this.cachedProjects;
+    const queryOptions = this.appliedQueryParams;
 
     // fetch any new projects
     const projects = yield this.store.query('project', queryOptions);
@@ -103,7 +103,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
   @action
   setDebouncedText(key, { target: { value } }) {
-    this.get('debouncedSet').perform(key, value);
+    this.debouncedSet.perform(key, value);
   }
 
   @action
