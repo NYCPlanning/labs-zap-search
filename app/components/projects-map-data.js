@@ -39,8 +39,8 @@ export default class ProjectsMapComponent extends Component {
     });
     map.addControl(geoLocateControl, 'top-left');
 
-    this.get('resultMapEvents').on('hover', this, 'hoverPoint');
-    this.get('resultMapEvents').on('unhover', this, 'unHoverPoint');
+    this.resultMapEvents.on('hover', this, 'hoverPoint');
+    this.resultMapEvents.on('unhover', this, 'unHoverPoint');
   }
 
   @action
