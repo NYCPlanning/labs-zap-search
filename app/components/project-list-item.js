@@ -30,6 +30,12 @@ export default class ProjectListComponent extends Component {
     return boroughGroups
   }
 
+  @computed('project.applicants')
+  get firstApplicant() {
+    const applicants = this.get('project.applicants');
+    return applicants ? applicants.split(';')[0] : 'Unknown';
+  }
+
   @argument
   project = {};
 }
