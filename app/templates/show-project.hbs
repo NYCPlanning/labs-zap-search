@@ -76,35 +76,46 @@
             <ul class="actions-list no-bullet">
               {{#each model.actions as |action|}}
                 <li class="grid-x grid-padding-small action">
-                  <div class="cell shrink">
+                  <div class="cell shrink statuscode {{dasherize action.statuscode}}">
                     <span class="action-icon fa-layers fa-fw">
-                      {{fa-icon 'circle' fixedWidth=true class='dark-gray'}}
+                      {{fa-icon 'circle' fixedWidth=true}}
                       {{fa-icon 'file-alt' fixedWidth=true class='light-gray' transform='shrink-7'}}
                     </span>
+                    <p class="text-tiny status">{{if action.statuscode action.statuscode "No Status Code"}}</p>
                   </div>
                   <div class="cell auto">
                     <h5 class="no-margin">{{action.dcp_name}}<sup class="dark-gray">{{icon-tooltip tip=(lookup-action-type action.actioncode)}}</sup></h5>
-                    <p class="text-tiny label-group">
-                      <span class="label light-gray">
-                        {{#if action.dcp_ulurpnumber}}
-                          {{#if (eq action.statuscode "Approved")}}
-                            <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">{{action.dcp_ulurpnumber}}</a><sup class="dark-gray">{{icon-tooltip tip='ULURP Number (click on this number to access the City Planning Commision Report).'}}</sup>
-                          {{else}}
-                            {{action.dcp_ulurpnumber}}<sup class="dark-gray">{{icon-tooltip tip='ULURP Number'}}</sup>
-                          {{/if}}
+                    <p class="text-small no-margin">
+                      {{#if action.dcp_ulurpnumber}}
+                        ULURP Number:
+                        {{#if (eq action.statuscode "Approved")}}
+                          {{#tool-tipster
+                            content='City Planning Commision Report'
+                            tagName='span'
+                          }}
+                            <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">
+                              {{action.dcp_ulurpnumber}}
+                              {{fa-icon 'external-link-alt'}}
+                            </a>
+                          {{/tool-tipster}}
                         {{else}}
-                          No ULURP Number
+                          {{action.dcp_ulurpnumber}}
                         {{/if}}
-                      </span>{{!-- remove whitespace
-                  --}}<span class="label light-gray statuscode {{dasherize action.statuscode}}">
-                        {{if action.statuscode action.statuscode "No Status Code"}}
-                      </span>
+                      {{else}}
+                        No ULURP Number
+                      {{/if}}
                     </p>
                     {{#if action.dcp_zoningresolution}}
-                      <p class="text-small dark-gray">Zoning Resolution: <a href="{{build-url "zoningResolution" action.dcp_zoningresolution}}" target="_blank">{{action.dcp_zoningresolution}}</a></p>
+                      <p class="text-small no-margin">
+                        Zoning Resolution:
+                        <a href="{{build-url "zoningResolution" action.dcp_zoningresolution}}" target="_blank">
+                          {{action.dcp_zoningresolution}}
+                          {{fa-icon 'external-link-alt'}}
+                        </a>
+                      </p>
                     {{/if}}
                     {{#if action.dcp_ccresolutionnumber}}
-                      <p class="text-small dark-gray">City Council Resolution: {{action.dcp_ccresolutionnumber}}</p>
+                      <p class="text-small no-margin">City Council Resolution: {{action.dcp_ccresolutionnumber}}</p>
                     {{/if}}
                   </div>
                 </li>
