@@ -12,6 +12,6 @@ module('Integration | Component | project-feedback', function(hooks) {
 
     await render(hbs`{{project-feedback}}`);
 
-    assert.equal(this.element.textContent.trim(), 'Report an Issue');
+    assert.equal(this.element.textContent.trim(), '');
   });
 });
