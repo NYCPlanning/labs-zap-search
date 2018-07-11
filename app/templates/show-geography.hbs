@@ -1,312 +1,240 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
-  {{#projects-map-data as |projects|}}
-    {{#if fetchData.lastSuccessful}}
-      {{!-- High-level dynamic tiles configuration --}}
-      {{#projects.dynamic-tiles
-        tiles=tiles
-        layer=(hash
-          id='project-centroids-circle'
-          type='circle'
-          source='project-centroids'
-          source-layer='project-centroids'
-          paint=(hash
-            circle-radius=(hash
-              stops=(array (array 10 3) (array 15 4))
-            )
-            circle-color=(hash
-              property='dcp_publicstatus_simp'
-              type='categorical'
-              stops=(array
-                (array 'Filed' '#FF9400')
-                (array 'In Public Review' '#78D271')
-                (array 'Complete' '#44A3D5')
-              )
-              default='#6b717b'
-            )
-            circle-opacity = 1
-            circle-stroke-width = (hash stops = (array (array 10 1) (array 15 2)) )
-            circle-stroke-color = '#FFFFFF'
-          )
-        )
-      }}
-        {{!-- Anything else for dynamic tiles, like hovers --}}
-        {{projects.map.layer
-          layer=(hash
-            id='project-centroids-circle-hover'
-            type='circle'
-            source='project-centroids'
-            source-layer='project-centroids'
-            layout=(hash visibility='none')
-            paint=(hash
-              circle-radius=5
-              circle-color='#ae561f'
-              circle-opacity = 1
-              circle-stroke-width = (hash stops = (array (array 10 1) (array 15 2)) )
-              circle-stroke-color = '#FFFFFF'
-            )
-          )
-        }}
-      {{/projects.dynamic-tiles}}
-
-      {{projects.map.call 'fitBounds' fetchData.lastSuccessful.value.meta.bounds (hash padding=20)}}
-    {{/if}}
-  {{/projects-map-data}}
-
+  {{structural/project-list-map
+    tiles=tiles
+    bounds=bounds}}
   <div class="project-filters">
-    {{#filter-section
-      filterTitle='Certification Date'
-      appliedFilters=applied-filters
-      filterNames='dcp_certifiedreferred'
+    {{#filter-mutators
       mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      {{slider-filter
-        start=dcp_certifiedreferred
-        min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
-        max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
-        replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
-    {{/filter-section}}
+      appliedFilters=applied-filters
+      as |filters|}}
+      {{#filters.section
+        filterTitle='Project / Description / Applicant'
+        filterNames='project_applicant_text'
+        tooltip='Enter an exact word or phrase that exists within a project name, description, or applicant name.'
+        as |section|}}
+         <input
+          class="filter-text-input"
+          type="text"
+          value={{project_applicant_text}}
+          placeholder="Project / Description / Applicant..."
+          oninput={{action section.delegate-mutation (action 'setDebouncedText' 'project_applicant_text')}}>
+      {{/filters.section}}
 
-    {{#filter-section
-      filterTitle='Project Name / Description / Applicant'
-      appliedFilters=applied-filters
-      filterNames='project_applicant_text'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-       <input
-        class="filter-text-input"
-        type="text"
-        value={{project_applicant_text}}
-        oninput={{action section.delegate-mutation (action 'setDebouncedText' 'project_applicant_text')}}>
-    {{/filter-section}}
+      {{#filters.section
+        filterTitle='Date Certified / Referred'
+        filterNames='dcp_certifiedreferred'
+        tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'
+        as |section|}}
+        {{slider-filter
+          start=dcp_certifiedreferred
+          min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
+          max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
+          replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
+      {{/filters.section}}
 
-    {{#filter-section
-      filterTitle='ULURP / CEQR Number'
-      appliedFilters=applied-filters
-      filterNames='ulurp_ceqr_text'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-       <input
-        class="filter-text-input"
-        type="text"
-        value={{ulurp_ceqr_text}}
-        oninput={{action section.delegate-mutation (action 'setDebouncedText' 'ulurp_ceqr_text')}}>
-    {{/filter-section}}
+      {{#filters.section
+        filterTitle='Project Stage'
+        filterNames='dcp_publicstatus'
+        tooltip='These checkboxes filter projects by their stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Complete” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'
+        as |section|}}
+        <ul class="menu vertical medium-horizontal stage-checkbox">
+          {{#each (array 'Filed' 'In Public Review' 'Complete' 'Unknown') as |type|}}
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
+              <a>
+                {{filter-checkbox
+                  value=type
+                  currentValues=dcp_publicstatus
+                  classPrefix="publicstatus"
+                }}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      {{/filters.section}}
 
-    {{#filter-section
-      filterTitle='Project Stage'
-      appliedFilters=applied-filters
-      filterNames='dcp_publicstatus'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      <ul class="menu vertical medium-horizontal stage-checkbox">
-        {{#each (array 'Filed' 'In Public Review' 'Complete' 'Unknown') as |type|}}
-          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
+      {{#filters.section
+        filterTitle='ULURP / CEQR Number'
+        filterNames='ulurp_ceqr_text'
+        tooltip='Enter a Uniform Land Use Review Procedure (ULURP) or City Environmental Quality Review (CEQR) number.'
+        as |section|}}
+         <input
+          class="filter-text-input"
+          type="text"
+          value={{ulurp_ceqr_text}}
+          placeholder="Number (e.g. 'C840918PPX')"
+          oninput={{action section.delegate-mutation (action 'setDebouncedText' 'ulurp_ceqr_text')}}>
+      {{/filters.section}}
+
+      {{#filters.section
+        filterTitle='ULURP Type'
+        filterNames='dcp_ulurp_nonulurp'
+        tooltip='Applications can either follow the Uniform Land Use Review Procedure (ULURP) or are designated as Non-ULURP, and are therefore not restricted to ULURP rules and timing.'
+        as |section|}}
+        <ul class="menu vertical medium-horizontal ULURP-checkbox">
+          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}>
             <a>
               {{filter-checkbox
-                value=type
-                currentValues=dcp_publicstatus
-              }}
+                value='ULURP'
+                currentValues=dcp_ulurp_nonulurp}}
             </a>
           </li>
-        {{/each}}
-      </ul>
-    {{/filter-section}}
-
-    {{#filter-section
-      filterTitle='Borough / Block'
-      appliedFilters=applied-filters
-      filterNames=(array 'boroughs' 'block')
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      <ul class="menu vertical medium-horizontal stage-checkbox">
-        {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
-          <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}>
+          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}>
             <a>
               {{filter-checkbox
-                value=type
-                currentValues=boroughs
-              }}
+                value='Non-ULURP'
+                currentValues=dcp_ulurp_nonulurp}}
             </a>
           </li>
-        {{/each}}
-      </ul>
-      <input
-        class="filter-text-input"
-        type="text"
-        value={{block}}
-        placeholder="Block Number (e.g. '1000')"
-        oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
-    {{/filter-section}}
+        </ul>
+      {{/filters.section}}
 
-    {{#filter-section
-      filterTitle='Community District'
-      appliedFilters=applied-filters
-      filterNames='community-districts'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      {{#power-select-multiple
-        options=(lookup-community-district)
-        selected=(contains-keys
-          (lookup-community-district)
-          community-districts
-          key='code')
-        placeholder="Select some names..."
-        searchField='searchField'
-        onchange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
-        as |district|
-      }}
-        {{district.boro}} {{district.num}}
-      {{/power-select-multiple}}
-    {{/filter-section}}
+      {{#filters.section
+        filterTitle='CEQR Type'
+        filterNames='dcp_ceqrtype'
+        tooltip='The City Environmental Quality Review (CEQR) type determines the environmental review process for land use actions. Only certain minor actions, designated Type II, are exempt from environmental review. There will be one CEQR type per project, so clicking multiple checkboxes will return projects with any one of the selected options.'
+        as |section|}}
+        <ul class="menu vertical medium-horizontal CEQR-checkbox">
+          {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ceqrtype' type)}}>
+              <a>
+                {{filter-checkbox
+                  value=type
+                  currentValues=dcp_ceqrtype}}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      {{/filters.section}}
 
-    {{#filter-section
-      filterTitle='Action Type'
-      appliedFilters=applied-filters
-      filterNames='action-types'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      {{#power-select-multiple
-        options=(lookup-action-type)
-        selected=(contains-keys
-          (lookup-action-type)
-          action-types
-          key='code')
-        placeholder="Select some actions..."
-        searchField='searchField'
-        onchange=(action section.delegate-mutation (action 'replaceProperty' 'action-types'))
-        as |action|
-      }}
-        {{action.code}}
+      {{#filters.section
+        filterTitle='Borough / Block'
+        filterNames=(array 'boroughs' 'block')
+        tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'
+        as |section|}}
+        <ul class="menu vertical medium-horizontal stage-checkbox">
+          {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
+            <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}>
+              <a>
+                {{filter-checkbox
+                  value=type
+                  currentValues=boroughs
+                  classPrefix="borough"
+                }}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+        <input
+          class="filter-text-input"
+          type="text"
+          value={{block}}
+          placeholder="Block Number (e.g. '1000')"
+          oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
+      {{/filters.section}}
 
-        {{#if action.short}}
-          - {{action.short}}
-        {{/if}}
-      {{/power-select-multiple}}
-    {{/filter-section}}
+      {{#filters.section
+        filterTitle='Community District'
+        filterNames='community-districts'
+        tooltip='Filter by Community District in each borough by either typing the Community District name (e.g. “Brooklyn 1”) or by selecting from the dropdown list. Multiple Community Districts can be selected.'
+        as |section|}}
+        {{#power-select-multiple
+          options=(lookup-community-district)
+          selected=(contains-keys
+            (lookup-community-district)
+            community-districts
+            key='code')
+          placeholder="Select some names..."
+          searchField='searchField'
+          onchange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
+          as |district|
+        }}
+          {{district.boro}} {{district.num}}
+        {{/power-select-multiple}}
+      {{/filters.section}}
 
-    {{#filter-section
-      filterTitle='CEQR Type'
-      appliedFilters=applied-filters
-      filterNames='dcp_ceqrtype'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      <ul class="menu vertical medium-horizontal CEQR-checkbox">
-        {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
-          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ceqrtype' type)}}>
-            <a>
-              {{filter-checkbox
-                value=type
-                currentValues=dcp_ceqrtype}}
-            </a>
+      {{#filters.section
+        filterTitle='Action Type'
+        filterNames='action-types'
+        tooltip='Filter by action type by either typing the code/name of the action or by selecting from the dropdown list. Action type refers to city planning land use actions that accompany a project. There may be multiple land use actions attached to an application. Many action types have been retired and are listed for historical projects only. Searching by one action type should return all projects that include that action. Multiple action types can be selected.'
+        as |section|}}
+        {{#power-select-multiple
+          options=(lookup-action-type)
+          selected=(contains-keys
+            (lookup-action-type)
+            action-types
+            key='code')
+          placeholder="Select some actions..."
+          searchField='searchField'
+          onchange=(action section.delegate-mutation (action 'replaceProperty' 'action-types'))
+          as |action|
+        }}
+          {{action.code}}
+
+          {{#if action.short}}
+            - {{action.short}}
+          {{/if}}
+        {{/power-select-multiple}}
+      {{/filters.section}}
+
+      {{#filters.section
+        filterTitle='FEMA Flood Zone'
+        filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
+        tooltip='Projects may be located within multiple flood zones. Selecting multiple checkboxes will return projects that are at least partially located withinin all of the selected zones.'
+        as |section|}}
+        <ul class="menu vertical medium-horizontal FEMA-checkbox">
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonev')}}>
+            {{#filters/named-checkbox
+              mainProperty=dcp_femafloodzonev
+              label='V'}}
+              <sup>
+                {{icon-tooltip
+                  tip='A portion of the 1% annual chance floodplain subject to high velocity wave action (a breaking wave 3 feet high or larger). V Zones are subject to more stringent building requirements than other zones because of the damaging force of waves.'
+                  class="dark-gray"
+                }}
+              </sup>
+            {{/filters/named-checkbox}}
+
           </li>
-        {{/each}}
-      </ul>
-    {{/filter-section}}
-
-    {{#filter-section
-      filterTitle='FEMA Flood Zone'
-      appliedFilters=applied-filters
-      filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      <ul class="menu vertical medium-horizontal FEMA-checkbox">
-        <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonev')}}>
-          <a>
-            {{fa-icon
-              (if dcp_femafloodzonev 'check-square' 'square')
-              prefix=(unless dcp_femafloodzonev 'far')
-              class=(if dcp_femafloodzonev 'dark-gray' 'medium-gray')
-            }} V
-            <sup>
-              {{icon-tooltip
-                tip='A portion of the 1% annual chance floodplain subject to high velocity wave action (a breaking wave 3 feet high or larger). V Zones are subject to more stringent building requirements than other zones because of the damaging force of waves.'
-                class="dark-gray"
-              }}
-            </sup>
-          </a>
-        </li>
-        <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonecoastala')}}>
-          <a>
-            {{fa-icon
-              (if dcp_femafloodzonecoastala 'check-square' 'square')
-              prefix=(unless dcp_femafloodzonecoastala 'far')
-              class=(if dcp_femafloodzonecoastala 'dark-gray' 'medium-gray')
-            }} Coastal A
-            <sup>
-              {{icon-tooltip
-                tip='A sub-zone of the A Zone where wave heights are expected to be between 1.5 and 3 feet high. This zone is indicated by the Limit of Moderate Wave Action (LiMWA) line on the latest FEMA FIRMs.'
-                class="dark-gray"
-              }}
-            </sup>
-          </a>
-        </li>
-        <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonea')}}>
-          <a>
-            {{fa-icon
-              (if dcp_femafloodzonea 'check-square' 'square')
-              prefix=(unless dcp_femafloodzonea 'far')
-              class=(if dcp_femafloodzonea 'dark-gray' 'medium-gray')
-            }} A
-            <sup>
-              {{icon-tooltip
-                tip='A portion of the area subject to flooding from the 1% annual chance flood. These areas are not subject to high velocity wave action but are still considered high risk flooding areas. In A Zones, NYC Building Code requires buildings to be elevated or flood-proofed based on the Base Flood Elevation identified on the FEMA’s FIRMs.'
-                class="dark-gray"
-              }}
-            </sup>
-          </a>
-        </li>
-        <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzoneshadedx')}}>
-          <a>
-            {{fa-icon
-              (if dcp_femafloodzoneshadedx 'check-square' 'square')
-              prefix=(unless dcp_femafloodzoneshadedx 'far')
-              class=(if dcp_femafloodzoneshadedx 'dark-gray' 'medium-gray')
-            }} Shaded X
-            <sup>
-              {{icon-tooltip
-                tip='The area of moderate flood risk outside the regulatory 1% annual chance flood but within the limits of the 0.2% annual chance flood level (the 500-year floodplain). There are no current NYC Building Code or FEMA flood insurance purchase requirements for buildings in this zone.'
-                class="dark-gray"
-              }}
-            </sup>
-          </a>
-        </li>
-      </ul>
-    {{/filter-section}}
-
-    {{#filter-section
-      filterTitle='ULURP'
-      appliedFilters=applied-filters
-      filterNames='dcp_ulurp_nonulurp'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      <ul class="menu vertical medium-horizontal ULURP-checkbox">
-        <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}>
-          <a>
-            {{filter-checkbox
-              value='ULURP'
-              currentValues=dcp_ulurp_nonulurp}}
-          </a>
-        </li>
-        <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}>
-          <a>
-            {{filter-checkbox
-              value='Non-ULURP'
-              currentValues=dcp_ulurp_nonulurp}}
-          </a>
-        </li>
-      </ul>
-    {{/filter-section}}
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonecoastala')}}>
+            {{#filters/named-checkbox
+              mainProperty=dcp_femafloodzonecoastala
+              label='Coastal A'}}
+              <sup>
+                {{icon-tooltip
+                  tip='A sub-zone of the A Zone where wave heights are expected to be between 1.5 and 3 feet high. This zone is indicated by the Limit of Moderate Wave Action (LiMWA) line on the latest FEMA FIRMs.'
+                  class="dark-gray"
+                }}
+              </sup>
+            {{/filters/named-checkbox}}
+          </li>
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonea')}}>
+            {{#filters/named-checkbox
+              mainProperty=dcp_femafloodzonea
+              label='A'}}
+              <sup>
+                {{icon-tooltip
+                  tip='A portion of the area subject to flooding from the 1% annual chance flood. These areas are not subject to high velocity wave action but are still considered high risk flooding areas. In A Zones, NYC Building Code requires buildings to be elevated or flood-proofed based on the Base Flood Elevation identified on the FEMA’s FIRMs.'
+                  class="dark-gray"
+                }}
+              </sup>
+            {{/filters/named-checkbox}}
+          </li>
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzoneshadedx')}}>
+            {{#filters/named-checkbox
+              mainProperty=dcp_femafloodzoneshadedx
+              label='Shaded X'}}
+              <sup>
+                {{icon-tooltip
+                  tip='The area of moderate flood risk outside the regulatory 1% annual chance flood but within the limits of the 0.2% annual chance flood level (the 500-year floodplain). There are no current NYC Building Code or FEMA flood insurance purchase requirements for buildings in this zone.'
+                  class="dark-gray"
+                }}
+              </sup>
+            {{/filters/named-checkbox}}
+          </li>
+        </ul>
+      {{/filters.section}}
+    {{/filter-mutators}}
 
     <div class="filter">
       <p class="text-center no-margin">
@@ -346,19 +274,10 @@
       {{/each}}
     </ul>
 
-    <p class="text-center" style="margin:3rem 0 6rem;">
-      <span
-        class="button projects-load-more-button gray text-orange"
-        onClick={{unless noMoreRecords (queue (action (mut page) (add page 1)) (perform fetchData))}}
-        disabled={{or noMoreRecords fetchData.isRunning}}
-      >
-        {{#if fetchData.isRunning}}
-          {{fa-icon 'spinner' class="fa-spin" transform='grow-8'}}
-        {{else}}
-          LOAD MORE
-        {{/if}}
-      </span>
-    </p>
+    {{load-more-button
+      page=page
+      noMoreRecords=noMoreRecords
+      task=fetchData}}
   </div>
 </div>
 

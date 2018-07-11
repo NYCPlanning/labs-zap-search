@@ -97,9 +97,9 @@ module('Acceptance | filter checkbox', function(hooks) {
     server.createList('project', 20);
 
     await visit('/projects');
-    await find('.filter-section-project-name-\\/-description-\\/-applicant.inactive');
-    await fillIn('.filter-section-project-name-\\/-description-\\/-applicant .filter-text-input', 'peanut butter');
-    await find('.filter-section-project-name-\\/-description-\\/-applicant.active');
+    await find('.filter-section-project-\\/-description-\\/-applicant.inactive');
+    await fillIn('.filter-section-project-\\/-description-\\/-applicant .filter-text-input', 'peanut butter');
+    await find('.filter-section-project-\\/-description-\\/-applicant.active');
 
     assert.equal(currentURL().includes('project_applicant_text'), true);
     assert.equal(currentURL().includes('applied-filters'), true);

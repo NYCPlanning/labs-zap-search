@@ -44,7 +44,7 @@ export default class ProjectsMapComponent extends Component {
   }
 
   @action
-  handleMapMove(e) {
+  handleMouseMove(e) {
     const map = this.get('mapInstance');
     const [feature] = map.queryRenderedFeatures(
       e.point,

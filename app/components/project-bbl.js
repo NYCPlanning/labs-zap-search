@@ -27,6 +27,7 @@ export default class BBLComponent extends Component {
         <p class="">
           <a class="button secondary small no-margin" href="${buildUrl(['zola', bbl])}" target="_blank">ZoLa</a>
           <a class="button secondary small no-margin" href="${buildUrl(['bisweb', bbl])}" target="_blank">BISWeb</a>
+          <a class="button secondary small no-margin" href="${buildUrl(['acris', bbl])}" target="_blank">ACRIS</a>
         </p>
       </div>
     `;
