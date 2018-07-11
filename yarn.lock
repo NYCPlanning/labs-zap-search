@@ -2251,6 +2251,7 @@ cartobox-promises-utility@nycplanning/cartobox-promises-utility#v1.0.2:
   resolved "https://codeload.github.com/nycplanning/cartobox-promises-utility/tar.gz/57f1c96a0bf03c47e048c30d202643cc49db3c69"
   dependencies:
     ember-cli-babel "^6.6.0"
+    ember-fetch "4.0.1"
 
 caseless@~0.11.0:
   version "0.11.0"
@@ -3032,9 +3033,9 @@ ember-ast-helpers@0.3.5:
     "@glimmer/compiler" "^0.27.0"
     "@glimmer/syntax" "^0.27.0"
 
-ember-auto-import@^0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-0.2.6.tgz#28f7eb24d2f87ee90807f255d9816f4c7017aa32"
+ember-auto-import@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-1.1.0.tgz#1b8ac1a9ebdfdeb5195a26a2f2fa87ccd7497418"
   dependencies:
     babel-core "^6.26.3"
     babylon "^6.18.0"
@@ -3047,6 +3048,8 @@ ember-auto-import@^0.2.6:
     ember-cli-babel "^6.6.0"
     enhanced-resolve "^4.0.0"
     fs-tree-diff "^0.5.7"
+    handlebars "^4.0.11"
+    js-string-escape "^1.0.1"
     lodash "^4.17.10"
     mkdirp "^0.5.1"
     quick-temp "^0.1.8"
@@ -3119,7 +3122,7 @@ ember-cli-dependency-checker@^2.0.0:
     resolve "^1.5.0"
     semver "^5.3.0"
 
-ember-cli-eslint@^4.2.1:
+ember-cli-eslint@4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/ember-cli-eslint/-/ember-cli-eslint-4.2.3.tgz#2844d3f5e8184f19b2d7132ba99eb0b370b55598"
   dependencies:
@@ -4973,7 +4976,7 @@ growly@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
 
-handlebars@^4.0.4, handlebars@^4.0.6:
+handlebars@^4.0.11, handlebars@^4.0.4, handlebars@^4.0.6:
   version "4.0.11"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.0.11.tgz#630a35dfe0294bc281edae6ffc5d329fc7982dcc"
   dependencies:
@@ -5659,6 +5662,10 @@ js-base64@^2.1.8:
 js-reporters@1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/js-reporters/-/js-reporters-1.2.1.tgz#f88c608e324a3373a95bcc45ad305e5c979c459b"
+
+js-string-escape@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/js-string-escape/-/js-string-escape-1.0.1.tgz#e2625badbc0d67c7533e9edc1068c587ae4137ef"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
