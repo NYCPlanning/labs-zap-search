@@ -25,9 +25,9 @@ export default class ProjectListMapComponent extends Component {
         property: 'dcp_publicstatus_simp',
         type: 'categorical',
         stops: [ 
-          ['Filed', '#deebf7'],
-          ['In Public Review', '#9ecae1'],
-          ['Complete', '#3182bd'],
+          ['Filed', '#FF9400'],
+          ['In Public Review', '#78D271'],
+          ['Complete', '#44A3D5'],
         ],
         default: '#6b717b',
       },
