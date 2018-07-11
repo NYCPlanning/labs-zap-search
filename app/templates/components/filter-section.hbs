@@ -7,11 +7,11 @@
   </div>
   <h6 class="filter-name" {{action 'mutateWithAction'}}>
     {{filterTitle}}
-    {{#if tooltip}}<sup class="dark-gray">{{icon-tooltip tip=tooltip}}</sup>{{/if}}
+    {{~#if tooltip}}<sup class="dark-gray">{{icon-tooltip tip=tooltip}}</sup>{{/if}}
   </h6>
 </div>
 <div class="filter-controls">
-  {{yield (hash 
+  {{yield (hash
     delegate-mutation=(action 'delegateMutation')
   )}}
 </div>
