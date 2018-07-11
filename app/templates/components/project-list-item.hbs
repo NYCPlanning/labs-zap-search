@@ -10,7 +10,7 @@
       {{/link-to}}
     </h3>
     <p class="no-margin text-small dark-grey">
-      <strong>{{if project.dcp_applicant project.dcp_applicant "Unknown Applicant"}}</strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
+      <strong>{{if firstApplicant firstApplicant "Unknown Applicant"}}</strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
     </p>
     <p class="no-margin text-tiny dark-gray">
       {{#if (eq project.dcp_borough 'Citywide')}}<span class="label light-gray"><strong class="dark-gray">{{project.dcp_borough}}</strong></span>{{/if}}

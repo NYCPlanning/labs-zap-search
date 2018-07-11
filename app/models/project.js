@@ -5,11 +5,8 @@ import { computed } from '@ember-decorators/object';
 const { Model } = DS;
 
 export default class ProjectModel extends Model {
-  @attr() dcp_applicant; // foreign key
-  // @attr() dcp_currentenvironmentmilestone; // foreign key
-  // @attr() dcp_currentmilestone; // foreign key
-  // @attr() dcp_leadagencyforenvreview; // foreign key
-
+  @attr() applicantteam; // array of applicant objects
+  @attr() applicants; // semicolon delimited applicant names
   @attr('string') dcp_projectid;
   @attr('string') dcp_name;
   @attr('string') dcp_alterationmapnumber;

@@ -1,5 +1,4 @@
 <div class="cell">
-
   <div class="grid-container">
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
@@ -46,8 +45,10 @@
         </div>
 
         <p class="lead">
-          <strong>Applicant:</strong>
-          {{if model.dcp_applicant model.dcp_applicant "Unknown"}}
+          <strong>Applicant Team:</strong>
+            {{#each model.applicantteam as |applicant|}}
+              <h5>{{applicant.role}}</h5>: {{applicant.name}}
+            {{/each}}
         </p>
 
         <p>
