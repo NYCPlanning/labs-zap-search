@@ -55,10 +55,27 @@
 
   <div class="project-filters">
     {{#filter-section
-      filterTitle='Certification Date'
+      filterTitle='Project / Description / Applicant'
+      appliedFilters=applied-filters
+      filterNames='project_applicant_text'
+      mutateArray=(action 'mutateArray')
+      tooltip='Enter an exact word or phrase that exists within a project name, description, or applicant name'
+      as |section|
+    }}
+       <input
+        class="filter-text-input"
+        type="text"
+        value={{project_applicant_text}}
+        placeholder="Project / Description / Applicant..."
+        oninput={{action section.delegate-mutation (action 'setDebouncedText' 'project_applicant_text')}}>
+    {{/filter-section}}
+
+    {{#filter-section
+      filterTitle='Date Certified / Referred'
       appliedFilters=applied-filters
       filterNames='dcp_certifiedreferred'
       mutateArray=(action 'mutateArray')
+      tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred'
       as |section|
     }}
       {{slider-filter
@@ -69,38 +86,11 @@
     {{/filter-section}}
 
     {{#filter-section
-      filterTitle='Project Name / Description / Applicant'
-      appliedFilters=applied-filters
-      filterNames='project_applicant_text'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-       <input
-        class="filter-text-input"
-        type="text"
-        value={{project_applicant_text}}
-        oninput={{action section.delegate-mutation (action 'setDebouncedText' 'project_applicant_text')}}>
-    {{/filter-section}}
-
-    {{#filter-section
-      filterTitle='ULURP / CEQR Number'
-      appliedFilters=applied-filters
-      filterNames='ulurp_ceqr_text'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-       <input
-        class="filter-text-input"
-        type="text"
-        value={{ulurp_ceqr_text}}
-        oninput={{action section.delegate-mutation (action 'setDebouncedText' 'ulurp_ceqr_text')}}>
-    {{/filter-section}}
-
-    {{#filter-section
       filterTitle='Project Stage'
       appliedFilters=applied-filters
       filterNames='dcp_publicstatus'
       mutateArray=(action 'mutateArray')
+      tooltip='Click the checkboxes to filter the list by a project’s stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Complete” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'
       as |section|
     }}
       <ul class="menu vertical medium-horizontal stage-checkbox">
@@ -118,10 +108,74 @@
     {{/filter-section}}
 
     {{#filter-section
+      filterTitle='ULURP / CEQR'
+      appliedFilters=applied-filters
+      filterNames='ulurp_ceqr_text'
+      mutateArray=(action 'mutateArray')
+      tooltip='Enter a Uniform Land Use Review Procedure (ULURP) or City Environmental Quality Review (CEQR) number'
+      as |section|
+    }}
+       <input
+        class="filter-text-input"
+        type="text"
+        value={{ulurp_ceqr_text}}
+        placeholder="Number (e.g. 'C840918PPX')"
+        oninput={{action section.delegate-mutation (action 'setDebouncedText' 'ulurp_ceqr_text')}}>
+    {{/filter-section}}
+
+    {{#filter-section
+      filterTitle='ULURP'
+      appliedFilters=applied-filters
+      filterNames='dcp_ulurp_nonulurp'
+      mutateArray=(action 'mutateArray')
+      tooltip='Applications can either follow the Uniform Land Use Review Procedure (ULURP) or are designated as Non-ULURP, and are therefore not restricted to ULURP rules and timing.'
+      as |section|
+    }}
+      <ul class="menu vertical medium-horizontal ULURP-checkbox">
+        <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}>
+          <a>
+            {{filter-checkbox
+              value='ULURP'
+              currentValues=dcp_ulurp_nonulurp}}
+          </a>
+        </li>
+        <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}>
+          <a>
+            {{filter-checkbox
+              value='Non-ULURP'
+              currentValues=dcp_ulurp_nonulurp}}
+          </a>
+        </li>
+      </ul>
+    {{/filter-section}}
+
+    {{#filter-section
+      filterTitle='CEQR Type'
+      appliedFilters=applied-filters
+      filterNames='dcp_ceqrtype'
+      mutateArray=(action 'mutateArray')
+      tooltip='The City Environmental Quality Review (CEQR) type determines the environmental review process for land use actions. Only certain minor actions, designated Type II, are exempt from environmental review. There will be one CEQR type per project, so clicking multiple checkboxes will return projects with any one of the selected options.'
+      as |section|
+    }}
+      <ul class="menu vertical medium-horizontal CEQR-checkbox">
+        {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
+          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ceqrtype' type)}}>
+            <a>
+              {{filter-checkbox
+                value=type
+                currentValues=dcp_ceqrtype}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    {{/filter-section}}
+
+    {{#filter-section
       filterTitle='Borough / Block'
       appliedFilters=applied-filters
       filterNames=(array 'boroughs' 'block')
       mutateArray=(action 'mutateArray')
+      tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'
       as |section|
     }}
       <ul class="menu vertical medium-horizontal stage-checkbox">
@@ -149,6 +203,7 @@
       appliedFilters=applied-filters
       filterNames='community-districts'
       mutateArray=(action 'mutateArray')
+      tooltip='Filter by community district in each borough by either typing the community district name (e.g. “Brooklyn 1”) or by selecting from the dropdown list. Multiple community districts can be selected at one time.'
       as |section|
     }}
       {{#power-select-multiple
@@ -171,6 +226,7 @@
       appliedFilters=applied-filters
       filterNames='action-types'
       mutateArray=(action 'mutateArray')
+      tooltip='Filter by action type by either typing the code/name of the action or by selecting from the dropdown list. Action type refers to city planning land use actions that accompany a project. There may be multiple land use actions attached to an application. Many action types have been retired and are listed for historical projects only. Searching by one action type should return all projects that include that action, and multiple action types can be selected at one time.'
       as |section|
     }}
       {{#power-select-multiple
@@ -193,30 +249,11 @@
     {{/filter-section}}
 
     {{#filter-section
-      filterTitle='CEQR Type'
-      appliedFilters=applied-filters
-      filterNames='dcp_ceqrtype'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      <ul class="menu vertical medium-horizontal CEQR-checkbox">
-        {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
-          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ceqrtype' type)}}>
-            <a>
-              {{filter-checkbox
-                value=type
-                currentValues=dcp_ceqrtype}}
-            </a>
-          </li>
-        {{/each}}
-      </ul>
-    {{/filter-section}}
-
-    {{#filter-section
       filterTitle='FEMA Flood Zone'
       appliedFilters=applied-filters
       filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
       mutateArray=(action 'mutateArray')
+      tooltip='Projects may be located within multiple flood zones. Selecting multiple checkboxes will return projects that are at least partially located withinin all of the selected zones.'
       as |section|
     }}
       <ul class="menu vertical medium-horizontal FEMA-checkbox">
@@ -278,31 +315,6 @@
                 class="dark-gray"
               }}
             </sup>
-          </a>
-        </li>
-      </ul>
-    {{/filter-section}}
-
-    {{#filter-section
-      filterTitle='ULURP'
-      appliedFilters=applied-filters
-      filterNames='dcp_ulurp_nonulurp'
-      mutateArray=(action 'mutateArray')
-      as |section|
-    }}
-      <ul class="menu vertical medium-horizontal ULURP-checkbox">
-        <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}>
-          <a>
-            {{filter-checkbox
-              value='ULURP'
-              currentValues=dcp_ulurp_nonulurp}}
-          </a>
-        </li>
-        <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}>
-          <a>
-            {{filter-checkbox
-              value='Non-ULURP'
-              currentValues=dcp_ulurp_nonulurp}}
           </a>
         </li>
       </ul>
