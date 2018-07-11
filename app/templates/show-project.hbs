@@ -47,7 +47,7 @@
         <p class="lead">
           <strong>Applicant Team:</strong>
             {{#each model.applicantteam as |applicant|}}
-              <h5>{{applicant.role}}</h5>: {{applicant.name}}
+              <p style="font-size: 1rem;margin-left: 20px;"><strong>{{applicant.role}}</strong> | {{applicant.name}}</p>
             {{/each}}
         </p>
 
