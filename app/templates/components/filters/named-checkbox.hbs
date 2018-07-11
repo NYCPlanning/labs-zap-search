@@ -1,0 +1,7 @@
+{{fa-icon
+  (if mainProperty 'check-square' 'square')
+  prefix=(unless mainProperty 'far')
+  class=(if mainProperty 'dark-gray' 'medium-gray')
+}} {{label}}
+
+{{yield}}

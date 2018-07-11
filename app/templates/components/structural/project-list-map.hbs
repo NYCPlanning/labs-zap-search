@@ -1,0 +1,16 @@
+{{#projects-map-data as |projects|}}
+  {{#if (and tiles bounds)}}
+    {{!-- High-level dynamic tiles configuration --}}
+    {{#projects.dynamic-tiles 
+      tiles=tiles 
+      layer=projectCentroidsCircleLayer
+    }}
+      {{!-- Anything else for dynamic tiles, like hovers --}}
+      {{projects.map.layer 
+        layer=projectCentroidsCircleHoverLayer
+      }}
+    {{/projects.dynamic-tiles}}
+
+    {{projects.map.call 'fitBounds' bounds fitBoundsOptions}}
+  {{/if}}
+{{/projects-map-data}}
