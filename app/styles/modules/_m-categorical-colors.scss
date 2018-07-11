@@ -43,20 +43,28 @@
   }
 }
 
-.label {
-  &.statuscode {
-    &.withdrawn,
-    &.mistake,
-    &.terminated {
-      background-color: lighten($lu-red, 15%);
-      color: color-pick-contrast(lighten($lu-red, 15%), ($label-color, $label-color-alt));
-    }
-    &.approved {
-      background-color: lighten($lu-green, 15%);
-      color: color-pick-contrast(lighten($lu-green, 15%), ($label-color, $label-color-alt));
-    }
-    // &.certified {}
-    // &.referred {}
-    // &.active { }
+.statuscode {
+  text-align: center;
+
+  .fa-circle {
+    color: $dark-gray;
   }
+
+  &.withdrawn,
+  &.mistake,
+  &.terminated {
+    .fa-circle,
+    .status {
+      color: $lu-red;
+    }
+  }
+  &.approved {
+    .fa-circle,
+    .status {
+      color: $lu-green;
+    }
+  }
+  // &.certified {}
+  // &.referred {}
+  // &.active { }
 }
