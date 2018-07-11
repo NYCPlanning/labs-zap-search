@@ -8,8 +8,8 @@ const filterLookup = {
   'Project Name / Description / Applicant': {
     tooltipvalue: 'Type in a word or phrase that exists within a project name, description, or applicant name.',
   },
-  'Certification Date': {
-    tooltipvalue: 'Move the sliders along the timeline to filter projects by certification date.',
+  'Date Certified / Referred': {
+    tooltipvalue: 'Move the sliders along the timeline to filter projects by certification date. Grab in between the sliders to move the entire selected date range along the timeline.',
   },
     'ULURP / CEQR Number': {
     tooltipvalue: 'Begin typing a Uniform Land Use Review Procedure (ULURP) or City Environmental Quality Review (CEQR) number.',
