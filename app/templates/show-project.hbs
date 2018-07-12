@@ -69,7 +69,15 @@
                     <p class="text-tiny status">{{if action.statuscode action.statuscode "No Status Code"}}</p>
                   </div>
                   <div class="cell auto">
-                    <h5 class="no-margin">{{action.dcp_name}}<sup class="dark-gray">{{icon-tooltip tip=(lookup-action-type action.actioncode)}}</sup></h5>
+                    <h5 class="no-margin">
+                      {{action.dcp_name}}
+                      {{#if (lookup-action-type action.actioncode)}}
+                        <sup class="dark-gray">
+                          {{icon-tooltip
+                            tip=(lookup-action-type action.actioncode)}}
+                        </sup>
+                      {{/if}}
+                    </h5> 
                     <p class="text-small no-margin">
                       {{#if action.dcp_ulurpnumber}}
                         ULURP Number:
