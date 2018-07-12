@@ -12,21 +12,10 @@
     <p class="no-margin text-small dark-grey">
       <strong>{{firstApplicant}}</strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
     </p>
-    <p class="no-margin text-tiny dark-gray">
+    <p class="no-margin text-tiny dark-gray label-group">
       {{#if (eq project.dcp_borough 'Citywide')}}<span class="label light-gray"><strong class="dark-gray">{{project.dcp_borough}}</strong></span>{{/if}}
 
-      {{#each consolodatedCDs as |boro|}}
-        <span class="label light-gray">
-          <strong class="dark-gray">{{boro.boroName}}</strong>
-          <span class="medium-gray">|</span>
-          <span class="dark-gray">
-            CD
-            {{#each boro.cds as |cd i|}}
-              {{~if i ","}} {{cd ~}}
-            {{/each}}
-          </span>
-        </span>
-      {{/each}}
+      {{consolidated-cds cds=project.dcp_communitydistricts}}
 
       {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray"><strong class="dark-gray">{{project.dcp_ulurp_nonulurp}}</strong></span>{{/if}}
       {{#each project.ulurpnumbers as |ulurpnumber|}}

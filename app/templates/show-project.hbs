@@ -215,9 +215,9 @@
             <span class="label light-gray">{{model.dcp_borough}}</span>
           </p>
 
-          <p class="text-small">
+          <p class="text-small label-group">
             <strong>Community Districts:</strong>
-            <span class="label light-gray">{{model.dcp_communitydistricts}}</span>
+            {{consolidated-cds cds=model.dcp_communitydistricts}}
           </p>
 
           <p class="text-small">
