@@ -88,6 +88,8 @@ body {
   padding-bottom: $global-margin;
 
   .results-header {
+    font-size: rem-calc(16);
+
     @include breakpoint(large) {
       position: fixed;
       z-index: 2;
@@ -100,14 +102,17 @@ body {
       padding: $global-margin*0.75 rem-calc(5);
       box-shadow: 0 2px 0 rgba(0,0,0,0.1);
     }
+
     @include breakpoint(xlarge) {
       width: calc(41.66667% - #{rem-calc(30)});
     }
+
     @include breakpoint(xxlarge) {
       width: calc(50% - #{rem-calc(30)});
+      font-size: rem-calc(20);
     }
 
-    .results-header-count {
+    .results-header-meta {
       font-weight: normal;
       font-size: $small-font-size;
       padding: rem-calc(6) 0 0 rem-calc(10);

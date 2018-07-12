@@ -36,10 +36,10 @@
       {{#filters.section
         filterTitle='Project Stage'
         filterNames='dcp_publicstatus'
-        tooltip='These checkboxes filter projects by their stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Complete” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'
+        tooltip='These checkboxes filter projects by their stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'
         as |section|}}
         <ul class="menu vertical medium-horizontal stage-checkbox">
-          {{#each (array 'Filed' 'In Public Review' 'Complete' 'Unknown') as |type|}}
+          {{#each (array 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
               <a>
                 {{filter-checkbox
@@ -249,11 +249,13 @@
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6">
   <div class="results">
-    <h3 class="results-header header-medium">
-      {{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}}
-      application{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}}
-      {{if (eq fetchData.lastSuccessful.value.meta.total 1) 'matches' 'match'}} your filters
-      <span class="float-right results-header-count">
+    <h3 class="results-header clearfix">
+      <span class="float-left results-header-title">
+        {{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}}
+        application{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}}
+        {{if (eq fetchData.lastSuccessful.value.meta.total 1) 'matches' 'match'}} your filters
+      </span>
+      <span class="float-right results-header-meta">
         {{#if fetchData.isRunning}}
           {{fa-icon 'spinner' class="fa-spin medium-gray"}}
         {{else}}
