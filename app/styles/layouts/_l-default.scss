@@ -86,57 +86,57 @@ body {
 .results {
   padding-top: $global-margin;
   padding-bottom: $global-margin;
-}
 
-.results-header {
-  @include breakpoint(large) {
-    position: fixed;
-    z-index: 2;
-    top: 6rem;
-    right: rem-calc(15);
-    bottom: auto;
-    left: auto;
-    width: calc(50% - #{rem-calc(30)});
-    background-color: $body-background;
-    padding: $global-margin*0.75 rem-calc(5);
-    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
-  }
-  @include breakpoint(xlarge) {
-    width: calc(41.66667% - #{rem-calc(30)});
-  }
-  @include breakpoint(xxlarge) {
-    width: calc(50% - #{rem-calc(30)});
-  }
+  .results-header {
+    @include breakpoint(large) {
+      position: fixed;
+      z-index: 2;
+      top: 6rem;
+      right: rem-calc(15);
+      bottom: auto;
+      left: auto;
+      width: calc(50% - #{rem-calc(30)});
+      background-color: $body-background;
+      padding: $global-margin*0.75 rem-calc(5);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+    }
+    @include breakpoint(xlarge) {
+      width: calc(41.66667% - #{rem-calc(30)});
+    }
+    @include breakpoint(xxlarge) {
+      width: calc(50% - #{rem-calc(30)});
+    }
 
-  .results-header-count {
-    font-weight: normal;
-    font-size: $small-font-size;
-    padding: rem-calc(6) 0 0 rem-calc(10);
+    .results-header-count {
+      font-weight: normal;
+      font-size: $small-font-size;
+      padding: rem-calc(6) 0 0 rem-calc(10);
+    }
   }
-}
-.results-list {
-  @include breakpoint(large) {
-    padding-top: 3rem;
-  }
+  .results-list {
+    @include breakpoint(large) {
+      padding-top: 3rem;
+    }
 
-  .publicstatus-label {
-    display: block;
-    font-size: rem-calc(10);
-    text-align: center;
-    white-space: normal;
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-    padding: 0.375rem;
-    font-weight: bold;
-  }
+    .publicstatus-label {
+      display: block;
+      font-size: rem-calc(10);
+      text-align: center;
+      white-space: normal;
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+      padding: 0.375rem;
+      font-weight: bold;
+    }
 
-  .map-marker-button {
-    margin-bottom: 0;
-    padding: 0.6em;
+    .map-marker-button {
+      margin-bottom: 0;
+      padding: 0.6em;
 
-    &, &:hover {
-      border-color: darken($light-gray, 10%);
-      border-bottom-width: 0;
+      &, &:hover {
+        border-color: darken($light-gray, 10%);
+        border-bottom-width: 0;
+      }
     }
   }
 }
