@@ -92,5 +92,13 @@ module.exports = function(environment) {
     ENV.host = 'https://zap-api.planninglabs.nyc';
   }
 
+  if (environment === 'devlive') {
+    ENV.host = 'https://zap-api.planninglabs.nyc';
+
+    ENV['ember-cli-mirage'] = {
+      enabled: false
+    };
+  }
+
   return ENV;
 };
