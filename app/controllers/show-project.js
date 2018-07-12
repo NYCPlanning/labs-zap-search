@@ -53,6 +53,7 @@ export default class ShowProjectController extends Controller {
     })
   }
 
+
   @action
   handleMapLoad(bblFeatureCollection, map) {
     window.map = map;
