@@ -27,7 +27,7 @@ export default class ProjectListMapComponent extends Component {
         stops: [ 
           ['Filed', '#FF9400'],
           ['In Public Review', '#78D271'],
-          ['Complete', '#44A3D5'],
+          ['Completed', '#44A3D5'],
         ],
         default: '#6b717b',
       },

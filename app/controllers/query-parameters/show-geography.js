@@ -68,7 +68,7 @@ export const projectParams = new QueryParams({
     },
   },
   dcp_publicstatus: {
-    defaultValue: ['Filed', 'In Public Review', 'Complete'].sort(),
+    defaultValue: ['Filed', 'In Public Review', 'Completed'].sort(),
     refresh: true,
     serialize(value) {
       value = value.filter(d => d !== '')
