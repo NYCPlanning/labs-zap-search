@@ -11,9 +11,9 @@
     background: lighten($in-public-review-color, 15%);
     color: color-pick-contrast(lighten($in-public-review-color, 15%), ($label-color, $label-color-alt));
   }
-  .publicstatus-complete & {
-   background: lighten($complete-color, 15%);
-   color: color-pick-contrast(lighten($complete-color, 15%), ($label-color, $label-color-alt));
+  .publicstatus-completed & {
+   background: lighten($completed-color, 15%);
+   color: color-pick-contrast(lighten($completed-color, 15%), ($label-color, $label-color-alt));
   }
   .publicstatus-unknown & {
    background: lighten($dark-gray, 15%);
@@ -28,8 +28,8 @@
   .publicstatus-in-public-review & {
     color: $in-public-review-color;
   }
-  .publicstatus-complete & {
-   color: $complete-color;
+  .publicstatus-completed & {
+   color: $completed-color;
   }
   .publicstatus-unknown & {
    color: $dark-gray;
@@ -37,7 +37,7 @@
 
   .publicstatus-filed .button:hover &,
   .publicstatus-in-public-review .button:hover &,
-  .publicstatus-complete .button:hover &,
+  .publicstatus-completed .button:hover &,
   .publicstatus-unknown .button:hover & {
     color: $primary-color;
   }
