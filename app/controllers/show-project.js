@@ -61,7 +61,7 @@ export default class ShowProjectController extends Controller {
     map.addControl(navigationControl, 'top-left');
 
     map.fitBounds(turfBbox(bblFeatureCollection), {
-      padding: 50,
+      padding: 115,
       linear: true,
       duration: 0,
     });
