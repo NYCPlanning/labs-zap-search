@@ -116,7 +116,7 @@ export default class ProjectsMapComponent extends Component {
       .setLayoutProperty(layerId, 'visibility', 'none');
   }
 
-  clickPoint({ project, layerId }) {
+  clickPoint({ project }) {
     const { mapInstance: map } = this;
     const { center } = project;
 
