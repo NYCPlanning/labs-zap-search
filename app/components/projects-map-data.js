@@ -22,10 +22,34 @@ export default class ProjectsMapComponent extends Component {
   geocodedLayer = {
     type: 'circle',
     paint: {
-      'circle-radius': 8,
-      'circle-color': '#007cbf',
-      'circle-stroke-width': { stops :  [ [10, 1], [15, 2]] },
-      'circle-stroke-color': '#FFFFFF',
+      'circle-radius': {
+        "stops": [
+          [
+            10,
+            5
+          ],
+          [
+            17,
+            12
+          ]
+        ]
+      },
+      'circle-color': 'rgba(199, 92, 92, 1)',
+      'circle-stroke-width': {
+        "stops": [
+          [
+            10,
+            20
+          ],
+          [
+            17,
+            18
+          ]
+        ]
+      },
+      'circle-stroke-color': 'rgba(65, 73, 255, 1)',
+      'circle-opacity': 0,
+      'circle-stroke-opacity': 0.2
     }
   }
 
