@@ -8,6 +8,8 @@
       mutateArray=(action 'mutateArray')
       appliedFilters=applied-filters
       as |filters|}}
+
+      {{!-- FILTER: PROJECT / DESCRIPTION / APPLICANT --}}
       {{#filters.section
         filterTitle='Project / Description / Applicant'
         filterNames='project_applicant_text'
@@ -21,92 +23,7 @@
           oninput={{action section.delegate-mutation (action 'setDebouncedText' 'project_applicant_text')}}>
       {{/filters.section}}
 
-      {{#filters.section
-        filterTitle='Date Certified / Referred'
-        filterNames='dcp_certifiedreferred'
-        tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'
-        as |section|}}
-        {{slider-filter
-          start=dcp_certifiedreferred
-          min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
-          max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
-          replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
-      {{/filters.section}}
-
-      {{#filters.section
-        filterTitle='Project Stage'
-        filterNames='dcp_publicstatus'
-        tooltip='These checkboxes filter projects by their stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'
-        as |section|}}
-        <ul class="menu vertical medium-horizontal stage-checkbox">
-          {{#each (array 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
-            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
-              <a>
-                {{filter-checkbox
-                  value=type
-                  currentValues=dcp_publicstatus
-                  classPrefix="publicstatus"
-                }}
-              </a>
-            </li>
-          {{/each}}
-        </ul>
-      {{/filters.section}}
-
-      {{#filters.section
-        filterTitle='ULURP / CEQR Number'
-        filterNames='ulurp_ceqr_text'
-        tooltip='Enter a Uniform Land Use Review Procedure (ULURP) or City Environmental Quality Review (CEQR) number.'
-        as |section|}}
-         <input
-          class="filter-text-input"
-          type="text"
-          value={{ulurp_ceqr_text}}
-          placeholder="Number (e.g. 'C840918PPX')"
-          oninput={{action section.delegate-mutation (action 'setDebouncedText' 'ulurp_ceqr_text')}}>
-      {{/filters.section}}
-
-      {{#filters.section
-        filterTitle='ULURP Type'
-        filterNames='dcp_ulurp_nonulurp'
-        tooltip='Applications can either follow the Uniform Land Use Review Procedure (ULURP) or are designated as Non-ULURP, and are therefore not restricted to ULURP rules and timing.'
-        as |section|}}
-        <ul class="menu vertical medium-horizontal ULURP-checkbox">
-          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}>
-            <a>
-              {{filter-checkbox
-                value='ULURP'
-                currentValues=dcp_ulurp_nonulurp}}
-            </a>
-          </li>
-          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}>
-            <a>
-              {{filter-checkbox
-                value='Non-ULURP'
-                currentValues=dcp_ulurp_nonulurp}}
-            </a>
-          </li>
-        </ul>
-      {{/filters.section}}
-
-      {{#filters.section
-        filterTitle='CEQR Type'
-        filterNames='dcp_ceqrtype'
-        tooltip='The City Environmental Quality Review (CEQR) type determines the environmental review process for land use actions. Only certain minor actions, designated Type II, are exempt from environmental review. There will be one CEQR type per project, so clicking multiple checkboxes will return projects with any one of the selected options.'
-        as |section|}}
-        <ul class="menu vertical medium-horizontal CEQR-checkbox">
-          {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
-            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ceqrtype' type)}}>
-              <a>
-                {{filter-checkbox
-                  value=type
-                  currentValues=dcp_ceqrtype}}
-              </a>
-            </li>
-          {{/each}}
-        </ul>
-      {{/filters.section}}
-
+      {{!-- FILTER: BOROUGH / BLOCK --}}
       {{#filters.section
         filterTitle='Borough / Block'
         filterNames=(array 'boroughs' 'block')
@@ -133,6 +50,7 @@
           oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
       {{/filters.section}}
 
+      {{!-- FILTER: COMMUNITY DISTRICT --}}
       {{#filters.section
         filterTitle='Community District'
         filterNames='community-districts'
@@ -153,6 +71,98 @@
         {{/power-select-multiple}}
       {{/filters.section}}
 
+      {{!-- FILTER: PROJECT STAGE --}}
+      {{#filters.section
+        filterTitle='Project Stage'
+        filterNames='dcp_publicstatus'
+        tooltip='These checkboxes filter projects by their stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'
+        as |section|}}
+        <ul class="menu vertical medium-horizontal stage-checkbox">
+          {{#each (array 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
+              <a>
+                {{filter-checkbox
+                  value=type
+                  currentValues=dcp_publicstatus
+                  classPrefix="publicstatus"
+                }}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      {{/filters.section}}
+
+      {{!-- FILTER: DATE CERTIFIED / REFERRED --}}
+      {{#filters.section
+        filterTitle='Date Certified / Referred'
+        filterNames='dcp_certifiedreferred'
+        tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'
+        as |section|}}
+        {{slider-filter
+          start=dcp_certifiedreferred
+          min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
+          max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
+          replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
+      {{/filters.section}}
+
+      {{!-- FILTER: ULURP / CEQR NUMBER --}}
+      {{#filters.section
+        filterTitle='ULURP / CEQR Number'
+        filterNames='ulurp_ceqr_text'
+        tooltip='Enter a Uniform Land Use Review Procedure (ULURP) or City Environmental Quality Review (CEQR) number.'
+        as |section|}}
+         <input
+          class="filter-text-input"
+          type="text"
+          value={{ulurp_ceqr_text}}
+          placeholder="Number (e.g. 'C840918PPX')"
+          oninput={{action section.delegate-mutation (action 'setDebouncedText' 'ulurp_ceqr_text')}}>
+      {{/filters.section}}
+
+      {{!-- FILTER: ULURP TYPE --}}
+      {{#filters.section
+        filterTitle='ULURP Type'
+        filterNames='dcp_ulurp_nonulurp'
+        tooltip='Applications can either follow the Uniform Land Use Review Procedure (ULURP) or are designated as Non-ULURP, and are therefore not restricted to ULURP rules and timing.'
+        as |section|}}
+        <ul class="menu vertical medium-horizontal ULURP-checkbox">
+          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}>
+            <a>
+              {{filter-checkbox
+                value='ULURP'
+                currentValues=dcp_ulurp_nonulurp}}
+            </a>
+          </li>
+          <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}>
+            <a>
+              {{filter-checkbox
+                value='Non-ULURP'
+                currentValues=dcp_ulurp_nonulurp}}
+            </a>
+          </li>
+        </ul>
+      {{/filters.section}}
+
+      {{!-- FILTER: CEQR TYPE --}}
+      {{#filters.section
+        filterTitle='CEQR Type'
+        filterNames='dcp_ceqrtype'
+        tooltip='The City Environmental Quality Review (CEQR) type determines the environmental review process for land use actions. Only certain minor actions, designated Type II, are exempt from environmental review. There will be one CEQR type per project, so clicking multiple checkboxes will return projects with any one of the selected options.'
+        as |section|}}
+        <ul class="menu vertical medium-horizontal CEQR-checkbox">
+          {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ceqrtype' type)}}>
+              <a>
+                {{filter-checkbox
+                  value=type
+                  currentValues=dcp_ceqrtype}}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      {{/filters.section}}
+
+      {{!-- FILTER: ACTION TYPE --}}
       {{#filters.section
         filterTitle='Action Type'
         filterNames='action-types'
@@ -177,6 +187,7 @@
         {{/power-select-multiple}}
       {{/filters.section}}
 
+      {{!-- FILTER: FEMA FLOOD ZONE --}}
       {{#filters.section
         filterTitle='FEMA Flood Zone'
         filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
@@ -234,6 +245,7 @@
           </li>
         </ul>
       {{/filters.section}}
+
     {{/filter-mutators}}
 
     <div class="filter">
