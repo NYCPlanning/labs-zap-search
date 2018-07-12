@@ -34,11 +34,15 @@
           </div>
         </div>
 
-
-
         <p>
           <strong>Project Brief:</strong>
-          {{if model.dcp_projectbrief model.dcp_projectbrief "No Project Brief"}}
+          {{#if model.dcp_projectbrief}}
+            {{md-text 
+              text=model.dcp_projectbrief
+              typographer=true}}
+          {{else}}
+            No Project Brief
+          {{/if}}
         </p>
 
         <div class="grid-x grid-padding-x">
@@ -48,7 +52,12 @@
           </p>
           {{#if model.dcp_ulurp_nonulurp}}
             <p class="cell small-6 text-right">
-              <span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}<sup>{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. A project is designated ULURP if a minimum of one action (e.g. a Zoning Map Amendment) within the application process is designated ULURP. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}</sup></span>
+              <span class="label dark-gray">
+                {{model.dcp_ulurp_nonulurp}}
+                <sup>
+                  {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. A project is designated ULURP if a minimum of one action (e.g. a Zoning Map Amendment) within the application process is designated ULURP. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
+                </sup>
+              </span>
             </p>
           {{/if}}
         </div>

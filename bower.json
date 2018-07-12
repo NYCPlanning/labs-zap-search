@@ -1,0 +1,7 @@
+{
+  "name": "labs-zap-search",
+  "dependencies": {
+    "remarkable": "^1.7.1",
+    "highlightjs": "^9.12.0"
+  }
+}
