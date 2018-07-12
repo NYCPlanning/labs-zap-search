@@ -21,7 +21,12 @@ export default class ProjectsMapComponent extends Component {
   geocodedFeature = null;
   geocodedLayer = {
     type: 'circle',
-    paint: { 'circle-color': '#007cbf', 'circle-radius': 10 },
+    paint: {
+      'circle-radius': 8,
+      'circle-color': '#007cbf',
+      'circle-stroke-width': { stops :  [ [10, 1], [15, 2]] },
+      'circle-stroke-color': '#FFFFFF',
+    }
   }
 
   popup = new mapboxgl.Popup({
@@ -92,7 +97,7 @@ export default class ProjectsMapComponent extends Component {
   selectSearchResult({ geometry }) {
     const { coordinates } = geometry;
     const { mapInstance: map } = this;
-    
+
     this.set('geocodedFeature', { type: 'geojson', data: geometry });
     map.flyTo({ center: coordinates, zoom: 16 });
   }
