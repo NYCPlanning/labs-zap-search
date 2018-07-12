@@ -148,32 +148,33 @@
 
         <div class="project-meta">
 
-          <p class="text-small label-group">
-            <strong>Keywords:</strong>
-            {{#if model.keywords}}
-              {{#each model.keywords as |keyword|}}
-                <span class="label secondary">{{keyword}}</span>
-              {{/each}}
-            {{else}}
-              None
-            {{/if}}
-          </p>
-
           {{#if (or model.dcp_ceqrtype model.dcp_ceqrnumber)}}
             <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
-              {{#if model.dcp_ceqrtype}}<span class="label secondary">{{model.dcp_ceqrtype}}</span>{{/if~}}
-              {{#if model.dcp_ceqrnumber}}<span class="label secondary">{{model.dcp_ceqrnumber}}</span>{{/if~}}
+              {{#if model.dcp_ceqrtype}}<span class="label light-gray">{{model.dcp_ceqrtype}}</span>{{/if~}}
+              {{#if model.dcp_ceqrnumber}}<span class="label light-gray">{{model.dcp_ceqrnumber}}</span>{{/if~}}
             </p>
           {{/if}}
+
+          <p class="text-small label-group">
+            <strong>Keywords:</strong>
+            {{#if model.dcp_sisubdivision}}<span class="label light-gray">Subdivision</span>{{/if}}
+            {{#if model.dcp_sischoolseat}}<span class="label light-gray">School Seat</span>{{/if}}
+
+            {{#if model.keywords}}
+              {{#each model.keywords as |keyword|}}
+                <span class="label light-gray">{{keyword}}</span>
+              {{/each}}
+            {{/if}}
+          </p>
 
           {{#if (or model.dcp_femafloodzonea model.dcp_femafloodzonecoastala model.dcp_femafloodzoneshadedx model.dcp_femafloodzonev) }}
             <p class="text-small">
               <strong>FEMA Flood Zone:</strong>
-              {{#if model.dcp_femafloodzonea}}<span class="label secondary">Zone A</span>{{/if}}
-              {{#if model.dcp_femafloodzonecoastala}}<span class="label secondary">Coastal Zone A</span>{{/if}}
-              {{#if model.dcp_femafloodzoneshadedx}}<span class="label secondary">Zone Shaded X</span>{{/if}}
-              {{#if model.dcp_femafloodzonev}}<span class="label secondary">Zone V</span>{{/if}}
+              {{#if model.dcp_femafloodzonea}}<span class="label light-gray">Zone A</span>{{/if}}
+              {{#if model.dcp_femafloodzonecoastala}}<span class="label light-gray">Coastal Zone A</span>{{/if}}
+              {{#if model.dcp_femafloodzoneshadedx}}<span class="label light-gray">Zone Shaded X</span>{{/if}}
+              {{#if model.dcp_femafloodzonev}}<span class="label light-gray">Zone V</span>{{/if}}
             </p>
           {{/if}}
 
@@ -211,17 +212,12 @@
 
           <p class="text-small">
             <strong>Borough:</strong>
-            <span class="label borough-{{dasherize model.dcp_borough}}">{{model.dcp_borough}}</span>
+            <span class="label light-gray">{{model.dcp_borough}}</span>
           </p>
 
           <p class="text-small">
             <strong>Community Districts:</strong>
-            <span class="label borough-{{dasherize model.dcp_borough}}">{{model.dcp_communitydistricts}}</span>
-          </p>
-
-          <p class="text-small">
-            {{#if model.dcp_sisubdivision}}<small><span class="label light-gray">Subdivision</span></small>{{/if}}
-            {{#if model.dcp_sischoolseat}}<small><span class="label light-gray">School Seat</span></small>{{/if}}
+            <span class="label light-gray">{{model.dcp_communitydistricts}}</span>
           </p>
 
           <p class="text-small">
