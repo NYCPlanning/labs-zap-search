@@ -26,4 +26,9 @@ export default class ProjectListMapPinComponent extends Component {
   mouseLeave() {
     this.resultMapEvents.trigger('unhover', { layerId: 'project-centroids-circle-hover' });
   }
+
+  click () {
+    const { project } = this;
+    this.resultMapEvents.trigger('click', { project, layerId: 'project-centroids-circle' });
+  }
 }

@@ -45,6 +45,7 @@ export default class ProjectModel extends Model {
   @attr() addresses;
   @attr() keywords;
   @attr() ulurpnumbers;
+  @attr() center;
 
   @computed('bbl_featurecollection')
   get bblFeatureCollectionSource() {

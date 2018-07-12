@@ -108,7 +108,16 @@ const milestoneLookup = {
     dateFormat: 'start',
     hideIfFiled: false,
     ulurptooltip: '',
-    nonulurptooltip: '', 
+    nonulurptooltip: '',
+  },
+
+  // special handling for subsequent instances of Filing
+  'Revised Land Use Application Filed Review': {
+    displayName: 'Revised Land Use Application Filed',
+    dateFormat: 'start',
+    hideIfFiled: false,
+    ulurptooltip: '',
+    nonulurptooltip: '',
   },
   'Land Use Fee Payment': {
     displayName: 'Land Use Fee Paid',
@@ -204,10 +213,10 @@ export default class ProjectMilestoneComponent extends Component {
 
   if (isUlurp) {
     const  tooltip   = `${ulurptip}`;
-    return  tooltip; 
+    return  tooltip;
   } else {
     const  tooltip  = `${nonulurptip}`;
-    return tooltip; 
+    return tooltip;
   }
  }
 
