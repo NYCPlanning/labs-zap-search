@@ -25,6 +25,7 @@ const Router = EmberRouter.extend({
 Router.map(function() {
   this.route('show-project', { path: '/projects/:id' });
   this.route('show-geography', { path: '/projects' });
+  this.route('disclaimer');
   this.route('not-found', { path: '/*path' });
 });
 

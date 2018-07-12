@@ -1,0 +1,48 @@
+<div class="cell">
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x grid-padding-y">
+      <div class="cell large-5">
+
+        <h1 class="header-large">General Disclaimer</h1>
+        <div class="callout">
+          <p><em>NYC Zoning Application Search was developed by the City of New York using NYC open data and other public data sources and is provided solely for informational purposes. The City makes no representation as to the accuracy of the information or to its suitability for any purpose. The City disclaims any liability for errors that may be contained herein and shall not be responsible for any damages consequential or actual, arising out of or in connection with the use of this information. The City makes no warranties, express or implied, including, but not limited to, implied warranties of merchantability and fitness for a particular purpose as to the quality, content, accuracy, or completeness of the information, text graphics, links and other items contained herein.</em></p>
+        </div>
+
+      </div>
+      <div class="cell large-7">
+
+        <h2 class="header-large">Project Geometries Disclaimer</h2>
+          <div class="callout">
+          <p>NYC Zoning Application Search's underlying database (ZAP) does not include geometries. Projects in the database only contain lists of addresses and BBLs. Geometries were appended to each project by joining project BBLs with data from <a href="https://www1.nyc.gov/site/planning/data-maps/open-data.page#pluto"><strong>MapPLUTO&nbsp;v18.1</strong>&nbsp;{{fa-icon 'external-link-alt'}}</a>. Center points for each project &mdash; for display in the filter view &mdash; were created by taking a centroid of the lot geometries returned by MapPLUTO.</p>
+
+          <h3 class="header-medium">Caveats:</h3>
+
+          <div class="grid-x align-middle">
+            <div class="cell medium-3 feature-image-cell">
+              <img src="/img/feature-centroids.png" class="feature-image">
+            </div>
+            <div class="cell medium-9">
+              <h4 class="header-medium no-margin">Project Centroids</h4>
+              <p class="lead">A centroid may not accurately represent transfer projects or projects with non-compact layouts.</p>
+            </div>
+          </div>
+
+          <div class="grid-x align-middle">
+            <div class="cell medium-3 feature-image-cell">
+              <img src="/img/feature-bbls.png" class="feature-image">
+            </div>
+            <div class="cell medium-9">
+              <h4 class="header-medium no-margin">Application BBLs</h4>
+              <p class="lead">BBLs listed for a project may have changed or gone away entirely, so the associated lot geometries could be inaccurate or missing.</p>
+            </div>
+          </div>
+
+          <p>These geometries in this tool are a "best-effort" at the time of publication to map each project. If you spot errors, please report them using the feedback form on each particular project's page.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{{outlet}}
