@@ -29,7 +29,7 @@
         filterNames=(array 'boroughs' 'block')
         tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'
         as |section|}}
-        <ul class="menu vertical medium-horizontal stage-checkbox">
+        <ul class="menu vertical medium-horizontal">
           {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
             <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}>
               <a>
@@ -77,7 +77,7 @@
         filterNames='dcp_publicstatus'
         tooltip='These checkboxes filter projects by their stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'
         as |section|}}
-        <ul class="menu vertical medium-horizontal stage-checkbox">
+        <ul class="menu vertical medium-horizontal stage-checkboxes">
           {{#each (array 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
               <a>
