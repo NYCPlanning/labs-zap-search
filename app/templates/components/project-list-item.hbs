@@ -1,6 +1,15 @@
 <li class="grid-x grid-padding-small projects-list-result">
   <div class="cell results-meta publicstatus-{{dasherize project.dcp_publicstatus_simp}}" style="width:5rem;">
-    {{project-list-map-pin project=project}}
+    {{#if project.has_centroid}}
+      {{project-list-map-pin project=project}}
+    {{else}}
+      <a class="button hollow expanded map-marker-button" style="opacity:1;" disabled>
+        <span class="fa-layers fa-fw" style="font-size: 1.5rem;">
+          {{fa-icon 'map-marker-alt' fixedWidth=true class="light-gray"}}
+          <span class="fa-layers-text" style="font-size:0.625rem;color:#000;">Not Mapped</span>
+        </span>
+      </a>
+    {{/if}}
     <span class="label publicstatus-label">{{unless (eq project.dcp_publicstatus_simp 'Unknown') project.dcp_publicstatus_simp "Unknown Status"}}</span>
   </div>
   <div class="cell auto">
