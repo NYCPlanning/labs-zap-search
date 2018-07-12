@@ -51,6 +51,7 @@ export default class ProjectsMapComponent extends Component {
 
     this.resultMapEvents.on('hover', this, 'hoverPoint');
     this.resultMapEvents.on('unhover', this, 'unHoverPoint');
+    this.resultMapEvents.on('click', this, 'clickPoint')
   }
 
   @action
@@ -113,6 +114,13 @@ export default class ProjectsMapComponent extends Component {
     this.mapInstance
       .setPaintProperty('project-centroids-circle', 'circle-blur', 0)
       .setLayoutProperty(layerId, 'visibility', 'none');
+  }
+
+  clickPoint({ project, layerId }) {
+    const { mapInstance: map } = this;
+    const { center } = project;
+
+    map.flyTo({ center, zoom: 15 });
   }
 
   willDestroyElement() {
