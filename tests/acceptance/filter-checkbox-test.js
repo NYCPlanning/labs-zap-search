@@ -18,7 +18,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/');
     await click('.stage-checkbox li:first-child a');
 
-    assert.equal(currentURL().includes('Complete%2CIn%20Public%20Review'), true);
+    assert.equal(currentURL().includes('Completed%2CIn%20Public%20Review'), true);
   });
 
   test('User clicks first CEQR Status and it filters', async function(assert) {
