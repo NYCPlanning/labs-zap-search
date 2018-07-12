@@ -37,6 +37,22 @@ export default class ShowProjectController extends Controller {
     return this.get('model.dcp_publicstatus') === 'Filed';
   }
 
+  // workaround for displaying "Revised Land Use Application..." for subsequent copies of the same milestone
+  @computed('model.milestones')
+  get revisedmilestones() {
+    const { milestones } = this.model;
+    let filedCounter = 0;
+    return milestones.map((milestone) => {
+      if (milestone.milestonename === 'Land Use Application Filed Review') {
+        filedCounter += 1;
+        if (filedCounter > 1) milestone.milestonename = 'Revised Land Use Application Filed Review';
+        return milestone;
+      }
+
+      return milestone
+    })
+  }
+
   @action
   handleMapLoad(bblFeatureCollection, map) {
     window.map = map;
