@@ -252,7 +252,7 @@
     <h3 class="results-header clearfix">
       <span class="float-left results-header-title">
         {{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}}
-        application{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}}
+        project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}}
         {{if (eq fetchData.lastSuccessful.value.meta.total 1) 'matches' 'match'}} your filters
       </span>
       <span class="float-right results-header-meta">
@@ -263,7 +263,7 @@
         {{/if}}
         &nbsp;<span class="medium-gray">|</span>&nbsp;
         {{#tool-tipster
-          content='Download all applications that match your filters'
+          content='Download all projects that match your filters'
           tagName='span'
         }}
           <a href={{downloadURL}} >{{fa-icon 'download'}} <small>(CSV)</small></a>
