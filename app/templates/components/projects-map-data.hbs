@@ -23,4 +23,16 @@
       {{highlightedFeature.properties.dcp_projectname}}
     </div>
   {{/if}}
+
+  {{#if geocodedFeature}}
+    {{#map.source options=geocodedFeature as |source|}}
+      {{source.layer layer=geocodedLayer}}
+    {{/map.source}}
+  {{/if}}
+
+  {{#labs-search 
+    onSelect=(action 'selectSearchResult')
+    onClear=(action (mut geocodedFeature null)) as |search|}}
+    <small class="dark-gray">{{search.result.label}}</small>
+  {{/labs-search}}
 {{/mapbox-gl}}
