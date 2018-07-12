@@ -2,6 +2,8 @@ import Controller from '@ember/controller';
 import mapboxgl from 'mapbox-gl';
 import { action, computed } from '@ember-decorators/object';
 import turfBbox from '@turf/bbox';
+import turfBuffer from '@turf/buffer';
+
 
 export default class ShowProjectController extends Controller {
   bblFeatureCollectionLayer = {
@@ -60,8 +62,8 @@ export default class ShowProjectController extends Controller {
     const navigationControl = new mapboxgl.NavigationControl();
     map.addControl(navigationControl, 'top-left');
 
-    map.fitBounds(turfBbox(bblFeatureCollection), {
-      padding: 115,
+    map.fitBounds(turfBbox(turfBuffer(bblFeatureCollection, 0.075)), {
+      // padding: 0,
       linear: true,
       duration: 0,
     });

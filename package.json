@@ -79,6 +79,7 @@
     "@ember-decorators/argument": "0.8.15",
     "@turf/bbox": "^6.0.1",
     "@turf/boolean-point-in-polygon": "6.0.1",
+    "@turf/buffer": "^5.1.5",
     "@turf/intersect": "6.1.2",
     "ember-concurrency-decorators": "machty/ember-concurrency-decorators",
     "foundation-sites": "^6.4.3",
