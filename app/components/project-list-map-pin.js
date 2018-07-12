@@ -3,8 +3,6 @@ import { service } from '@ember-decorators/service';
 import { classNames } from '@ember-decorators/component';
 import { tagName } from '@ember-decorators/component';
 import { argument } from '@ember-decorators/argument';
-import mapboxgl from 'mapbox-gl';
-import { action } from '@ember-decorators/object';
 
 @tagName('a')
 @classNames('button hollow expanded map-marker-button')
