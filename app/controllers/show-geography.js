@@ -12,16 +12,23 @@ const DEBOUNCE_MS = 500;
 export default class ShowGeographyController extends GeographyParachuteController {
   constructor() {
     super(...arguments);
-    this.set('cachedProjects', []);
   }
 
   page = 1;
   tiles = [];
   bounds = [];
 
-  setup() {
+  init() {
+    super.init(...arguments);
+
+    this.set('cachedProjects', []);
     this.fetchData.perform({ unloadAll: true });
   }
+
+  // setup() {
+  //   console.log('setup');
+  //   this.fetchData.perform({ unloadAll: true });
+  // }
 
   queryParamsDidChange({ shouldRefresh }) {
     if (shouldRefresh) {
