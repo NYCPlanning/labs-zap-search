@@ -10,17 +10,10 @@ module('Integration | Component | consolidated-cds', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{consolidated-cds}}`);
+    this.set('cds', 'BK03;BK04');
 
-    assert.equal(this.element.textContent.trim(), '');
+    await render(hbs`{{consolidated-cds cds=cds}}`);
 
-    // Template block usage:
-    await render(hbs`
-      {{#consolidated-cds}}
-        template block text
-      {{/consolidated-cds}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim().replace(/\s/g, ''), 'Brooklyn|CD3,4');
   });
 });
