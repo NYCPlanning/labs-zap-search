@@ -67,7 +67,7 @@
     "ember-truth-helpers": "2.0.0",
     "ember-welcome-page": "^3.0.0",
     "eslint-plugin-ember": "^5.0.0",
-    "labs-ember-search": "nycplanning/labs-ember-search#v2.2.0",
+    "labs-ember-search": "nycplanning/labs-ember-search#v2.3.0",
     "loader.js": "^4.2.3",
     "mapbox-gl": "^0.44.0",
     "moment": "^2.22.2",

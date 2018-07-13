@@ -31,6 +31,7 @@
   {{/if}}
 
   {{#labs-search
+    searchPlaceholder='Search for Address...'
     onSelect=(action 'selectSearchResult')
     onClear=(action (mut geocodedFeature null)) as |search|}}
     <small class="dark-gray">{{search.result.label}}</small>
