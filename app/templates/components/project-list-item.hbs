@@ -29,6 +29,9 @@
       {{#each project.ulurpnumbers as |ulurpnumber|}}
         <span class="label light-gray"><strong class="dark-gray">{{ulurpnumber}}</strong></span>
       {{/each}}
+      {{#if project.lastmilestonedate}}
+      <span class="label light-gray"> <strong class="dark-gray">{{icon-tooltip icon='calendar' tip='Latest Milestone'}} {{ moment-format project.lastmilestonedate "MMMM D, YYYY" }} </strong></span>
+      {{/if}}
     </p>
   </div>
 </li>

@@ -9,7 +9,7 @@ export default class ProjectListComponent extends Component {
     const applicants = this.get('project.applicants');
     return applicants ? applicants.split(';')[0] : 'Unknown';
   }
-
+  
   @argument
   project = {};
 }

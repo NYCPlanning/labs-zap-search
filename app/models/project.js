@@ -46,6 +46,7 @@ export default class ProjectModel extends Model {
   @attr() keywords;
   @attr() ulurpnumbers;
   @attr() center;
+  @attr() lastmilestonedate;
 
   @computed('bbl_featurecollection')
   get bblFeatureCollectionSource() {
