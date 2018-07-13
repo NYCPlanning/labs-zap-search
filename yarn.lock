@@ -2330,7 +2330,7 @@ cartobox-promises-utility@nycplanning/cartobox-promises-utility#v1.0.2:
   resolved "https://codeload.github.com/nycplanning/cartobox-promises-utility/tar.gz/57f1c96a0bf03c47e048c30d202643cc49db3c69"
   dependencies:
     ember-cli-babel "^6.6.0"
-    ember-fetch "5.0.0"
+    ember-fetch "4.0.1"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -3107,6 +3107,12 @@ ember-ajax@^3.0.0:
   resolved "https://registry.yarnpkg.com/ember-ajax/-/ember-ajax-3.1.0.tgz#3db36e67357ef447639517656aeac4bb13e73a9c"
   dependencies:
     ember-cli-babel "^6.6.0"
+
+ember-app-scheduler@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ember-app-scheduler/-/ember-app-scheduler-1.0.1.tgz#cc25e79d139525e440f2b26bcf8fdd60a3899878"
+  dependencies:
+    ember-cli-babel "^6.3.0"
 
 ember-assign-polyfill@^2.0.1:
   version "2.4.0"
@@ -3923,6 +3929,14 @@ ember-router-generator@^1.2.3:
   resolved "https://registry.yarnpkg.com/ember-router-generator/-/ember-router-generator-1.2.3.tgz#8ed2ca86ff323363120fc14278191e9e8f1315ee"
   dependencies:
     recast "^0.11.3"
+
+ember-router-scroll@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/ember-router-scroll/-/ember-router-scroll-0.7.1.tgz#0fc4b9be116ef97ce974938104cc766f4e56a127"
+  dependencies:
+    ember-app-scheduler "^1.0.1"
+    ember-cli-babel "^6.6.0"
+    ember-getowner-polyfill "^2.0.1"
 
 ember-runtime-enumerable-includes-polyfill@^2.0.0:
   version "2.1.0"
