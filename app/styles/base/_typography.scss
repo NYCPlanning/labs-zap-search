@@ -99,6 +99,23 @@ button {
   width: 15em;
 }
 
+.map-disclaimer-link {
+  position: absolute;
+  left: 2px;
+  bottom: 3px;
+  z-index: 2;
+  color: $dark-gray;
+  background-color: $light-gray;
+  margin: 0;
+  box-shadow: 1px -1px 0 1px rgba(0,0,0,0.1);
+  padding: 0.5em 0.625em;
+
+  &:hover {
+    color: $primary-color;
+    background-color: darken($light-gray, 5%);
+  }
+}
+
 
 //
 // Badges

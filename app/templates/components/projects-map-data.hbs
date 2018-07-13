@@ -30,9 +30,11 @@
     {{/map.source}}
   {{/if}}
 
-  {{#labs-search 
+  {{#labs-search
     onSelect=(action 'selectSearchResult')
     onClear=(action (mut geocodedFeature null)) as |search|}}
     <small class="dark-gray">{{search.result.label}}</small>
   {{/labs-search}}
+
+  {{link-to 'Geometries Disclaimer' 'disclaimer' class="button tiny map-disclaimer-link"}}
 {{/mapbox-gl}}
