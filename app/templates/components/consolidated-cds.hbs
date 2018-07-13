@@ -1,0 +1,12 @@
+{{#each consolodatedCDs as |boro|}}
+  <span class="label light-gray">
+    <strong class="dark-gray">{{boro.boroName}}</strong>
+    <span class="medium-gray">|</span>
+    <span class="dark-gray">
+      CD
+      {{#each boro.cds as |cd i|}}
+        {{~if i ","}} {{cd ~}}
+      {{/each}}
+    </span>
+  </span>
+{{/each}}

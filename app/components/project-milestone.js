@@ -89,6 +89,13 @@ const milestoneLookup = {
     ulurptooltip: '',
     nonulurptooltip: '',
   },
+  'Revised Filed EAS Review': {
+    displayName: 'Revised Environmental Assessment Statement Filed',
+    dateFormat: 'start',
+    hideIfFiled: false,
+    ulurptooltip: '',
+    nonulurptooltip: '',
+  },
   'Final Letter Sent': {
     displayName: 'Approval Letter Sent to Responsible Agency',
     dateFormat: 'end',

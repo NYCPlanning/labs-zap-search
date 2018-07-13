@@ -1,4 +1,5 @@
 import { helper } from '@ember/component/helper';
+import ENV from 'labs-zap-search/config/environment';
 
 function pad(string, size) {
   while (string.length < (size || 2)) {string = "0" + string;}
@@ -47,12 +48,18 @@ function acris(bbl) {
   return `http://a836-acris.nyc.gov/bblsearch/bblsearch.asp?borough=${boro}&block=${block}&lot=${lot}`;
 }
 
+function ceqraccess(ceqrnumber) {
+  return `${ENV.host}/ceqr/${ceqrnumber}`;
+}
+
 export function buildUrl([type, value]) {
   if (type === "zoningResolution") return zoningResolution(value);
   if (type === "zola") return zola(value);
   if (type === "bisweb") return bisweb(value);
   if (type === "cpcReport") return cpcReport(value);
   if (type === "acris") return acris(value);
+  if (type === "ceqraccess") return ceqraccess(value);
+
 
   throw 'invalid type passed to build-url helper';
 }

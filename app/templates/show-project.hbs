@@ -34,11 +34,14 @@
           </div>
         </div>
 
-
-
         <p>
           <strong>Project Brief:</strong>
-          {{if model.dcp_projectbrief model.dcp_projectbrief "No Project Brief"}}
+          {{#if model.dcp_projectbrief}}
+            {{markdown-to-html
+              markdown=model.dcp_projectbrief}}
+          {{else}}
+            No Project Brief
+          {{/if}}
         </p>
 
         <div class="grid-x grid-padding-x">
@@ -48,7 +51,12 @@
           </p>
           {{#if model.dcp_ulurp_nonulurp}}
             <p class="cell small-6 text-right">
-              <span class="label dark-gray">{{model.dcp_ulurp_nonulurp}}<sup>{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. A project is designated ULURP if a minimum of one action (e.g. a Zoning Map Amendment) within the application process is designated ULURP. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}</sup></span>
+              <span class="label dark-gray">
+                {{~model.dcp_ulurp_nonulurp~}}
+                <sup>
+                  {{~icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. A project is designated ULURP if a minimum of one action (e.g. a Zoning Map Amendment) within the application process is designated ULURP. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'~}}
+                </sup>
+              </span>
             </p>
           {{/if}}
         </div>
@@ -69,7 +77,15 @@
                     <p class="text-tiny status">{{if action.statuscode action.statuscode "No Status Code"}}</p>
                   </div>
                   <div class="cell auto">
-                    <h5 class="no-margin">{{action.dcp_name}}<sup class="dark-gray">{{icon-tooltip tip=(lookup-action-type action.actioncode)}}</sup></h5>
+                    <h5 class="no-margin">
+                      {{action.dcp_name}}
+                      {{#if (lookup-action-type action.actioncode)}}
+                        <sup class="dark-gray">
+                          {{icon-tooltip
+                            tip=(lookup-action-type action.actioncode)}}
+                        </sup>
+                      {{/if}}
+                    </h5>
                     <p class="text-small no-margin">
                       {{#if action.dcp_ulurpnumber}}
                         ULURP Number:
@@ -139,6 +155,7 @@
                 before='boundary_country'
               }}
             {{/map.source}}
+            {{link-to 'Geometries Disclaimer' 'disclaimer' class="button tiny map-disclaimer-link"}}
           {{/mapbox-gl}}
         {{else}}
           <div id='project-map' class="align-middle grid-x" style="border: 1px solid darkgray; background:#EEE; color:gray;">
@@ -152,7 +169,7 @@
             <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
               {{#if model.dcp_ceqrtype}}<span class="label light-gray">{{model.dcp_ceqrtype}}</span>{{/if~}}
-              {{#if model.dcp_ceqrnumber}}<span class="label light-gray">{{model.dcp_ceqrnumber}}</span>{{/if~}}
+              {{#if model.dcp_ceqrnumber}}<span class="label light-gray"><a href="{{build-url "ceqraccess" model.dcp_ceqrnumber}}" target="_blank">{{model.dcp_ceqrnumber}} {{fa-icon 'external-link-alt'}}</a></span>{{/if~}}
             </p>
           {{/if}}
 
@@ -215,9 +232,9 @@
             <span class="label light-gray">{{model.dcp_borough}}</span>
           </p>
 
-          <p class="text-small">
+          <p class="text-small label-group">
             <strong>Community Districts:</strong>
-            <span class="label light-gray">{{model.dcp_communitydistricts}}</span>
+            {{consolidated-cds cds=model.dcp_communitydistricts}}
           </p>
 
           <p class="text-small">

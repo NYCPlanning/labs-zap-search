@@ -19,7 +19,7 @@ export const projectParams = new QueryParams({
 
   // meta
   'applied-filters': {
-    defaultValue: ['community-districts', 'dcp_publicstatus', 'action-types'].sort(),
+    defaultValue: ['dcp_publicstatus'].sort(),
     refresh: true,
     serialize(value) {
       return value.toString();
@@ -82,7 +82,7 @@ export const projectParams = new QueryParams({
     },
   },
   dcp_publicstatus: {
-    defaultValue: ['Filed', 'In Public Review', 'Completed'].sort(),
+    defaultValue: ['Filed', 'In Public Review'].sort(),
     refresh: true,
     serialize(value) {
       value = value.filter(d => d !== '')

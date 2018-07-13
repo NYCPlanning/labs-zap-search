@@ -29,6 +29,7 @@
 
   {{#labs-search 
     searchTerms=geosearchText
+    searchPlaceholder='Search for Address...'
     onSelect=(action 'selectSearchResult')
     onClear=(action (mut geocodedCoordinates) (array)) as |search|
   }}
@@ -36,4 +37,6 @@
       {{search.result.label}}
     </small>
   {{/labs-search}}
+
+  {{link-to 'Geometries Disclaimer' 'disclaimer' class="button tiny map-disclaimer-link"}}
 {{/mapbox-gl}}

@@ -2,6 +2,8 @@ import Controller from '@ember/controller';
 import mapboxgl from 'mapbox-gl';
 import { action, computed } from '@ember-decorators/object';
 import turfBbox from '@turf/bbox';
+import turfBuffer from '@turf/buffer';
+
 
 export default class ShowProjectController extends Controller {
   bblFeatureCollectionLayer = {
@@ -42,6 +44,7 @@ export default class ShowProjectController extends Controller {
   get revisedmilestones() {
     const { milestones } = this.model;
     let filedCounter = 0;
+    let easCounter = 0;
     return milestones.map((milestone) => {
       if (milestone.milestonename === 'Land Use Application Filed Review') {
         filedCounter += 1;
@@ -49,9 +52,16 @@ export default class ShowProjectController extends Controller {
         return milestone;
       }
 
+      if (milestone.milestonename === 'Filed EAS Review') {
+        easCounter += 1;
+        if (easCounter > 1) milestone.milestonename = 'Revised Filed EAS Review';
+        return milestone;
+      }
+
       return milestone
     })
   }
+
 
   @action
   handleMapLoad(bblFeatureCollection, map) {
@@ -60,8 +70,8 @@ export default class ShowProjectController extends Controller {
     const navigationControl = new mapboxgl.NavigationControl();
     map.addControl(navigationControl, 'top-left');
 
-    map.fitBounds(turfBbox(bblFeatureCollection), {
-      padding: 50,
+    map.fitBounds(turfBbox(turfBuffer(bblFeatureCollection, 0.075)), {
+      // padding: 0,
       linear: true,
       duration: 0,
     });

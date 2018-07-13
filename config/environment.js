@@ -5,7 +5,11 @@ module.exports = function(environment) {
     modulePrefix: 'labs-zap-search',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'router-scroll',
+    historySupportMiddleware: true,
+    routerScroll: {
+      scrollElement: '#scrolling-result-content',
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -90,6 +94,14 @@ module.exports = function(environment) {
     };
 
     ENV.host = 'https://zap-api.planninglabs.nyc';
+  }
+
+  if (environment === 'devlive') {
+    ENV.host = 'https://zap-api.planninglabs.nyc';
+
+    ENV['ember-cli-mirage'] = {
+      enabled: false
+    };
   }
 
   return ENV;
