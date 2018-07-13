@@ -2,7 +2,7 @@ import { action, computed } from '@ember-decorators/object';
 import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
-import GeographyParachuteController from './query-parameters/show-geography';
+import GeographyParachuteController from './query-parameters/projects';
 import ENV from 'labs-zap-search/config/environment';
 import queryString from 'qs';
 

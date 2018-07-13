@@ -114,7 +114,7 @@ export default class ProjectsMapComponent extends Component {
 
     if (feature) {
       const projectid = feature.properties.projectid;
-      this.router.transitionTo('show-project', projectid);
+      this.router.transitionTo('projects.show-project', projectid);
     }
   }
 
