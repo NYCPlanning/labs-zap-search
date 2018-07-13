@@ -1,4 +1,4 @@
-<div class="cell">
+<div class="cell show-project" style="position: fixed;background: #FFF;z-index: 100;">
   <div class="grid-container">
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
@@ -37,7 +37,7 @@
         <p>
           <strong>Project Brief:</strong>
           {{#if model.dcp_projectbrief}}
-            {{markdown-to-html 
+            {{markdown-to-html
               markdown=model.dcp_projectbrief}}
           {{else}}
             No Project Brief
@@ -85,7 +85,7 @@
                             tip=(lookup-action-type action.actioncode)}}
                         </sup>
                       {{/if}}
-                    </h5> 
+                    </h5>
                     <p class="text-small no-margin">
                       {{#if action.dcp_ulurpnumber}}
                         ULURP Number:
@@ -141,7 +141,7 @@
       <div class="cell large-5">
         {{#if model.bbl_featurecollection}}
           {{#mapbox-gl
-              id='project-map'
+              id='show-project-map'
               initOptions=(hash
                 zoom=12
                 center=(array -73.96532400540775 40.709710016659386)
