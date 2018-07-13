@@ -5,7 +5,11 @@ module.exports = function(environment) {
     modulePrefix: 'labs-zap-search',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'router-scroll',
+    historySupportMiddleware: true,
+    routerScroll: {
+      scrollElement: '#scrolling-result-content',
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
