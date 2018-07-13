@@ -10,8 +10,8 @@ import queryString from 'qs';
 const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
-  init() {
-    super.init(...arguments);
+  constructor() {
+    super(...arguments);
 
     this.set('page', 1);
     this.set('cachedProjects', []);
