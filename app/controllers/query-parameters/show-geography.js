@@ -3,6 +3,20 @@ import Controller from '@ember/controller';
 import moment from 'moment';
 
 export const projectParams = new QueryParams({
+  // UI
+  geosearchText: {
+    defaultValue: '',
+  },
+  geocodedCoordinates: {
+    defaultValue: [],
+  },
+  mapCenter: {
+    defaultValue: [-73.96532400540775, 40.709710016659386],
+  },
+  zoom: {
+    defaultValue: 12,
+  },
+
   // meta
   'applied-filters': {
     defaultValue: ['community-districts', 'dcp_publicstatus', 'action-types'].sort(),

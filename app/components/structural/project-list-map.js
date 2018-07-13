@@ -1,12 +1,37 @@
 import Component from '@ember/component';
 import { argument } from '@ember-decorators/argument';
+import { computed, action } from '@ember-decorators/object';
+import { restartableTask } from 'ember-concurrency-decorators';
+import { timeout } from 'ember-concurrency';
 
 export default class ProjectListMapComponent extends Component {
-  @argument
-  tiles = [];
+  @argument geosearchText = '';
+  @argument geocodedCoordinates = [];
+  @argument mapCenter = [];
+  @argument zoom;
+  @argument tiles = [];
+  @argument bounds = [];
+  @argument queryParamsState = {};
 
-  @argument
-  bounds = [];
+  @computed('zoom', 'mapCenter')
+  get initOptions() {
+    const { mapCenter: center, zoom } = this;
+
+    return { center, zoom };
+  }
+
+  @restartableTask
+  updateMapState = function*(map) {
+    yield timeout(1000);
+
+    this.set('mapCenter', Object.values(map.getCenter()));
+    this.set('zoom', map.getZoom());
+  }
+
+  @action
+  updateCenterZoom({ target: map }) {
+    this.updateMapState.perform(map);
+  }
 
   fitBoundsOptions = {
     padding: 20,
