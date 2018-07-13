@@ -22,7 +22,7 @@ export default class ProjectListMapComponent extends Component {
 
   @restartableTask
   updateMapState = function*(map) {
-    yield timeout(1000);
+    yield timeout(750);
 
     this.set('mapCenter', Object.values(map.getCenter()));
     this.set('zoom', map.getZoom());
