@@ -37,7 +37,7 @@
         <p>
           <strong>Project Brief:</strong>
           {{#if model.dcp_projectbrief}}
-            {{markdown-to-html 
+            {{markdown-to-html
               markdown=model.dcp_projectbrief}}
           {{else}}
             No Project Brief
@@ -85,7 +85,7 @@
                             tip=(lookup-action-type action.actioncode)}}
                         </sup>
                       {{/if}}
-                    </h5> 
+                    </h5>
                     <p class="text-small no-margin">
                       {{#if action.dcp_ulurpnumber}}
                         ULURP Number:
@@ -169,7 +169,7 @@
             <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
               {{#if model.dcp_ceqrtype}}<span class="label light-gray">{{model.dcp_ceqrtype}}</span>{{/if~}}
-              {{#if model.dcp_ceqrnumber}}<span class="label light-gray">{{model.dcp_ceqrnumber}}</span>{{/if~}}
+              {{#if model.dcp_ceqrnumber}}<span class="label light-gray"><a href="{{build-url "ceqraccess" model.dcp_ceqrnumber}}" target="_blank">{{model.dcp_ceqrnumber}} {{fa-icon 'external-link-alt'}}</a></span>{{/if~}}
             </p>
           {{/if}}
 
