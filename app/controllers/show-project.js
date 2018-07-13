@@ -44,6 +44,7 @@ export default class ShowProjectController extends Controller {
   get revisedmilestones() {
     const { milestones } = this.model;
     let filedCounter = 0;
+    let easCounter = 0;
     return milestones.map((milestone) => {
       if (milestone.milestonename === 'Land Use Application Filed Review') {
         filedCounter += 1;
@@ -51,9 +52,16 @@ export default class ShowProjectController extends Controller {
         return milestone;
       }
 
+      if (milestone.milestonename === 'Filed EAS Review') {
+        easCounter += 1;
+        if (easCounter > 1) milestone.milestonename = 'Revised Filed EAS Review';
+        return milestone;
+      }
+
       return milestone
     })
   }
+
 
   @action
   handleMapLoad(bblFeatureCollection, map) {

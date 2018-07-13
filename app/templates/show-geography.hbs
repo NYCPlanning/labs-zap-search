@@ -8,6 +8,8 @@
       mutateArray=(action 'mutateArray')
       appliedFilters=applied-filters
       as |filters|}}
+
+      {{!-- FILTER: PROJECT / DESCRIPTION / APPLICANT --}}
       {{#filters.section
         filterTitle='Project / Description / Applicant'
         filterNames='project_applicant_text'
@@ -21,24 +23,61 @@
           oninput={{action section.delegate-mutation (action 'setDebouncedText' 'project_applicant_text')}}>
       {{/filters.section}}
 
+      {{!-- FILTER: BOROUGH / BLOCK --}}
       {{#filters.section
-        filterTitle='Date Certified / Referred'
-        filterNames='dcp_certifiedreferred'
-        tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'
+        filterTitle='Borough / Block'
+        filterNames=(array 'boroughs' 'block')
+        tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'
         as |section|}}
-        {{slider-filter
-          start=dcp_certifiedreferred
-          min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
-          max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
-          replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
+        <ul class="menu vertical medium-horizontal">
+          {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
+            <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}>
+              <a>
+                {{filter-checkbox
+                  value=type
+                  currentValues=boroughs
+                  classPrefix="borough"
+                }}
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+        <input
+          class="filter-text-input"
+          type="text"
+          value={{block}}
+          placeholder="Block Number (e.g. '1000')"
+          oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
       {{/filters.section}}
 
+      {{!-- FILTER: COMMUNITY DISTRICT --}}
+      {{#filters.section
+        filterTitle='Community District'
+        filterNames='community-districts'
+        tooltip='Filter by Community District in each borough by either typing the Community District name (e.g. “Brooklyn 1”) or by selecting from the dropdown list. Multiple Community Districts can be selected.'
+        as |section|}}
+        {{#power-select-multiple
+          options=(lookup-community-district)
+          selected=(contains-keys
+            (lookup-community-district)
+            community-districts
+            key='code')
+          placeholder="Select some names..."
+          searchField='searchField'
+          onchange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
+          as |district|
+        }}
+          {{district.boro}} {{district.num}}
+        {{/power-select-multiple}}
+      {{/filters.section}}
+
+      {{!-- FILTER: PROJECT STAGE --}}
       {{#filters.section
         filterTitle='Project Stage'
         filterNames='dcp_publicstatus'
         tooltip='These checkboxes filter projects by their stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'
         as |section|}}
-        <ul class="menu vertical medium-horizontal stage-checkbox">
+        <ul class="menu vertical medium-horizontal stage-checkboxes">
           {{#each (array 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
               <a>
@@ -53,6 +92,20 @@
         </ul>
       {{/filters.section}}
 
+      {{!-- FILTER: DATE CERTIFIED / REFERRED --}}
+      {{#filters.section
+        filterTitle='Date Certified / Referred'
+        filterNames='dcp_certifiedreferred'
+        tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'
+        as |section|}}
+        {{slider-filter
+          start=dcp_certifiedreferred
+          min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
+          max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
+          replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
+      {{/filters.section}}
+
+      {{!-- FILTER: ULURP / CEQR NUMBER --}}
       {{#filters.section
         filterTitle='ULURP / CEQR Number'
         filterNames='ulurp_ceqr_text'
@@ -66,6 +119,7 @@
           oninput={{action section.delegate-mutation (action 'setDebouncedText' 'ulurp_ceqr_text')}}>
       {{/filters.section}}
 
+      {{!-- FILTER: ULURP TYPE --}}
       {{#filters.section
         filterTitle='ULURP Type'
         filterNames='dcp_ulurp_nonulurp'
@@ -89,6 +143,7 @@
         </ul>
       {{/filters.section}}
 
+      {{!-- FILTER: CEQR TYPE --}}
       {{#filters.section
         filterTitle='CEQR Type'
         filterNames='dcp_ceqrtype'
@@ -107,52 +162,7 @@
         </ul>
       {{/filters.section}}
 
-      {{#filters.section
-        filterTitle='Borough / Block'
-        filterNames=(array 'boroughs' 'block')
-        tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'
-        as |section|}}
-        <ul class="menu vertical medium-horizontal stage-checkbox">
-          {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
-            <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}>
-              <a>
-                {{filter-checkbox
-                  value=type
-                  currentValues=boroughs
-                  classPrefix="borough"
-                }}
-              </a>
-            </li>
-          {{/each}}
-        </ul>
-        <input
-          class="filter-text-input"
-          type="text"
-          value={{block}}
-          placeholder="Block Number (e.g. '1000')"
-          oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
-      {{/filters.section}}
-
-      {{#filters.section
-        filterTitle='Community District'
-        filterNames='community-districts'
-        tooltip='Filter by Community District in each borough by either typing the Community District name (e.g. “Brooklyn 1”) or by selecting from the dropdown list. Multiple Community Districts can be selected.'
-        as |section|}}
-        {{#power-select-multiple
-          options=(lookup-community-district)
-          selected=(contains-keys
-            (lookup-community-district)
-            community-districts
-            key='code')
-          placeholder="Select some names..."
-          searchField='searchField'
-          onchange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
-          as |district|
-        }}
-          {{district.boro}} {{district.num}}
-        {{/power-select-multiple}}
-      {{/filters.section}}
-
+      {{!-- FILTER: ACTION TYPE --}}
       {{#filters.section
         filterTitle='Action Type'
         filterNames='action-types'
@@ -177,6 +187,7 @@
         {{/power-select-multiple}}
       {{/filters.section}}
 
+      {{!-- FILTER: FEMA FLOOD ZONE --}}
       {{#filters.section
         filterTitle='FEMA Flood Zone'
         filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
@@ -234,6 +245,7 @@
           </li>
         </ul>
       {{/filters.section}}
+
     {{/filter-mutators}}
 
     <div class="filter">
@@ -252,7 +264,7 @@
     <h3 class="results-header clearfix">
       <span class="float-left results-header-title">
         {{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}}
-        application{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}}
+        project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}}
         {{if (eq fetchData.lastSuccessful.value.meta.total 1) 'matches' 'match'}} your filters
       </span>
       <span class="float-right results-header-meta">
@@ -263,7 +275,7 @@
         {{/if}}
         &nbsp;<span class="medium-gray">|</span>&nbsp;
         {{#tool-tipster
-          content='Download all applications that match your filters'
+          content='Download all projects that match your filters'
           tagName='span'
         }}
           <a href={{downloadURL}} >{{fa-icon 'download'}} <small>(CSV)</small></a>

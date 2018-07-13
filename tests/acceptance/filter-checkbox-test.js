@@ -16,7 +16,7 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('User clicks first project status and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');
-    await click('.stage-checkbox li:first-child a');
+    await click('.stage-checkboxes li:first-child a');
 
     assert.equal(currentURL().includes('Completed%2CIn%20Public%20Review'), true);
   });
@@ -58,7 +58,7 @@ module('Acceptance | filter checkbox', function(hooks) {
   skip('Page reloads (pagination reset) when click new filter', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
-    await click('.stage-checkbox li:first-child a');
+    await click('.stage-checkboxes li:first-child a');
 
     assert.equal(currentURL(), '/projects');
   });
@@ -78,12 +78,12 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('Landing on QP default leads to cleaned URL', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
-    await click('.stage-checkbox li:nth-child(1)');
-    await click('.stage-checkbox li:nth-child(2)');
-    await click('.stage-checkbox li:nth-child(3)');
-    await click('.stage-checkbox li:nth-child(3)');
-    await click('.stage-checkbox li:nth-child(2)');
-    await click('.stage-checkbox li:nth-child(1)');
+    await click('.stage-checkboxes li:nth-child(1)');
+    await click('.stage-checkboxes li:nth-child(2)');
+    await click('.stage-checkboxes li:nth-child(3)');
+    await click('.stage-checkboxes li:nth-child(3)');
+    await click('.stage-checkboxes li:nth-child(2)');
+    await click('.stage-checkboxes li:nth-child(1)');
 
     assert.equal(currentURL(), '/projects');
   });

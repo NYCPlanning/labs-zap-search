@@ -44,7 +44,7 @@
         <div class="grid-x grid-padding-x">
           <p class="cell auto">
             <strong>Status:</strong>
-            <span class="label publicstatus-{{dasherize model.dcp_publicstatus_simp}}">{{model.dcp_publicstatus_simp}}</span>
+            <span class="label dark-gray publicstatus-{{dasherize model.dcp_publicstatus_simp}}">{{model.dcp_publicstatus_simp}}</span>
           </p>
           {{#if model.dcp_ulurp_nonulurp}}
             <p class="cell small-6 text-right">
@@ -69,7 +69,15 @@
                     <p class="text-tiny status">{{if action.statuscode action.statuscode "No Status Code"}}</p>
                   </div>
                   <div class="cell auto">
-                    <h5 class="no-margin">{{action.dcp_name}}<sup class="dark-gray">{{icon-tooltip tip=(lookup-action-type action.actioncode)}}</sup></h5>
+                    <h5 class="no-margin">
+                      {{action.dcp_name}}
+                      {{#if (lookup-action-type action.actioncode)}}
+                        <sup class="dark-gray">
+                          {{icon-tooltip
+                            tip=(lookup-action-type action.actioncode)}}
+                        </sup>
+                      {{/if}}
+                    </h5> 
                     <p class="text-small no-margin">
                       {{#if action.dcp_ulurpnumber}}
                         ULURP Number:
