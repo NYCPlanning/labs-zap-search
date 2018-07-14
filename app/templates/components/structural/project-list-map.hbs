@@ -1,4 +1,7 @@
-{{#projects-map-data as |projects|}}
+{{#projects-map-data 
+  geosearchText=geosearchText 
+  geocodedCoordinates=geocodedCoordinates
+  initOptions=initOptions as |projects|}}
   {{#if (and tiles bounds)}}
     {{!-- High-level dynamic tiles configuration --}}
     {{#projects.dynamic-tiles 
@@ -12,5 +15,6 @@
     {{/projects.dynamic-tiles}}
 
     {{projects.map.call 'fitBounds' bounds fitBoundsOptions}}
+    {{projects.map.on 'move' (action 'updateCenterZoom')}}
   {{/if}}
 {{/projects-map-data}}

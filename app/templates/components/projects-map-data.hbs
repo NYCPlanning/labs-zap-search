@@ -1,11 +1,8 @@
 {{#mapbox-gl
-    id='project-map'
-    initOptions=(hash
-      zoom=12
-      center=(array -73.96532400540775 40.709710016659386)
-    )
-    mapLoaded=(action 'handleMapLoad')
-    as |map|
+  id='project-map'
+  initOptions=initOptions
+  mapLoaded=(action 'handleMapLoad')
+  as |map|
 }}
   {{yield (hash
     dynamic-tiles=(component 'mapbox-gl-dynamic-tiles'
@@ -30,11 +27,15 @@
     {{/map.source}}
   {{/if}}
 
-  {{#labs-search
+  {{#labs-search 
+    searchTerms=geosearchText
     searchPlaceholder='Search for Address...'
     onSelect=(action 'selectSearchResult')
-    onClear=(action (mut geocodedFeature null)) as |search|}}
-    <small class="dark-gray">{{search.result.label}}</small>
+    onClear=(action (mut geocodedCoordinates) (array)) as |search|
+  }}
+    <small class="dark-gray">
+      {{search.result.label}}
+    </small>
   {{/labs-search}}
 
   {{map-info-box}}

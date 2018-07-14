@@ -55,6 +55,6 @@ module('Acceptance | append only search results work', function(hooks) {
     await click('.projects-load-more-button');
 
     // should not increase page number
-    assert.equal(currentURL(), '/projects?community-districts=asdf')
+    assert.equal(currentURL().includes('community-districts=asdf'), true);
   });
 });

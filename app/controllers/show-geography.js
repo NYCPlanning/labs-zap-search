@@ -2,6 +2,8 @@ import { action, computed } from '@ember-decorators/object';
 import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
+import { isEqual } from '@ember/utils';
+
 import GeographyParachuteController from './query-parameters/show-geography';
 import ENV from 'labs-zap-search/config/environment';
 import queryString from 'qs';
@@ -12,19 +14,31 @@ const DEBOUNCE_MS = 500;
 export default class ShowGeographyController extends GeographyParachuteController {
   constructor() {
     super(...arguments);
-    this.set('cachedProjects', []);
-  }
 
-  page = 1;
-  tiles = [];
-  bounds = [];
+    this.page = 1;
+    this.cachedProjects = [];
+    this.tiles = [];
+    this.bounds = [];
+    this.paramsSinceExit = {};
 
-  setup() {
     this.fetchData.perform({ unloadAll: true });
   }
 
-  queryParamsDidChange({ shouldRefresh }) {
-    if (shouldRefresh) {
+  reset({ changes }, isExiting) {
+    if (isExiting) {
+      // store QP state on exit transition for checking later
+      this.set('paramsSinceExit', JSON.stringify(changes));
+    }
+  }
+
+  queryParamsDidChange({ shouldRefresh, changes }) {
+    if (
+      // Are QPs configured to trigger a new request?
+      shouldRefresh && 
+
+      // Do changes since last exit equal incoming changes?
+      !isEqual(JSON.stringify(changes), this.paramsSinceExit)
+    ) {
       this.fetchData.perform({ unloadAll: true });
     }
   }

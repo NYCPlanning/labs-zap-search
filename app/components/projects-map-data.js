@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import mapboxgl from 'mapbox-gl';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
 
@@ -14,11 +14,30 @@ export default class ProjectsMapComponent extends Component {
 
   // required
   @argument meta = {};
+  @argument geosearchText = '';
+  @argument geocodedCoordinates = [];
+  @argument initOptions = {
+    zoom: 12,
+    center: [-73.96532400540775, 40.709710016659386],
+  };
 
-  tooltipPoint = { x: 0, y: 0 }
+  tooltipPoint = { x: 0, y: 0 };
 
   highlightedFeature = null;
-  geocodedFeature = null;
+
+  @computed('geocodedCoordinates')
+  get geocodedFeature() {
+    const { geocodedCoordinates: [x, y] } = this;
+
+    return (x && y) ? { 
+      type: 'geojson', 
+      data: {
+        type: 'Point',
+        coordinates: [x, y],
+      },
+    } : null; 
+  }
+
   geocodedLayer = {
     type: 'circle',
     paint: {
@@ -51,7 +70,7 @@ export default class ProjectsMapComponent extends Component {
       'circle-opacity': 0,
       'circle-stroke-opacity': 0.2
     }
-  }
+  };
 
   popup = new mapboxgl.Popup({
    closeOnClick: false,
@@ -119,11 +138,15 @@ export default class ProjectsMapComponent extends Component {
   }
 
   @action
-  selectSearchResult({ geometry }) {
+  selectSearchResult({ geometry, label }) {
     const { coordinates } = geometry;
     const { mapInstance: map } = this;
 
-    this.set('geocodedFeature', { type: 'geojson', data: geometry });
+    this.setProperties({ 
+      geosearchText: label,
+      geocodedCoordinates: coordinates,
+    });
+
     map.flyTo({ center: coordinates, zoom: 16 });
   }
 
