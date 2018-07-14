@@ -1,0 +1,47 @@
+// --------------------------------------------------
+// Module: Map Info Box
+// --------------------------------------------------
+
+.map-info-box {
+  position: absolute;
+  left: 2px;
+  bottom: 3px;
+  z-index: 2;
+  background-color: rgba(255,255,255,0.8);
+  box-shadow: 1px -1px 0 1px rgba(0,0,0,0.1);
+  padding: rem-calc(4);
+  font-size: rem-calc(10);
+  color: $dark-gray;
+}
+
+
+//
+// Geographies disclaimer link
+// --------------------------------------------------
+.map-disclaimer-link {
+  margin-bottom: 0;
+  padding: 0.5em 0.625em;
+}
+
+
+//
+// Map legend
+// --------------------------------------------------
+.map-legend {
+  margin: 0 0 rem-calc(6);
+
+  li {
+    .white {
+      color: #fff;
+    }
+    .stage-filed {
+      color: $filed-color;
+    }
+    .stage-in-public-review {
+      color: $in-public-review-color;
+    }
+    .stage-completed {
+      color: $completed-color;
+    }
+  }
+}

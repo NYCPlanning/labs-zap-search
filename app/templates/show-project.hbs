@@ -155,7 +155,7 @@
                 before='boundary_country'
               }}
             {{/map.source}}
-            {{link-to 'Geometries Disclaimer' 'disclaimer' class="button tiny map-disclaimer-link"}}
+            {{map-info-box legend=false}}
           {{/mapbox-gl}}
         {{else}}
           <div id='project-map' class="align-middle grid-x" style="border: 1px solid darkgray; background:#EEE; color:gray;">
@@ -222,10 +222,6 @@
               {{model.dcp_nydospermitnumber}}
             </p>
           {{/if}}
-
-          <p class="text-small">
-            <strong>Additional Files:</strong>
-          </p>
 
           <p class="text-small">
             <strong>Borough:</strong>
