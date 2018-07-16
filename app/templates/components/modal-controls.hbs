@@ -30,23 +30,26 @@
       {{/unless}}
 
       {{#unless flagClosed}}
-        <h3 class="header header-medium">Report a Data Issue {{model.dcp_name}}</h3>
-        <p class="text-tiny callout secondary" style="padding:0.5rem;">This form is for reporting data problems. For general public feedback, go to <strong><a href="https://a002-irm.nyc.gov/EventRegistration/RegForm.aspx?eventGuid=fa206f3d-6400-4a95-8b39-87b1bfa975ef" target="_blank">City Planning Commission Public Hearing Comments</a></strong>.</p>
+        <h3 class="header header-medium">Report Data Issue {{model.dcp_name}}</h3>
+        <div class="callout secondary" style="padding:0.5rem;">
+          <p style="margin-bottom:0.5em;">{{fa-icon 'exclamation-triangle' class="lu-red"}} <strong>This form is for reporting data problems only.</strong> Do not post <a href="https://a002-irm.nyc.gov/EventRegistration/RegForm.aspx?eventGuid=fa206f3d-6400-4a95-8b39-87b1bfa975ef" target="_blank">City Planning Commission Public Hearing Comments</a>. For general feedback about this application, email <a href="mailto:ZAP_Feedback_DL@planning.nyc.gov">ZAP_Feedback_DL@planning.nyc.gov</a>.</p>
+        </div>
 
-        <ul class="text-small dark-gray">
+        <ul class="">
           <li><a href="https://github.com/NYCPlanning/zap-data-feedback/issues/new" target="_blank">Add an issue on GitHub</a></li>
           <li><a href="https://github.com/NYCPlanning/zap-data-feedback/issues" target="_blank">View all issues</a></li>
-          <li>Use this form to add an issue to the public repository:</li>
+          <li>Add an issue with the following form <em>(creates an issue on GitHub that anyone can see)</em>:</li>
         </ul>
 
         <form {{action "submitFlag" on="submit"}}>
-          <label>What is the issue with this application's data?
-            {{textarea rows="5" value=flagText disabled=flagSuccess}}
+          <label>Describe the data problem
+            {{textarea rows="4" value=flagText disabled=flagSuccess placeholder="This project's data is incorrect because..."}}
           </label>
 
           {{g-recaptcha onSuccess=(action "onCaptchaResolved") tagName='p'}}
 
           <button type="submit" class="button" disabled={{xor flagSuccess (or (lt flagText.length 10) (eq reCaptchaResponse null))}} >Submit</button>
+
           {{#if flagSuccess}}
             <span class="flag-success">
               <strong><span>{{fa-icon icon="check" size="3x"}}</span> <span class="text">Thanks for the feedback!</span></strong>
