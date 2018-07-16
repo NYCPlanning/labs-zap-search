@@ -13,6 +13,18 @@
         <ul class="vertical large-horizontal menu">
           <li>{{link-to 'Find Projects' 'show-geography' click=(action (mut closed))}}</li>
           <li>{{link-to 'Disclaimer' 'disclaimer' click=(action (mut closed))}}</li>
+          <li>
+            {{#tool-tipster
+              content=feedbackTooltip
+              interactive=true
+              contentAsHTML=true
+              triggerEvent='click'
+              tagName='a'
+              side='bottom'
+            }}
+              {{fa-icon 'envelope'}} Feedback
+            {{/tool-tipster}}
+          </li>
         </ul>
       </nav>
     </div>

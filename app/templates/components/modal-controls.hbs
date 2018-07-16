@@ -31,7 +31,9 @@
 
       {{#unless flagClosed}}
         <h3 class="header header-medium">Report Data Issue {{model.dcp_name}}</h3>
-        <p class="callout secondary" style="padding:0.5rem;">{{fa-icon 'exclamation-triangle' class="lu-red"}} <strong>This form is for reporting data problems only.</strong> Do not post <a href="https://a002-irm.nyc.gov/EventRegistration/RegForm.aspx?eventGuid=fa206f3d-6400-4a95-8b39-87b1bfa975ef" target="_blank">City Planning Commission Public Hearing Comments</a>.</p>
+        <div class="callout secondary" style="padding:0.5rem;">
+          <p style="margin-bottom:0.5em;">{{fa-icon 'exclamation-triangle' class="lu-red"}} <strong>This form is for reporting data problems only.</strong> Do not post <a href="https://a002-irm.nyc.gov/EventRegistration/RegForm.aspx?eventGuid=fa206f3d-6400-4a95-8b39-87b1bfa975ef" target="_blank">City Planning Commission Public Hearing Comments</a>. For general feedback about this application, email <a href="mailto:ZAP_Feedback_DL@planning.nyc.gov">ZAP_Feedback_DL@planning.nyc.gov</a>.</p>
+        </div>
 
         <ul class="">
           <li><a href="https://github.com/NYCPlanning/zap-data-feedback/issues/new" target="_blank">Add an issue on GitHub</a></li>
