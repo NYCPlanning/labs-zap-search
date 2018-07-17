@@ -91,6 +91,9 @@ export default class ProjectFeedbackComponent extends Component {
               this.set('flagClosed', true);
             }, 2000);
           }
+      })
+      .catch(() => {
+        alert('Sorry about that. Something broke. Could you open an issue for us?')
       });
   }
 }
