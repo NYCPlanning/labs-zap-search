@@ -54,7 +54,7 @@
               <span class="label dark-gray">
                 {{~model.dcp_ulurp_nonulurp~}}
                 <sup>
-                  {{~icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. A project is designated ULURP if a minimum of one action (e.g. a Zoning Map Amendment) within the application process is designated ULURP. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'~}}
+                  {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
                 </sup>
               </span>
             </p>
@@ -180,10 +180,19 @@
 
             {{#if model.keywords}}
               {{#each model.keywords as |keyword|}}
-                <span class="label light-gray">{{keyword}}</span>
+                <span class="label light-gray">
+                  {{keyword}}
+                  {{#if (keyword-lookup keyword)}}
+                    <sup class="dark-gray">
+                      {{icon-tooltip
+                        tip=(keyword-lookup keyword)}}
+                    </sup>
+                  {{/if}}
+                </span>
               {{/each}}
             {{/if}}
           </p>
+
 
           {{#if (or model.dcp_femafloodzonea model.dcp_femafloodzonecoastala model.dcp_femafloodzoneshadedx model.dcp_femafloodzonev) }}
             <p class="text-small">
