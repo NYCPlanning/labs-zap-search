@@ -78,9 +78,15 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     const cachedProjects = this.cachedProjects;
     const queryOptions = this.appliedQueryParams;
 
+    let projects;
+    let meta;
     // fetch any new projects
-    const projects = yield this.store.query('project', queryOptions);
-    const meta = projects.get('meta');
+    try {
+      projects = yield this.store.query('project', queryOptions);
+      meta = projects.get('meta');
+    } catch (e) {
+      this.transitionToRoute('oops');
+    }
 
     // include the entire, un-paginated response
     if (unloadAll) {
