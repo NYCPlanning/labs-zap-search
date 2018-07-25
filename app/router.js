@@ -29,6 +29,7 @@ Router.map(function() {
   this.route('show-geography', { path: '/projects' });
   this.route('disclaimer');
   this.route('not-found', { path: '/*path' });
+  this.route('oops');
 });
 
 export default Router;

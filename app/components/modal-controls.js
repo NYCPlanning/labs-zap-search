@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { action } from '@ember-decorators/object';
 import { argument } from '@ember-decorators/argument';
 import { run } from '@ember/runloop';
+import fetch from 'fetch';
 import ENV from 'labs-zap-search/config/environment';
 
 export default class ProjectFeedbackComponent extends Component {
@@ -90,6 +91,9 @@ export default class ProjectFeedbackComponent extends Component {
               this.set('flagClosed', true);
             }, 2000);
           }
+      })
+      .catch(() => {
+        alert('Sorry about that. Something broke. Could you open an issue for us?')
       });
   }
 }

@@ -29,10 +29,10 @@
     color: $in-public-review-color;
   }
   .publicstatus-completed & {
-   color: $completed-color;
+    color: $completed-color;
   }
   .publicstatus-unknown & {
-   color: $dark-gray;
+    color: $dark-gray;
   }
 
   .publicstatus-filed .button:hover &,

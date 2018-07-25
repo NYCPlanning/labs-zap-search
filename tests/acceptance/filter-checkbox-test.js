@@ -63,13 +63,13 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL(), '/projects');
   });
 
-  skip('Reset filters button works', async function(assert) {
+  test('Reset filters button works', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
     await click('.ULURP-checkbox li:first-child a');
-    await click('.ember-power-select-multiple-options');
-    await fillIn('.ember-power-select-multiple-options input', 'Brooklyn 1');
-    await click('.ember-power-select-options li:first-child');
+    await click('.filter-section-community-district .ember-power-select-multiple-options');
+    await fillIn('.filter-section-community-district .ember-power-select-multiple-options input', 'Brooklyn 1');
+    await click ('.ember-power-select-options li:first-child');
     await click('.projects-reset-filters-button');
 
     assert.equal(currentURL(), '/projects');
