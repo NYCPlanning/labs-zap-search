@@ -78,19 +78,6 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@ember-decorators/argument@0.8.15":
-  version "0.8.15"
-  resolved "https://registry.yarnpkg.com/@ember-decorators/argument/-/argument-0.8.15.tgz#9b0be4b8ca362a9fb79af0bad5249575a2cbd6fa"
-  dependencies:
-    babel-plugin-filter-imports "^1.1.1"
-    broccoli-funnel "^2.0.1"
-    ember-cli-babel "^6.3.0"
-    ember-cli-version-checker "^2.0.0"
-    ember-compatibility-helpers "^1.0.0-beta.2"
-    ember-get-config "^0.2.3"
-    ember-source-channel-url "^1.0.1"
-    ember-try "^0.2.23"
-
 "@ember-decorators/argument@0.8.17", "@ember-decorators/argument@^0.8.13":
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/@ember-decorators/argument/-/argument-0.8.17.tgz#03b099defa6d3710080ba89037822ab46a73ae54"
@@ -104,7 +91,7 @@
     ember-source-channel-url "^1.0.1"
     ember-try "^0.2.23"
 
-"@ember-decorators/babel-transforms@^2.0.0", "@ember-decorators/babel-transforms@^2.0.1", "@ember-decorators/babel-transforms@^2.0.2":
+"@ember-decorators/babel-transforms@^2.0.1", "@ember-decorators/babel-transforms@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@ember-decorators/babel-transforms/-/babel-transforms-2.0.2.tgz#f73b4af32bc9aa2253cc8d2e72b984ab85e432db"
   dependencies:
@@ -113,28 +100,28 @@
     ember-cli-babel "^6.6.0"
     ember-cli-version-checker "^2.1.0"
 
-"@ember-decorators/component@^2.1.0", "@ember-decorators/component@^2.3.0":
+"@ember-decorators/component@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@ember-decorators/component/-/component-2.3.0.tgz#6b1b451aeeeff164343ede23ef1395ff47dbc9a0"
   dependencies:
     "@ember-decorators/utils" "^2.3.0"
     ember-cli-babel "^6.6.0"
 
-"@ember-decorators/controller@^2.1.0", "@ember-decorators/controller@^2.3.0":
+"@ember-decorators/controller@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@ember-decorators/controller/-/controller-2.3.0.tgz#64c730e4cccd957d2eae42b7191db88ffff5a5be"
   dependencies:
     "@ember-decorators/utils" "^2.3.0"
     ember-cli-babel "^6.6.0"
 
-"@ember-decorators/data@^2.1.0", "@ember-decorators/data@^2.3.0":
+"@ember-decorators/data@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@ember-decorators/data/-/data-2.3.0.tgz#6908d4d47b8ccf440535d9a6478d91c867f1cd4d"
   dependencies:
     "@ember-decorators/utils" "^2.3.0"
     ember-cli-babel "^6.6.0"
 
-"@ember-decorators/object@^2.1.0", "@ember-decorators/object@^2.3.0":
+"@ember-decorators/object@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@ember-decorators/object/-/object-2.3.0.tgz#8b004921fd4d2e288b9b58fa48d7af4a47322140"
   dependencies:
@@ -142,7 +129,7 @@
     ember-cli-babel "^6.6.0"
     ember-compatibility-helpers "^1.0.0"
 
-"@ember-decorators/service@^2.1.0", "@ember-decorators/service@^2.3.0":
+"@ember-decorators/service@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@ember-decorators/service/-/service-2.3.0.tgz#10e5e52a814dc93d689778e44fbaa382f94bf011"
   dependencies:
@@ -1092,9 +1079,9 @@ babel-plugin-filter-imports@^1.1.1:
     babel-types "^6.26.0"
     lodash "^4.17.10"
 
-babel-plugin-htmlbars-inline-precompile@0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/babel-plugin-htmlbars-inline-precompile/-/babel-plugin-htmlbars-inline-precompile-0.2.4.tgz#54b48168432bbc03f1f26f2e9090cb222bc78c75"
+babel-plugin-htmlbars-inline-precompile@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-htmlbars-inline-precompile/-/babel-plugin-htmlbars-inline-precompile-1.0.0.tgz#a9d2f6eaad8a3f3d361602de593a8cbef8179c22"
 
 babel-plugin-htmlbars-inline-precompile@^0.2.3, babel-plugin-htmlbars-inline-precompile@^0.2.5:
   version "0.2.6"
@@ -3254,7 +3241,7 @@ ember-cli-babel@6.14.1:
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^6.0.0, ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.10.0, ember-cli-babel@^6.11.0, ember-cli-babel@^6.12.0, ember-cli-babel@^6.14.1, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.2, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@^6.9.0:
+ember-cli-babel@^6.0.0, ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.10.0, ember-cli-babel@^6.11.0, ember-cli-babel@^6.12.0, ember-cli-babel@^6.14.1, ember-cli-babel@^6.16.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.2, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@^6.9.0:
   version "6.16.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.16.0.tgz#623b4a2764ece72b65f1572fc8aeb5714a450228"
   dependencies:
@@ -3759,18 +3746,6 @@ ember-data@~3.3.0:
     semver "^5.1.0"
     silent-error "^1.0.0"
 
-ember-decorators@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/ember-decorators/-/ember-decorators-2.1.0.tgz#4910835da3517c633532c8d6fcfcf026e13701c0"
-  dependencies:
-    "@ember-decorators/component" "^2.1.0"
-    "@ember-decorators/controller" "^2.1.0"
-    "@ember-decorators/data" "^2.1.0"
-    "@ember-decorators/object" "^2.1.0"
-    "@ember-decorators/service" "^2.1.0"
-    ember-cli-babel "^6.0.0"
-    semver "^5.5.0"
-
 ember-decorators@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/ember-decorators/-/ember-decorators-2.3.0.tgz#ad61f9287a370e2b60c866cad431b1609e71d69d"
@@ -3948,17 +3923,6 @@ ember-parachute@0.3.7:
     ember-cli-babel "^6.0.0"
     ember-getowner-polyfill "^2.0.1"
 
-ember-power-select@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-2.0.2.tgz#e8c9a4f266b5a32847e859ddd4db5b2f95108ee8"
-  dependencies:
-    ember-basic-dropdown "^1.0.0"
-    ember-cli-babel "^6.11.0"
-    ember-cli-htmlbars "^2.0.1"
-    ember-concurrency "^0.8.19"
-    ember-text-measurer "^0.4.0"
-    ember-truth-helpers "^2.0.0"
-
 ember-power-select@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/ember-power-select/-/ember-power-select-2.0.4.tgz#862e3993668b27190da288514693559bae70c4c7"
@@ -4035,12 +3999,13 @@ ember-source-channel-url@^1.0.1:
   dependencies:
     got "^8.0.1"
 
-ember-source@~3.1.0:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/ember-source/-/ember-source-3.1.3.tgz#431929098e84f8e9c18529cfe32cd3e920851107"
+ember-source@~3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/ember-source/-/ember-source-3.3.1.tgz#bcac785b32d5e99867e236979c3fb34536659ecd"
   dependencies:
     broccoli-funnel "^2.0.1"
     broccoli-merge-trees "^2.0.0"
+    chalk "^2.3.0"
     ember-cli-get-component-path-option "^1.0.0"
     ember-cli-is-package-missing "^1.0.0"
     ember-cli-normalize-entity-name "^1.0.0"
@@ -4051,7 +4016,7 @@ ember-source@~3.1.0:
     ember-router-generator "^1.2.3"
     inflection "^1.12.0"
     jquery "^3.3.1"
-    resolve "^1.5.0"
+    resolve "^1.6.0"
 
 ember-string-ishtmlsafe-polyfill@2.0.2:
   version "2.0.2"
@@ -6127,9 +6092,9 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-labs-ember-search@nycplanning/labs-ember-search#v2.3.0:
+labs-ember-search@nycplanning/labs-ember-search#v2.3.1:
   version "2.3.0"
-  resolved "https://codeload.github.com/nycplanning/labs-ember-search/tar.gz/c81372b2521509c27a38e2fcad7b3c12afcb8d7e"
+  resolved "https://codeload.github.com/nycplanning/labs-ember-search/tar.gz/2fcbae05a9972109c0479dd63323081304cb4428"
   dependencies:
     "@ember-decorators/argument" "0.8.15"
     "@ember-decorators/babel-transforms" "^2.0.0"
