@@ -17,7 +17,7 @@
     "test": "ember test"
   },
   "devDependencies": {
-    "@ember-decorators/babel-transforms": "^2.0.0",
+    "@ember-decorators/babel-transforms": "^2.0.2",
     "@fortawesome/ember-fontawesome": "^0.1.0",
     "@fortawesome/free-regular-svg-icons": "^5.1.0",
     "@fortawesome/free-solid-svg-icons": "^5.1.0",
