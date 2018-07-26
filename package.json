@@ -70,7 +70,7 @@
     "eslint-plugin-ember": "^5.0.0",
     "labs-ember-search": "nycplanning/labs-ember-search#v2.3.0",
     "loader.js": "^4.2.3",
-    "mapbox-gl": "^0.44.0",
+    "mapbox-gl": "^0.47.0",
     "moment": "^2.22.2",
     "tooltipster": "4.2.6"
   },
