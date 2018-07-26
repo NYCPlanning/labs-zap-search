@@ -5,7 +5,7 @@ import { dasherize } from '@ember/string';
 const { JSONAPISerializer } = DS;
 
 export default class ApplicationSerializer extends JSONAPISerializer {
-  keyForAttribute(key) {
+  keyForAttribute(key) { // eslint-disable-line
     return (ENV.environment === 'production' || ENV.environment === 'staging' || ENV.environment === 'devlocal') ? key : dasherize(key);
   }
 }

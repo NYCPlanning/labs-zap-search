@@ -1,16 +1,11 @@
 import Component from '@ember/component';
 import { service } from '@ember-decorators/service';
-import { classNames } from '@ember-decorators/component';
-import { tagName } from '@ember-decorators/component';
+import { classNames, tagName } from '@ember-decorators/component';
 import { argument } from '@ember-decorators/argument';
 
 @tagName('a')
 @classNames('button hollow expanded map-marker-button')
 export default class ProjectListMapPinComponent extends Component {
-  constructor() {
-    super(...arguments);
-  }
-
   @service resultMapEvents;
 
   // required

@@ -8,7 +8,7 @@ module('Unit | Controller | show-geography', function(hooks) {
 
   // Replace this with your real tests.
   test('it exists', function(assert) {
-    let controller = this.owner.lookup('controller:show-geography');
+    const controller = this.owner.lookup('controller:show-geography');
     assert.ok(controller);
   });
 });

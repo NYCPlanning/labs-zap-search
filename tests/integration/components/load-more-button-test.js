@@ -16,7 +16,7 @@ module('Integration | Component | load-more-button', function(hooks) {
   });
 
   test('it disables if noMoreRecords', async function(assert) {
-    await render(hbs`{{load-more-button noMoreRecords=true}}`)
+    await render(hbs`{{load-more-button noMoreRecords=true}}`);
     assert.equal(this.element.querySelector('.projects-load-more-button').hasAttribute('disabled'), true);
   });
 });

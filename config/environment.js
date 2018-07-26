@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(environment) {
-  let ENV = {
+  const ENV = {
     modulePrefix: 'labs-zap-search',
     environment,
     rootURL: '/',
@@ -17,8 +17,8 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
@@ -37,8 +37,8 @@ module.exports = function(environment) {
       map: {
         style: '//raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/style.json',
         zoom: 12.25,
-        center: [ -73.9868, 40.724 ]
-      }
+        center: [-73.9868, 40.724],
+      },
     },
 
     gReCaptcha: {
@@ -56,8 +56,8 @@ module.exports = function(environment) {
           trace: environment === 'development',
           // Ensure development env hits aren't sent to GA
           sendHitTask: (environment !== 'development' && environment !== 'devlocal'),
-        }
-      }
+        },
+      },
     ],
   };
 
@@ -68,7 +68,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     ENV['ember-cli-mirage'] = {
-      enabled: true
+      enabled: true,
     };
   }
 
@@ -90,7 +90,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV['ember-cli-mirage'] = {
-      enabled: false
+      enabled: false,
     };
 
     ENV.host = 'https://zap-api.planninglabs.nyc';
@@ -104,7 +104,7 @@ module.exports = function(environment) {
     ENV.host = 'https://zap-api.planninglabs.nyc';
 
     ENV['ember-cli-mirage'] = {
-      enabled: false
+      enabled: false,
     };
   }
 

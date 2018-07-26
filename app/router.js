@@ -21,7 +21,7 @@ const Router = EmberRouter.extend(RouterScroll, {
   },
 
   location: config.locationType,
-  rootURL: config.rootURL
+  rootURL: config.rootURL,
 });
 
 Router.map(function() {
@@ -30,6 +30,7 @@ Router.map(function() {
   this.route('disclaimer');
   this.route('not-found', { path: '/*path' });
   this.route('oops');
+  return null;
 });
 
 export default Router;

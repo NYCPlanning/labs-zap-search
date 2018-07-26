@@ -22,8 +22,7 @@ export default class FilterSectionComponent extends Component {
   @className
   @computed('filterNames', 'appliedFilters')
   get activeState() {
-    const filterNames = this.filterNames;
-    const appliedFilters = this.appliedFilters;
+    const { filterNames, appliedFilters } = this;
 
     return contains(filterNames, appliedFilters) ? 'active' : 'inactive';
   }
@@ -36,12 +35,12 @@ export default class FilterSectionComponent extends Component {
   }
 
   @argument
-  mutateArray() {}
+  mutateArray() {} // eslint-disable-line
 
   @action
   mutateWithAction() {
-   const filterNames = this.filterNames;
-   this.mutateArray('applied-filters', filterNames);
+    const { filterNames } = this;
+    this.mutateArray('applied-filters', filterNames);
   }
 
   /*
@@ -49,7 +48,7 @@ export default class FilterSectionComponent extends Component {
     notifier trigger.
   */
   @action
-  delegateMutation(action = function() {}, ...params) {
+  delegateMutation(action = function() {}, ...params) { // eslint-disable-line
     action(...params);
     this.notifyAppliedFilters();
   }
@@ -60,11 +59,10 @@ export default class FilterSectionComponent extends Component {
     enforce changes to their state if needed.
   */
   notifyAppliedFilters() {
-    const filterNames = this.filterNames;
-    const appliedFilters = this.appliedFilters;
+    const { filterNames, appliedFilters } = this;
 
     if (!contains(filterNames, appliedFilters)) {
-      this.mutateArray('applied-filters', filterNames)
+      this.mutateArray('applied-filters', filterNames);
     }
   }
 }
