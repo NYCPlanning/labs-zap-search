@@ -15,7 +15,8 @@ const boroLookup = (boroPrefix) => {
 @tagName('span')
 export default class ProjectListComponent extends Component {
 
-  @argument cds
+  @argument cds;
+  @argument cdlink = false;
 
   @computed('cds')
   get consolodatedCDs() {

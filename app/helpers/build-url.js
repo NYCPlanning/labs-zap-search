@@ -52,13 +52,23 @@ function ceqraccess(ceqrnumber) {
   return `${ENV.host}/ceqr/${ceqrnumber}`;
 }
 
-export function buildUrl([type, value]) {
+function LowerCaseBorough(borough) {
+    return borough.charAt(0).toLowerCase() + borough.slice(1);
+}
+
+function CommProfiles(boro, cd) {
+  const LowerBoro = LowerCaseBorough(boro);
+  return `http://communityprofiles.planning.nyc.gov/${LowerBoro}/${cd}`;
+}
+
+export function buildUrl([type, value, option]) {
   if (type === "zoningResolution") return zoningResolution(value);
   if (type === "zola") return zola(value);
   if (type === "bisweb") return bisweb(value);
   if (type === "cpcReport") return cpcReport(value);
   if (type === "acris") return acris(value);
   if (type === "ceqraccess") return ceqraccess(value);
+  if (type === "CommProfiles") return CommProfiles(value, option);
 
 
   throw 'invalid type passed to build-url helper';

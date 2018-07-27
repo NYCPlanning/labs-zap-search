@@ -148,11 +148,11 @@ const milestoneLookup = {
     nonulurptooltip: 'A Draft Environmental Impact Statement must be completed prior to the City Planning Commission certifying or referring a project for public review.',
   },
   'Review Session - Certified / Referred': {
-    displayName: 'Application Certified / Referred at City Planning Commission Review Session',
+    displayName: 'Application Reviewed at City Planning Commission Review Session',
     dateFormat: 'end',
     hideIfFiled: true,
-    ulurptooltip: '',
-    nonulurptooltip: '',
+    ulurptooltip: 'A "Review Session" milestone signifies that the application has been sent to the City Planning Commission (CPC) and is ready for review. The "Review" milestone represents the period of time (up to 60 days) that the CPC reviews the application before their vote.',
+    nonulurptooltip: 'A "Review Session" milestone signifies that the application has been sent to the City Planning Commission and is ready for review. The City Planning Commission does not have a clock for non-ULURP items. It may or may not hold a hearing depending on the action.',
   }
 }
 
