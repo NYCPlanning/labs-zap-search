@@ -49,7 +49,7 @@
     "ember-cli-tooltipster": "^0.10.0",
     "ember-cli-uglify": "^2.0.0",
     "ember-content-placeholders": "1.0.0",
-    "ember-data": "~3.3.0",
+    "ember-data": "~3.3.1",
     "ember-decorators": "2.3.0",
     "ember-export-application-global": "^2.0.0",
     "ember-fetch": "5.1.1",
