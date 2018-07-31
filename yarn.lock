@@ -3152,9 +3152,9 @@ ember-ast-helpers@0.3.5:
     "@glimmer/compiler" "^0.27.0"
     "@glimmer/syntax" "^0.27.0"
 
-ember-auto-import@1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-1.2.4.tgz#60a76c6a9d1f0996c9b5bec4d216e5a863ef7f18"
+ember-auto-import@1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-1.2.5.tgz#0ae1027613b9b9c92f64d237e84ac05f023a1e67"
   dependencies:
     babel-core "^6.26.3"
     babel-plugin-syntax-dynamic-import "^6.18.0"
@@ -3356,12 +3356,12 @@ ember-cli-htmlbars@^1.0.2:
     json-stable-stringify "^1.0.0"
     strip-bom "^2.0.0"
 
-ember-cli-htmlbars@^2.0.1, ember-cli-htmlbars@^2.0.2, ember-cli-htmlbars@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-2.0.3.tgz#e116e1500dba12f29c94b05b9ec90f52cb8bb042"
+ember-cli-htmlbars@^2.0.1, ember-cli-htmlbars@^2.0.2, ember-cli-htmlbars@^2.0.3, ember-cli-htmlbars@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-2.0.4.tgz#0bcda483f14271663c38756e1fd1cb89da6a50cf"
   dependencies:
-    broccoli-persistent-filter "^1.0.3"
-    hash-for-dep "^1.0.2"
+    broccoli-persistent-filter "^1.4.3"
+    hash-for-dep "^1.2.3"
     json-stable-stringify "^1.0.0"
     strip-bom "^3.0.0"
 
@@ -3711,9 +3711,9 @@ ember-content-placeholders@1.0.0:
     ember-cli-babel "^6.6.0"
     ember-cli-htmlbars "^2.0.1"
 
-ember-data@~3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-3.3.0.tgz#138cc248f61164404f5aa6b8207a3dfae8eaea2a"
+ember-data@~3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-3.3.1.tgz#8ff1f7759d35fcb750c8d33435e7ef2f69242dce"
   dependencies:
     "@ember/ordered-set" "^1.0.0"
     amd-name-resolver "0.0.7"
