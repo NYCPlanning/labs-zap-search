@@ -1,10 +1,10 @@
-import { module, test, skip} from 'qunit';
+import { module, test, skip } from 'qunit';
 import {
   visit,
   currentURL,
   click,
   fillIn,
-  find
+  find,
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -50,7 +50,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/');
     await click('.filter-section-community-district .ember-power-select-multiple-options');
     await fillIn('.filter-section-community-district .ember-power-select-multiple-options input', 'Brooklyn 1');
-    await click ('.ember-power-select-options li:first-child');
+    await click('.ember-power-select-options li:first-child');
 
     assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_publicstatus&community-districts=BK01');
   });
@@ -69,7 +69,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await click('.ULURP-checkbox li:first-child a');
     await click('.filter-section-community-district .ember-power-select-multiple-options');
     await fillIn('.filter-section-community-district .ember-power-select-multiple-options input', 'Brooklyn 1');
-    await click ('.ember-power-select-options li:first-child');
+    await click('.ember-power-select-options li:first-child');
     await click('.projects-reset-filters-button');
 
     assert.equal(currentURL(), '/projects');

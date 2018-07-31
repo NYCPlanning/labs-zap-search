@@ -14,11 +14,11 @@ export default class BaseFilterComponent extends Component {
   queryParam;
 
   @argument
-  mutateArray() {}
+  mutateArray() {} // eslint-disable-line
 
   @argument
-  setDebouncedText() {}
+  setDebouncedText() {} // eslint-disable-line
 
   @argument
-  replaceProperty() {}
+  replaceProperty() {} // eslint-disable-line
 }

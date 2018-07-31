@@ -4,7 +4,7 @@ import {
   currentURL,
   click,
   find,
-  findAll
+  findAll,
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -55,6 +55,6 @@ module('Acceptance | append only search results work', function(hooks) {
     await click('.projects-load-more-button');
 
     // should not increase page number
-    assert.equal(currentURL(), '/projects?community-districts=asdf')
+    assert.equal(currentURL(), '/projects?community-districts=asdf');
   });
 });

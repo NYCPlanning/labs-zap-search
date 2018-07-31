@@ -1,6 +1,6 @@
 import { helper } from '@ember/component/helper';
 
-export function containsKeys([objects=[], keys=[]], { key='id' }={}) {
+export function containsKeys([objects = [], keys = []], { key = 'id' } = {}) {
   return objects.filter(obj => keys.includes(obj[key]));
 }
 

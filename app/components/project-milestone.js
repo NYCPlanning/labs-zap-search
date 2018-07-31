@@ -153,11 +153,12 @@ const milestoneLookup = {
     hideIfFiled: true,
     ulurptooltip: 'A "Review Session" milestone signifies that the application has been sent to the City Planning Commission (CPC) and is ready for review. The "Review" milestone represents the period of time (up to 60 days) that the CPC reviews the application before their vote.',
     nonulurptooltip: 'A "Review Session" milestone signifies that the application has been sent to the City Planning Commission and is ready for review. The City Planning Commission does not have a clock for non-ULURP items. It may or may not hold a hearing depending on the action.',
-  }
-}
+  },
+};
 
 export default class ProjectMilestoneComponent extends Component {
   tagName = 'li';
+
   classNameBindings = ['getClassNames'];
 
   @argument
@@ -171,14 +172,13 @@ export default class ProjectMilestoneComponent extends Component {
 
   @computed('tense')
   get getClassNames() {
-    const tense = this.tense;
-    return `grid-x grid-padding-small milestone ${tense}`
+    const { tense } = this;
+    return `grid-x grid-padding-small milestone ${tense}`;
   }
 
   // one of 'past', 'present', or 'future'
   @computed('milestoneDisplayDates')
   get tense() {
-
     const displayDates = this.get('milestoneDisplayDates');
     // if no display dates, return future
     if (!displayDates) return 'future';
@@ -212,44 +212,25 @@ export default class ProjectMilestoneComponent extends Component {
 
   @computed('milestone.milestonename')
   get tooltip() {
-
     const milestonename = this.get('milestone.milestonename');
     const nonulurptip = milestoneLookup[milestonename].nonulurptooltip;
     const ulurptip = milestoneLookup[milestonename].ulurptooltip;
-    const isUlurp = this.isUlurp;
+    const { isUlurp } = this;
 
-  if (isUlurp) {
-    const  tooltip   = `${ulurptip}`;
-    return  tooltip;
-  } else {
-    const  tooltip  = `${nonulurptip}`;
+    if (isUlurp) {
+      const tooltip = `${ulurptip}`;
+      return tooltip;
+    }
+    const tooltip = `${nonulurptip}`;
     return tooltip;
   }
- }
-
-  // Returns an array
-  // first item in array is the offset string
-  // subsquent items are time objects
-  // Each object contains _actual_ (boolean) and _date_ (date)
-  //
-  // [
-  //   {time offset string},
-  //   {
-  //     actual: true,
-  //     date: date,
-  //   },
-  //   {
-  //     actual: true,
-  //     date: date,
-  //   },
-  // ]
 
   @computed('milestonename')
   get milestoneDisplayDates() {
     const milestonename = this.get('milestone.milestonename');
     const { dateFormat, hideIfFiled } = milestoneLookup[milestonename];
 
-    const isFiled = this.isFiled;
+    const { isFiled } = this;
 
     const plannedStartDate = this.get('milestone.dcp_plannedstartdate');
     const plannedEndDate = this.get('milestone.dcp_plannedcompletiondate');
@@ -261,35 +242,35 @@ export default class ProjectMilestoneComponent extends Component {
 
     // only show actualstart date
     if (dateFormat === 'start' && actualStartDate) {
-        return [
-          moment(actualStartDate).fromNow(),
-          {
-            actual: true,
-            date: actualStartDate,
-          },
-        ]
+      return [
+        moment(actualStartDate).fromNow(),
+        {
+          actual: true,
+          date: actualStartDate,
+        },
+      ];
     }
 
     // show range
     if (dateFormat === 'range' && actualStartDate) {
-        const startDateObject = {
-          actual: actualStartDate ? true : false,
-          date: actualStartDate ? actualStartDate : plannedStartDate,
-        };
+      const startDateObject = {
+        actual: !!actualStartDate,
+        date: actualStartDate || plannedStartDate,
+      };
 
-        const endDateObject = {
-          actual: actualEndDate ? true : false,
-          date: actualEndDate ? actualEndDate : plannedEndDate,
-        }
+      const endDateObject = {
+        actual: !!actualEndDate,
+        date: actualEndDate || plannedEndDate,
+      };
 
-        const offsetDate = moment(startDateObject.date).isAfter() ? startDateObject.date : endDateObject.date;
-        let offsetString = moment(offsetDate).fromNow()
-        // if now is within the range, manually set the offset string
-        if (moment(startDateObject.date).isBefore() && moment(endDateObject.date).isAfter()) {
-          offsetString = 'In Progress'
-        }
+      const offsetDate = moment(startDateObject.date).isAfter() ? startDateObject.date : endDateObject.date;
+      let offsetString = moment(offsetDate).fromNow();
+      // if now is within the range, manually set the offset string
+      if (moment(startDateObject.date).isBefore() && moment(endDateObject.date).isAfter()) {
+        offsetString = 'In Progress';
+      }
 
-        return [ offsetString, startDateObject, endDateObject];
+      return [offsetString, startDateObject, endDateObject];
     }
 
     // show end
@@ -302,7 +283,7 @@ export default class ProjectMilestoneComponent extends Component {
       return [
         moment(dateObject.date).fromNow(),
         dateObject,
-      ]
+      ];
     }
     return null;
   }

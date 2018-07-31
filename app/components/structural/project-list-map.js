@@ -18,13 +18,13 @@ export default class ProjectListMapComponent extends Component {
     source: 'project-centroids',
     'source-layer': 'project-centroids',
     paint: {
-      'circle-radius': { 
+      'circle-radius': {
         stops: [[10, 3], [15, 4]],
       },
       'circle-color': {
         property: 'dcp_publicstatus_simp',
         type: 'categorical',
-        stops: [ 
+        stops: [
           ['Filed', '#FF9400'],
           ['In Public Review', '#78D271'],
           ['Completed', '#44A3D5'],
@@ -32,9 +32,9 @@ export default class ProjectListMapComponent extends Component {
         default: '#6b717b',
       },
       'circle-opacity': 1,
-      'circle-stroke-width': { stops :  [ [10, 1], [15, 2]] },
+      'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
       'circle-stroke-color': '#FFFFFF',
-    }
+    },
   }
 
   projectCentroidsCircleHoverLayer = {
@@ -46,9 +46,9 @@ export default class ProjectListMapComponent extends Component {
     paint: {
       'circle-radius': 5,
       'circle-color': '#ae561f',
-      'circle-opacity' :  1,
-      'circle-stroke-width' :  { stops: [[10, 1], [15, 2]] },
-      'circle-stroke-color' :  '#FFFFFF',
-    }
+      'circle-opacity': 1,
+      'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
+      'circle-stroke-color': '#FFFFFF',
+    },
   }
 }

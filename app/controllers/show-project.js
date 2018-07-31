@@ -7,12 +7,12 @@ import turfBuffer from '@turf/buffer';
 
 export default class ShowProjectController extends Controller {
   bblFeatureCollectionLayer = {
-    "id": "bbl-feature-collection-fill",
-    "type": "line",
-    "layout": {
+    id: 'bbl-feature-collection-fill',
+    type: 'line',
+    layout: {
       'line-cap': 'round',
     },
-    "paint": {
+    paint: {
       'line-opacity': 0.9,
       'line-color': 'rgba(0, 10, 90, 1)',
       'line-width': {
@@ -58,13 +58,13 @@ export default class ShowProjectController extends Controller {
         return milestone;
       }
 
-      return milestone
-    })
+      return milestone;
+    });
   }
 
 
   @action
-  handleMapLoad(bblFeatureCollection, map) {
+  handleMapLoad(bblFeatureCollection, map) { // eslint-disable-line
     window.map = map;
 
     const navigationControl = new mapboxgl.NavigationControl();

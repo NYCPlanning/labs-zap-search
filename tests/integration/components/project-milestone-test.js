@@ -16,6 +16,6 @@ module('Integration | Component | project-milestone', function(hooks) {
 
     await render(hbs`{{project-milestone milestone=milestone}}`);
 
-    assert.equal(this.element.textContent.trim(),'Community Board Review');
+    assert.equal(this.element.textContent.trim(), 'Community Board Review');
   });
 });

@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import ENV from 'labs-zap-search/config/environment';
+
 const { JSONAPIAdapter } = DS;
 
 

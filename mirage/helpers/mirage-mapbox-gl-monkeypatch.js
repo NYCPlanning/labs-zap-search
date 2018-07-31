@@ -1,9 +1,10 @@
+
 export default () => {
   // Note: the below XMLHttpRequest has already been converted to a FakeXMLHttpRequest by pretender
 
   const origSend = window.XMLHttpRequest.prototype.send;
   window.XMLHttpRequest.prototype.send = function send() {
-    origSend.apply(this, arguments);
+    origSend.apply(this, arguments); // eslint-disable-line
 
     const fakeXhr = this; // eslint-disable-line consistent-this
     const realXhr = this._passthroughRequest;
