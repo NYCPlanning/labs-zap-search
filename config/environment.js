@@ -27,7 +27,7 @@ module.exports = function(environment) {
     },
 
     'labs-search': {
-      host: 'https://zola-search-api.planninglabs.nyc',
+      host: 'https://search-api.planninglabs.nyc',
       route: 'search',
       helpers: ['geosearch'],
     },
