@@ -2,24 +2,22 @@ import { action, computed } from '@ember-decorators/object';
 import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
-import GeographyParachuteController from './query-parameters/show-geography';
 import ENV from 'labs-zap-search/config/environment';
 import queryString from 'qs';
+import GeographyParachuteController from './query-parameters/show-geography';
 
 
 const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
-  constructor() {
-    super(...arguments);
+  constructor(...args) {
+    super(...args);
+
+    this.set('page', 1);
     this.set('cachedProjects', []);
-  }
+    this.set('tiles', []);
+    this.set('bounds', []);
 
-  page = 1;
-  tiles = [];
-  bounds = [];
-
-  setup() {
     this.fetchData.perform({ unloadAll: true });
   }
 
@@ -33,7 +31,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   get noMoreRecords() {
     const pageTotal = this.get('fetchData.lastSuccessful.value.meta.pageTotal');
     const total = this.get('fetchData.lastSuccessful.value.meta.total');
-    const page = this.page;
+    const { page } = this;
 
     return (pageTotal < 30) || ((page * 30) >= total);
   }
@@ -42,18 +40,18 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   get appliedQueryParams() {
     // construct query object only with applied params
     const params = this.allQueryParams;
-    const page = this.page;
+    const { page } = this;
     const {
       'applied-filters': appliedFilters,
     } = params;
 
     const queryOptions = {
       page,
-    }
+    };
 
-    for (const key of appliedFilters) {
+    appliedFilters.forEach((key) => {
       queryOptions[key] = params[key];
-    }
+    });
 
     return queryOptions;
   }
@@ -62,20 +60,20 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   get downloadURL() {
     // construct query object only with applied params
     const href = `${ENV.host}/projects/download.csv`;
-    let queryParams = this.appliedQueryParams;
+    const queryParams = this.appliedQueryParams;
 
-    return `${href}?${queryString.stringify(queryParams, {arrayFormat: 'bracket'})}`;
+    return `${href}?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`;
   }
 
   @restartableTask
-  debouncedSet = function*(key, value) {
+  debouncedSet = function* (key, value) {
     yield timeout(DEBOUNCE_MS);
     this.set(key, value);
   }
 
   @keepLatestTask
-  fetchData = function*({ unloadAll = false } = {}) {
-    const cachedProjects = this.cachedProjects;
+  fetchData = function* ({ unloadAll = false } = {}) {
+    const { cachedProjects } = this;
     const queryOptions = this.appliedQueryParams;
 
     let projects;
@@ -130,13 +128,13 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     // so we check if array is passed
     const unnestedValues = (isArray(values[0]) && values.length === 1) ? values[0] : values;
 
-    for (const value of unnestedValues) {
+    unnestedValues.forEach((value) => {
       if (targetArray.includes(value)) {
         targetArray.removeObject(value);
       } else {
         targetArray.pushObject(value);
       }
-    }
+    });
 
     this.set(key, targetArray.sort());
   }

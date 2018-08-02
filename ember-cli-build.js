@@ -3,7 +3,7 @@
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
-  let app = new EmberApp(defaults, {
+  const app = new EmberApp(defaults, {
     'ember-cli-babel': {
       includePolyfill: true,
     },
@@ -23,8 +23,11 @@ module.exports = function(defaults) {
         // 'free-solid-svg-icons': [
         //   'stroopwafel'
         // ],
-      }
-    }
+      },
+    },
+    'ember-cli-foundation-6-sass': {
+      foundationJs: 'all',
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

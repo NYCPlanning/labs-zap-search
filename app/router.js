@@ -1,9 +1,11 @@
 import EmberRouter from '@ember/routing/router';
-import config from './config/environment';
 import { inject as service } from '@ember/service';
 import { scheduleOnce } from '@ember/runloop';
+import RouterScroll from 'ember-router-scroll';
 
-const Router = EmberRouter.extend({
+import config from './config/environment';
+
+const Router = EmberRouter.extend(RouterScroll, {
   metrics: service(),
   didTransition(...args) {
     this._super(...args);
@@ -19,7 +21,7 @@ const Router = EmberRouter.extend({
   },
 
   location: config.locationType,
-  rootURL: config.rootURL
+  rootURL: config.rootURL,
 });
 
 Router.map(function() {
@@ -28,6 +30,7 @@ Router.map(function() {
   this.route('disclaimer');
   this.route('not-found', { path: '/*path' });
   this.route('oops');
+  return null;
 });
 
 export default Router;

@@ -17,7 +17,7 @@ export const projectParams = new QueryParams({
   },
 
   // filter values
-  'dcp_certifiedreferred': {
+  dcp_certifiedreferred: {
     defaultValue: [0, parseInt(moment().utc().endOf('year').format('X'), 10)],
     refresh: true,
     serialize(value) {
@@ -27,7 +27,7 @@ export const projectParams = new QueryParams({
       return value.split(',').map(date => parseInt(date, 10));
     },
   },
-  'boroughs': {
+  boroughs: {
     defaultValue: [],
     refresh: true,
     serialize(value) {
@@ -71,7 +71,7 @@ export const projectParams = new QueryParams({
     defaultValue: ['Filed', 'In Public Review'].sort(),
     refresh: true,
     serialize(value) {
-      value = value.filter(d => d !== '')
+      value = value.filter(d => d !== '');
       return value.toString();
     },
     deserialize(value = '') {

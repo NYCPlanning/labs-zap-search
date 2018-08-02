@@ -41,7 +41,7 @@ export default class ProjectFeedbackComponent extends Component {
   handleShareOpen() {
     this.set('shareClosed', false);
     this.set('flagClosed', true);
-}
+  }
 
   @action
   handleShareSuccess() {
@@ -66,8 +66,7 @@ export default class ProjectFeedbackComponent extends Component {
   submitFlag() {
     const projectname = this.get('project.dcp_projectname');
     const projectid = this.get('project.dcp_name');
-    const flagText = this.flagText;
-    const reCaptchaResponse = this.reCaptchaResponse;
+    const { flagText, reCaptchaResponse } = this;
 
     fetch(`${ENV.host}/projects/feedback`, {
       method: 'POST',
@@ -82,18 +81,18 @@ export default class ProjectFeedbackComponent extends Component {
       }),
     })
       .then(res => res.json())
-      .then(({status}) => {
-          if (status === 'success') {
-            this.set('flagSuccess', true);
-            run.later(() => {
-              this.set('flagSuccess', false);
-              this.set('flagText', '');
-              this.set('flagClosed', true);
-            }, 2000);
-          }
+      .then(({ status }) => {
+        if (status === 'success') {
+          this.set('flagSuccess', true);
+          run.later(() => {
+            this.set('flagSuccess', false);
+            this.set('flagText', '');
+            this.set('flagClosed', true);
+          }, 2000);
+        }
       })
       .catch(() => {
-        alert('Sorry about that. Something broke. Could you open an issue for us?')
+        alert('Sorry about that. Something broke. Could you open an issue for us?'); // eslint-disable-line
       });
   }
 }

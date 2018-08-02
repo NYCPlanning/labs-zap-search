@@ -63,7 +63,9 @@ export const communityDistrictLookup = [
   ['SI02', '2', 'Staten Island'],
   ['SI03', '3', 'Staten Island'],
   ['SI95', '95', 'Staten Island'],
-].map(([code, num, boro]) => ({ code, num, boro, searchField: `${boro} ${num}` }));
+].map(([code, num, boro]) => ({
+  code, num, boro, searchField: `${boro} ${num}`,
+}));
 
 export function lookupCommunityDistrict([communityDistricts, point]) {
   if (communityDistricts === undefined) return communityDistrictLookup;

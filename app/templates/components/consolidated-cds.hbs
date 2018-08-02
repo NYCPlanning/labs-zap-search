@@ -5,7 +5,12 @@
     <span class="dark-gray">
       CD
       {{#each boro.cds as |cd i|}}
-        {{~if i ","}} {{cd ~}}
+        {{~if i ","}}
+        {{#if cdlink}}
+          <a href="{{build-url "CommProfiles" boro.boroName cd}}" target="_blank"><strong>{{cd ~}}</strong></a>
+        {{~else~}}
+          {{cd~}}
+        {{/if~}}
       {{/each}}
     </span>
   </span>

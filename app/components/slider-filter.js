@@ -26,7 +26,7 @@ export default class SliderFilterComponent extends Component {
   }
 
   @argument
-  replaceProperty() {}
+  replaceProperty() {} // eslint-disable-line
 
   @action
   sliderChanged([min, max]) {

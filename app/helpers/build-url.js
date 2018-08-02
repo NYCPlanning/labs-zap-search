@@ -2,7 +2,7 @@ import { helper } from '@ember/component/helper';
 import ENV from 'labs-zap-search/config/environment';
 
 function pad(string, size) {
-  while (string.length < (size || 2)) {string = "0" + string;}
+  while (string.length < (size || 2)) { string = `0${string}`; }
   return string;
 }
 
@@ -19,7 +19,7 @@ function zoningResolution(value) {
   const articleChapter = value.split('-')[0];
 
   // to get article, drop the last character
-  const article = pad(articleChapter.slice(0, - 1), 2);
+  const article = pad(articleChapter.slice(0, -1), 2);
   // to get chapter, get the last character
   const chapter = pad(articleChapter.substr(-1), 2);
 
@@ -29,12 +29,12 @@ function zoningResolution(value) {
 }
 
 function zola(bbl) {
-  const { boro, block, lot} = bblDemux(bbl);
+  const { boro, block, lot } = bblDemux(bbl);
   return `https://zola.planning.nyc.gov/lot/${boro}/${block}/${lot}`;
 }
 
 function bisweb(bbl) {
-  const { boro, block, lot} = bblDemux(bbl);
+  const { boro, block, lot } = bblDemux(bbl);
   return `http://a810-bisweb.nyc.gov/bisweb/PropertyBrowseByBBLServlet?allborough=${boro}&allblock=${block}&alllot=${lot}&go5=+GO+&requestid=0`;
 }
 
@@ -44,7 +44,7 @@ function cpcReport(ulurp) {
 }
 
 function acris(bbl) {
-  const { boro, block, lot} = bblDemux(bbl);
+  const { boro, block, lot } = bblDemux(bbl);
   return `http://a836-acris.nyc.gov/bblsearch/bblsearch.asp?borough=${boro}&block=${block}&lot=${lot}`;
 }
 
@@ -52,16 +52,26 @@ function ceqraccess(ceqrnumber) {
   return `${ENV.host}/ceqr/${ceqrnumber}`;
 }
 
-export function buildUrl([type, value]) {
-  if (type === "zoningResolution") return zoningResolution(value);
-  if (type === "zola") return zola(value);
-  if (type === "bisweb") return bisweb(value);
-  if (type === "cpcReport") return cpcReport(value);
-  if (type === "acris") return acris(value);
-  if (type === "ceqraccess") return ceqraccess(value);
+function LowerCaseBorough(borough) {
+  return borough.charAt(0).toLowerCase() + borough.slice(1);
+}
+
+function CommProfiles(boro, cd) {
+  const LowerBoro = LowerCaseBorough(boro);
+  return `http://communityprofiles.planning.nyc.gov/${LowerBoro}/${cd}`;
+}
+
+export function buildUrl([type, value, option]) {
+  if (type === 'zoningResolution') return zoningResolution(value);
+  if (type === 'zola') return zola(value);
+  if (type === 'bisweb') return bisweb(value);
+  if (type === 'cpcReport') return cpcReport(value);
+  if (type === 'acris') return acris(value);
+  if (type === 'ceqraccess') return ceqraccess(value);
+  if (type === 'CommProfiles') return CommProfiles(value, option);
 
 
-  throw 'invalid type passed to build-url helper';
+  throw new Error('invalid type passed to build-url helper');
 }
 
 export default helper(buildUrl);

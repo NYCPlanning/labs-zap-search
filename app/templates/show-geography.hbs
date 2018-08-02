@@ -259,7 +259,7 @@
     </div>
   </div>
 </div>
-<div class="cell large-6 xlarge-5 xxlarge-6">
+<div class="cell large-6 xlarge-5 xxlarge-6" id="scrolling-result-content">
   <div class="results">
     <h3 class="results-header clearfix">
       <span class="float-left results-header-title">
@@ -271,15 +271,17 @@
         {{#if fetchData.isRunning}}
           {{fa-icon 'spinner' class="fa-spin medium-gray"}}
         {{else}}
-           listing 1-{{numeral-format cachedProjects.length '0,0'}}
+          {{#unless (eq fetchData.lastSuccessful.value.meta.total 0)}}
+            listing 1-{{numeral-format cachedProjects.length '0,0'}}
+            &nbsp;<span class="medium-gray">|</span>&nbsp;
+            {{#tool-tipster
+              content='Download all projects that match your filters'
+              tagName='span'
+            }}
+              <a href={{downloadURL}} >{{fa-icon 'download'}} <small>(CSV)</small></a>
+            {{/tool-tipster}}
+          {{/unless}}
         {{/if}}
-        &nbsp;<span class="medium-gray">|</span>&nbsp;
-        {{#tool-tipster
-          content='Download all projects that match your filters'
-          tagName='span'
-        }}
-          <a href={{downloadURL}} >{{fa-icon 'download'}} <small>(CSV)</small></a>
-        {{/tool-tipster}}
       </span>
     </h3>
     <ul class="results-list no-bullet">

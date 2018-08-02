@@ -5,11 +5,8 @@ import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
 
 export default class ProjectsMapComponent extends Component {
-  constructor() {
-    super(...arguments);
-  }
-
   @service router;
+
   @service resultMapEvents;
 
   // required
@@ -18,43 +15,45 @@ export default class ProjectsMapComponent extends Component {
   tooltipPoint = { x: 0, y: 0 }
 
   highlightedFeature = null;
+
   geocodedFeature = null;
+
   geocodedLayer = {
     type: 'circle',
     paint: {
       'circle-radius': {
-        "stops": [
+        stops: [
           [
             10,
-            5
+            5,
           ],
           [
             17,
-            12
-          ]
-        ]
+            12,
+          ],
+        ],
       },
       'circle-color': 'rgba(199, 92, 92, 1)',
       'circle-stroke-width': {
-        "stops": [
+        stops: [
           [
             10,
-            20
+            20,
           ],
           [
             17,
-            18
-          ]
-        ]
+            18,
+          ],
+        ],
       },
       'circle-stroke-color': 'rgba(65, 73, 255, 1)',
       'circle-opacity': 0,
-      'circle-stroke-opacity': 0.2
-    }
+      'circle-stroke-opacity': 0.2,
+    },
   }
 
   popup = new mapboxgl.Popup({
-   closeOnClick: false,
+    closeOnClick: false,
   });
 
   @action
@@ -75,7 +74,7 @@ export default class ProjectsMapComponent extends Component {
 
     this.resultMapEvents.on('hover', this, 'hoverPoint');
     this.resultMapEvents.on('unhover', this, 'unHoverPoint');
-    this.resultMapEvents.on('click', this, 'clickPoint')
+    this.resultMapEvents.on('click', this, 'clickPoint');
   }
 
   @action
@@ -83,7 +82,7 @@ export default class ProjectsMapComponent extends Component {
     const map = this.mapInstance;
     const [feature] = map.queryRenderedFeatures(
       e.point,
-      { layers: ['project-centroids-circle'] }
+      { layers: ['project-centroids-circle'] },
     );
 
     if (feature) {
@@ -95,12 +94,10 @@ export default class ProjectsMapComponent extends Component {
       });
 
       map.getCanvas().style.cursor = 'pointer';
-
     } else {
       this.set('highlightedFeature', null);
 
       map.getCanvas().style.cursor = 'default';
-
     }
   }
 
@@ -109,11 +106,11 @@ export default class ProjectsMapComponent extends Component {
     const map = this.mapInstance;
     const [feature] = map.queryRenderedFeatures(
       e.point,
-      { layers: ['project-centroids-circle'] }
+      { layers: ['project-centroids-circle'] },
     );
 
     if (feature) {
-      const projectid = feature.properties.projectid;
+      const { projectid } = feature.properties;
       this.router.transitionTo('show-project', projectid);
     }
   }
@@ -131,7 +128,7 @@ export default class ProjectsMapComponent extends Component {
     this.mapInstance
       .setLayoutProperty(layerId, 'visibility', 'visible')
       .setPaintProperty('project-centroids-circle', 'circle-blur', 0.9)
-      .setFilter(layerId, ["==", ["get", "projectid"], id]);
+      .setFilter(layerId, ['==', ['get', 'projectid'], id]);
   }
 
   unHoverPoint({ layerId }) {
