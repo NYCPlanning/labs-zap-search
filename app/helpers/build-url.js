@@ -53,7 +53,8 @@ function ceqraccess(ceqrnumber) {
 }
 
 function LowerCaseBorough(borough) {
-  return borough.charAt(0).toLowerCase() + borough.slice(1);
+  const boroText = borough.replace(/\s/g, '-');
+  return boroText.toLowerCase();
 }
 
 function CommProfiles(boro, cd) {
