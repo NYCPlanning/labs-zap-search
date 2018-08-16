@@ -19,6 +19,10 @@ body {
   position: relative;
 }
 
+.display-block { display: block; }
+.display-inline { display: inline; }
+.display-inline-block { display: inline-block;; }
+
 .site-header {
   position: relative;
   z-index: 2;
