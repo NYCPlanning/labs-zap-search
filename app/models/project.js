@@ -91,6 +91,8 @@ export default class ProjectModel extends Model {
 
   @attr() lastmilestonedate;
 
+  @attr() video_links;
+
   @computed('bbl_featurecollection')
   get bblFeatureCollectionSource() {
     const data = this.bbl_featurecollection;
