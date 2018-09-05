@@ -62,7 +62,6 @@ export const communityDistrictLookup = [
   ['SI01', '1', 'Staten Island'],
   ['SI02', '2', 'Staten Island'],
   ['SI03', '3', 'Staten Island'],
-  ['SI95', '95', 'Staten Island'],
 ].map(([code, num, boro]) => ({
   code, num, boro, searchField: `${boro} ${num}`,
 }));
