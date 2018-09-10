@@ -14,7 +14,7 @@ export default class BBLComponent extends Component {
 
     if (boro === '1') { boro = 'Manhattan'; }
     if (boro === '2') { boro = 'Bronx'; }
-    if (boro === '3') { boro = 'Queens'; }
+    if (boro === '3') { boro = 'Brooklyn'; }
     if (boro === '4') { boro = 'Queens'; }
     if (boro === '5') { boro = 'Staten Island'; }
 
