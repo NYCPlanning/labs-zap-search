@@ -104,7 +104,7 @@
                     <p class="text-small no-margin">
                       {{#if action.dcp_ulurpnumber}}
                         ULURP Number:
-                        {{#if (eq action.statuscode "Approved")}}
+                        {{#if action.has_cpcReport}}
                           {{#tool-tipster
                             content='City Planning Commision Report'
                             tagName='span'
