@@ -105,10 +105,10 @@
                       {{#if action.dcp_ulurpnumber}}
                         ULURP Number:
                         {{#if action.has_cpcReport}}
-                              {{#tool-tipster
-                                content='City Planning Commision Report'
-                                tagName='span'
-                              }}
+                          {{#tool-tipster
+                            content='City Planning Commision Report'
+                            tagName='span'
+                          }}
                             <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">
                               {{action.dcp_ulurpnumber}}
                               {{fa-icon 'external-link-alt'}}
