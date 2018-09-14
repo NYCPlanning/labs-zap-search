@@ -64,7 +64,7 @@ export const actions = [
   ['TL', 'Leasing of C-O-P By Private Applicants', 'Leasing of City-Owned Properties by Private Applicants.'],
   ['UC', 'Unenclosed Café', ''],
   ['VT', 'Cable TV', ''],
-  ['ZA', 'Zoning Authorization', '(Non-ULURP) An authorization is a discretionary action taken by the City Planning Commission (CPC) that modifies specific zoning requirements if certain findings have been met. Authorizations are not subject to ULURP review, and the CPC does not hold public hearings on authorizations. The CPC generally refers such applications to the appropriate community board(s) for comment.'],
+  ['ZA', 'Zoning Authorization', '(Non-ULURP) An authorization is a discretionary action taken by the City Planning Commission (CPC) that modifies specific zoning requirements if certain findings have been met. Authorizations are not subject to ULURP review, and the CPC does not hold public hearings on authorizations. The CPC generally refers such applications to the appropriate community board(s) for comment.  NOTE: The presence of a CPC Report for Zoning Authorizations is on a case-by-case basis.'],
   ['ZC', 'Zoning Certification', '(Non-ULURP) Each Zoning Certification is a distinct land use action and requires specific land use application components.'],
   ['ZD', 'Amended Restrictive Declaration', ''],
   ['ZJ', 'Residential Loft Determination', ''],

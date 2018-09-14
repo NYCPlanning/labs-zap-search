@@ -37,7 +37,8 @@ export default class ShowProjectRoute extends Route {
               || cpcAction.actioncode === 'RS'
               || cpcAction.actioncode === 'SD'
               || cpcAction.actioncode === 'ZM'
-              || cpcAction.actioncode === 'ZS') {
+              || cpcAction.actioncode === 'ZS'
+              || cpcAction.actioncode === 'ZA') {
           cpcAction.has_cpcReport = true;
         }
       }
