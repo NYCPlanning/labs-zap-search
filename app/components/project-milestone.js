@@ -110,9 +110,9 @@ const milestoneLookup = {
     ulurptooltip: '',
     nonulurptooltip: '',
   },
-  'Land Use Application Filed Review': {
+  'Prepare Filed Land Use Application': {
     displayName: 'Land Use Application Filed',
-    dateFormat: 'start',
+    dateFormat: 'end',
     hideIfFiled: false,
     ulurptooltip: '',
     nonulurptooltip: '',
