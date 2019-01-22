@@ -70,7 +70,7 @@ export default class ShowProjectController extends Controller {
     const navigationControl = new mapboxgl.NavigationControl();
     map.addControl(navigationControl, 'top-left');
 
-    map.fitBounds(turfBbox(turfBuffer(bblFeatureCollection, 0.075)), {
+    map.fitBounds(turfBbox(turfBuffer(bblFeatureCollection.features[0], 0.075)), {
       // padding: 0,
       linear: true,
       duration: 0,
