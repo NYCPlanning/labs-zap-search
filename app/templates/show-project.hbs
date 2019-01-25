@@ -166,7 +166,11 @@
           }}
             {{#map.source options=model.bblFeatureCollectionSource as |source|}}
               {{source.layer
-                layer=bblFeatureCollectionLayer
+                layer=bblFeatureCollectionLayerFill
+                before='boundary_country'
+              }}
+              {{source.layer
+                layer=bblFeatureCollectionLayerLine
                 before='boundary_country'
               }}
             {{/map.source}}
