@@ -33,16 +33,3 @@ jobs:
 
       # run tests!
       - run: yarn test
-
-      # deploy
-      - run:
-          name: Avoid hosts unknown for github
-          command: ssh-keyscan zap-search.planninglabs.nyc >> ~/.ssh/known_hosts
-      - deploy:
-          name: Deployment
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              git remote add dokku dokku@zap-search.planninglabs.nyc:zap && git push --force dokku master
-            elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
-              git remote add dokku dokku@zap-search.planninglabs.nyc:zap-staging && git push --force dokku develop:master
-            fi
