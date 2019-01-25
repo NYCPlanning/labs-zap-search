@@ -39,8 +39,8 @@
       {{#if (eq milestone.milestonename "CPC Public Meeting - Vote")}}
         <li><a href="http://a030-cpc.nyc.gov/html/cpc/index.aspx" target="_blank">{{fa-icon "external-link-alt"}} CPC Reports</a></li>
       {{/if}}
-      {{#each milestoneLinks as |link|}}
-        <li><a href="{{link}}" target="_blank">{{link}}</a></li>
+      {{#each milestone.milestoneLinks as |link|}}
+        <li><a href="{{link.url}}" target="_blank">{{link.filename}}</a></li>
       {{/each}}
     </ul>
   {{/if}}
