@@ -6,31 +6,24 @@ import turfBuffer from '@turf/buffer';
 
 
 export default class ShowProjectController extends Controller {
-  bblFeatureCollectionLayer = {
-    id: 'bbl-feature-collection-fill',
+  bblFeatureCollectionLayerFill = {
+    id: 'project-geometry-fill',
+    type: 'fill',
+    paint: {
+      'fill-color': 'rgba(237, 189, 18, 0.3)',
+    },
+  }
+
+  bblFeatureCollectionLayerLine = {
+    id: 'project-geometry-line',
     type: 'line',
     layout: {
       'line-cap': 'round',
     },
     paint: {
       'line-opacity': 0.9,
-      'line-color': 'rgba(0, 10, 90, 1)',
-      'line-width': {
-        stops: [
-          [
-            14,
-            2,
-          ],
-          [
-            19,
-            7,
-          ],
-        ],
-      },
-      'line-dasharray': [
-        2,
-        1.5,
-      ],
+      'line-color': 'rgba(237, 189, 18, 0.9)',
+      'line-width': 1,
     },
   }
 
@@ -70,7 +63,7 @@ export default class ShowProjectController extends Controller {
     const navigationControl = new mapboxgl.NavigationControl();
     map.addControl(navigationControl, 'top-left');
 
-    map.fitBounds(turfBbox(turfBuffer(bblFeatureCollection, 0.075)), {
+    map.fitBounds(turfBbox(turfBuffer(bblFeatureCollection.features[0], 0.075)), {
       // padding: 0,
       linear: true,
       duration: 0,
