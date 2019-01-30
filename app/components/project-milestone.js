@@ -161,12 +161,6 @@ export default class ProjectMilestoneComponent extends Component {
 
   classNameBindings = ['getClassNames'];
 
-  milestoneLinks = [
-    '070194_DOB.pdf',
-    '070194A_HPD.pdf',
-    '070194_Q04.pdf',
-  ];
-
   @argument
   milestone
 
