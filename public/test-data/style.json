@@ -31,7 +31,7 @@
    "sources":{
       "openmaptiles":{
          "type":"vector",
-         "url": "//raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/v3.json"
+         "url": "/test-data/v3.json"
       }
    },
    "sprite":"https://tiles.planninglabs.nyc/styles/positron/sprite",
