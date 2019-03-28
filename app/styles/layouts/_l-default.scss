@@ -150,6 +150,18 @@ body {
   }
 }
 
+.no-results-message {
+  @include breakpoint(large) {
+    margin-top: 15vh;
+  }
+
+  p {
+    max-width: 27em;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
 .project-meta {
   margin: $global-margin 0;
 }
