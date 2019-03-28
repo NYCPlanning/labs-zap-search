@@ -1,7 +1,12 @@
 import patchXMLHTTPRequest from './helpers/mirage-mapbox-gl-monkeypatch';
+import mapboxGlv3Style from './test-data/mapbox-gl-v3-style';
 
 export default function() {
   patchXMLHTTPRequest();
+
+  this.get('https://raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/v3.json', function() {
+    return mapboxGlv3Style;
+  });
 
   this.passthrough('https://search-api.planninglabs.nyc/**');
   this.passthrough('https://planninglabs.carto.com/**');
@@ -9,6 +14,7 @@ export default function() {
   this.passthrough('http://raw.githubusercontent.com/**');
   this.passthrough('https://raw.githubusercontent.com/**');
   this.passthrough('https://tiles.planninglabs.nyc/**');
+  this.passthrough('/test-data/**');
   // These comments are here to help you get started. Feel free to delete them.
 
   this.get('/projects', function(schema, request) {

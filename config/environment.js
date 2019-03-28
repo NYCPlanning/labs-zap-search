@@ -35,7 +35,7 @@ module.exports = function(environment) {
     'mapbox-gl': {
       accessToken: '',
       map: {
-        style: '//raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/style.json',
+        style: '//raw.githubusercontent.com/NYCPlanning/labs-layers-api/develop/public/static/v3.json',
         zoom: 12.25,
         center: [-73.9868, 40.724],
       },
@@ -70,6 +70,7 @@ module.exports = function(environment) {
     ENV['ember-cli-mirage'] = {
       enabled: true,
     };
+    ENV['mapbox-gl'].map.style = '/test-data/style.json';
   }
 
   if (environment === 'test') {
