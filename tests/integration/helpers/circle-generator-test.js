@@ -8,10 +8,10 @@ module('Integration | Helper | circle-generator', function(hooks) {
 
   // Replace this with your real tests.
   test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
+    this.set('inputValue', [0, 0]);
 
-    await render(hbs`{{circle-generator inputValue}}`);
+    await render(hbs`{{circle-generator inputValue 100}}`);
 
-    assert.equal(this.element.textContent.trim(), '1234');
+    assert.ok(this.element);
   });
 });

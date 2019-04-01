@@ -8,10 +8,10 @@ module('Integration | Helper | to-miles', function(hooks) {
 
   // Replace this with your real tests.
   test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
+    this.set('inputValue', 5280);
 
     await render(hbs`{{to-miles inputValue}}`);
 
-    assert.equal(this.element.textContent.trim(), '1234');
+    assert.equal(this.element.textContent.trim(), '1');
   });
 });

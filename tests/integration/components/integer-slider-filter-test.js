@@ -10,17 +10,8 @@ module('Integration | Component | integer-slider-filter', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{integer-slider-filter}}`);
+    await render(hbs`{{integer-slider-filter start=1 min=1 max=10}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#integer-slider-filter}}
-        template block text
-      {{/integer-slider-filter}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.ok(this.element);
   });
 });

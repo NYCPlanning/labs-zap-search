@@ -9,9 +9,9 @@ export default class FilterWrapperComponent extends Component {
 
   @argument appliedFilters;
 
-  @argument filterTitle;
+  @argument filterTitle = '';
 
-  @argument mutateWithAction;
+  @argument mutateWithAction = () => {};
 
   @argument tooltip;
 
