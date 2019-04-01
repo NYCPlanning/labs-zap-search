@@ -10,15 +10,15 @@ module('Integration | Component | slider-filter', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{slider-filter}}`);
+    await render(hbs`{{date-range-filter}}`);
 
     assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
-      {{#slider-filter}}
+      {{#date-range-filter}}
         template block text
-      {{/slider-filter}}
+      {{/date-range-filter}}
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');
