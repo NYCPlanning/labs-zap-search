@@ -64,6 +64,7 @@
     "ember-moment": "^7.7.0",
     "ember-parachute": "0.3.7",
     "ember-power-select": "2.0.4",
+    "ember-query-params-service": "github:NullVoxPopuli/ember-query-params-service",
     "ember-resolver": "^5.0.1",
     "ember-router-scroll": "0.7.1",
     "ember-source": "~3.3.1",

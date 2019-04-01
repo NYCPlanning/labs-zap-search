@@ -4,6 +4,40 @@ import { action } from '@ember-decorators/object';
 import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
 
+export const geocodedLayer = {
+  type: 'circle',
+  paint: {
+    'circle-radius': {
+      stops: [
+        [
+          10,
+          5,
+        ],
+        [
+          17,
+          12,
+        ],
+      ],
+    },
+    'circle-color': 'rgba(199, 92, 92, 1)',
+    'circle-stroke-width': {
+      stops: [
+        [
+          10,
+          20,
+        ],
+        [
+          17,
+          18,
+        ],
+      ],
+    },
+    'circle-stroke-color': 'rgba(65, 73, 255, 1)',
+    'circle-opacity': 0,
+    'circle-stroke-opacity': 0.2,
+  },
+};
+
 export default class ProjectsMapComponent extends Component {
   @service router;
 
@@ -12,49 +46,22 @@ export default class ProjectsMapComponent extends Component {
   // required
   @argument meta = {};
 
+  // hack: directly mutate applied filters
+  @argument appliedFilters;
+
   tooltipPoint = { x: 0, y: 0 }
 
   highlightedFeature = null;
 
   geocodedFeature = null;
 
-  geocodedLayer = {
-    type: 'circle',
-    paint: {
-      'circle-radius': {
-        stops: [
-          [
-            10,
-            5,
-          ],
-          [
-            17,
-            12,
-          ],
-        ],
-      },
-      'circle-color': 'rgba(199, 92, 92, 1)',
-      'circle-stroke-width': {
-        stops: [
-          [
-            10,
-            20,
-          ],
-          [
-            17,
-            18,
-          ],
-        ],
-      },
-      'circle-stroke-color': 'rgba(65, 73, 255, 1)',
-      'circle-opacity': 0,
-      'circle-stroke-opacity': 0.2,
-    },
-  }
+  geocodedLayer = geocodedLayer;
 
   popup = new mapboxgl.Popup({
     closeOnClick: false,
   });
+
+  @argument onMapClick = () => {};
 
   @action
   handleMapLoad(map) {
@@ -109,10 +116,7 @@ export default class ProjectsMapComponent extends Component {
       { layers: ['project-centroids-circle'] },
     );
 
-    if (feature) {
-      const { projectid } = feature.properties;
-      this.router.transitionTo('show-project', projectid);
-    }
+    this.onMapClick(feature, e);
   }
 
   @action

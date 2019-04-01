@@ -52,8 +52,8 @@ module.exports = function(environment) {
         environments: ['development', 'production'],
         config: {
           id: 'UA-84250233-13',
-          debug: environment === 'development',
-          trace: environment === 'development',
+          debug: environment === 'debug-ga',
+          trace: environment === 'debug-ga',
           // Ensure development env hits aren't sent to GA
           sendHitTask: (environment !== 'development' && environment !== 'devlocal'),
         },

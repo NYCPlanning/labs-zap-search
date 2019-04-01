@@ -13,4 +13,6 @@
 
     {{projects.map.call 'fitBounds' bounds fitBoundsOptions}}
   {{/if}}
+
+  {{yield projects.map}}
 {{/projects-map-data}}

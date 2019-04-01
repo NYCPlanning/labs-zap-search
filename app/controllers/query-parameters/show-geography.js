@@ -98,6 +98,16 @@ export const projectParams = new QueryParams({
       return value.split(',').sort();
     },
   },
+  distance_from_point: {
+    defaultValue: [0, 0],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',').sort();
+    },
+  },
   dcp_femafloodzonev: {
     defaultValue: false,
     refresh: true,

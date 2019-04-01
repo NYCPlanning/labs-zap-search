@@ -1,11 +1,10 @@
 import Component from '@ember/component';
-import { computed, action } from '@ember-decorators/object';
-import { classNames, className } from '@ember-decorators/component';
 import { argument } from '@ember-decorators/argument';
+import { action } from '@ember-decorators/object';
+import { tagName } from '@ember-decorators/component';
 import { contains } from 'ember-composable-helpers/helpers/contains';
 
-@classNames('filter')
-
+@tagName('')
 export default class FilterSectionComponent extends Component {
   @argument
   filterTitle = '';
@@ -18,21 +17,6 @@ export default class FilterSectionComponent extends Component {
 
   @argument
   appliedFilters;
-
-  @className
-  @computed('filterNames', 'appliedFilters')
-  get activeState() {
-    const { filterNames, appliedFilters } = this;
-
-    return contains(filterNames, appliedFilters) ? 'active' : 'inactive';
-  }
-
-  @className
-  @computed('filterTitle')
-  get dasherizedFilterTitle() {
-    const dasherizedFilterTitle = this.filterTitle.dasherize();
-    return `filter-section-${dasherizedFilterTitle}`;
-  }
 
   @argument
   mutateArray() {} // eslint-disable-line
