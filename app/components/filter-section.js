@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { argument } from '@ember-decorators/argument';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { tagName } from '@ember-decorators/component';
 import { contains } from 'ember-composable-helpers/helpers/contains';
 
@@ -17,6 +17,13 @@ export default class FilterSectionComponent extends Component {
 
   @argument
   appliedFilters;
+
+  @computed('filterNames', 'appliedFilters')
+  get filterIsActive() {
+    const { filterNames, appliedFilters } = this;
+
+    return contains(filterNames, appliedFilters);
+  }
 
   @argument
   mutateArray() {} // eslint-disable-line
