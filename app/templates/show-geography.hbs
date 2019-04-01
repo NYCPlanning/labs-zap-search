@@ -94,7 +94,7 @@
             type="text"
             value={{project_applicant_text}}
             placeholder="Project / Description / Applicant..."
-            oninput={{action section.delegate-mutation (action 'setDebouncedText' 'project_applicant_text')}}>
+            oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'project_applicant_text')}}>
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
@@ -123,7 +123,7 @@
             type="text"
             value={{block}}
             placeholder="Block Number (e.g. '1000')"
-            oninput={{action section.delegate-mutation (action 'setDebouncedText' 'block')}}>
+            oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'block')}}>
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
@@ -165,6 +165,13 @@
               step=1
               behaviour="drag"
               on-change=(action section.delegate-mutation (action (mut radius_from_point)))}}
+
+             <input
+              class="filter-text-input"
+              type="number"
+              value={{radius_from_point}}
+              placeholder="Distance in feet (e.g. '50')"
+              oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'radius_from_point')}}>
           {{else}}
             Click the map to add a point
           {{/if}}
@@ -221,7 +228,7 @@
             type="text"
             value={{ulurp_ceqr_text}}
             placeholder="Number (e.g. 'C840918PPX')"
-            oninput={{action section.delegate-mutation (action 'setDebouncedText' 'ulurp_ceqr_text')}}>
+            oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'ulurp_ceqr_text')}}>
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
