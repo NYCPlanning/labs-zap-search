@@ -18,7 +18,7 @@
           (action section.delegate-mutation 
             (action 'extractAndSetGeometry' 'distance_from_point')
           )
-        }}
+        }}  
         {{#map.source options=(hash
           type='geojson'
           data=(hash
@@ -102,6 +102,28 @@
           }}
             {{district.boro}} {{district.num}}
           {{/power-select-multiple}}
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: DISTANCE FROM POINT --}}
+      {{#filters.section
+        filterTitle='DISTANCE FROM POINT'
+        filterNames=(array 'distance_from_point' 'radius_from_point')
+        tooltip='Click on the map to set filter first then drag to adjust radius'
+        as |section|}}
+        {{#section.filter-wrapper}}
+          {{#if queryParamsState.distance_from_point.changed}} 
+            {{range-slider
+              start=radius_from_point
+              min=queryParamsState.radius_from_point.defaultValue
+              max=100000
+              tooltips=true
+              step=1
+              behaviour="drag"
+              on-change=(action section.delegate-mutation (action (mut radius_from_point)))}}
+          {{else}}
+            Click the map to add a point
+          {{/if}}
         {{/section.filter-wrapper}}
       {{/filters.section}}
 

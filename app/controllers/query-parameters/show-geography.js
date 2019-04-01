@@ -108,6 +108,10 @@ export const projectParams = new QueryParams({
       return value.split(',').sort();
     },
   },
+  radius_from_point: {
+    defaultValue: 25,
+    refresh: true,
+  },
   dcp_femafloodzonev: {
     defaultValue: false,
     refresh: true,
