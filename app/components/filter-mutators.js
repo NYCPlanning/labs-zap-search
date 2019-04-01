@@ -17,7 +17,7 @@ export default class BaseFilterComponent extends Component {
   mutateArray() {} // eslint-disable-line
 
   @argument
-  setDebouncedText() {} // eslint-disable-line
+  setDebouncedValue() {} // eslint-disable-line
 
   @argument
   replaceProperty() {} // eslint-disable-line
