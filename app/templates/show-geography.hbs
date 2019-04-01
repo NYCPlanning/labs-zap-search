@@ -1,7 +1,7 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
-{{!--  
-  About: 
+{{!--
+  About:
   the filter-mutators component is a convenience wrapper component that yields sub-components
   with some context that flows downstream of applied filters and the mutator action
 
@@ -27,7 +27,7 @@
     This component invokes all the necessary markup for this to work
   {{/section.filter-wrapper}}
 
-  `delegate-mutation` is a wrapper action that should wrap all filter mutators. It is responsible for 
+  `delegate-mutation` is a wrapper action that should wrap all filter mutators. It is responsible for
   notifying the applied-filters query param that something should be added or removed.
  --}}
 
@@ -48,8 +48,8 @@
         {{!-- bind mutation on circle click --}}
         {{map.on
           'click'
-          'project-centroids-circle' 
-          (action section.delegate-mutation 
+          'project-centroids-circle'
+          (action section.delegate-mutation
             (action 'extractAndSetGeometry' 'distance_from_point')
           )
         }}
@@ -66,7 +66,7 @@
           }}
             {{source.layer layer=(hash
               type='circle'
-              paint=(hash circle-color='pink' circle-radius=7 circle-opacity=0.5))
+              paint=(hash circle-color='rgba(238,102,170,0.8)' circle-radius=7))
             }}
           {{/map.source}}
           {{#map.source options=(hash
@@ -75,7 +75,7 @@
           }}
             {{source.layer layer=(hash
               type='line'
-              paint=(hash line-dasharray=(array 12 0) line-width=3 line-color='pink'))
+              paint=(hash line-dasharray=(array 1 1) line-width=3 line-color='rgba(238,102,170,0.8)'))
             }}
           {{/map.source}}
         {{/if}}
@@ -157,7 +157,7 @@
         {{#section.filter-wrapper
           filterTitle='DISTANCE FROM POINT'
           tooltip='Click on the map to set filter first then drag to adjust radius'}}
-          {{#if queryParamsState.distance_from_point.changed}} 
+          {{#if queryParamsState.distance_from_point.changed}}
             {{integer-slider-filter
               start=radius_from_point
               min=queryParamsState.radius_from_point.defaultValue
