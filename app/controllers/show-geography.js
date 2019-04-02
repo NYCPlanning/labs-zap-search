@@ -6,7 +6,6 @@ import ENV from 'labs-zap-search/config/environment';
 import queryString from 'qs';
 import GeographyParachuteController from './query-parameters/show-geography';
 
-
 const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
@@ -111,11 +110,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   @action
-  handleRadiusFilterClick(key, e) {
-    const map = e.target;
-    const { lng, lat } = map.unproject(e.point);
-
-    this.set(key, [lng, lat]);
+  handleRadiusFilterClick(key, lngLat) {
+    this.set(key, lngLat);
   }
 
   @action

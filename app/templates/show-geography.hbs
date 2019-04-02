@@ -41,6 +41,8 @@
     {{#filters.section
       filterNames=(array 'distance_from_point' 'radius_from_point')
       as |section|}}
+
+      {{!-- Invoke the main map component. This extends some behavior from the app's base map component --}}
       {{#structural/project-list-map
         tiles=tiles
         bounds=bounds as |map|}}
@@ -51,6 +53,7 @@
           )
         }}
 
+        {{!-- FILTER: DISTANCE FROM POINT --}}
         {{!-- bind mutation on circle click --}}
         {{map.on
           'click'
@@ -60,34 +63,12 @@
           )
         }}
 
+        {{!-- Styling and handlers for distance from point filter --}}
         {{#if section.filterIsActive}}
-          {{#map.source options=(hash
-            type='geojson'
-            data=(hash
-              type='Feature'
-              geometry=(hash
-                type='Point'
-                coordinates=distance_from_point
-              )
-            )) as |source|
-          }}
-            {{source.layer layer=(hash
-              type='circle'
-              paint=(hash circle-color='rgba(238,102,170,0.8)' circle-radius=7))
-            }}
-          {{/map.source}}
-
-          {{#map.source options=(hash
-            type='geojson'
-            data=(circle-generator distance_from_point (to-miles radius_from_point) (hash units='miles'))) as |source|
-          }}
-            {{source.layer layer=(hash
-              type='line'
-              paint=(hash line-dasharray=(array 1 1) line-width=3 line-color='rgba(238,102,170,0.8)'))
-            }}
-          {{/map.source}}
-
-          {{map.on 'click' (action 'handleRadiusFilterClick' 'distance_from_point')}}
+          {{map.filter-distance-from-point
+            pointGeometry=distance_from_point
+            radius=radius_from_point
+            onRadiusFilterClick=(action 'handleRadiusFilterClick' 'distance_from_point')}}
         {{/if}}
       {{/structural/project-list-map}}
     {{/filters.section}}

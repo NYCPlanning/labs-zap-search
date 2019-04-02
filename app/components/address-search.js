@@ -48,6 +48,18 @@ export default class AddressSearch extends Component {
   geocodedLayer = geocodedLayer;
 
   @action
+  extractAndSetGeometry(key, e) {
+    const { target: map } = e;
+    const [feature] = map.queryRenderedFeatures(
+      e.point,
+      { layers: ['project-centroids-circle'] },
+    );
+    const { geometry: { coordinates } } = feature;
+
+    this.set(key, coordinates);
+  }
+
+  @action
   selectSearchResult(result) {
     this.set('geocodedGeometry', result.geometry);
 

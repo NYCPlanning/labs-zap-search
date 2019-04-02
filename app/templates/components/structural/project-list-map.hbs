@@ -27,6 +27,10 @@
 
   {{map.on 'zoomend' (action 'computeTileMode')}}
 
+  {{!-- Multiple yields merge both hashes for the consumer block params --}}
   {{yield map}}
-  {{yield (hash address-search=(component 'address-search' map=map))}}
+  {{yield (hash
+    address-search=(component 'address-search' map=map)
+    filter-distance-from-point=(component 'filter-distance-from-point' map=map)
+    )}}
 {{/projects-map-data}}
