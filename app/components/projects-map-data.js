@@ -51,7 +51,7 @@ export default class ProjectsMapComponent extends Component {
     const map = this.mapInstance;
     const [feature] = map.queryRenderedFeatures(
       e.point,
-      { layers: ['project-centroids-circle'] },
+      { layers: ['project-centroids-circle', 'project-polygons-fill'] },
     );
 
     if (feature) {
