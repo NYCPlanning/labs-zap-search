@@ -1,11 +1,5 @@
 {{#map.source 
-  sourceId=layer.source 
+  sourceId=sourceId
   options=(hash type='vector' tiles=tiles) as |source|}}
-
-  {{source.layer
-    layer=layer
-    before='boundary_country'
-  }}
-
-  {{yield}}
+  {{yield source}}
 {{/map.source}}

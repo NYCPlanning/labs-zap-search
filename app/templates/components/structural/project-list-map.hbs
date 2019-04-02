@@ -2,17 +2,32 @@
   {{#if (and tiles bounds)}}
     {{!-- High-level dynamic tiles configuration --}}
     {{#projects.dynamic-tiles 
-      tiles=tiles 
-      layer=projectCentroidsCircleLayer
+      tiles=tilesForZoom
+      sourceId=projectCentroidsCircleLayer.source
+      as |dynamic-tile-source|
     }}
+      {{!-- {{#if (eq tileMode 'centroid')}} --}}
+        {{dynamic-tile-source.layer
+          layer=projectCentroidsCircleLayer
+          before='boundary_country'
+        }}
+      {{!-- {{else}} --}}
+        {{dynamic-tile-source.layer
+          layer=projectPolygonsLayer
+          before='boundary_country'
+        }}
+      {{!-- {{/if}} --}}
+
       {{!-- Anything else for dynamic tiles, like hovers --}}
-      {{projects.map.layer 
+{{!--       {{projects.map.layer 
         layer=projectCentroidsCircleHoverLayer
-      }}
+      }} --}}
     {{/projects.dynamic-tiles}}
 
     {{projects.map.call 'fitBounds' bounds fitBoundsOptions}}
   {{/if}}
+
+  {{projects.map.on 'zoomend' (action 'computeTileMode')}}
 
   {{yield projects.map}}
 {{/projects-map-data}}

@@ -1,11 +1,16 @@
 import Component from '@ember/component';
 import { argument } from '@ember-decorators/argument';
+import { action, computed } from '@ember-decorators/object';
+
+const expandToPolygonZoomThreshold = 14;
 
 export const projectCentroidsCircleLayer = {
   id: 'project-centroids-circle',
   type: 'circle',
   source: 'project-centroids',
   'source-layer': 'project-centroids',
+  minzoom: 0,
+  maxzoom: 14,
   paint: {
     'circle-radius': {
       stops: [[10, 3], [15, 4]],
@@ -41,9 +46,28 @@ export const projectCentroidsCircleHoverLayer = {
   },
 };
 
+export const projectPolygonsLayer = {
+  id: 'project-polygons-fill',
+  type: 'fill',
+  source: 'project-centroids',
+  'source-layer': 'project-centroids',
+  minzoom: 14,
+  maxzoom: 24,
+  paint: {
+    'fill-color': 'rgba(237, 189, 18, 0.3)',
+  },
+};
+
 export default class ProjectListMapComponent extends Component {
   @argument
   tiles = [];
+
+  tileMode = 'centroid';
+
+  @computed('tiles', 'tileMode')
+  get tilesForZoom() {
+    return this.tiles.map(url => `${url}?type=${this.tileMode}`);
+  }
 
   @argument
   bounds = [];
@@ -57,7 +81,18 @@ export default class ProjectListMapComponent extends Component {
     padding: 20,
   }
 
+  projectPolygonsLayer = projectPolygonsLayer;
+
   projectCentroidsCircleLayer = projectCentroidsCircleLayer;
 
   projectCentroidsCircleHoverLayer = projectCentroidsCircleHoverLayer;
+
+  @action
+  computeTileMode(e) {
+    if (e.target.getZoom() > expandToPolygonZoomThreshold) {
+      this.set('tileMode', 'polygons');
+    } else {
+      this.set('tileMode', 'centroid');
+    }
+  }
 }
