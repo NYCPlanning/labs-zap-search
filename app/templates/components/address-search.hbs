@@ -1,0 +1,17 @@
+{{#labs-search
+  searchPlaceholder='Search for Address...'
+  onSelect=(action 'selectSearchResult')
+  onClear=(action (mut geocodedGeometry null)) as |search|}}
+
+  <small class="dark-gray">{{search.result.label}}</small>
+
+  {{#if search.result}}
+    {{#if geocodedGeometry}}
+      {{#map.source options=(hash type='geojson' data=geocodedGeometry) as |source|}}
+        {{source.layer layer=geocodedLayer}}
+      {{/map.source}}
+
+      {{map.call 'flyTo' (hash center=geocodedGeometry.coordinates zoom=16)}}
+    {{/if}}
+  {{/if}}
+{{/labs-search}}

@@ -45,6 +45,12 @@
         tiles=tiles
         bounds=bounds as |map|}}
 
+        {{map.address-search
+          onSelectSearchResult=(action section.delegate-mutation
+            (action 'handleSearchResultSelect' 'distance_from_point')
+          )
+        }}
+
         {{!-- bind mutation on circle click --}}
         {{map.on
           'click'

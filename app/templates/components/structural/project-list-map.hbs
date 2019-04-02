@@ -1,33 +1,32 @@
-{{#projects-map-data as |projects|}}
+{{#projects-map-data as |map|}}
   {{#if (and tiles bounds)}}
     {{!-- High-level dynamic tiles configuration --}}
-    {{#projects.dynamic-tiles 
+    {{#map.dynamic-tiles 
       tiles=tilesForZoom
       sourceId=projectCentroidsCircleLayer.source
       as |dynamic-tile-source|
     }}
-      {{!-- {{#if (eq tileMode 'centroid')}} --}}
-        {{dynamic-tile-source.layer
-          layer=projectCentroidsCircleLayer
-          before='boundary_country'
-        }}
-      {{!-- {{else}} --}}
-        {{dynamic-tile-source.layer
-          layer=projectPolygonsLayer
-          before='boundary_country'
-        }}
-      {{!-- {{/if}} --}}
+      {{dynamic-tile-source.layer
+        layer=projectCentroidsCircleLayer
+        before='boundary_country'
+      }}
+
+      {{dynamic-tile-source.layer
+        layer=projectPolygonsLayer
+        before='boundary_country'
+      }}
 
       {{!-- Anything else for dynamic tiles, like hovers --}}
-{{!--       {{projects.map.layer 
+      {{map.layer 
         layer=projectCentroidsCircleHoverLayer
-      }} --}}
-    {{/projects.dynamic-tiles}}
+      }}
+    {{/map.dynamic-tiles}}
 
-    {{projects.map.call 'fitBounds' bounds fitBoundsOptions}}
+    {{map.call 'fitBounds' bounds fitBoundsOptions}}
   {{/if}}
 
-  {{projects.map.on 'zoomend' (action 'computeTileMode')}}
+  {{map.on 'zoomend' (action 'computeTileMode')}}
 
-  {{yield projects.map}}
+  {{yield map}}
+  {{yield (hash address-search=(component 'address-search' map=map))}}
 {{/projects-map-data}}

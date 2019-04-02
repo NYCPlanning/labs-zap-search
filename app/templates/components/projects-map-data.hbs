@@ -7,12 +7,12 @@
     mapLoaded=(action 'handleMapLoad')
     as |map|
 }}
+  {{yield map}}
   {{yield (hash
     dynamic-tiles=(component 'mapbox-gl-dynamic-tiles'
       map=map
       mapInstance=mapInstance
     )
-    map=map
   )}}
 
   {{map.on 'click' (action 'handleMapClick')}}
@@ -23,19 +23,6 @@
       {{highlightedFeature.properties.dcp_projectname}} ({{moment-format highlightedFeature.properties.lastmilestonedate "MMMM, YYYY"}})
     </div>
   {{/if}}
-
-  {{#if geocodedFeature}}
-    {{#map.source options=geocodedFeature as |source|}}
-      {{source.layer layer=geocodedLayer}}
-    {{/map.source}}
-  {{/if}}
-
-  {{#labs-search
-    searchPlaceholder='Search for Address...'
-    onSelect=(action 'selectSearchResult')
-    onClear=(action (mut geocodedFeature null)) as |search|}}
-    <small class="dark-gray">{{search.result.label}}</small>
-  {{/labs-search}}
 
   {{map-info-box}}
 {{/mapbox-gl}}

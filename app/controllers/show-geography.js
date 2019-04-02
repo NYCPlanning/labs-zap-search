@@ -106,6 +106,11 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   @action
+  handleSearchResultSelect(key, { geometry: { coordinates } }) {
+    this.set(key, coordinates);
+  }
+
+  @action
   handleRadiusFilterClick(key, e) {
     const map = e.target;
     const { lng, lat } = map.unproject(e.point);

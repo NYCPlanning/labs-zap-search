@@ -4,40 +4,6 @@ import { action } from '@ember-decorators/object';
 import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
 
-export const geocodedLayer = {
-  type: 'circle',
-  paint: {
-    'circle-radius': {
-      stops: [
-        [
-          10,
-          5,
-        ],
-        [
-          17,
-          12,
-        ],
-      ],
-    },
-    'circle-color': 'rgba(199, 92, 92, 1)',
-    'circle-stroke-width': {
-      stops: [
-        [
-          10,
-          20,
-        ],
-        [
-          17,
-          18,
-        ],
-      ],
-    },
-    'circle-stroke-color': 'rgba(65, 73, 255, 1)',
-    'circle-opacity': 0,
-    'circle-stroke-opacity': 0.2,
-  },
-};
-
 export default class ProjectsMapComponent extends Component {
   @service router;
 
@@ -52,10 +18,6 @@ export default class ProjectsMapComponent extends Component {
   tooltipPoint = { x: 0, y: 0 }
 
   highlightedFeature = null;
-
-  geocodedFeature = null;
-
-  geocodedLayer = geocodedLayer;
 
   popup = new mapboxgl.Popup({
     closeOnClick: false,
@@ -116,15 +78,6 @@ export default class ProjectsMapComponent extends Component {
     );
 
     this.onMapClick(feature, e);
-  }
-
-  @action
-  selectSearchResult({ geometry }) {
-    const { coordinates } = geometry;
-    const { mapInstance: map } = this;
-
-    this.set('geocodedFeature', { type: 'geojson', data: geometry });
-    map.flyTo({ center: coordinates, zoom: 16 });
   }
 
   hoverPoint({ id, layerId }) {
