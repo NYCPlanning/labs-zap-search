@@ -94,7 +94,6 @@ export default class ProjectsMapComponent extends Component {
 
     if (feature) {
       this.set('highlightedFeature', feature);
-
       this.set('tooltipPoint', {
         x: e.point.x + 20,
         y: e.point.y + 20,

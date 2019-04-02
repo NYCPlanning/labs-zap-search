@@ -106,6 +106,14 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   @action
+  handleRadiusFilterClick(key, e) {
+    const map = e.target;
+    const { lng, lat } = map.unproject(e.point);
+
+    this.set(key, [lng, lat]);
+  }
+
+  @action
   extractAndSetGeometry(key, e) {
     const { target: map } = e;
     const [feature] = map.queryRenderedFeatures(

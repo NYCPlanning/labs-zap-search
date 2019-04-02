@@ -10,7 +10,7 @@ export const projectCentroidsCircleLayer = {
   source: 'project-centroids',
   'source-layer': 'project-centroids',
   minzoom: 0,
-  maxzoom: 14,
+  maxzoom: expandToPolygonZoomThreshold,
   paint: {
     'circle-radius': {
       stops: [[10, 3], [15, 4]],
@@ -51,7 +51,7 @@ export const projectPolygonsLayer = {
   type: 'fill',
   source: 'project-centroids',
   'source-layer': 'project-centroids',
-  minzoom: 14,
+  minzoom: expandToPolygonZoomThreshold,
   maxzoom: 24,
   paint: {
     'fill-color': 'rgba(237, 189, 18, 0.3)',

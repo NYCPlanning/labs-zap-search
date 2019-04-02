@@ -53,6 +53,7 @@
             (action 'extractAndSetGeometry' 'distance_from_point')
           )
         }}
+
         {{#if section.filterIsActive}}
           {{#map.source options=(hash
             type='geojson'
@@ -69,6 +70,7 @@
               paint=(hash circle-color='rgba(238,102,170,0.8)' circle-radius=7))
             }}
           {{/map.source}}
+
           {{#map.source options=(hash
             type='geojson'
             data=(circle-generator distance_from_point (to-miles radius_from_point) (hash units='miles'))) as |source|
@@ -78,6 +80,8 @@
               paint=(hash line-dasharray=(array 1 1) line-width=3 line-color='rgba(238,102,170,0.8)'))
             }}
           {{/map.source}}
+
+          {{map.on 'click' (action 'handleRadiusFilterClick' 'distance_from_point')}}
         {{/if}}
       {{/structural/project-list-map}}
     {{/filters.section}}
