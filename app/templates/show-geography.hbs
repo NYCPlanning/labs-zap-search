@@ -411,10 +411,18 @@
       {{/each}}
     </ul>
 
-    {{load-more-button
-      page=page
-      noMoreRecords=noMoreRecords
-      task=fetchData}}
+    {{#if (eq fetchData.lastSuccessful.value.meta.total 0)}}
+      <div class="no-results-message text-center dark-gray">
+        <p class="medium-gray">{{fa-icon 'search' size='4x'}}</p>
+        <h4>No matching projects</h4>
+        <p class="text-small">The enabled filters may be too specific or contradictory. Please change your search parameters.</p>
+      </div>
+    {{else}}
+      {{load-more-button
+        page=page
+        noMoreRecords=noMoreRecords
+        task=fetchData}}
+    {{/if}}
   </div>
 </div>
 

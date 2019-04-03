@@ -12,15 +12,21 @@
     <span class="label publicstatus-label">{{unless (eq project.dcp_publicstatus_simp 'Unknown') project.dcp_publicstatus_simp "Unknown Status"}}</span>
   </div>
   <div class="cell auto">
-    <h3 class="header-medium no-margin">
+    {{#if project.lastmilestonedate}}
+      <span class="date dark-gray projects-list-result--date">
+        {{icon-tooltip icon='calendar' tip='Latest Milestone'}}
+        {{moment-format project.lastmilestonedate "MMMM D, YYYY"}}
+      </span>
+    {{/if}}
+    <h3 class="projects-list-result--header header-medium">
       {{#link-to 'show-project' project.id}}
         {{if project.dcp_projectname project.dcp_projectname "No Project Name"}}
       {{/link-to}}
     </h3>
-    <p class="no-margin text-small dark-grey">
+    <p class="projects-list-result--description no-margin text-small dark-grey">
       <strong>{{firstApplicant}}</strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
     </p>
-    <p class="no-margin text-tiny dark-gray label-group">
+    <p class="projects-list-result--meta no-margin text-tiny dark-gray label-group">
       {{#if (eq project.dcp_borough 'Citywide')}}<span class="label light-gray"><strong class="dark-gray">{{project.dcp_borough}}</strong></span>{{/if}}
 
       {{consolidated-cds cds=project.dcp_communitydistricts}}
@@ -29,9 +35,6 @@
       {{#each project.ulurpnumbers as |ulurpnumber|}}
         <span class="label light-gray"><strong class="dark-gray">{{ulurpnumber}}</strong></span>
       {{/each}}
-      {{#if project.lastmilestonedate}}
-      <span class="label light-gray"> <strong class="dark-gray">{{icon-tooltip icon='calendar' tip='Latest Milestone'}} {{ moment-format project.lastmilestonedate "MMMM D, YYYY" }} </strong></span>
-      {{/if}}
     </p>
   </div>
 </li>
