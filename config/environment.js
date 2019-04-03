@@ -103,7 +103,10 @@ module.exports = function(environment) {
 
   if (environment === 'staging') {
     ENV.host = 'https://zap-api-staging.planninglabs.nyc';
-    ENV['mapbox-gl'].map.style = '/test-data/style.json';
+
+    ENV['ember-cli-mirage'] = {
+      enabled: false,
+    };
   }
 
   if (environment === 'devlive') {

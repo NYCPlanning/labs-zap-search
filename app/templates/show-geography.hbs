@@ -1,6 +1,10 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
 {{!--
+  FAQ: 
+    `section.delegate-mutation` is a wrapper action to notify the "applied-filters"
+    that an explicit change has happened
+
   About:
   the filter-mutators component is a convenience wrapper component that yields sub-components
   with some context that flows downstream of applied filters and the mutator action
@@ -42,11 +46,13 @@
       filterNames=(array 'distance_from_point' 'radius_from_point')
       as |section|}}
 
-      {{!-- Invoke the main map component. This extends some behavior from the app's base map component --}}
+      {{!-- Invoke the main map component.
+            This extends some behavior from the app's base map component --}}
       {{#structural/project-list-map
         tiles=tiles
         bounds=bounds as |map|}}
 
+        {{!-- FILTER: DISTANCE FROM POINT (ADDRESS MODE) --}}
         {{map.address-search
           onSelectSearchResult=(action section.delegate-mutation
             (action 'handleSearchResultSelect' 'distance_from_point')
@@ -54,24 +60,17 @@
         }}
 
         {{!-- FILTER: DISTANCE FROM POINT --}}
-        {{!-- bind mutation on circle click --}}
-        {{map.on
-          'click'
-          'project-centroids-circle'
-          (action section.delegate-mutation
-            (action 'extractAndSetGeometry' 'distance_from_point')
+        {{map.filter-distance-from-point
+          pointGeometry=distance_from_point
+          radius=radius_from_point
+          shouldQueryFullMap=section.filterIsActive
+          onRadiusFilterClick=(action section.delegate-mutation
+            (action 'handleRadiusFilterClick' 'distance_from_point')
           )
         }}
-
-        {{!-- Styling and handlers for distance from point filter --}}
-        {{#if section.filterIsActive}}
-          {{map.filter-distance-from-point
-            pointGeometry=distance_from_point
-            radius=radius_from_point
-            onRadiusFilterClick=(action 'handleRadiusFilterClick' 'distance_from_point')}}
-        {{/if}}
       {{/structural/project-list-map}}
     {{/filters.section}}
+
     <div class="project-filters">
       {{!-- FILTER: PROJECT / DESCRIPTION / APPLICANT --}}
       {{#filters.section

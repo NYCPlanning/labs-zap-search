@@ -115,18 +115,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   @action
-  extractAndSetGeometry(key, e) {
-    const { target: map } = e;
-    const [feature] = map.queryRenderedFeatures(
-      e.point,
-      { layers: ['project-centroids-circle'] },
-    );
-    const { geometry: { coordinates } } = feature;
-
-    this.set(key, coordinates);
-  }
-
-  @action
   setDebouncedValue(key, { target: { value } }) {
     this.debouncedSet.perform(key, value);
   }

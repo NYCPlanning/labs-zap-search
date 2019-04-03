@@ -15,11 +15,29 @@ export default class FilterDistanceFromPoint extends Component {
   @argument
   onRadiusFilterClick = () => {}
 
-  @action
-  handleRadiusFilterClick(e) {
-    const map = e.target;
-    const { lng, lat } = map.unproject(e.point);
+  @argument
+  pointLayerId = 'project-centroids-circle';
 
-    this.onRadiusFilterClick([lng, lat]);
+  @argument
+  shouldQueryFullMap = false;
+
+  @action
+  handleClick(e) {
+    const { target: map } = e;
+    const { point } = e;
+    const [feature] = map.queryRenderedFeatures(
+      point,
+      { layers: [this.pointLayerId] },
+    );
+
+    if (feature) {
+      const { geometry: { coordinates } } = feature;
+
+      this.onRadiusFilterClick(coordinates);
+    } else if (this.shouldQueryFullMap) {
+      const { lng, lat } = map.unproject(point);
+
+      this.onRadiusFilterClick([lng, lat]);
+    }
   }
 }
