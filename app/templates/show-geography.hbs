@@ -56,6 +56,7 @@
           onSelectSearchResult=(action section.delegate-mutation
             (action 'handleSearchResultSelect' 'distance_from_point')
           )
+          onClearSearchResult=(action section.mutateWithAction)
         }}
 
         {{!-- FILTER: DISTANCE FROM POINT --}}
@@ -101,7 +102,7 @@
               <div class="cell large-auto">
                 {{integer-slider-filter
                   start=radius_from_point
-                  min=queryParamsState.radius_from_point.defaultValue
+                  min=0
                   max=1000
                   step=5
                   behaviour="drag"

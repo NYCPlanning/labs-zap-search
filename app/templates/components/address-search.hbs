@@ -1,7 +1,7 @@
 {{#labs-search
   searchPlaceholder='Search for Address...'
   onSelect=(action 'selectSearchResult')
-  onClear=(action (mut geocodedGeometry null)) as |search|}}
+  onClear=(action 'clearSearchResult') as |search|}}
 
   <small class="dark-gray">{{search.result.label}}</small>
 

@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { argument } from '@ember-decorators/argument';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
+import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 
 export default class FilterDistanceFromPoint extends Component {
   @argument
@@ -21,6 +22,17 @@ export default class FilterDistanceFromPoint extends Component {
   @argument
   shouldQueryFullMap = false;
 
+  // geojson
+  @computed('pointGeometry', 'radius')
+  get circleFromRadius() {
+    const { pointGeometry, radius } = this;
+
+    return generateCircleFromFeet([pointGeometry, radius]);
+  }
+
+  // queries relevant layer for intersecting feature and sends it
+  // to the click action. conditionally allows for clicking
+  // anywhere on the map
   @action
   handleClick(e) {
     const { target: map } = e;

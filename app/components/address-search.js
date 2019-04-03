@@ -43,21 +43,12 @@ export default class AddressSearch extends Component {
   @argument
   onSelectSearchResult = () => {}
 
+  @argument
+  onClearSearchResult = () => {}
+
   geocodedGeometry = null;
 
   geocodedLayer = geocodedLayer;
-
-  @action
-  extractAndSetGeometry(key, e) {
-    const { target: map } = e;
-    const [feature] = map.queryRenderedFeatures(
-      e.point,
-      { layers: ['project-centroids-circle'] },
-    );
-    const { geometry: { coordinates } } = feature;
-
-    this.set(key, coordinates);
-  }
 
   @action
   selectSearchResult(result) {
@@ -65,5 +56,11 @@ export default class AddressSearch extends Component {
 
     // notify that a search result has been selected
     this.onSelectSearchResult(result);
+  }
+
+  @action
+  clearSearchResult() {
+    this.set('geocodedGeometry', null);
+    this.onClearSearchResult();
   }
 }
