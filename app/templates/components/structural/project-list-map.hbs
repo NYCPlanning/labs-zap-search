@@ -1,5 +1,5 @@
 {{#projects-map-data as |map|}}
-  {{#if (and tiles bounds)}}
+  {{#if tiles}}
     {{!-- High-level dynamic tiles configuration --}}
     {{#map.dynamic-tiles 
       tiles=tilesForZoom

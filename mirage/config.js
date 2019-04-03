@@ -9,6 +9,7 @@ export default function() {
   this.passthrough('http://raw.githubusercontent.com/**');
   this.passthrough('https://raw.githubusercontent.com/**');
   this.passthrough('https://tiles.planninglabs.nyc/**');
+  this.passthrough('https://layers-api-staging.planninglabs.nyc/**');
   this.passthrough('/test-data/**');
 
   this.get('/projects', function(schema, request) {
