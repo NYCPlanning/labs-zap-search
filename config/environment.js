@@ -35,7 +35,7 @@ module.exports = function(environment) {
     'mapbox-gl': {
       accessToken: '',
       map: {
-        style: '//raw.githubusercontent.com/NYCPlanning/labs-layers-api/develop/public/static/v3.json',
+        style: '//layers-api-staging.planninglabs.nyc/v1/base/style.json',
         zoom: 12.25,
         center: [-73.9868, 40.724],
       },
@@ -103,7 +103,7 @@ module.exports = function(environment) {
 
   if (environment === 'staging') {
     ENV.host = 'https://zap-api-staging.planninglabs.nyc';
-
+    ENV['mapbox-gl'].map.style = '/test-data/style.json';
     ENV['ember-cli-mirage'] = {
       enabled: false,
     };

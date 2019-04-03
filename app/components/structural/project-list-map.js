@@ -77,10 +77,6 @@ export default class ProjectListMapComponent extends Component {
   @argument
   appliedFilters;
 
-  fitBoundsOptions = {
-    padding: 20,
-  }
-
   projectPolygonsLayer = projectPolygonsLayer;
 
   projectCentroidsCircleLayer = projectCentroidsCircleLayer;

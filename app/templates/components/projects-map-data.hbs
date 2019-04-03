@@ -1,11 +1,11 @@
 {{#mapbox-gl
-    id='project-map'
-    initOptions=(hash
-      zoom=12
-      center=(array -73.96532400540775 40.709710016659386)
-    )
-    mapLoaded=(action 'handleMapLoad')
-    as |map|
+  id='project-map'
+  initOptions=(hash
+    zoom=12
+    center=(array -73.96532400540775 40.709710016659386)
+  )
+  mapLoaded=(action 'handleMapLoad')
+  as |map|
 }}
 
   {{!-- Two yields here - it will implicitly merge the map hash with the second --}}
