@@ -16,7 +16,7 @@
 
 {{#map.source options=(hash
   type='geojson'
-  data=(circle-generator pointGeometry (to-miles radius) (hash units='miles'))) as |source|
+  data=(generate-circle-from-feet pointGeometry radius)) as |source|
 }}
   {{source.layer layer=(hash
     type='line'
