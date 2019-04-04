@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { action } from '@ember-decorators/object';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 
 export const geocodedLayer = {
   type: 'circle',
@@ -37,13 +37,13 @@ export const geocodedLayer = {
 };
 
 export default class AddressSearch extends Component {
-  @argument
+  // @argument
   map;
 
-  @argument
+  // @argument
   onSelectSearchResult = () => {}
 
-  @argument
+  // @argument
   onClearSearchResult = () => {}
 
   geocodedGeometry = null;

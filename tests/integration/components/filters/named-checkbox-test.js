@@ -6,21 +6,17 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | filters/named-checkbox', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it displays the label', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{filters/named-checkbox}}`);
-
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
     await render(hbs`
-      {{#filters/named-checkbox}}
-        template block text
-      {{/filters/named-checkbox}}
+      {{filters/named-checkbox
+        label='The Label'
+        mainProperty=true
+      }}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'The Label');
   });
 });

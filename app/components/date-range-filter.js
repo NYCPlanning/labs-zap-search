@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { action } from '@ember-decorators/object';
 import moment from 'moment';
 
@@ -11,13 +11,13 @@ const fromEpoch = function(number, format) {
 const defaultStart = [-2114380799, 2114380799];
 
 export default class SliderFilterComponent extends Component {
-  @argument
+  // @argument
   start = defaultStart;
 
-  @argument
+  // @argument
   min = defaultStart[0];
 
-  @argument
+  // @argument
   max = defaultStart[1];
 
   format = {
@@ -25,7 +25,7 @@ export default class SliderFilterComponent extends Component {
     from: number => fromEpoch(number, 'YYYY'),
   }
 
-  @argument
+  // @argument
   replaceProperty() {} // eslint-disable-line
 
   @action

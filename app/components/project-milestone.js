@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { computed } from '@ember-decorators/object';
 import moment from 'moment';
 
@@ -161,13 +161,13 @@ export default class ProjectMilestoneComponent extends Component {
 
   classNameBindings = ['getClassNames'];
 
-  @argument
+  // @argument
   milestone
 
-  @argument
+  // @argument
   isFiled
 
-  @argument
+  // @argument
   isUlurp
 
   @computed('tense')

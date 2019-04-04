@@ -83,7 +83,6 @@
     "node": "^8.11.3"
   },
   "dependencies": {
-    "@ember-decorators/argument": "0.8.17",
     "@turf/bbox": "^6.0.1",
     "@turf/boolean-point-in-polygon": "6.0.1",
     "@turf/buffer": "^5.1.5",

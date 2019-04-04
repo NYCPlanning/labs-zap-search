@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember-decorators/object';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 
 export default class ProjectListComponent extends Component {
   @computed('project.applicants')
@@ -9,6 +9,6 @@ export default class ProjectListComponent extends Component {
     return applicants ? applicants.split(';')[0] : 'Unknown';
   }
 
-  @argument
+  // @argument
   project = {};
 }

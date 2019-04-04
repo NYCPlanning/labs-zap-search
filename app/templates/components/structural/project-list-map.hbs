@@ -20,6 +20,10 @@
       {{dynamic-tile-source.layer 
         layer=projectCentroidsCircleHoverLayer
       }}
+
+      {{dynamic-tile-source.layer 
+        layer=projectPolygonsHoverLayer
+      }}
     {{/map.dynamic-tiles}}
   {{/if}}
 
@@ -30,5 +34,5 @@
   {{yield (hash
     address-search=(component 'address-search' map=map)
     filter-distance-from-point=(component 'filter-distance-from-point' map=map)
-    )}}
+  )}}
 {{/projects-map-data}}

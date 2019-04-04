@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { action, computed } from '@ember-decorators/object';
 
 const expandToPolygonZoomThreshold = 14;
@@ -36,6 +36,8 @@ export const projectCentroidsCircleHoverLayer = {
   type: 'circle',
   source: 'project-centroids',
   'source-layer': 'project-centroids',
+  minzoom: 0,
+  maxzoom: expandToPolygonZoomThreshold,
   layout: { visibility: 'none' },
   paint: {
     'circle-radius': 5,
@@ -58,8 +60,20 @@ export const projectPolygonsLayer = {
   },
 };
 
+export const projectPolygonsHoverLayer = {
+  id: 'project-polygons-fill',
+  type: 'fill',
+  source: 'project-centroids',
+  'source-layer': 'project-centroids',
+  minzoom: 0,
+  maxzoom: expandToPolygonZoomThreshold,
+  paint: {
+    'fill-color': 'rgba(237, 189, 18, 0.3)',
+  },
+};
+
 export default class ProjectListMapComponent extends Component {
-  @argument
+  // @argument
   tiles = [];
 
   tileMode = 'centroid';
@@ -69,12 +83,12 @@ export default class ProjectListMapComponent extends Component {
     return this.tiles.map(url => `${url}?type=${this.tileMode}`);
   }
 
-  @argument
+  // @argument
   bounds = [];
 
   // we thread it down so components - which are separate
   // from controller/query param context - may update QPs
-  @argument
+  // @argument
   appliedFilters;
 
   projectPolygonsLayer = projectPolygonsLayer;
@@ -82,6 +96,8 @@ export default class ProjectListMapComponent extends Component {
   projectCentroidsCircleLayer = projectCentroidsCircleLayer;
 
   projectCentroidsCircleHoverLayer = projectCentroidsCircleHoverLayer;
+
+  projectPolygonsHoverLayer = projectPolygonsHoverLayer;
 
   @action
   computeTileMode(e) {

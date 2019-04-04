@@ -1,21 +1,27 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { computed } from '@ember-decorators/object';
 import { classNames, className } from '@ember-decorators/component';
 
 @classNames('filter')
 export default class FilterWrapperComponent extends Component {
-  @argument filterNames;
+  // @argument
+  filterNames;
 
-  @argument appliedFilters;
+  // @argument
+  appliedFilters;
 
-  @argument filterTitle = '';
+  // @argument
+  filterTitle = '';
 
-  @argument mutateWithAction = () => {};
+  // @argument
+  mutateWithAction = () => {};
 
-  @argument tooltip;
+  // @argument
+  tooltip;
 
-  @argument filterIsActive = false;
+  // @argument
+  filterIsActive = false;
 
   @className
   @computed('filterIsActive')

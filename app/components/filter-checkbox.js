@@ -1,10 +1,13 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 
 export default class FilterCheckboxComponent extends Component {
-  @argument value = '';
+  // @argument
+  value = '';
 
-  @argument classPrefix = '';
+  // @argument
+  classPrefix = '';
 
-  @argument currentValues = [];
+  // @argument
+  currentValues = [];
 }

@@ -1,21 +1,21 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { action, computed } from '@ember-decorators/object';
 import { tagName } from '@ember-decorators/component';
 import { contains } from 'ember-composable-helpers/helpers/contains';
 
 @tagName('')
 export default class FilterSectionComponent extends Component {
-  @argument
+  // @argument
   filterTitle = '';
 
-  @argument
+  // @argument
   tooltip;
 
-  @argument
+  // @argument
   filterNames;
 
-  @argument
+  // @argument
   appliedFilters;
 
   @computed('filterNames', 'appliedFilters')
@@ -25,7 +25,7 @@ export default class FilterSectionComponent extends Component {
     return contains(filterNames, appliedFilters);
   }
 
-  @argument
+  // @argument
   mutateArray() {} // eslint-disable-line
 
   @action

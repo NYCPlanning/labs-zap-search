@@ -1,25 +1,25 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { action, computed } from '@ember-decorators/object';
 import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 
 export default class FilterDistanceFromPoint extends Component {
-  @argument
+  // @argument
   map;
 
-  @argument
+  // @argument
   pointGeometry;
 
-  @argument
+  // @argument
   radius;
 
-  @argument
+  // @argument
   onRadiusFilterClick = () => {}
 
-  @argument
+  // @argument
   pointLayerId = 'project-centroids-circle';
 
-  @argument
+  // @argument
   shouldQueryFullMap = false;
 
   // geojson

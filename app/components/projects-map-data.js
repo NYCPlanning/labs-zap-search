@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import mapboxgl from 'mapbox-gl';
 import { action } from '@ember-decorators/object';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { service } from '@ember-decorators/service';
 
 export default class ProjectsMapComponent extends Component {
@@ -10,10 +10,12 @@ export default class ProjectsMapComponent extends Component {
   @service resultMapEvents;
 
   // required
-  @argument meta = {};
+  // @argument
+  meta = {};
 
   // hack: directly mutate applied filters
-  @argument appliedFilters;
+  // @argument
+  appliedFilters;
 
   tooltipPoint = { x: 0, y: 0 }
 
@@ -23,7 +25,8 @@ export default class ProjectsMapComponent extends Component {
     closeOnClick: false,
   });
 
-  @argument onMapClick = () => {};
+  // @argument
+  onMapClick = () => {};
 
   @action
   handleMapLoad(map) {
