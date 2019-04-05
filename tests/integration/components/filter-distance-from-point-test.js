@@ -9,7 +9,6 @@ module('Integration | Component | filter-distance-from-point', function(hooks) {
   setupMockBoxHooks(hooks);
 
   test('it fires the click action', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
     this.set('clickHandler', function(val) {
       assert.deepEqual(val, [1, 1]);
     });
