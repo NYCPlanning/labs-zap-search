@@ -1,25 +1,25 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 
 export default class MapboxGlDynamicTilesComponent extends Component {
-  @argument
+  // @argument
   map;
 
-  @argument
+  // @argument
   tiles;
 
-  @argument
-  layer;
-
-  @argument
+  // @argument
   mapInstance;
+
+  // @argument
+  sourceId = 'project-centroids';
 
   didUpdateAttrs() {
     const map = this.mapInstance;
     const newStyle = map.getStyle();
     const { tiles } = this;
 
-    newStyle.sources['project-centroids'].tiles = tiles;
+    newStyle.sources[this.sourceId].tiles = tiles;
     map.setStyle(newStyle);
   }
 }

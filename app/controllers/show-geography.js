@@ -4,22 +4,26 @@ import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
 import ENV from 'labs-zap-search/config/environment';
 import queryString from 'qs';
+import turfBbox from '@turf/bbox';
+import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 import GeographyParachuteController from './query-parameters/show-geography';
-
 
 const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
-  constructor(...args) {
-    super(...args);
-
-    this.set('page', 1);
-    this.set('cachedProjects', []);
-    this.set('tiles', []);
-    this.set('bounds', []);
+  init(...args) {
+    super.init(...args);
 
     this.fetchData.perform({ unloadAll: true });
   }
+
+  page = 1;
+
+  cachedProjects = [];
+
+  tiles = [];
+
+  bounds = [];
 
   queryParamsDidChange({ shouldRefresh }) {
     if (shouldRefresh) {
@@ -93,8 +97,19 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     }
 
     if (meta.tiles && meta.bounds) {
+      if (queryOptions.distance_from_point && queryOptions.radius_from_point) {
+        const {
+          distance_from_point,
+          radius_from_point,
+        } = queryOptions;
+        const boundingBox = turfBbox(generateCircleFromFeet([distance_from_point, radius_from_point]));
+
+        this.set('bounds', boundingBox);
+      } else {
+        this.set('bounds', meta.bounds);
+      }
+
       this.set('tiles', meta.tiles);
-      this.set('bounds', meta.bounds);
     }
 
     cachedProjects.pushObjects(projects.toArray());
@@ -106,7 +121,17 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   @action
-  setDebouncedText(key, { target: { value } }) {
+  handleSearchResultSelect(key, { geometry: { coordinates } }) {
+    this.set(key, coordinates);
+  }
+
+  @action
+  handleRadiusFilterClick(key, lngLat) {
+    this.set(key, lngLat);
+  }
+
+  @action
+  setDebouncedValue(key, { target: { value } }) {
     this.debouncedSet.perform(key, value);
   }
 

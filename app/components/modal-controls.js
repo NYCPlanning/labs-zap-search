@@ -1,33 +1,33 @@
 import Component from '@ember/component';
 import { action } from '@ember-decorators/object';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { run } from '@ember/runloop';
 import fetch from 'fetch';
 import ENV from 'labs-zap-search/config/environment';
 
 export default class ProjectFeedbackComponent extends Component {
-  @argument
+  // @argument
   project
 
-  @argument
+  // @argument
   shareURL = window.location.href;
 
-  @argument
+  // @argument
   shareClosed = true;
 
-  @argument
+  // @argument
   copySuccess = false;
 
-  @argument
+  // @argument
   flagText = '';
 
-  @argument
+  // @argument
   flagClosed = true;
 
-  @argument
+  // @argument
   flagSuccess = false;
 
-  @argument
+  // @argument
   reCaptchaResponse = null;
 
   @action

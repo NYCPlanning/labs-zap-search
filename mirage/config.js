@@ -9,7 +9,8 @@ export default function() {
   this.passthrough('http://raw.githubusercontent.com/**');
   this.passthrough('https://raw.githubusercontent.com/**');
   this.passthrough('https://tiles.planninglabs.nyc/**');
-  // These comments are here to help you get started. Feel free to delete them.
+  this.passthrough('https://layers-api-staging.planninglabs.nyc/**');
+  this.passthrough('/test-data/**');
 
   this.get('/projects', function(schema, request) {
     const { queryParams: { page: offsetParam = 1 } } = request;

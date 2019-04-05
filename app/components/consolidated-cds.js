@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember-decorators/object';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { tagName } from '@ember-decorators/component';
 import _ from 'underscore';
 
@@ -16,9 +16,11 @@ const boroLookup = (boroPrefix) => {
 
 @tagName('span')
 export default class ProjectListComponent extends Component {
-  @argument cds
+  // @argument
+  cds = [];
 
-  @argument cdlink = false
+  // @argument
+  cdlink = false;
 
   @computed('cds')
   get consolodatedCDs() {

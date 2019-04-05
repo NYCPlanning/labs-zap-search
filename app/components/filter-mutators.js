@@ -1,24 +1,24 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
 import { tagName } from '@ember-decorators/component';
 
 @tagName('')
 export default class BaseFilterComponent extends Component {
-  @argument
+  // @argument
   appliedFilters;
 
-  @argument
+  // @argument
   queryParamsState;
 
-  @argument
+  // @argument
   queryParam;
 
-  @argument
+  // @argument
   mutateArray() {} // eslint-disable-line
 
-  @argument
-  setDebouncedText() {} // eslint-disable-line
+  // @argument
+  setDebouncedValue() {} // eslint-disable-line
 
-  @argument
+  // @argument
   replaceProperty() {} // eslint-disable-line
 }

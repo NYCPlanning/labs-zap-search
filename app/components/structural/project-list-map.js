@@ -1,54 +1,110 @@
 import Component from '@ember/component';
-import { argument } from '@ember-decorators/argument';
+// import { argument } from '@ember-decorators/argument';
+import { action, computed } from '@ember-decorators/object';
 
+const expandToPolygonZoomThreshold = 14;
+
+export const projectCentroidsCircleLayer = {
+  id: 'project-centroids-circle',
+  type: 'circle',
+  source: 'project-centroids',
+  'source-layer': 'project-centroids',
+  minzoom: 0,
+  maxzoom: expandToPolygonZoomThreshold,
+  paint: {
+    'circle-radius': {
+      stops: [[10, 3], [15, 4]],
+    },
+    'circle-color': {
+      property: 'dcp_publicstatus_simp',
+      type: 'categorical',
+      stops: [
+        ['Filed', '#FF9400'],
+        ['In Public Review', '#78D271'],
+        ['Completed', '#44A3D5'],
+      ],
+      default: '#6b717b',
+    },
+    'circle-opacity': 1,
+    'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
+    'circle-stroke-color': '#FFFFFF',
+  },
+};
+
+export const projectCentroidsCircleHoverLayer = {
+  id: 'project-centroids-circle-hover',
+  type: 'circle',
+  source: 'project-centroids',
+  'source-layer': 'project-centroids',
+  minzoom: 0,
+  maxzoom: expandToPolygonZoomThreshold,
+  layout: { visibility: 'none' },
+  paint: {
+    'circle-radius': 5,
+    'circle-color': '#ae561f',
+    'circle-opacity': 1,
+    'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
+    'circle-stroke-color': '#FFFFFF',
+  },
+};
+
+export const projectPolygonsLayer = {
+  id: 'project-polygons-fill',
+  type: 'fill',
+  source: 'project-centroids',
+  'source-layer': 'project-centroids',
+  minzoom: expandToPolygonZoomThreshold,
+  maxzoom: 24,
+  paint: {
+    'fill-color': 'rgba(237, 189, 18, 0.3)',
+  },
+};
+
+export const projectPolygonsHoverLayer = {
+  id: 'project-polygons-fill-hover',
+  type: 'fill',
+  source: 'project-centroids',
+  'source-layer': 'project-centroids',
+  minzoom: 0,
+  maxzoom: expandToPolygonZoomThreshold,
+  paint: {
+    'fill-color': 'rgba(237, 189, 18, 0.3)',
+  },
+};
+
+// this component renders a map and receives a tiles URL
+// for rendering dynamic tiles. It's responsible for some styling
+// and is very much on the domain-problem side of the spectrum
+// it also yields out some contextual components that are invoked
+// from the consuming end. it also threads down an action to determine
+// that tile mode.
+
+// tile mode is what determines whether we see polygon or centroids.
 export default class ProjectListMapComponent extends Component {
-  @argument
+  // @argument
   tiles = [];
 
-  @argument
-  bounds = [];
+  tileMode = 'centroid';
 
-  fitBoundsOptions = {
-    padding: 20,
+  @computed('tiles', 'tileMode')
+  get tilesForZoom() {
+    return this.tiles.map(url => `${url}?type=${this.tileMode}`);
   }
 
-  projectCentroidsCircleLayer = {
-    id: 'project-centroids-circle',
-    type: 'circle',
-    source: 'project-centroids',
-    'source-layer': 'project-centroids',
-    paint: {
-      'circle-radius': {
-        stops: [[10, 3], [15, 4]],
-      },
-      'circle-color': {
-        property: 'dcp_publicstatus_simp',
-        type: 'categorical',
-        stops: [
-          ['Filed', '#FF9400'],
-          ['In Public Review', '#78D271'],
-          ['Completed', '#44A3D5'],
-        ],
-        default: '#6b717b',
-      },
-      'circle-opacity': 1,
-      'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
-      'circle-stroke-color': '#FFFFFF',
-    },
+  @action
+  computeTileMode(e) {
+    if (e.target.getZoom() > expandToPolygonZoomThreshold) {
+      this.set('tileMode', 'polygons');
+    } else {
+      this.set('tileMode', 'centroid');
+    }
   }
 
-  projectCentroidsCircleHoverLayer = {
-    id: 'project-centroids-circle-hover',
-    type: 'circle',
-    source: 'project-centroids',
-    'source-layer': 'project-centroids',
-    layout: { visibility: 'none' },
-    paint: {
-      'circle-radius': 5,
-      'circle-color': '#ae561f',
-      'circle-opacity': 1,
-      'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
-      'circle-stroke-color': '#FFFFFF',
-    },
-  }
+  projectPolygonsLayer = projectPolygonsLayer;
+
+  projectCentroidsCircleLayer = projectCentroidsCircleLayer;
+
+  projectCentroidsCircleHoverLayer = projectCentroidsCircleHoverLayer;
+
+  projectPolygonsHoverLayer = projectPolygonsHoverLayer;
 }

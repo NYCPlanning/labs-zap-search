@@ -7,7 +7,7 @@ module('Integration | Helper | lookup-action-type', function(hooks) {
   setupRenderingTest(hooks);
 
   // Replace this with your real tests.
-  test('it renders', async function(assert) {
+  test('it returns the expected action type', async function(assert) {
     this.set('inputValue', 'ZM');
 
     await render(hbs`{{lookup-action-type inputValue}}`);

@@ -20,7 +20,19 @@ module.exports = function(environment) {
         Date: false,
       },
     },
+    fontawesome: {
+      icons: {
+        // Wastefully use all icons
+        'free-solid-svg-icons': 'all',
+        'free-regular-svg-icons': 'all',
+        'free-brands-svg-icons': 'all',
 
+        // TODO -- Use a subset of icons
+        // 'free-solid-svg-icons': [
+        //   'stroopwafel'
+        // ],
+      },
+    },
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
@@ -35,7 +47,7 @@ module.exports = function(environment) {
     'mapbox-gl': {
       accessToken: '',
       map: {
-        style: '//raw.githubusercontent.com/NYCPlanning/labs-gl-style/master/data/style.json',
+        style: '//layers-api-staging.planninglabs.nyc/v1/base/style.json',
         zoom: 12.25,
         center: [-73.9868, 40.724],
       },
@@ -52,8 +64,8 @@ module.exports = function(environment) {
         environments: ['development', 'production'],
         config: {
           id: 'UA-84250233-13',
-          debug: environment === 'development',
-          trace: environment === 'development',
+          debug: environment === 'debug-ga',
+          trace: environment === 'debug-ga',
           // Ensure development env hits aren't sent to GA
           sendHitTask: (environment !== 'development' && environment !== 'devlocal'),
         },
@@ -70,6 +82,7 @@ module.exports = function(environment) {
     ENV['ember-cli-mirage'] = {
       enabled: true,
     };
+    ENV['mapbox-gl'].map.style = '/test-data/style.json';
   }
 
   if (environment === 'test') {
@@ -86,7 +99,7 @@ module.exports = function(environment) {
 
   if (environment === 'devlocal') {
     ENV.host = 'http://localhost:3000';
-
+    ENV['mapbox-gl'].map.style = '/test-data/style.json';
     ENV['ember-cli-mirage'] = {
       enabled: false,
     };
@@ -102,6 +115,10 @@ module.exports = function(environment) {
 
   if (environment === 'staging') {
     ENV.host = 'https://zap-api-staging.planninglabs.nyc';
+    ENV['mapbox-gl'].map.style = '/test-data/style.json';
+    ENV['ember-cli-mirage'] = {
+      enabled: false,
+    };
   }
 
   if (environment === 'devlive') {

@@ -1,0 +1,17 @@
+<div class="filter-header">
+  <div class="switch tiny float-left">
+    <input class="switch-input" type="checkbox" checked={{if (contains filterNames appliedFilters) 'checked'}}>
+    <label {{action mutateWithAction}} class="switch-paddle">
+
+      <span class="show-for-sr">Toggle {{filterTitle}} Filter</span>
+    </label>
+  </div>
+  <h6 class="filter-name" {{action mutateWithAction}}>
+    {{filterTitle}}
+    {{~#if tooltip}}<sup class="dark-gray">{{icon-tooltip tip=tooltip}}</sup>{{/if}}
+  </h6>
+</div>
+
+<div class="filter-controls">
+  {{yield}}
+</div>
