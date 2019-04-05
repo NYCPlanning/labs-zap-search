@@ -13,19 +13,6 @@ module.exports = function(defaults) {
     'ember-cli-tooltipster': {
       importTooltipsterDefaultStyles: false,
     },
-    fontawesome: {
-      icons: {
-        // Wastefully use all icons
-        'free-solid-svg-icons': 'all',
-        'free-regular-svg-icons': 'all',
-        'free-brands-svg-icons': 'all',
-
-        // TODO -- Use a subset of icons
-        // 'free-solid-svg-icons': [
-        //   'stroopwafel'
-        // ],
-      },
-    },
     'ember-cli-foundation-6-sass': {
       foundationJs: 'all',
     },

@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import mapboxgl from 'mapbox-gl';
 import { action } from '@ember-decorators/object';
 // import { argument } from '@ember-decorators/argument';
-import { service } from '@ember-decorators/service';
+import { inject as service } from '@ember-decorators/service';
 
 export default class ProjectsMapComponent extends Component {
   @service router;

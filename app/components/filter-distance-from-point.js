@@ -3,6 +3,9 @@ import Component from '@ember/component';
 import { action, computed } from '@ember-decorators/object';
 import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 
+// it takes a point and radius, computes a geojson circle
+// and handles clicks that query mapbox-gl for intersections
+// triggers optional events
 export default class FilterDistanceFromPoint extends Component {
   // @argument
   map;

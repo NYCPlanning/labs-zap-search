@@ -20,7 +20,19 @@ module.exports = function(environment) {
         Date: false,
       },
     },
+    fontawesome: {
+      icons: {
+        // Wastefully use all icons
+        'free-solid-svg-icons': 'all',
+        'free-regular-svg-icons': 'all',
+        'free-brands-svg-icons': 'all',
 
+        // TODO -- Use a subset of icons
+        // 'free-solid-svg-icons': [
+        //   'stroopwafel'
+        // ],
+      },
+    },
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created

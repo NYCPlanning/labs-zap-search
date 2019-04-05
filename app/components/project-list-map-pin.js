@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { service } from '@ember-decorators/service';
+import { inject as service } from '@ember-decorators/service';
 import { classNames, tagName } from '@ember-decorators/component';
 // import { argument } from '@ember-decorators/argument';
 

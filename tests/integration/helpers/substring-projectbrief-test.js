@@ -7,11 +7,11 @@ module('Integration | Helper | substring-projectbrief', function(hooks) {
   setupRenderingTest(hooks);
 
   // Replace this with your real tests.
-  test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
+  test('it shortens long test', async function(assert) {
+    this.set('inputValue', new Array(121).toString());
 
     await render(hbs`{{substring-projectbrief inputValue}}`);
 
-    assert.equal(this.element.textContent.trim(), '1234');
+    assert.equal(this.element.textContent.trim().length, 120);
   });
 });

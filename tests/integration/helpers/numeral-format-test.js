@@ -7,7 +7,7 @@ module('Integration | Helper | numeral-format', function(hooks) {
   setupRenderingTest(hooks);
 
   // Replace this with your real tests.
-  test('it renders', async function(assert) {
+  test('it converts to numeral-format', async function(assert) {
     this.set('inputValue', '1234');
 
     await render(hbs`{{numeral-format inputValue}}`);

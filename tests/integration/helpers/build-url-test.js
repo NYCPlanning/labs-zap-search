@@ -7,7 +7,7 @@ module('Integration | Helper | build-url', function(hooks) {
   setupRenderingTest(hooks);
 
   // Replace this with your real tests.
-  test('it renders', async function(assert) {
+  test('it builds a very specific kind of url with bbl input', async function(assert) {
     this.set('inputType', 'zola');
     this.set('bbl', '0123456789');
 

@@ -7,7 +7,7 @@ module('Integration | Helper | to-miles', function(hooks) {
   setupRenderingTest(hooks);
 
   // Replace this with your real tests.
-  test('it renders', async function(assert) {
+  test('it converts from feet to miles', async function(assert) {
     this.set('inputValue', 5280);
 
     await render(hbs`{{to-miles inputValue}}`);

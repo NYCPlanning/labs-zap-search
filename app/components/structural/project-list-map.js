@@ -61,7 +61,7 @@ export const projectPolygonsLayer = {
 };
 
 export const projectPolygonsHoverLayer = {
-  id: 'project-polygons-fill',
+  id: 'project-polygons-fill-hover',
   type: 'fill',
   source: 'project-centroids',
   'source-layer': 'project-centroids',
@@ -72,6 +72,14 @@ export const projectPolygonsHoverLayer = {
   },
 };
 
+// this component renders a map and receives a tiles URL
+// for rendering dynamic tiles. It's responsible for some styling
+// and is very much on the domain-problem side of the spectrum
+// it also yields out some contextual components that are invoked
+// from the consuming end. it also threads down an action to determine
+// that tile mode.
+
+// tile mode is what determines whether we see polygon or centroids.
 export default class ProjectListMapComponent extends Component {
   // @argument
   tiles = [];
@@ -83,22 +91,6 @@ export default class ProjectListMapComponent extends Component {
     return this.tiles.map(url => `${url}?type=${this.tileMode}`);
   }
 
-  // @argument
-  bounds = [];
-
-  // we thread it down so components - which are separate
-  // from controller/query param context - may update QPs
-  // @argument
-  appliedFilters;
-
-  projectPolygonsLayer = projectPolygonsLayer;
-
-  projectCentroidsCircleLayer = projectCentroidsCircleLayer;
-
-  projectCentroidsCircleHoverLayer = projectCentroidsCircleHoverLayer;
-
-  projectPolygonsHoverLayer = projectPolygonsHoverLayer;
-
   @action
   computeTileMode(e) {
     if (e.target.getZoom() > expandToPolygonZoomThreshold) {
@@ -107,4 +99,12 @@ export default class ProjectListMapComponent extends Component {
       this.set('tileMode', 'centroid');
     }
   }
+
+  projectPolygonsLayer = projectPolygonsLayer;
+
+  projectCentroidsCircleLayer = projectCentroidsCircleLayer;
+
+  projectCentroidsCircleHoverLayer = projectCentroidsCircleHoverLayer;
+
+  projectPolygonsHoverLayer = projectPolygonsHoverLayer;
 }

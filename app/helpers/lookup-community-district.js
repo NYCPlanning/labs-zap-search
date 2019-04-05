@@ -1,6 +1,4 @@
 import { helper } from '@ember/component/helper';
-import isPointInPolygon from '@turf/boolean-point-in-polygon';
-import { get } from '@ember/object';
 
 export const communityDistrictLookup = [
   ['BK01', '1', 'Brooklyn'],
@@ -66,12 +64,8 @@ export const communityDistrictLookup = [
   code, num, boro, searchField: `${boro} ${num}`,
 }));
 
-export function lookupCommunityDistrict([communityDistricts, point]) {
-  if (communityDistricts === undefined) return communityDistrictLookup;
-
-  const foundDist = communityDistricts.features.find(district => isPointInPolygon(point, district));
-
-  return get(foundDist, 'properties.displaynam');
+export function lookupCommunityDistrict() {
+  return communityDistrictLookup;
 }
 
 export default helper(lookupCommunityDistrict);

@@ -7,7 +7,7 @@ module('Integration | Helper | keyword-lookup', function(hooks) {
   setupRenderingTest(hooks);
 
   // Replace this with your real tests.
-  test('it renders', async function(assert) {
+  test('it returns the expected keyword', async function(assert) {
     this.set('inputValue', 'RFP');
 
     await render(hbs`{{keyword-lookup inputValue}}`);

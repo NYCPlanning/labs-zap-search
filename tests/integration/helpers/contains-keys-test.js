@@ -7,7 +7,7 @@ module('Integration | Helper | contains-keys', function(hooks) {
   setupRenderingTest(hooks);
 
   // Replace this with your real tests.
-  test('it renders', async function(assert) {
+  test('it filters objects array for value by specified keyname', async function(assert) {
     this.set('objects', [{ code: 1 }, { code: 2 }]);
     this.set('keys', [1]);
     await render(hbs`

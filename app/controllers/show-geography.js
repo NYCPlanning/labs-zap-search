@@ -11,16 +11,19 @@ import GeographyParachuteController from './query-parameters/show-geography';
 const DEBOUNCE_MS = 500;
 
 export default class ShowGeographyController extends GeographyParachuteController {
-  constructor(...args) {
-    super(...args);
-
-    this.set('page', 1);
-    this.set('cachedProjects', []);
-    this.set('tiles', []);
-    this.set('bounds', []);
+  init(...args) {
+    super.init(...args);
 
     this.fetchData.perform({ unloadAll: true });
   }
+
+  page = 1;
+
+  cachedProjects = [];
+
+  tiles = [];
+
+  bounds = [];
 
   queryParamsDidChange({ shouldRefresh }) {
     if (shouldRefresh) {

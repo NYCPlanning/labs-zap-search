@@ -162,13 +162,13 @@ export default class ProjectMilestoneComponent extends Component {
   classNameBindings = ['getClassNames'];
 
   // @argument
-  milestone
+  milestone;
 
   // @argument
-  isFiled
+  isFiled;
 
   // @argument
-  isUlurp
+  isUlurp;
 
   @computed('tense')
   get getClassNames() {

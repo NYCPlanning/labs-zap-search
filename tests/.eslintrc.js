@@ -1,11 +1,13 @@
+'use strict';
+
 module.exports = {
   root: true,
   extends: '../.eslintrc.js',
   globals: {
-    'server': true
+    server: true,
   },
   env: {
-    'embertest': true,
-    'es6': true
-  }
+    embertest: true,
+    es6: true,
+  },
 };

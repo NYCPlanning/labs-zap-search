@@ -58,13 +58,13 @@ export default class ShowProjectController extends Controller {
 
 
   @action
-  handleMapLoad(bblFeatureCollection, map) { // eslint-disable-line
+  handleMapLoad(map) { // eslint-disable-line
     window.map = map;
 
     const navigationControl = new mapboxgl.NavigationControl();
     map.addControl(navigationControl, 'top-left');
 
-    map.fitBounds(turfBbox(turfBuffer(bblFeatureCollection.features[0], 0.075)), {
+    map.fitBounds(turfBbox(turfBuffer(this.model.bbl_featurecollection.features[0], 0.075)), {
       linear: true,
       duration: 0,
     });

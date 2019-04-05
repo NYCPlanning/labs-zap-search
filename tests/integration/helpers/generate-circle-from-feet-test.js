@@ -8,10 +8,11 @@ module('Integration | Helper | generate-circle-from-feet', function(hooks) {
 
   // Replace this with your real tests.
   test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
+    this.set('point', [0, 0]);
+    this.set('radius', 400);
 
-    await render(hbs`{{generate-circle-from-feet inputValue}}`);
+    await render(hbs`{{generate-circle-from-feet point radius}}`);
 
-    assert.equal(this.element.textContent.trim(), '1234');
+    assert.ok(this.element.textContent);
   });
 });
