@@ -99,7 +99,7 @@ export const projectParams = new QueryParams({
     },
   },
   distance_from_point: {
-    defaultValue: [0, 0],
+    defaultValue: [-73.9868, 40.724],
     refresh: true,
     serialize(value) {
       return value.toString();
