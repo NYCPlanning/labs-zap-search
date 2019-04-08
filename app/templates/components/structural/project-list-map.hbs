@@ -1,7 +1,7 @@
 {{#projects-map-data as |map|}}
   {{#if tiles}}
     {{!-- High-level dynamic tiles configuration --}}
-    {{#map.dynamic-tiles 
+    {{#map.dynamic-tiles
       tiles=tilesForZoom
       sourceId=projectCentroidsCircleLayer.source
       as |dynamic-tile-source|
@@ -17,13 +17,15 @@
       }}
 
       {{!-- Anything else for dynamic tiles, like hovers --}}
-      {{dynamic-tile-source.layer 
+      {{dynamic-tile-source.layer
         layer=projectCentroidsCircleHoverLayer
       }}
 
-      {{dynamic-tile-source.layer 
+      {{dynamic-tile-source.layer
         layer=projectPolygonsHoverLayer
       }}
+
+      {{map-info-box}}
     {{/map.dynamic-tiles}}
   {{/if}}
 

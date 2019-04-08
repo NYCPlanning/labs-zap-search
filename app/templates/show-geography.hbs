@@ -1,7 +1,7 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
 {{!--
-  FAQ: 
+  FAQ:
     `section.delegate-mutation` is a wrapper action to notify the "applied-filters"
     that an explicit change has happened
 
@@ -69,8 +69,6 @@
           )
         }}
 
-        {{map-info-box}}
-
         {{map.call 'fitBounds' bounds (hash padding=20)}}
       {{/structural/project-list-map}}
     {{/filters.section}}
@@ -81,13 +79,13 @@
         filterNames='project_applicant_text'
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle='Project / Description / Applicant'
-          tooltip='Enter an exact word or phrase that exists within a project name, description, or applicant name.'}}
+          filterTitle='Text Match'
+          tooltip="Enter an exact word or phrase that matches a project's name, description, applicant name, ULURP/CEQR number, or BBL."}}
            <input
             class="filter-text-input"
             type="text"
             value={{project_applicant_text}}
-            placeholder="Project / Description / Applicant..."
+            placeholder="Enter an exact phrase, name, or number..."
             oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'project_applicant_text')}}>
         {{/section.filter-wrapper}}
       {{/filters.section}}
