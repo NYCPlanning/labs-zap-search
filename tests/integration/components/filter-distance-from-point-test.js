@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupMockBoxHooks from '../../helpers/mapbox-gl-stub';
 
@@ -9,19 +9,6 @@ module('Integration | Component | filter-distance-from-point', function(hooks) {
   setupMockBoxHooks(hooks);
 
   test('it fires the click action', async function(assert) {
-    this.mapboxEventStub = {
-      target: {
-        queryRenderedFeatures() {
-          return [{
-            geometry: {
-              coordinates: [1, 1],
-            },
-          }];
-        },
-      },
-    };
-
-    // Set any properties with this.set('myProperty', 'value');
     this.set('clickHandler', function(val) {
       assert.deepEqual(val, [1, 1]);
     });
@@ -37,6 +24,20 @@ module('Integration | Component | filter-distance-from-point', function(hooks) {
         }}
       {{/mapbox-gl}}
     `);
+
+    this.mapboxEventStub = {
+      target: {
+        queryRenderedFeatures() {
+          return [{
+            geometry: {
+              coordinates: [1, 1],
+            },
+          }];
+        },
+      },
+    };
+
+    await triggerEvent('.mapbox-gl', 'click');
   });
 
   test('it provides the circle from radius', async function(assert) {
@@ -52,6 +53,7 @@ module('Integration | Component | filter-distance-from-point', function(hooks) {
       {{/mapbox-gl}}
     `);
 
+    await triggerEvent('.mapbox-gl', 'click');
     assert.ok(this.element.textContent.trim());
   });
 });
