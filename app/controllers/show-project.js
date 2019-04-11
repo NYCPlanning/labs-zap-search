@@ -27,35 +27,29 @@ export default class ShowProjectController extends Controller {
     },
   }
 
-  @computed()
-  get isFiled() {
-    return this.get('model.dcp_publicstatus') === 'Filed';
-  }
-
   // workaround for displaying "Revised Land Use Application..." for subsequent copies of the same milestone
   @computed('model.milestones')
   get revisedmilestones() {
     const { milestones } = this.model;
-    let filedCounter = 0;
-    let easCounter = 0;
+    let lastZapId = '';
 
     return milestones.map((milestone) => {
-      if (milestone.milestonename === 'Land Use Application Filed Review') {
-        filedCounter += 1;
-        if (filedCounter > 1) milestone.milestonename = 'Revised Land Use Application Filed Review';
+      if (
+        milestone.zap_id === lastZapId
+        && (
+          milestone.zap_id === '663beec4-dad0-e711-8116-1458d04e2fb8'
+          || milestone.zap_id === '783beec4-dad0-e711-8116-1458d04e2fb8'
+        )
+      ) {
+        lastZapId = milestone.zap_id;
+        milestone.display_name = `Revised ${milestone.display_name}`;
         return milestone;
       }
 
-      if (milestone.milestonename === 'Filed EAS Review') {
-        easCounter += 1;
-        if (easCounter > 1) milestone.milestonename = 'Revised Filed EAS Review';
-        return milestone;
-      }
-
+      lastZapId = milestone.zap_id;
       return milestone;
     });
   }
-
 
   @action
   handleMapLoad(map) { // eslint-disable-line

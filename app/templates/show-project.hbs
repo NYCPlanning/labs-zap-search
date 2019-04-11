@@ -143,7 +143,7 @@
             <ul class="no-bullet milestones-list">
               {{#if model.milestones}}
                 {{#each revisedmilestones as | milestone |}}
-                  {{project-milestone milestone=milestone isFiled=isFiled  isUlurp=(eq model.dcp_ulurp_nonulurp "ULURP")}}
+                  {{project-milestone milestone=milestone}}
                 {{/each}}
               {{else}}
                 No Milestones
