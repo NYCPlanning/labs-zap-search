@@ -5,7 +5,7 @@ import moment from 'moment';
 export const projectParams = new QueryParams({
   // meta
   'applied-filters': {
-    defaultValue: ['dcp_publicstatus'].sort(),
+    defaultValue: [].sort(),
     refresh: true,
     serialize(value) {
       return value.toString();

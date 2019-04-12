@@ -13,11 +13,7 @@ export default class ProjectsMapComponent extends Component {
   // @argument
   meta = {};
 
-  // hack: directly mutate applied filters
-  // @argument
-  appliedFilters;
-
-  tooltipPoint = { x: 0, y: 0 }
+  tooltipPoint = { x: 0, y: 0 };
 
   highlightedFeature = null;
 
@@ -51,7 +47,7 @@ export default class ProjectsMapComponent extends Component {
 
   @action
   handleMouseMove(e) {
-    const map = this.mapInstance;
+    const map = e.target;
     const [feature] = map.queryRenderedFeatures(
       e.point,
       { layers: ['project-centroids-circle', 'project-polygons-fill'] },
@@ -74,7 +70,7 @@ export default class ProjectsMapComponent extends Component {
 
   @action
   handleMapClick(e) {
-    const map = this.mapInstance;
+    const map = e.target;
     const [feature] = map.queryRenderedFeatures(
       e.point,
       { layers: ['project-centroids-circle'] },
