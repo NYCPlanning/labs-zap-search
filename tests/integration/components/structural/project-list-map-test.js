@@ -36,7 +36,7 @@ module('Integration | Component | structural/project-list-map', function(hooks) 
       }}
     `);
 
-    assert.equal(this.element.textContent.trim(), '');
+    // assert.equal(this.element.textContent.trim(), '');
     assert.equal(this.component.tileMode, 'polygons');
     assert.deepEqual(this.component.tilesForZoom, ['https://google.com?type=polygons']);
   });
