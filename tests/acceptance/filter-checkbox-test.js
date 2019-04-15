@@ -104,12 +104,12 @@ module('Acceptance | filter checkbox', function(hooks) {
     server.createList('project', 20);
 
     await visit('/projects');
-    // await find('.filter-section-project-\\/-description-\\/-applicant.inactive');
-    // await fillIn('.filter-section-project-\\/-description-\\/-applicant .filter-text-input', 'peanut butter');
-    // await find('.filter-section-project-\\/-description-\\/-applicant.active');
-    //
-    // assert.equal(currentURL().includes('project_applicant_text'), true);
-    // assert.equal(currentURL().includes('applied-filters'), true);
+    await find('.filter-section-text-match.inactive');
+    await fillIn('.filter-section-text-match .filter-text-input', 'peanut butter');
+    await find('.filter-section-text-match.active');
+
+    assert.equal(currentURL().includes('project_applicant_text'), true);
+    assert.equal(currentURL().includes('applied-filters'), true);
 
     await find('.filter-section-borough-\\/-block.inactive');
     await click('.filter-section-borough-\\/-block li:nth-child(1)');
