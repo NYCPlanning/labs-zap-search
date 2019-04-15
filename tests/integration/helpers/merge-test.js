@@ -8,10 +8,11 @@ module('Integration | Helper | merge', function(hooks) {
 
   // Replace this with your real tests.
   test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
+    this.set('left', { foo: 'bar' });
+    this.set('right', { baz: 'qux' });
 
-    await render(hbs`{{merge inputValue}}`);
+    await render(hbs`{{merge left right}}`);
 
-    assert.equal(this.element.textContent.trim(), '1234');
+    assert.ok(this.element);
   });
 });
