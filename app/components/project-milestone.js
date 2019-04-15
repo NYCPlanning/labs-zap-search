@@ -18,7 +18,7 @@ const milestoneLookup = {
     ulurptooltip: 'The Borough President has 30 days after the Community Board issues a recommendation to review the application and issue a recommendation.',
     nonulurptooltip: '',
   },
-  'CEQR Fee Payment': {
+  'Prepare CEQR Fee Payment': {
     displayName: 'CEQR Fee Paid',
     dateFormat: 'end',
     hideIfFiled: false,
@@ -61,28 +61,28 @@ const milestoneLookup = {
     ulurptooltip: '',
     nonulurptooltip: '',
   },
-  'EIS Draft Scope Review': {
+  'Review Filed EAS and EIS Draft Scope of Work': {
     displayName: 'Draft Scope of Work for Environmental Impact Statement Received',
     dateFormat: 'start',
     hideIfFiled: true,
     ulurptooltip: 'A Draft Scope of Work must be recieved 30 days prior to the Public Scoping Meeting.',
     nonulurptooltip: 'A Draft Scope of Work must be recieved 30 days prior to the Public Scoping Meeting.',
   },
-  'EIS Public Scoping Meeting': {
+  'DEIS Public Scoping Meeting': {
     displayName: 'Environmental Impact Statement Public Scoping Meeting',
     dateFormat: 'end',
     hideIfFiled: true,
     ulurptooltip: '',
     nonulurptooltip: '',
   },
-  'FEIS Submitted and Review': {
+  'Prepare and Review FEIS': {
     displayName: 'Final Environmental Impact Statement Submitted',
     dateFormat: 'start',
     hideIfFiled: true,
     ulurptooltip: 'A Final Environmental Impact Statement (FEIS) must be completed ten days prior to the City Planning Commission vote.',
     nonulurptooltip: 'A Final Environmental Impact Statement (FEIS) must be completed ten days prior to the City Planning Commission vote.',
   },
-  'Filed EAS Review': {
+  'Review Filed EAS': {
     displayName: 'Environmental Assessment Statement Filed',
     dateFormat: 'start',
     hideIfFiled: false,
@@ -103,7 +103,7 @@ const milestoneLookup = {
     ulurptooltip: '',
     nonulurptooltip: 'For many non-ULURP actions this is the final action and record of the decision.',
   },
-  'Final Scope of Work Issued': {
+  'Issue Final Scope of Work': {
     displayName: 'Final Scope of Work for Environmental Impact Statement Issued',
     dateFormat: 'end',
     hideIfFiled: true,
@@ -126,7 +126,7 @@ const milestoneLookup = {
     ulurptooltip: '',
     nonulurptooltip: '',
   },
-  'Land Use Fee Payment': {
+  'Prepare Filed Land Use Fee Payment': {
     displayName: 'Land Use Fee Paid',
     dateFormat: 'end',
     hideIfFiled: false,
@@ -140,7 +140,7 @@ const milestoneLookup = {
     ulurptooltip: "The Mayor has five days to review the City Council's decision and issue a veto.",
     nonulurptooltip: '',
   },
-  'NOC of Draft EIS Issued': {
+  'DEIS Notice of Completion Issued': {
     displayName: 'Draft Environmental Impact Statement Completed',
     dateFormat: 'end',
     hideIfFiled: true,
