@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { action } from '@ember-decorators/object';
-// import { argument } from '@ember-decorators/argument';
 
 export const geocodedLayer = {
   type: 'circle',
@@ -36,20 +35,48 @@ export const geocodedLayer = {
   },
 };
 
+/**
+ * The AddressSearch component is responsible for wrapping the {{labs-search}} addon component,
+ * acting as a simplifed interface between it and the main app. It also exposes some public events.
+ */
 export default class AddressSearch extends Component {
-  // @argument
+  /**
+   * {{ember-mapbox-gl}} contextual component hash, used in template. See https://github.com/kturney/ember-mapbox-gl.
+   * @argument
+   * @required
+   */
   map;
 
-  // @argument
+  /**
+   * Event triggered when a search result is selected via click or keypress.
+   * @argument{Function}
+   * @optional
+   */
   onSelectSearchResult = () => {}
 
-  // @argument
+  /**
+   * Event triggered when a user clears the search result.
+   * @argument{Function}
+   * @optional
+   */
   onClearSearchResult = () => {}
 
+  /**
+   * GeoJSON object represented the selected result's geometric information
+   * @private
+   */
   geocodedGeometry = null;
 
+  /**
+   * Static JSON object for style configuration for geocoded search result
+   * @private
+   */
   geocodedLayer = geocodedLayer;
 
+  /**
+   * Action passed to {{labs-search}}; sets selected result and triggers the respective public event.
+   * @private
+   */
   @action
   selectSearchResult(result) {
     this.set('geocodedGeometry', result.geometry);
@@ -58,6 +85,10 @@ export default class AddressSearch extends Component {
     this.onSelectSearchResult(result);
   }
 
+  /**
+   * Action passed to {{labs-search}}; clears selected result and trigger the respective public event.
+   * @private
+   */
   @action
   clearSearchResult() {
     this.set('geocodedGeometry', null);

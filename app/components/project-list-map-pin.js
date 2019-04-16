@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember-decorators/service';
 import { classNames, tagName } from '@ember-decorators/component';
-// import { argument } from '@ember-decorators/argument';
 
 @tagName('a')
 @classNames('button hollow expanded map-marker-button')
