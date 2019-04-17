@@ -2,8 +2,19 @@ import QueryParams from 'ember-parachute';
 import Controller from '@ember/controller';
 import moment from 'moment';
 
+/**
+ * All query parameters used in show-geography controller.
+ * See https://github.com/offirgolan/ember-parachute for documentation.
+ */
 export const projectParams = new QueryParams({
-  // meta
+/**
+ * List of applied filters by their respective key name(s). For example,
+ * the value of `applied-filters` will include references to some of the
+ * query params listed below.
+ *
+ * This list value is used by the show-geography route to determine which
+ * filters it should send to the API.
+ */
   'applied-filters': {
     defaultValue: [].sort(),
     refresh: true,
@@ -16,7 +27,9 @@ export const projectParams = new QueryParams({
     },
   },
 
-  // filter values
+  /**
+   * Query parameters for all filters
+   */
   dcp_certifiedreferred: {
     defaultValue: [0, parseInt(moment().utc().endOf('year').format('X'), 10)],
     refresh: true,
