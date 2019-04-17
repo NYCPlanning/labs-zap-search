@@ -74,10 +74,11 @@ export const projectPolygonsHoverLayer = {
 /**
   * This component renders a map and receives a tiles URL
   * for rendering dynamic tiles. It's responsible for some styling
-  * and is very much on the domain-problem side of the spectrum
-  * it also yields out some contextual components that are invoked
-  * from the consuming end. It also threads down an action to determine
-  * that tile mode.
+  * and is largely responsible for ZAP-specific styling issues.
+  *
+  * It also yields out some contextual components that can be used
+  * where this component is invoked. It also threads down an action to
+  * determine tile mode.
   *
   * Tile mode is what determines whether we see polygon or centroids.
  */

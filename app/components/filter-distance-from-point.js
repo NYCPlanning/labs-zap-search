@@ -2,9 +2,11 @@ import Component from '@ember/component';
 import { action, computed } from '@ember-decorators/object';
 import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 
+const POINT_LAYER_ID = 'project-centroids-circle';
+
 /**
- * The FilterDistanceFromPoint component takes a point and radius, computes a geojson circle
- * and handles click events that query mapbox-gl for intersections triggers optional events.
+ * The FilterDistanceFromPoint component takes a point and radius as arguments, computes a geojson circle,
+ * and handles click events from the map that locally query mapbox-gl for intersections triggers optional events.
  */
 export default class FilterDistanceFromPoint extends Component {
   /**
@@ -36,12 +38,6 @@ export default class FilterDistanceFromPoint extends Component {
   onRadiusFilterClick = () => {}
 
   /**
-   * MapboxGL layer id used to query the map for points to filter;
-   * @argument{String}
-   */
-  pointLayerId = 'project-centroids-circle';
-
-  /**
    * Boolean flag telling the component whether to trigger click events for the entire map or
    * only when points are clicked;
    * @argument{Boolean}
@@ -60,9 +56,10 @@ export default class FilterDistanceFromPoint extends Component {
   }
 
   /**
-   * Click handler action handed to mapbox-gl; when triggered,
-   * it queries the specified point layer for an intersecting feature and sends it
-   * to the click action. Conditionally allows for clicking anywhere on the map.
+   * Click handler action handed to mapbox-gl; when triggered, it queries the
+   * "point layer", a mapbox-gl layer (determined by the constant, POINT_LAYER_ID),
+   * for an intersecting feature and sends it to the click action.
+   * Conditionally allows for clicking anywhere on the map.
    */
   @action
   handleClick(e) {
@@ -70,7 +67,7 @@ export default class FilterDistanceFromPoint extends Component {
     const { point } = e;
     const [feature] = map.queryRenderedFeatures(
       point,
-      { layers: [this.pointLayerId] },
+      { layers: [POINT_LAYER_ID] },
     );
 
     // if there's a feature, extract the coordinates and trigger the click event
