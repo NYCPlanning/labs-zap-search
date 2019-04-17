@@ -12,7 +12,7 @@ const DEBOUNCE_MS = 500;
 const MAX_PAGES = 30;
 /**
  * The ShowGeographyController is an EmberJS controller (with the
- * Ember Parachute addon) which handles the ShowGeography route.
+ * Ember Parachute addon) which handles the ShowGeographyRoute.
  * It is mostly responsible for the filter query parameters. It also
  * defines some of the mutator methods used to mutate the state of the
  * filter query parameters. Lastly, it includes a number of model-specific
