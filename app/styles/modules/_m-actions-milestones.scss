@@ -60,7 +60,7 @@
   padding-top: 0.5rem;
 }
 
-.milestone.past + .milestone.future {
+.milestone.past + .milestone.future:not(.no-dates) {
   padding-top: 2.5rem;
 
   &::before {
