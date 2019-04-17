@@ -139,6 +139,10 @@ export default class ShowGeographyController extends GeographyParachuteControlle
    * Depending on passed configuration, it will either clear the "cachedProjects"
    * or append more projects to "catchedProjects".
    *
+   * This task has a "side effect" and a return value, both are used.
+   * The return value is used only in the template. The "side effect" is
+   * that cachedProjects gets mutated (`pushObject`).
+   *
    * Also extracts map bounds and tile information from the API response metadata.
    * @param {Object} configuration
    * @returns {Object}
@@ -188,7 +192,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     // Push the found projects into the cache.
     cachedProjects.pushObjects(projects.toArray());
 
-    // The return value here is used mostly in the template
+    // The return value here is used only in the template
     return {
       meta,
       projects: cachedProjects,
