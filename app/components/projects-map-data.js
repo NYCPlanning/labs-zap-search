@@ -1,29 +1,48 @@
 import Component from '@ember/component';
 import mapboxgl from 'mapbox-gl';
 import { action } from '@ember-decorators/object';
-// import { argument } from '@ember-decorators/argument';
 import { inject as service } from '@ember-decorators/service';
 
+/**
+  ProjectsMapComponent manages mapbox-gl-js specific configuration objects, tooltip hovering
+  logic, and event bus management (the hovering animation between the project list and this).
+ */
 export default class ProjectsMapComponent extends Component {
-  @service router;
-
+  /**
+   * Event bus service that manages the mouse hover logic between this
+   * component and the projects list component.
+   * @private
+   */
   @service resultMapEvents;
 
-  // required
-  // @argument
-  meta = {};
+  /**
+   * Event that is triggered when user clicks the map. Provides the clicked feature,
+   * if there is one, which is specifically scoped to a particular layer ID. Also provides
+   * the raw click event.
+   * @public
+   */
+  onMapClick = (/* feature, e */) => {};
 
+  /**
+   * Screen coordinates used to position the tooltip DOM element
+   * @private
+   */
   tooltipPoint = { x: 0, y: 0 };
 
+  /**
+   * Currently highlighted feature in GeoJSON format.
+   * @private
+   */
   highlightedFeature = null;
 
-  popup = new mapboxgl.Popup({
-    closeOnClick: false,
-  });
-
-  // @argument
-  onMapClick = () => {};
-
+  /**
+   * Handler passed into {{mapbox-gl}} which is necessary for grabbing a reference to the raw
+   * mapbox-gl-js instance. Triggered when mapbox-gl loads, and sets up a lot of the mapbox-gl-js
+   * specific modules like navigation and geolocation.
+   *
+   * Binds click and hover events to the resultMapEvents service.
+   * @private
+   */
   @action
   handleMapLoad(map) {
     window.map = map;
@@ -45,6 +64,12 @@ export default class ProjectsMapComponent extends Component {
     this.resultMapEvents.on('click', this, 'clickPoint');
   }
 
+  /**
+   * Handler passed to ember-mapbox-gl which checks that a project dot is hovered
+   * and then sets hovered geometry information so that it gets displayed and
+   * fills in tooltip with content.
+   * @private
+   */
   @action
   handleMouseMove(e) {
     const map = e.target;
@@ -68,6 +93,11 @@ export default class ProjectsMapComponent extends Component {
     }
   }
 
+  /**
+   * Triggers the public `onMapClick` event with the intersecting feature if it exists,
+   * plus the original map event
+   * @private
+   */
   @action
   handleMapClick(e) {
     const map = e.target;
@@ -79,6 +109,11 @@ export default class ProjectsMapComponent extends Component {
     this.onMapClick(feature, e);
   }
 
+  /**
+   * Specific to the resultMapEvents service. Once triggered, interacts directly
+   * with the mapbox-gl instance, updating internal state.
+   * @private
+   */
   hoverPoint({ id, layerId }) {
     this.mapInstance
       .setLayoutProperty(layerId, 'visibility', 'visible')
@@ -86,12 +121,22 @@ export default class ProjectsMapComponent extends Component {
       .setFilter(layerId, ['==', ['get', 'projectid'], id]);
   }
 
+  /**
+   * Specific to the resultMapEvents service. Once triggered, interacts directly
+   * with the mapbox-gl instance, updating internal state.
+   * @private
+   */
   unHoverPoint({ layerId }) {
     this.mapInstance
       .setPaintProperty('project-centroids-circle', 'circle-blur', 0)
       .setLayoutProperty(layerId, 'visibility', 'none');
   }
 
+  /**
+   * Specific to the resultMapEvents service. Once triggered, interacts directly
+   * with the mapbox-gl instance, updating internal state.
+   * @private
+   */
   clickPoint({ project }) {
     const { mapInstance: map } = this;
     const { center } = project;
@@ -99,6 +144,10 @@ export default class ProjectsMapComponent extends Component {
     map.flyTo({ center, zoom: 15 });
   }
 
+  /**
+   * Overrides component lifecycle hook. Used to unregister the bound resultMapEvents events.
+   * @private
+   */
   willDestroyElement() {
     this.resultMapEvents.off('hover', this, 'hoverPoint');
     this.resultMapEvents.off('unhover', this, 'unHoverPoint');

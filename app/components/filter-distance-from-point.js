@@ -1,31 +1,57 @@
 import Component from '@ember/component';
-// import { argument } from '@ember-decorators/argument';
 import { action, computed } from '@ember-decorators/object';
 import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 
-// it takes a point and radius, computes a geojson circle
-// and handles clicks that query mapbox-gl for intersections
-// triggers optional events
+/**
+ * The FilterDistanceFromPoint component takes a point and radius, computes a geojson circle
+ * and handles click events that query mapbox-gl for intersections triggers optional events.
+ */
 export default class FilterDistanceFromPoint extends Component {
-  // @argument
+  /**
+   * {{ember-mapbox-gl}} contextual component hash, used in template. See https://github.com/kturney/ember-mapbox-gl.
+   * @argument
+   * @required
+   */
   map;
 
-  // @argument
+  /**
+   * Point coordinates for filter query
+   * @argument{Array}
+   * @required
+   */
   pointGeometry;
 
-  // @argument
+  /**
+   * Radius from point in feet
+   * @argument
+   * @required
+   */
   radius;
 
-  // @argument
+  /**
+   * Event triggered when map is clicked for the purpose of radius filter;
+   * @argument
+   * @public
+   */
   onRadiusFilterClick = () => {}
 
-  // @argument
+  /**
+   * MapboxGL layer id used to query the map for points to filter;
+   * @argument{String}
+   */
   pointLayerId = 'project-centroids-circle';
 
-  // @argument
+  /**
+   * Boolean flag telling the component whether to trigger click events for the entire map or
+   * only when points are clicked;
+   * @argument{Boolean}
+   */
   shouldQueryFullMap = false;
 
-  // geojson
+  /**
+   * Computed property returning a GeoJSON object used to represent a circle based on
+   * the state of `pointGeometry` and `radius` properties;
+   */
   @computed('pointGeometry', 'radius')
   get circleFromRadius() {
     const { pointGeometry, radius } = this;
@@ -33,9 +59,11 @@ export default class FilterDistanceFromPoint extends Component {
     return generateCircleFromFeet([pointGeometry, radius]);
   }
 
-  // queries relevant layer for intersecting feature and sends it
-  // to the click action. conditionally allows for clicking
-  // anywhere on the map
+  /**
+   * Click handler action handed to mapbox-gl; when triggered,
+   * it queries the specified point layer for an intersecting feature and sends it
+   * to the click action. Conditionally allows for clicking anywhere on the map.
+   */
   @action
   handleClick(e) {
     const { target: map } = e;
@@ -45,6 +73,9 @@ export default class FilterDistanceFromPoint extends Component {
       { layers: [this.pointLayerId] },
     );
 
+    // if there's a feature, extract the coordinates and trigger the click event
+    // otherwise, if no feature, check if the component is set to `shouldQueryFullMap`
+    // and trigger the event with the clicked latitude/longitude
     if (feature) {
       const { geometry: { coordinates } } = feature;
 

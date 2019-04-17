@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { computed } from '@ember-decorators/object';
-// import { argument } from '@ember-decorators/argument';
 import { tagName } from '@ember-decorators/component';
 import _ from 'underscore';
 

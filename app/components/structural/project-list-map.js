@@ -1,5 +1,4 @@
 import Component from '@ember/component';
-// import { argument } from '@ember-decorators/argument';
 import { action, computed } from '@ember-decorators/object';
 
 const expandToPolygonZoomThreshold = 14;
@@ -72,25 +71,44 @@ export const projectPolygonsHoverLayer = {
   },
 };
 
-// this component renders a map and receives a tiles URL
-// for rendering dynamic tiles. It's responsible for some styling
-// and is very much on the domain-problem side of the spectrum
-// it also yields out some contextual components that are invoked
-// from the consuming end. it also threads down an action to determine
-// that tile mode.
-
-// tile mode is what determines whether we see polygon or centroids.
+/**
+  * This component renders a map and receives a tiles URL
+  * for rendering dynamic tiles. It's responsible for some styling
+  * and is very much on the domain-problem side of the spectrum
+  * it also yields out some contextual components that are invoked
+  * from the consuming end. It also threads down an action to determine
+  * that tile mode.
+  *
+  * Tile mode is what determines whether we see polygon or centroids.
+ */
 export default class ProjectListMapComponent extends Component {
-  // @argument
+  /**
+   * List of MapboxGL tile URL templates (/{x}/{y}/{z}.mvt|pbf)
+   * @argument{Array}
+   */
   tiles = [];
 
+  /**
+   * Used to switch the display mode of the projects, between centroid
+   * and polygons modes.
+   * @private
+   */
   tileMode = 'centroid';
 
+  /**
+   * Parameterizes the list of urls with the current mode, centroid or polygons.
+   * @private
+   */
   @computed('tiles', 'tileMode')
   get tilesForZoom() {
     return this.tiles.map(url => `${url}?type=${this.tileMode}`);
   }
 
+  /**
+   * Updates the tile mode based on the map's zoom. Bound to the map instance in
+   * the template itself.
+   * @private
+   */
   @action
   computeTileMode(e) {
     if (e.target.getZoom() > expandToPolygonZoomThreshold) {
@@ -100,11 +118,23 @@ export default class ProjectListMapComponent extends Component {
     }
   }
 
+  /**
+   * MapboxGL style configuration for polygons
+   */
   projectPolygonsLayer = projectPolygonsLayer;
 
+  /**
+   * MapboxGL style configuration for centroids
+   */
   projectCentroidsCircleLayer = projectCentroidsCircleLayer;
 
+  /**
+   * MapboxGL style configuration for hovering centroids
+   */
   projectCentroidsCircleHoverLayer = projectCentroidsCircleHoverLayer;
 
+  /**
+   * MapboxGL style configuration for hovering polygons
+   */
   projectPolygonsHoverLayer = projectPolygonsHoverLayer;
 }
