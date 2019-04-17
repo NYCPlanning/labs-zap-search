@@ -4,7 +4,11 @@ import { action, computed } from '@ember-decorators/object';
 import turfBbox from '@turf/bbox';
 import turfBuffer from '@turf/buffer';
 
-
+/**
+ * The ShowProjectController is an EmberJS controller which handles the
+ * ShowProjectRoute, which displays a single ZAP project. It includes a
+ * computed property to alter the presetation of the project's milestones.
+ */
 export default class ShowProjectController extends Controller {
   bblFeatureCollectionLayerFill = {
     id: 'project-geometry-fill',
@@ -27,7 +31,13 @@ export default class ShowProjectController extends Controller {
     },
   }
 
-  // workaround for displaying "Revised Land Use Application..." for subsequent copies of the same milestone
+  /**
+   * Computed for revising the presentation of the project's milestones. The
+   * show-project.hbs template uses this revised array of milestone objects
+   * instead of the array in the model. This is a workaround for displaying
+   * "Revised [display_name]" for recurring instances of certain milestones.
+   * @returns {Object[]}
+   */
   @computed('model.milestones')
   get revisedmilestones() {
     const { milestones } = this.model;
@@ -37,8 +47,8 @@ export default class ShowProjectController extends Controller {
       if (
         milestone.zap_id === lastZapId
         && (
-          milestone.zap_id === '663beec4-dad0-e711-8116-1458d04e2fb8'
-          || milestone.zap_id === '783beec4-dad0-e711-8116-1458d04e2fb8'
+          milestone.zap_id === '663beec4-dad0-e711-8116-1458d04e2fb8' // "Land Use Application Filed"
+          || milestone.zap_id === '783beec4-dad0-e711-8116-1458d04e2fb8' // "Environmental Assessment Statement Filed"
         )
       ) {
         lastZapId = milestone.zap_id;
