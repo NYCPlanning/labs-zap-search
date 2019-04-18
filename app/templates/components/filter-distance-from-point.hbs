@@ -14,16 +14,18 @@
       paint=(hash circle-color='rgba(238,102,170,0.8)' circle-radius=7))
     }}
   {{/map.source}}
-
-  {{#map.source options=(hash
-    type='geojson'
-    data=circleFromRadius) as |source|
-  }}
-    {{source.layer layer=(hash
-      type='line'
-      paint=(hash line-dasharray=(array 1 1) line-width=3 line-color='rgba(238,102,170,0.8)')
-    )}}
-  {{/map.source}}
+  {{! only display radius circle and zoom to point if point exists}}
+  {{#if pointGeometry}}
+    {{#map.source options=(hash
+      type='geojson'
+      data=circleFromRadius) as |source|
+    }}
+      {{source.layer layer=(hash
+        type='line'
+        paint=(hash line-dasharray=(array 1 1) line-width=3 line-color='rgba(238,102,170,0.8)')
+      )}}
+    {{/map.source}}
+  {{/if}}
 {{/if}}
 
 {{map.on 'click' (action 'handleClick')}}
