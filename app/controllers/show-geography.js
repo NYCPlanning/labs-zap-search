@@ -168,9 +168,13 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
     // If metadata includes tiling and bounds information, continue
     if (meta.tiles && meta.bounds) {
-      // If radius filter is on, be sure to prefer the bounding box for that
-      // instead of what the server comes back with.
-      if (queryOptions.distance_from_point && queryOptions.radius_from_point) {
+      /*
+      * Filtering does not occur until a user has created a point/selected a centroid, even if the filter is turned on.
+      * If radius filter is on, and a point exists, indicating the user has actually clicked a point (default is []),
+      * use bounding box calculated from radius and point instead of bounding box from response.
+      * Check for point existence is also done in filter-distance-from-point.hbs
+      */
+      if (queryOptions.distance_from_point && queryOptions.distance_from_point.length && queryOptions.radius_from_point) {
         const {
           distance_from_point,
           radius_from_point,

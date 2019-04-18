@@ -1,6 +1,6 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
-{{!--
+{{!
   FAQ:
     `section.delegate-mutation` is a wrapper action to notify the "applied-filters"
     that an explicit change has happened
@@ -13,27 +13,27 @@
     mutateArray=(action 'mutateArray')
     appliedFilters=applied-filters
     as |filters|}}
-  {{/filter-mutators}}
+  {{!/filter-mutators}}
 
-  Filter-mutators yields a `filters.section` component which helps group together
+  {{! Filter-mutators yields a `filters.section` component which helps group together
   the actual filterable fieldnames. For example, some "filters" may actually be affecting
   multiple fields in the database. `filters.section` makes sure those get turned on when
   mutated.
 
   {{#filters.section
     filterNames=(array 'names' 'of' 'grouped' 'fields') as |section|}}
-  {{/filters.section}}
+  {{!/filters.section}}
 
-  this component is abstract because it has no markup - it only sets up some actions needed for
+  {{! this component is abstract because it has no markup - it only sets up some actions needed for
   mutating groups. It gets a `filter-wrapper` component and the `delegate-mutation` action.
 
   {{#section.filter-wrapper}}
-    This component invokes all the necessary markup for this to work
+    {{! This component invokes all the necessary markup for this to work
   {{/section.filter-wrapper}}
 
-  `delegate-mutation` is a wrapper action that should wrap all filter mutators. It is responsible for
+  {{!`delegate-mutation` is a wrapper action that should wrap all filter mutators. It is responsible for
   notifying the applied-filters query param that something should be added or removed.
- --}}
+ }}
 
   {{#filter-mutators
     mutateArray=(action 'mutateArray')
