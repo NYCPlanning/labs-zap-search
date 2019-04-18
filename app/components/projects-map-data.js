@@ -4,6 +4,7 @@ import { action } from '@ember-decorators/object';
 import { inject as service } from '@ember-decorators/service';
 import { restartableTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
+import Ember from 'ember';
 
 /**
   ProjectsMapComponent manages mapbox-gl-js specific configuration objects, tooltip hovering
@@ -56,6 +57,10 @@ export default class ProjectsMapComponent extends Component {
       yield timeout(500);
 
       this.set('tilesLoading', !map.areTilesLoaded());
+
+      // Required for Ember testing to know when it's done rendering
+      // See: http://ember-concurrency.com/docs/testing-debugging/
+      if (Ember.testing) return;
     }
   }
 
@@ -177,5 +182,7 @@ export default class ProjectsMapComponent extends Component {
   willDestroyElement() {
     this.resultMapEvents.off('hover', this, 'hoverPoint');
     this.resultMapEvents.off('unhover', this, 'unHoverPoint');
+
+    this.updateTileState.cancelAll();
   }
 }
