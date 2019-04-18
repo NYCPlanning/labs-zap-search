@@ -235,69 +235,6 @@
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
-      {{!-- FILTER: ULURP / CEQR NUMBER --}}
-      {{#filters.section
-        filterNames='ulurp_ceqr_text'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle='ULURP / CEQR Number'
-          tooltip='Enter a Uniform Land Use Review Procedure (ULURP) or City Environmental Quality Review (CEQR) number.'}}
-           <input
-            class="filter-text-input"
-            type="text"
-            value={{ulurp_ceqr_text}}
-            placeholder="Number (e.g. 'C840918PPX')"
-            oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'ulurp_ceqr_text')}}>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
-
-      {{!-- FILTER: ULURP TYPE --}}
-      {{#filters.section
-        filterNames='dcp_ulurp_nonulurp'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle='ULURP Type'
-          tooltip='Applications can either follow the Uniform Land Use Review Procedure (ULURP) or are designated as Non-ULURP, and are therefore not restricted to ULURP rules and timing.'}}
-          <ul class="menu vertical medium-horizontal ULURP-checkbox">
-            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}>
-              <a>
-                {{filter-checkbox
-                  value='ULURP'
-                  currentValues=dcp_ulurp_nonulurp}}
-              </a>
-            </li>
-            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}>
-              <a>
-                {{filter-checkbox
-                  value='Non-ULURP'
-                  currentValues=dcp_ulurp_nonulurp}}
-              </a>
-            </li>
-          </ul>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
-
-      {{!-- FILTER: CEQR TYPE --}}
-      {{#filters.section
-        filterNames='dcp_ceqrtype'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle='CEQR Type'
-          tooltip='The City Environmental Quality Review (CEQR) type determines the environmental review process for land use actions. Only certain minor actions, designated Type II, are exempt from environmental review. There will be one CEQR type per project, so clicking multiple checkboxes will return projects with any one of the selected options.'}}
-          <ul class="menu vertical medium-horizontal CEQR-checkbox">
-            {{#each (array 'Unlisted' 'Type I' 'Type II') as |type|}}
-              <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ceqrtype' type)}}>
-                <a>
-                  {{filter-checkbox
-                    value=type
-                    currentValues=dcp_ceqrtype}}
-                </a>
-              </li>
-            {{/each}}
-          </ul>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
-
       {{!-- FILTER: ACTION TYPE --}}
       {{#filters.section
         filterNames='action-types'

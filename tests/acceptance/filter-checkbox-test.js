@@ -21,28 +21,12 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL().includes('In%20Public%20Review'), true);
   });
 
-  test('User clicks first CEQR Status and it filters', async function(assert) {
-    server.createList('project', 20);
-    await visit('/');
-    await click('.CEQR-checkbox li:first-child a');
-
-    assert.equal(currentURL().includes('Type%20I%2CType%20II%2CUnknown'), true);
-  });
-
   test('User clicks first FEMA Flood Zone status and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');
     await click('.FEMA-checkbox li:first-child a');
 
     assert.equal(currentURL().includes('dcp_femafloodzonev=true'), true);
-  });
-
-  test('User clicks first ULURP status and it filters', async function(assert) {
-    server.createList('project', 20);
-    await visit('/');
-    await click('.ULURP-checkbox li:first-child a');
-
-    assert.equal(currentURL().includes('dcp_ulurp_nonulurp=Non-ULURP'), true);
   });
 
   test('User clicks community district box, fills in community district name, selects CD', async function(assert) {
@@ -66,7 +50,6 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('Reset filters button works', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
-    await click('.ULURP-checkbox li:first-child a');
     await click('.filter-section-community-district .ember-power-select-multiple-options');
     await fillIn('.filter-section-community-district .ember-power-select-multiple-options input', 'Brooklyn 1');
     await click('.ember-power-select-options li:first-child');
