@@ -178,9 +178,9 @@
 
 .map-loading-spinner {
   position: absolute;
-  right: 10px;
-  bottom: 30px;
-  opacity: 0.5;
+  top: calc(50% - 0.5em);
+  left: calc(50% - 0.5em);
+  opacity: 0.3;
   z-index: 1;
   pointer-events: none;
 }
