@@ -2,6 +2,8 @@ import Component from '@ember/component';
 import mapboxgl from 'mapbox-gl';
 import { action } from '@ember-decorators/object';
 import { inject as service } from '@ember-decorators/service';
+import { restartableTask } from 'ember-concurrency-decorators';
+import { timeout } from 'ember-concurrency';
 
 /**
   ProjectsMapComponent manages mapbox-gl-js specific configuration objects, tooltip hovering
@@ -36,6 +38,28 @@ export default class ProjectsMapComponent extends Component {
   highlightedFeature = null;
 
   /**
+   * Updated continuously by updateTileState. True when
+   * tiles are loading, false when loaded. Used to display
+   * a load spinner
+   */
+  tilesLoading = true;
+
+  /**
+   * Task-decorated generator function (see http://ember-concurrency.com/)
+   *
+   * updateTileState runs continuously to update the tilesLoading field.
+   * Triggered initially by handleMapLoad, once the map instance is available.
+   */
+  @restartableTask
+  updateTileState = function* (map) {
+    while (true) {
+      yield timeout(500);
+
+      this.set('tilesLoading', !map.areTilesLoaded());
+    }
+  }
+
+  /**
    * Handler passed into {{mapbox-gl}} which is necessary for grabbing a reference to the raw
    * mapbox-gl-js instance. Triggered when mapbox-gl loads, and sets up a lot of the mapbox-gl-js
    * specific modules like navigation and geolocation.
@@ -62,6 +86,8 @@ export default class ProjectsMapComponent extends Component {
     this.resultMapEvents.on('hover', this, 'hoverPoint');
     this.resultMapEvents.on('unhover', this, 'unHoverPoint');
     this.resultMapEvents.on('click', this, 'clickPoint');
+
+    this.updateTileState.perform(map);
   }
 
   /**
