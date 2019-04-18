@@ -16,6 +16,10 @@
     </div>
   {{/if}}
 
+  {{#if tilesLoading}}
+    {{fa-icon 'spinner' spin="true" size="5x" class="map-loading-spinner"}}
+  {{/if}}
+
   {{yield (merge
     map
     (hash

@@ -18,6 +18,7 @@ const defaultMapboxEventStub = {
       sources: {},
       layers: {},
     }),
+    areTilesLoaded: () => true,
   },
 };
 
