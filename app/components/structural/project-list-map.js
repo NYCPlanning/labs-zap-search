@@ -2,6 +2,16 @@ import Component from '@ember/component';
 import { action, computed } from '@ember-decorators/object';
 
 const expandToPolygonZoomThreshold = 14;
+const PROJECT_STATUS_COLOR_RAMP_CONFIG = {
+  property: 'dcp_publicstatus_simp',
+  type: 'categorical',
+  stops: [
+    ['Filed', '#FF9400'],
+    ['In Public Review', '#78D271'],
+    ['Completed', '#44A3D5'],
+  ],
+  default: '#6b717b',
+};
 
 export const projectCentroidsCircleLayer = {
   id: 'project-centroids-circle',
@@ -14,16 +24,7 @@ export const projectCentroidsCircleLayer = {
     'circle-radius': {
       stops: [[10, 3], [15, 4]],
     },
-    'circle-color': {
-      property: 'dcp_publicstatus_simp',
-      type: 'categorical',
-      stops: [
-        ['Filed', '#FF9400'],
-        ['In Public Review', '#78D271'],
-        ['Completed', '#44A3D5'],
-      ],
-      default: '#6b717b',
-    },
+    'circle-color': PROJECT_STATUS_COLOR_RAMP_CONFIG,
     'circle-opacity': 1,
     'circle-stroke-width': { stops: [[10, 1], [15, 2]] },
     'circle-stroke-color': '#FFFFFF',
@@ -55,7 +56,8 @@ export const projectPolygonsLayer = {
   minzoom: expandToPolygonZoomThreshold,
   maxzoom: 24,
   paint: {
-    'fill-color': 'rgba(237, 189, 18, 0.3)',
+    'fill-color': PROJECT_STATUS_COLOR_RAMP_CONFIG,
+    'fill-opacity': 0.3,
   },
 };
 
