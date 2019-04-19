@@ -148,6 +148,21 @@
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
+      {{!-- FILTER: DATE CERTIFIED / REFERRED --}}
+      {{#filters.section
+        filterNames='dcp_certifiedreferred'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle='Date Certified / Referred'
+          tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'}}
+          {{date-range-filter
+            start=dcp_certifiedreferred
+            min=0
+            max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
+            replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
       {{!-- FILTER: BOROUGH / BLOCK --}}
       {{#filters.section
         filterNames=(array 'boroughs' 'block')
@@ -220,21 +235,6 @@
               </li>
             {{/each}}
           </ul>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
-
-      {{!-- FILTER: DATE CERTIFIED / REFERRED --}}
-      {{#filters.section
-        filterNames='dcp_certifiedreferred'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle='Date Certified / Referred'
-          tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'}}
-          {{date-range-filter
-            start=dcp_certifiedreferred
-            min=(object-at 0 queryParamsState.dcp_certifiedreferred.defaultValue)
-            max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
-            replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
         {{/section.filter-wrapper}}
       {{/filters.section}}
 

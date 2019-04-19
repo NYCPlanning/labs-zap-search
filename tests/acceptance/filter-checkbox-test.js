@@ -18,7 +18,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/');
     await click('.stage-checkboxes li:first-child a');
 
-    assert.equal(currentURL().includes('In%20Public%20Review'), true);
+    assert.equal(currentURL().includes('Filed'), true);
   });
 
   test('User clicks first FEMA Flood Zone status and it filters', async function(assert) {
@@ -36,7 +36,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await fillIn('.filter-section-community-district .ember-power-select-multiple-options input', 'Brooklyn 1');
     await click('.ember-power-select-options li:first-child');
 
-    assert.equal(currentURL(), '/projects?applied-filters=community-districts&community-districts=BK01');
+    assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_certifiedreferred&community-districts=BK01');
   });
 
   skip('Page reloads (pagination reset) when click new filter', async function(assert) {
@@ -77,7 +77,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/projects');
     await click('.filter-section-fema-flood-zone .switch-paddle');
 
-    assert.equal(currentURL(), '/projects?applied-filters=dcp_femafloodzonea%2Cdcp_femafloodzonecoastala%2Cdcp_femafloodzoneshadedx%2Cdcp_femafloodzonev');
+    assert.equal(currentURL(), '/projects?applied-filters=dcp_certifiedreferred%2Cdcp_femafloodzonea%2Cdcp_femafloodzonecoastala%2Cdcp_femafloodzoneshadedx%2Cdcp_femafloodzonev');
     await click('.filter-section-fema-flood-zone .switch-paddle');
 
     assert.equal(currentURL(), '/projects');

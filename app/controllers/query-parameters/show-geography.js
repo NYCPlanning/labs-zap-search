@@ -16,7 +16,7 @@ export const projectParams = new QueryParams({
  * filters it should send to the API.
  */
   'applied-filters': {
-    defaultValue: [].sort(),
+    defaultValue: ['dcp_certifiedreferred'].sort(),
     refresh: true,
     serialize(value) {
       return value.toString();
@@ -31,7 +31,11 @@ export const projectParams = new QueryParams({
    * Query parameters for all filters
    */
   dcp_certifiedreferred: {
-    defaultValue: [0, parseInt(moment().utc().endOf('year').format('X'), 10)],
+    defaultValue: [
+      parseInt(moment().subtract(5, 'years').utc().endOf('year')
+        .format('X'), 10), // UTC timestamp 5 yrs ago
+      parseInt(moment().utc().endOf('year').format('X'), 10), // UTC timestamp now
+    ],
     refresh: true,
     serialize(value) {
       return value.toString();
@@ -81,30 +85,10 @@ export const projectParams = new QueryParams({
     },
   },
   dcp_publicstatus: {
-    defaultValue: ['Filed', 'In Public Review'].sort(),
+    defaultValue: [].sort(),
     refresh: true,
     serialize(value) {
       value = value.filter(d => d !== '');
-      return value.toString();
-    },
-    deserialize(value = '') {
-      return value.split(',').sort();
-    },
-  },
-  dcp_ceqrtype: {
-    defaultValue: ['Type I', 'Type II', 'Unlisted', 'Unknown'].sort(),
-    refresh: true,
-    serialize(value) {
-      return value.toString();
-    },
-    deserialize(value = '') {
-      return value.split(',').sort();
-    },
-  },
-  dcp_ulurp_nonulurp: {
-    defaultValue: ['ULURP', 'Non-ULURP'].sort(),
-    refresh: true,
-    serialize(value) {
       return value.toString();
     },
     deserialize(value = '') {
