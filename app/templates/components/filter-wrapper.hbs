@@ -1,4 +1,7 @@
-<div class="filter-header">
+<div
+  class="filter-header"
+  data-test-filter-section={{dasherizedFilterTitle}}
+>
   <div class="switch tiny float-left">
     <input class="switch-input" type="checkbox" checked={{if (contains filterNames appliedFilters) 'checked'}}>
     <label {{action mutateWithAction}} class="switch-paddle">
@@ -12,6 +15,7 @@
   </h6>
 </div>
 
-<div class="filter-controls">
+<div class="filter-controls"
+ data-test-filter-control={{dasherizedFilterTitle}}>
   {{yield}}
 </div>

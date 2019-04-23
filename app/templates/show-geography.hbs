@@ -172,7 +172,9 @@
           tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'}}
           <ul class="menu vertical medium-horizontal">
             {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
-              <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}>
+              <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}
+              data-test-borough-checkbox={{type}}
+              >
                 <a>
                   {{filter-checkbox
                     value=type
@@ -200,6 +202,7 @@
           filterTitle='Community District'
           tooltip='Filter by Community District in each borough by either typing the Community District name (e.g. “Brooklyn 1”) or by selecting from the dropdown list. Multiple Community Districts can be selected.'}}
           {{#power-select-multiple
+            triggerClass="community-district-dropdown-selection"
             options=(lookup-community-district)
             selected=(contains-keys
               (lookup-community-district)
@@ -224,7 +227,9 @@
           tooltip='These checkboxes filter projects by their stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
           <ul class="menu vertical medium-horizontal stage-checkboxes">
             {{#each (array 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
-              <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}>
+              <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}
+                data-test-status-checkbox={{type}}
+              >
                 <a>
                   {{filter-checkbox
                     value=type
@@ -273,7 +278,8 @@
           filterTitle='FEMA Flood Zone'
           tooltip='Projects may be located within multiple flood zones. Selecting multiple checkboxes will return projects that are at least partially located withinin all of the selected zones.'}}
         <ul class="menu vertical medium-horizontal FEMA-checkbox">
-          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonev')}}>
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonev')}}
+          data-test-flood-v-checkbox>
             {{#filters/named-checkbox
               mainProperty=dcp_femafloodzonev
               label='V'}}
