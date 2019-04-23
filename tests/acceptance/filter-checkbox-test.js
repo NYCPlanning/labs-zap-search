@@ -8,6 +8,7 @@ import {
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { selectChoose } from 'ember-power-select/test-support';
 
 module('Acceptance | filter checkbox', function(hooks) {
   setupApplicationTest(hooks);
@@ -16,7 +17,7 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('User clicks first project status and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');
-    await click('.stage-checkboxes li:first-child a');
+    await click('[data-test-status-checkbox="Filed"]');
 
     assert.equal(currentURL().includes('Filed'), true);
   });
@@ -24,7 +25,7 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('User clicks first FEMA Flood Zone status and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');
-    await click('.FEMA-checkbox li:first-child a');
+    await click('[data-test-flood-v-checkbox]');
 
     assert.equal(currentURL().includes('dcp_femafloodzonev=true'), true);
   });
@@ -32,17 +33,17 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('User clicks community district box, fills in community district name, selects CD', async function(assert) {
     server.createList('project', 20);
     await visit('/');
-    await click('.filter-section-community-district .ember-power-select-multiple-options');
-    await fillIn('.filter-section-community-district .ember-power-select-multiple-options input', 'Brooklyn 1');
-    await click('.ember-power-select-options li:first-child');
+    await click('[data-test-filter-control="filter-section-community-district"] .ember-power-select-multiple-options');
+    await fillIn('[data-test-filter-control="filter-section-community-district"] .ember-power-select-multiple-options input', 'Brooklyn');
+    await selectChoose('.community-district-dropdown-selection', 'Brooklyn 2');
 
-    assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_certifiedreferred&community-districts=BK01');
+    assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_certifiedreferred&community-districts=BK02');
   });
 
   skip('Page reloads (pagination reset) when click new filter', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
-    await click('.stage-checkboxes li:first-child a');
+    await click('[data-test-status-checkbox="Filed"]');
 
     assert.equal(currentURL(), '/projects');
   });
@@ -50,35 +51,34 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('Reset filters button works', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
-    await click('.filter-section-community-district .ember-power-select-multiple-options');
-    await fillIn('.filter-section-community-district .ember-power-select-multiple-options input', 'Brooklyn 1');
-    await click('.ember-power-select-options li:first-child');
+    await click('[data-test-filter-control="filter-section-community-district"] .ember-power-select-multiple-options');
+    await fillIn('[data-test-filter-control="filter-section-community-district"] .ember-power-select-multiple-options input', 'Brooklyn 3');
+    await selectChoose('.community-district-dropdown-selection', 'Brooklyn 3');
     await click('.projects-reset-filters-button');
 
     assert.equal(currentURL(), '/projects');
   });
 
-  // Commenting these out until we implement a better named IDs for testing for each of the filters
-  // test('Landing on QP default leads to cleaned URL', async function(assert) {
-  //   server.createList('project', 20);
-  //   await visit('/projects');
-  //   await click('.stage-checkboxes li:nth-child(1)');
-  //   await click('.stage-checkboxes li:nth-child(2)');
-  //   await click('.stage-checkboxes li:nth-child(3)');
-  //   await click('.stage-checkboxes li:nth-child(3)');
-  //   await click('.stage-checkboxes li:nth-child(2)');
-  //   await click('.stage-checkboxes li:nth-child(1)');
+  test('Landing on QP default leads to cleaned URL', async function(assert) {
+    server.createList('project', 20);
+    await visit('/projects');
+    await click('[data-test-status-checkbox="Filed"]');
+    await click('[data-test-status-checkbox="In Public Review"]');
+    await click('[data-test-status-checkbox="Completed"]');
+    await click('[data-test-status-checkbox="Completed"]');
+    await click('[data-test-status-checkbox="In Public Review"]');
+    await click('[data-test-status-checkbox="Filed"]');
 
-  //   assert.equal(currentURL(), '/projects');
-  // });
+    assert.equal(currentURL(), '/projects?applied-filters=dcp_certifiedreferred%2Cdcp_publicstatus');
+  });
 
   test('User can click on filter switches with updated state', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
-    await click('.filter-section-fema-flood-zone .switch-paddle');
+    await click('[data-test-filter-section="filter-section-fema-flood-zone"] .switch-paddle');
 
     assert.equal(currentURL(), '/projects?applied-filters=dcp_certifiedreferred%2Cdcp_femafloodzonea%2Cdcp_femafloodzonecoastala%2Cdcp_femafloodzoneshadedx%2Cdcp_femafloodzonev');
-    await click('.filter-section-fema-flood-zone .switch-paddle');
+    await click('[data-test-filter-section="filter-section-fema-flood-zone"] .switch-paddle');
 
     assert.equal(currentURL(), '/projects');
   });
@@ -87,23 +87,24 @@ module('Acceptance | filter checkbox', function(hooks) {
     server.createList('project', 20);
 
     await visit('/projects');
-    await find('.filter-section-text-match.inactive');
-    await fillIn('.filter-section-text-match .filter-text-input', 'peanut butter');
-    await find('.filter-section-text-match.active');
+    await find('[data-test-filter-control="filter-section-text-match"].inactive');
+    await fillIn('[data-test-filter-control="filter-section-text-match"] .filter-text-input', 'peanut butter');
+    await find('[data-test-filter-control="filter-section-text-match"].active');
 
     assert.equal(currentURL().includes('project_applicant_text'), true);
     assert.equal(currentURL().includes('applied-filters'), true);
 
-    await find('.filter-section-borough-\\/-block.inactive');
-    await click('.filter-section-borough-\\/-block li:nth-child(1)');
-    await click('.filter-section-borough-\\/-block li:nth-child(2)');
-    await click('.filter-section-borough-\\/-block li:nth-child(3)');
-    await find('.filter-section-borough-\\/-block.active');
+    await find('[data-test-filter-control="filter-section-borough-/-block"].inactive');
+    await click('[data-test-borough-checkbox="Citywide"]');
+    await click('[data-test-borough-checkbox="Manhattan"]');
+    await click('[data-test-borough-checkbox="Bronx"]');
+    await find('[data-test-filter-control="filter-section-borough-/-block"].active');
 
     assert.equal(currentURL().includes('boroughs=Bronx%2CCitywide%2CManhattan'), true);
 
-    await click('.filter-section-fema-flood-zone .FEMA-checkbox li:first-child a');
-    await find('.filter-section-fema-flood-zone.active');
+    await find('[data-test-filter-control="filter-section-fema-flood-zone"].inactive');
+    await click('[data-test-flood-v-checkbox]');
+    await find('[data-test-filter-control="filter-section-fema-flood-zone"].active');
     assert.equal(currentURL().includes('dcp_femafloodzonev=true'), true);
   });
 });
