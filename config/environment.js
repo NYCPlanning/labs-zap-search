@@ -71,6 +71,26 @@ module.exports = function(environment) {
         },
       },
     ],
+
+    // people-friendly labels for query parameters and database
+    // column names
+    labels: {
+      filters: {
+        'action-types': 'Action Type',
+        block: 'Borough / Block',
+        boroughs: 'Borough / Block',
+        'community-districts': 'Community District',
+        dcp_certifiedreferred: 'Date Certified / Referred',
+        dcp_femafloodzonea: 'FEMA Flood Zone',
+        dcp_femafloodzonecoastala: 'FEMA Flood Zone',
+        dcp_femafloodzoneshadedx: 'FEMA Flood Zone',
+        dcp_femafloodzonev: 'FEMA Flood Zone',
+        dcp_publicstatus: 'Project Stage',
+        distance_from_point: 'Radius Filter',
+        project_applicant_text: 'Text Match',
+        radius_from_point: 'Radius Filter',
+      },
+    },
   };
 
   if (environment === 'development') {

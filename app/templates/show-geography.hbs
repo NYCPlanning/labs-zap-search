@@ -99,7 +99,7 @@
         filterNames='project_applicant_text'
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle='Text Match'
+          filterTitle=(get-label-for 'filters.project_applicant_text')
           tooltip="Enter an exact word or phrase that matches a project's name, description, applicant name, ULURP/CEQR number, or BBL."}}
            <input
             class="filter-text-input"
@@ -115,7 +115,7 @@
         filterNames=(array 'distance_from_point' 'radius_from_point')
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle='DISTANCE FROM POINT'
+          filterTitle=(get-label-for 'filters.distance_from_point')
           tooltip='Click on the map to set filter first then drag to adjust radius'}}
           {{#if queryParamsState.distance_from_point.changed}}
             <div class="grid-x">
@@ -153,7 +153,7 @@
         filterNames='dcp_certifiedreferred'
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle='Date Certified / Referred'
+          filterTitle=(get-label-for 'filters.dcp_certifiedreferred')
           tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'}}
           {{date-range-filter
             start=dcp_certifiedreferred
@@ -168,7 +168,7 @@
         filterNames=(array 'boroughs' 'block')
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle='Borough / Block'
+          filterTitle=(get-label-for 'filters.boroughs')
           tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'}}
           <ul class="menu vertical medium-horizontal">
             {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
@@ -197,7 +197,7 @@
         filterNames='community-districts'
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle='Community District'
+          filterTitle=(get-label-for 'filters.community-districts')
           tooltip='Filter by Community District in each borough by either typing the Community District name (e.g. “Brooklyn 1”) or by selecting from the dropdown list. Multiple Community Districts can be selected.'}}
           {{#power-select-multiple
             options=(lookup-community-district)
@@ -220,7 +220,7 @@
         filterNames='dcp_publicstatus'
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle='Project Stage'
+          filterTitle=(get-label-for 'filters.dcp_publicstatus')
           tooltip='These checkboxes filter projects by their stage in the application process. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
           <ul class="menu vertical medium-horizontal stage-checkboxes">
             {{#each (array 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
@@ -243,7 +243,7 @@
         filterNames='action-types'
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle='Action Type'
+          filterTitle=(get-label-for 'filters.action-types')
           tooltip='Filter by action type by either typing the code/name of the action or by selecting from the dropdown list. Action type refers to city planning land use actions that accompany a project. There may be multiple land use actions attached to an application. Many action types have been retired and are listed for historical projects only. Searching by one action type should return all projects that include that action. Multiple action types can be selected.'}}
           {{#power-select-multiple
             options=(lookup-action-type)
@@ -270,7 +270,7 @@
         filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle='FEMA Flood Zone'
+          filterTitle=(get-label-for 'filters.dcp_femafloodzonea')
           tooltip='Projects may be located within multiple flood zones. Selecting multiple checkboxes will return projects that are at least partially located withinin all of the selected zones.'}}
         <ul class="menu vertical medium-horizontal FEMA-checkbox">
           <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonev')}}>
@@ -361,11 +361,9 @@
     </ul>
 
     {{#if (eq fetchData.lastSuccessful.value.meta.total 0)}}
-      <div class="no-results-message text-center dark-gray">
-        <p class="medium-gray">{{fa-icon 'search' size='4x'}}</p>
-        <h4>No matching projects</h4>
-        <p class="text-small">The enabled filters may be too specific or contradictory. Please change your search parameters.</p>
-      </div>
+      {{applied-filters-list
+        appliedFilters=applied-filters
+      }}
     {{else}}
       {{load-more-button
         page=page
