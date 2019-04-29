@@ -4315,9 +4315,9 @@ ember-cli-normalize-entity-name@^1.0.0:
   dependencies:
     silent-error "^1.0.0"
 
-ember-cli-nouislider@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-nouislider/-/ember-cli-nouislider-1.0.0.tgz#193d4293ad0603fbd83854e87d6b8a3bd65e16f1"
+ember-cli-nouislider@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-nouislider/-/ember-cli-nouislider-1.1.0.tgz#835d814433d9e2a1aa674b463ee296cd7723d42f"
   dependencies:
     broccoli-funnel "^2.0.1"
     broccoli-merge-trees "^2.0.0"
@@ -4883,7 +4883,6 @@ ember-string-ishtmlsafe-polyfill@2.0.2:
 ember-test-selectors@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ember-test-selectors/-/ember-test-selectors-2.1.0.tgz#faebdf06702aaa0bc510d55eb721ce54d2e85793"
-  integrity sha512-c5HmvefmeABH8hg380TSNZiE9VAK1CBeXWrgyXy+IXHtsew4lZHHw7GnqCAqsakxwvmaMARbAKY9KfSAE91s1g==
   dependencies:
     ember-cli-babel "^6.8.2"
     ember-cli-version-checker "^3.1.2"
@@ -6681,7 +6680,6 @@ jquery-deferred@^0.3.0:
 jquery@^3.3.1:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.0.tgz#8de513fa0fa4b2c7d2e48a530e26f0596936efdf"
-  integrity sha512-ggRCXln9zEqv6OqAGXFEcshF5dSBvCkzj6Gm2gzuR5fWawaX8t7cxKVkkygKODrDAzKdoYw3l/e3pm3vlT4IbQ==
 
 js-base64@^2.1.8:
   version "2.5.1"
@@ -7963,6 +7961,10 @@ normalize-url@2.0.1:
     prepend-http "^2.0.0"
     query-string "^5.0.1"
     sort-keys "^2.0.0"
+
+nouislider@13.1.5:
+  version "13.1.5"
+  resolved "https://registry.yarnpkg.com/nouislider/-/nouislider-13.1.5.tgz#3a0f3004159b9a77ebc07c3bedc26c97327d3522"
 
 nouislider@^11.0.3:
   version "11.1.0"
