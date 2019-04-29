@@ -53,15 +53,25 @@ export default class SliderFilterComponent extends Component {
   replaceProperty = () => {}
 
   /**
-   * Passed to {{range-slider}}; triggered when {{range-slider}} mutates some data
+   * Callback that gets passed to {{range-slider}}; triggered when {{range-slider}}
+   * mutates some data. It receives numerics from range-slider, they are sometimes
+   * not rounded. This callback performs some cleaning by rounding the values into
+   * integers and "rounding" the epoch timestamps to be inclusive of the full year
+   * they intersect with.
+   *
+   * For example, if the toggle lands on march of 2016, this will round to the very
+   * beginning of 2016.
    * @private
    */
   @action
   sliderChanged([min, max]) {
-    // because the slider returns unix epochs based on its own step increment,
-    // get the startOf() the min timestamp's year, and the endOf() of the max timestamp's year
-    const minStart = parseInt(moment(min, 'X').utc().startOf('year').format('X'), 10);
-    const maxEnd = parseInt(moment(max, 'X').utc().endOf('year').format('X'), 10);
+    // must round integers because range slider sometimes provides
+    // decimal values in the callback
+    const roundedMin = Math.round(min);
+    const roundedMax = Math.round(max);
+
+    const minStart = parseInt(moment(roundedMin, 'X').utc().startOf('year').format('X'), 10) + 1;
+    const maxEnd = parseInt(moment(roundedMax, 'X').utc().endOf('year').format('X'), 10);
 
     this.replaceProperty([minStart, maxEnd]);
   }
