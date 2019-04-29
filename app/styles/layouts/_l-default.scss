@@ -198,3 +198,29 @@ body {
     padding: 0.5rem;
   }
 }
+
+// Download links dropdown
+
+.download-container {
+  position: relative;
+
+  .download-links {
+    position: absolute;
+    top: 100%;
+    right:0;
+    background: #FFF;
+    padding: 1rem;
+    width: 15em;
+    font-size: rem-calc(12);
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
+    display: none;
+
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &:hover .download-links {
+    display: block;
+  }
+}
