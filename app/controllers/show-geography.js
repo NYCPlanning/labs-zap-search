@@ -112,12 +112,16 @@ export default class ShowGeographyController extends GeographyParachuteControlle
    * @returns{String}
    */
   @computed('allQueryParams')
-  get downloadURL() {
+  get downloadURLs() {
     // construct query object only with applied params
-    const href = `${ENV.host}/projects/download.csv`;
+    const href = `${ENV.host}/projects`;
     const queryParams = this.appliedQueryParams;
 
-    return `${href}?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`;
+    return {
+      csv: `${href}.csv?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
+      geojson: `${href}.geojson?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
+      shp: `${href}.shp?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
+    };
   }
 
   /**
