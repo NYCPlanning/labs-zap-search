@@ -129,13 +129,19 @@ export const projectParams = new QueryParams({
     defaultValue: '',
     refresh: true,
   },
-  ulurp_ceqr_text: {
-    defaultValue: '',
-    refresh: true,
-  },
   block: {
     defaultValue: '',
     refresh: true,
+  },
+  dcp_ulurp_nonulurp: {
+    defaultValue: [],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',');
+    },
   },
 });
 

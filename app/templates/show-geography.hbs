@@ -331,6 +331,36 @@
         </ul>
         {{/section.filter-wrapper}}
       {{/filters.section}}
+
+      {{!-- FILTER: ULURP TYPE --}}
+      {{#filters.section
+        filterNames='dcp_ulurp_nonulurp'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle='ULURP Type'
+          tooltip='Applications can either follow the Uniform Land Use Review Procedure (ULURP) or are designated as Non-ULURP, and are therefore not restricted to ULURP rules and timing.'}}
+          <ul class="menu vertical medium-horizontal ULURP-checkbox">
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}
+              data-test-ulurp-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='ULURP'
+                  currentValues=dcp_ulurp_nonulurp}}
+              </a>
+            </li>
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}
+              data-test-nonulurp-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='Non-ULURP'
+                  currentValues=dcp_ulurp_nonulurp}}
+              </a>
+            </li>
+          </ul>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
     </div>
 
   {{/filter-mutators}}

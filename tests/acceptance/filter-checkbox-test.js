@@ -14,7 +14,7 @@ module('Acceptance | filter checkbox', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('User clicks first project status and it filters', async function(assert) {
+  test('User clicks Filed project status and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');
     await click('[data-test-status-checkbox="Filed"]');
@@ -38,6 +38,14 @@ module('Acceptance | filter checkbox', function(hooks) {
     await selectChoose('.community-district-dropdown-selection', 'Brooklyn 2');
 
     assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_certifiedreferred&community-districts=BK02');
+  });
+
+  test('User clicks ULURP checkbox and it filters', async function(assert) {
+    server.createList('project', 20);
+    await visit('/');
+    await click('[data-test-nonulurp-checkbox]');
+
+    assert.equal(currentURL().includes('dcp_ulurp_nonulurp=Non-ULURP'), true);
   });
 
   skip('Page reloads (pagination reset) when click new filter', async function(assert) {
