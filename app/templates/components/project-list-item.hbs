@@ -35,6 +35,10 @@
       {{#each project.ulurpnumbers as |ulurpnumber|}}
         <span class="label light-gray"><strong class="dark-gray">{{ulurpnumber}}</strong></span>
       {{/each}}
+
+      {{#unless (and (or (eq project.dcp_ceqrtype 'Unlisted') (eq project.dcp_ceqrtype null)) (eq project.dcp_ceqrnumber null))}}
+        <span class="label light-gray"><strong class="dark-gray">CEQR {{project.dcp_ceqrnumber}} {{unless (eq project.dcp_ceqrtype 'Unlisted') project.dcp_ceqrtype}}</strong></span>
+      {{/unless}}
     </p>
   </div>
 </li>
