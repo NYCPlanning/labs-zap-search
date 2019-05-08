@@ -86,6 +86,7 @@ module.exports = function(environment) {
         dcp_femafloodzoneshadedx: 'FEMA Flood Zone',
         dcp_femafloodzonev: 'FEMA Flood Zone',
         dcp_publicstatus: 'Project Stage',
+        dcp_ulurp_nonulurp: 'ULURP Type',
         distance_from_point: 'Radius Filter',
         project_applicant_text: 'Text Match',
         radius_from_point: 'Radius Filter',
