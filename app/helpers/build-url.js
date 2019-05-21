@@ -39,8 +39,15 @@ function bisweb(bbl) {
 }
 
 function cpcReport(ulurp) {
-  const ulurpNumber = ulurp.match(/\d+/g)[0]; // pull 100149 from C100149ZSM to make a cpc report URL
-  return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumber}.pdf`;
+  // for ulurp numbers that have a letter at the end of the 6 numbers to represent the version (ex. the "A" in C18005AZMX)
+  // pull 6 numbers AND next character after the last number
+  const ulurpNumberWithLetter = (ulurp.match(/(\d+)./g)[0]).toLowerCase();
+  const ulurpNumberWithoutLetter = ulurp.match(/\d+/g)[0]; // pull 100149 from C100149ZSM
+
+  // the ulurp numbers with that extra letter have overall 11 characters compared to the usual 10
+  if (ulurp.length > 10) {
+    return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumberWithLetter}.pdf`;
+  } return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumberWithoutLetter}.pdf`;
 }
 
 function acris(bbl) {
