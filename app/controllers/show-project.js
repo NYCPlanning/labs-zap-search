@@ -61,6 +61,12 @@ export default class ShowProjectController extends Controller {
     });
   }
 
+  @computed('model.bbl_featurecollection')
+  get hasBBLFeatureCollectionGeometry() {
+    return this.model.bbl_featurecollection.features.length
+    && this.model.bbl_featurecollection.features[0].geometry;
+  }
+
   @action
   handleMapLoad(map) { // eslint-disable-line
     window.map = map;
