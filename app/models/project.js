@@ -4,6 +4,17 @@ import { computed } from '@ember-decorators/object';
 
 const { Model } = DS;
 
+const EmptyFeatureCollection = {
+  type: 'FeatureCollection',
+  features: [{
+    type: 'Feature',
+    geometry: null,
+    properties: {
+      isEmptyDefault: true,
+    },
+  }],
+};
+
 export default class ProjectModel extends Model {
   @attr() applicantteam;
 
@@ -75,7 +86,8 @@ export default class ProjectModel extends Model {
 
   @attr() bbls;
 
-  @attr() bbl_featurecollection;
+  @attr({ defaultValue: () => EmptyFeatureCollection })
+  bbl_featurecollection
 
   @attr() milestones;
 
