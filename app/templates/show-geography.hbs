@@ -369,7 +369,7 @@
   <div class="results">
     <h3 class="results-header clearfix">
       <span class="float-left results-header-title">
-        {{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}}
+        {{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}}{{if fetchData.lastSuccessful.value.meta.totalLimitExceeded '+' ''}}
         project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}}
         {{if (eq fetchData.lastSuccessful.value.meta.total 1) 'matches' 'match'}} your filters
       </span>
