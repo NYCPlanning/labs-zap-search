@@ -35,6 +35,16 @@ export default function() {
     return schema.projects.find(request.params.id) || schema.projects.find(1);
   });
 
+  this.get('/users');
+  this.get('/users/:id');
+
+  this.get('/actions');
+  this.get('/actions/:id');
+
+  this.post('/borough-president-recommendations');
+  this.post('/community-board-recommendations');
+  this.post('/borough-board-recommendations');
+
   /*
     Config (with defaults).
 

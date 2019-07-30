@@ -1,0 +1,75 @@
+// --------------------------------------------------
+// Module: Project summary card
+// --------------------------------------------------
+
+.project-summary-card {
+  font-size: rem-calc(13);
+
+  .cell {
+    padding-right: rem-calc(15);
+    padding-left: rem-calc(15);
+
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  .column-header {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: $hr-border;
+  }
+
+  .applicant {
+    margin-bottom: rem-calc(10);
+  }
+}
+
+// LUP coundown
+.lup-countdown {
+  text-align: center;
+
+  .cert-date {
+    font-size: rem-calc(10);
+  }
+
+  .days {
+    font-size: rem-calc(40);
+    font-weight: $global-weight-bold;
+    line-height: 1;
+    margin: 0;
+  }
+
+  .total {
+    font-weight: $global-weight-bold;
+  }
+
+  .end-date {
+    font-size: rem-calc(10);
+  }
+}
+
+// LUP timeline
+.lup-timeline {
+  font-size: rem-calc(13);
+}
+
+.current-milestone-alert {
+  background: $off-white;
+  padding: rem-calc(6) rem-calc(10);
+  margin: 0;
+  border: $hr-border;
+}
+
+.notifications-switch {
+  font-size: rem-calc(6);
+  padding: rem-calc(6) 0;
+
+  .switch {
+    float: left;
+    margin-right: rem-calc(6);
+  }
+}
