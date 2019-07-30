@@ -54,6 +54,12 @@ export default function(server) {
 
   server.create('userProjectParticipantType', {
     user: seedBPUser,
+    project: seedBPUserProjects[0],
+    participantType: 'BP',
+  });
+
+  server.create('userProjectParticipantType', {
+    user: seedBPUser,
     project: seedBPUserProjects[1],
     participantType: 'BP',
   });
