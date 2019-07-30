@@ -49,6 +49,19 @@ export default function() {
   this.get('/actions');
   this.get('/actions/:id');
 
+  this.get('/recommendations', function(schema) {
+    const cbRecs = schema.communityBoardRecommendations.all();
+    const bbRecs = schema.boroughBoardRecommendations.all();
+    const bpRecs = schema.boroughPresidentRecommendations.all();
+    return {
+      data: [...cbRecs.models, ...bbRecs.models, ...bpRecs.models],
+    };
+  });
+
+  this.get('/borough-president-recommendations');
+  this.get('/community-board-recommendations');
+  this.get('/borough-board-recommendations');
+
   this.post('/borough-president-recommendations');
   this.post('/community-board-recommendations');
   this.post('/borough-board-recommendations');

@@ -13,7 +13,7 @@ export default Factory.extend({
     return faker.list.cycle('Zoning Special Permit', 'Zoning Text Amendment', 'Disposition of Non-Residential City-Owned Property', 'Change in City Map')(i);
   },
 
-  actionCode(i) {
+  action(i) {
     return faker.list.cycle('ZS', 'ZR', 'PP', 'MM')(i);
   },
 

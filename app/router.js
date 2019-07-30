@@ -35,6 +35,14 @@ Router.map(function() { // eslint-disable-line
     this.route('archive');
     this.route('upcoming');
     this.route('reviewed');
+    this.route('project', {
+      path: ':project_id',
+    }, function() {
+      this.route('recommendations', function() {
+        this.route('add');
+        this.route('view');
+      });
+    });
   });
   this.route('login');
   this.route('logout');

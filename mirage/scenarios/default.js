@@ -31,6 +31,12 @@ export default function(server) {
     server.create('project', {
       id: 4,
     }),
+    server.create('project', {
+      id: 5,
+    }),
+    server.create('project', {
+      id: 6,
+    }),
   ];
   seedBPUser.projects = seedBPUserProjects;
 
@@ -54,7 +60,31 @@ export default function(server) {
 
   server.create('userProjectParticipantType', {
     user: seedBPUser,
+    project: seedBPUserProjects[0],
+    participantType: 'BP',
+  });
+
+  server.create('userProjectParticipantType', {
+    user: seedBPUser,
     project: seedBPUserProjects[1],
+    participantType: 'BP',
+  });
+
+  server.create('userProjectParticipantType', {
+    user: seedBPUser,
+    project: seedBPUserProjects[2],
+    participantType: 'BP',
+  });
+
+  server.create('userProjectParticipantType', {
+    user: seedBPUser,
+    project: seedBPUserProjects[3],
+    participantType: 'BB',
+  });
+
+  server.create('userProjectParticipantType', {
+    user: seedBPUser,
+    project: seedBPUserProjects[3],
     participantType: 'BP',
   });
 }

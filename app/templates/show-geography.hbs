@@ -169,7 +169,8 @@
         as |section|}}
         {{#section.filter-wrapper
           filterTitle=(get-label-for 'filters.boroughs')
-          tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'}}
+          tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'
+        }}
           <ul class="menu vertical medium-horizontal">
             {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
               <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}

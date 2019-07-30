@@ -1,32 +1,58 @@
 <h5>Projects that require you to submit your hearing dates and recommendations</h5>
 
-<div class="project-summary-card callout grid-x">
-  <div class="cell large-6 project-summary-card--description">
-    <h3 class="tiny-margin-bottom">
-      <a>101 Fleet Place Rezoning</a>
-      <small class="dark-gray">ULURP</small>
-    </h3>
-    <h5 class="applicant">Fleet Center, Inc.</h5>
-    <p>This is a private application by Fleet Center, Inc. for a zoning map amendment from R6 to C6-4 and zoning text amendment to expand the Special Downtown Brooklyn district and create a new MIH area to facilitate a new 205,000 square foot commercial office building at 101 Fleet Place in the Downtown Brooklyn area of Brooklyn Community District 2.</p>
-  </div>
-  <div class="cell medium-4 large-shrink project-summary-card--timer">
-    <div class="lup-countdown">
-      <p class="cert-date">Certified 11/1/2018</p>
-      <p class="days">8</p>
-      <p class="total">of 60 days remain</p>
-      <p class="end-date">Ends 12/15/19</p>
+{{#each this.model as |project|}}
+  <div class="project-summary-card callout grid-x">
+    <div class="cell large-6 project-summary-card--description">
+      <h3 class="tiny-margin-bottom">
+        <a>{{project.dcp_projectname}}</a>
+        <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
+      </h3>
+      <h5 class="applicant">{{project.applicants}}</h5>
+      <p>{{project.dcp_projectbrief}}</p>
     </div>
-  </div>
-  <div class="cell medium-auto project-summary-card--cta">
-    <div class="grid-x">
-      <div class="cell medium-6 large-auto">
-        <a class="button expanded">Add Your<br>Hearing&nbsp;Date</a>
-      </div>
-      <div class="cell medium-6 large-auto">
-        <a class="button expanded">Submit&nbsp;Your<br>Recommendation</a>
+    <div class="cell medium-4 large-shrink project-summary-card--timer">
+      <div class="lup-countdown">
+        <p class="cert-date">Certified 11/1/2018</p>
+        <p class="days">8</p>
+        <p class="total">of 60 days remain</p>
+        <p class="end-date">Ends 12/15/19</p>
       </div>
     </div>
+    <div class="cell medium-auto project-summary-card--cta">
+      <div class="grid-x">
+        <div class="cell medium-6 large-auto">
+          <a class="button expanded">Add Your<br>Hearing&nbsp;Date</a>
+        </div>
+        <div class="cell medium-6 large-auto">
+          {{#participant-types
+            project=project
+            user=(await this.currentUser.user)
+            as |partTypes|
+          }}
+            {{#each partTypes as |participantType|}}
+              <LinkTo @route="my-projects.project.recommendations.add"
+                @model={{project}}
+                @query={{hash participantType=participantType}}
+                class="button expanded no-margin"
+              >
+                Submit<br>
+                <b>
+                {{#if (eq participantType "BP")}}
+                  Borough&nbsp;President
+                {{else if (eq participantType "BB")}}
+                  Borough&nbsp;Board
+                {{else if (eq participantType "CB")}}
+                  Community&nbsp;Board
+                {{/if}}
+                </b>
+                Recommendation
+              </LinkTo>
+            {{/each}}
+          {{/participant-types}}
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+{{/each}}
 
 {{outlet}}
