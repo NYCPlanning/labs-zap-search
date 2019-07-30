@@ -45,8 +45,11 @@ export default class RecommendationModel extends Model {
   // calculate this upon form submission
   @attr('date') dateReceived;
 
-  // source from dcp_dateofvote
-  @attr('date') dateVoted;
+  // link to dcp_dateofvote
+  // TODO: investigate the format server expects.
+  // potentially switch back to "Date" attribute type, if compatible with
+  // backend
+  @attr('string') dateVoted;
 
   // sourced from statecode
   // "Active" vs "Inactive"

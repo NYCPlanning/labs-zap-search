@@ -20,16 +20,6 @@ const MAX_PAGES = 30;
  */
 export default class ShowGeographyController extends GeographyParachuteController {
   /**
-   * This method is an Ember lifecycle hook, gets fired on initialization of the controller.
-   * This fetches data as soon as the controller gets instantiated.
-   */
-  init(...args) {
-    super.init(...args);
-
-    this.fetchData.perform({ unloadAll: true });
-  }
-
-  /**
    * Current page number used to paginate the results
    */
   page = 1;

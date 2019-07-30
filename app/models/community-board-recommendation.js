@@ -19,5 +19,7 @@ export default class CommunityBoardRecommendationModel extends RecommendationMod
   @attr('number') totalBoardMembers;
 
   // sourced from dcp_wasaquorumpresent
-  @attr('boolean') didQuorumExist;
+  @attr('boolean', {
+    defaultValue: false,
+  }) didQuorumExist;
 }
