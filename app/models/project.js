@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import { attr } from '@ember-decorators/data';
+import { attr, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 
 const { Model } = DS;
@@ -16,33 +16,31 @@ const EmptyFeatureCollection = {
 };
 
 export default class ProjectModel extends Model {
+  // Many Actions to One Project
+  @hasMany('action') actions;
+
+  // Many Users to Many Projects
+  @hasMany('user') users;
+
+  // Many userProjectParticipation to One Project
+  @hasMany('userProjectParticipation') userProjectParticipants;
+
   @attr() applicantteam;
 
   // array of applicant objects
   @attr() applicants;
 
-  // semicolon delimited applicant names
-  @attr('string') dcp_projectid;
-
   @attr('string') dcp_name;
-
-  @attr('string') dcp_alterationmapnumber;
 
   @attr() dcp_applicanttype;
 
   @attr() dcp_borough;
-
-  @attr('string') dcp_bsanumber;
 
   @attr('string') dcp_ceqrnumber;
 
   @attr() dcp_ceqrtype;
 
   @attr('string') dcp_certifiedreferred;
-
-  @attr('string') dcp_decpermitnumber;
-
-  @attr() dcp_easeis;
 
   @attr('boolean') dcp_femafloodzonea;
 
@@ -52,14 +50,6 @@ export default class ProjectModel extends Model {
 
   @attr('boolean') dcp_femafloodzonev;
 
-  @attr() dcp_leaddivision;
-
-  @attr('string') dcp_lpcnumber;
-
-  @attr('string') dcp_nydospermitnumber;
-
-  @attr('boolean') dcp_previousactiononsite;
-
   @attr('string') dcp_projectbrief;
 
   @attr('string') dcp_projectname;
@@ -68,13 +58,7 @@ export default class ProjectModel extends Model {
 
   @attr() dcp_hiddenprojectmetrictarget;
 
-  @attr('boolean') dcp_sischoolseat;
-
-  @attr('boolean') dcp_sisubdivision;
-
   @attr('string') dcp_ulurp_nonulurp;
-
-  @attr('string') dcp_wrpnumber;
 
   @attr() dcp_communitydistrict;
 
@@ -90,8 +74,6 @@ export default class ProjectModel extends Model {
   bbl_featurecollection
 
   @attr() milestones;
-
-  @attr() actions;
 
   @attr() addresses;
 
