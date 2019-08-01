@@ -12,7 +12,7 @@ export default class UserModel extends Model {
   @hasMany('project') projects;
 
   // ONE User Has Many User Project Participants
-  @hasMany('userProjectParticipantTypes') userProjectParticipantTypes;
+  @hasMany('userProjectParticipantType') userProjectParticipantTypes;
 
   // NOTE: Borough Presidents can have more than one participantType
   // Both a 'Borough President' and 'Borough Board' type

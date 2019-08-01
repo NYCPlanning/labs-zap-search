@@ -23,7 +23,7 @@ export default class ProjectModel extends Model {
   @hasMany('action') actions;
 
   // ONE Project Has Many User Project Participant Types
-  @hasMany('userProjectParticipantTypes') userProjectParticipantTypes;
+  @hasMany('userProjectParticipantType') userProjectParticipantTypes;
 
   // One Project to One Hearing
   @belongsTo('hearing') hearing;
