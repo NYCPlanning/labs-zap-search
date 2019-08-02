@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import mapboxgl from 'mapbox-gl';
-import { action, computed } from '@ember-decorators/object';
+import { action, computed } from '@ember/object';
 import turfBbox from '@turf/bbox';
 import turfBuffer from '@turf/buffer';
 

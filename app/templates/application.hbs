@@ -35,7 +35,7 @@
         If auth'd, show "My Project" and auth info,
         otherwise show the "Sign In" button.
         --}}
-      {{#if true}}{{!-- TODO: swap boolean for real auth --}}
+      {{#if false}}{{!-- TODO: swap boolean for real auth --}}
         <li>{{link-to 'My Projects' 'my-projects'}}</li>
         <li class="auth--container">
           {{fa-icon 'user-circle' size='2x' class="auth--icon"}}
@@ -46,7 +46,7 @@
         </li>
       {{else}}
         <li>
-          <a class="auth--login-button">
+          <a class="auth--login-button" href="https://accounts-nonprd.nyc.gov/account/api/oauth/authorize.htm?response_type=token&client_id=zap_staging">
             {{fa-icon 'user-circle' class="light-gray"}}
             Sign In
             <sup>{{fa-icon 'external-link-alt'}}</sup>
