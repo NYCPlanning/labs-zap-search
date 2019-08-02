@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { action } from '@ember-decorators/object';
+import { action } from '@ember/object';
 import moment from 'moment';
 
 const fromEpoch = function(number, format) {

@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { computed } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import { buildUrl } from '../helpers/build-url';
 
 export default class BBLComponent extends Component {

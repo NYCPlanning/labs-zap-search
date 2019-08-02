@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { action } from '@ember-decorators/object';
+import { action } from '@ember/object';
 import { run } from '@ember/runloop';
 import fetch from 'fetch';
 import ENV from 'labs-zap-search/config/environment';

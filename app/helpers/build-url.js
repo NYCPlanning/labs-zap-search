@@ -47,7 +47,9 @@ function cpcReport(ulurp) {
   // the ulurp numbers with that extra letter have overall 11 characters compared to the usual 10
   if (ulurp.length > 10) {
     return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumberWithLetter}.pdf`;
-  } return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumberWithoutLetter}.pdf`;
+  }
+
+  return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumberWithoutLetter}.pdf`;
 }
 
 function acris(bbl) {

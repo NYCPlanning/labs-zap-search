@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { action, computed } from '@ember-decorators/object';
+import { action, computed } from '@ember/object';
 
 const expandToPolygonZoomThreshold = 14;
 const PROJECT_STATUS_COLOR_RAMP_CONFIG = {

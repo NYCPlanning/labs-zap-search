@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { action, computed } from '@ember-decorators/object';
+import { action, computed } from '@ember/object';
 import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 
 const POINT_LAYER_ID = 'project-centroids-circle';
