@@ -1,4 +1,4 @@
-import { action, computed } from '@ember-decorators/object';
+import { action, computed } from '@ember/object';
 import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';

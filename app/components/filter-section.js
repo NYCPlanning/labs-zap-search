@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { action, computed } from '@ember-decorators/object';
+import { action, computed } from '@ember/object';
 import { tagName } from '@ember-decorators/component';
 import { contains } from 'ember-composable-helpers/helpers/contains';
 
@@ -72,8 +72,8 @@ export default class FilterSectionComponent extends Component {
    * @public
    */
   @action
-  delegateMutation(action = function() {}, ...params) { // eslint-disable-line
-    action(...params);
+  delegateMutation(closureAction = () => {}, ...params) {
+    closureAction(...params);
     this.notifyAppliedFilters();
   }
 

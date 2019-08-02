@@ -7,6 +7,7 @@
       {{#each boro.cds as |cd i|}}
         {{~if i ","}}
         {{#if cdlink}}
+          {{log boro.boroName}} 
           <a href="{{build-url "CommProfiles" boro.boroName cd}}" target="_blank"><strong>{{cd ~}}</strong></a>
         {{~else~}}
           {{cd~}}

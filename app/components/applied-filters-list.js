@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { computed } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import { getLabelFor } from 'labs-zap-search/helpers/get-label-for';
 
 /**
