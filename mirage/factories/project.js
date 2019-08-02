@@ -125,9 +125,7 @@ export default Factory.extend({
     return faker.random.word();
   },
 
-  dcp_communitydistricts() {
-    return faker.random.word();
-  },
+  dcp_communitydistricts: 'BX08;SI01;SI02;SI03',
 
   dcp_validatedcommunitydistricts() {
     return faker.random.word();

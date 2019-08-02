@@ -1,8 +1,7 @@
 import DS from 'ember-data';
-import { attr } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 
-const { Model } = DS;
+const { Model, attr } = DS;
 
 const EmptyFeatureCollection = {
   type: 'FeatureCollection',
