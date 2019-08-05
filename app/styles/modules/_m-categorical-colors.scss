@@ -55,16 +55,13 @@
   &.terminated {
     .fa-circle,
     .status {
-      color: $lu-red;
+      color: $red-muted;
     }
   }
   &.approved {
     .fa-circle,
     .status {
-      color: $lu-green;
+      color: $green-muted;
     }
   }
-  // &.certified {}
-  // &.referred {}
-  // &.active { }
 }

@@ -86,7 +86,7 @@
           </div>
           <div class="cell shrink">
             <span
-              class="button projects-reset-filters-button tiny gray text-orange no-margin"
+              class="button projects-reset-filters-button tiny gray no-margin"
               onClick={{action 'resetAll'}}>
               &nbsp;RESET&nbsp;FILTERS&nbsp;
             </span>
@@ -375,11 +375,11 @@
       </span>
       <span class="float-right results-header-meta">
         {{#if fetchData.isRunning}}
-          {{fa-icon 'spinner' class="fa-spin medium-gray"}}
+          {{fa-icon 'spinner' class="fa-spin light-gray"}}
         {{else}}
           {{#unless (eq fetchData.lastSuccessful.value.meta.total 0)}}
             listing 1-{{numeral-format cachedProjects.length '0,0'}}
-            &nbsp;<span class="medium-gray">|</span>&nbsp;
+            &nbsp;<span class="light-gray">|</span>&nbsp;
             <span class="download-container">
               <a>{{fa-icon 'download'}} Download</a>
 

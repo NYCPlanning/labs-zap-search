@@ -66,7 +66,7 @@
         {{#if model.video_links}}
           <div class="button-group">
             {{#each model.video_links as |link|}}
-              <a href="{{link.video_link}}" target="_blank" class="button gray text-orange" style="text-align:left;">
+              <a href="{{link.video_link}}" target="_blank" class="button gray" style="text-align:left;">
                 <span style="color:#ff0000">{{fa-icon 'youtube' prefix='fab' size='2x' pull='left'}}</span>
                 <span class="text-small">
                   <strong>{{link.hearing_type}}</strong>
@@ -87,7 +87,7 @@
                   <div class="cell shrink statuscode {{dasherize action.statuscode}}">
                     <span class="action-icon fa-layers fa-fw">
                       {{fa-icon 'circle' fixedWidth=true}}
-                      {{fa-icon 'file-alt' fixedWidth=true class='light-gray' transform='shrink-7'}}
+                      {{fa-icon 'file-alt' fixedWidth=true class='off-white' transform='shrink-7'}}
                     </span>
                     <p class="text-tiny status">{{if action.statuscode action.statuscode "No Status Code"}}</p>
                   </div>
