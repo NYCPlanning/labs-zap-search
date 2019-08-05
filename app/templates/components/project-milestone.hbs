@@ -2,23 +2,22 @@
   {{#if (eq tense "past")}}
     <span class="milestone-icon fa-layers fa-fw">
       {{fa-icon 'circle' fixedWidth=true class='dark-gray'}}
-      {{fa-icon 'calendar' fixedWidth=true class='black' transform='shrink-8'}}
-      {{fa-icon 'check' fixedWidth=true class='lu-green' transform='shrink-4 right-5 up-2'}}
+      {{fa-icon 'check' fixedWidth=true class='green-light' transform='shrink-6'}}
     </span>
   {{else if (eq tense "present")}}
     <span class="milestone-icon fa-layers fa-fw">
-      {{fa-icon 'circle' fixedWidth=true class='lu-green'}}
-      {{fa-icon 'calendar' fixedWidth=true class='light-gray' transform='shrink-8'}}
+      {{fa-icon 'circle' fixedWidth=true class='green-dark'}}
+      {{fa-icon 'calendar' prefix='far' fixedWidth=true class='white-smoke' transform='shrink-8'}}
     </span>
   {{else}}{{!-- future --}}
     <span class="milestone-icon fa-layers fa-fw">
-      {{fa-icon 'circle' fixedWidth=true class='medium-gray'}}
-      {{fa-icon 'calendar' fixedWidth=true class='light-gray' transform='shrink-8'}}
+      {{fa-icon 'circle' fixedWidth=true class='light-gray'}}
+      {{fa-icon 'calendar' prefix='far' fixedWidth=true class='off-white' transform='shrink-8'}}
     </span>
   {{/if}}
 </div>
-<div class="cell auto">
-  <h5 class="no-margin">{{milestone.display_name}}{{#if milestone.display_description}}<sup class="dark-gray">{{icon-tooltip tip=milestone.display_description}}</sup>{{/if}}</h5>
+<div class="cell auto {{if (or (eq tense 'past') (eq tense 'present')) '' 'gray'}}">
+  <h5 class="no-margin">{{milestone.display_name}}{{#if milestone.display_description}}<sup class="gray">{{icon-tooltip tip=milestone.display_description}}</sup>{{/if}}</h5>
   {{#if milestone.display_date}}
     <div class="milestone-dates">
       {{#if milestone.display_date}}
