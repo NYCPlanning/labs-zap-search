@@ -1,5 +1,5 @@
 <li class="grid-x grid-padding-small projects-list-result">
-  <div class={{concat 'cell results-meta publicstatus-' (dasherize project.dcp_publicstatus_simp)}} style="width:5rem;">
+  <div class="cell results-meta {{if project.dcp_publicstatus_simp (concat 'publicstatus-' (dasherize project.dcp_publicstatus_simp))}}" style="width:5rem;">
     {{#if project.has_centroid}}
       {{project-list-map-pin project=project}}
     {{else}}
