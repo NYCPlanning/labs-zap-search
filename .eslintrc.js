@@ -36,6 +36,7 @@ module.exports = {
     'max-len': 0,
     'no-param-reassign': 0,
     'ember/avoid-leaking-state-in-ember-objects': 0,
+    'class-methods-use-this': 0,
   },
   overrides: [
     // node files
