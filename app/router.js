@@ -30,6 +30,12 @@ Router.map(function() {
   this.route('disclaimer');
   this.route('not-found', { path: '/*path' });
   this.route('oops');
+  this.route('my-projects', function() {
+    this.route('to-review');
+    this.route('archive');
+    this.route('upcoming');
+    this.route('reviewed');
+  });
   return null;
 });
 

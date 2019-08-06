@@ -1,0 +1,22 @@
+<div class="cell">
+  <div class="grid-container medium-margin-top medium-margin-bottom">
+
+    <ul class="tabs medium-margin-bottom">
+      <li class="tabs-title upcoming {{if (eq activeTab 'upcoming') 'is-active'}}">
+        {{#link-to 'my-projects.upcoming'}}Upcoming{{/link-to}}
+      </li>
+      <li class="tabs-title to-review {{if (eq activeTab 'to-review') 'is-active'}}">
+        {{#link-to 'my-projects.to-review'}}To Review{{/link-to}}
+      </li>
+      <li class="tabs-title reviewed {{if (eq activeTab 'reviewed') 'is-active'}}">
+        {{#link-to 'my-projects.reviewed'}}Reviewed{{/link-to}}
+      </li>
+      <li class="tabs-title archive {{if (eq activeTab 'archive') 'is-active'}}">
+        {{#link-to 'my-projects.archive'}}Archive{{/link-to}}
+      </li>
+    </ul>
+
+    {{outlet}}
+
+  </div>
+</div>

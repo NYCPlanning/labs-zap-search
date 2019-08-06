@@ -8232,10 +8232,10 @@ labs-ember-search@3.1.0:
     ember-promise-helpers "1.0.6"
     ember-truth-helpers "^2.0.0"
 
-labs-ui@^0.0.25:
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/labs-ui/-/labs-ui-0.0.25.tgz#f1020b296b51bfa386d1b4365f7a4ea5f6ec640d"
-  integrity sha512-s/kwHVKr+TMPm4VWrvW20aQkIIESyYYNO/utIdZZzfEjc/C0bOt4KRRfdi5pM5R9P5Cp6lmONjESyqVUxNEeFg==
+labs-ui@^0.0.26:
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/labs-ui/-/labs-ui-0.0.26.tgz#d2a305afcc943e41544d26ae9a9dee15d14f9b40"
+  integrity sha512-+6BlNVFfTUKkfMVJ7nnXyB2KjSg1itYkShas7xUBTGUNo2DiNKZbBrYQ/K+RCRLe4BUvu5D/e6hbqh7Zg4rSkQ==
   dependencies:
     "@fortawesome/ember-fontawesome" ">=0.1.5"
     "@fortawesome/free-brands-svg-icons" ">=5.2.0"
