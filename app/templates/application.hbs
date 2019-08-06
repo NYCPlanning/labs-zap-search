@@ -30,30 +30,7 @@
   {{#banner.nav}}
     <ul class="menu vertical large-horizontal">
       <li>{{link-to 'Search' 'show-geography'}}</li>
-
-      {{!--
-        If auth'd, show "My Project" and auth info,
-        otherwise show the "Sign In" button.
-        --}}
-      {{#if false}}{{!-- TODO: swap boolean for real auth --}}
-        <li>{{link-to 'My Projects' 'my-projects'}}</li>
-        <li class="auth--container">
-          {{fa-icon 'user-circle' size='2x' class="auth--icon"}}
-          <div>
-            <span class="auth--name">Longfürstnaim Milongsürnamé</span>
-            <a class="auth--logout-button">Sign Out</a>
-          </div>
-        </li>
-      {{else}}
-        <li>
-          <a class="auth--login-button" href="https://accounts-nonprd.nyc.gov/account/api/oauth/authorize.htm?response_type=token&client_id=zap_staging">
-            {{fa-icon 'user-circle' class="light-gray"}}
-            Sign In
-            <sup>{{fa-icon 'external-link-alt'}}</sup>
-          </a>
-        </li>
-      {{/if}}
-
+      {{sign-in}}
     </ul>
   {{/banner.nav}}
 {{/labs-ui/site-header}}

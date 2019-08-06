@@ -1,0 +1,33 @@
+{{!--
+  If auth'd, show "My Project" and auth info,
+  otherwise show the "Sign In" button.
+  --}}
+{{#if session.isAuthenticated}}
+  <li>{{link-to 'My Projects' 'my-projects'}}</li>
+  <li class="auth--container">
+    {{fa-icon 'user-circle' size='2x' class="auth--icon"}}
+    <div>
+      <span data-test-auth-name class="auth--name">
+        {{this.parsedJWT.mail}}
+      </span>
+      <a
+        data-test-auth-logout-button
+        class="auth--logout-button"
+        onclick={{action this.logout}}
+      >
+        Sign Out
+      </a>
+    </div>
+  </li>
+{{else}}
+  <li>
+    <a
+      class="auth--login-button"
+      href="https://accounts-nonprd.nyc.gov/account/api/oauth/authorize.htm?response_type=token&client_id=zap_staging"
+    >
+      {{fa-icon 'user-circle' class="light-gray"}}
+      Sign In
+      <sup>{{fa-icon 'external-link-alt'}}</sup>
+    </a>
+  </li>
+{{/if}}
