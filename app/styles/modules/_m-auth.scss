@@ -32,3 +32,10 @@
     }
   }
 }
+.site-header .menu a.auth--login-button {
+  color: $a11y-orange;
+
+  .fa-user-circle {
+    margin-right: rem-calc(6);
+  }
+}

@@ -45,7 +45,13 @@
           </div>
         </li>
       {{else}}
-        <li><a>{{fa-icon 'user-circle' class="light-gray"}} Sign In</a></li>
+        <li>
+          <a class="auth--login-button">
+            {{fa-icon 'user-circle' class="light-gray"}}
+            Sign In
+            <sup>{{fa-icon 'external-link-alt'}}</sup>
+          </a>
+        </li>
       {{/if}}
 
     </ul>
