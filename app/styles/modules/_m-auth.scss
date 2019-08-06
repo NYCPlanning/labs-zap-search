@@ -1,0 +1,34 @@
+// --------------------------------------------------
+// Module: Auth
+// --------------------------------------------------
+
+.auth--container {
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+  color: $gray;
+  font-size: rem-calc(14);
+  padding: 0 1.25rem;
+
+  .auth--icon {
+    margin-right: rem-calc(6);
+  }
+
+  .auth--name {
+    display: block;
+    color: $charcoal;
+  }
+
+  a.auth--logout-button {
+    display: inline-block;
+    padding: 0;
+    color: $a11y-orange;
+    background-color: transparent;
+    font-size: rem-calc(12);
+
+    &:hover {
+      color: scale-color($a11y-orange, $lightness: -20%);
+      background-color: transparent;
+    }
+  }
+}

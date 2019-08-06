@@ -5,6 +5,21 @@
 // --------------------------------------------------
 @import 'labs-ui/variables';
 
+// Style guide variables overrides
+$tab-margin: 0;
+$tab-background: transparent;
+$tab-color: $primary-color;
+$tab-background-active: transparent;
+$tab-active-color: $primary-color;
+$tab-item-font-size: rem-calc(12);
+$tab-item-background-hover: $white;
+$tab-item-padding: 0.75rem 1.25rem;
+$tab-expand-max: 6;
+$tab-content-background: transparent;
+$tab-content-border: $silver;
+$tab-content-color: inherit;
+$tab-content-padding: 1rem 0 0;
+
 
 //
 // Foundation
@@ -47,7 +62,7 @@
 // @include foundation-reveal;
 @include foundation-switch;
 @include foundation-table;
-// @include foundation-tabs;
+@include foundation-tabs;
 // @include foundation-thumbnail;
 // @include foundation-title-bar;
 // @include foundation-tooltip;
@@ -71,14 +86,16 @@ $completed-color: #44A3D5;
 
 @import 'base/_typography';
 @import 'layouts/_l-default';
+@import 'modules/_m-actions-milestones';
+@import 'modules/_m-auth';
 @import 'modules/_m-categorical-colors';
 @import 'modules/_m-map-info-box';
 @import 'modules/_m-maps';
-@import 'modules/_m-actions-milestones';
+@import 'modules/_m-modal-controls';
 @import 'modules/_m-noui';
 @import 'modules/_m-project-filters';
+@import 'modules/_m-tabs';
 @import 'modules/_m-search';
-@import 'modules/_m-modal-controls';
 @import 'modules/_m-tooltipster';
 
 @import "ember-power-select";
