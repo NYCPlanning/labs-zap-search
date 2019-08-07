@@ -2,8 +2,12 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 
 export default class ShowProjectRoute extends Route {
-  model({ id }) {
-    return this.store.findRecord('project', id, { reload: true });
+  async model({ id }) {
+    const project = await this.store.findRecord('project', id, {
+      reload: true,
+      include: 'actions',
+    });
+    return project;
   }
 
   @action
