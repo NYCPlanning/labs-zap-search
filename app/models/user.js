@@ -26,6 +26,8 @@ export default class UserModel extends Model {
   // sourced from jobtitle e.g. 'district manager'
   @attr('string', { defaultValue: '' }) title;
 
+  @attr('string', { defaultValue: '' }) email;
+
   // NOTE: Borough Presidents can have more than one participantType
   // Both a 'Borough President' and 'Borough Board' type
   // Whenever there is a 'Borough Board' participant listed (e.g. 'BXBB'),
