@@ -24,7 +24,7 @@ const Router = EmberRouter.extend(RouterScroll, {
   rootURL: config.rootURL,
 });
 
-Router.map(function() {
+Router.map(function() { // eslint-disable-line
   this.route('show-project', { path: '/projects/:id' });
   this.route('show-geography', { path: '/projects' });
   this.route('disclaimer');
@@ -36,7 +36,7 @@ Router.map(function() {
     this.route('upcoming');
     this.route('reviewed');
   });
-  return null;
+  this.route('login');
 });
 
 export default Router;

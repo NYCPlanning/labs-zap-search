@@ -1,0 +1,17 @@
+<div class="cell">
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x grid-padding-y align-middle" style="min-height: 50vh">
+      <div class="cell large-6 large-offset-3 text-center">
+        <h2>Oops!</h2>
+
+        <p>Something went wrong</p>
+
+        {{#each model.errors as |error idx|}}
+          <p data-test-error-message={{idx}}>{{error.detail}}</p>
+        {{/each}}
+
+        <p>Please reach out to your contact at DCP, and we'll take care of it as soon as possible.</p>
+      </div>
+    </div>
+  </div>
+</div>
