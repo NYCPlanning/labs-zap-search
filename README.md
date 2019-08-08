@@ -32,10 +32,13 @@ You will need the following things properly installed on your computer.
 
 ### Deploying
 
-This api is easily deployed with dokku.
+Deployment is handled through Netlify.
 
-Create a new remote: `git remote add dokku dokku@{host}:zap-search`
-Deploy with a git push `git push dokku master` or alias another branch to master `git push dokku {other-branch}:master`
+Commits to the following 3 branches trigger deploys:
+
+ - master
+ - develop
+ - develop-future
 
 ## Contact us
 
