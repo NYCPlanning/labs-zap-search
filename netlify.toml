@@ -3,3 +3,6 @@ command = "yarn build --environment=staging"
 
 [context.master]
 command = "yarn build --environment=production"
+
+[context.develop-future]
+command = "HOST_API=https://zap-api-lupp.planninglabs.nyc yarn build --environment=production"
