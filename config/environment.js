@@ -1,7 +1,7 @@
 'use strict';
 
 // if this exists in the environment, use it instead of others
-const ENVIRONMENTAL_HOST_API = process.env.HOST_API || 'https://zap-api-lupp.planninglabs.nyc';
+const ENVIRONMENTAL_HOST_API = process.env.HOST_API;
 
 module.exports = function(environment) {
   const ENV = {
