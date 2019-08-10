@@ -1,7 +1,7 @@
 import { Factory, faker } from 'ember-cli-mirage';
 
 export default Factory.extend({
-  email(i) {
+  emailaddress1(i) {
     return faker.list.cycle('bxbp@planning.nyc.gov', 'bxbp@planning.nyc.gov', 'qncb5@planning.nyc.gov')(i);
   },
 

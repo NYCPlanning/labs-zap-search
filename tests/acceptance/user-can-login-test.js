@@ -23,7 +23,7 @@ module('Acceptance | user can login', function(hooks) {
 
   test('User can login - redirects from oauth', async function(assert) {
     this.server.create('user', {
-      email: 'testuser@planning.nyc.gov',
+      emailaddress1: 'testuser@planning.nyc.gov',
     });
 
     // simulate presence of location hash after OAUTH redirect

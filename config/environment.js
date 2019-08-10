@@ -13,6 +13,7 @@ module.exports = function(environment) {
     routerScroll: {
       scrollElement: '#scrolling-result-content',
     },
+    NYC_ID_HOST: 'https://accounts-nonprd.nyc.gov',
     host: ENVIRONMENTAL_HOST_API || '',
     OAUTH_ENDPOINT: 'https://accounts-nonprd.nyc.gov/account/api/oauth/authorize.htm?response_type=token&client_id=zap_staging',
     EmberENV: {

@@ -18,7 +18,7 @@ module('Integration | Component | sign-in', function(hooks) {
 
   test('it signs out', async function(assert) {
     await authenticateSession({
-      email: 'test@planning.nyc.gov',
+      emailaddress1: 'test@planning.nyc.gov',
     });
 
     await render(hbs`<SignIn />`);

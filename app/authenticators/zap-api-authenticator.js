@@ -38,7 +38,10 @@ export default class ZAPAuthenticator extends BaseAuthenticator {
     }
 
     // returns an http cookie to implicitly authenticate later requests
-    const response = await fetch(`${ENV.host}/login?accessToken=${access_token}`);
+    const response = await fetch(`${ENV.host}/login?accessToken=${access_token}`, {
+      mode: 'same-origin',
+      credentials: 'include',
+    });
 
     if (!response.ok) throw await response.json();
 
