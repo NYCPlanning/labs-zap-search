@@ -28,6 +28,8 @@ export default class UserModel extends Model {
 
   @attr('string', { defaultValue: '' }) email;
 
+  @attr('string', { defaultValue: '' }) emailaddress1;
+
   // NOTE: Borough Presidents can have more than one participantType
   // Both a 'Borough President' and 'Borough Board' type
   // Whenever there is a 'Borough Board' participant listed (e.g. 'BXBB'),
