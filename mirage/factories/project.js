@@ -203,7 +203,7 @@ export default Factory.extend({
   },
 
   applicants() {
-    return 'BURLINGTON COAT FACTORY OF TEXAS, INC.;BURLINGTON COAT FACTORY OF TEXAS, INC.';
+    return faker.company.companyName();
   },
 
   applicantteam() {
@@ -217,5 +217,6 @@ export default Factory.extend({
 
   afterCreate(project, server) {
     server.createList('action', 3, { project });
+    server.create('hearing', { project });
   },
 });

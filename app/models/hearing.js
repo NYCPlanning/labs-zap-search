@@ -13,12 +13,13 @@ export default class HearingModel extends Model {
   @attr('string', { defaultValue: '' }) location;
 
   // sourced from dcp_dateofpublichearing
-  @attr('date') date;
+  @attr('date', { defaultValue: null }) date;
 
   @computed('date')
   get isScheduled() {
     const date = this.get('date');
-    const isScheduled = !!date;
+    const location = this.get('location');
+    const isScheduled = !!date && !!location;
     return isScheduled;
   }
 }
