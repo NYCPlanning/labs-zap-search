@@ -28,7 +28,7 @@
   }
 }
 
-// LUP coundown
+// LUP countdown
 .lup-countdown {
   text-align: center;
 
@@ -49,6 +49,26 @@
 
   .end-date {
     font-size: rem-calc(10);
+  }
+}
+
+// Hearing Info
+.hearing-info {
+  text-align: center;
+
+  .location {
+    font-size: rem-calc(12);
+    padding-top: 5px;
+    padding-bottom: 10px;
+  }
+
+  .date {
+    font-size: rem-calc(12);
+    padding-top: 5px;
+  }
+
+  .time {
+    font-size: rem-calc(12);
   }
 }
 

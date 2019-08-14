@@ -1,30 +1,44 @@
 <h5>Projects that require you to submit your hearing dates and recommendations</h5>
 
-<div class="project-summary-card callout">
-  <div class="grid-x">
-    <div class="cell large-6">
-      <h3 class="tiny-margin-bottom">
-        <a>101 Fleet Place Rezoning</a>
-        <small class="dark-gray">ULURP</small>
-      </h3>
-      <h5 class="applicant">Fleet Center, Inc.</h5>
-      <p class="no-margin">This is a private application by Fleet Center, Inc. for a zoning map amendment from R6 to C6-4 and zoning text amendment to expand the Special Downtown Brooklyn district and create a new MIH area to facilitate a new 205,000 square foot commercial office building at 101 Fleet Place in the Downtown Brooklyn area of Brooklyn Community District 2.</p>
-    </div>
-    <div class="cell large-shrink">
-      <div class="lup-countdown">
-        <p class="cert-date">Certified 11/1/2018</p>
-        <p class="days">8</p>
-        <p class="total">of 60 days remain</p>
-        <p class="end-date">Ends 12/15/19</p>
+{{#each model as |project|}}
+  <div class="project-summary-card callout">
+    <div class="grid-x">
+      <div class="cell large-6">
+        <h3 class="tiny-margin-bottom">
+          <a>{{project.dcp_projectname}}</a>
+          <small class="dark-gray">ULURP</small>
+        </h3>
+        <h5 class="applicant">{{project.applicants}}</h5>
+        <p class="no-margin">{{project.dcp_projectbrief}}</p>
+      </div>
+      <div class="cell large-shrink">
+        <div class="lup-countdown">
+          <p class="cert-date">Certified 11/08/2019</p>
+          <p class="days">8</p>
+          <p class="total">of 60 days remain</p>
+          <p class="end-date">Ends 12/15/19</p>
+        </div>
+      </div>
+      {{#if project.hearing.isScheduled}}
+        <div class="cell large-auto hearing-info">
+          <h5 class="no-margin">Hearing Location</h5>
+          <p class="no-margin location">{{project.hearing.location}}</p>
+          <h5 class="no-margin">Hearing Date</h5>
+          <p class="no-margin date">{{moment-format project.hearing.date "MM/D/YYYY"}}</p>
+          <p class="no-margin time">{{moment-format project.hearing.date "h:mm A"}}</p>
+        </div>
+      {{else}}
+        <div class="cell large-auto">
+          {{#link-to 'my-projects.project.hearing.add' project.id}}
+            <a class="button expanded no-margin">Add Your<br>Hearing&nbsp;Date</a>
+          {{/link-to}}
+        </div>
+      {{/if}}
+      <div class="cell large-auto">
+        <a class="button expanded no-margin">Submit&nbsp;Your<br>Recommendation</a>
       </div>
     </div>
-    <div class="cell large-auto">
-      <a class="button expanded no-margin">Add Your<br>Hearing&nbsp;Date</a>
-    </div>
-    <div class="cell large-auto">
-      <a class="button expanded no-margin">Submit&nbsp;Your<br>Recommendation</a>
-    </div>
   </div>
-</div>
+{{/each}}
 
 {{outlet}}

@@ -124,3 +124,12 @@
   box-shadow: 0 2px 0 rgba(0,0,0,0.1);
   font-weight: $global-weight-bold;
 }
+
+.search-hearing-location .labs-geosearch {
+    position: relative;
+    z-index: 2;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    max-width: 100%;
+  }

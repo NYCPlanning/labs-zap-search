@@ -59,6 +59,12 @@ export default function() {
     return {};
   });
 
+  // REST endpoints
+  this.get('/hearings');
+  this.get('/hearings/:id');
+  this.patch('/hearings/:id');
+  this.post('/hearings');
+
   /*
     Config (with defaults).
 
