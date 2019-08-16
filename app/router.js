@@ -37,6 +37,7 @@ Router.map(function() { // eslint-disable-line
     this.route('reviewed');
   });
   this.route('login');
+  this.route('logout');
 });
 
 export default Router;

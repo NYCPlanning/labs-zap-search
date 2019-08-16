@@ -11,8 +11,13 @@ export default class SignInComponent extends Component {
   @service
   session
 
+  @service
+  router
+
   @action
   logout() {
     this.session.invalidate();
+
+    this.router.transitionTo('logout');
   }
 }
