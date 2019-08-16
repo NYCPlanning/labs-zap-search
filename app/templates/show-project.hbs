@@ -84,38 +84,38 @@
             <ul class="actions-list no-bullet">
               {{#each model.actions as |action|}}
                 <li class="grid-x grid-padding-small action">
-                  <div class="cell shrink statuscode {{dasherize action.status}}">
+                  <div class="cell shrink statuscode {{dasherize action.statuscode}}">
                     <span class="action-icon fa-layers fa-fw">
                       {{fa-icon 'circle' fixedWidth=true}}
                       {{fa-icon 'file-alt' fixedWidth=true class='off-white' transform='shrink-7'}}
                     </span>
-                    <p class="text-tiny status">{{if action.status action.status "No Status Code"}}</p>
+                    <p class="text-tiny status">{{if action.statuscode action.statuscode "No Status Code"}}</p>
                   </div>
                   <div class="cell auto">
                     <h5 class="no-margin">
-                      {{action.actionName}}
-                      {{#if (lookup-action-type action.actionCode)}}
+                      {{action.dcpName}}
+                      {{#if (lookup-action-type action.action)}}
                         <sup class="dark-gray">
                           {{icon-tooltip
-                            tip=(lookup-action-type action.actionCode)}}
+                            tip=(lookup-action-type action.action)}}
                         </sup>
                       {{/if}}
                     </h5>
                     <p class="text-small no-margin">
-                      {{#if action.ulurpNumber}}
+                      {{#if action.dcpUlurpnumber}}
                         ULURP Number:
-                        {{#if (eq action.status "Approved")}}
+                        {{#if (eq action.statuscode "Approved")}}
                           {{#tool-tipster
                             content='City Planning Commision Report'
                             tagName='span'
                           }}
-                            <a href={{build-url "cpcReport" action.ulurpNumber}} target="_blank">
-                              {{action.ulurpNumber}}
+                            <a href={{build-url "cpcReport" action.dcpUlurpnumber}} target="_blank">
+                              {{action.dcpUlurpnumber}}
                               {{fa-icon 'external-link-alt'}}
                             </a>
                           {{/tool-tipster}}
                         {{else}}
-                          {{action.ulurpNumber}}
+                          {{action.dcpUlurpnumber}}
                         {{/if}}
                       {{else}}
                         No ULURP Number
