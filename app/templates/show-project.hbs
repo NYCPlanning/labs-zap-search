@@ -93,45 +93,45 @@
                   </div>
                   <div class="cell auto">
                     <h5 class="no-margin">
-                      {{action.dcp_name}}
-                      {{#if (lookup-action-type action.actioncode)}}
+                      {{action.dcpName}}
+                      {{#if (lookup-action-type action.action)}}
                         <sup class="dark-gray">
                           {{icon-tooltip
-                            tip=(lookup-action-type action.actioncode)}}
+                            tip=(lookup-action-type action.action)}}
                         </sup>
                       {{/if}}
                     </h5>
                     <p class="text-small no-margin">
-                      {{#if action.dcp_ulurpnumber}}
+                      {{#if action.dcpUlurpnumber}}
                         ULURP Number:
                         {{#if (eq action.statuscode "Approved")}}
                           {{#tool-tipster
                             content='City Planning Commision Report'
                             tagName='span'
                           }}
-                            <a href={{build-url "cpcReport" action.dcp_ulurpnumber}} target="_blank">
-                              {{action.dcp_ulurpnumber}}
+                            <a href={{build-url "cpcReport" action.dcpUlurpnumber}} target="_blank">
+                              {{action.dcpUlurpnumber}}
                               {{fa-icon 'external-link-alt'}}
                             </a>
                           {{/tool-tipster}}
                         {{else}}
-                          {{action.dcp_ulurpnumber}}
+                          {{action.dcpUlurpnumber}}
                         {{/if}}
                       {{else}}
                         No ULURP Number
                       {{/if}}
                     </p>
-                    {{#if action.dcp_zoningresolution}}
+                    {{#if action.zoningResolution}}
                       <p class="text-small no-margin">
                         Zoning Resolution:
-                        <a href="{{build-url "zoningResolution" action.dcp_zoningresolution}}" target="_blank">
-                          {{action.dcp_zoningresolution}}
+                        <a href="{{build-url "zoningResolution" action.zoningResolution}}" target="_blank">
+                          {{action.zoningResolution}}
                           {{fa-icon 'external-link-alt'}}
                         </a>
                       </p>
                     {{/if}}
-                    {{#if action.dcp_ccresolutionnumber}}
-                      <p class="text-small no-margin">City Council Resolution: {{action.dcp_ccresolutionnumber}}</p>
+                    {{#if action.ccResolutionNumber}}
+                      <p class="text-small no-margin">City Council Resolution: {{action.ccResolutionNumber}}</p>
                     {{/if}}
                   </div>
                 </li>
@@ -188,7 +188,6 @@
             <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
               {{#if model.dcp_ceqrtype}}<span class="label light-gray">{{model.dcp_ceqrtype}}</span>{{/if~}}
-              {{#if model.dcp_ceqrnumber}}<span class="label light-gray"><a href="{{build-url "ceqraccess" model.dcp_ceqrnumber}}" target="_blank">{{model.dcp_ceqrnumber}} {{fa-icon 'external-link-alt'}}</a></span>{{/if~}}
             </p>
           {{/if}}
 
