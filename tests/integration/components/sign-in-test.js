@@ -3,9 +3,16 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, find, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { authenticateSession } from 'ember-simple-auth/test-support';
+import Service from '@ember/service';
 
 module('Integration | Component | sign-in', function(hooks) {
   setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
+    this.owner.register('service:router', Service.extend({
+      transitionTo() {},
+    }));
+  });
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
