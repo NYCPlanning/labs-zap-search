@@ -14,7 +14,7 @@ export default Factory.extend({
   },
 
   action(i) {
-    return faker.list.cycle('ZS', 'ZR', 'PP', 'MM')(i);
+    return faker.list.cycle('ZS', 'ZR', 'PP', 'MM', 'BB', 'ZZ', 'AA', 'CC', 'DD')(i);
   },
 
   status(i) {

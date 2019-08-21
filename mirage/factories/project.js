@@ -232,7 +232,9 @@ export default Factory.extend({
   },
 
   afterCreate(project, server) {
-    server.createList('action', 30, { project });
+    // The number of actions created here cannot be more than the number of unique 
+    // action codes in the action factory.
+    server.createList('action', 7, { project });
     server.create('hearing', { project });
   },
 });

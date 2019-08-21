@@ -41,7 +41,11 @@
     {{#if (eq this.participantType "CB")}}
       <div class="project-summary-card callout">
         <h4>
-          Was a Quorum Present at your hearing on {{project.hearing.date}} at {{project.hearing.location}}?
+          {{#if (and project.hearing.date project.hearing.location)}}
+            Was a Quorum Present at your hearing on {{project.hearing.date}} at {{project.hearing.location}}?
+          {{else}}
+            Was a Quorum Present at your hearing? (Note: you have not submitted a hearing yet)
+          {{/if}}
         </h4>
         <fieldset class="fieldset">
           <legend>Choose if a Quorum was present:</legend>
@@ -96,21 +100,36 @@
           No
         </label>
       </fieldset>
-      {{#unless this.allActions}}
-          <table class="recommendation-table">
-            <thead>
-              <tr>
-                <th width="200" class="recommendation-header">
-                    Recommendation Option
+        <table class="recommendation-table">
+          <thead>
+            <tr>
+              <th width="200" class="recommendation-header">
+                  Recommendation Option
+              </th>
+              {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
+                <th width="100" class="recommendation-header">
+                  {{recOption.label}}
                 </th>
-                {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
-                  <th width="100" class="recommendation-header">
-                    {{recOption.label}}
-                  </th>
-                {{/each-in}}
-              </tr>
-            </thead>
-            <tbody>
+              {{/each-in}}
+            </tr>
+          </thead>
+          <tbody>
+            {{#if this.allActions}}
+              <td width="100">
+                <b>All actions</b>
+              </td>
+              {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
+                <td width="100">
+                  <input
+                    type="radio"
+                    name={{concat (concat projAction "-") recOptionKey}}
+                    id={{concat (concat projAction "-") recOptionKey}}
+                    checked={{if (eq this.allActionsRecommendation recOption.label) "checked"}}
+                    onClick={{action "setProp" "allActionsRecommendation" recOption.label}}
+                  />
+                </td>
+              {{/each-in}}
+            {{else}}
               {{#each project.actions as |projAction|}}
                 <tr>
                   <td width="100">
@@ -131,15 +150,19 @@
                   {{/each-in}}
                 </tr>
               {{/each}}
-            </tbody>
-          </table>
-      {{/unless}}
+            {{/if}}
+          </tbody>
+        </table>
+        {{#unless this.isRecommendationSelectionsValid}}
+          <p class="fix-hearing-info">*Please select an option for {{if this.allActions "all" "every"}} action{{if this.allActions "s"}}.</p>
+        {{/unless}}
     </div>
   {{/with}}
   <button
-      class="button expanded no-margin"
-      onClick={{action "submitRecommendation"}}
-    >
+    class="button expanded no-margin"
+    onClick={{action "submitRecommendation"}}
+    disabled={{if this.isRecommendationSelectionsValid "" "disabled"}}
+  >
     Submit<br>
     <b>
     {{#if (eq this.participantType "BP")}}
