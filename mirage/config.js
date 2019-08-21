@@ -35,10 +35,6 @@ export default function() {
     return schema.projects.find(request.params.id) || schema.projects.find(1);
   });
 
-  this.get('/crm-projects/:id', function(schema, request) {
-    return schema.projects.find(request.params.id) || schema.projects.find(1);
-  });
-
   /*
     Config (with defaults).
 
