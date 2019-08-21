@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 
-const { Model, attr } = DS;
+const { Model, attr, hasMany } = DS;
 
 const EmptyFeatureCollection = {
   type: 'FeatureCollection',
@@ -15,6 +15,8 @@ const EmptyFeatureCollection = {
 };
 
 export default class ProjectModel extends Model {
+  @hasMany('action') actions;
+
   @attr() applicantteam;
 
   // array of applicant objects
@@ -63,7 +65,7 @@ export default class ProjectModel extends Model {
 
   @attr('string') dcp_projectname;
 
-  @attr() dcp_publicstatus_simp;
+  @attr('string', { defaultValue: '' }) dcp_publicstatus_simp;
 
   @attr() dcp_hiddenprojectmetrictarget;
 
@@ -90,13 +92,13 @@ export default class ProjectModel extends Model {
 
   @attr() milestones;
 
-  @attr() actions;
-
   @attr() addresses;
 
   @attr() keywords;
 
   @attr() ulurpnumbers;
+
+  @attr('string', { defaultValue: '' }) statuscode;
 
   @attr() center;
 
