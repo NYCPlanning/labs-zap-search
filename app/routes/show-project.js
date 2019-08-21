@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 
 export default class ShowProjectRoute extends Route {
   model({ id }) {
-    return this.store.findRecord('project', id, { reload: true });
+    return this.store.findRecord('crm-project', id, { reload: true });
   }
 
   @action
