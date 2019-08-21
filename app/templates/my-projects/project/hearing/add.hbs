@@ -1,51 +1,57 @@
-<form>
-  <h3>{{model.dcp_projectname}}</h3>
-  <div class="grid-x">
-    <div class="large-12 cell">
-      <h5 class="no=margin">Hearing Date</h5>
-      {{#if dateMissing}}
-          <label class="fix-hearing-info">*Please enter a valid date for your hearing</label>
-      {{/if}}
-      <div class="small-9 cell">
+<h2>Add [Participant Type] Hearing</h2>
+<div class="grid-x grid-margin-x">
+  <div class="large-5 cell">
+    <div class="project-summary-card callout">
+      <h3 class="tiny-margin-bottom">
+        <a>{{model.dcp_projectname}}</a>
+        <small class="dark-gray">{{model.ulurp_nonulurp}}</small>
+      </h3>
+      <h5 class="applicant">{{model.applicants}}</h5>
+      <p>{{model.dcp_projectbrief}}</p>
+    </div>
+  </div>
+  <form class="large-7 cell">
+    <div class="grid-x grid-margin-x">
+      <div class="large-6 cell">
+        <label class="{{if dateMissing 'is-invalid-label'}}">
+          Hearing Date
           {{pikaday-input
             placeholder='Select a date'
-            readonly="readonly"
             minDate=currentDate
             format='MM/DD/YYYY'
             data-test-hearing-input="date"
             onSelection=(action (mut this.date))
-            }}
+            class=(if dateMissing 'is-invalid-input')
+          }}
+          {{#if dateMissing}}
+            <span class="form-error is-visible" role="alert">Please enter a valid date: MM/DD/YYYY</span>
+          {{/if}}
+        </label>
+      </div>
+      <div class="large-6 cell">
+        <label class="{{if timeMissing 'is-invalid-label'}}">
+          Hearing Time
+          {{#power-select
+            triggerClass="hearing-time-dropdown"
+            searchEnabled=false
+            selected=this.time
+            options=inputTimesArray
+            placeholder="Select a time"
+            onchange=(action (mut this.time))
+            as |time|
+          }}
+            {{moment-format time "hh:mm a"}}
+          {{/power-select}}
+          {{#if timeMissing}}
+            <span class="form-error is-visible" role="alert">Please enter a valid time</span>
+          {{/if}}
+        </label>
       </div>
     </div>
-  </div>
-  <div class="grid-x">
-    <div class="large-12 cell">
-      <h5 class="no=margin">Hearing Time</h5>
-      {{#if timeMissing}}
-          <label class="fix-hearing-info">*Please enter a valid time for your hearing</label>
-      {{/if}}
-      <div class="small-9 cell">
-        {{#power-select
-          triggerClass="hearing-time-dropdown"
-          searchEnabled=false
-          selected=this.time
-          options=inputTimesArray
-          placeholder="Select a time"
-          onchange=(action (mut this.time))
-          as |time|
-        }}
-        {{moment-format time "hh:mm a"}}
-        {{/power-select}}
-      </div>
-    </div>
-  </div>
-  <div class="grid-x">
-    <div class="large-12 cell">
-      <h5 class="no=margin">Hearing Location</h5>
-      {{#if locationMissing}}
-          <label class="fix-hearing-info">*Please enter a valid location for your hearing</label>
-      {{/if}}
-      <div class="small-9 cell search-hearing-location">
+
+    <label class="{{if locationMissing 'is-invalid-label'}}">
+      Hearing Location
+      <div class="inline-geosearch">
         {{#labs-search
           searchPlaceholder='Search an address'
           onSelect=(action (mut this.location))
@@ -53,32 +59,31 @@
           <small class="dark-gray">{{search.result.label}}</small>
         {{/labs-search}}
       </div>
-    </div>
-  </div>
-  <div class="grid-x">
-    <div class="large-12 cell additional-location-info">
-      <h5 class="no-margin">Additional Hearing Location Information</h5>
-      <span class="text-small">(OPTIONAL) information to help participants find the hearing location, e.g. "the gym north of P.S. 8"</span>
-      <div class="small-9 cell">
-          {{input
-            type="text"
-            placeholder="Enter additional info on hearing location"
-            autocomplete="off"
-            data-test-hearing-input="additionalLocation"
-            value=this.additionalLocationInfo
-            }}
-      </div>
-    </div>
-  </div>
-  <div class="grid-x">
-    <div class="cell auto hearing-submit">
-      <button
-        class="cell auto button small gray"
-        data-test-button="hearingSubmit"
-        type="button"
-        onclick={{action 'saveHearingForm'}}
-        >Submit Hearing Info
-      </button>
-    </div>
-  </div>
-</form>
+      {{#if locationMissing}}
+        <span class="form-error is-visible" role="alert">Please enter a valid location for your hearing</span>
+      {{/if}}
+    </label>
+
+    <label>
+      Location Details <small>(Optional)</small>
+      {{input
+        type="text"
+        placeholder="Add location details..."
+        autocomplete="off"
+        data-test-hearing-input="additionalLocation"
+        value=this.additionalLocationInfo
+      }}
+      <p class="help-text">Information to help attendees find the location&mdash;e.g. "the gym north of P.S. 8"</p>
+    </label>
+
+    <button
+      class="button large-margin-top"
+      data-test-button="hearingSubmit"
+      type="button"
+      onclick={{action 'saveHearingForm'}}
+    >
+      Submit Hearing Info
+    </button>
+
+  </form>
+</div>

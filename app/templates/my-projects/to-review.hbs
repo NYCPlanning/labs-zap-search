@@ -31,9 +31,15 @@
             </div>
           {{else}}
             <div class="cell large-auto">
-              {{#link-to 'my-projects.project.hearing.add' project.id}}
-                <a class="button expanded">Add Your<br>Hearing&nbsp;Date</a>
-              {{/link-to}}
+              <LinkTo
+                @route="my-projects.project.hearing.add"
+                @model={{project}}
+                class="button expanded no-margin"
+              >
+                Submit<br>
+                Participant&nbsp;Type
+                <br>Hearing Info
+              </LinkTo>
             </div>
           {{/if}}
         </div>
@@ -50,7 +56,6 @@
                 class="button expanded no-margin"
               >
                 Submit<br>
-                <b>
                 {{#if (eq participantType "BP")}}
                   Borough&nbsp;President
                 {{else if (eq participantType "BB")}}
@@ -58,8 +63,7 @@
                 {{else if (eq participantType "CB")}}
                   Community&nbsp;Board
                 {{/if}}
-                </b>
-                Recommendation
+                <br>Recommendation
               </LinkTo>
             {{/each}}
           {{/participant-types}}
