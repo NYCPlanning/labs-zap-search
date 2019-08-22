@@ -19,7 +19,7 @@ export default class ActionModel extends Model {
 
   // Name of action e.g. "Zoning Text Amendment"
   // sourced from dcp_name --> SUBSTRING(a.dcp_name FROM '-{1}\s*(.*)')
-  @attr('string') dcpName;
+  @attr('string') actionName;
 
   // Action Code e.g. "ZR"
   // sourced from dcp_name --> SUBSTRING(a.dcp_name FROM '^(\w+)')
@@ -39,7 +39,7 @@ export default class ActionModel extends Model {
   @attr('string') isActive;
 
   // sourced from dcp_ulurpnumber
-  @attr('string') dcpUlurpnumber;
+  @attr('string') ulurpNumber;
 
   // sourced from dcp_zoningresolution
   @attr('string') zoningResolution;
