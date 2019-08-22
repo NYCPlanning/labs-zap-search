@@ -11,174 +11,178 @@
   </div>
 {{else}}
   {{#with this.model as |project|}}
-    <LinkTo
-      @route="my-projects.to-review"
-    >
-      &lt;&nbsp;Back&nbsp;to&nbsp;"To&nbsp;Review"
-    </LinkTo>
-    <br>
-    <LinkTo
-      @route="show-project"
-      @model={{project}}
-    >
-      &lt;&nbsp;Back&nbsp;to&nbsp;Project
-    </LinkTo>
-    <h1>Add a Recommendation for...</h1>
-    {{!-- TODO: Display recommendation based on user role (participantType),
-    which is based on milestone  --}}
-    <div class="project-summary-card callout">
-      <div class="grid-x">
-        <div class="cell large-12">
+
+  {{!-- TODO: Display recommendation based on user role (participantType),
+  which is based on milestone  --}}
+
+    <h2>Add [Participant Type] Recommendation</h2>
+    <div class="grid-x grid-margin-x">
+      <div class="large-5 cell large-order-2">
+        <p>Recommendation to be sumbitted for:</p>
+        <div class="project-summary-card callout">
           <h3 class="tiny-margin-bottom">
-            <h4>{{project.dcp_projectname}}</h4>
+            <LinkTo
+              @route="show-project"
+              @model={{project}}
+            >
+              {{project.dcp_projectname}}
+            </LinkTo>
             <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
           </h3>
           <h5 class="applicant">{{project.applicants}}</h5>
-          <p class="no-margin">{{project.dcp_projectbrief}}</p>
+          <p>{{project.dcp_projectbrief}}</p>
         </div>
       </div>
-    </div>
-    {{#if (eq this.participantType "CB")}}
-      <div class="project-summary-card callout">
-        <h4>
-          {{#if (and project.hearing.date project.hearing.location)}}
-            Was a Quorum Present at your hearing on {{project.hearing.date}} at {{project.hearing.location}}?
-          {{else}}
-            Was a Quorum Present at your hearing? (Note: you have not submitted a hearing yet)
-          {{/if}}
-        </h4>
-        <fieldset class="fieldset">
-          <legend>Choose if a Quorum was present:</legend>
-          <input type="radio"
-            name="quorum-yes"
-            id="quorum-yes"
-            checked={{if this.recommendation.didQuorumExist "checked"}}
-            onClick={{action "updateRecAttr" "didQuorumExist" true}}
+      <div class="large-7 cell">
+
+        {{#if (eq this.participantType "CB")}}
+          <fieldset class="medium-margin-bottom">
+            <legend>
+              {{#if (and project.hearing.date project.hearing.location)}}
+                <strong>Was a Quorum Present at your hearing on {{project.hearing.date}} at {{project.hearing.location}}?</strong>
+              {{else}}
+                <strong>Was a Quorum Present at your hearing?</strong> <small>&nbsp;(Note: you have not submitted a hearing)</small>
+              {{/if}}
+            </legend>
+            <input type="radio"
+              name="quorum-yes"
+              id="quorum-yes"
+              checked={{if this.recommendation.didQuorumExist "checked"}}
+              onClick={{action "updateRecAttr" "didQuorumExist" true}}
+            />
+            <label for="quorum-yes">
+              Yes
+            </label>
+            <input type="radio"
+              name="quorum-no"
+              id="quorum-no"
+              checked={{if (not this.recommendation.didQuorumExist) "checked"}}
+              onClick={{action "updateRecAttr" "didQuorumExist" false}}
+            />
+            <label for="quorum-no">
+              No
+            </label>
+          </fieldset>
+        {{/if}}
+
+        <fieldset class="medium-margin-bottom">
+          <legend><strong>When and where was your vote held?</strong></legend>
+          <div class="grid-x grid-margin-x">
+            <div class="cell large-6">
+              <label>Date
+                {{input type="date" value=recommendation.dateVoted}}
+              </label>
+            </div>
+            <div class="cell large-6">
+              <label>Location
+                {{input value=recommendation.voteLocation}}
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="medium-margin-bottom">
+          <legend><strong>Would you like to submit a single recommendation for all actions?</strong></legend>
+          <input
+            type="radio"
+            name="all-action-yes"
+            id="all-action-yes"
+            checked={{if this.allActions "checked"}}
+            onClick={{action "setProp" "allActions" true}}
           />
-          <label for="quorum-yes">
+          <label for="all-action-yes">
             Yes
           </label>
-          <input type="radio"
-            name="quorum-no"
-            id="quorum-no"
-            checked={{if (not this.recommendation.didQuorumExist) "checked"}}
-            onClick={{action "updateRecAttr" "didQuorumExist" false}}
+          <input
+            type="radio"
+            name="all-action-no"
+            id="all-action-no"
+            checked={{if (not this.allActions) "checked"}}
+            onClick={{action "setProp" "allActions" false}}
           />
-          <label for="quorum-no">
-            No
+          <label for="all-action-no">
+            No, I will submit multiple recommendations
           </label>
         </fieldset>
       </div>
-    {{/if}}
-    <div class="project-summary-card callout">
-      <h4>When &amp; where was your vote held?</h4>
-      Date: {{input type="date" value=recommendation.dateVoted}}
-      Location: {{input value=recommendation.voteLocation}}
     </div>
-    <div class="project-summary-card callout">
-      <h4>Do you want to submit one recommendation for all actions at once?</h4>
-      <fieldset class="fieldset">
-        <legend>Choose if you want to submit one recommendation for all actions at once:</legend>
-        <input
-          type="radio"
-          name="all-action-yes"
-          id="all-action-yes"
-          checked={{if this.allActions "checked"}}
-          onClick={{action "setProp" "allActions" true}}
-        />
-        <label for="all-action-yes">
-          Yes
-        </label>
-        <input 
-          type="radio"
-          name="all-action-no"
-          id="all-action-no"
-          checked={{if (not this.allActions) "checked"}}
-          onClick={{action "setProp" "allActions" false}}
-        />
-        <label for="all-action-no">
-          No
-        </label>
-      </fieldset>
-        <table class="recommendation-table">
-          <thead>
+
+    <table class="recommendation-table text-small">
+      <thead>
+        <tr>
+          <th width="200" class="recommendation-header"></th>
+          {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
+            <th width="100" class="recommendation-header">
+              {{recOption.label}}
+            </th>
+          {{/each-in}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#if this.allActions}}
+          <td width="100">
+            <b>All actions</b>
+          </td>
+          {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
+            <td width="100">
+              <input
+                type="radio"
+                name={{concat (concat projAction "-") recOptionKey}}
+                id={{concat (concat projAction "-") recOptionKey}}
+                checked={{if (eq this.allActionsRecommendation recOption.label) "checked"}}
+                onClick={{action "setProp" "allActionsRecommendation" recOption.label}}
+              />
+            </td>
+          {{/each-in}}
+        {{else}}
+          {{#each project.actions as |projAction|}}
             <tr>
-              <th width="200" class="recommendation-header">
-                  Recommendation Option
-              </th>
-              {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
-                <th width="100" class="recommendation-header">
-                  {{recOption.label}}
-                </th>
-              {{/each-in}}
-            </tr>
-          </thead>
-          <tbody>
-            {{#if this.allActions}}
               <td width="100">
-                <b>All actions</b>
+                <b>
+                  {{projAction.actionName}}
+                </b>
+                {{#if (lookup-action-type projAction.action)}}
+                  <sup class="dark-gray">
+                    {{icon-tooltip
+                      tip=(lookup-action-type projAction.action)}}
+                  </sup>
+                {{/if}}
+                <br>
+                {{#if projAction.ulurpNumber}}
+                  ULURP Number:&nbsp;{{projAction.ulurpNumber}}
+                {{else}}
+                  No ULURP Number
+                {{/if}}
               </td>
               {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
                 <td width="100">
-                  <input
-                    type="radio"
-                    name={{concat (concat projAction "-") recOptionKey}}
-                    id={{concat (concat projAction "-") recOptionKey}}
-                    checked={{if (eq this.allActionsRecommendation recOption.label) "checked"}}
-                    onClick={{action "setProp" "allActionsRecommendation" recOption.label}}
-                  />
+                  {{#let (get recOption "actions") as |recActions|}}
+                    <input
+                      type="radio"
+                      name={{concat (concat projAction "-") recOptionKey}}
+                      id={{concat (concat projAction "-") recOptionKey}}
+                      checked={{if (in-array recActions projAction) "checked"}}
+                      onClick={{action "addActionToOption" projAction recOptionKey}}
+                    />
+                  {{/let}}
                 </td>
               {{/each-in}}
-            {{else}}
-              {{#each project.actions as |projAction|}}
-                <tr>
-                  <td width="100">
-                    <b>
-                      {{projAction.actionName}}
-                    </b>
-                    {{#if (lookup-action-type projAction.action)}}
-                      <sup class="dark-gray">
-                        {{icon-tooltip
-                          tip=(lookup-action-type projAction.action)}}
-                      </sup>
-                    {{/if}}
-                    <br>
-                    {{#if projAction.ulurpNumber}}
-                      ULURP Number:&nbsp;{{projAction.ulurpNumber}}
-                    {{else}}
-                      No ULURP Number
-                    {{/if}}
-                  </td>
-                  {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
-                    <td width="100">
-                      {{#let (get recOption "actions") as |recActions|}}
-                        <input
-                          type="radio"
-                          name={{concat (concat projAction "-") recOptionKey}}
-                          id={{concat (concat projAction "-") recOptionKey}}
-                          checked={{if (in-array recActions projAction) "checked"}}
-                          onClick={{action "addActionToOption" projAction recOptionKey}}
-                        />
-                      {{/let}}
-                    </td>
-                  {{/each-in}}
-                </tr>
-              {{/each}}
-            {{/if}}
-          </tbody>
-        </table>
-        {{#unless this.isRecommendationSelectionsValid}}
-          <p class="fix-hearing-info">*Please select an option for {{if this.allActions "all" "every"}} action{{if this.allActions "s"}}.</p>
-        {{/unless}}
-    </div>
+            </tr>
+          {{/each}}
+        {{/if}}
+      </tbody>
+    </table>
+    {{#unless this.isRecommendationSelectionsValid}}
+      <p class="fix-hearing-info">*Please select an option for {{if this.allActions "all" "every"}} action{{if this.allActions "s"}}.</p>
+    {{/unless}}
+
   {{/with}}
   <button
-    class="button expanded no-margin"
+    class="button large no-margin"
     onClick={{action "submitRecommendation"}}
     disabled={{if this.isRecommendationSelectionsValid "" "disabled"}}
   >
-    Submit<br>
-    <b>
+    Submit
     {{#if (eq this.participantType "BP")}}
       Borough&nbsp;President
     {{else if (eq this.participantType "BB")}}
@@ -186,8 +190,7 @@
     {{else if (eq this.participantType "CB")}}
       Community&nbsp;Board
     {{/if}}
-    </b>
     Recommendation
   </button>
-  {{outlet}}
+{{outlet}}
 {{/if}}
