@@ -47,7 +47,7 @@
         <div class="grid-x grid-padding-x">
           <p class="cell auto">
             <strong>Status:</strong>
-            <span class="label dark-gray publicstatus-{{dasherize model.dcp_publicstatus_simp}}">{{model.dcp_publicstatus_simp}}</span>
+            <span class="{{concat 'label dark-gray publicstatus-' (dasherize model.dcp_publicstatus_simp)}}">{{model.dcp_publicstatus_simp}}</span>
           </p>
           {{#if model.dcp_ulurp_nonulurp}}
             <p class="cell small-6 text-right">
@@ -84,7 +84,7 @@
             <ul class="actions-list no-bullet">
               {{#each model.actions as |action|}}
                 <li class="grid-x grid-padding-small action">
-                  <div class="cell shrink statuscode {{dasherize action.statuscode}}">
+                  <div class="{{concat 'cell shrink statuscode ' (dasherize action.statuscode)}}">
                     <span class="action-icon fa-layers fa-fw">
                       {{fa-icon 'circle' fixedWidth=true}}
                       {{fa-icon 'file-alt' fixedWidth=true class='off-white' transform='shrink-7'}}

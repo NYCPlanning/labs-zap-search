@@ -21,6 +21,10 @@ export default Factory.extend({
     return faker.list.random('Active', 'Approved', 'Certified', 'Referred', 'Terminated', 'Withdrawn')(i);
   },
 
+  statuscode(i) {
+    return faker.list.random('Active', 'Approved', 'Certified', 'Referred', 'Terminated', 'Withdrawn')(i);
+  },
+
   isActive(i) {
     return faker.list.random('Active', 'inActive')(i);
   },

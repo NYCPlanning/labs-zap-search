@@ -105,6 +105,10 @@ export default Factory.extend({
     return faker.random.arrayElement(['Active', 'Approved', 'Withdrawn']);
   },
 
+  dcp_publicstatus_simp() {
+    return faker.random.arrayElement(['Active', 'Approved', 'Withdrawn']);
+  },
+
   dcp_hiddenprojectmetrictarget() {
     return faker.random.word();
   },
@@ -162,6 +166,9 @@ export default Factory.extend({
         dcp_actualenddate: '2018-05-12T04:00:00',
         statuscode: 'Completed',
         dcp_milestonesequence: 28,
+        display_name: 'Land Use Fee Payment',
+        display_date: '2018-10-31T01:21:46',
+        display_date_2: null,
       },
       {
         dcp_name: 'ZC - Land Use Application Filed Review ',
@@ -172,6 +179,9 @@ export default Factory.extend({
         dcp_actualenddate: null,
         statuscode: 'Overridden',
         dcp_milestonesequence: 29,
+        display_name: 'Land Use Application Filed Review',
+        display_date: '2018-11-03T01:21:46',
+        display_date_2: null,
       },
       {
         dcp_name: 'ZC - City Council Review ',
@@ -182,6 +192,9 @@ export default Factory.extend({
         dcp_actualenddate: '2022-05-02T01:40:24',
         statuscode: 'Not Started',
         dcp_milestonesequence: 60,
+        display_name: 'City Council Review',
+        display_date: null,
+        display_date_2: null,
       },
       {
         dcp_name: 'ZC - Final Letter Sent ',
@@ -192,6 +205,9 @@ export default Factory.extend({
         dcp_actualenddate: null,
         statuscode: 'Not Started',
         dcp_milestonesequence: 60,
+        display_name: 'Final Letter Sent',
+        display_date: null,
+        display_date_2: null,
       },
     ];
   },
