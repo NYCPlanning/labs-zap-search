@@ -102,20 +102,20 @@
                       {{/if}}
                     </h5>
                     <p class="text-small no-margin">
-                      {{#if action.dcpUlurpnumber}}
+                      {{#if action.ulurpNumber}}
                         ULURP Number:
                         {{#if (eq action.statuscode "Approved")}}
                           {{#tool-tipster
                             content='City Planning Commision Report'
                             tagName='span'
                           }}
-                            <a href={{build-url "cpcReport" action.dcpUlurpnumber}} target="_blank">
-                              {{action.dcpUlurpnumber}}
+                            <a href={{build-url "cpcReport" action.ulurpNumber}} target="_blank">
+                              {{action.ulurpNumber}}
                               {{fa-icon 'external-link-alt'}}
                             </a>
                           {{/tool-tipster}}
                         {{else}}
-                          {{action.dcpUlurpnumber}}
+                          {{action.ulurpNumber}}
                         {{/if}}
                       {{else}}
                         No ULURP Number

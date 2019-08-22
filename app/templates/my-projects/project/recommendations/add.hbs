@@ -133,7 +133,21 @@
               {{#each project.actions as |projAction|}}
                 <tr>
                   <td width="100">
-                    <b>{{projAction.action}}</b>
+                    <b>
+                      {{projAction.actionName}}
+                    </b>
+                    {{#if (lookup-action-type projAction.action)}}
+                      <sup class="dark-gray">
+                        {{icon-tooltip
+                          tip=(lookup-action-type projAction.action)}}
+                      </sup>
+                    {{/if}}
+                    <br>
+                    {{#if projAction.ulurpNumber}}
+                      ULURP Number:&nbsp;{{projAction.ulurpNumber}}
+                    {{else}}
+                      No ULURP Number
+                    {{/if}}
                   </td>
                   {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
                     <td width="100">
