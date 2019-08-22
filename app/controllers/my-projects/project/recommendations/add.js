@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
-import EmberObject, { action } from '@ember/object';
+import EmberObject, { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { A } from '@ember/array';
 
@@ -39,12 +40,18 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   currentUser;
 
   // the project is available through the model.
+  @alias('model')
+  project;
 
   // the participant-type-dependent Recommendation is set up within the router's
   // setupController.
 
   // if the new recommendation applies to all actions
   allActions = true;
+
+  // the selected recommendation option if applying filled Recommendation 
+  // to all actions
+  allActionsRecommendation = '';
 
   recommendationOptions = EmberObject.create({
     approved: RecommendationOption.create({
@@ -69,6 +76,48 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     }),
   });
 
+  @computed('recommendationOptions.approved.actions.[]',
+      'recommendationOptions.["approved-with-modifications-conditions"].actions.[]',
+      'recommendationOptions.disapproved.actions.[]',
+      'recommendationOptions.["disapproved-with-modifications-conditions"].actions.[]',
+      'recommendationOptions.["not-available"].actions.[]}'
+    )
+  get allOptionsActions() {
+    let allActions = [
+      ...this.recommendationOptions.approved.actions,
+      ...this.recommendationOptions.get('approved-with-modifications-conditions').actions,
+      ...this.recommendationOptions.disapproved.actions,
+      ...this.recommendationOptions.get('disapproved-with-modifications-conditions').actions,
+      ...this.recommendationOptions.get('not-available').actions,
+    ];
+    return allActions;
+  }
+
+  @computed('allActions', 'allActionsRecommendation', 'allOptionsActions', 'project.actions')
+  get isRecommendationSelectionsValid() {
+    let isValid = true;
+    if (this.allActions) {
+      if (this.allActionsRecommendation) {
+        return true;
+      }
+      return false;
+    }
+    if (this.allOptionsActions.length != this.project.actions.length) {
+      return false;
+    }
+    // safeguard to make sure that each action is assigned only once to 
+    // any option
+    let actionAssigned = {}
+    this.allOptionsActions.forEach((action) => {
+      if (actionAssigned[action.action] == true) {
+        isValid = false;
+      } else {
+        actionAssigned[action.action] = true;
+      }
+    });
+    return isValid;
+  }
+
   @action
   setProp(property, newVal) {
     this.set(property, newVal);
@@ -91,9 +140,10 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   @action
   submitRecommendation() {
-    const project = this.model;
+    const project = this.project;
     let savePromise;
     if (this.allActions) {
+      this.recommendation.set('recommendation', this.allActionsRecommendation);
       this.recommendation.set('actions', project.actions);
       savePromise = this.recommendation.save();
     } else {
@@ -101,6 +151,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
         const recommendationOption = this.recommendationOptions[optionCode];
         if (recommendationOption.actions.length) {
           const recommendationCopy = cloneRecommendationRecord(this.recommendation, this.store);
+          recommendationCopy.set('recommendation', recommendationOption.label);
           recommendationCopy.set('actions', recommendationOption.actions);
           savePromise = recommendationCopy.save();
         }
@@ -108,7 +159,6 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     }
     if (savePromise) {
       savePromise.then(() => {
-        // TODO: transition to my-projects.project.recommendation.view
         this.transitionToRoute('my-projects.project.recommendations.view', project);
       }, () => {
         this.set('error', 'Oops, there was an error submitting your recommendation.');
