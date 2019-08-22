@@ -232,7 +232,7 @@ export default Factory.extend({
   },
 
   afterCreate(project, server) {
-    server.createList('action', 3, { project });
+    server.createList('action', 30, { project });
     server.create('hearing', { project });
   },
 });

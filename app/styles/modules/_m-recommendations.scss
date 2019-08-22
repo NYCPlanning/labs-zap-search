@@ -1,0 +1,20 @@
+// --------------------------------------------------
+// Module: Recommendations
+// --------------------------------------------------
+
+@mixin sticky-table-header {
+  position: sticky;
+  position: -webkit-sticky;
+  top: -1px;
+  z-index: 999;
+}
+
+.recommendation-table {
+  text-align: center;
+}
+
+.recommendation-header {
+  @include sticky-table-header();
+  text-align: center;
+  background-color: white;
+}

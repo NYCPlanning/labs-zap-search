@@ -97,26 +97,26 @@
         </label>
       </fieldset>
       {{#unless this.allActions}}
-          <table>
+          <table class="recommendation-table">
             <thead>
               <tr>
-                <th width="200">
+                <th width="200" class="recommendation-header">
                     Recommendation Option
                 </th>
-                {{#each project.actions as |projAction|}}
-                  <th width="100">
-                    {{projAction.action}}
+                {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
+                  <th width="100" class="recommendation-header">
+                    {{recOption.label}}
                   </th>
-                {{/each}}
+                {{/each-in}}
               </tr>
             </thead>
             <tbody>
-              {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
+              {{#each project.actions as |projAction|}}
                 <tr>
-                  <td width="200">
-                    {{recOption.label}}
+                  <td width="100">
+                    <b>{{projAction.action}}</b>
                   </td>
-                  {{#each project.actions as |projAction|}}
+                  {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
                     <td width="100">
                       {{#let (get recOption "actions") as |recActions|}}
                         <input
@@ -128,9 +128,9 @@
                         />
                       {{/let}}
                     </td>
-                  {{/each}}
+                  {{/each-in}}
                 </tr>
-              {{/each-in}}
+              {{/each}}
             </tbody>
           </table>
       {{/unless}}
