@@ -69,11 +69,6 @@ body {
   @include breakpoint(large) {
     height: calc(45vh - 3rem);
     margin: 0;
-
-    &::after {
-      content: '';
-      box-shadow: inset 0 -1px 0 2px rgba(0,0,0,0.1);
-    }
   }
 }
 
@@ -255,5 +250,17 @@ body {
       color: $white;
       text-decoration: underline;
     }
+  }
+}
+
+//
+// Gutters
+// --------------------------------------------------
+.grid-x-small-gutters {
+  @include xy-gutters($gutters:$global-margin, $negative:true);
+
+  > .cell {
+    padding-right: $global-margin/2;
+    padding-left: $global-margin/2;
   }
 }

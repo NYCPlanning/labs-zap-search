@@ -1,72 +1,74 @@
 <h5>Projects that require you to submit your hearing dates and recommendations</h5>
 
 {{#each this.model as |project|}}
-  <div class="project-summary-card callout grid-x">
-    <div class="cell large-6 project-summary-card--description">
-      <h3 class="tiny-margin-bottom">
-        <a>{{project.dcp_projectname}}</a>
-        <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
-      </h3>
-      <h5 class="applicant">{{project.applicants}}</h5>
-      <p>{{project.dcp_projectbrief}}</p>
-    </div>
-    <div class="cell medium-4 large-shrink project-summary-card--timer">
-      <div class="lup-countdown">
-        <p class="cert-date">Certified 11/08/2019</p>
-        <p class="days">8</p>
-        <p class="total">of 60 days remain</p>
-        <p class="end-date">Ends 12/15/19</p>
+  <div class="project-summary-card callout">
+    <div class="grid-x grid-x-small-gutters">
+      <div class="cell large-6">
+        <h3 class="tiny-margin-bottom">
+          <a>{{project.dcp_projectname}}</a>
+          <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
+        </h3>
+        <h5 class="applicant">{{project.applicants}}</h5>
+        <p>{{project.dcp_projectbrief}}</p>
       </div>
-    </div>
-    <div class="cell medium-auto project-summary-card--cta">
-      <div class="grid-x">
-        <div class="cell medium-6 large-auto">
-          {{#if project.hearing.isScheduled}}
-            <div class="cell large-auto hearing-info">
+      <div class="cell medium-4 large-shrink">
+        <div class="lup-countdown medium-margin-right medium-margin-left">
+          <p class="cert-date">Certified 11/08/2019</p>
+          <p class="days">8</p>
+          <p class="total">of 60 days remain</p>
+          <p class="end-date">Ends 12/15/19</p>
+        </div>
+      </div>
+      <div class="cell medium-8 large-auto">
+        <div class="grid-x grid-x-small-gutters">
+          <div class="cell medium-6 large-auto">
+            {{#if project.hearing.isScheduled}}
               <h5 class="no-margin">Hearing Location</h5>
               <p class="no-margin location">{{project.hearing.location}}</p>
               <h5 class="no-margin">Hearing Date</h5>
               <p class="no-margin date">{{moment-format project.hearing.date "MM/D/YYYY"}}</p>
               <p class="no-margin time">{{moment-format project.hearing.date "h:mm A"}}</p>
-            </div>
-          {{else}}
-            <div class="cell large-auto">
-              {{#link-to 'my-projects.project.hearing.add' project.id}}
-                <a class="button expanded">Add Your<br>Hearing&nbsp;Date</a>
-              {{/link-to}}
-            </div>
-          {{/if}}
-        </div>
-        <div class="cell medium-6 large-auto">
-          {{#participant-types
-            project=project
-            user=(await this.currentUser.user)
-            as |partTypes|
-          }}
-            {{#each partTypes as |participantType|}}
-              <LinkTo @route="my-projects.project.recommendations.add"
+            {{else}}
+              <LinkTo
+                @route="my-projects.project.hearing.add"
                 @model={{project}}
-                @query={{hash participantType=participantType}}
-                class="button expanded no-margin"
+                class="button multiline expanded"
               >
                 Submit<br>
-                <b>
-                {{#if (eq participantType "BP")}}
-                  Borough&nbsp;President
-                {{else if (eq participantType "BB")}}
-                  Borough&nbsp;Board
-                {{else if (eq participantType "CB")}}
-                  Community&nbsp;Board
-                {{/if}}
-                </b>
-                Recommendation
+                Participant&nbsp;Type
+                <br>Hearing Info
               </LinkTo>
-            {{/each}}
-          {{/participant-types}}
+            {{/if}}
+          </div>
+          <div class="cell medium-6 large-auto">
+            {{#participant-types
+              project=project
+              user=(await this.currentUser.user)
+              as |partTypes|
+            }}
+              {{#each partTypes as |participantType|}}
+                <LinkTo @route="my-projects.project.recommendations.add"
+                  @model={{project}}
+                  @query={{hash participantType=participantType}}
+                  class="button multiline expanded"
+                >
+                  Submit<br>
+                  {{#if (eq participantType "BP")}}
+                    Borough&nbsp;President
+                  {{else if (eq participantType "BB")}}
+                    Borough&nbsp;Board
+                  {{else if (eq participantType "CB")}}
+                    Community&nbsp;Board
+                  {{/if}}
+                  <br>Recommendation
+                </LinkTo>
+              {{/each}}
+            {{/participant-types}}
+          </div>
         </div>
       </div>
     </div>
-  </div>
+</div>
 {{/each}}
 
 {{outlet}}

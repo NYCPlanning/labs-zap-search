@@ -5,52 +5,6 @@
 .project-summary-card {
   font-size: rem-calc(13);
 
-  .project-summary-card--description {
-
-    @include breakpoint(large) {
-      padding-right: rem-calc(15);
-
-      > :last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-
-  .project-summary-card--timer {
-
-    @include breakpoint(medium) {
-      padding-right: rem-calc(15);
-    }
-
-    @include breakpoint(large) {
-      padding-right: rem-calc(15);
-      padding-left: rem-calc(15);
-    }
-  }
-
-  .project-summary-card--cta {
-
-    @include breakpoint(medium) {
-      padding-left: rem-calc(15);
-
-      .cell {
-        &:not(:first-child) {
-          padding-left: rem-calc(15);
-        }
-        &:not(:last-child) {
-          padding-right: rem-calc(15);
-        }
-      }
-    }
-  }
-
-  .project-summary-card--milestones {
-
-    @include breakpoint(medium) {
-      padding-left: rem-calc(15);
-    }
-  }
-
   .column-header {
     margin-bottom: 0.5rem;
     padding-bottom: 0.5rem;
