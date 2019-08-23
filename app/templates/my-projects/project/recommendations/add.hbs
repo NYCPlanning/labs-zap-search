@@ -37,13 +37,14 @@
 
         {{#if (eq this.participantType "CB")}}
           <fieldset class="medium-margin-bottom">
-            <legend>
-              {{#if (and project.hearing.date project.hearing.location)}}
-                <strong>Was a Quorum Present at your hearing on {{project.hearing.date}} at {{project.hearing.location}}?</strong>
-              {{else}}
-                <strong>Was a Quorum Present at your hearing?</strong> <small>&nbsp;(Note: you have not submitted a hearing)</small>
-              {{/if}}
-            </legend>
+            <legend><strong>Was a Quorum Present at your hearing?</strong></legend>
+            {{#if (and project.hearing.date project.hearing.location)}}
+              <p class="text-small dark-gray">
+                Hearing occurred
+                on {{moment-format project.hearing.date "MM/D/YYYY"}}
+                at {{moment-format project.hearing.date "h:mm A"}}
+              </p>
+            {{/if}}
             <input type="radio"
               name="quorum-yes"
               id="quorum-yes"
