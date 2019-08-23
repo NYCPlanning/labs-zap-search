@@ -264,3 +264,18 @@ body {
     padding-left: $global-margin/2;
   }
 }
+
+
+//
+// Project LUP Section
+// --------------------------------------------------
+.project--lup-section {
+
+  @include breakpoint(large) {
+    border-radius: 0 0 1rem 1rem;
+    margin: -1.25rem -0.75rem 2rem -0.75rem;
+    padding: 1.5rem;
+    border: 0;
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
+  }
+}
