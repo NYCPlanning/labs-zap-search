@@ -66,7 +66,7 @@
           </fieldset>
         {{/if}}
 
-        <fieldset class="medium-margin-bottom">
+        <fieldset class="medium-margin-bottom vote-fieldset">
           <legend><strong>When and where was your vote held?</strong></legend>
           <div class="grid-x grid-margin-x">
             <div class="cell large-6">
@@ -75,8 +75,17 @@
               </label>
             </div>
             <div class="cell large-6">
-              <label>Location
-                {{input value=recommendation.voteLocation}}
+              <label>
+                Location:
+                <div class="inline-geosearch">
+                  {{#labs-search
+                    searchPlaceholder='Search an address'
+                    onSelect=(action 'setRecVoteLocation')
+                    onClear=(action 'clearRecVoteLocation')
+                  as |search|}}
+                    <small class="dark-gray">{{search.result.label}}</small>
+                  {{/labs-search}}
+                </div>
               </label>
             </div>
           </div>
