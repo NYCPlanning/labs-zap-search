@@ -5,7 +5,7 @@
     <div class="grid-x grid-x-small-gutters">
       <div class="cell large-6">
         <h3 class="tiny-margin-bottom">
-          <a>{{project.dcp_projectname}}</a>
+          {{#link-to 'show-project' project.id}}{{project.dcp_projectname}}{{/link-to}}
           <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
         </h3>
         <h5 class="applicant">{{project.applicants}}</h5>
