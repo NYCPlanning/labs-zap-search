@@ -27,14 +27,14 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
   });
 
   test('allOptionsActions CP returns aggregate of all actions arrays in recommendationOptions', function(assert) {
-    assert.deepEqual(this.controller.allOptionsActions.map((val) => { return val.action }), []);
+    assert.deepEqual(this.controller.allOptionsActions.map(val => val.action), []);
 
-    this.controller.recommendationOptions.approved.set('actions', [{ action: "WA" }]);
-    this.controller.recommendationOptions.get('approved-with-modifications-conditions').set('actions', [{ action: "OK" }, { action: "IL"}]);
-    this.controller.recommendationOptions.disapproved.set('actions', [{ action: "TX" }]);
-    this.controller.recommendationOptions.get('not-available').set('actions', [{ action: "CO" }]);
+    this.controller.recommendationOptions.approved.set('actions', [{ action: 'WA' }]);
+    this.controller.recommendationOptions.get('approved-with-modifications-conditions').set('actions', [{ action: 'OK' }, { action: 'IL' }]);
+    this.controller.recommendationOptions.disapproved.set('actions', [{ action: 'TX' }]);
+    this.controller.recommendationOptions.get('not-available').set('actions', [{ action: 'CO' }]);
 
-    assert.deepEqual(this.controller.allOptionsActions.map((val) => { return val.action }), ["WA", "OK", "IL", "TX", "CO"]);
+    assert.deepEqual(this.controller.allOptionsActions.map(val => val.action), ['WA', 'OK', 'IL', 'TX', 'CO']);
   });
 
   test('isRecommendationSelectionsValid indicates when user has selected recommendation option for every action', async function(assert) {
@@ -54,31 +54,31 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     // assume controller.allActions starts true, but no recommendation option selected yet.
     assert.equal(this.controller.isRecommendationSelectionsValid, false);
-    this.controller.set('allActionsRecommendation', "Disapproved w/ Modifications");
+    this.controller.set('allActionsRecommendation', 'Disapproved w/ Modifications');
     assert.equal(this.controller.isRecommendationSelectionsValid, true);
     this.controller.set('allActions', false);
     assert.equal(this.controller.isRecommendationSelectionsValid, false);
 
     // isRecommendationSelectionsValid is false until all project actions are assigned to
     // a recommendation option
-    this.controller.send('addActionToOption', testAction1, "approved");
-    this.controller.send('addActionToOption', testAction2, "disapproved");
+    this.controller.send('addActionToOption', testAction1, 'approved');
+    this.controller.send('addActionToOption', testAction2, 'disapproved');
     assert.equal(this.controller.isRecommendationSelectionsValid, false);
-    this.controller.send('addActionToOption', testAction3, "not-available");
+    this.controller.send('addActionToOption', testAction3, 'not-available');
     assert.equal(this.controller.isRecommendationSelectionsValid, true);
 
-    // if more actions are assigned to options than there are project actions, 
+    // if more actions are assigned to options than there are project actions,
     // form is not valid.
     // (addActionToOption should guard against this, too)
-    this.controller.send('addActionToOption', testAction3, "disapproved");
-    this.controller.recommendationOptions["disapproved"].get('actions').pushObject(testAction3);
-    this.controller.recommendationOptions["disapproved"].notifyPropertyChange('actions');
+    this.controller.send('addActionToOption', testAction3, 'disapproved');
+    this.controller.recommendationOptions.disapproved.get('actions').pushObject(testAction3);
+    this.controller.recommendationOptions.disapproved.notifyPropertyChange('actions');
     assert.equal(this.controller.isRecommendationSelectionsValid, false);
 
     // if action is assigned  to same recommendation twice, form is not valid
     // (addActionToOption should guard against this, too)
-    this.controller.recommendationOptions["approved"].get('actions').popObject();
-    this.controller.recommendationOptions["approved"].notifyPropertyChange('actions');
+    this.controller.recommendationOptions.approved.get('actions').popObject();
+    this.controller.recommendationOptions.approved.notifyPropertyChange('actions');
     assert.equal(this.controller.isRecommendationSelectionsValid, false);
   });
 

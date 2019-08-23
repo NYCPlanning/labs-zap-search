@@ -10,10 +10,15 @@ import { setupApplicationTest } from 'ember-qunit';
 import { Interactor as Pikaday } from 'ember-pikaday/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { selectChoose } from 'ember-power-select/test-support';
+import seedMirage from '../../mirage/scenarios/default';
 
 module('Acceptance | user can save hearing form', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+
+  hooks.beforeEach(async function() {
+    seedMirage(server);
+  });
 
   test('visiting /user-can-save-hearing-form', async function(assert) {
     this.server.create('project', {

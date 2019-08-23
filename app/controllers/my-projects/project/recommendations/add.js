@@ -49,7 +49,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   // if the new recommendation applies to all actions
   allActions = true;
 
-  // the selected recommendation option if applying filled Recommendation 
+  // the selected recommendation option if applying filled Recommendation
   // to all actions
   allActionsRecommendation = '';
 
@@ -76,14 +76,9 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     }),
   });
 
-  @computed('recommendationOptions.approved.actions.[]',
-      'recommendationOptions.["approved-with-modifications-conditions"].actions.[]',
-      'recommendationOptions.disapproved.actions.[]',
-      'recommendationOptions.["disapproved-with-modifications-conditions"].actions.[]',
-      'recommendationOptions.["not-available"].actions.[]}'
-    )
+  @computed('recommendationOptions.{approved.actions.[],["approved-with-modifications-conditions"].actions.[],disapproved.actions.[],["disapproved-with-modifications-conditions"].actions.[],["not-available"].actions.[]}')
   get allOptionsActions() {
-    let allActions = [
+    const allActions = [
       ...this.recommendationOptions.approved.actions,
       ...this.recommendationOptions.get('approved-with-modifications-conditions').actions,
       ...this.recommendationOptions.disapproved.actions,
@@ -102,17 +97,17 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       }
       return false;
     }
-    if (this.allOptionsActions.length != this.project.actions.length) {
+    if (this.allOptionsActions.length !== this.project.actions.length) {
       return false;
     }
-    // safeguard to make sure that each action is assigned only once to 
+    // safeguard to make sure that each action is assigned only once to
     // any option
-    let actionAssigned = {}
-    this.allOptionsActions.forEach((action) => {
-      if (actionAssigned[action.action] == true) {
+    const actionAssigned = {};
+    this.allOptionsActions.forEach((optionAction) => {
+      if (actionAssigned[optionAction.action] === true) {
         isValid = false;
       } else {
-        actionAssigned[action.action] = true;
+        actionAssigned[optionAction.action] = true;
       }
     });
     return isValid;
@@ -140,7 +135,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   @action
   submitRecommendation() {
-    const project = this.project;
+    const { project } = this;
     let savePromise;
     if (this.allActions) {
       this.recommendation.set('recommendation', this.allActionsRecommendation);
