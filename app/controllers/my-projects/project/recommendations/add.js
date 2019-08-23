@@ -134,6 +134,16 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   }
 
   @action
+  setRecVoteLocation(location) {
+    this.recommendation.set('voteLocation', location.label);
+  }
+
+  @action
+  clearRecVoteLocation() {
+    this.recommendation.set('voteLocation', '');
+  }
+
+  @action
   submitRecommendation() {
     const { project } = this;
     let savePromise;

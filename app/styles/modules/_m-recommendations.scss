@@ -13,8 +13,9 @@
   text-align: center;
 }
 
+// TODO: debug conflict between sticky table header and location geosearch dropdown
 .recommendation-header {
-  @include sticky-table-header();
+  // @include sticky-table-header();
   text-align: center;
   // background-color: white;
 }
