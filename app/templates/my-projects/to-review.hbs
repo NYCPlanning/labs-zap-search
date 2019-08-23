@@ -23,9 +23,8 @@
         <div class="grid-x grid-x-small-gutters">
           <div class="cell medium-6 large-auto">
             {{#if project.hearing.isScheduled}}
-              <h5 class="no-margin">Hearing Location</h5>
+              <h5 class="column-header">Hearing Location</h5>
               <p class="no-margin location">{{project.hearing.location}}</p>
-              <h5 class="no-margin">Hearing Date</h5>
               <p class="no-margin date">{{moment-format project.hearing.date "MM/D/YYYY"}}</p>
               <p class="no-margin time">{{moment-format project.hearing.date "h:mm A"}}</p>
             {{else}}
@@ -35,7 +34,7 @@
                 class="button multiline expanded"
               >
                 Submit<br>
-                Participant&nbsp;Type
+                Comminity&nbsp;Board
                 <br>Hearing Info
               </LinkTo>
             {{/if}}

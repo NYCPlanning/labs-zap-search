@@ -6,6 +6,7 @@
   font-size: rem-calc(13);
 
   .column-header {
+    font-size: inherit;
     margin-bottom: 0.5rem;
     padding-bottom: 0.5rem;
     border-bottom: $hr-border;
