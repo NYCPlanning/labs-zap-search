@@ -51,7 +51,7 @@ export default class RecommendationFactory extends Factory {
   }
 
   didQuorumExist() {
-    return true;
+    return null;
   }
 
   isActive(i) {

@@ -48,7 +48,7 @@
             <input type="radio"
               name="quorum-yes"
               id="quorum-yes"
-              checked={{if this.recommendation.didQuorumExist "checked"}}
+              checked={{if (eq this.recommendation.didQuorumExist true) "checked"}}
               onClick={{action "updateRecAttr" "didQuorumExist" true}}
             />
             <label for="quorum-yes">
@@ -57,7 +57,7 @@
             <input type="radio"
               name="quorum-no"
               id="quorum-no"
-              checked={{if (not this.recommendation.didQuorumExist) "checked"}}
+              checked={{if (eq this.recommendation.didQuorumExist false) "checked"}}
               onClick={{action "updateRecAttr" "didQuorumExist" false}}
             />
             <label for="quorum-no">

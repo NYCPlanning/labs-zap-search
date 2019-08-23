@@ -20,6 +20,6 @@ export default class CommunityBoardRecommendationModel extends RecommendationMod
 
   // sourced from dcp_wasaquorumpresent
   @attr('boolean', {
-    defaultValue: false,
+    defaultValue: null,
   }) didQuorumExist;
 }
