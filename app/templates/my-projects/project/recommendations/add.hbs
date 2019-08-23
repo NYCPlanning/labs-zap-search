@@ -108,7 +108,11 @@
       </div>
     </div>
 
-    <table class="recommendation-table text-small">
+    {{#unless this.allActions}}
+      <p><strong>Please select an option for each action:</strong></p>
+    {{/unless}}
+
+    <table class="recommendation-table text-small large-margin-bottom">
       <thead>
         <tr>
           <th width="200" class="recommendation-header"></th>
@@ -173,9 +177,9 @@
         {{/if}}
       </tbody>
     </table>
-    {{#unless this.isRecommendationSelectionsValid}}
+    {{!-- {{#unless this.isRecommendationSelectionsValid}}
       <p class="fix-hearing-info">*Please select an option for {{if this.allActions "all" "every"}} action{{if this.allActions "s"}}.</p>
-    {{/unless}}
+    {{/unless}} --}}
 
   {{/with}}
   <button
