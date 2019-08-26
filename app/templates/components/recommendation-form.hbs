@@ -1,0 +1,62 @@
+<select>
+  <option disabled selected>--- Choose an option ---</option>
+  <option>Recommend Approval / No objection</option>
+  <option>Recommend Approval with Modifications/Conditions</option>
+  <option>Recommend Disapproval</option>
+  <option>DisapprovalDisapproval with Modifications/Conditions</option>
+  <option>Wavied</option>
+</select>
+
+{{#if (eq participantType "CB")}}
+  <fieldset class="medium-margin-bottom">
+    <legend><strong>Was a Quorum Present at your hearing?</strong></legend>
+    {{#if (and hearingdate hearinglocation)}}
+      <p class="text-small dark-gray">
+        Hearing occurred
+        on {{moment-format hearingdate "MM/D/YYYY"}}
+        at {{moment-format hearingdate "h:mm A"}}
+      </p>
+    {{/if}}
+    <input type="radio"
+    name={{concat elementId '-quorum'}}
+    id={{concat elementId '-quorum-yes'}}
+    />
+    <label for="{{concat elementId '-quorum-yes'}}">
+      Yes
+    </label>
+    <input type="radio"
+      name={{concat elementId '-quorum'}}
+      id={{concat elementId '-quorum-no'}}
+    />
+    <label for="{{concat elementId '-quorum-no'}}">
+      No
+    </label>
+  </fieldset>
+{{/if}}
+
+<fieldset class="medium-margin-bottom vote-fieldset">
+  <legend><strong>When and where was your vote held?</strong></legend>
+  <div class="grid-x grid-margin-x">
+    <div class="cell large-6">
+      <label>Date
+        {{input type="date" value=dateVoted}}
+      </label>
+    </div>
+    <div class="cell large-6">
+      <label>
+        Location:
+        <div class="inline-geosearch">
+          {{#labs-search
+            searchPlaceholder='Search an address'
+            onSelect=(action 'setRecVoteLocation')
+            onClear=(action 'clearRecVoteLocation')
+          as |search|}}
+            <small class="dark-gray">{{search.result.label}}</small>
+          {{/labs-search}}
+        </div>
+      </label>
+    </div>
+  </div>
+</fieldset>
+
+{{yield}}

@@ -12,10 +12,8 @@
 {{else}}
   {{#with this.model as |project|}}
 
-  {{!-- TODO: Display recommendation based on user role (participantType),
-  which is based on milestone  --}}
-
     <h2>Add Community Board Recommendation</h2>
+
     <div class="grid-x grid-margin-x">
       <div class="large-5 cell large-order-2">
         <p>Recommendation to be submitted for:</p>
@@ -34,62 +32,6 @@
         </div>
       </div>
       <div class="large-7 cell">
-
-        {{#if (eq this.participantType "CB")}}
-          <fieldset class="medium-margin-bottom">
-            <legend><strong>Was a Quorum Present at your hearing?</strong></legend>
-            {{#if (and project.hearing.date project.hearing.location)}}
-              <p class="text-small dark-gray">
-                Hearing occurred
-                on {{moment-format project.hearing.date "MM/D/YYYY"}}
-                at {{moment-format project.hearing.date "h:mm A"}}
-              </p>
-            {{/if}}
-            <input type="radio"
-              name="quorum-yes"
-              id="quorum-yes"
-              checked={{if (eq this.recommendation.didQuorumExist true) "checked"}}
-              onClick={{action "updateRecAttr" "didQuorumExist" true}}
-            />
-            <label for="quorum-yes">
-              Yes
-            </label>
-            <input type="radio"
-              name="quorum-no"
-              id="quorum-no"
-              checked={{if (eq this.recommendation.didQuorumExist false) "checked"}}
-              onClick={{action "updateRecAttr" "didQuorumExist" false}}
-            />
-            <label for="quorum-no">
-              No
-            </label>
-          </fieldset>
-        {{/if}}
-
-        <fieldset class="medium-margin-bottom vote-fieldset">
-          <legend><strong>When and where was your vote held?</strong></legend>
-          <div class="grid-x grid-margin-x">
-            <div class="cell large-6">
-              <label>Date
-                {{input type="date" value=recommendation.dateVoted}}
-              </label>
-            </div>
-            <div class="cell large-6">
-              <label>
-                Location:
-                <div class="inline-geosearch">
-                  {{#labs-search
-                    searchPlaceholder='Search an address'
-                    onSelect=(action 'setRecVoteLocation')
-                    onClear=(action 'clearRecVoteLocation')
-                  as |search|}}
-                    <small class="dark-gray">{{search.result.label}}</small>
-                  {{/labs-search}}
-                </div>
-              </label>
-            </div>
-          </div>
-        </fieldset>
 
         <fieldset class="medium-margin-bottom">
           <legend><strong>Would you like to submit a single recommendation for all actions?</strong></legend>
@@ -111,100 +53,63 @@
             onClick={{action "setProp" "allActions" false}}
           />
           <label for="all-action-no">
-            No, I will submit multiple recommendations
+            No, I will submit a recommendation for each action
           </label>
         </fieldset>
+
+        {{#if this.allActions}}
+
+          {{recommendation-form
+            participantType=this.participantType
+            hearinglocation=project.hearing.location
+            hearingdate=project.hearing.date
+          }}
+
+        {{else}}
+
+          {{#each project.actions as |projAction|}}
+            <hr>
+            <h4 class="no-margin-bottom">
+              {{projAction.actionName}}
+              {{#if (lookup-action-type projAction.action)}}
+                <sup class="dark-gray">
+                  {{icon-tooltip
+                    tip=(lookup-action-type projAction.action)}}
+                </sup>
+              {{/if}}
+            </h4>
+            {{#if projAction.ulurpNumber}}
+              <p class="dark-gray">ULURP&nbsp;Number:&nbsp;{{projAction.ulurpNumber}}</p>
+            {{/if}}
+            {{recommendation-form
+              participantType=this.participantType
+              hearinglocation=project.hearing.location
+              hearingdate=project.hearing.date
+            }}
+          {{/each}}
+
+        {{/if}}
+
+        <button
+          class="button large no-margin"
+          onClick={{action "submitRecommendation"}}
+          disabled={{if this.isRecommendationSelectionsValid "" "disabled"}}
+        >
+          Submit
+          {{#if (eq this.participantType "BP")}}
+            Borough&nbsp;President
+          {{else if (eq this.participantType "BB")}}
+            Borough&nbsp;Board
+          {{else if (eq this.participantType "CB")}}
+            Community&nbsp;Board
+          {{/if}}
+          Recommendation
+        </button>
+
       </div>
     </div>
 
-    {{#unless this.allActions}}
-      <p><strong>Please select an option for each action:</strong></p>
-    {{/unless}}
-
-    <table class="recommendation-table text-small large-margin-bottom">
-      <thead>
-        <tr>
-          <th width="200" class="recommendation-header"></th>
-          {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
-            <th width="100" class="recommendation-header">
-              {{recOption.label}}
-            </th>
-          {{/each-in}}
-        </tr>
-      </thead>
-      <tbody>
-        {{#if this.allActions}}
-          <td width="100">
-            <b>All actions</b>
-          </td>
-          {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
-            <td width="100">
-              <input
-                type="radio"
-                name={{concat (concat projAction "-") recOptionKey}}
-                id={{concat (concat projAction "-") recOptionKey}}
-                checked={{if (eq this.allActionsRecommendation recOption.label) "checked"}}
-                onClick={{action "setProp" "allActionsRecommendation" recOption.label}}
-              />
-            </td>
-          {{/each-in}}
-        {{else}}
-          {{#each project.actions as |projAction|}}
-            <tr>
-              <td width="100">
-                <b>
-                  {{projAction.actionName}}
-                </b>
-                {{#if (lookup-action-type projAction.action)}}
-                  <sup class="dark-gray">
-                    {{icon-tooltip
-                      tip=(lookup-action-type projAction.action)}}
-                  </sup>
-                {{/if}}
-                <br>
-                {{#if projAction.ulurpNumber}}
-                  ULURP Number:&nbsp;{{projAction.ulurpNumber}}
-                {{else}}
-                  No ULURP Number
-                {{/if}}
-              </td>
-              {{#each-in this.recommendationOptions as |recOptionKey recOption|}}
-                <td width="100">
-                  {{#let (get recOption "actions") as |recActions|}}
-                    <input
-                      type="radio"
-                      name={{concat (concat projAction "-") recOptionKey}}
-                      id={{concat (concat projAction "-") recOptionKey}}
-                      checked={{if (in-array recActions projAction) "checked"}}
-                      onClick={{action "addActionToOption" projAction recOptionKey}}
-                    />
-                  {{/let}}
-                </td>
-              {{/each-in}}
-            </tr>
-          {{/each}}
-        {{/if}}
-      </tbody>
-    </table>
-    {{!-- {{#unless this.isRecommendationSelectionsValid}}
-      <p class="fix-hearing-info">*Please select an option for {{if this.allActions "all" "every"}} action{{if this.allActions "s"}}.</p>
-    {{/unless}} --}}
-
   {{/with}}
-  <button
-    class="button large no-margin"
-    onClick={{action "submitRecommendation"}}
-    disabled={{if this.isRecommendationSelectionsValid "" "disabled"}}
-  >
-    Submit
-    {{#if (eq this.participantType "BP")}}
-      Borough&nbsp;President
-    {{else if (eq this.participantType "BB")}}
-      Borough&nbsp;Board
-    {{else if (eq this.participantType "CB")}}
-      Community&nbsp;Board
-    {{/if}}
-    Recommendation
-  </button>
-{{outlet}}
 {{/if}}
+
+{{outlet}}
