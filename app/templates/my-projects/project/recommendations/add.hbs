@@ -68,8 +68,8 @@
         {{else}}
 
           {{#each project.actions as |projAction|}}
-            <hr>
-            <h4 class="no-margin-bottom">
+            <hr class="large-margin-top large-margin-bottom">
+            <h4>
               {{projAction.actionName}}
               {{#if (lookup-action-type projAction.action)}}
                 <sup class="dark-gray">
@@ -77,16 +77,18 @@
                     tip=(lookup-action-type projAction.action)}}
                 </sup>
               {{/if}}
+              {{#if projAction.ulurpNumber}}
+                <small class="dark-gray text-weight-normal">ULURP&nbsp;Number:&nbsp;{{projAction.ulurpNumber}}</small>
+              {{/if}}
             </h4>
-            {{#if projAction.ulurpNumber}}
-              <p class="dark-gray">ULURP&nbsp;Number:&nbsp;{{projAction.ulurpNumber}}</p>
-            {{/if}}
             {{recommendation-form
               participantType=this.participantType
               hearinglocation=project.hearing.location
               hearingdate=project.hearing.date
             }}
           {{/each}}
+
+          <hr class="large-margin-top large-margin-bottom">
 
         {{/if}}
 
