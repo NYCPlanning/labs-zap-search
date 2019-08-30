@@ -1,66 +1,27 @@
-{{#if (eq participantType "CB")}}
-  <fieldset class="medium-margin-bottom">
-    <legend><strong>Was a Quorum Present at your hearing?</strong></legend>
-    {{#if (and hearingdate hearinglocation)}}
-      <p class="text-small dark-gray">
-        Hearing occurred
-        on {{moment-format hearingdate "MM/D/YYYY"}}
-      at {{hearinglocation}}
-      </p>
-    {{/if}}
-    <input type="radio"
-    name={{concat elementId '-quorum'}}
-    id={{concat elementId '-quorum-yes'}}
-    />
-    <label for="{{concat elementId '-quorum-yes'}}">
-      Yes
-    </label>
-    <input type="radio"
-      name={{concat elementId '-quorum'}}
-      id={{concat elementId '-quorum-no'}}
-    />
-    <label for="{{concat elementId '-quorum-no'}}">
-      No
-    </label>
-    <p class="help-text">A quorum requires the presence of 20% of appointed board members, and not fewer than seven members.</p>
-  </fieldset>
-{{/if}}
-
-<fieldset class="medium-margin-bottom vote-fieldset">
-  <legend><strong>When and where was your vote held?</strong></legend>
-  <div class="grid-x grid-margin-x">
-    <div class="cell large-5 xlarge-4">
-      <label>Date
-        {{input type="date" value=dateVoted}}
-      </label>
-    </div>
-    <div class="cell large-7 xlarge-8">
-      <label>
-        Location:
-        <div class="inline-geosearch">
-          {{#labs-search
-            searchPlaceholder='Search an address'
-            onSelect=(action 'setRecVoteLocation')
-            onClear=(action 'clearRecVoteLocation')
-          as |search|}}
-            <small class="dark-gray">{{search.result.label}}</small>
-          {{/labs-search}}
-        </div>
-      </label>
-    </div>
-  </div>
-</fieldset>
-
 <fieldset class="medium-margin-bottom vote-fieldset">
   <legend><strong>Recommendation</strong></legend>
-  <select>
-    <option disabled selected>--- Choose an option ---</option>
-    <option>Recommend Approval / No objection</option>
-    <option>Recommend Approval with Modifications/Conditions</option>
-    <option>Recommend Disapproval</option>
-    <option>Recommend Disapproval with Modifications/Conditions</option>
-    <option>Waived</option>
-  </select>
+  {{#power-select
+    searchEnabled=false
+    options=recOptions
+    placeholder="Select a time"
+    onchange=(action (mut this.recommendation))
+    as |option|
+  }}
+    {{option.label}}
+  {{/power-select}}
 </fieldset>
+
+<fieldset class="medium-margin-bottom vote-fieldset">
+  <legend></legend>
+  <textarea></textarea>
+</fieldset>
+
+{{#if (not-eq participantType 'BP')}}
+  {{!-- vote counts --}}
+  <input type="number" />
+  <input type="number" />
+  <input type="number" />
+  <input type="number" />
+{{/if}}
 
 {{yield}}

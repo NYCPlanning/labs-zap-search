@@ -15,7 +15,9 @@
     <h2>Add Community Board Recommendation</h2>
 
     <div class="grid-x grid-margin-x">
+
       <div class="large-5 cell large-order-2">
+
         <p>Recommendation to be submitted for:</p>
         <div class="project-summary-card callout">
           <h3 class="tiny-margin-bottom">
@@ -30,43 +32,90 @@
           <h5 class="applicant">{{project.applicants}}</h5>
           <p>{{project.dcp_projectbrief}}</p>
         </div>
+
       </div>
+
       <div class="large-7 cell">
 
-        <fieldset class="medium-margin-bottom">
-          <legend><strong>Would you like to submit a single recommendation for all actions?</strong></legend>
-          <input
-            type="radio"
-            name="all-action-yes"
-            id="all-action-yes"
-            checked={{if this.allActions "checked"}}
-            onClick={{action "setProp" "allActions" true}}
+        {{!-- Hearings --}}
+        {{#if this.project.hearings}}
+          <fieldset class="medium-margin-bottom">
+            <legend><strong>Was a Quorum Present at your hearing?</strong></legend>
+            <p class="help-text">A quorum requires the presence of 20% of appointed board members, and not fewer than seven members.</p>
+            {{#each this.projects.hearings
+            as |hearing idx|}}
+              {{#if hearing.date}}
+                <p class="text-small dark-gray">
+                  Hearing occurred
+                  on {{moment-format project.hearing.date "MM/D/YYYY"}}
+                </p>
+                {{!-- TODO: save to model for relevant recommendations --}}
+                <input type="radio"
+                name={{concat idx '-quorum'}}
+                id={{concat idx '-quorum-yes'}}
+                checked={{if hearing.didQuorumExist "checked"}}
+                onClick={{action 'updateHearingAttr' 'hearing.didQuorumExist' true}}
+                />
+                <label
+                  for="{{concat idx '-quorum-yes'}}"
+                  {{action 'updateHearingAttr' 'hearing.didQuorumExist' false}}
+                >
+                  Yes
+                </label>
+                <input type="radio"
+                  name={{concat idx '-quorum'}}
+                  id={{concat idx '-quorum-no'}}
+                  checked={{if (eq hearing.didQuorumExist false) "checked"}}
+                  onClick={{action 'updateHearingAttr' 'hearing.didQuorumExist' false}}
+                />
+                <label
+                  for="{{concat idx '-quorum-no'}}"
+                  {{action 'updateHearingAttr' 'hearing.didQuorumExist' false}}
+                >
+                  No
+                </label>
+              {{/if}}
+            {{/each}}
+          </fieldset>
+        {{/if}}
+
+        {{!-- Ask user if one or multi recommendations --}}
+        {{#if (gt this.project.actions 1)}}
+          <fieldset class="medium-margin-bottom">
+            <legend><strong>Would you like to submit a single recommendation for all actions?</strong></legend>
+            <input
+              type="radio"
+              name="all-action-yes"
+              id="all-action-yes"
+              checked={{if this.submitOneRec "checked"}}
+              onClick={{action "setProp" "submitOneRec" true}}
+            />
+            <label for="all-action-yes">
+              Yes
+            </label>
+            <input
+              type="radio"
+              name="all-action-no"
+              id="all-action-no"
+              checked={{if (not this.submitOneRec) "checked"}}
+              onClick={{action "setProp" "submitOneRec" false}}
+            />
+            <label for="all-action-no">
+              No, I will submit a recommendation for each action
+            </label>
+          </fieldset>
+        {{/if}}
+
+        {{#if this.submitOneRec}}
+          {{!-- One recommendation for all actions --}}
+          <RecommendationForm
+            @actions={{this.actions}}
+            @recOptions={{recommendationOptions}}
+            @participantType={{this.participantType}}
+            recommendation={{}}
           />
-          <label for="all-action-yes">
-            Yes
-          </label>
-          <input
-            type="radio"
-            name="all-action-no"
-            id="all-action-no"
-            checked={{if (not this.allActions) "checked"}}
-            onClick={{action "setProp" "allActions" false}}
-          />
-          <label for="all-action-no">
-            No, I will submit a recommendation for each action
-          </label>
-        </fieldset>
-
-        {{#if this.allActions}}
-
-          {{recommendation-form
-            participantType=this.participantType
-            hearinglocation=project.hearing.location
-            hearingdate=project.hearing.date
-          }}
-
         {{else}}
-
+          {{!-- Multiple recommendations --}}
           {{#each project.actions as |projAction|}}
             <hr class="large-margin-top large-margin-bottom">
             <h4>
@@ -81,15 +130,44 @@
                 <small class="dark-gray text-weight-normal">ULURP&nbsp;Number:&nbsp;{{projAction.ulurpNumber}}</small>
               {{/if}}
             </h4>
-            {{recommendation-form
-              participantType=this.participantType
-              hearinglocation=project.hearing.location
-              hearingdate=project.hearing.date
-            }}
+            <RecommendationForm
+              @actions={{projAction}}
+              @recOptions={{recommendationOptions}}
+              @participantType={{this.participantType}}
+              recommendation={{}}
+            />
           {{/each}}
 
           <hr class="large-margin-top large-margin-bottom">
 
+        {{/if}}
+
+        {{#if (not-eq participantType 'BP')}}
+          {{!-- vote date & location --}}
+          <fieldset class="medium-margin-bottom vote-fieldset">
+            <legend><strong>When and where was your vote held?</strong></legend>
+            <div class="grid-x grid-margin-x">
+              <div class="cell large-5 xlarge-4">
+                <label>Date
+                  {{input type="date" value=dateVoted}}
+                </label>
+              </div>
+              <div class="cell large-7 xlarge-8">
+                <label>
+                  Location:
+                  <div class="inline-geosearch">
+                    {{#labs-search
+                      searchPlaceholder='Search an address'
+                      onSelect=(action 'setRecVoteLocation')
+                      onClear=(action 'clearRecVoteLocation')
+                    as |search|}}
+                      <small class="dark-gray">{{search.result.label}}</small>
+                    {{/labs-search}}
+                  </div>
+                </label>
+              </div>
+            </div>
+          </fieldset>
         {{/if}}
 
         <button
@@ -109,6 +187,7 @@
         </button>
 
       </div>
+
     </div>
 
   {{/with}}

@@ -46,12 +46,12 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   // the participant-type-dependent Recommendation is set up within the router's
   // setupController.
 
-  // if the new recommendation applies to all actions
-  allActions = true;
+  // if the new recommendation applies to all actions/hearings
+  submitOneRec = true;
 
   // the selected recommendation option if applying filled Recommendation
-  // to all actions
-  allActionsRecommendation = '';
+  // to all actions/hearings
+  recommendationForAllActions = '';
 
   recommendationOptions = EmberObject.create({
     approved: RecommendationOption.create({
@@ -76,67 +76,67 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     }),
   });
 
-  @computed('recommendationOptions.{approved.actions.[],["approved-with-modifications-conditions"].actions.[],disapproved.actions.[],["disapproved-with-modifications-conditions"].actions.[],["not-available"].actions.[]}')
-  get allOptionsActions() {
-    const allActions = [
-      ...this.recommendationOptions.approved.actions,
-      ...this.recommendationOptions.get('approved-with-modifications-conditions').actions,
-      ...this.recommendationOptions.disapproved.actions,
-      ...this.recommendationOptions.get('disapproved-with-modifications-conditions').actions,
-      ...this.recommendationOptions.get('not-available').actions,
-    ];
-    return allActions;
-  }
+  // @computed('recommendationOptions.{approved.actions.[],["approved-with-modifications-conditions"].actions.[],disapproved.actions.[],["disapproved-with-modifications-conditions"].actions.[],["not-available"].actions.[]}')
+  // get allOptionsActions() {
+  //   const allActions = [
+  //     ...this.recommendationOptions.approved.actions,
+  //     ...this.recommendationOptions.get('approved-with-modifications-conditions').actions,
+  //     ...this.recommendationOptions.disapproved.actions,
+  //     ...this.recommendationOptions.get('disapproved-with-modifications-conditions').actions,
+  //     ...this.recommendationOptions.get('not-available').actions,
+  //   ];
+  //   return allActions;
+  // }
 
-  @computed('allActions', 'allActionsRecommendation', 'allOptionsActions', 'project.actions')
-  get isRecommendationSelectionsValid() {
-    let isValid = true;
-    if (this.allActions) {
-      if (this.allActionsRecommendation) {
-        return true;
-      }
-      return false;
-    }
-    if (this.allOptionsActions.length !== this.project.actions.length) {
-      return false;
-    }
-    // safeguard to make sure that each action is assigned only once to
-    // any option
-    const actionAssigned = {};
-    this.allOptionsActions.forEach((optionAction) => {
-      if (actionAssigned[optionAction.action] === true) {
-        isValid = false;
-      } else {
-        actionAssigned[optionAction.action] = true;
-      }
-    });
-    return isValid;
-  }
+  // @computed('allActions', 'allActionsRecommendation', 'allOptionsActions', 'project.actions')
+  // get isRecommendationSelectionsValid() {
+  //   let isValid = true;
+  //   if (this.allActions) {
+  //     if (this.allActionsRecommendation) {
+  //       return true;
+  //     }
+  //     return false;
+  //   }
+  //   if (this.allOptionsActions.length !== this.project.actions.length) {
+  //     return false;
+  //   }
+  //   // safeguard to make sure that each action is assigned only once to
+  //   // any option
+  //   const actionAssigned = {};
+  //   this.allOptionsActions.forEach((optionAction) => {
+  //     if (actionAssigned[optionAction.action] === true) {
+  //       isValid = false;
+  //     } else {
+  //       actionAssigned[optionAction.action] = true;
+  //     }
+  //   });
+  //   return isValid;
+  // }
 
   @action
   setProp(property, newVal) {
     this.set(property, newVal);
   }
 
-  @action
-  updateRecAttr(attrName, newVal) {
-    this.recommendation.set(attrName, newVal);
-  }
+  // @action
+  // updateRecAttr(attrName, newVal) {
+  //   this.recommendation.set(attrName, newVal);
+  // }
 
-  @action
-  addActionToOption(projAction, selectedOptionCode) {
-    Object.keys(this.recommendationOptions).forEach((optionCode) => {
-      this.recommendationOptions[optionCode].actions.removeObject(projAction);
-      this.recommendationOptions[optionCode].notifyPropertyChange('actions');
-    });
-    this.recommendationOptions[selectedOptionCode].actions.addObject(projAction);
-    this.recommendationOptions[selectedOptionCode].notifyPropertyChange('actions');
-  }
+  // @action
+  // addActionToOption(projAction, selectedOptionCode) {
+  //   Object.keys(this.recommendationOptions).forEach((optionCode) => {
+  //     this.recommendationOptions[optionCode].actions.removeObject(projAction);
+  //     this.recommendationOptions[optionCode].notifyPropertyChange('actions');
+  //   });
+  //   this.recommendationOptions[selectedOptionCode].actions.addObject(projAction);
+  //   this.recommendationOptions[selectedOptionCode].notifyPropertyChange('actions');
+  // }
 
-  @action
-  setRecVoteLocation(location) {
-    this.recommendation.set('voteLocation', location.label);
-  }
+  // @action
+  // setRecVoteLocation(location) {
+  //   this.recommendation.set('voteLocation', location.label);
+  // }
 
   @action
   clearRecVoteLocation() {
