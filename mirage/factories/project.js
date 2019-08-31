@@ -155,63 +155,6 @@ export default Factory.extend({
     ];
   },
 
-  milestones() {
-    return [
-      {
-        dcp_name: 'ZC - Land Use Fee Payment ',
-        milestonename: 'Land Use Fee Payment',
-        dcp_plannedstartdate: '2018-10-31T01:21:46',
-        dcp_plannedcompletiondate: '2018-11-02T01:21:46',
-        dcp_actualstartdate: '2018-05-11T04:00:00',
-        dcp_actualenddate: '2018-05-12T04:00:00',
-        statuscode: 'Completed',
-        dcp_milestonesequence: 28,
-        display_name: 'Land Use Fee Payment',
-        display_date: '2018-10-31T01:21:46',
-        display_date_2: null,
-      },
-      {
-        dcp_name: 'ZC - Land Use Application Filed Review ',
-        milestonename: 'Land Use Application Filed Review',
-        dcp_plannedstartdate: '2018-11-03T01:21:46',
-        dcp_plannedcompletiondate: '2018-12-03T02:21:46',
-        dcp_actualstartdate: null,
-        dcp_actualenddate: null,
-        statuscode: 'Overridden',
-        dcp_milestonesequence: 29,
-        display_name: 'Land Use Application Filed Review',
-        display_date: '2018-11-03T01:21:46',
-        display_date_2: null,
-      },
-      {
-        dcp_name: 'ZC - City Council Review ',
-        milestonename: 'City Council Review',
-        dcp_plannedstartdate: null,
-        dcp_plannedcompletiondate: null,
-        dcp_actualstartdate: '2016-04-22T01:40:24',
-        dcp_actualenddate: '2022-05-02T01:40:24',
-        statuscode: 'Not Started',
-        dcp_milestonesequence: 60,
-        display_name: 'City Council Review',
-        display_date: null,
-        display_date_2: null,
-      },
-      {
-        dcp_name: 'ZC - Final Letter Sent ',
-        milestonename: 'Final Letter Sent',
-        dcp_plannedstartdate: '2018-04-22T01:40:24',
-        dcp_plannedcompletiondate: '2018-05-02T01:40:24',
-        dcp_actualstartdate: null,
-        dcp_actualenddate: null,
-        statuscode: 'Not Started',
-        dcp_milestonesequence: 60,
-        display_name: 'Final Letter Sent',
-        display_date: null,
-        display_date_2: null,
-      },
-    ];
-  },
-
   keywords() {
     return [
       'IBZ',

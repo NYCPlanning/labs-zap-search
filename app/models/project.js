@@ -26,6 +26,8 @@ export default class ProjectModel extends Model {
   // ONE Project Has Many User Project Participant Types
   @hasMany('userProjectParticipantType') userProjectParticipantTypes;
 
+  @hasMany('milestone') milestones;
+
   // One Project to One Hearing
   @belongsTo('hearing') hearing;
 
@@ -75,9 +77,7 @@ export default class ProjectModel extends Model {
   @attr() bbls;
 
   @attr({ defaultValue: () => EmptyFeatureCollection })
-  bbl_featurecollection
-
-  @attr() milestones;
+  bbl_featurecollection;
 
   @attr() addresses;
 

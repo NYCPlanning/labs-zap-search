@@ -35,7 +35,7 @@ export default class ShowProjectController extends Controller {
    * Computed for revising the presentation of the project's milestones. The
    * show-project.hbs template uses this revised array of milestone objects
    * instead of the array in the model. This is a workaround for displaying
-   * "Revised [display_name]" for recurring instances of certain milestones.
+   * "Revised [displayName]" for recurring instances of certain milestones.
    * @returns {Object[]}
    */
   @computed('model.milestones')
@@ -45,18 +45,18 @@ export default class ShowProjectController extends Controller {
 
     return milestones.map((milestone) => {
       if (
-        milestone.zap_id === lastZapId
+        milestone.projectMilestone === lastZapId
         && (
-          milestone.zap_id === '663beec4-dad0-e711-8116-1458d04e2fb8' // "Land Use Application Filed"
-          || milestone.zap_id === '783beec4-dad0-e711-8116-1458d04e2fb8' // "Environmental Assessment Statement Filed"
+          milestone.projectMilestone === '663beec4-dad0-e711-8116-1458d04e2fb8' // "Land Use Application Filed"
+          || milestone.projectMilestone === '783beec4-dad0-e711-8116-1458d04e2fb8' // "Environmental Assessment Statement Filed"
         )
       ) {
-        lastZapId = milestone.zap_id;
-        milestone.display_name = `Revised ${milestone.display_name}`;
+        lastZapId = milestone.projectMilestone;
+        milestone.displayName = `Revised ${milestone.displayName}`;
         return milestone;
       }
 
-      lastZapId = milestone.zap_id;
+      lastZapId = milestone.projectMilestone;
       return milestone;
     });
   }
