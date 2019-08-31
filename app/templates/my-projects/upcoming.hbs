@@ -1,60 +1,48 @@
 <h5>Recently filed projects that you'll soon need to review</h5>
 
-<div class="project-summary-card callout">
-  <div class="grid-x grid-x-small-gutters">
-    <div class="cell large-6">
-      <h3 class="tiny-margin-bottom">
-        <a>101 Fleet Place Rezoning</a>
-        <small class="dark-gray">ULURP</small>
-      </h3>
-      <h5 class="applicant">Fleet Center, Inc.</h5>
-      <p>This is a private application by Fleet Center, Inc. for a zoning map amendment from R6 to C6-4 and zoning text amendment to expand the Special Downtown Brooklyn district and create a new MIH area to facilitate a new 205,000 square foot commercial office building at 101 Fleet Place in the Downtown Brooklyn area of Brooklyn Community District 2.</p>
-    </div>
-    <div class="cell medium-4 large-shrink">
-      <p class="text-center medium-margin-right medium-margin-left">
-        <span class="display-block tiny-margin-bottom">Public Review</span>
-        <span class="display-block lead small-margin-bottom"><strong>June 12, 2018</strong></span>
-        <span class="display-block text-tiny">(Estimated Start Date)</span>
-      </p>
-    </div>
-    <div class="cell medium-auto">
-      <ul class="no-bullet no-margin">
-        <li class="grid-x">
-          <div class="cell shrink small-margin-right">
-            {{fa-icon 'check' class='green-dark' fixedWidth=true}}
-          </div>
-          <div class="cell auto">
-            <p class="small-margin-bottom">
-              <strong>Land Use Application Filed</strong>
-              <small class="display-block">March 21, 2018</small>
-            </p>
-          </div>
-        </li>
-        <li class="grid-x">
-          <div class="cell shrink small-margin-right">
-            {{fa-icon 'check' class='green-dark' fixedWidth=true}}
-          </div>
-          <div class="cell auto">
-            <p class="small-margin-bottom">
-              <strong>Revised Land Use Application Filed</strong>
-              <small class="display-block">May 1, 2018</small>
-            </p>
-          </div>
-        </li>
-        <li class="grid-x">
-          <div class="cell shrink small-margin-right">
-            {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
-          </div>
-          <div class="cell auto">
-            <p class="small-margin-bottom dark-gray">
-              <strong>City Planning Commission Review</strong>
-              <small class="display-block">June 11, 2018</small>
-            </p>
-          </div>
-        </li>
-      </ul>
+{{#each this.model as |project|}}
+  <div class="project-summary-card callout">
+    <div class="grid-x grid-x-small-gutters">
+      <div class="cell large-6">
+        <h3 class="tiny-margin-bottom">
+          {{#link-to 'show-project' project.id}}{{project.dcp_projectname}}{{/link-to}}
+          <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
+        </h3>
+        <h5 class="applicant">{{project.applicants}}</h5>
+        <p>{{project.dcp_projectbrief}}</p>
+      </div>
+      <div class="cell medium-4 large-shrink">
+        <p class="text-center medium-margin-right medium-margin-left">
+          <span class="display-block tiny-margin-bottom">Public Review</span>
+          <span class="display-block lead small-margin-bottom"><strong>June 12, 2018</strong></span>
+          <span class="display-block text-tiny">(Estimated Start Date)</span>
+        </p>
+      </div>
+      <div class="cell medium-auto">
+        <ul class="no-bullet no-margin">
+          {{#each project.milestones as |milestone|}}
+            <li class="grid-x">
+              <div class="cell shrink small-margin-right">
+                {{#if (eq milestone.statuscode "Completed")}}
+                  {{fa-icon 'check' class='green-dark' fixedWidth=true}}
+                {{else if (eq milestone.statuscode "Overridden")}}
+                  {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
+                {{else}}
+                  {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
+                {{/if}}
+              </div>
+              <div class="cell auto">
+                <p class="small-margin-bottom">
+                  <strong>{{milestone.milestonename}}</strong>
+                  <small class="display-block">{{milestone.displayDate}}</small>
+                </p>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
     </div>
   </div>
-</div>
+{{/each}}
 
 {{outlet}}

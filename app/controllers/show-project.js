@@ -49,18 +49,18 @@ export default class ShowProjectController extends Controller {
 
     return milestones.map((milestone) => {
       if (
-        milestone.projectMilestone === lastZapId
+        milestone.milestone === lastZapId
         && (
-          milestone.projectMilestone === '663beec4-dad0-e711-8116-1458d04e2fb8' // "Land Use Application Filed"
-          || milestone.projectMilestone === '783beec4-dad0-e711-8116-1458d04e2fb8' // "Environmental Assessment Statement Filed"
+          milestone.milestone === '663beec4-dad0-e711-8116-1458d04e2fb8' // "Land Use Application Filed"
+          || milestone.milestone === '783beec4-dad0-e711-8116-1458d04e2fb8' // "Environmental Assessment Statement Filed"
         )
       ) {
-        lastZapId = milestone.projectMilestone;
+        lastZapId = milestone.milestone;
         milestone.displayName = `Revised ${milestone.displayName}`;
         return milestone;
       }
 
-      lastZapId = milestone.projectMilestone;
+      lastZapId = milestone.milestone;
       return milestone;
     });
   }

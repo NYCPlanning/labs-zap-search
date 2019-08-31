@@ -40,10 +40,10 @@
     </div>
     {{#if milestone.milestoneoutcome}} <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.milestoneoutcome}}</span> {{/if}}
     <ul class="milestone-links">
-      {{#if (eq milestone.projectmilestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
+      {{#if (eq milestone.milestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
         <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank">{{fa-icon "external-link-alt"}} CPC Public Meeting Calendar</a></li>
       {{/if}}
-      {{#if (eq milestone.projectmilestone "a43beec4-dad0-e711-8116-1458d04e2fb8")}}
+      {{#if (eq milestone.milestone "a43beec4-dad0-e711-8116-1458d04e2fb8")}}
         <li><a href="http://a030-cpc.nyc.gov/html/cpc/index.aspx" target="_blank">{{fa-icon "external-link-alt"}} CPC Reports</a></li>
       {{/if}}
       {{#each milestone.milestoneLinks as |link|}}
