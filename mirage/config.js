@@ -73,6 +73,7 @@ export default function() {
   });
 
   // REST endpoints
+  this.patch('/projects/:id');
   this.get('/hearings');
   this.get('/hearings/:id');
   this.patch('/hearings/:id');
