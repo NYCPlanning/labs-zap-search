@@ -25,6 +25,10 @@ export default class ActionModel extends Model {
   // sourced from dcp_name --> SUBSTRING(a.dcp_name FROM '^(\w+)')
   @attr('string') actionCode;
 
+  @attr('string', { defaultValue: '' }) dcp_publicstatus_simp;
+
+  @attr('string', { defaultValue: '' }) statuscode;
+
   // sourced from dcp_name-- e.g. 'ZR - Zoning Text Amendment'
   // STRING_AGG(DISTINCT SUBSTRING(actions.dcp_name FROM '^(\\w+)'), ';') AS actiontypes
   // list of action types separated by semicolon for dropdown selection

@@ -21,7 +21,7 @@ export default class ProjectModel extends Model {
   @hasMany('user') users;
 
   // Many Actions to One Project
-  @hasMany('action') actions;
+  @hasMany('action', { async: false }) actions;
 
   // ONE Project Has Many User Project Participant Types
   @hasMany('userProjectParticipantType') userProjectParticipantTypes;
@@ -58,7 +58,7 @@ export default class ProjectModel extends Model {
 
   @attr('string') dcp_projectname;
 
-  @attr() dcp_publicstatus_simp;
+  @attr('string', { defaultValue: '' }) dcp_publicstatus_simp;
 
   @attr() dcp_hiddenprojectmetrictarget;
 
