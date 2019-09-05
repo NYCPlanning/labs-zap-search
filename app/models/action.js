@@ -19,15 +19,11 @@ export default class ActionModel extends Model {
 
   // Name of action e.g. "Zoning Text Amendment"
   // sourced from dcp_name --> SUBSTRING(a.dcp_name FROM '-{1}\s*(.*)')
-  @attr('string') actionName;
+  @attr('string') name;
 
   // Action Code e.g. "ZR"
   // sourced from dcp_name --> SUBSTRING(a.dcp_name FROM '^(\w+)')
-  @attr('string') actionCode;
-
-  @attr('string', { defaultValue: '' }) dcp_publicstatus_simp;
-
-  @attr('string', { defaultValue: '' }) statuscode;
+  @attr('string') actioncode;
 
   // sourced from dcp_name-- e.g. 'ZR - Zoning Text Amendment'
   // STRING_AGG(DISTINCT SUBSTRING(actions.dcp_name FROM '^(\\w+)'), ';') AS actiontypes
@@ -36,14 +32,14 @@ export default class ActionModel extends Model {
 
   // sourced from statuscode
   // e.g. "Active", "Approved", "Certified", "Referred", "Terminated", "Withdrawn"
-  @attr('string') status;
+  @attr('string', { defaultValue: '' }) statuscode;
 
   // sourced from statecode
   // "Active" vs. "Inactive" projects
   @attr('string') isActive;
 
   // sourced from dcp_ulurpnumber
-  @attr('string') ulurpNumber;
+  @attr('string') ulurpnumber;
 
   // sourced from dcp_zoningresolution
   @attr('string') zoningResolution;

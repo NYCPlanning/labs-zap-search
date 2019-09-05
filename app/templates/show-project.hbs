@@ -83,7 +83,6 @@
             <h2>Actions</h2>
             <ul class="actions-list no-bullet">
               {{#each model.actions as |action|}}
-                {{log action}}
                 <li class="grid-x grid-padding-small action">
                   <div class="cell shrink statuscode {{dasherize action.statuscode}}">
                     <span class="action-icon fa-layers fa-fw">
@@ -94,29 +93,29 @@
                   </div>
                   <div class="cell auto">
                     <h5 class="no-margin">
-                      {{action.dcpName}}
-                      {{#if (lookup-action-type action.action)}}
+                      {{action.name}}
+                      {{#if (lookup-action-type action.actioncode)}}
                         <sup class="dark-gray">
                           {{icon-tooltip
-                            tip=(lookup-action-type action.action)}}
+                            tip=(lookup-action-type action.actioncode)}}
                         </sup>
                       {{/if}}
                     </h5>
                     <p class="text-small no-margin">
-                      {{#if action.dcpUlurpnumber}}
+                      {{#if action.ulurpnumber}}
                         ULURP Number:
                         {{#if (eq action.statuscode "Approved")}}
                           {{#tool-tipster
                             content='City Planning Commision Report'
                             tagName='span'
                           }}
-                            <a href={{build-url "cpcReport" action.dcpUlurpnumber}} target="_blank">
-                              {{action.dcpUlurpnumber}}
+                            <a href={{build-url "cpcReport" action.ulurpnumber}} target="_blank">
+                              {{action.ulurpnumber}}
                               {{fa-icon 'external-link-alt'}}
                             </a>
                           {{/tool-tipster}}
                         {{else}}
-                          {{action.dcpUlurpnumber}}
+                          {{action.ulurpnumber}}
                         {{/if}}
                       {{else}}
                         No ULURP Number
@@ -189,6 +188,7 @@
             <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
               {{#if model.dcp_ceqrtype}}<span class="label light-gray">{{model.dcp_ceqrtype}}</span>{{/if~}}
+              {{#if model.dcp_ceqrnumber}}<span class="label light-gray"><a href="{{build-url "ceqraccess" model.dcp_ceqrnumber}}" target="_blank">{{model.dcp_ceqrnumber}} {{fa-icon 'external-link-alt'}}</a></span>{{/if~}}
             </p>
           {{/if}}
 
