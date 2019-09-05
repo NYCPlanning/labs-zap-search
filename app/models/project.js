@@ -85,6 +85,8 @@ export default class ProjectModel extends Model {
 
   @attr() ulurpnumbers;
 
+  @attr('string', { defaultValue: '' }) statuscode;
+
   @attr() center;
 
   @attr() lastmilestonedate;

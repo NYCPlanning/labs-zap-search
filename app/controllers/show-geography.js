@@ -3,7 +3,6 @@ import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
 import ENV from 'labs-zap-search/config/environment';
-import queryString from 'qs';
 import turfBbox from '@turf/bbox';
 import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 import GeographyParachuteController from './query-parameters/show-geography';
@@ -33,6 +32,12 @@ export default class ShowGeographyController extends GeographyParachuteControlle
    * Current page number used to paginate the results
    */
   page = 1;
+
+  /**
+   * Current queryId identifying a filtered dataset defined by a given set of
+   * applied query params. Used to do pagination requests and downloads.
+   */
+  queryId = '';
 
   /**
    * Main property for storing the list of projects to be used in the
@@ -91,7 +96,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   get appliedQueryParams() {
     // construct query object only with applied params
     const params = this.allQueryParams;
-    const { page } = this;
+    const { page, queryId } = this;
     const {
       'applied-filters': appliedFilters,
     } = params;
@@ -99,6 +104,12 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     const queryOptions = {
       page,
     };
+
+    // Add queryId querystring parameter if making a
+    // pagination request (i.e. page > 1)
+    if (page > 1) {
+      queryOptions.queryId = queryId;
+    }
 
     appliedFilters.forEach((key) => {
       queryOptions[key] = params[key];
@@ -108,19 +119,19 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   }
 
   /**
-   * Returns the download URL with the URI serialized `appliedQueryParams` object
+   * Returns the download URLs with the current queryId as query param
    * @returns{String}
    */
-  @computed('allQueryParams')
+  @computed('queryId')
   get downloadURLs() {
     // construct query object only with applied params
     const href = `${ENV.host}/projects`;
-    const queryParams = this.appliedQueryParams;
+    const { queryId } = this;
 
     return {
-      csv: `${href}.csv?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
-      geojson: `${href}.geojson?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
-      shp: `${href}.shp?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
+      csv: `${href}.csv?queryId=${queryId}`,
+      geojson: `${href}.geojson?queryId=${queryId}`,
+      shp: `${href}.shp?queryId=${queryId}`,
     };
   }
 
@@ -164,6 +175,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     try {
       projects = yield this.store.query('project', queryOptions);
       meta = projects.get('meta');
+      this.set('queryId', meta.queryId);
     } catch (e) {
       this.transitionToRoute('oops');
     }
