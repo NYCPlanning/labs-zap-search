@@ -17,25 +17,25 @@
   {{/if}}
 </div>
 <div class="cell auto {{if (or (eq tense 'past') (eq tense 'present')) '' 'gray'}}">
-  <h5 class="no-margin">{{milestone.display_name}}{{#if milestone.display_description}}<sup class="gray">{{icon-tooltip tip=milestone.display_description}}</sup>{{/if}}</h5>
-  {{#if milestone.display_date}}
+  <h5 class="no-margin">{{milestone.displayName}}{{#if milestone.displayDescription}}<sup class="gray">{{icon-tooltip tip=milestone.displayDescription}}</sup>{{/if}}</h5>
+  {{#if milestone.displayDate}}
     <div class="milestone-dates">
-      {{#if milestone.display_date}}
-        <div>{{moment-format milestone.display_date "MMMM D, YYYY" }} {{#if milestone.display_date_2}}<small>Start</small>{{/if}}</div>
+      {{#if milestone.displayDate}}
+        <div>{{moment-format milestone.displayDate "MMMM D, YYYY" }} {{#if milestone.displayDate2}}<small>Start</small>{{/if}}</div>
       {{/if}}
-      {{#if milestone.display_date_2}}
-        <div>{{moment-format milestone.display_date_2 "MMMM D, YYYY" }} <small>End</small></div>
+      {{#if milestone.displayDate2}}
+        <div>{{moment-format milestone.displayDate2 "MMMM D, YYYY" }} <small>End</small></div>
       {{/if}}
       {{#if timeRelativeToNow}}
         <div class="milestone-offset">{{timeRelativeToNow}}</div>
       {{/if}}
     </div>
-    {{#if milestone.outcome}} <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.outcome}}</span> {{/if}}
+    {{#if milestone.milestoneOutcome}} <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.milestoneOutcome}}</span> {{/if}}
     <ul class="milestone-links">
-      {{#if (eq milestone.zap_id "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
+      {{#if (eq milestone.projectMilestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
         <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank">{{fa-icon "external-link-alt"}} CPC Public Meeting Calendar</a></li>
       {{/if}}
-      {{#if (eq milestone.zap_id "a43beec4-dad0-e711-8116-1458d04e2fb8")}}
+      {{#if (eq milestone.projectMilestone "a43beec4-dad0-e711-8116-1458d04e2fb8")}}
         <li><a href="http://a030-cpc.nyc.gov/html/cpc/index.aspx" target="_blank">{{fa-icon "external-link-alt"}} CPC Reports</a></li>
       {{/if}}
       {{#each milestone.milestoneLinks as |link|}}

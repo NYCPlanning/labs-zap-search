@@ -11,7 +11,7 @@ module('Integration | Component | project-milestone', function(hooks) {
     // Handle any actions with this.set('myAction', function(val) { ... });
 
     this.set('milestone', {
-      display_name: 'Community Board Review',
+      displayName: 'Community Board Review',
     });
 
     await render(hbs`{{project-milestone milestone=milestone}}`);

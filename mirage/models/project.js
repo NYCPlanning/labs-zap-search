@@ -5,4 +5,5 @@ export default Model.extend({
   actions: hasMany(),
   userProjectParticipantTypes: hasMany(),
   hearing: belongsTo(),
+  milestones: hasMany(),
 });

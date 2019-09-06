@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import seedMirage from '../../../mirage/scenarios/default';
 
 module('Integration | Component | participant-types', function(hooks) {
   setupRenderingTest(hooks);
@@ -11,16 +10,22 @@ module('Integration | Component | participant-types', function(hooks) {
 
   hooks.beforeEach(async function() {
     this.store = this.owner.lookup('service:store');
-    seedMirage(server);
   });
 
   test('it generates a list of participantTypes', async function(assert) {
-    // TODO: Retrieve by email?
-    this.user = await this.store.findRecord('user', 2, {
-      include: 'userProjectParticipantTypes.project,projects',
+    this.user = await this.store.createRecord('user');
+    this.project = await this.store.createRecord('project', { user: this.user });
+    await this.store.createRecord('user-project-participant-type', {
+      user: this.user,
+      project: this.project,
+      participantType: 'BB',
     });
 
-    this.project = await this.store.findRecord('project', 3);
+    await this.store.createRecord('user-project-participant-type', {
+      user: this.user,
+      project: this.project,
+      participantType: 'BP',
+    });
 
     // User 2, Project 3, has two recommendations because it has two UserProjectParticipantTypes:
     // 'BB' and 'BP'
