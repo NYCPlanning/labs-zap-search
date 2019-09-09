@@ -18,11 +18,11 @@
 </div>
 <div class="cell auto {{if (or (eq tense 'past') (eq tense 'present')) '' 'gray'}}">
   <h5 class="no-margin">
-    {{milestone.displayName}}
+    {{milestone.orderSensitiveName}}
 
-    {{#if milestone.displaydescription}}
+    {{#if milestone.displayDescription}}
       <sup class="gray">
-        {{icon-tooltip tip=milestone.displaydescription}}
+        {{icon-tooltip tip=milestone.displayDescription}}
       </sup>
     {{/if}}
   </h5>

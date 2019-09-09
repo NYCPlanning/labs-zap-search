@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
 const {
   Model, attr, belongsTo,
@@ -37,7 +38,7 @@ export default class MilestoneModel extends Model {
   @attr('string') milestonesequence;
 
   // --> ZAP-API:displayDescription | e.g. 'Land Use Fee Payment'
-  @attr('string') displaydescription;
+  @attr('string') displayDescription;
 
   // --> CRM:display_name | e.g. 'Land Use Fee Payment'
   @attr('string') displayName;
@@ -53,4 +54,15 @@ export default class MilestoneModel extends Model {
 
   // --> ZAP-API:milestoneLinks
   @attr() milestonelinks;
+
+  // --> ZAP-API generated boolean determined whether milestone is a "revision" type
+  // usually occurs when it's a duplicate type in a sequence
+  @attr('boolean') isRevised;
+
+  @computed('displayName')
+  get orderSensitiveName () {
+    if (this.isRevised) return `Revised ${this.displayName}`;
+
+    return this.displayName;
+  }
 }
