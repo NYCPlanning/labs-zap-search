@@ -26,7 +26,7 @@ export default class ProjectModel extends Model {
   // ONE Project Has Many User Project Participant Types
   @hasMany('userProjectParticipantType') userProjectParticipantTypes;
 
-  @hasMany('miletone') milestones;
+  @hasMany('milestone', { async: false }) milestones;
 
   // One Project to One Hearing
   @belongsTo('hearing') hearing;
