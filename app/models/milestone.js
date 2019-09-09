@@ -9,33 +9,32 @@ export default class MilestoneModel extends Model {
   @belongsTo('project') project;
 
   // --> ZAP-API:zap_id
-  // --> CRM:dcp_projectmilestone. e.g. 923BEEC4-DAD0-E711-8116-1458D04E2FB8
   // This is the Milestone ID that identifies a specific milestone
-  @attr('string') projectMilestone;
+  @attr('string') milestone;
 
   // --> CRM:dcp_name. e.g. 'ZC - Land Use Fee Payment '
   @attr('string') name;
 
   // --> CRM:milestonename | e.g. 'Land Use Fee Payment'
-  @attr('string') milestoneName;
+  @attr('string') milestonename;
 
   // --> CRM:dcp_plannedstartdate | e.g. '2018-10-31T01:21:46'
-  @attr('string') plannedStartDate;
+  @attr('string') plannedstartdate;
 
   // --> CRM:dcp_plannedcompletiondate | e.g. '2018-11-02T01:21:46'
-  @attr('string') plannedCompletionDate;
+  @attr('string') plannedcompletiondate;
 
   // --> CRM:dcp_actualstartdate | e.g. '2018-05-11T04:00:00'
-  @attr('string') actualStartDate;
+  @attr('string') actualstartdate;
 
   // --> CRM:dcp_actualenddate | e.g. '2018-05-12T04:00:00'
-  @attr('string') actualEndDate;
+  @attr('string') actualenddate;
 
   // --> CRM:statuscode | e.g. 'Not Started', 'In Progress', 'Completed', 'Overridden'
-  @attr('string') statusCode;
+  @attr('string') statuscode;
 
   // --> CRM:dcp_milestonesequence | e.g. 28
-  @attr('string') milestoneSequence;
+  @attr('string') milestonesequence;
 
   // --> ZAP-API:displayDescription | e.g. 'Land Use Fee Payment'
   @attr('string') displayDescription;
@@ -50,7 +49,7 @@ export default class MilestoneModel extends Model {
   @attr('string') displayDate2;
 
   // --> CRM:dcp_milestoneoutcome
-  @attr('string') milestoneOutcome;
+  @attr('string') milestoneoutcome;
 
   // --> ZAP-API:milestoneLinks
   @attr() milestoneLinks;

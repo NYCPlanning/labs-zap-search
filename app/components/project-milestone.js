@@ -17,10 +17,10 @@ export default class ProjectMilestoneComponent extends Component {
   }
 
   // one of 'past', 'present', or 'future'
-  @computed('milestone.display_date,milestone.display_date_2')
+  @computed('milestone.displayDate,milestone.displayDate2')
   get tense() {
-    const date1 = this.get('milestone.display_date');
-    const date2 = this.get('milestone.display_date_2');
+    const date1 = this.get('milestone.displayDate');
+    const date2 = this.get('milestone.displayDate2');
 
     if (!date2 && moment(date1).isBefore()) { return 'past'; }
 
@@ -33,11 +33,11 @@ export default class ProjectMilestoneComponent extends Component {
     return 'future';
   }
 
-  @computed('tense,milestone.display_date,milestone.display_date_2')
+  @computed('tense,milestone.displayDate,milestone.displayDate2')
   get timeRelativeToNow() {
     const tense = this.get('tense');
-    const date1 = this.get('milestone.display_date');
-    const date2 = this.get('milestone.display_date_2');
+    const date1 = this.get('milestone.displayDate');
+    const date2 = this.get('milestone.displayDate2');
 
     if (!date1) {
       return '';
