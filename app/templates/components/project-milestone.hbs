@@ -46,7 +46,7 @@
       {{#if (eq milestone.projectmilestone "a43beec4-dad0-e711-8116-1458d04e2fb8")}}
         <li><a href="http://a030-cpc.nyc.gov/html/cpc/index.aspx" target="_blank">{{fa-icon "external-link-alt"}} CPC Reports</a></li>
       {{/if}}
-      {{#each milestone.milestoneLinks as |link|}}
+      {{#each milestone.milestonelinks as |link|}}
         <li><a href="{{link.url}}" target="_blank">{{link.filename}}</a></li>
       {{/each}}
     </ul>
