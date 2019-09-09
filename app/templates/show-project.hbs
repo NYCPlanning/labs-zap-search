@@ -142,7 +142,7 @@
             <h2>Milestones</h2>
             <ul class="no-bullet milestones-list">
               {{#if model.milestones}}
-                {{#each revisedmilestones as | milestone |}}
+                {{#each model.milestones as | milestone |}}
                   {{project-milestone milestone=milestone}}
                 {{/each}}
               {{else}}

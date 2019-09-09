@@ -56,6 +56,10 @@ export default class ProjectModel extends Model {
 
   @attr('boolean') dcp_femafloodzonev;
 
+  @attr('boolean') dcp_sisubdivision;
+
+  @attr('boolean') dcp_sischoolseat;
+
   @attr('string') dcp_projectbrief;
 
   @attr('string') dcp_projectname;
@@ -78,8 +82,6 @@ export default class ProjectModel extends Model {
 
   @attr({ defaultValue: () => EmptyFeatureCollection })
   bbl_featurecollection
-
-  @attr() milestones;
 
   @attr() addresses;
 

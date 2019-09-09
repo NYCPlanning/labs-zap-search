@@ -35,36 +35,6 @@ export default class ShowProjectController extends Controller {
     },
   }
 
-  /**
-   * Computed for revising the presentation of the project's milestones. The
-   * show-project.hbs template uses this revised array of milestone objects
-   * instead of the array in the model. This is a workaround for displaying
-   * "Revised [displayName]" for recurring instances of certain milestones.
-   * @returns {Object[]}
-   */
-  @computed('model.milestones')
-  get revisedmilestones() {
-    const { milestones } = this.model;
-    let lastZapId = '';
-
-    return milestones.map((milestone) => {
-      if (
-        milestone.projectMilestone === lastZapId
-        && (
-          milestone.projectMilestone === '663beec4-dad0-e711-8116-1458d04e2fb8' // "Land Use Application Filed"
-          || milestone.projectMilestone === '783beec4-dad0-e711-8116-1458d04e2fb8' // "Environmental Assessment Statement Filed"
-        )
-      ) {
-        lastZapId = milestone.projectMilestone;
-        milestone.displayName = `Revised ${milestone.displayName}`;
-        return milestone;
-      }
-
-      lastZapId = milestone.projectMilestone;
-      return milestone;
-    });
-  }
-
   @computed('model.bbl_featurecollection')
   get hasBBLFeatureCollectionGeometry() {
     return this.model.bbl_featurecollection.features.length
