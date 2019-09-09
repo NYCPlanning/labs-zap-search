@@ -37,7 +37,7 @@ export default class MilestoneModel extends Model {
   @attr('string') milestonesequence;
 
   // --> ZAP-API:displayDescription | e.g. 'Land Use Fee Payment'
-  @attr('string') displayDescription;
+  @attr('string') displaydescription;
 
   // --> CRM:display_name | e.g. 'Land Use Fee Payment'
   @attr('string') displayName;
@@ -52,5 +52,5 @@ export default class MilestoneModel extends Model {
   @attr('string') milestoneoutcome;
 
   // --> ZAP-API:milestoneLinks
-  @attr() milestoneLinks;
+  @attr() milestonelinks;
 }
