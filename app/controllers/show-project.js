@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import mapboxgl from 'mapbox-gl';
 import { action, computed } from '@ember/object';
 import turfBbox from '@turf/bbox';
@@ -10,6 +11,9 @@ import turfBuffer from '@turf/buffer';
  * computed property to alter the presetation of the project's milestones.
  */
 export default class ShowProjectController extends Controller {
+  @service
+  session
+
   bblFeatureCollectionLayerFill = {
     id: 'project-geometry-fill',
     type: 'fill',

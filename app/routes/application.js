@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import ENV from 'labs-zap-search/config/environment';
 
 export default class ApplicationRoute extends Route {
   beforeModel(transition) {
@@ -6,5 +7,10 @@ export default class ApplicationRoute extends Route {
     if (transition.intent.url === '/') {
       this.transitionTo('show-geography');
     }
+  }
+
+  setupController(controller, model){
+    super.setupController(controller, model);
+    controller.set('ENV', ENV);
   }
 }
