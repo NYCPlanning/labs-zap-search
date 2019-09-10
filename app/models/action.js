@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 
 const {
-  Model, attr, hasMany, belongsTo,
+  Model, attr, belongsTo, hasMany,
 } = DS;
 
 export default class ActionModel extends Model {
@@ -10,19 +10,20 @@ export default class ActionModel extends Model {
   // One Project has Many Actions
   @belongsTo('project') project;
 
-  // Many Actions to Many Recommendations
-  // Participants can submit ONE recommendation per action or ONE recommendation for all actions in a project
-  @hasMany('recommendation', { inverse: 'actions' }) recommendations;
+  // ONE disposition has many action
+  @hasMany('disposition') dispositions;
 
   // id sourced from dcp_action, unique action IDs--e.g. '566ede3a-dad0-e711-8125-1458d04e2f18'
-  @attr('string') actionId;
+  @attr('string') action;
 
   // Name of action e.g. "Zoning Text Amendment"
-  // sourced from dcp_name --> SUBSTRING(a.dcp_name FROM '-{1}\s*(.*)')
+  // sourced from dcp_name -- SUBSTRING(a.dcp_name FROM '-{1}\s*(.*)')
+  // sourced ZAP-API: name
   @attr('string') name;
 
   // Action Code e.g. "ZR"
-  // sourced from dcp_name --> SUBSTRING(a.dcp_name FROM '^(\w+)')
+  // sourced from CRM: dcp_name -- SUBSTRING(a.dcp_name FROM '^(\w+)')
+  // sourced from ZAP-API: actioncode
   @attr('string') actioncode;
 
   // sourced from dcp_name-- e.g. 'ZR - Zoning Text Amendment'
@@ -36,14 +37,14 @@ export default class ActionModel extends Model {
 
   // sourced from statecode
   // "Active" vs. "Inactive" projects
-  @attr('string') isActive;
+  @attr('string') statecode;
 
   // sourced from dcp_ulurpnumber
   @attr('string') ulurpnumber;
 
   // sourced from dcp_zoningresolution
-  @attr('string') zoningResolution;
+  @attr('string') zoningresolution;
 
   // sourced from dcp_ccresolutionnumber
-  @attr('string') ccResolutionNumber;
+  @attr('string') ccresolutionNumber;
 }

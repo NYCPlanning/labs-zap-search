@@ -15,8 +15,8 @@ export default class UserModel extends Model {
   // ONE User has Many User Project Participant Types
   @hasMany('userProjectParticipantType') userProjectParticipantTypes;
 
-  // ONE User has Many Recommendations
-  @hasMany('recommendation', { inverse: 'user' }) recommendations;
+  // ONE User has Many Dispositions
+  @hasMany('disposition') dispositions;
 
   @attr('string', { defaultValue: '' }) landUseParticipant;
 

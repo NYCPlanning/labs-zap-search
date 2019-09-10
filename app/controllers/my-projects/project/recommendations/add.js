@@ -12,24 +12,6 @@ class RecommendationOption extends EmberObject {
   actions = A();
 }
 
-// Returns a new record of the same model as `recommendation`
-// and copies all existing attributes from `recommendation`.
-// It does not yet persist the new record.
-function cloneRecommendationRecord(recommendation, store) {
-  const recommendationCopy = store.createRecord(recommendation.constructor.modelName, {
-    ...(recommendation.toJSON()),
-  });
-
-  if (recommendation.user) {
-    recommendationCopy.set('user', recommendation.user);
-  }
-  if (recommendation.actions) {
-    recommendationCopy.set('actions', recommendation.actions);
-  }
-
-  return recommendationCopy;
-}
-
 export default class MyProjectsProjectRecommendationsAddController extends Controller {
   queryParams = ['participantType'];
 
@@ -88,86 +70,13 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     return allActions;
   }
 
-  @computed('allActions', 'allActionsRecommendation', 'allOptionsActions', 'project.actions')
-  get isRecommendationSelectionsValid() {
-    let isValid = true;
-    if (this.allActions) {
-      if (this.allActionsRecommendation) {
-        return true;
-      }
-      return false;
-    }
-    if (this.allOptionsActions.length !== this.project.actions.length) {
-      return false;
-    }
-    // safeguard to make sure that each action is assigned only once to
-    // any option
-    const actionAssigned = {};
-    this.allOptionsActions.forEach((optionAction) => {
-      if (actionAssigned[optionAction.action] === true) {
-        isValid = false;
-      } else {
-        actionAssigned[optionAction.action] = true;
-      }
-    });
-    return isValid;
-  }
-
   @action
   setProp(property, newVal) {
     this.set(property, newVal);
   }
 
   @action
-  updateRecAttr(attrName, newVal) {
-    this.recommendation.set(attrName, newVal);
-  }
-
-  @action
-  addActionToOption(projAction, selectedOptionCode) {
-    Object.keys(this.recommendationOptions).forEach((optionCode) => {
-      this.recommendationOptions[optionCode].actions.removeObject(projAction);
-      this.recommendationOptions[optionCode].notifyPropertyChange('actions');
-    });
-    this.recommendationOptions[selectedOptionCode].actions.addObject(projAction);
-    this.recommendationOptions[selectedOptionCode].notifyPropertyChange('actions');
-  }
-
-  @action
-  setRecVoteLocation(location) {
-    this.recommendation.set('voteLocation', location.label);
-  }
-
-  @action
-  clearRecVoteLocation() {
-    this.recommendation.set('voteLocation', '');
-  }
-
-  @action
-  submitRecommendation() {
-    const { project } = this;
-    let savePromise;
-    if (this.allActions) {
-      this.recommendation.set('recommendation', this.allActionsRecommendation);
-      this.recommendation.set('actions', project.actions);
-      savePromise = this.recommendation.save();
-    } else {
-      Object.keys(this.recommendationOptions).forEach((optionCode) => {
-        const recommendationOption = this.recommendationOptions[optionCode];
-        if (recommendationOption.actions.length) {
-          const recommendationCopy = cloneRecommendationRecord(this.recommendation, this.store);
-          recommendationCopy.set('recommendation', recommendationOption.label);
-          recommendationCopy.set('actions', recommendationOption.actions);
-          savePromise = recommendationCopy.save();
-        }
-      });
-    }
-    if (savePromise) {
-      savePromise.then(() => {
-        this.transitionToRoute('my-projects.project.recommendations.view', project);
-      }, () => {
-        this.set('error', 'Oops, there was an error submitting your recommendation.');
-      });
-    }
+  updateDispositionAttr(disposition, attrName, newVal) {
+    disposition.set(attrName, newVal);
   }
 }

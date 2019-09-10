@@ -2,7 +2,7 @@ import DS from 'ember-data';
 import { computed } from '@ember/object';
 
 const {
-  Model, attr, hasMany, belongsTo,
+  Model, attr, hasMany,
 } = DS;
 
 const EmptyFeatureCollection = {
@@ -23,13 +23,13 @@ export default class ProjectModel extends Model {
   // Many Actions to One Project
   @hasMany('action', { async: false }) actions;
 
+  // Many Dispositions to One Project
+  @hasMany('disposition', { async: false }) dispositions;
+
   // ONE Project Has Many User Project Participant Types
   @hasMany('userProjectParticipantType') userProjectParticipantTypes;
 
   @hasMany('milestone', { async: false }) milestones;
-
-  // One Project to One Hearing
-  @belongsTo('hearing') hearing;
 
   @attr() applicantteam;
 

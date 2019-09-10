@@ -5,39 +5,35 @@ export default Factory.extend({
   // project: association({
   // }),
 
-  actionId() {
+  action() {
     return '566ede3a-dad0-e711-8125-1458d04e2f18';
   },
 
-  actionName(i) {
+  name(i) {
     return faker.list.cycle('Zoning Special Permit', 'Zoning Text Amendment', 'Disposition of Non-Residential City-Owned Property', 'Change in City Map')(i);
   },
 
-  action(i) {
+  actioncode(i) {
     return faker.list.cycle('ZS', 'ZR', 'PP', 'MM', 'BB', 'ZZ', 'AA', 'CC', 'DD')(i);
-  },
-
-  status(i) {
-    return faker.list.random('Active', 'Approved', 'Certified', 'Referred', 'Terminated', 'Withdrawn')(i);
   },
 
   statuscode(i) {
     return faker.list.random('Active', 'Approved', 'Certified', 'Referred', 'Terminated', 'Withdrawn')(i);
   },
 
-  isActive(i) {
+  statecode(i) {
     return faker.list.random('Active', 'inActive')(i);
   },
 
-  ulurpNumber(i) {
+  ulurpnumber(i) {
     return faker.list.random('C780076TLK', 'N860877TCM', 'I030148MMQ')(i);
   },
 
-  zoningResolution(i) {
+  zoningresolution(i) {
     return faker.list.random('', '4399')(i);
   },
 
-  ccResolutionNumber(i) {
+  ccresolutionnumber(i) {
     return faker.list.random('', '2575')(i);
   },
 });

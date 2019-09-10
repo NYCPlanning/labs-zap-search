@@ -178,6 +178,5 @@ export default Factory.extend({
     // The number of actions created here cannot be more than the number of unique
     // action codes in the action factory.
     server.createList('action', 7, { project });
-    server.create('hearing', { project });
   },
 });
