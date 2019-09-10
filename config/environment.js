@@ -2,6 +2,7 @@
 
 // if this exists in the environment, use it instead of others
 const ENVIRONMENTAL_HOST_API = process.env.HOST_API;
+const { LUPP_ENABLED = true } = process.env;
 
 module.exports = function(environment) {
   const ENV = {
@@ -16,6 +17,7 @@ module.exports = function(environment) {
     NYC_ID_HOST: 'https://accounts-nonprd.nyc.gov',
     host: ENVIRONMENTAL_HOST_API || '',
     OAUTH_ENDPOINT: 'https://accounts-nonprd.nyc.gov/account/api/oauth/authorize.htm?response_type=token&client_id=zap_staging',
+    LUPP_ENABLED,
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -124,14 +126,6 @@ module.exports = function(environment) {
     ENV.APP.autoboot = false;
   }
 
-  if (environment === 'devlocal') {
-    ENV.host = ENVIRONMENTAL_HOST_API || 'http://localhost:3000';
-    ENV['mapbox-gl'].map.style = '/test-data/style.json';
-    ENV['ember-cli-mirage'] = {
-      enabled: false,
-    };
-  }
-
   if (environment === 'production') {
     ENV['ember-cli-mirage'] = {
       enabled: false,
@@ -139,22 +133,6 @@ module.exports = function(environment) {
 
     ENV.host = ENVIRONMENTAL_HOST_API || 'https://zap-api.planninglabs.nyc';
     ENV['mapbox-gl'].map.style = 'https://layers-api.planninglabs.nyc/v1/base/style.json';
-  }
-
-  if (environment === 'staging') {
-    ENV.host = ENVIRONMENTAL_HOST_API || 'https://zap-api-staging.planninglabs.nyc';
-    ENV['mapbox-gl'].map.style = '/test-data/style.json';
-    ENV['ember-cli-mirage'] = {
-      enabled: false,
-    };
-  }
-
-  if (environment === 'devlive') {
-    ENV.host = ENVIRONMENTAL_HOST_API || 'https://zap-api.planninglabs.nyc';
-
-    ENV['ember-cli-mirage'] = {
-      enabled: false,
-    };
   }
 
   return ENV;

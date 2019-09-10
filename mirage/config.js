@@ -1,3 +1,4 @@
+import { Response } from 'ember-cli-mirage';
 import patchXMLHTTPRequest from './helpers/mirage-mapbox-gl-monkeypatch';
 
 export default function() {
@@ -39,10 +40,20 @@ export default function() {
     const { id } = request.params;
     const { me } = request.queryParams;
 
-    // check that this is a request for an auth'd user and there's a cookie
-    if (me && document.cookie.includes('token')) return schema.users.first();
+    if (id) {
+      return schema.users.find(id); // users in the second case
+    }
 
-    return schema.users.find(id); // users in the second case
+    // typically this check requires a cookie in the backend, but as mirage
+    // is run in the browser, and we use http-only cookies, we can't simulate
+    // this cookie behavior. using regular cookies makes us prone to memory
+    // leak issues. http-only cookies means the server is fully responsible
+    // for identity management
+    if (me) {
+      return schema.users.first();
+    }
+
+    return new Response(401, { some: 'header' }, { errors: ['Unauthorized'] });
   });
   this.get('/users/:id');
 
@@ -67,8 +78,6 @@ export default function() {
   this.post('/borough-board-recommendations');
 
   this.get('/login', function() {
-    document.cookie = 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250YWN0SWQiOiIyYTIzMWQxNC02OTNlLWU4MTEtODEzMy0xNDU4ZDA0ZDA2YzAiLCJpYXQiOjExMTExMTExMX0.1G_sYrMbZ1EWoZxz75sTUejv-hjqyHLjq7OM253RHes;';
-
     return {};
   });
 

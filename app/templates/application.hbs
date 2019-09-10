@@ -30,7 +30,7 @@
   {{#banner.nav}}
     <ul class="menu vertical large-horizontal">
       <li>{{link-to 'Search' 'show-geography'}}</li>
-      {{#if (in-array (array "development" "test") this.ENV.environment)}}
+      {{#if this.ENV.LUPP_ENABLED}}
         {{sign-in}}
       {{/if}}
     </ul>
