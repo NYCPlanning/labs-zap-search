@@ -14,8 +14,17 @@ module('Acceptance | authenticated user sees authenticated features', function(h
 
   hooks.beforeEach(async function() {
     window.location.hash = '';
-    await invalidateSession();
 
+    await invalidateSession();
+  });
+
+  hooks.afterEach(async function() {
+    window.location.hash = '';
+
+    await invalidateSession();
+  });
+
+  hooks.beforeEach(async function() {
     this.server.create('project', {
       id: 1,
     });
