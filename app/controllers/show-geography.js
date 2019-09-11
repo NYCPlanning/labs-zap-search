@@ -155,6 +155,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
       projects = yield this.store.query('project', queryOptions);
       meta = projects.get('meta');
     } catch (e) {
+      console.log(e);
       this.transitionToRoute('oops');
     }
 
