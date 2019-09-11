@@ -15,7 +15,7 @@ export default class CurrentUserService extends Service {
     // TODO: query by email (this.session.data.authenticated.email)
     return this.store.findRecord('user', 1, {
       reload: true,
-      include: 'userProjectParticipantTypes.project,projects.actions,projects.hearing',
+      include: 'userProjectParticipantTypes.project,projects.actions,projects.dispositions',
     });
   }
 

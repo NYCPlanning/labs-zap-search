@@ -67,6 +67,16 @@ export default function(server) {
     participantType: 'BB',
   });
 
+  for (let i = 0; i < seedCBUserProjects[0].actions.length; i += 1) {
+    server.create('disposition', {
+      user: seedCBUser,
+      project: seedCBUserProjects[0],
+      action: seedCBUserProjects[0].actions.models[i],
+      publichearinglocation: 'Canal street',
+      dateofpublichearing: '2018-11-02T01:21:46',
+    });
+  }
+
   /*  Milestones  */
   // For a CB participantType....
   // - Projects in the "Upcoming" bin to milestone

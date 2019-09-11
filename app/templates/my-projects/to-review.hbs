@@ -22,11 +22,11 @@
       <div class="cell medium-8 large-auto">
         <div class="grid-x grid-x-small-gutters">
           <div class="cell medium-6 large-auto">
-            {{#if (and project.hearing.date project.hearing.location)}}
+            {{#if (and project.dispositions.dateofpublichearing project.dispositions.publichearinglocation)}}
               <h5 class="column-header">Hearing Location</h5>
-              <p class="no-margin location">{{project.hearing.location}}</p>
-              <p class="no-margin date">{{moment-format project.hearing.date "MM/D/YYYY"}}</p>
-              <p class="no-margin time">{{moment-format project.hearing.date "h:mm A"}}</p>
+              <p class="no-margin location">{{project.dispositions.publichearinglocation}}</p>
+              <p class="no-margin date">{{moment-format project.dispositions.dateofpublichearing "MM/D/YYYY"}}</p>
+              <p class="no-margin time">{{moment-format project.dispositions.dateofpublichearing "h:mm A"}}</p>
             {{else}}
               <LinkTo
                 @route="my-projects.project.hearing.add"

@@ -1,6 +1,6 @@
 import { Factory, faker } from 'ember-cli-mirage';
 
-export default class RecommendationFactory extends Factory {
+export default class DispositionFactory extends Factory {
   // #### Recommendation Type per Each of the 3 Participants ####
   // sourced from dcp_boroughpresidentrecommendation
   // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
@@ -14,7 +14,15 @@ export default class RecommendationFactory extends Factory {
   // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
-  recommendation() {
+  boroughpresidentrecommendation() {
+    return faker.random.arrayElement(['Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying']);
+  }
+
+  boroughboardrecommendation() {
+    return faker.random.arrayElement(['Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying']);
+  }
+
+  communityboardrecommendation() {
     return faker.random.arrayElement(['Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying']);
   }
 
@@ -22,47 +30,47 @@ export default class RecommendationFactory extends Factory {
     return faker.Lorem.sentences();
   }
 
-  voteLocation() {
+  votelocation() {
     return faker.Address.streetAddress();
   }
 
-  dateReceived() {
+  datereceived() {
     return faker.Date.past();
   }
 
-  dateVoted() {
+  dateofvote() {
     return faker.Date.past();
   }
 
-  votesInFavor() {
+  votinginfavorrecommendation() {
     return 15;
   }
 
-  votesAgainst() {
+  votingagainstrecommendation() {
     return 4;
   }
 
-  votesAbstain() {
+  votingabstainingonrecommendation() {
     return 1;
   }
 
-  totalBoardMembers() {
+  totalmembersappointedtotheboard() {
     return 20;
   }
 
-  didQuorumExist() {
+  wasaquorumpresent() {
     return null;
   }
 
-  isActive(i) {
+  statecode(i) {
     return faker.list.random('Active', 'Inactive')(i);
   }
 
-  status(i) {
+  statuscode(i) {
     return faker.list.random('Draft', 'Saved', 'Submitted', 'Deactivated', 'Not Submitted')(i);
   }
 
-  docketDescription() {
+  docketdescription() {
     return faker.Lorem.sentence();
   }
 }

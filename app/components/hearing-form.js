@@ -53,7 +53,7 @@ export default class HearingFormComponent extends Component {
     const hoursAdded = moment(this.time).hour();
     if (this.date && this.time) {
       const dateUpdated = moment(this.date).add(hoursAdded, 'h').add(minutesAdded, 'm').toDate();
-      this.set('project.hearing.date', dateUpdated);
+      this.set('project.dispositions.dateofpublichearing', dateUpdated);
     }
   }
 
@@ -68,11 +68,11 @@ export default class HearingFormComponent extends Component {
   async submitHearing(project) {
     // arguments to trigger a notification to the user that they need to input a field
     this.set('dateMissing', !this.date);
-    this.set('locationMissing', !project.hearing.get('location'));
+    this.set('locationMissing', !project.dispositions.publichearinglocation);
     this.set('timeMissing', !this.time);
 
     // if user has input date, location, and time then save these to model and transition to to-review route
-    if (project.hearing.get('date') && project.hearing.get('location')) {
+    if (project.dispositions.dateofpublichearing && project.dispositions.publichearinglocation) {
       try {
         await project.save();
         this.set('hearingSubmitted', true);

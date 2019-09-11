@@ -6,7 +6,7 @@ export default class MyProjectsProjectRoute extends Route {
   async model({ project_id }) {
     const project = await this.store.findRecord('project', project_id, {
       reload: true,
-      include: 'actions,hearing',
+      include: 'actions,dispositions.action',
     });
     return project;
   }

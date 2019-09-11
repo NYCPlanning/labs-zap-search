@@ -60,33 +60,16 @@ export default function() {
   this.get('/actions');
   this.get('/actions/:id');
 
-  this.get('/recommendations', function(schema) {
-    const cbRecs = schema.communityBoardRecommendations.all();
-    const bbRecs = schema.boroughBoardRecommendations.all();
-    const bpRecs = schema.boroughPresidentRecommendations.all();
-    return {
-      data: [...cbRecs.models, ...bbRecs.models, ...bpRecs.models],
-    };
-  });
-
-  this.get('/borough-president-recommendations');
-  this.get('/community-board-recommendations');
-  this.get('/borough-board-recommendations');
-
-  this.post('/borough-president-recommendations');
-  this.post('/community-board-recommendations');
-  this.post('/borough-board-recommendations');
-
   this.get('/login', function() {
     return {};
   });
 
   // REST endpoints
   this.patch('/projects/:id');
-  this.get('/hearings');
-  this.get('/hearings/:id');
-  this.patch('/hearings/:id');
-  this.post('/hearings');
+  this.get('/dispositions');
+  this.get('/dispositions/:id');
+  this.patch('/dispositions/:id');
+
 
   /*
     Config (with defaults).

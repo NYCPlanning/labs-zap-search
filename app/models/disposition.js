@@ -1,18 +1,26 @@
 import DS from 'ember-data';
 
 const {
-  Model, attr, hasMany, belongsTo,
+  Model, attr, belongsTo,
 } = DS;
 
-export default class RecommendationModel extends Model {
+export default class DispositionModel extends Model {
 // DB table: dcp_communityboarddisposition
 
-  // Many Actions to Many Recommendations
-  // Participants can submit ONE recommendation per action or ONE recommendation for all actions in a project
-  @hasMany('action', { inverse: 'recommendations' }) actions;
+  // One Project to Many Dispositions
+  @belongsTo('project') project;
 
-  // ONE User has Many Recommendations
-  @belongsTo('user', { inverse: 'recommendations' }) user;
+  // ONE User has Many Dispositions
+  @belongsTo('user') user;
+
+  // ONE disposition has ONE action
+  @belongsTo('action') action;
+
+  // sourced from dcp_publichearinglocation
+  @attr('string', { defaultValue: '' }) publichearinglocation;
+
+  // sourced from dcp_dateofpublichearing
+  @attr('date', { defaultValue: null }) dateofpublichearing;
 
   // Not needed
   // @attr('string', { defaultValue: '' }) formCompleterName;
@@ -33,32 +41,53 @@ export default class RecommendationModel extends Model {
   // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
-  @attr('string', { defaultValue: '' }) recommendation;
+  @attr('string', { defaultValue: '' }) boroughpresidentrecommendation;
+
+  @attr('string', { defaultValue: '' }) boroughboardrecommendation;
+
+  @attr('string', { defaultValue: '' }) communityboardrecommendation;
 
   // sourced from dcp_consideration
   // memo, exta information from participant
   @attr('string', { defaultValue: '' }) consideration;
 
   // sourced from dcp_votelocation
-  @attr('string', { defaultValue: '' }) voteLocation;
+  @attr('string', { defaultValue: '' }) votelocation;
 
   // calculate this upon form submission
-  @attr('date') dateReceived;
+  @attr('date') datereceived;
 
   // link to dcp_dateofvote
   // TODO: investigate the format server expects.
   // potentially switch back to "Date" attribute type, if compatible with
   // backend
-  @attr('string') dateVoted;
+  @attr('string') dateofvote;
 
   // sourced from statecode
   // "Active" vs "Inactive"
-  @attr('string') isActive;
+  @attr('string') statecode;
 
   // sourced from statuscode
   // e.g. 'Draft', 'Saved', 'Submitted', 'Deactivated', 'Not Submitted'
-  @attr('string') status;
+  @attr('string') statuscode;
 
   // sourced from dcp_docketdescription
-  @attr('string') docketDescription;
+  @attr('string') docketdescription;
+
+  // sourced from dcp_votinginfavorrecommendation
+  @attr('number') votinginfavorrecommendation;
+
+  // sourced from dcp_votingagainstrecommendation
+  @attr('number') votingagainstrecommendation;
+
+  // sourced from dcp_votingabstainingonrecommendation
+  @attr('number') votingabstainingonrecommendation;
+
+  // sourced from dcp_totalmembersappointedtotheboard
+  @attr('number') totalmembersappointedtotheboard;
+
+  // sourced from dcp_wasaquorumpresent
+  @attr('boolean', {
+    defaultValue: null,
+  }) wasaquorumpresent;
 }
