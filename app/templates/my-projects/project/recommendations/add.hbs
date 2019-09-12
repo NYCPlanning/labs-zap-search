@@ -10,61 +10,372 @@
     </div>
   </div>
 {{else}}
-  {{#with this.model as |project|}}
-
-  {{!-- TODO: Display recommendation based on user role (participantType),
-  which is based on milestone  --}}
-
-    <h2>Add Community Board Recommendation</h2>
-    <div class="grid-x grid-margin-x">
-      <div class="large-5 cell large-order-2">
-        <p>Recommendation to be submitted for:</p>
-        <div class="project-summary-card callout">
-          <h3 class="tiny-margin-bottom">
-            <LinkTo
-              @route="show-project"
-              @model={{project}}
-            >
-              {{project.dcp_projectname}}
-            </LinkTo>
-            <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
-          </h3>
-          <h5 class="applicant">{{project.applicants}}</h5>
-          <p>{{project.dcp_projectbrief}}</p>
+  <div class="grid-container">
+    <div class="grid-x grid-x-container">
+      <h2>
+        Add
+        {{#if (eq participantType "BP")}}
+          Borough&nbsp;President
+        {{else if (eq participantType "BB")}}
+          Borough&nbsp;Board
+        {{else if (eq participantType "CB")}}
+          Community&nbsp;Board
+        {{/if}}Recommendation
+      </h2>
+      <div class="grid-x grid-margin-x">
+        <div class="cell">
+          <p>Recommendation to be submitted for:</p>
+          <div class="project-summary-card callout">
+            <h3 class="tiny-margin-bottom">
+              <LinkTo
+                @route="show-project"
+                @model={{project}}
+              >
+                {{project.dcp_projectname}}
+              </LinkTo>
+              <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
+            </h3>
+            <h5 class="applicant">{{project.applicants}}</h5>
+            <p>{{project.dcp_projectbrief}}</p>
+          </div>
         </div>
       </div>
-      <div class="large-7 cell">
-
-        {{#if (eq this.participantType "CB")}}
-          <fieldset class="medium-margin-bottom">
-            <legend><strong>Was a Quorum Present at your hearing?</strong></legend>
+      {{#if this.dispositions.firstObject.publichearinglocation}}
+        <div class="cell">
+          <strong>
+            <legend>
+              Was a Quorum Present at your hearing(s)?
+            </legend>
+          </strong>
+          <p class="help-text">
+            For each hearing below, please select whether a quorum was present.<br>
+            A quorum requires the presence of 20% of appointed board members, and not fewer than seven members.
+          </p>
+          {{#each this.dispositions as |disposition idx|}}
+            {{#if disposition.dateofpublichearing}}
               <p class="text-small dark-gray">
-                Hearing occurred
-                on 11/3/2020
-                at 6:30 pm
+                Hearing occurring
+                on {{moment-format disposition.dateofpublichearing "MM/D/YYYY"}}
+                at {{disposition.publichearinglocation}}
+                for {{disposition.action.name}}
+                <span class="text-small">
+                  &nbsp;({{disposition.action.ulurpnumber}})
+                </span>
               </p>
-            <input type="radio"
-              name="quorum-yes"
-              id="quorum-yes"
-              checked="checked"
+              <fieldset class="medium-margin-bottom recommendation-quorum-fieldiset">
+                <input type="radio"
+                  name={{concat idx '-quorum'}}
+                  id={{concat idx '-quorum-yes'}}
+                  checked={{if disposition.wasaquorumpresent "checked"}}
+                  onClick={{action 'updateDispositionAttr' disposition 'wasaquorumpresent' true}}
+                />
+                <label
+                  for="{{concat idx '-quorum-yes'}}"
+                  {{action 'updateDispositionAttr' disposition 'wasaquorumpresent' true}}
+                >
+                  Yes
+                </label>
+                <input type="radio"
+                  name={{concat idx '-quorum'}}
+                  id={{concat idx '-quorum-no'}}
+                  checked={{if (eq disposition.wasaquorumpresent false) "checked"}}
+                  onClick={{action 'updateDispositionAttr' disposition 'wasaquorumpresent' false}}
+                />
+                <label
+                  for="{{concat idx '-quorum-no'}}"
+                  {{action 'updateDispositionAttr' disposition 'wasaquorumpresent' false}}
+                >
+                  No
+                </label>
+              </fieldset>
+            {{/if}}
+          {{/each}}
+        </div>
+      {{/if}}
+      {{#if (gt this.dispositions.length 1)}}
+        <div class="cell">
+          <fieldset class="medium-margin-bottom">
+            <legend>
+              <strong>
+                Would you like to submit a single recommendation for all actions?
+              </strong>
+            </legend>
+            <input
+              type="radio"
+              name="all-actions-yes"
+              id="all-actions-yes"
+              checked={{if (eq this.allActions true) "checked"}}
+              onClick={{action "setProp" "allActions" true}}
             />
-            <label for="quorum-yes">
+            <label for="all-actions-yes">
               Yes
             </label>
-            <input type="radio"
-              name="quorum-no"
-              id="quorum-no"
-              checked="checked"
+            <input
+              type="radio"
+              name="all-actions-no"
+              id="all-actions-no"
+              checked={{if (eq this.allActions false) "checked"}}
+              onClick={{action "setProp" "allActions" false}}
             />
-            <label for="quorum-no">
-              No
+            <label for="all-actions-no">
+              No, I will submit a recommendation for each action
             </label>
           </fieldset>
+        </div>
+      {{/if}}
+      {{#if (eq this.allActions true)}}
+        <div class="cell">
+          <fieldset class="medium-margin-bottom recommendation-all-actions-fieldset">
+            <legend>
+              <strong>
+                Submit a recommendation for all actions
+              </strong>
+            </legend>
+            <PowerSelect
+              @searchEnabled={{false}}
+              @options={{this.recOptions}}
+              @placeholder="Select a recommendation"
+              @selected={{this.dispositionForAllActions.recommendation}}
+              @onchange={{action (mut this.dispositionForAllActions.recommendation)}}
+              as |recOption|
+            >
+              {{recOption}}
+            </PowerSelect>
+            {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+              <legend>
+                <strong>
+                  Vote Counts
+                </strong>
+              </legend>
+              <div class="grid-x grid-margin-x">
+                <div  class="cell medium-3">
+                  <label for="all-actions-votes-in-favor">
+                    Votes In Favor
+                  </label>
+                  <Input  
+                    @id="all-actions-votes-in-favor"
+                    @type="number"
+                    @value={{this.dispositionForAllActions.votinginfavorrecommendation}}
+                    @key-up={{fn (mut this.dispositionForAllActions.votinginfavorrecommendation) value="target.value"}}
+                  />
+                </div>
+                <div  class="cell medium-3">
+                  <label for="all-actions-votes-against">
+                    Votes Against
+                  </label>
+                  <Input
+                    @id="all-actions-votes-against"
+                    @type="number"
+                    @value={{this.dispositionForAllActions.votingagainstrecommendation}}
+                    @key-up={{fn (mut this.dispositionForAllActions.votingagainstrecommendation) value="target.value"}}
+                  />
+                </div>
+                <div  class="cell medium-3">
+                  <label for="all-actions-votes-abstain">
+                    Abstain
+                  </label>
+                  <Input
+                    @id="all-actions-votes-abstain"
+                    @type="number"
+                    @value={{this.dispositionForAllActions.votingabstainingonrecommendation}}
+                    @key-up={{fn (mut this.dispositionForAllActions.votingabstainingonrecommendation) value="target.value"}}
+                  />
+                </div>
+                <div  class="cell medium-3">
+                  <label for="all-actions-votes-total-members">
+                    Total Members
+                  </label>
+                  <Input
+                    @id="all-actions-votes-total-members"
+                    @type="number"
+                    @value={{this.dispositionForAllActions.totalmembersappointedtotheboard}}
+                    @key-up={{fn (mut this.dispositionForAllActions.totalmembersappointedtotheboard) value="target.value"}}
+                  />
+                </div>
+              </div>
+            {{/if}}
+          </fieldset>
+        </div>
+      {{/if}}
+      {{#if (eq this.allActions false)}}
+        <div class="cell">
+          <fieldset class="medium-margin-bottom recommendation-by-action-fieldset">
+            <legend>
+              <strong>
+                Submit a Recommendation by action
+              </strong>
+            </legend>
+            {{#each this.dispositions as |disposition idx|}}
+              <h4>
+                {{disposition.action.name}}
+                <span class="text-small">
+                  &nbsp;&nbsp;{{disposition.action.ulurpnumber}}
+                </span>
+              </h4>
+              <PowerSelect
+                @searchEnabled={{false}}
+                @options={{this.recOptions}}
+                @placeholder="Select a recommendation"
+                @selected={{get disposition (rec-field-by-parttype-lookup this.participantType)}}
+                @onchange={{action "setDispositionRecByPartType" disposition}}
+                as |recOption|
+              >
+                {{recOption}}
+              </PowerSelect>
+              {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                <legend>
+                  <strong>
+                    Vote Counts
+                  </strong>
+                </legend>
+                <div class="grid-x grid-margin-x">
+                  <div  class="cell medium-3">
+                    <label for={{concat "disposition-" (concat idx "-votes-in-favor")}}>
+                      Votes In Favor
+                    </label>
+                    <Input  
+                      @id={{concat "disposition-" (concat idx "-votes-in-favor")}}
+                      @type="number"
+                      @value={{disposition.votinginfavorrecommendation}}
+                      @key-up={{fn (mut disposition.votinginfavorrecommendation) value="target.value"}}
+                    />
+                  </div>
+                  <div  class="cell medium-3">
+                  <label for={{concat "disposition-" (concat idx "-votes-against")}}>
+                    Votes Against
+                  </label>
+                  <Input
+                    @id={{concat "disposition-" (concat idx "-votes-against")}}
+                    @type="number"
+                    @value={{disposition.votingagainstrecommendation}}
+                    @key-up={{fn (mut disposition.votingagainstrecommendation) value="target.value"}}
+                  />
+                </div>
+                <div  class="cell medium-3">
+                  <label for={{concat "disposition-" (concat idx "-votes-abstain")}}>
+                    Abstain
+                  </label>
+                  <Input
+                    @id={{concat "disposition-" (concat idx "-votes-abstain")}}
+                    @type="number"
+                    @value={{disposition.votingabstainingonrecommendation}}
+                    @key-up={{fn (mut disposition.votingabstainingonrecommendation) value="target.value"}}
+                  />
+                </div>
+                <div  class="cell medium-3">
+                  <label for={{concat "disposition-" (concat idx "-votes-total-members")}}>
+                    Total Members
+                  </label>
+                  <Input
+                    @id={{concat "disposition-" (concat idx "-votes-total-members")}}
+                    @type="number"
+                    @value={{disposition.totalmembersappointedtotheboard}}
+                    @key-up={{fn (mut disposition.totalmembersappointedtotheboard) value="target.value"}}
+                  />
+                </div>
+                </div>
+              {{/if}}
+              <div class="grid-x grid-margin-x">
+                <div class="cell">
+                  <label
+                    for={{concat "disposition-" (concat idx "-consideration")}}
+                  >
+                    Recommendation Comment
+                  </label>
+                  <Textarea
+                    @id={{concat "disposition-" (concat idx "-consideration")}}
+                    @value={{disposition.consideration}}
+                    @placeholder="Add a Recommendation comment for this action here."
+                    @rows="4"
+                  />
+                </div>
+              </div>
+              <hr />
+            {{/each}}
+          </fieldset>
+        </div>
+      {{/if}}
+      {{#if (or (eq this.allActions true) (eq this.allActions false))}}
+        {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+          <div class="cell">
+            <fieldset class="medium-margin-bottom recommendation-by-action-fieldset">
+              <legend>
+                <strong>
+                  Vote Location and Date for all actions
+                </strong>
+              </legend>
+              <div class="grid-x grid-margin-x">
+                <div class="cell medium-6">
+                  <label for="all-actions-vote-location">
+                    Vote Location
+                  </label>
+                  <Input
+                    @id="all-actions-vote-location"
+                    @type="text"
+                    @placeholder="Add a location"
+                    @autocomplete="off"
+                    @value={{this.dispositionForAllActions.votelocation}}
+                    @key-up={{fn (mut this.dispositionForAllActions.votelocation) value="target.value"}}
+                  />
+                </div>
+                <div class="cell medium-6">
+                  <label for="all-actions-vote-date">
+                    Vote Date
+                  </label>
+                  <PikadayInput
+                    @id="all-actions-vote-date"
+                    @placeholder='Select a date'
+                    @value={{this.dispositionForAllActions.dateofvote}}
+                    @format='MM/DD/YYYY'
+                    @onSelection={{fn (mut this.dispositionForAllActions.dateofvote) value="target.value"}}
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
         {{/if}}
-      </div>
+        {{#if (eq this.allActions true)}}
+          <div class="cell">
+            <label
+              for="all-actions-consideration"
+            >
+              Recommendation Comment for all actions.
+            </label>
+            <Textarea
+              @id="all-actions-consideration"
+              @value={{this.dispositionForAllActions.consideration}}
+              @placeholder="Add Recommendation comment for all actions here."
+              @rows="4"
+            />
+          </div>
+        {{/if}}
+        <div class="cell">
+          <div class="callout">
+            <label>Uploaded recommendation files:</label>
+            <ul>
+              <li><a>Important File <small>(PDF)</small></a></li>
+              <li><a>Important File <small>(PDF)</small></a></li>
+              <li><a>Important File <small>(PDF)</small></a></li>
+            </ul>
+            <label for="exampleFileUpload_2" class="button secondary no-margin">
+              {{fa-icon 'upload'}} Upload Files
+            </label>
+            <input type="file" id="exampleFileUpload_2" class="show-for-sr">
+          </div>
+        </div>
+        <div class="cell">
+          <fieldset class="medium-margin-bottom">
+            <button
+              class="button large-margin-top"
+              type="button"
+              onClick={{this.submitRecommendations}}
+            >
+              Submit Recommendation Information
+            </button>
+          </fieldset>
+        </div>
+      {{/if}}
     </div>
-
-  {{/with}}
-
-{{outlet}}
+  </div>
+  {{outlet}}
 {{/if}}

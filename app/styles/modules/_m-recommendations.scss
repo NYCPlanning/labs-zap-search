@@ -2,20 +2,9 @@
 // Module: Recommendations
 // --------------------------------------------------
 
-@mixin sticky-table-header {
-  position: sticky;
-  position: -webkit-sticky;
-  top: -1px;
-  z-index: 999;
-}
-
-.recommendation-table {
-  text-align: center;
-}
-
-// TODO: debug conflict between sticky table header and location geosearch dropdown
-.recommendation-header {
-  // @include sticky-table-header();
-  text-align: center;
-  // background-color: white;
+.recommendation-all-actions-fieldset {
+ & .ember-power-select-selected-item {
+    padding: 10px;
+    line-height: 40px;
+  }
 }
