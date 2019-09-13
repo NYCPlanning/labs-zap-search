@@ -8,10 +8,22 @@ export default class MyProjectsToReviewRoute extends Route {
   @service
   store;
 
+  // This route loads the user's projects according to their milestones and associated userProjectParticipantTypes.
+  // Specifically, a given user's project only shows up here if...
+  // 1) it has an "Review" (a.k.a. "Referral") milestone that has a statuscode of "In Progress"
+  // 2) it matches one of the project's -- and the current user's -- associated userProjectParticipantTypes
+  // For example, for a Borough President user, a project shows up here if it has an "In Progress" Borough President Referral milestone.
   async model() {
-    // TODO: Retrieve projects here, instead of side-loading in currentUser service.
-    // TODO: Filter user projects down to to-review projects here.
-    const userProjects = await this.currentUser.get('user').then(user => user.get('projects'));
-    return userProjects;
+    // Use this endpoint for now. This will need to be updated when the backend is finalized.
+    const user = await this.currentUser.get('user');
+    const toReviewProjectsRaw = await fetch(`/users/${user.id}/projects?projectState=to-review`);
+    const toReviewProjectsIds = await toReviewProjectsRaw.json();
+    const filteredProjects = user.projects.filter(function(proj) {
+      if (toReviewProjectsIds.includes(proj.id)) {
+        return true;
+      }
+      return false;
+    });
+    return filteredProjects;
   }
 }

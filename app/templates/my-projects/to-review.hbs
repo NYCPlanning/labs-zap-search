@@ -1,7 +1,10 @@
 <h5>Projects that require you to submit your hearing dates and recommendations</h5>
 
 {{#each this.model as |project|}}
-  <div class="project-summary-card callout">
+  <div
+    class="project-summary-card callout"
+    data-test-project-card
+  >
     <div class="grid-x grid-x-small-gutters">
       <div class="cell large-6">
         <h3 class="tiny-margin-bottom">
@@ -39,7 +42,7 @@
               </LinkTo>
             {{/if}}
           </div>
-          <div class="cell medium-6 large-auto">
+          <div class="cell medium-6 large-auto" data-test-submit-recommendation-btn>
             {{#participant-types
               project=project
               user=(await this.currentUser.user)
@@ -67,7 +70,7 @@
         </div>
       </div>
     </div>
-</div>
+  </div>
 {{/each}}
 
 {{outlet}}

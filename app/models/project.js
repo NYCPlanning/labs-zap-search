@@ -81,7 +81,7 @@ export default class ProjectModel extends Model {
   @attr() bbls;
 
   @attr({ defaultValue: () => EmptyFeatureCollection })
-  bbl_featurecollection
+  bbl_featurecollection;
 
   @attr() addresses;
 
