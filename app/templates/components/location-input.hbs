@@ -1,0 +1,17 @@
+<label class="{{if (and locationMissing checkIfMissing) 'is-invalid-label'}}">
+  Hearing Location
+    {{input
+      class=(if (and locationMissing checkIfMissing) "is-invalid-input")
+      type="text"
+      placeholder="Add a location"
+      autocomplete="off"
+      data-test-allactions-input="location"
+      data-test-location-input=disposition.id
+      value=this.location
+      key-down=(action (mut this.location))
+      key-up=(action "setLocation")
+    }}
+  {{#if (and locationMissing checkIfMissing)}}
+    <span class="form-error is-visible" role="alert">Please enter a valid location for your hearing</span>
+  {{/if}}
+</label>

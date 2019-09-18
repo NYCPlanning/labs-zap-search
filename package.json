@@ -67,7 +67,7 @@
     "ember-metrics": "0.12.1",
     "ember-moment": "^7.7.0",
     "ember-parachute": "0.3.7",
-    "ember-pikaday": "^2.4.0",
+    "ember-pikaday": "^2.4.1",
     "ember-power-select": "2.0.4",
     "ember-qunit": "^4.4.1",
     "ember-resolver": "^5.0.1",

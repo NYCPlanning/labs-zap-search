@@ -1,3 +1,96 @@
-{{hearing-form project=model}}
+<h2>Add Community Board Hearing</h2>
+{{#if hearingSubmitted}}
+  <h5 data-test-hearing-submitted-message>Thanks for submitting your hearing!</h5>
+{{else}}
+  <fieldset class="medium-margin-bottom">
+      <legend><strong>Would you like to submit a single hearing for all actions?</strong></legend>
+      <input
+        type="radio"
+        name="all-action-yes"
+        id="all-action-yes"
+        data-test-radio="all-action-yes"
+        checked={{if (eq allActions true) "checked"}}
+        onClick={{action "setProp" "allActions" true}}
+      />
+      <label for="all-action-yes">
+        Yes
+      </label>
+      <input
+        type="radio"
+        name="all-action-no"
+        id="all-action-no"
+        data-test-radio="all-action-no"
+        checked={{if (eq allActions false) "checked"}}
+        onClick={{action "setProp" "allActions" false}}
+      />
+      <label for="all-action-no">
+        No, I will submit multiple hearings
+      </label>
+    </fieldset>
+  {{#if allActions}}
+  <h4>Hearing for all actions</h4>
+    {{hearing-form
+      disposition=dispositionForAllActions
+      allActions=allActions
+      checkIfMissing=checkIfMissing}}
+  {{else if (eq allActions false)}}
+    {{#each model.dispositions as |disposition|}}
+      <h4>{{disposition.action.name}}  <span class="text-small">{{disposition.action.ulurpnumber}}</span></h4>
+      {{hearing-form
+        disposition=disposition
+        allActions=allActions
+        checkIfMissing=checkIfMissing}}
+    {{/each}}
+  {{/if}}
+
+  {{#if (not-eq allActions null)}}
+      <button
+        class="button large-margin-top"
+        data-test-button="checkHearing"
+        type="button"
+        onClick={{action "onSubmit"}}
+      >
+        Submit Hearing Information
+      </button>
+  {{/if}}
+  {{#if modalOpen}}
+    <div id="hearing-confirmation" class="reveal" role="dialog">
+        <h2>Does this look correct?</h2>
+
+          <h5 class="column-header">Hearing Information</h5>
+          {{#if allActions}}
+            <p class="no-margin hearing-location">{{dispositionForAllActions.publichearinglocation}}</p>
+            <p class="no-margin hearing-date">{{moment-format dispositionForAllActions.dateofpublichearing "MM/D/YYYY"}}</p>
+            <p class="no-margin hearing-time">{{moment-format dispositionForAllActions.dateofpublichearing "h:mm A"}}</p>
+          {{else}}
+            {{#each model.dispositions as |disposition|}}
+              <p class="no-margin" data-test-hearing-location-confirmation="{{disposition.id}}">{{disposition.publichearinglocation}}</p>
+              <p class="no-margin" data-test-hearing-date-confirmation="{{disposition.id}}">{{moment-format disposition.dateofpublichearing "MM/D/YYYY"}}</p>
+              <p class="no-margin" data-test-hearing-time-confirmation="{{disposition.id}}">{{moment-format disposition.dateofpublichearing "h:mm A"}}</p>
+            {{/each}}
+          {{/if}}
+
+      <button
+        class="button large-margin-top"
+        data-test-button="confirmHearing"
+        type="button"
+        onClick={{action "onConfirm"}}
+      >
+        Confirm
+      </button>
+
+      <button
+        class="button large-margin-top"
+        data-test-button="closeModal"
+        type="button"
+        onClick={{action "closeModal"}}
+      >
+        Cancel
+      </button>
+
+      <p class="help-text">WARNING: Once you submit a hearing date and location, you will not be able to go back and edit. If there is an error in your submission, please contact the office at ###-###-####</p>
+    </div>
+  {{/if}}
+{{/if}}
 
 {{outlet}}

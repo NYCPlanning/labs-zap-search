@@ -1,98 +1,15 @@
-<h2>Add Community Board Hearing</h2>
 <div class="grid-x grid-margin-x">
-  <div class="large-5 cell large-order-2">
-    <p>Hearing to be submitted for:</p>
-    <div class="project-summary-card callout">
-      <h3 class="tiny-margin-bottom">
-        <a>{{project.dcp_projectname}}</a>
-        <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
-      </h3>
-      <h5 class="applicant">{{project.applicants}}</h5>
-      <p>{{project.dcp_projectbrief}}</p>
-    </div>
-  </div>
-  {{#if hearingSubmitted}}
-    <div class="large-7 cell">
-      <div class="grid-x grid-margin-x">
-        <div class="large-6 cell">
-          <h5> Thanks for submitting your hearing!</h5>
-            <h5 class="column-header">Hearing Information</h5>
-            <p class="no-margin hearing-location">{{project.dispositions.publichearinglocation}}</p>
-            <p class="no-margin hearing-date">{{moment-format project.dispositions.dateofpublichearing "MM/D/YYYY"}}</p>
-            <p class="no-margin hearing-time">{{moment-format project.dispositions.dateofpublichearing "h:mm A"}}</p>
-      </div>
-    </div>
-  </div>
-
-  {{else}}
-    <form class="large-7 cell">
-      <div class="grid-x grid-margin-x">
-        <div class="large-6 cell">
-          <label class="{{if dateMissing 'is-invalid-label'}}">
-            Hearing Date
-            {{pikaday-input
-              placeholder='Select a date'
-              value=this.date
-              minDate=currentDate
-              format='MM/DD/YYYY'
-              data-test-hearing-input="date"
-              onSelection=(action (mut this.date))
-              onClose=(action "setHearingDate" project)
-              class=(if dateMissing 'is-invalid-input')
-            }}
-            {{#if dateMissing}}
-              <span class="form-error is-visible" role="alert">Please enter a valid date: MM/DD/YYYY</span>
-            {{/if}}
-          </label>
-        </div>
-        <div class="large-6 cell">
-          <label class="{{if timeMissing 'is-invalid-label'}}">
-            Hearing Time
-            {{#power-select
-              triggerClass="hearing-time-dropdown"
-              searchEnabled=false
-              selected=this.time
-              options=inputTimesArray
-              placeholder="Select a time"
-              onchange=(action (mut this.time))
-              onclose=(action "setHearingDate" project)
-              as |time|
-            }}
-              {{moment-format time "hh:mm a"}}
-            {{/power-select}}
-            {{#if timeMissing}}
-              <span class="form-error is-visible" role="alert">Please enter a valid time</span>
-            {{/if}}
-          </label>
-        </div>
-      </div>
-
-      <label class="{{if locationMissing 'is-invalid-label'}}">
-        Hearing Location
-          {{input
-            class=(if locationMissing "is-invalid-input")
-            type="text"
-            placeholder="Add a location"
-            autocomplete="off"
-            data-test-hearing-input="location"
-            value=project.dispositions.publichearinglocation
-            key-up=(action (mut project.dispositions.publichearinglocation))
-          }}
-        {{#if locationMissing}}
-          <span class="form-error is-visible" role="alert">Please enter a valid location for your hearing</span>
-        {{/if}}
-      </label>
-
-        <button
-          class="button large-margin-top"
-          data-test-button="hearingSubmit"
-          type="button"
-          onclick={{action "submitHearing" project}}
-        >
-          Submit Hearing Info
-        </button>
-        <p class="help-text">WARNING: Once you submit a hearing date and location, you will not be able to go back and edit. If there is an error in your submission, please contact the office at ###-###-####</p>
-
-    </form>
-  {{/if}}
+  <form class="large-7 cell">
+    {{date-time-picker
+      targetField=(mut disposition.dateofpublichearing)
+      disposition=disposition
+      allActions=allActions
+      includeTimeInput=true
+      checkIfMissing=checkIfMissing}}
+    {{location-input
+      targetField=(mut disposition.publichearinglocation)
+      disposition=disposition
+      allActions=allActions
+      checkIfMissing=checkIfMissing}}
+  </form>
 </div>

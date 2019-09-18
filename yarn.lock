@@ -5133,9 +5133,10 @@ ember-parachute@0.3.7:
     ember-cli-babel "^6.0.0"
     ember-getowner-polyfill "^2.0.1"
 
-ember-pikaday@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/ember-pikaday/-/ember-pikaday-2.4.0.tgz#d504db4ff2f4137da606d5c57bf6f8000c39a4c8"
+ember-pikaday@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/ember-pikaday/-/ember-pikaday-2.4.1.tgz#26bfe008c1a758570a8e7e57c4e9c5c2765e11a6"
+  integrity sha512-y9wCIXNkVpDL0yrchtu6YMTd4YXML/K3okVyMlMZn4jGLdKEUZ7gMoMY0Sejlx2Iaj7EqPke+CSbJoEt/w1tYw==
   dependencies:
     ember-cli-babel "^6.16.0"
     ember-cli-htmlbars "^3.0.0"
