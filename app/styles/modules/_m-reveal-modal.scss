@@ -1,0 +1,22 @@
+// --------------------------------------------------
+// Module: Reveal Modal
+// --------------------------------------------------
+
+.reveal-overlay {
+  position: absolute;
+}
+
+.reveal {
+  border: 0;
+  box-shadow: 0 0 0 rem-calc(4) rgba(0,0,0,0.1);
+  top: 0;
+
+  &:focus {
+    outline: none;
+  }
+
+  @include breakpoint(medium) {
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+  }
+}
