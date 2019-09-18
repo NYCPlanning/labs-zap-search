@@ -60,7 +60,7 @@
         <h3>Confirm hearing information</h3>
 
         {{#if allActions}}
-          <p class="text-small">
+          <p>
             <strong class="display-block">
               {{dispositionForAllActions.publichearinglocation}}
             </strong>
@@ -70,7 +70,7 @@
           </p>
         {{else}}
           {{#each model.dispositions as |disposition|}}
-            <p class="text-small">
+            <p>
               <strong class="display-block" data-test-hearing-location-confirmation="{{disposition.id}}">
                 {{disposition.publichearinglocation}}
               </strong>
