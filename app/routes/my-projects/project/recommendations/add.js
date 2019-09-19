@@ -18,8 +18,7 @@ export default class MyProjectsProjectRecommendationsAddRoute extends Route {
 
   async setupController(controller, model) {
     super.setupController(controller, model);
-
-    controller.set('dispositions', this.model.dispositions);
+    controller.set('dispositions', model.dispositions);
   }
 
   @action
