@@ -29,18 +29,41 @@
   }
 }
 
+
+//
+// Date Time Picker
+// --------------------------------------------------
+.date-time-picker--date {}
+
+.date-time-picker--hour,
+.date-time-picker--minute,
+.date-time-picker--am-pm {
+  padding-right: rem-calc(6);
+
+  input {
+    min-width: 4.75rem;
+  }
+}
+
+
 //
 // Ember Power Select
 // --------------------------------------------------
 .site-main .ember-power-select-trigger {
   margin-bottom: $global-margin;
+  padding-top: $input-padding;
+  padding-right: 2rem;
+  min-height: 2.4375rem;
+  min-width: 4.75rem;
+  padding-bottom: $input-padding;
+  padding-left: $input-padding;
   line-height: $input-line-height;
   border-radius: 0;
   border: $input-border;
 
-  .ember-power-select-placeholder {
+  .ember-power-select-placeholder,
+  .ember-basic-dropdown-content-placeholder {
     margin: 0;
-    padding: $input-padding;
   }
 
   .ember-power-select-status-icon {
