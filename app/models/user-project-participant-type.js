@@ -6,10 +6,10 @@ const {
 
 export default class UserProjectParticipantTypeModel extends Model {
   // ONE Project Has Many User Project Participants
-  @belongsTo('project') project;
+  @belongsTo('project', { async: false }) project;
 
   // ONE User Has Many User Project Participants
-  @belongsTo('user') user;
+  @belongsTo('user', { async: false }) user;
 
   // NOTE: Borough Presidents can have more than one participantType
   // Both a 'Borough President' and 'Borough Board' type

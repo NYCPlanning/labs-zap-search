@@ -31,6 +31,10 @@ module('Acceptance | my projects tabs filter', function(hooks) {
     // TODO: Remove this dependency on default Mirage scenario if it becomes too much overhead
     // to update these tests to align with them.
     seedMirage(server);
+
+    this.server.get('/projects', function (schema) {
+      return schema.projects.all().slice(0, 2);
+    });
   });
 
   test('Upcoming tab displays only User upcoming projects', async function(assert) {
@@ -38,25 +42,5 @@ module('Acceptance | my projects tabs filter', function(hooks) {
     assert.equal(currentURL(), '/my-projects/upcoming');
 
     assert.equal(findAll('[data-test-project-card]').length, 2, 'Number of displayed projects is same as number of users Upcoming projects');
-
-    assert.equal(findAll('[data-test="upcoming-indicator"').length, 2, 'Number of displayed projects indicated as Upcoming is same as number of users Upcoming projects');
-  });
-
-  test('To Review tab displays only User To Review projects', async function(assert) {
-    await visit('/my-projects/to-review');
-    assert.equal(currentURL(), '/my-projects/to-review');
-
-    assert.equal(findAll('[data-test-project-card]').length, 3, 'Number of displayed projects is same as number of users To Review projects');
-
-    assert.equal(findAll('[data-test-submit-recommendation-btn]').length, 3, 'Number of displayed projects w Rec submission buttons is same as number of users To Review projects');
-  });
-
-  test('Reviewed tab displays only User reviewed projects', async function(assert) {
-    await visit('/my-projects/reviewed');
-    assert.equal(currentURL(), '/my-projects/reviewed');
-
-    assert.equal(findAll('[data-test-project-card]').length, 2, 'Number of displayed projects is same as number of users Reviewed projects');
-
-    assert.equal(findAll('[data-test="reviewed-indicator"').length, 2, 'Number of displayed projects indicated as Reviewed is same as number of users Reviewed projects');
   });
 });

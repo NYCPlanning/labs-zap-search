@@ -27,7 +27,7 @@ export default class ZAPAuthenticator extends BaseAuthenticator {
   async _fetchUserObject() {
     const user = await this.store.queryRecord('user', { me: true });
 
-    return user.toJSON();
+    return { id: user.id, ...user.toJSON() };
   }
 
   async authenticate() {
