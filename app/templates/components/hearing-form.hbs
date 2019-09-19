@@ -1,15 +1,13 @@
-<div class="grid-x grid-margin-x">
-  <form class="large-7 cell">
-    {{date-time-picker
-      targetField=(mut disposition.dateofpublichearing)
-      disposition=disposition
-      allActions=allActions
-      includeTimeInput=true
-      checkIfMissing=checkIfMissing}}
-    {{location-input
-      targetField=(mut disposition.publichearinglocation)
-      disposition=disposition
-      allActions=allActions
-      checkIfMissing=checkIfMissing}}
-  </form>
+<div class="large-margin-bottom">
+  {{location-input
+    targetField=(mut disposition.publichearinglocation)
+    disposition=disposition
+    allActions=allActions
+    checkIfMissing=checkIfMissing}}
+  {{date-time-picker
+    targetField=(mut disposition.dateofpublichearing)
+    disposition=disposition
+    allActions=allActions
+    includeTimeInput=true
+    checkIfMissing=checkIfMissing}}
 </div>
