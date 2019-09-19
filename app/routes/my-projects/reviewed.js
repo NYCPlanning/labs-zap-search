@@ -15,15 +15,6 @@ export default class MyProjectsReviewedRoute extends Route {
   // For example, for a Borough President user, a project shows up here if it has an "Reviewed" Borough President Referral milestone.
   async model() {
     // Use this endpoint for now. This will need to be updated when the backend is finalized.
-    const user = await this.currentUser.get('user');
-    const toReviewProjectsRaw = await fetch(`/users/${user.id}/projects?projectState=reviewed`);
-    const toReviewProjectsIds = await toReviewProjectsRaw.json();
-    const filteredProjects = user.projects.filter(function(proj) {
-      if (toReviewProjectsIds.includes(proj.id)) {
-        return true;
-      }
-      return false;
-    });
-    return filteredProjects;
+    return this.store.query('project', { project_lup_status: 'reviewed' });
   }
 }

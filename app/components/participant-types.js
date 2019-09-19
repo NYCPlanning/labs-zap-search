@@ -16,9 +16,13 @@ export default class ParticipantTypesComponent extends Component {
   @computed('user', 'project')
   get userProjectParticipantTypes() {
     if (this.user && this.project) {
-      const filteredPartTypes = this.user.get('userProjectParticipantTypes').filterBy('project.id', this.project.get('id'));
-      const partTypesList = filteredPartTypes.map(value => value.get('participantType'));
-      return partTypesList;
+      const filteredPartTypes = this.user.projects
+        .map(project => project.userProjectParticipantTypes)
+        .reduce((acc, curr) => [...acc, ...curr], []);
+        // // TODO: filter later
+        // .filterBy('project.id', this.project.get('id'));
+
+      return filteredPartTypes.map(value => value.participantType);
     }
     return [];
   }

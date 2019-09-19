@@ -10,10 +10,10 @@ export default class UserModel extends Model {
   // user's internal id should be their email
 
   // Many Projects to Many Users
-  @hasMany('project') projects;
+  @hasMany('project', { async: false }) projects;
 
   // ONE User has Many User Project Participant Types
-  @hasMany('userProjectParticipantType') userProjectParticipantTypes;
+  @hasMany('userProjectParticipantType', { async: false }) userProjectParticipantTypes;
 
   // ONE User has Many Dispositions
   @hasMany('disposition') dispositions;

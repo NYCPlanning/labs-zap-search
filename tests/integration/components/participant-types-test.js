@@ -13,19 +13,18 @@ module('Integration | Component | participant-types', function(hooks) {
   });
 
   test('it generates a list of participantTypes', async function(assert) {
-    this.user = await this.store.createRecord('user');
-    this.project = await this.store.createRecord('project', { user: this.user });
-    await this.store.createRecord('user-project-participant-type', {
-      user: this.user,
-      project: this.project,
-      participantType: 'BB',
-    });
+    this.user = {
+      projects: [{
+        userProjectParticipantTypes: [{
+          participantType: 'BB',
+        },
+        {
+          participantType: 'BP',
+        }],
+      }],
+    };
 
-    await this.store.createRecord('user-project-participant-type', {
-      user: this.user,
-      project: this.project,
-      participantType: 'BP',
-    });
+    this.project = {};
 
     // User 2, Project 3, has two recommendations because it has two UserProjectParticipantTypes:
     // 'BB' and 'BP'
