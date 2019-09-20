@@ -8,7 +8,7 @@ export default class ActionModel extends Model {
 // DB table: dcp_projectaction
 
   // One Project has Many Actions
-  @belongsTo('project') project;
+  @belongsTo('project', { async: true }) project;
 
   // ONE disposition has many action
   @hasMany('disposition') dispositions;
