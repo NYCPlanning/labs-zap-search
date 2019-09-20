@@ -6,7 +6,7 @@ import {
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { invalidateSession } from 'ember-simple-auth/test-support';
+import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import seedMirage from '../../mirage/scenarios/default';
 
 
@@ -31,6 +31,8 @@ module('Acceptance | my projects tabs filter', function(hooks) {
     // TODO: Remove this dependency on default Mirage scenario if it becomes too much overhead
     // to update these tests to align with them.
     seedMirage(server);
+
+    await authenticateSession();
 
     this.server.get('/projects', function (schema) {
       return schema.projects.all().slice(0, 2);

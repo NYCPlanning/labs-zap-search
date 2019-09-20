@@ -10,7 +10,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { Interactor as Pikaday } from 'ember-pikaday/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { selectChoose } from 'ember-power-select/test-support';
-import { invalidateSession } from 'ember-simple-auth/test-support';
+import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import seedMirage from '../../mirage/scenarios/default';
 
 module('Acceptance | user can save hearing form', function(hooks) {
@@ -33,6 +33,8 @@ module('Acceptance | user can save hearing form', function(hooks) {
     // TODO: Remove this dependency on default Mirage scenario if it becomes too much overhead
     // to update these tests to align with them.
     seedMirage(server);
+
+    await authenticateSession();
   });
 
   test('user cannot submit hearing form until all inputs are filled for AllActions', async function(assert) {
