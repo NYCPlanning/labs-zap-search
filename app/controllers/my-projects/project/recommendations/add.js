@@ -127,6 +127,17 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       });
       disposition.save();
     });
+    this.dispositionForAllActions.setProperties({
+      recommendation: '',
+      votinginfavorrecommendation: 0,
+      votingagainstrecommendation: 0,
+      votingabstainingonrecommendation: 0,
+      totalmembersappointedtotheboard: 0,
+      votelocation: '',
+      dateofvote: '',
+      consideration: '',
+    });
+    this.set('modalOpen', false);
     this.transitionToRoute('my-projects.project.recommendations.done');
     return true;
   }
