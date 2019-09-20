@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import {
   visit,
   click,
+  currentURL,
   find,
   fillIn,
   triggerEvent,
@@ -104,7 +105,7 @@ module('Acceptance | user can save hearing form', function(hooks) {
 
     await click('[data-test-button="confirmHearing"]');
 
-    assert.ok(find('[data-test-hearing-submitted-message]'));
+    assert.equal(currentURL(), '/my-projects/4/hearing/done');
   });
 
   test('user cannot submit hearing form until all inputs are filled for ONE action per hearing', async function(assert) {
@@ -228,7 +229,7 @@ module('Acceptance | user can save hearing form', function(hooks) {
 
     await click('[data-test-button="confirmHearing"]');
 
-    assert.ok(find('[data-test-hearing-submitted-message]'));
+    assert.equal(currentURL(), '/my-projects/4/hearing/done');
   });
 
   test('user cannot submit hearing form if hour or minute contain invalid values', async function(assert) {
@@ -303,6 +304,6 @@ module('Acceptance | user can save hearing form', function(hooks) {
 
     await click('[data-test-button="confirmHearing"]');
 
-    assert.ok(find('[data-test-hearing-submitted-message]'));
+    assert.equal(currentURL(), '/my-projects/4/hearing/done');
   });
 });

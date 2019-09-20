@@ -98,16 +98,13 @@ export default class MyProjectsProjectHearingAddController extends Controller {
           disposition.set('publichearinglocation', allActionsDispHearingLocation);
           disposition.set('dateofpublichearing', allActionsDispHearingDate);
         });
-
-        await dispositions.save();
-      // if user is submitting a hearing PER action
-      } else {
-        await dispositions.save();
       }
-      // for displaying certain elements
-      this.set('hearingSubmitted', true);
-      // modal prompts user to confirm their inputs
+      await dispositions.save();
+
+      this.set('hearingSubmitted', false);
+      this.set('checkIfMissing', false);
       this.set('modalOpen', false);
+      this.transitionToRoute('my-projects.project.hearing.done');
     } catch (e) {
       alert('Sorry about that, unable to connect to server, can you try again?'); // eslint-disable-line
     }
