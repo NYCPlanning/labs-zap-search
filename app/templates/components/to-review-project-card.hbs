@@ -52,7 +52,7 @@
           {{else}}
             <LinkTo
               @route="my-projects.project.hearing.add"
-              @model={{project}}
+              @model={{project.id}}
               class="button multiline expanded"
             >
               Submit<br>
@@ -63,7 +63,7 @@
         </div>
         <div class="cell medium-6 large-auto" data-test-submit-recommendation-btn>
           <LinkTo @route="my-projects.project.recommendations.add"
-            @model={{project}}
+            @model={{project.id}}
             @query={{hash participantType="CB"}}
             class="button multiline expanded"
           >
