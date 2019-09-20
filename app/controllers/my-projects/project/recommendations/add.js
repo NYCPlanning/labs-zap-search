@@ -92,6 +92,16 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     disposition.set(targetField, recommendation);
   }
 
+  @action
+  async onContinue() {
+    this.set('modalOpen', true);
+  }
+
+  @action
+  closeModal() {
+    this.set('modalOpen', false);
+  }
+
   /**
    * Saves all dispositions on the loaded project with user-inputted recommendation values.
    * If 'allActions" is `True`, will copy values in dispositionForAllActions into each
