@@ -15,7 +15,8 @@ export default class MyProjectsToReviewRoute extends Route {
   // For example, for a Borough President user, a project shows up here if it has an "In Progress" Borough President Referral milestone.
   async model() {
     // Use this endpoint for now. This will need to be updated when the backend is finalized.
-
-    return this.store.query('project', { project_lup_status: 'to-review' });
+    return this.store.query('project', { project_lup_status: 'to-review', include: 'actions,dispositions.action' }, {
+      reload: true,
+    });
   }
 }
