@@ -40,10 +40,12 @@ Router.map(function() { // eslint-disable-line
     }, function() {
       this.route('hearing', function() {
         this.route('add');
+        this.route('done');
       });
       this.route('recommendations', function() {
         this.route('add');
         this.route('view');
+        this.route('done');
       });
     });
   });

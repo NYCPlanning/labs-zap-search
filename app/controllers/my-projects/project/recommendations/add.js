@@ -127,6 +127,9 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       });
       disposition.save();
     });
+    this.set('dispositionForAllActions', DispositionForAllActions.create());
+    this.set('modalOpen', false);
+    this.transitionToRoute('my-projects.project.recommendations.done');
     return true;
   }
 }
