@@ -43,29 +43,15 @@
             {{/if}}
           </div>
           <div class="cell medium-6 large-auto" data-test-submit-recommendation-btn>
-            {{#participant-types
-              project=project
-              user=(await this.currentUser.user)
-              as |partTypes|
-            }}
-              {{#each partTypes as |participantType|}}
-                <LinkTo @route="my-projects.project.recommendations.add"
-                  @model={{project}}
-                  @query={{hash participantType=participantType}}
-                  class="button multiline expanded"
-                >
-                  Submit<br>
-                  {{#if (eq participantType "BP")}}
-                    Borough&nbsp;President
-                  {{else if (eq participantType "BB")}}
-                    Borough&nbsp;Board
-                  {{else if (eq participantType "CB")}}
-                    Community&nbsp;Board
-                  {{/if}}
-                  <br>Recommendation
-                </LinkTo>
-              {{/each}}
-            {{/participant-types}}
+            <LinkTo @route="my-projects.project.recommendations.add"
+              @model={{project}}
+              @query={{hash participantType="CB"}}
+              class="button multiline expanded"
+            >
+              Submit<br>
+              Community&nbsp;Board
+              <br>Recommendation
+            </LinkTo>
           </div>
         </div>
       </div>
