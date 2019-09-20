@@ -364,13 +364,142 @@
           </div>
         </div>
         <div class="cell">
+          {{#if modalOpen}}
+            <div id="recommendation-confirmation" class="reveal-overlay" style="display:block;">
+              <div class="reveal" role="dialog" aria-hidden="false" tabindex="-1" style="display:block;">
+                <h3>Confirm recommendation information</h3>
+                {{#if this.dispositions.firstObject.publichearinglocation}}
+                  <h4>
+                    Was a Quorum Present at your Hearing(s)?
+                  </h4>
+                  {{#each this.dispositions as |disposition idx|}}
+                    {{#if disposition.dateofpublichearing}}
+                      <p class="text-small dark-gray">
+                        Hearing occurring
+                        on {{moment-format disposition.dateofpublichearing "MM/D/YYYY"}}
+                        at {{disposition.publichearinglocation}}
+                        for {{disposition.action.name}}
+                        <span class="text-small">
+                          &nbsp;({{disposition.action.ulurpnumber}})
+                        </span>
+                        <strong class="display-block">
+                          {{if disposition.wasaquorumpresent "Yes" "No"}}
+                        </strong>
+                      </p>
+                      {{/if}}
+                    {{/each}}
+                  {{/if}}
+                  {{#if this.allActions}}
+                    <h4>
+                      Recommendation for all actions:
+                    </h4>
+                    <p>
+                      <span class="display-block">
+                        Recommendation: <strong>{{this.dispositionForAllActions.recommendation}}</strong>
+                      </span>
+                      {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                        <span class="display-block">
+                          Votes in Favor: {{this.dispositionForAllActions.votinginfavorrecommendation}}
+                        </span>
+                        <span class="display-block">
+                          Votes Against: {{this.dispositionForAllActions.votingagainstrecommendation}}
+                        </span>
+                        <span class="display-block">
+                          Abstain: {{this.dispositionForAllActions.votingabstainingonrecommendation}}
+                        </span>
+                        <span class="display-block">
+                          Total Members: {{this.dispositionForAllActions.totalmembersappointedtotheboard}}
+                        </span>
+                      {{/if}}
+                    </p>
+                  {{else}}
+                    <h4>
+                      Recommendations by action:
+                    </h4>
+                    {{#each this.dispositions as |disposition|}}
+                      <h5>
+                        {{disposition.action.name}}
+                        <span class="text-small">
+                          &nbsp;&nbsp;({{disposition.action.ulurpnumber}})
+                        </span>
+                      </h5>
+                      <span class="display-block">
+                        Recommendation: <strong>{{get disposition (rec-field-by-parttype-lookup this.participantType)}}</strong>
+                      </span>
+                      {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                        <span class="display-block">
+                          Votes in Favor: {{disposition.votinginfavorrecommendation}}
+                        </span>
+                        <span class="display-block">
+                          Votes Against: {{disposition.votingagainstrecommendation}}
+                        </span>
+                        <span class="display-block">
+                          Abstain: {{disposition.votingabstainingonrecommendation}}
+                        </span>
+                        <span class="display-block">
+                          Total Members: {{disposition.totalmembersappointedtotheboard}}
+                        </span>
+                      {{/if}}
+                      <span class="display-block">
+                        Comment: {{disposition.consideration}}
+                      </span>
+                      <hr />
+                    {{/each}}
+                  {{/if}}
+                  {{#if (or (eq this.allActions true) (eq this.allActions false))}}
+                    {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                      <span class="display-block">
+                        Vote Location: {{this.dispositionForAllActions.votelocation}}
+                      </span>
+                      <span class="display-block">
+                        Vote Date: {{this.dispositionForAllActions.dateofvote}}
+                      </span>
+                    {{/if}}
+                    {{#if (eq this.allActions true)}}
+                      <span class="display-block">
+                        Comment: {{this.dispositionForAllActions.consideration}}
+                      </span>
+                    {{/if}}
+                    <span class="display-block">
+                      Uploaded files:
+                      <ul>
+                        <li><a>Important File <small>(PDF)</small></a></li>
+                        <li><a>Important File <small>(PDF)</small></a></li>
+                        <li><a>Important File <small>(PDF)</small></a></li>
+                      </ul>
+                    </span>
+                  {{/if}}
+                  <p class="callout warning text-small">
+                    Once you submit recommendation information, you can not edit it. You'll need to contact the Lead Planner to make any changes.
+                  </p>
+                  <p>
+                  <button
+                    class="button"
+                    data-test-button="confirmRecommendation"
+                    type="button"
+                    onClick={{action this.submitRecommendations}}
+                  >
+                    Submit Recommendation Information
+                  </button>
+                  <button
+                    class="button clear"
+                    data-test-button="closeModal"
+                    type="button"
+                    onClick={{action this.closeModal}}
+                  >
+                    Cancel <small>(continue editing)</small>
+                  </button>
+                </p>
+              </div>
+            </div>
+          {{/if}}
           <fieldset class="medium-margin-bottom">
             <button
               class="button large-margin-top"
               type="button"
-              onClick={{this.submitRecommendations}}
+              onClick={{this.onContinue}}
             >
-              Submit Recommendation Information
+              Continue
             </button>
           </fieldset>
         </div>
