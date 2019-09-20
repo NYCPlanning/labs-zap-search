@@ -19,6 +19,23 @@
   <div class="large-7 cell">
     {{#if hearingSubmitted}}
       <h5 data-test-hearing-submitted-message>Thanks for submitting your hearing!</h5>
+      <div class="cell medium-8 large-auto">
+      <div class="grid-x grid-x-small-gutters">
+        <div class="cell medium-6 large-auto">
+          <LinkTo
+            @route="my-projects.to-review"
+            class="button multiline expanded"
+          >Review Your Current Projects</LinkTo>
+        </div>
+        <div class="cell medium-6 large-auto" data-test-submit-recommendation-btn>
+          <LinkTo
+            @route="show-project"
+            @model={{model.id}}
+            class="button multiline expanded"
+          >Go To Project Page</LinkTo>
+        </div>
+      </div>
+    </div>
     {{else}}
       <fieldset class="medium-margin-bottom">
         <legend><strong>Would you like to submit a single hearing for all actions?</strong></legend>
@@ -92,6 +109,7 @@
               </p>
             {{else}}
               {{#each model.dispositions as |disposition|}}
+                <h6>{{disposition.action.name}}</h6>
                 <p>
                   <strong class="display-block" data-test-hearing-location-confirmation="{{disposition.id}}">
                     {{~disposition.publichearinglocation~}}

@@ -1,62 +1,7 @@
 <h5>Projects that require you to submit your hearing dates and recommendations</h5>
 
 {{#each this.model as |project|}}
-  <div
-    class="project-summary-card callout"
-    data-test-project-card
-  >
-    <div class="grid-x grid-x-small-gutters">
-      <div class="cell large-6">
-        <h3 class="tiny-margin-bottom">
-          {{#link-to 'show-project' project.id}}{{project.dcp_projectname}}{{/link-to}}
-          <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
-        </h3>
-        <h5 class="applicant">{{project.applicants}}</h5>
-        <p>{{project.dcp_projectbrief}}</p>
-      </div>
-      <div class="cell medium-4 large-shrink">
-        <div class="lup-countdown medium-margin-right medium-margin-left">
-          <p class="cert-date">Certified 11/08/2019</p>
-          <p class="days">8</p>
-          <p class="total">of 60 days remain</p>
-          <p class="end-date">Ends 12/15/19</p>
-        </div>
-      </div>
-      <div class="cell medium-8 large-auto">
-        <div class="grid-x grid-x-small-gutters">
-          <div class="cell medium-6 large-auto">
-            {{#if (and project.dispositions.dateofpublichearing project.dispositions.publichearinglocation)}}
-              <h5 class="column-header">Hearing Location</h5>
-              <p class="no-margin location">{{project.dispositions.publichearinglocation}}</p>
-              <p class="no-margin date">{{moment-format project.dispositions.dateofpublichearing "MM/D/YYYY"}}</p>
-              <p class="no-margin time">{{moment-format project.dispositions.dateofpublichearing "h:mm A"}}</p>
-            {{else}}
-              <LinkTo
-                @route="my-projects.project.hearing.add"
-                @model={{project.id}}
-                class="button multiline expanded"
-              >
-                Submit<br>
-                Comminity&nbsp;Board
-                <br>Hearing Info
-              </LinkTo>
-            {{/if}}
-          </div>
-          <div class="cell medium-6 large-auto" data-test-submit-recommendation-btn>
-            <LinkTo @route="my-projects.project.recommendations.add"
-              @model={{project.id}}
-              @query={{hash participantType="CB"}}
-              class="button multiline expanded"
-            >
-              Submit<br>
-              Community&nbsp;Board
-              <br>Recommendation
-            </LinkTo>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  {{to-review-project-card project=project}}
 {{/each}}
 
 {{outlet}}

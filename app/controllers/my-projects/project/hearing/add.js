@@ -23,7 +23,7 @@ export default class MyProjectsProjectHearingAddController extends Controller {
   // set to true when the user clicks on Submit Hearing button
   // and "submitHearing" action sets it to true
   // checkIfMissing is for notifying the user which inputs are invalid
-  checkIfMissing = null;
+  checkIfMissing = false;
 
   // to check whether hearing model attributes "location" and "date" are populated
   // determines certain visual displays based on whether a hearing is submitted
