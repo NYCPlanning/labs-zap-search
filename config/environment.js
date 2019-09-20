@@ -2,7 +2,9 @@
 
 // if this exists in the environment, use it instead of others
 const ENVIRONMENTAL_HOST_API = process.env.HOST_API;
-const { LUPP_ENABLED = true } = process.env;
+let { LUPP_ENABLED = true } = process.env;
+
+LUPP_ENABLED = JSON.parse(LUPP_ENABLED);
 
 module.exports = function(environment) {
   const ENV = {
