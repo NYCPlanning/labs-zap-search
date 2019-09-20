@@ -16,6 +16,14 @@ export default class MyProjectsProjectHearingAddRoute extends Route {
     return this.modelFor('my-projects.project');
   }
 
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('hearingSubmitted', false);
+      controller.set('checkIfMissing', false);
+      controller.set('allActions', null);
+    }
+  }
+
   @action
   error() {
     this.transitionTo('not-found', 'not-found');

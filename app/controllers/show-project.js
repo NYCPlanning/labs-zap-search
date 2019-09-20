@@ -35,6 +35,47 @@ export default class ShowProjectController extends Controller {
     },
   }
 
+  @computed('model')
+  get hearingsSubmitted() {
+    const dispositions = this.get('model.dispositions');
+
+    // a function to check if each hearing location/date field is truthy
+    function infoExists(hearingInfo) {
+      return hearingInfo;
+    }
+
+    const dispositionHearingLocations = dispositions.map(disp => `${disp.publichearinglocation}`);
+    const dispositionHearingDates = dispositions.map(disp => disp.dateofpublichearing);
+    // using function infoExists, fieldsFilled checks whether each item in array is truthy
+    const hearingsSubmitted = dispositionHearingLocations.every(infoExists) && dispositionHearingDates.every(infoExists);
+
+    return hearingsSubmitted;
+  }
+
+  @computed('hearingsSubmitted', 'model')
+  get dedupedHearings() {
+    const dispositions = this.get('model.dispositions');
+
+    let deduped;
+    const hearingsSubmitted = this.get('hearingsSubmitted');
+
+    if (hearingsSubmitted) {
+      deduped = dispositions.reduce((acc, current) => {
+        const matchingProps = acc.find(item => item.publichearinglocation === current.publichearinglocation && item.dateofpublichearing.toString() === current.dateofpublichearing.toString());
+
+        // if the properties DO match
+        if (matchingProps) {
+          // just return original object, WITHOUT concatenating the duplicate
+          return acc;
+        // if the properties DO NOT match
+        // concatenate the new object onto the array
+        } return acc.concat([current]);
+      }, []);
+    }
+
+    return deduped;
+  }
+
   @computed('model.bbl_featurecollection')
   get hasBBLFeatureCollectionGeometry() {
     return this.model.bbl_featurecollection.features.length
