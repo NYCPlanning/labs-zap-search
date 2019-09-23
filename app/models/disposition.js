@@ -61,7 +61,7 @@ export default class DispositionModel extends Model {
   // TODO: investigate the format server expects.
   // potentially switch back to "Date" attribute type, if compatible with
   // backend
-  @attr('string') dateofvote;
+  @attr('date', { defaultValue: null }) dateofvote;
 
   // sourced from statecode
   // "Active" vs "Inactive"
