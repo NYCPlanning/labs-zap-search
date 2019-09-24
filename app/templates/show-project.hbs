@@ -153,7 +153,7 @@
 
       </div>
       <div class="cell large-5">
-        {{#if this.session.isAuthenticated}}
+        {{#if (and this.session.isAuthenticated isUserAssignedToProject)}}
           <div
             data-test-hearing-rec-shortcuts
             class="project--lup-section callout"
