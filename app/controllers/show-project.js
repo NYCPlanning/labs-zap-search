@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import { action, computed } from '@ember/object';
 import turfBbox from '@turf/bbox';
 import turfBuffer from '@turf/buffer';
+import moment from 'moment';
 
 /**
  * The ShowProjectController is an EmberJS controller which handles the
@@ -33,6 +34,22 @@ export default class ShowProjectController extends Controller {
       'line-color': 'rgba(237, 189, 18, 0.9)',
       'line-width': 1,
     },
+  }
+
+  @computed('project.actualenddate')
+  get timeRemaining() {
+    const endDate = this.get('project.actualenddate');
+    console.log(endDate);
+
+    return moment(endDate).endOf('day').fromNow('day');
+  }
+
+  @computed('project.actualenddate,project.actualstartdate')
+  get timeDuration() {
+    const endDate = this.get('project.actualenddate');
+    const startDate = this.get('project.actualstartdate');
+
+    return moment(endDate) - moment(startDate);
   }
 
   @computed('model')

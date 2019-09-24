@@ -95,6 +95,14 @@ export default class ProjectModel extends Model {
 
   @attr() video_links;
 
+  @attr('date') actualstartdate;
+
+  @attr('date') actualenddate;
+
+  @attr('date') plannedstartdate;
+
+  @attr('date') plannedcompletiondate;
+
   @computed('bbl_featurecollection')
   get bblFeatureCollectionSource() {
     const data = this.bbl_featurecollection;

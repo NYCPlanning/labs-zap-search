@@ -162,12 +162,12 @@
             <div class="grid-x grid-x-small-gutters align-bottom">
               <div class="cell medium-auto">
                 <p class="lead">
-                  <strong>8</strong>
-                  <small>of 60 days remain</small>
+                  <strong>{{timeRemaining}}</strong>
+                  <small>of {{timeDuration}} days remain</small>
                 </p>
               </div>
               <div class="cell medium-shrink medium-text-right">
-                <p class="text-small dark-gray"><strong>Ends 09/02/19</strong></p>
+                <p class="text-small dark-gray"><strong>Ends {{moment-format project.actualenddate "M/D/YYYY"}}</strong></p>
               </div>
             </div>
               {{#if hearingsSubmitted}}
