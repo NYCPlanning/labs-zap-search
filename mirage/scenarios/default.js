@@ -238,11 +238,11 @@ export default function(server) {
     plannedstartdate: '2018-08-15T01:21:46',
     plannedcompletiondate: '2018-10-15T01:21:46',
     actualstartdate: '2018-08-15T01:21:46',
-    actualenddate: null,
+    actualenddate: '2019-09-15T01:21:46',
     statuscode: 'In Progress',
     milestonesequence: 36,
     displayDate: '2018-08-15T01:21:46',
-    displayDate2: null,
+    displayDate2: '2019-09-15T01:21:46',
     milestoneoutcome: 'Multiple Borough President Recommendations',
     milestoneLinks: [{
       filename: '2020_QB.pdf',

@@ -2,7 +2,7 @@
   {{#if (eq tense "past")}}
     <span class="milestone-icon fa-layers fa-fw">
       {{fa-icon 'circle' fixedWidth=true class='dark-gray'}}
-      {{fa-icon 'check' fixedWidth=true class='green-light' transform='shrink-6'}}
+      {{fa-icon 'check' fixedWidth=true class='blue-light' transform='shrink-6'}}
     </span>
   {{else if (eq tense "present")}}
     <span class="milestone-icon fa-layers fa-fw">
@@ -27,18 +27,75 @@
     {{/if}}
   </h5>
   {{#if milestone.displayDate}}
-    <div class="milestone-dates">
+    <p class="milestone-dates">
+
       {{#if milestone.displayDate}}
-        <div>{{moment-format milestone.displayDate "MMMM D, YYYY" }} {{#if milestone.displayDate2}}<small>Start</small>{{/if}}</div>
+        {{moment-format milestone.displayDate "MMMM D" }}
+        {{~unless (and milestone.displayDate2 (is-same milestone.displayDate milestone.displayDate2 precision="year"))
+          (moment-format milestone.displayDate ", YYYY")}}
       {{/if}}
       {{#if milestone.displayDate2}}
-        <div>{{moment-format milestone.displayDate2 "MMMM D, YYYY" }} <small>End</small></div>
+        &ndash;
+        {{unless (is-same milestone.displayDate milestone.displayDate2 precision="month")
+          (moment-format milestone.displayDate2 "MMMM")}}
+        {{moment-format milestone.displayDate2 "D, YYYY" }}
       {{/if}}
-      {{#if timeRelativeToNow}}
+
+      {{!-- {{#if timeRelativeToNow}}
         <div class="milestone-offset">{{timeRelativeToNow}}</div>
-      {{/if}}
-    </div>
-    {{#if milestone.milestoneoutcome}} <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.milestoneoutcome}}</span> {{/if}}
+      {{/if}} --}}
+    </p>
+
+    {{!-- TODO: Make this hardcoded logic work --}}
+    {{#if true}} {{!-- if there are hearings for the LUP associate with this milestone] --}}
+      <h6>Public Hearings:</h6>
+      <ul class="milestone-hearings no-bullet">
+        <li class="grid-x">
+          <div class="cell shrink small-margin-right">
+            {{#if true}} {{!-- if past --}}
+              {{fa-icon 'check' fixedWidth=true class='blue-muted'}}
+            {{else}}
+              {{fa-icon 'calendar' fixedWidth=true class='light-gray'}}
+            {{/if}}
+          </div>
+          <div class="cell auto">
+            <strong class="sub-milestone--location">This is a really long hearing location name</strong>
+            <small class="sub-milestone--datetime">August 10, 2019, 7:30 PM</small>
+          </div>
+        </li>
+        <li class="grid-x">
+          <div class="cell shrink small-margin-right">
+            {{#if false}} {{!-- if past --}}
+              {{fa-icon 'check' fixedWidth=true class='blue-muted'}}
+            {{else}}
+              {{fa-icon 'calendar' fixedWidth=true class='light-gray'}}
+            {{/if}}
+          </div>
+          <div class="cell auto">
+            <strong class="sub-milestone--location">Future Hearing Location</strong>
+            <small class="sub-milestone--datetime">August 10, 2019, 7:30 PM</small>
+          </div>
+        </li>
+      </ul>
+    {{/if}}
+
+    {{#if true}} {{!-- if there's a recommendation && vote date --}}
+      <h6>Vote:</h6>
+      <div class="milestone-vote grid-x">
+        <div class="cell shrink small-margin-right">
+          {{fa-icon 'check' fixedWidth=true class='blue-muted'}}
+        </div>
+        <div class="cell auto">
+          <strong class="sub-milestone--location">Location of the Vote</strong>
+          <small class="sub-milestone--datetime">August 22, 2019, 7:30 PM</small>
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if milestone.milestoneoutcome}}
+      <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.milestoneoutcome}}</span>
+    {{/if}}
+
     <ul class="milestone-links">
       {{#if (eq milestone.milestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
         <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank">{{fa-icon "external-link-alt"}} CPC Public Meeting Calendar</a></li>

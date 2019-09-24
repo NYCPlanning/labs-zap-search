@@ -28,6 +28,22 @@
 
   .milestone-dates {
     font-size: rem-calc(13);
+    margin-bottom: rem-calc(12);
+  }
+
+  .milestone-hearings,
+  .milestone-vote {
+    font-size: rem-calc(13);
+    margin-bottom: rem-calc(6);
+  }
+
+  .sub-milestone--location {
+    line-height: 1.3;
+  }
+  .sub-milestone--datetime {
+    display: inline-block;
+    font-size: rem-calc(12);
+    margin-bottom: rem-calc(6);
   }
 
   .milestone-offset {
