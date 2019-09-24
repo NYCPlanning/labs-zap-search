@@ -92,7 +92,7 @@
         <span data-test-hearings-waived-message="{{project.id}}">You have opted out of submitting hearings</span>
       {{/if}}
       {{#if project.hearingsSubmitted}}
-        {{#deduped-hearings-list project=project as |dedupedHearings|}}
+        {{#deduped-hearings-list dispositions=project.dispositions as |dedupedHearings|}}
           <h6>{{participant-type-label project.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}

@@ -30,11 +30,13 @@ export function dedupeAndExtract(records = [], uniqueField1, uniqueField2, propT
 export default class DedupedHearingsListComponent extends Component {
   // the actions "attribute" to display in the hearings list e.g. "ulurpnumber" or 'name'
   // this is set when the component is rendered
-  attribute = '';
+  subMilestone = false;
 
-  @computed('project')
-  get dedupedHearings() {
-    const dispositions = this.get('project.dispositions');
+  // array of dispositions
+  // if we are displaying a list of hearings for a particular user
+  @computed('dispositions')
+  get dedupedHearingsForUser() {
+    const dispositions = this.get('dispositions');
 
     // setting a new property on each disposition called hearingActions which is an array of objects
     // property hearingActions is initally set to an array of the current disposition's action model.
@@ -57,5 +59,22 @@ export default class DedupedHearingsListComponent extends Component {
     // hearingActions is an array of action model objects that are concatenated across all duplicate objects
     // duplicateDisps is an array of disposition model objects that are concatenated across all duplicate objects
     return dedupeAndExtract(dispositions, 'dcpPublichearinglocation', 'dcpDateofpublichearing', 'action', 'hearingActions', 'duplicateDisps');
+  }
+
+  // array of dispositions
+  // if we are displaying a list of hearings for a specific milestone
+  // set subMilestone = true when render the component
+  @computed('dispositions')
+  get dedupedHearingsForMilestone() {
+    const dispositions = this.get('dispositions');
+
+    dispositions.forEach(function(disposition) {
+      disposition.set('milestoneHearingActions', [disposition.action]);
+    });
+
+    dispositions.forEach(function(disposition) {
+      disposition.set('duplicateDisps', [disposition]);
+    });
+    return dedupeAndExtract(dispositions, 'dcpPublichearinglocation', 'dcpDateofpublichearing', 'action', 'milestoneHearingActions', 'duplicateDisps');
   }
 }

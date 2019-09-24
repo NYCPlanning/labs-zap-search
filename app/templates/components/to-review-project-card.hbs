@@ -24,7 +24,8 @@
         <LinkTo @route="my-projects.project.recommendations.add"
           @model={{project.id}}
           class="button expanded"
-          data-test-button="submitRecommendation"
+          data-test-button-="submitRecommendation"
+          data-test-button-submit-rec="{{project.id}}"
         >
           {{fa-icon 'thumbs-up' prefix='far' fixedWidth=true size="lg"}}
           Submit {{participant-type-label project.dcpLupteammemberrole}} Recommendation
@@ -34,7 +35,7 @@
         <span data-test-hearings-waived-message="{{project.id}}">You have opted out of submitting hearings</span>
       {{/if}}
       {{#if project.hearingsSubmitted}}
-        {{#deduped-hearings-list project=project as |dedupedHearings|}}
+        {{#deduped-hearings-list dispositions=project.dispositions as |dedupedHearings|}}
           <h6>{{participant-type-label project.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}

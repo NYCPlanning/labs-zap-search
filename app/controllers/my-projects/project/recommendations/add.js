@@ -229,25 +229,27 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
    */
   @action
   async submitRecommendations() {
-    const thisCtrl = this;
+    const { participantType } = this;
+    const targetField = RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
     this.dispositionForAllActionsChangeset.execute();
     this.dispositionsChangesets.forEach(function(dispositionChangeset) {
       dispositionChangeset.execute();
     });
-    this.dispositions.forEach(function(disposition) {
-      if (thisCtrl.allActions) {
-        thisCtrl.send('setDispositionRec', disposition, thisCtrl.dispositionForAllActions.recommendation);
+
+    this.dispositions.forEach((disposition) => {
+      if (this.allActions) {
+        disposition.set(targetField, this.dispositionForAllActions.recommendation);
         disposition.setProperties({
-          dcpVotinginfavorrecommendation: thisCtrl.dispositionForAllActions.dcpVotinginfavorrecommendation,
-          dcpVotingagainstrecommendation: thisCtrl.dispositionForAllActions.dcpVotingagainstrecommendation,
-          dcpVotingabstainingonrecommendation: thisCtrl.dispositionForAllActions.dcpVotingabstainingonrecommendation,
-          dcpTotalmembersappointedtotheboard: thisCtrl.dispositionForAllActions.dcpTotalmembersappointedtotheboard,
-          dcpConsideration: thisCtrl.dispositionForAllActions.dcpConsideration,
+          dcpVotinginfavorrecommendation: this.dispositionForAllActions.dcpVotinginfavorrecommendation,
+          dcpVotingagainstrecommendation: this.dispositionForAllActions.dcpVotingagainstrecommendation,
+          dcpVotingabstainingonrecommendation: this.dispositionForAllActions.dcpVotingabstainingonrecommendation,
+          dcpTotalmembersappointedtotheboard: this.dispositionForAllActions.dcpTotalmembersappointedtotheboard,
+          dcpConsideration: this.dispositionForAllActions.dcpConsideration,
         });
       }
       disposition.setProperties({
-        dcpVotelocation: thisCtrl.dispositionForAllActions.dcpVotelocation,
-        dcpDateofvote: thisCtrl.dispositionForAllActions.dcpDateofvote,
+        dcpVotelocation: this.dispositionForAllActions.dcpVotelocation,
+        dcpDateofvote: this.dispositionForAllActions.dcpDateofvote,
       });
     });
 

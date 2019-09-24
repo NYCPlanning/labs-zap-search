@@ -44,7 +44,7 @@
             <p class="help-text">
               A quorum requires the presence of 20% of appointed board members, and not fewer than seven members.
             </p>
-            {{#deduped-hearings-list project=project as |dedupedHearings|}}
+            {{#deduped-hearings-list dispositions=project.dispositions as |dedupedHearings|}}
               {{#each dedupedHearings as |hearing idx|}}
                 {{#if hearing.dcpDateofpublichearing}}
                   <div class="grid-x align-middle">
@@ -514,7 +514,7 @@
               <h5>
                 Was a Quorum Present at your Hearing(s)?
               </h5>
-              {{#deduped-hearings-list project=project as |dedupedHearings|}}
+              {{#deduped-hearings-list dispositions=project.dispositions as |dedupedHearings|}}
                 {{#each dedupedHearings as |hearing idx|}}
                   <p class="grid-x align-middle">
                     <strong class="cell small-1"
