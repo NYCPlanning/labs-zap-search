@@ -21,7 +21,8 @@ export default class ShowProjectRoute extends Route {
   }
 
   @action
-  error() {
+  error(e) {
+    console.log(e); // eslint-disable-line
     this.transitionTo('not-found', 'not-found');
   }
 }

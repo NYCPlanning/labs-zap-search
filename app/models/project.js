@@ -36,52 +36,52 @@ export default class ProjectModel extends Model {
   // array of applicant objects
   @attr() applicants;
 
-  @attr('string') dcp_name;
+  @attr('string') dcpName;
 
-  @attr() dcp_applicanttype;
+  @attr() dcpApplicanttype;
 
-  @attr() dcp_borough;
+  @attr() dcpBorough;
 
-  @attr('string') dcp_ceqrnumber;
+  @attr('string') dcpCeqrnumber;
 
-  @attr() dcp_ceqrtype;
+  @attr() dcpCeqrtype;
 
-  @attr('string') dcp_certifiedreferred;
+  @attr('string') dcpCertifiedreferred;
 
-  @attr('boolean') dcp_femafloodzonea;
+  @attr('boolean') dcpFemafloodzonea;
 
-  @attr('boolean') dcp_femafloodzonecoastala;
+  @attr('boolean') dcpFemafloodzonecoastala;
 
-  @attr('boolean') dcp_femafloodzoneshadedx;
+  @attr('boolean') dcpFemafloodzoneshadedx;
 
-  @attr('boolean') dcp_femafloodzonev;
+  @attr('boolean') dcpFemafloodzonev;
 
-  @attr('boolean') dcp_sisubdivision;
+  @attr('boolean') dcpSisubdivision;
 
-  @attr('boolean') dcp_sischoolseat;
+  @attr('boolean') dcpSischoolseat;
 
-  @attr('string') dcp_projectbrief;
+  @attr('string') dcpProjectbrief;
 
-  @attr('string') dcp_projectname;
+  @attr('string') dcpProjectname;
 
-  @attr('string', { defaultValue: '' }) dcp_publicstatus_simp;
+  @attr('string', { defaultValue: '' }) dcpPublicstatusSimp;
 
-  @attr() dcp_hiddenprojectmetrictarget;
+  @attr() dcpHiddenprojectmetrictarget;
 
-  @attr('string') dcp_ulurp_nonulurp;
+  @attr('string') dcpUlurpNonulurp;
 
-  @attr() dcp_communitydistrict;
+  @attr() dcpCommunitydistrict;
 
-  @attr('string') dcp_communitydistricts;
+  @attr('string') dcpCommunitydistricts;
 
-  @attr('string') dcp_validatedcommunitydistricts;
+  @attr('string') dcpValidatedcommunitydistricts;
 
-  @attr('boolean') has_centroid;
+  @attr('boolean') hasCentroid;
 
   @attr() bbls;
 
   @attr({ defaultValue: () => EmptyFeatureCollection })
-  bbl_featurecollection;
+  bblFeaturecollection;
 
   @attr() addresses;
 
@@ -93,11 +93,11 @@ export default class ProjectModel extends Model {
 
   @attr() lastmilestonedate;
 
-  @attr() video_links;
+  @attr() videoLinks;
 
-  @computed('bbl_featurecollection')
+  @computed('bblFeaturecollection')
   get bblFeatureCollectionSource() {
-    const data = this.bbl_featurecollection;
+    const data = this.bblFeaturecollection;
     return {
       type: 'geojson',
       data,
