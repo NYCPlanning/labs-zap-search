@@ -129,16 +129,23 @@
                   Submit a recommendation for all actions
                 </strong>
               </legend>
-              <PowerSelect
-                @searchEnabled={{false}}
-                @options={{this.recOptions}}
-                @placeholder="Select a recommendation"
-                @selected={{this.dispositionForAllActions.recommendation}}
-                @onchange={{action (mut this.dispositionForAllActions.recommendation)}}
-                as |recOption|
+              <div
+                class={{if this.dispositionForAllActionsChangeset.error.recommendation "is-invalid-label"}}
               >
-                {{recOption}}
-              </PowerSelect>
+                <PowerSelect
+                  @searchEnabled={{false}}
+                  @options={{this.recOptions}}
+                  @placeholder="Select a recommendation"
+                  @selected={{this.dispositionForAllActionsChangeset.recommendation}}
+                  @onchange={{action "setDispositionRec" dispositionForAllActionsChangeset}}
+                  as |recOption|
+                >
+                  {{recOption}}
+                </PowerSelect>
+                <span class="form-error is-visible" role="alert">
+                  {{this.dispositionForAllActionsChangeset.error.recommendation.validation}}
+                </span>
+              </div>
               {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
                 <legend class="show-for-sr">
                   <strong>
@@ -147,48 +154,84 @@
                 </legend>
                 <div class="grid-x grid-margin-x">
                   <div  class="cell medium-3">
-                    <label for="all-actions-votes-in-favor">
+                    <label
+                      for="all-actions-votes-in-favor"
+                      class={{if this.dispositionForAllActionsChangeset.error.votinginfavorrecommendation "is-invalid-label"}}
+                    >
                       Votes In Favor
                     </label>
                     <Input
                       @id="all-actions-votes-in-favor"
                       @type="number"
-                      @value={{this.dispositionForAllActions.votinginfavorrecommendation}}
-                      @key-up={{fn (mut this.dispositionForAllActions.votinginfavorrecommendation) value="target.value"}}
+                      @min=0
+                      @max=999
+                      @value={{this.dispositionForAllActionsChangeset.votinginfavorrecommendation}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.votinginfavorrecommendation) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.votinginfavorrecommendation "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{this.dispositionForAllActionsChangeset.error.votinginfavorrecommendation.validation}}
+                    </span>
                   </div>
                   <div  class="cell medium-3">
-                    <label for="all-actions-votes-against">
+                    <label
+                      for="all-actions-votes-against"
+                      class={{if this.dispositionForAllActionsChangeset.error.votingagainstrecommendation "is-invalid-label"}}
+                    >
                       Votes Against
                     </label>
                     <Input
                       @id="all-actions-votes-against"
                       @type="number"
-                      @value={{this.dispositionForAllActions.votingagainstrecommendation}}
-                      @key-up={{fn (mut this.dispositionForAllActions.votingagainstrecommendation) value="target.value"}}
+                      @min=0
+                      @max=999
+                      @value={{this.dispositionForAllActionsChangeset.votingagainstrecommendation}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.votingagainstrecommendation) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.votingagainstrecommendation "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{this.dispositionForAllActionsChangeset.error.votingagainstrecommendation.validation}}
+                    </span>
                   </div>
                   <div  class="cell medium-3">
-                    <label for="all-actions-votes-abstain">
+                    <label
+                      for="all-actions-votes-abstain"
+                      class={{if this.dispositionForAllActionsChangeset.error.votingabstainingonrecommendation "is-invalid-label"}}
+                    >
                       Abstain
                     </label>
                     <Input
                       @id="all-actions-votes-abstain"
                       @type="number"
-                      @value={{this.dispositionForAllActions.votingabstainingonrecommendation}}
-                      @key-up={{fn (mut this.dispositionForAllActions.votingabstainingonrecommendation) value="target.value"}}
+                      @min=0
+                      @max=999
+                      @value={{this.dispositionForAllActionsChangeset.votingabstainingonrecommendation}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.votingabstainingonrecommendation) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.votingabstainingonrecommendation "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{this.dispositionForAllActionsChangeset.error.votingabstainingonrecommendation.validation}}
+                    </span>
                   </div>
                   <div  class="cell medium-3">
-                    <label for="all-actions-votes-total-members">
+                    <label
+                      for="all-actions-votes-total-members"
+                      class={{if this.dispositionForAllActionsChangeset.error.totalmembersappointedtotheboard "is-invalid-label"}}
+                    >
                       Total Members
                     </label>
                     <Input
                       @id="all-actions-votes-total-members"
                       @type="number"
-                      @value={{this.dispositionForAllActions.totalmembersappointedtotheboard}}
-                      @key-up={{fn (mut this.dispositionForAllActions.totalmembersappointedtotheboard) value="target.value"}}
+                      @min=0
+                      @max=999
+                      @value={{this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.totalmembersappointedtotheboard "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{this.dispositionForAllActionsChangeset.error.totalmembersappointedtotheboard.validation}}
+                    </span>
                   </div>
                 </div>
               {{/if}}
@@ -201,23 +244,30 @@
                   Submit a Recommendation by action
                 </strong>
               </legend>
-              {{#each this.dispositions as |disposition idx|}}
+              {{#each this.dispositionAndChangesetPairs as |dispositionChangesetPair idx|}}
                 <h4>
-                  {{disposition.action.name}}
+                  {{dispositionChangesetPair.disposition.action.name}}
                   <small class="dark-gray">
-                    {{disposition.action.ulurpnumber}}
+                    {{dispositionChangesetPair.disposition.action.ulurpnumber}}
                   </small>
                 </h4>
-                <PowerSelect
-                  @searchEnabled={{false}}
-                  @options={{this.recOptions}}
-                  @placeholder="Select a recommendation"
-                  @selected={{get disposition (rec-field-by-parttype-lookup this.participantType)}}
-                  @onchange={{action "setDispositionRecByPartType" disposition}}
-                  as |recOption|
+                <div
+                  class={{if (get dispositionChangesetPair.changeset.error (rec-field-by-parttype-lookup this.participantType)) "is-invalid-label"}}
                 >
-                  {{recOption}}
-                </PowerSelect>
+                  <PowerSelect
+                    @searchEnabled={{false}}
+                    @options={{this.recOptions}}
+                    @placeholder="Select a recommendation"
+                    @selected={{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}
+                    @onchange={{action "setDispositionRec" dispositionChangesetPair.changeset}}
+                    as |recOption|
+                  >
+                    {{recOption}}
+                  </PowerSelect>
+                  <span class="form-error is-visible" role="alert">
+                    {{get (get dispositionChangesetPair.changeset.error (rec-field-by-parttype-lookup this.participantType)) "validation"}}
+                  </span>
+                </div>
                 {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
                   <legend class="show-for-sr">
                     <strong>
@@ -226,48 +276,84 @@
                   </legend>
                   <div class="grid-x grid-margin-x">
                     <div  class="cell medium-3">
-                      <label for={{concat "disposition-" (concat idx "-votes-in-favor")}}>
+                      <label
+                        for={{concat "disposition-" (concat idx "-votes-in-favor")}}
+                        class={{if dispositionChangesetPair.changeset.error.votinginfavorrecommendation "is-invalid-label"}}
+                      >
                         Votes In Favor
                       </label>
                       <Input
                         @id={{concat "disposition-" (concat idx "-votes-in-favor")}}
                         @type="number"
-                        @value={{disposition.votinginfavorrecommendation}}
-                        @key-up={{fn (mut disposition.votinginfavorrecommendation) value="target.value"}}
+                        @min=0
+                        @max=999
+                        @value={{dispositionChangesetPair.changeset.votinginfavorrecommendation}}
+                        @key-up={{fn (mut dispositionChangesetPair.changeset.votinginfavorrecommendation) value="target.value"}}
+                        @class={{if dispositionChangesetPair.changeset.error.votinginfavorrecommendation "is-invalid-input"}}
                       />
+                      <span class="form-error is-visible" role="alert">
+                        {{dispositionChangesetPair.changeset.error.votinginfavorrecommendation.validation}}
+                      </span>
                     </div>
                     <div  class="cell medium-3">
-                    <label for={{concat "disposition-" (concat idx "-votes-against")}}>
+                    <label
+                      for={{concat "disposition-" (concat idx "-votes-against")}}
+                      class={{if dispositionChangesetPair.changeset.error.votingagainstrecommendation "is-invalid-label"}}
+                    >
                       Votes Against
                     </label>
                     <Input
                       @id={{concat "disposition-" (concat idx "-votes-against")}}
                       @type="number"
-                      @value={{disposition.votingagainstrecommendation}}
-                      @key-up={{fn (mut disposition.votingagainstrecommendation) value="target.value"}}
+                      @min=0
+                      @max=999
+                      @value={{dispositionChangesetPair.changeset.votingagainstrecommendation}}
+                      @key-up={{fn (mut dispositionChangesetPair.changeset.votingagainstrecommendation) value="target.value"}}
+                      @class={{if dispositionChangesetPair.changeset.error.votingagainstrecommendation "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{dispositionChangesetPair.changeset.error.votingagainstrecommendation.validation}}
+                    </span>
                   </div>
                   <div  class="cell medium-3">
-                    <label for={{concat "disposition-" (concat idx "-votes-abstain")}}>
+                    <label
+                      for={{concat "disposition-" (concat idx "-votes-abstain")}}
+                      class={{if dispositionChangesetPair.changeset.error.votingabstainingonrecommendation "is-invalid-label"}}
+                    >
                       Abstain
                     </label>
                     <Input
                       @id={{concat "disposition-" (concat idx "-votes-abstain")}}
                       @type="number"
-                      @value={{disposition.votingabstainingonrecommendation}}
-                      @key-up={{fn (mut disposition.votingabstainingonrecommendation) value="target.value"}}
+                      @min=0
+                      @max=999
+                      @value={{dispositionChangesetPair.changeset.votingabstainingonrecommendation}}
+                      @key-up={{fn (mut dispositionChangesetPair.changeset.votingabstainingonrecommendation) value="target.value"}}
+                      @class={{if dispositionChangesetPair.changeset.error.votingabstainingonrecommendation "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{dispositionChangesetPair.changeset.error.votingabstainingonrecommendation.validation}}
+                    </span>
                   </div>
                   <div  class="cell medium-3">
-                    <label for={{concat "disposition-" (concat idx "-votes-total-members")}}>
+                    <label
+                      for={{concat "disposition-" (concat idx "-votes-total-members")}}
+                      class={{if dispositionChangesetPair.changeset.error.totalmembersappointedtotheboard "is-invalid-label"}}
+                    >
                       Total Members
                     </label>
                     <Input
                       @id={{concat "disposition-" (concat idx "-votes-total-members")}}
                       @type="number"
-                      @value={{disposition.totalmembersappointedtotheboard}}
-                      @key-up={{fn (mut disposition.totalmembersappointedtotheboard) value="target.value"}}
+                      @min=0
+                      @max=999
+                      @value={{dispositionChangesetPair.changeset.totalmembersappointedtotheboard}}
+                      @key-up={{fn (mut dispositionChangesetPair.changeset.totalmembersappointedtotheboard) value="target.value"}}
+                      @class={{if dispositionChangesetPair.changeset.error.totalmembersappointedtotheboard "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{dispositionChangesetPair.changeset.error.totalmembersappointedtotheboard.validation}}
+                    </span>
                   </div>
                   </div>
                 {{/if}}
@@ -275,15 +361,20 @@
                   <div class="cell">
                     <label
                       for={{concat "disposition-" (concat idx "-consideration")}}
+                      class={{if dispositionChangesetPair.changeset.error.consideration "is-invalid-label"}}
                     >
                       Recommendation Comment
                     </label>
                     <Textarea
                       @id={{concat "disposition-" (concat idx "-consideration")}}
-                      @value={{disposition.consideration}}
+                      @value={{dispositionChangesetPair.changeset.consideration}}
                       @placeholder="Add a Recommendation comment for this action here."
                       @rows="4"
+                      @class={{if dispositionChangesetPair.changeset.error.consideration "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{dispositionChangesetPair.changeset.error.consideration.validation}}
+                    </span>
                   </div>
                 </div>
                 <hr />
@@ -300,7 +391,10 @@
                 </legend>
                 <div class="grid-x grid-margin-x">
                   <div class="cell medium-6">
-                    <label for="all-actions-vote-location">
+                    <label
+                      for="all-actions-vote-location"
+                      class={{if this.dispositionForAllActionsChangeset.error.votelocation "is-invalid-label"}}
+                    >
                       Vote Location
                     </label>
                     <Input
@@ -308,21 +402,33 @@
                       @type="text"
                       @placeholder="Add a location"
                       @autocomplete="off"
-                      @value={{this.dispositionForAllActions.votelocation}}
-                      @key-up={{fn (mut this.dispositionForAllActions.votelocation) value="target.value"}}
+                      @value={{this.dispositionForAllActionsChangeset.votelocation}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.votelocation) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.votelocation "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{this.dispositionForAllActionsChangeset.error.votelocation.validation}}
+                    </span>
                   </div>
                   <div class="cell medium-6">
-                    <label for="all-actions-vote-date">
+                    <label
+                      for="all-actions-vote-date"
+                      class={{if this.dispositionForAllActionsChangeset.error.dateofvote "is-invalid-label"}}
+                    >
                       Vote Date
                     </label>
                     <PikadayInput
                       @id="all-actions-vote-date"
                       @placeholder='Select a date'
-                      @value={{this.dispositionForAllActions.dateofvote}}
+                      @value={{this.dispositionForAllActionsChangeset.dateofvote}}
                       @format='MM/DD/YYYY'
-                      @onSelection={{fn (mut this.dispositionForAllActions.dateofvote) value="target.value"}}
+                      @minDate={{this.minDate}}
+                      @onSelection={{fn (mut this.dispositionForAllActionsChangeset.dateofvote) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.dateofvote "is-invalid-input"}}
                     />
+                    <span class="form-error is-visible" role="alert">
+                      {{this.dispositionForAllActionsChangeset.error.dateofvote.validation}}
+                    </span>
                   </div>
                 </div>
               </fieldset>
@@ -330,15 +436,20 @@
             {{#if (eq this.allActions true)}}
               <label
                 for="all-actions-consideration"
+                class={{if this.dispositionForAllActionsChangeset.error.consideration "is-invalid-label"}}
               >
                 Recommendation Comment for all actions.
               </label>
               <Textarea
                 @id="all-actions-consideration"
-                @value={{this.dispositionForAllActions.consideration}}
+                @value={{this.dispositionForAllActionsChangeset.consideration}}
                 @placeholder="Add Recommendation comment for all actions here."
                 @rows="4"
+                @class={{if this.dispositionForAllActionsChangeset.error.consideration "is-invalid-input"}}
               />
+              <span class="form-error is-visible" role="alert">
+                {{this.dispositionForAllActionsChangeset.error.consideration.validation}}
+              </span>
             {{/if}}
             <div class="callout">
               <label>Uploaded recommendation files:</label>
@@ -385,43 +496,43 @@
                     <h5>
                       Recommendation:
                     </h5>
-                    <p><strong>{{this.dispositionForAllActions.recommendation}}</strong></p>
+                    <p><strong>{{this.dispositionForAllActionsChangeset.recommendation}}</strong></p>
                     {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                      <p>Votes in Favor: {{this.dispositionForAllActions.votinginfavorrecommendation}}</p>
-                      <p>Votes Against: {{this.dispositionForAllActions.votingagainstrecommendation}}</p>
-                      <p>Abstain: {{this.dispositionForAllActions.votingabstainingonrecommendation}}</p>
-                      <p>Total Members: {{this.dispositionForAllActions.totalmembersappointedtotheboard}}</p>
+                      <p>Votes in Favor: {{this.dispositionForAllActionsChangeset.votinginfavorrecommendation}}</p>
+                      <p>Votes Against: {{this.dispositionForAllActionsChangeset.votingagainstrecommendation}}</p>
+                      <p>Abstain: {{this.dispositionForAllActionsChangeset.votingabstainingonrecommendation}}</p>
+                      <p>Total Members: {{this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard}}</p>
                     {{/if}}
                   {{else}}
-                    {{#each this.dispositions as |disposition|}}
+                    {{#each this.dispositionAndChangesetPairs as |dispositionChangesetPair idx|}}
                       <h5 class="large-margin-top">
-                        Recommendation: {{disposition.action.name}}
+                        Recommendation: {{dispositionChangesetPair.disposition.action.name}}
                         <small class="dark-gray">
-                          ({{disposition.action.ulurpnumber}})
+                          ({{dispositionChangesetPair.disposition.action.ulurpnumber}})
                         </small>
                       </h5>
                       <p>
-                        <strong>{{get disposition (rec-field-by-parttype-lookup this.participantType)}}</strong>
+                        <strong>{{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}</strong>
                       </p>
                       {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                        <p>Votes in Favor: {{disposition.votinginfavorrecommendation}}</p>
-                        <p>Votes Against: {{disposition.votingagainstrecommendation}}</p>
-                        <p>Abstain: {{disposition.votingabstainingonrecommendation}}</p>
-                        <p>Total Members: {{disposition.totalmembersappointedtotheboard}}</p>
+                        <p>Votes in Favor: {{dispositionChangesetPair.changeset.votinginfavorrecommendation}}</p>
+                        <p>Votes Against: {{dispositionChangesetPair.changeset.votingagainstrecommendation}}</p>
+                        <p>Abstain: {{dispositionChangesetPair.changeset.votingabstainingonrecommendation}}</p>
+                        <p>Total Members: {{disdispositionChangesetPair.changeset.totalmembersappointedtotheboard}}</p>
                       {{/if}}
                       <div class="display-block">
-                        Comment: {{disposition.consideration}}
+                        Comment: {{dispositionChangesetPair.changeset.consideration}}
                       </div>
                     {{/each}}
                   {{/if}}
                   {{#if (or (eq this.allActions true) (eq this.allActions false))}}
                     {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                      <p>Vote Location: {{this.dispositionForAllActions.votelocation}}</p>
-                      <p>Vote Date: {{this.dispositionForAllActions.dateofvote}}</p>
+                      <p>Vote Location: {{this.dispositionForAllActionsChangeset.votelocation}}</p>
+                      <p>Vote Date: {{this.dispositionForAllActionsChangeset.dateofvote}}</p>
                     {{/if}}
                     {{#if (eq this.allActions true)}}
                       <p>
-                        Comment: {{this.dispositionForAllActions.consideration}}
+                        Comment: {{this.dispositionForAllActionsChangeset.consideration}}
                       </p>
                     {{/if}}
                     <p>Attached files:</p>
