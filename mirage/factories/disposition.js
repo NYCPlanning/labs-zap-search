@@ -15,15 +15,15 @@ export default class DispositionFactory extends Factory {
   // N/A as default
 
   boroughpresidentrecommendation() {
-    return faker.random.arrayElement(['Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying']);
+    return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapprovd with Modifications/Conditions', 'Waived']);
   }
 
   boroughboardrecommendation() {
-    return faker.random.arrayElement(['Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying']);
+    return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapprovd with Modifications/Conditions', 'Waived']);
   }
 
   communityboardrecommendation() {
-    return faker.random.arrayElement(['Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying']);
+    return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapprovd with Modifications/Conditions', 'Waived']);
   }
 
   consideration() {
