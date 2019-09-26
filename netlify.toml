@@ -5,4 +5,4 @@ command = "LUPP_ENABLED=false HOST_API=https://zap-api-staging.planninglabs.nyc 
 command = "yarn build --environment=production"
 
 [context.develop-future]
-command = "HOST_API=https://zap-api-staging.planninglabs.nyc yarn build --environment=production"
+command = "yarn build --environment=production"
