@@ -50,7 +50,7 @@ export default class MilestoneModel extends Model {
   @attr('string') displayDate2;
 
   // --> CRM:dcp_milestoneoutcome
-  @attr('string') outcome;
+  @attr('string') dcpMilestoneoutcome;
 
   // --> ZAP-API:milestoneLinks
   @attr() milestoneLinks;

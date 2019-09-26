@@ -10,7 +10,9 @@ export default function(server) {
     landUseParticipant: 'QNCB5',
   });
 
-  const seedCBUserProjects = server.createList('project', NUM_CB_USER_PROJECTS);
+  const seedCBUserProjects = server.createList('project', NUM_CB_USER_PROJECTS, {
+    teammemberrole: 'CB',
+  });
   seedCBUser.projects = seedCBUserProjects;
 
   const seedBPUser = server.create('user', {
@@ -18,7 +20,9 @@ export default function(server) {
     email: 'bxbp@planning.nyc.gov',
     landUseParticipant: 'BXBP',
   });
-  const seedBPUserProjects = server.createList('project', NUM_BP_USER_PROJECTS);
+  const seedBPUserProjects = server.createList('project', NUM_BP_USER_PROJECTS, {
+    teammemberrole: 'BP',
+  });
   seedBPUser.projects = seedBPUserProjects;
 
   for (let i = 0; i < NUM_CB_USER_PROJECTS; i += 1) {
@@ -93,219 +97,327 @@ export default function(server) {
   /*  Milestones  */
 
   // "FIRST" CB PROJECT (Upcoming)
+  seedCBUserProjects[0].update({
+    tab: 'upcoming',
+    dcpPublicstatusSimp: 'filed',
+  });
+
   server.create('milestone', 'prepareFiledLandUseApplication', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(95, 'days'),
     displayDate: moment().subtract(95, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'landUseFeePaid', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(90, 'days'),
     displayDate: moment().subtract(90, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'eisDraftScopeReview', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(60, 'days'),
     displayDate: moment().subtract(60, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'ceqrFeePayment', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(70, 'days'),
     displayDate: moment().subtract(70, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'filedEasReview', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(40, 'days'),
     displayDate: moment().subtract(40, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'eisPublicScopingMeeting', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(30, 'days'),
     displayDate: moment().subtract(30, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'finalScopeOfWorkIssued', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(30, 'days'),
     displayDate: moment().subtract(30, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'nocOfDraftIssued', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(5, 'days'),
     displayDate: moment().subtract(5, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'deisPublicHearingHeld', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(20, 'days'),
     displayDate: moment().subtract(20, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'feisPublicSubmittedAndReview', {
     project: seedCBUserProjects[0],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(10, 'days'),
     displayDate: moment().subtract(10, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'certifiedReferred', {
     project: seedCBUserProjects[0],
     statuscode: 'Not Started',
+    dcpActualstartdate: moment().add(2, 'days'),
     displayDate: moment().add(2, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
+  });
+
+  // Here, mock that the CB user's first project
+  // has not yet reached Public Review/their respective Review Period
+  server.create('milestone', 'communityBoardReview', {
+    project: seedCBUserProjects[0],
+    statuscode: 'Not Started',
+    dcpPlannedstartdate: moment().add(32, 'days'),
   });
 
   // "SECOND" CB PROJECT (Upcoming)
+  seedCBUserProjects[1].update({
+    tab: 'upcoming',
+    dcpPublicstatusSimp: 'filed',
+  });
+
   server.create('milestone', 'prepareFiledLandUseApplication', {
     project: seedCBUserProjects[1],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(32, 'days'),
     displayDate: moment().subtract(32, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'landUseFeePaid', {
     project: seedCBUserProjects[1],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(30, 'days'),
     displayDate: moment().subtract(30, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'ceqrFeePayment', {
     project: seedCBUserProjects[1],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().add(2, 'days'),
     displayDate: moment().add(2, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'filedEasReview', {
     project: seedCBUserProjects[1],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().add(2, 'days'),
     displayDate: moment().add(2, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'certifiedReferred', {
     project: seedCBUserProjects[1],
     statuscode: 'Not Started',
+    dcpActualstartdate: moment().add(20, 'days'),
     displayDate: moment().add(20, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
+  // CB user's second project has also not yet reached Public Review/their respective Review Period
+  server.create('milestone', 'communityBoardReview', {
+    project: seedCBUserProjects[1],
+    statuscode: 'Not Started',
+    dcpPlannedstartdate: moment().add(52, 'days'),
+  });
+
   // "THIRD" CB PROJECT (Upcoming)
+  seedCBUserProjects[2].update({
+    tab: 'upcoming',
+    dcpPublicstatusSimp: 'filed',
+  });
+
   server.create('milestone', 'prepareFiledLandUseApplication', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(32, 'days'),
     displayDate: moment().subtract(32, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'landUseFeePaid', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(30, 'days'),
     displayDate: moment().subtract(30, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'eisDraftScopeReview', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(10, 'days'),
     displayDate: moment().subtract(10, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'ceqrFeePayment', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().add(2, 'days'),
     displayDate: moment().add(2, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'filedEasReview', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().add(20, 'days'),
     displayDate: moment().add(20, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'eisPublicScopingMeeting', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().add(30, 'days'),
     displayDate: moment().add(30, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'finalScopeOfWorkIssued', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().add(30, 'days'),
     displayDate: moment().add(30, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'nocOfDraftIssued', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().add(5, 'days'),
     displayDate: moment().add(5, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'deisPublicHearingHeld', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().add(55, 'days'),
     displayDate: moment().add(55, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'feisPublicSubmittedAndReview', {
     project: seedCBUserProjects[2],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().add(55, 'days'),
     displayDate: moment().add(55, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'certifiedReferred', {
     project: seedCBUserProjects[2],
     statuscode: 'Not Started',
+    dcpActualstartdate: moment().add(60, 'days'),
     displayDate: moment().add(60, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
+  // CB user's third project has also not yet reached Public Review/their respective Review Period
+  server.create('milestone', 'communityBoardReview', {
+    project: seedCBUserProjects[2],
+    statuscode: 'Not Started',
+    dcpPlannedstartdate: moment().add(90, 'days'),
+  });
+
   // "FOURTH" CB PROJECT (To Review)
+  seedCBUserProjects[3].update({
+    tab: 'to-review',
+    dcpPublicstatusSimp: 'public-review',
+  });
   server.create('milestone', 'certifiedReferred', {
     project: seedCBUserProjects[3],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(20, 'days'),
     displayDate: moment().subtract(20, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'communityBoardReview', {
     project: seedCBUserProjects[3],
     statuscode: 'In Progress',
+    dcpActualstartdate: moment().subtract(20, 'days'),
     displayDate: moment().subtract(20, 'days'),
+    dcpActualenddate: moment().add(40, 'days'),
     displayDate2: moment().add(40, 'days'),
   });
 
   // "FIFTH" CB PROJECT (Reviewed)
+  // CB Review completed, but BP and BB review in progress
+  // (see below milestones)
+  seedCBUserProjects[4].update({
+    tab: 'reviewed',
+    dcpPublicstatusSimp: 'public-review',
+  });
+
   server.create('milestone', 'certifiedReferred', {
     project: seedCBUserProjects[4],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(70, 'days'),
     displayDate: moment().subtract(70, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
-    milestoneoutcome: 'Certified',
+    dcpMilestoneoutcome: 'Certified',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -315,9 +427,11 @@ export default function(server) {
   server.create('milestone', 'communityBoardReview', {
     project: seedCBUserProjects[4],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(70, 'days'),
     displayDate: moment().subtract(70, 'days'),
+    dcpActualenddate: moment().subtract(10, 'days'),
     displayDate2: moment().subtract(10, 'days'),
-    milestoneoutcome: 'Disapproved',
+    dcpMilestoneoutcome: 'Disapproved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -327,59 +441,81 @@ export default function(server) {
   server.create('milestone', 'boroughPresidentReview', {
     project: seedCBUserProjects[4],
     statuscode: 'In Progress',
+    dcpActualstartdate: moment().subtract(9, 'days'),
     displayDate: moment().subtract(9, 'days'),
+    dcpActualenddate: moment().add(21, 'days'),
     displayDate2: moment().add(21, 'days'),
   });
 
   server.create('milestone', 'boroughBoardReview', {
     project: seedCBUserProjects[4],
     statuscode: 'In Progress',
+    dcpActualstartdate: moment().subtract(9, 'days'),
     displayDate: moment().subtract(9, 'days'),
+    dcpActualenddate: moment().add(21, 'days'),
     displayDate2: moment().add(21, 'days'),
   });
 
   server.create('milestone', 'cityPlanningCommissionReview', {
     project: seedCBUserProjects[4],
     statuscode: 'Not Started',
+    dcpActualstartdate: moment().add(22, 'days'),
     displayDate: moment().add(22, 'days'),
+    dcpActualenddate: moment().add(52, 'days'),
     displayDate2: moment().add(52, 'days'),
   });
 
   server.create('milestone', 'cityPlanningCommissionVote', {
     project: seedCBUserProjects[4],
     statuscode: 'Not Started',
+    dcpActualstartdate: moment().add(52, 'days'),
     displayDate: moment().add(52, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   server.create('milestone', 'cityCouncilReview', {
     project: seedCBUserProjects[4],
     statuscode: 'Not Started',
+    dcpActualstartdate: moment().add(53, 'days'),
     displayDate: moment().add(53, 'days'),
+    dcpActualenddate: moment().add(83, 'days'),
     displayDate2: moment().add(83, 'days'),
   });
 
   server.create('milestone', 'mayoralReview', {
     project: seedCBUserProjects[4],
     statuscode: 'Not Started',
+    dcpActualstartdate: moment().add(84, 'days'),
     displayDate: moment().add(84, 'days'),
+    dcpActualenddate: moment().add(114, 'days'),
     displayDate2: moment().add(114, 'days'),
   });
 
   server.create('milestone', 'finalLetterSent', {
     project: seedCBUserProjects[4],
     statuscode: 'Not Started',
+    dcpActualstartdate: moment().add(120, 'days'),
     displayDate: moment().add(120, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   // "SIXTH" CB PROJECT (Reviewed)
+  // CB and BP approved, Mayoral Review In Progress
+  seedCBUserProjects[5].update({
+    tab: 'reviewed',
+    dcpPublicstatusSimp: 'public-review',
+  });
+
   server.create('milestone', 'certifiedReferred', {
     project: seedCBUserProjects[5],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(70, 'days'),
     displayDate: moment().subtract(70, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
-    milestoneoutcome: 'Certified',
+    dcpMilestoneoutcome: 'Certified',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -389,9 +525,11 @@ export default function(server) {
   server.create('milestone', 'communityBoardReview', {
     project: seedCBUserProjects[5],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(180, 'days'),
     displayDate: moment().subtract(180, 'days'),
+    dcpActualenddate: moment().subtract(120, 'days'),
     displayDate2: moment().subtract(120, 'days'),
-    milestoneoutcome: 'Approved',
+    dcpMilestoneoutcome: 'Approved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -401,9 +539,11 @@ export default function(server) {
   server.create('milestone', 'boroughPresidentReview', {
     project: seedCBUserProjects[5],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(120, 'days'),
     displayDate: moment().subtract(120, 'days'),
+    dcpActualenddate: moment().subtract(90, 'days'),
     displayDate2: moment().subtract(90, 'days'),
-    milestoneoutcome: 'Approved',
+    dcpMilestoneoutcome: 'Approved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -413,9 +553,11 @@ export default function(server) {
   server.create('milestone', 'cityPlanningCommissionReview', {
     project: seedCBUserProjects[5],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(90, 'days'),
     displayDate: moment().subtract(90, 'days'),
+    dcpActualenddate: moment().subtract(60, 'days'),
     displayDate2: moment().subtract(60, 'days'),
-    milestoneoutcome: 'Hearing Closed',
+    dcpMilestoneoutcome: 'Hearing Closed',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -425,9 +567,11 @@ export default function(server) {
   server.create('milestone', 'cityPlanningCommissionVote', {
     project: seedCBUserProjects[5],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(60, 'days'),
     displayDate: moment().subtract(60, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
-    milestoneoutcome: 'Approval',
+    dcpMilestoneoutcome: 'Approval',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -437,32 +581,45 @@ export default function(server) {
   server.create('milestone', 'cityCouncilReview', {
     project: seedCBUserProjects[5],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(60, 'days'),
     displayDate: moment().subtract(60, 'days'),
+    dcpActualenddate: moment().subtract(30, 'days'),
     displayDate2: moment().subtract(30, 'days'),
-    milestoneoutcome: 'Approval',
+    dcpMilestoneoutcome: 'Approval',
   });
 
   server.create('milestone', 'mayoralReview', {
     project: seedCBUserProjects[5],
     statuscode: 'In Progress',
+    dcpActualstartdate: moment().subtract(30, 'days'),
     displayDate: moment().subtract(30, 'days'),
+    dcpActualenddate: moment().add(2, 'days'),
     displayDate2: moment().add(2, 'days'),
   });
 
   server.create('milestone', 'finalLetterSent', {
     project: seedCBUserProjects[5],
     statuscode: 'Not Started',
+    dcpActualstartdate: moment().add(120, 'days'),
     displayDate: moment().add(120, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
   });
 
   // "SEVENTH" CB PROJECT (Archived)
+  seedCBUserProjects[6].update({
+    tab: 'archived',
+    dcpPublicstatusSimp: 'approved',
+  });
+
   server.create('milestone', 'certifiedReferred', {
     project: seedCBUserProjects[6],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(70, 'days'),
     displayDate: moment().subtract(70, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
-    milestoneoutcome: 'Certified',
+    dcpMilestoneoutcome: 'Certified',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -472,9 +629,11 @@ export default function(server) {
   server.create('milestone', 'communityBoardReview', {
     project: seedCBUserProjects[6],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(180, 'days'),
     displayDate: moment().subtract(180, 'days'),
+    dcpActualenddate: moment().subtract(120, 'days'),
     displayDate2: moment().subtract(120, 'days'),
-    milestoneoutcome: 'Disapproved',
+    dcpMilestoneoutcome: 'Disapproved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -484,9 +643,11 @@ export default function(server) {
   server.create('milestone', 'boroughPresidentReview', {
     project: seedCBUserProjects[6],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(120, 'days'),
     displayDate: moment().subtract(120, 'days'),
+    dcpActualenddate: moment().subtract(90, 'days'),
     displayDate2: moment().subtract(90, 'days'),
-    milestoneoutcome: 'Approved',
+    dcpMilestoneoutcome: 'Approved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -496,9 +657,11 @@ export default function(server) {
   server.create('milestone', 'boroughBoardReview', {
     project: seedCBUserProjects[6],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(120, 'days'),
     displayDate: moment().subtract(120, 'days'),
+    dcpActualenddate: moment().subtract(90, 'days'),
     displayDate2: moment().subtract(90, 'days'),
-    milestoneoutcome: 'Disapproved',
+    dcpMilestoneoutcome: 'Disapproved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -508,9 +671,11 @@ export default function(server) {
   server.create('milestone', 'cityPlanningCommissionReview', {
     project: seedCBUserProjects[6],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(90, 'days'),
     displayDate: moment().subtract(90, 'days'),
+    dcpActualenddate: moment().subtract(60, 'days'),
     displayDate2: moment().subtract(60, 'days'),
-    milestoneoutcome: 'Hearing Closed',
+    dcpMilestoneoutcome: 'Hearing Closed',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -520,9 +685,11 @@ export default function(server) {
   server.create('milestone', 'cityPlanningCommissionVote', {
     project: seedCBUserProjects[6],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(60, 'days'),
     displayDate: moment().subtract(60, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
-    milestoneoutcome: 'Approval',
+    dcpMilestoneoutcome: 'Approval',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -532,23 +699,29 @@ export default function(server) {
   server.create('milestone', 'cityCouncilReview', {
     project: seedCBUserProjects[6],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(60, 'days'),
     displayDate: moment().subtract(60, 'days'),
+    dcpActualenddate: moment().subtract(30, 'days'),
     displayDate2: moment().subtract(30, 'days'),
-    milestoneoutcome: 'Approval',
+    dcpMilestoneoutcome: 'Approval',
   });
 
   server.create('milestone', 'mayoralReview', {
     project: seedCBUserProjects[6],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(30, 'days'),
     displayDate: moment().subtract(30, 'days'),
+    dcpActualenddate: moment().subtract(20, 'days'),
     displayDate2: moment().subtract(20, 'days'),
-    milestoneoutcome: 'No Veto',
+    dcpMilestoneoutcome: 'No Veto',
   });
 
   server.create('milestone', 'finalLetterSent', {
     project: seedCBUserProjects[6],
     statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(10, 'days'),
     displayDate: moment().subtract(10, 'days'),
+    dcpActualenddate: null,
     displayDate2: null,
     milestoneLinks: [{
       filename: '2020_QB.pdf',
@@ -556,251 +729,131 @@ export default function(server) {
     }],
   });
 
-  // // This milestone is what makes seedCBUserProjects[1] "Upcoming"
-  // server.create('milestone', {
-  //   project: seedCBUserProjects[1],
-  //   milestone: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
-  //   milestonename: 'Community Board Referral',
-  //   displayName: 'Community Board Referral',
-  //   plannedstartdate: '2018-10-31T01:21:46',
-  //   plannedcompletiondate: '2018-11-02T01:21:46',
-  //   actualstartdate: null,
-  //   actualenddate: null,
-  //   statuscode: 'Not Started',
-  //   milestonesequence: 28,
-  //   displayDate: '2018-10-31T01:21:46',
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
 
-  // // - Projects in the "To Review" bin
-  // server.create('milestone', {
-  //   project: seedCBUserProjects[2],
-  //   milestone: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
-  //   milestonename: 'Community Board Referral',
-  //   displayName: 'Community Board Referral',
-  //   plannedstartdate: '2018-08-15T01:21:46',
-  //   plannedcompletiondate: '2018-10-15T01:21:46',
-  //   actualstartdate: '2018-08-15T01:21:46',
-  //   actualenddate: null,
-  //   statuscode: 'In Progress',
-  //   milestonesequence: 36,
-  //   displayDate: '2018-08-15T01:21:46',
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  // "FIRST" BP User's project (Upcoming)
+  // Public review has already started, but not yet the
+  // BP review.
+  seedBPUserProjects[0].update({
+    tab: 'upcoming',
+    dcpPublicstatusSimp: 'public-review',
+  });
 
-  // server.create('milestone', {
-  //   project: seedCBUserProjects[3],
-  //   milestone: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
-  //   milestonename: 'Community Board Referral',
-  //   displayName: 'Community Board Referral',
-  //   plannedstartdate: '2018-08-15T01:21:46',
-  //   plannedcompletiondate: '2018-10-15T01:21:46',
-  //   actualstartdate: '2018-08-15T01:21:46',
-  //   actualenddate: null,
-  //   statuscode: 'In Progress',
-  //   milestonesequence: 36,
-  //   displayDate: '2018-08-15T01:21:46',
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  server.create('milestone', 'prepareFiledLandUseApplication', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(95, 'days'),
+    displayDate: moment().subtract(95, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
 
-  // server.create('milestone', {
-  //   project: seedCBUserProjects[4],
-  //   milestone: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
-  //   milestonename: 'Community Board Referral',
-  //   displayName: 'Community Board Referral',
-  //   plannedstartdate: '2018-08-15T01:21:46',
-  //   plannedcompletiondate: '2018-10-15T01:21:46',
-  //   actualstartdate: '2018-08-15T01:21:46',
-  //   actualenddate: null,
-  //   statuscode: 'In Progress',
-  //   milestonesequence: 36,
-  //   displayDate: '2018-08-15T01:21:46',
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  server.create('milestone', 'landUseFeePaid', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(90, 'days'),
+    displayDate: moment().subtract(90, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
 
-  // // - Projects in the "Reviewed" bin
-  // server.create('milestone', {
-  //   project: seedCBUserProjects[5],
-  //   milestone: CITY_COUNCIL_REVIEW_MILESTONE_ID,
-  //   milestonename: 'City Council Review',
-  //   plannedstartdate: null,
-  //   plannedcompletiondate: null,
-  //   actualstartdate: '2016-04-22T01:40:24',
-  //   actualenddate: '2022-05-02T01:40:24',
-  //   statuscode: 'Not Started',
-  //   milestonesequence: 60,
-  //   displayName: 'City Council Review',
-  //   displayDate: null,
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  server.create('milestone', 'eisDraftScopeReview', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(60, 'days'),
+    displayDate: moment().subtract(60, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
 
-  // // This milestone is what makes seedCBUserProjects[0] "Reviewed"
-  // server.create('milestone', {
-  //   project: seedCBUserProjects[5],
-  //   milestone: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
-  //   milestonename: 'Community Board Referral',
-  //   displayName: 'Community Board Referral',
-  //   plannedstartdate: '2018-10-31T01:21:46',
-  //   plannedcompletiondate: '2018-11-02T01:21:46',
-  //   actualstartdate: null,
-  //   actualenddate: null,
-  //   statuscode: 'Completed',
-  //   milestonesequence: 28,
-  //   displayDate: '2018-10-31T01:21:46',
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  server.create('milestone', 'ceqrFeePayment', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(70, 'days'),
+    displayDate: moment().subtract(70, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
 
-  // server.create('milestone', {
-  //   project: seedCBUserProjects[6],
-  //   milestone: FINAL_LETTER_SENT_MILESTONE_ID,
-  //   milestonename: 'Final Letter Sent',
-  //   plannedstartdate: '2018-04-22T01:40:24',
-  //   plannedcompletiondate: '2018-05-02T01:40:24',
-  //   actualstartdate: null,
-  //   actualenddate: null,
-  //   statuscode: 'Not Started',
-  //   milestonesequence: 60,
-  //   displayName: 'Final Letter Sent',
-  //   displayDate: null,
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  server.create('milestone', 'filedEasReview', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(40, 'days'),
+    displayDate: moment().subtract(40, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
 
-  // // This milestone is what makes seedCBUserProjects[0] "Reviewed"
-  // server.create('milestone', {
-  //   project: seedCBUserProjects[6],
-  //   milestone: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
-  //   milestonename: 'Community Board Referral',
-  //   displayName: 'Community Board Referral',
-  //   plannedstartdate: '2018-10-31T01:21:46',
-  //   plannedcompletiondate: '2018-11-02T01:21:46',
-  //   actualstartdate: null,
-  //   actualenddate: null,
-  //   statuscode: 'Completed',
-  //   milestonesequence: 28,
-  //   displayDate: '2018-10-31T01:21:46',
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  server.create('milestone', 'eisPublicScopingMeeting', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(30, 'days'),
+    displayDate: moment().subtract(30, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
 
-  // // For a BP participantType....
-  // // - BP Projects in the "Upcoming" bin to milestone
-  // server.create('milestone', {
-  //   project: seedBPUserProjects[0],
-  //   milestone: REVIEW_SESSION_CERTIFIED_REFERRED_MILESTONE_ID,
-  //   milestonename: 'Land Use Fee Payment',
-  //   plannedstartdate: '2018-10-31T01:21:46',
-  //   plannedcompletiondate: '2018-11-02T01:21:46',
-  //   actualstartdate: null,
-  //   actualenddate: null,
-  //   statuscode: 'Completed',
-  //   milestonesequence: 28,
-  //   displayName: 'Land Use Fee Payment',
-  //   displayDate: '2018-10-31T01:21:46',
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
-  // // - BP Projects in the "To Review" bin
-  // server.create('milestone', {
-  //   project: seedBPUserProjects[1],
-  //   milestone: BOROUGH_PRESIDENT_REFERRAL_MILESTONE_ID,
-  //   milestonename: 'Borough President Referral',
-  //   plannedstartdate: '2018-08-15T01:21:46',
-  //   plannedcompletiondate: '2018-10-15T01:21:46',
-  //   actualstartdate: '2018-08-15T01:21:46',
-  //   actualenddate: null,
-  //   statuscode: 'In Progress',
-  //   milestonesequence: 36,
-  //   displayName: 'Borough President Referral',
-  //   displayDate: '2018-08-15T01:21:46',
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  server.create('milestone', 'finalScopeOfWorkIssued', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(30, 'days'),
+    displayDate: moment().subtract(30, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
 
-  // server.create('milestone', {
-  //   project: seedBPUserProjects[2],
-  //   milestone: BOROUGH_PRESIDENT_REFERRAL_MILESTONE_ID,
-  //   milestonename: 'Borough President Referral',
-  //   plannedstartdate: '2018-08-15T01:21:46',
-  //   plannedcompletiondate: '2018-10-15T01:21:46',
-  //   actualstartdate: '2018-08-15T01:21:46',
-  //   actualenddate: null,
-  //   statuscode: 'In Progress',
-  //   milestonesequence: 36,
-  //   displayName: 'Borough President Referral',
-  //   displayDate: '2018-08-15T01:21:46',
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  server.create('milestone', 'nocOfDraftIssued', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(5, 'days'),
+    displayDate: moment().subtract(5, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
 
-  // // - Projects in the "Reviewed" bin
-  // server.create('milestone', {
-  //   project: seedBPUserProjects[3],
-  //   milestone: CITY_COUNCIL_REVIEW_MILESTONE_ID,
-  //   milestonename: 'City Council Review',
-  //   plannedstartdate: null,
-  //   plannedcompletiondate: null,
-  //   actualstartdate: '2016-04-22T01:40:24',
-  //   actualenddate: '2022-05-02T01:40:24',
-  //   statuscode: 'Not Started',
-  //   milestonesequence: 60,
-  //   displayName: 'City Council Review',
-  //   displayDate: null,
-  //   displayDate2: null,
-  //   milestoneoutcome: 'Multiple Borough President Recommendations',
-  //   milestoneLinks: [{
-  //     filename: '2020_QB.pdf',
-  //     url: 'https://www1.nyc.gov/site/planning/index.page',
-  //   }],
-  // });
+  server.create('milestone', 'deisPublicHearingHeld', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(20, 'days'),
+    displayDate: moment().subtract(20, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
+
+  server.create('milestone', 'feisPublicSubmittedAndReview', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Completed',
+    dcpActualstartdate: moment().subtract(10, 'days'),
+    displayDate: moment().subtract(10, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
+
+  server.create('milestone', 'certifiedReferred', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Not Started',
+    dcpActualstartdate: moment().subtract(2, 'days'),
+    displayDate: moment().subtract(2, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
+
+  // Here, mock that the BP user's first project
+  // has reached Public Review but not yet their respective Review Period
+  server.create('milestone', 'communityBoardReview', {
+    project: seedBPUserProjects[0],
+    statuscode: 'In Progress',
+    dcpActualstartdate: moment().subtract(1, 'days'),
+    displayDate: moment().subtract(1, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
+
+  server.create('milestone', 'boroughPresidentReview', {
+    project: seedBPUserProjects[0],
+    statuscode: 'Not Started',
+    dcpPlannedstartdate: moment().add(19, 'days'),
+    displayDate: moment().add(19, 'days'),
+    dcpActualenddate: null,
+    displayDate2: null,
+  });
 }
