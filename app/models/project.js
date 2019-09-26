@@ -78,6 +78,14 @@ export default class ProjectModel extends Model {
 
   @attr('boolean') hasCentroid;
 
+  @attr() dcpBsanumber;
+
+  @attr() dcpWrpnumber;
+
+  @attr() dcpLpcnumber;
+
+  @attr() dcpNydospermitnumber;
+
   @attr() bbls;
 
   @attr({ defaultValue: () => EmptyFeatureCollection })
@@ -102,5 +110,9 @@ export default class ProjectModel extends Model {
       type: 'geojson',
       data,
     };
+  }
+
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
   }
 }

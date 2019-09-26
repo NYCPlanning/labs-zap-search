@@ -62,10 +62,10 @@
 
         <hr>
 
-        {{#if model.video_links}}
+        {{#if model.videoLinks}}
           <div class="button-group">
-            {{#each model.video_links as |link|}}
-              <a href="{{link.video_link}}" target="_blank" class="button gray" style="text-align:left;">
+            {{#each model.videoLink as |link|}}
+              <a href="{{link.link}}" target="_blank" class="button gray" style="text-align:left;">
                 <span style="color:#ff0000">{{fa-icon 'youtube' prefix='fab' size='2x' pull='left'}}</span>
                 <span class="text-small">
                   <strong>{{link.hearing_type}}</strong>

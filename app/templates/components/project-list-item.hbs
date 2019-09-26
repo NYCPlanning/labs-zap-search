@@ -1,15 +1,14 @@
 <li class="grid-x grid-padding-small projects-list-result">
-  <div class="cell results-meta {{if project.dcp_publicstatus_simp (concat 'publicstatus-' (dasherize project.dcp_publicstatus_simp))}}" style="width:5rem;">
-    {{#if project.has_centroid}}
-      {{project-list-map-pin project=project}}
-    {{else}}
-      <a class="button hollow expanded map-marker-button" style="opacity:1;" disabled>
-        <span class="fa-layers fa-fw" style="font-size: 1.5rem;">
-          <span class="fa-layers-text" style="font-size:0.625rem;color:#000;">Not Mapped</span>
-        </span>
-      </a>
-    {{/if}}
-    <span class="label publicstatus-label">{{unless (eq project.dcp_publicstatus_simp 'Unknown') project.dcp_publicstatus_simp "Unknown Status"}}</span>
+  <div class="cell results-meta {{if project.dcpPublicstatusSimp (concat 'publicstatus-' (dasherize project.dcpPublicstatusSimp))}}" style="width:5rem;">
+    {{!-- commented out because it was if-gated by .has_centroid which --}}
+    {{!-- no longer exists --}}
+    {{!-- project-list-map-pin project=project --}}
+    <a class="button hollow expanded map-marker-button" style="opacity:1;" disabled>
+      <span class="fa-layers fa-fw" style="font-size: 1.5rem;">
+        <span class="fa-layers-text" style="font-size:0.625rem;color:#000;">Not Mapped</span>
+      </span>
+    </a>
+    <span class="label publicstatus-label">{{unless (eq project.dcpPublicstatusSimp 'Unknown') project.dcpPublicstatusSimp "Unknown Status"}}</span>
   </div>
   <div class="cell auto">
     {{#if project.lastmilestonedate}}
@@ -20,24 +19,24 @@
     {{/if}}
     <h3 class="projects-list-result--header header-medium">
       {{#link-to 'show-project' project.id}}
-        {{if project.dcp_projectname project.dcp_projectname "No Project Name"}}
+        {{if project.dcpProjectname project.dcpProjectname "No Project Name"}}
       {{/link-to}}
     </h3>
     <p class="projects-list-result--description no-margin text-small dark-grey">
-      <strong>{{firstApplicant}}</strong> &mdash; {{if project.dcp_projectbrief (substring-projectbrief project.dcp_projectbrief) "No Project Brief"}}
+      <strong>{{firstApplicant}}</strong> &mdash; {{if project.dcpProjectbrief (substring-projectbrief project.dcpProjectbrief) "No Project Brief"}}
     </p>
     <p class="projects-list-result--meta no-margin text-tiny dark-gray label-group">
-      {{#if (eq project.dcp_borough 'Citywide')}}<span class="label light-gray"><strong class="dark-gray">{{project.dcp_borough}}</strong></span>{{/if}}
+      {{#if (eq project.dcpBorough 'Citywide')}}<span class="label light-gray"><strong class="dark-gray">{{project.dcpBorough}}</strong></span>{{/if}}
 
-      {{consolidated-cds cds=project.dcp_communitydistricts}}
+      {{consolidated-cds cds=project.dcpCommunitydistricts}}
 
-      {{#if project.dcp_ulurp_nonulurp}}<span class="label light-gray"><strong class="dark-gray">{{project.dcp_ulurp_nonulurp}}</strong></span>{{/if}}
+      {{#if project.dcpUlurpNonulurp}}<span class="label light-gray"><strong class="dark-gray">{{project.dcpUlurpNonulurp}}</strong></span>{{/if}}
       {{#each project.ulurpnumbers as |ulurpnumber|}}
         <span class="label light-gray"><strong class="dark-gray">{{ulurpnumber}}</strong></span>
       {{/each}}
 
-      {{#unless (and (or (eq project.dcp_ceqrtype 'Unlisted') (eq project.dcp_ceqrtype null)) (eq project.dcp_ceqrnumber null))}}
-        <span class="label light-gray"><strong class="dark-gray">CEQR {{project.dcp_ceqrnumber}} {{unless (eq project.dcp_ceqrtype 'Unlisted') project.dcp_ceqrtype}}</strong></span>
+      {{#unless (and (or (eq project.dcpCeqrtype 'Unlisted') (eq project.dcpCeqrtype null)) (eq project.dcpCeqrnumber null))}}
+        <span class="label light-gray"><strong class="dark-gray">CEQR {{project.dcpCeqrnumber}} {{unless (eq project.dcpCeqrtype 'Unlisted') project.dcpCeqrtype}}</strong></span>
       {{/unless}}
     </p>
   </div>
