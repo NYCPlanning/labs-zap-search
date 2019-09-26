@@ -411,24 +411,15 @@
                     </span>
                   </div>
                   <div class="cell medium-6">
-                    <label
-                      for="all-actions-vote-date"
-                      class={{if this.dispositionForAllActionsChangeset.error.dateofvote "is-invalid-label"}}
-                    >
-                      Vote Date
-                    </label>
-                    <PikadayInput
-                      @id="all-actions-vote-date"
-                      @placeholder='Select a date'
-                      @value={{this.dispositionForAllActionsChangeset.dateofvote}}
-                      @format='MM/DD/YYYY'
-                      @minDate={{this.minDate}}
-                      @onSelection={{fn (mut this.dispositionForAllActionsChangeset.dateofvote) value="target.value"}}
-                      @class={{if this.dispositionForAllActionsChangeset.error.dateofvote "is-invalid-input"}}
-                    />
-                    <span class="form-error is-visible" role="alert">
-                      {{this.dispositionForAllActionsChangeset.error.dateofvote.validation}}
-                    </span>
+                    {{date-time-picker
+                      targetField=(mut this.dispositionForAllActionsChangeset.dateofvote)
+                      disposition=this.dispositionForAllActionsChangeset
+                      allActions=this.allActions
+                      includeTimeInput=false
+                      checkIfMissing=this.dispositionForAllActionsChangeset.error.dateofvote}}
+                      <span class="form-error is-visible" role="alert">
+                        {{this.dispositionForAllActionsChangeset.error.dateofvote.validation}}
+                      </span>
                   </div>
                 </div>
               </fieldset>
