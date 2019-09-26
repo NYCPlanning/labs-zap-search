@@ -463,109 +463,105 @@
               </label>
               <input type="file" id="exampleFileUpload_2" class="show-for-sr">
             </div>
-            {{#if modalOpen}}
-              <div id="recommendation-confirmation" class="reveal-overlay" style="display:block;">
-                <div class="reveal" role="dialog" aria-hidden="false" tabindex="-1" style="display:block;">
-                  <h3>Confirm recommendation information</h3>
-                  {{#if this.dispositions.firstObject.dcpPublichearinglocation}}
-                    <h5>
-                      Was a Quorum Present at your Hearing(s)?
-                    </h5>
-                    {{#each this.dispositions as |disposition idx|}}
-                      {{#if disposition.dcpDateofpublichearing}}
-                        <p class="grid-x align-middle">
-                          <strong class="cell small-1">
-                            {{if disposition.wasaquorumpresent "Yes" "No"}}
-                          </strong>
-                          <span class="cell auto">
-                            <strong class="display-block">
-                              {{moment-format disposition.dcpDateofpublichearing "MM/D/YYYY"}}
-                              <span class="light-gray">|</span>
-                              {{disposition.dcpPublichearinglocation}}
-                            </strong>
-                            {{disposition.action.dcpName}}
-                            <small>
-                              ({{disposition.action.dcpUlurpnumber}})
-                            </small>
-                          </span>
-                        </p>
-                      {{/if}}
-                    {{/each}}
-                  {{/if}}
-                  {{#if this.allActions}}
-                    <h5>
-                      Recommendation:
-                    </h5>
-                    <p><strong>{{this.dispositionForAllActionsChangeset.recommendation}}</strong></p>
-                    {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                      <p>Votes in Favor: {{this.dispositionForAllActionsChangeset.votinginfavorrecommendation}}</p>
-                      <p>Votes Against: {{this.dispositionForAllActionsChangeset.votingagainstrecommendation}}</p>
-                      <p>Abstain: {{this.dispositionForAllActionsChangeset.votingabstainingonrecommendation}}</p>
-                      <p>Total Members: {{this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard}}</p>
-                    {{/if}}
-                  {{else}}
-                    {{#each this.dispositionAndChangesetPairs as |dispositionChangesetPair idx|}}
-                      <h5 class="large-margin-top">
-                        Recommendation: {{dispositionChangesetPair.disposition.action.dcpName}}
-                        <small class="dark-gray">
-                          ({{dispositionChangesetPair.disposition.action.dcpUlurpnumber}})
+            {{#confirmation-modal open=modalOpen}}
+              <h3>Confirm recommendation information</h3>
+              {{#if this.dispositions.firstObject.dcpPublichearinglocation}}
+                <h5>
+                  Was a Quorum Present at your Hearing(s)?
+                </h5>
+                {{#each this.dispositions as |disposition idx|}}
+                  {{#if disposition.dcpDateofpublichearing}}
+                    <p class="grid-x align-middle">
+                      <strong class="cell small-1">
+                        {{if disposition.wasaquorumpresent "Yes" "No"}}
+                      </strong>
+                      <span class="cell auto">
+                        <strong class="display-block">
+                          {{moment-format disposition.dcpDateofpublichearing "MM/D/YYYY"}}
+                          <span class="light-gray">|</span>
+                          {{disposition.dcpPublichearinglocation}}
+                        </strong>
+                        {{disposition.action.dcpName}}
+                        <small>
+                          ({{disposition.action.dcpUlurpnumber}})
                         </small>
-                      </h5>
-                      <p>
-                        <strong>{{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}</strong>
-                      </p>
-                      {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                        <p>Votes in Favor: {{dispositionChangesetPair.changeset.votinginfavorrecommendation}}</p>
-                        <p>Votes Against: {{dispositionChangesetPair.changeset.votingagainstrecommendation}}</p>
-                        <p>Abstain: {{dispositionChangesetPair.changeset.votingabstainingonrecommendation}}</p>
-                        <p>Total Members: {{disdispositionChangesetPair.changeset.totalmembersappointedtotheboard}}</p>
-                      {{/if}}
-                      <div class="display-block">
-                        Comment: {{dispositionChangesetPair.changeset.consideration}}
-                      </div>
-                    {{/each}}
+                      </span>
+                    </p>
                   {{/if}}
-                  {{#if (or (eq this.allActions true) (eq this.allActions false))}}
-                    {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                      <p>Vote Location: {{this.dispositionForAllActionsChangeset.votelocation}}</p>
-                      <p>Vote Date: {{this.dispositionForAllActionsChangeset.dateofvote}}</p>
-                    {{/if}}
-                    {{#if (eq this.allActions true)}}
-                      <p>
-                        Comment: {{this.dispositionForAllActionsChangeset.consideration}}
-                      </p>
-                    {{/if}}
-                    <p>Attached files:</p>
-                    <ul>
-                      <li><a>Important File <small>(PDF)</small></a></li>
-                      <li><a>Important File <small>(PDF)</small></a></li>
-                      <li><a>Important File <small>(PDF)</small></a></li>
-                    </ul>
-                  {{/if}}
-                  <p class="callout warning text-small">
-                    Once you submit recommendation information, you can not edit it. You'll need to contact the Lead Planner to make any changes.
-                  </p>
+                {{/each}}
+              {{/if}}
+              {{#if this.allActions}}
+                <h5>
+                  Recommendation:
+                </h5>
+                <p><strong>{{this.dispositionForAllActionsChangeset.recommendation}}</strong></p>
+                {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                  <p>Votes in Favor: {{this.dispositionForAllActionsChangeset.votinginfavorrecommendation}}</p>
+                  <p>Votes Against: {{this.dispositionForAllActionsChangeset.votingagainstrecommendation}}</p>
+                  <p>Abstain: {{this.dispositionForAllActionsChangeset.votingabstainingonrecommendation}}</p>
+                  <p>Total Members: {{this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard}}</p>
+                {{/if}}
+              {{else}}
+                {{#each this.dispositionAndChangesetPairs as |dispositionChangesetPair idx|}}
+                  <h5 class="large-margin-top">
+                    Recommendation: {{dispositionChangesetPair.disposition.action.dcpName}}
+                    <small class="dark-gray">
+                      ({{dispositionChangesetPair.disposition.action.dcpUlurpnumber}})
+                    </small>
+                  </h5>
                   <p>
-                    <button
-                      class="button"
-                      data-test-button="confirmRecommendation"
-                      type="button"
-                      onClick={{action this.submitRecommendations}}
-                    >
-                      Submit Recommendation Information
-                    </button>
-                    <button
-                      class="button clear"
-                      data-test-button="closeModal"
-                      type="button"
-                      onClick={{action this.closeModal}}
-                    >
-                      Cancel <small>(continue editing)</small>
-                    </button>
+                    <strong>{{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}</strong>
                   </p>
-                </div>
-              </div>
-            {{/if}}
+                  {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                    <p>Votes in Favor: {{dispositionChangesetPair.changeset.votinginfavorrecommendation}}</p>
+                    <p>Votes Against: {{dispositionChangesetPair.changeset.votingagainstrecommendation}}</p>
+                    <p>Abstain: {{dispositionChangesetPair.changeset.votingabstainingonrecommendation}}</p>
+                    <p>Total Members: {{disdispositionChangesetPair.changeset.totalmembersappointedtotheboard}}</p>
+                  {{/if}}
+                  <div class="display-block">
+                    Comment: {{dispositionChangesetPair.changeset.consideration}}
+                  </div>
+                {{/each}}
+              {{/if}}
+              {{#if (or (eq this.allActions true) (eq this.allActions false))}}
+                {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                  <p>Vote Location: {{this.dispositionForAllActionsChangeset.votelocation}}</p>
+                  <p>Vote Date: {{this.dispositionForAllActionsChangeset.dateofvote}}</p>
+                {{/if}}
+                {{#if (eq this.allActions true)}}
+                  <p>
+                    Comment: {{this.dispositionForAllActionsChangeset.consideration}}
+                  </p>
+                {{/if}}
+                <p>Attached files:</p>
+                <ul>
+                  <li><a>Important File <small>(PDF)</small></a></li>
+                  <li><a>Important File <small>(PDF)</small></a></li>
+                  <li><a>Important File <small>(PDF)</small></a></li>
+                </ul>
+              {{/if}}
+              <p class="callout warning text-small">
+                Once you submit recommendation information, you can not edit it. You'll need to contact the Lead Planner to make any changes.
+              </p>
+              <p>
+                <button
+                  class="button"
+                  data-test-button="confirmRecommendation"
+                  type="button"
+                  onClick={{action this.submitRecommendations}}
+                >
+                  Submit Recommendation Information
+                </button>
+                <button
+                  class="button clear"
+                  data-test-button="closeModal"
+                  type="button"
+                  onClick={{action this.closeModal}}
+                >
+                  Cancel <small>(continue editing)</small>
+                </button>
+              </p>
+            {{/confirmation-modal}}
             <fieldset class="medium-margin-bottom">
               <button
                 class="button large-margin-top"
