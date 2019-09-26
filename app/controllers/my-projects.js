@@ -10,4 +10,10 @@ export default class MyProjectsController extends Controller {
     const route = this.get('router.currentRouteName').split('.')[1];
     return route;
   }
+
+  @computed('router.currentRouteName')
+  get isInSubroute() {
+    const route = this.get('router.currentRouteName').split('.')[1];
+    return route === 'project';
+  }
 }
