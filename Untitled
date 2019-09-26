@@ -1,0 +1,179 @@
+server.create('milestone', {
+  project: seedCBUserProjects[0],
+  milestone: '8E3BEEC4-DAD0-E711-8116-1458D04E2FB8',
+  milestonename: 'Review Session - Certified / Referred',
+  plannedstartdate: null,
+  plannedcompletiondate: null,
+  actualstartdate: null,
+  actualenddate: null,
+  statuscode: null,
+  milestonesequence: null,
+  displayName: 'Review Session - Certified / Referred',
+  displayDate: null,
+  displayDate2: null,
+  milestoneoutcome: null,
+  milestoneLinks: [{
+    filename: '2020_QB.pdf',
+    url: 'https://www1.nyc.gov/site/planning/index.page',
+  }],
+});
+
+server.create('milestone', {
+  project: seedCBUserProjects[0],
+  milestone: '923BEEC4-DAD0-E711-8116-1458D04E2FB8',
+  milestonename: 'Community Board Referral',
+  plannedstartdate: null,
+  plannedcompletiondate: null,
+  actualstartdate: null,
+  actualenddate: null,
+  statuscode: null,
+  milestonesequence: null,
+  displayName: 'Community Board Referral',,
+  displayDate: null,
+  displayDate2: null,
+  milestoneoutcome: null,
+  milestoneLinks: [{
+    filename: '2020_QB.pdf',
+    url: 'https://www1.nyc.gov/site/planning/index.page',
+  }],
+});
+
+server.create('milestone', {
+  project: seedCBUserProjects[0],
+  milestone: '943BEEC4-DAD0-E711-8116-1458D04E2FB8',
+  milestonename: 'Borough President Referral',
+  plannedstartdate: null,
+  plannedcompletiondate: null,
+  actualstartdate: null,
+  actualenddate: null,
+  statuscode: null,
+  milestonesequence: null,
+  displayName: 'Borough President Referral',,
+  displayDate: null,
+  displayDate2: null,
+  milestoneoutcome: null,
+  milestoneLinks: [{
+    filename: '2020_QB.pdf',
+    url: 'https://www1.nyc.gov/site/planning/index.page',
+  }],
+});
+
+server.create('milestone', {
+  project: seedCBUserProjects[0],
+  milestone: '963BEEC4-DAD0-E711-8116-1458D04E2FB8',
+  milestonename: 'Borough Board Referral',
+  plannedstartdate: null,
+  plannedcompletiondate: null,
+  actualstartdate: null,
+  actualenddate: null,
+  statuscode: null,
+  milestonesequence: null,
+  displayName: 'Borough Board Referral',,
+  displayDate: null,
+  displayDate2: null,
+  milestoneoutcome: null,
+  milestoneLinks: [{
+    filename: '2020_QB.pdf',
+    url: 'https://www1.nyc.gov/site/planning/index.page',
+  }],
+});
+
+server.create('milestone', {
+  project: seedCBUserProjects[0],
+  milestone: '9E3BEEC4-DAD0-E711-8116-1458D04E2FB8',
+  milestonename: 'CPC Public Meeting - Public Hearing',
+  plannedstartdate: null,
+  plannedcompletiondate: null,
+  actualstartdate: null,
+  actualenddate: null,
+  statuscode: null,
+  milestonesequence: null,
+  displayName: 'CPC Public Meeting - Public Hearing',
+  displayDate: null,
+  displayDate2: null,
+  milestoneoutcome: null,
+  milestoneLinks: [{
+    filename: '2020_QB.pdf',
+    url: 'https://www1.nyc.gov/site/planning/index.page',
+  }],
+});
+
+server.create('milestone', {
+  project: seedCBUserProjects[0],
+  milestone: 'A43BEEC4-DAD0-E711-8116-1458D04E2FB8',
+  milestonename: 'CPC Public Meeting - Vote',
+  plannedstartdate: null,
+  plannedcompletiondate: null,
+  actualstartdate: null,
+  actualenddate: null,
+  statuscode: null,
+  milestonesequence: null,
+  displayName: 'CPC Public Meeting - Vote',
+  displayDate: null,
+  displayDate2: null,
+  milestoneoutcome: null,
+  milestoneLinks: [{
+    filename: '2020_QB.pdf',
+    url: 'https://www1.nyc.gov/site/planning/index.page',
+  }],
+});
+
+server.create('milestone', {
+  project: seedCBUserProjects[0],
+  milestone: 'A63BEEC4-DAD0-E711-8116-1458D04E2FB8',
+  milestonename: 'City Council Review',
+  plannedstartdate: null,
+  plannedcompletiondate: null,
+  actualstartdate: null,
+  actualenddate: null,
+  statuscode: null,
+  milestonesequence: null,
+  displayName: 'City Council Review',
+  displayDate: null,
+  displayDate2: null,
+  milestoneoutcome: null,
+  milestoneLinks: [{
+    filename: '2020_QB.pdf',
+    url: 'https://www1.nyc.gov/site/planning/index.page',
+  }],
+});
+
+server.create('milestone', {
+  project: seedCBUserProjects[0],
+  milestone: 'A83BEEC4-DAD0-E711-8116-1458D04E2FB8',
+  milestonename: 'Mayoral Vote',
+  plannedstartdate: null,
+  plannedcompletiondate: null,
+  actualstartdate: null,
+  actualenddate: null,
+  statuscode: null,
+  milestonesequence: null,
+  displayName: 'Mayoral Vote',
+  displayDate: null,
+  displayDate2: null,
+  milestoneoutcome: null,
+  milestoneLinks: [{
+    filename: '2020_QB.pdf',
+    url: 'https://www1.nyc.gov/site/planning/index.page',
+  }],
+});
+
+server.create('milestone', {
+  project: seedCBUserProjects[0],
+  milestone: 'AA3BEEC4-DAD0-E711-8116-1458D04E2FB8',
+  milestonename: 'Final Letter Sent',
+  plannedstartdate: null,
+  plannedcompletiondate: null,
+  actualstartdate: null,
+  actualenddate: null,
+  statuscode: null,
+  milestonesequence: null,
+  displayName: 'Final Letter Sent',
+  displayDate: null,
+  displayDate2: null,
+  milestoneoutcome: null,
+  milestoneLinks: [{
+    filename: '2020_QB.pdf',
+    url: 'https://www1.nyc.gov/site/planning/index.page',
+  }],
+});

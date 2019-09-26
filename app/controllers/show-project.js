@@ -52,6 +52,23 @@ export default class ShowProjectController extends Controller {
     return moment(endDate) - moment(startDate);
   }
 
+  @computed('user', 'model')
+  get isUserAssignedToProject() {
+    // user is from currentUser Service
+    // currentUser Service injected in show-project route on setUpController
+    if (this.session.isAuthenticated) {
+      const user = this.get('user');
+      const currentProject = this.get('model');
+
+      const userProjectIds = user.projects.map(proj => proj.dcp_name);
+
+      // check that current project is in userProjectIds array
+      const isUserAssigned = userProjectIds.includes(currentProject.dcp_name);
+
+      return isUserAssigned;
+    } return false;
+  }
+
   @computed('model')
   get hearingsSubmitted() {
     const dispositions = this.get('model.dispositions');
