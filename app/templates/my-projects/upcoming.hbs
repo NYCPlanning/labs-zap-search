@@ -24,7 +24,7 @@
       <div class="cell medium-auto">
         <ul class="no-bullet no-margin">
           {{#each project.milestones as |milestone|}}
-            <li class="grid-x">
+            <li class="grid-x small-margin-bottom">
               <div class="cell shrink small-margin-right">
                 {{#if (eq milestone.statuscode "Completed")}}
                   {{fa-icon 'check' class='blue' fixedWidth=true}}
@@ -37,10 +37,8 @@
                 {{/if}}
               </div>
               <div class="cell auto">
-                <p class="small-margin-bottom">
-                  <strong>{{milestone.milestonename}}</strong>
-                  <small class="display-block">{{milestone.displayDate}}</small>
-                </p>
+                <strong class="display-inline-block">{{milestone.milestonename}}</strong>
+                <small class="display-inline-block">{{milestone.displayDate}}</small>
               </div>
             </li>
           {{/each}}
