@@ -43,10 +43,10 @@ export default class ShowProjectController extends Controller {
       const user = this.get('user');
       const currentProject = this.get('model');
 
-      const userProjectIds = user.projects.map(proj => proj.dcp_name);
+      const userProjectIds = user.projects.map(proj => proj.dcpName);
 
       // check that current project is in userProjectIds array
-      const isUserAssigned = userProjectIds.includes(currentProject.dcp_name);
+      const isUserAssigned = userProjectIds.includes(currentProject.dcpName);
 
       return isUserAssigned;
     } return false;
@@ -61,8 +61,8 @@ export default class ShowProjectController extends Controller {
       return hearingInfo;
     }
 
-    const dispositionHearingLocations = dispositions.map(disp => `${disp.publichearinglocation}`);
-    const dispositionHearingDates = dispositions.map(disp => disp.dateofpublichearing);
+    const dispositionHearingLocations = dispositions.map(disp => `${disp.dcpPublichearinglocation}`);
+    const dispositionHearingDates = dispositions.map(disp => disp.dcpDateofpublichearing);
     // using function infoExists, fieldsFilled checks whether each item in array is truthy
     const hearingsSubmitted = dispositionHearingLocations.every(infoExists) && dispositionHearingDates.every(infoExists);
 
@@ -78,7 +78,7 @@ export default class ShowProjectController extends Controller {
 
     if (hearingsSubmitted) {
       deduped = dispositions.reduce((acc, current) => {
-        const matchingProps = acc.find(item => item.publichearinglocation === current.publichearinglocation && item.dateofpublichearing.toString() === current.dateofpublichearing.toString());
+        const matchingProps = acc.find(item => item.dcpPublichearinglocation === current.dcpPublichearinglocation && item.dcpDateofpublichearing.toString() === current.dcpDateofpublichearing.toString());
 
         // if the properties DO match
         if (matchingProps) {
@@ -93,10 +93,10 @@ export default class ShowProjectController extends Controller {
     return deduped;
   }
 
-  @computed('model.bbl_featurecollection')
+  @computed('model.bblFeaturecollection')
   get hasBBLFeatureCollectionGeometry() {
-    return this.model.bbl_featurecollection.features.length
-    && this.model.bbl_featurecollection.features[0].geometry;
+    return this.model.bblFeaturecollection.features.length
+    && this.model.bblFeaturecollection.features[0].geometry;
   }
 
   @action
@@ -106,7 +106,7 @@ export default class ShowProjectController extends Controller {
     const navigationControl = new mapboxgl.NavigationControl();
     map.addControl(navigationControl, 'top-left');
 
-    map.fitBounds(turfBbox(turfBuffer(this.model.bbl_featurecollection.features[0], 0.075)), {
+    map.fitBounds(turfBbox(turfBuffer(this.model.bblFeaturecollection.features[0], 0.075)), {
       linear: true,
       duration: 0,
     });

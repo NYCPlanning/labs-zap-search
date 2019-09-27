@@ -11,31 +11,31 @@ export default class MilestoneModel extends Model {
 
   // --> ZAP-API:zap_id
   // This is the Milestone ID that identifies a specific milestone
-  @attr('string') milestone;
+  @attr('string') dcpMilestone;
 
   // --> CRM:dcp_name. e.g. 'ZC - Land Use Fee Payment '
-  @attr('string') name;
+  @attr('string') dcpName;
 
   // --> CRM:milestonename | e.g. 'Land Use Fee Payment'
   @attr('string') milestonename;
 
   // --> CRM:dcp_plannedstartdate | e.g. '2018-10-31T01:21:46'
-  @attr('string') plannedstartdate;
+  @attr('string') dcpPlannedstartdate;
 
   // --> CRM:dcp_plannedcompletiondate | e.g. '2018-11-02T01:21:46'
-  @attr('string') plannedcompletiondate;
+  @attr('string') dcpPlannedcompletiondate;
 
   // --> CRM:dcp_actualstartdate | e.g. '2018-05-11T04:00:00'
-  @attr('string') actualstartdate;
+  @attr('string') dcpActualstartdate;
 
   // --> CRM:dcp_actualenddate | e.g. '2018-05-12T04:00:00'
-  @attr('string') actualenddate;
+  @attr('string') dcpActualenddate;
 
   // --> CRM:statuscode | e.g. 'Not Started', 'In Progress', 'Completed', 'Overridden'
   @attr('string') statuscode;
 
   // --> CRM:dcp_milestonesequence | e.g. 28
-  @attr('string') milestonesequence;
+  @attr('string') dcpMilestonesequence;
 
   // --> ZAP-API:displayDescription | e.g. 'Land Use Fee Payment'
   @attr('string') displayDescription;
@@ -50,10 +50,10 @@ export default class MilestoneModel extends Model {
   @attr('string') displayDate2;
 
   // --> CRM:dcp_milestoneoutcome
-  @attr('string') milestoneoutcome;
+  @attr('string') outcome;
 
   // --> ZAP-API:milestoneLinks
-  @attr() milestonelinks;
+  @attr() milestoneLinks;
 
   // --> ZAP-API generated boolean determined whether milestone is a "revision" type
   // usually occurs when it's a duplicate type in a sequence
@@ -64,5 +64,9 @@ export default class MilestoneModel extends Model {
     if (this.isRevised) return `Revised ${this.displayName}`;
 
     return this.displayName;
+  }
+
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
   }
 }

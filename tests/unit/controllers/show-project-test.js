@@ -11,7 +11,7 @@ module('Unit | Controller | show-project', function(hooks) {
     assert.ok(controller);
 
     controller.model = {
-      bbl_featurecollection: {
+      bblFeaturecollection: {
         features: [{
           type: 'Feature',
           geometry: {
@@ -34,7 +34,7 @@ module('Unit | Controller | show-project', function(hooks) {
     assert.ok(controller);
 
     const project = server.create('project', {
-      bbl_featurecollection: {
+      bblFeaturecollection: {
         features: [{
           type: 'Feature',
           geometry: null,
@@ -55,7 +55,7 @@ module('Unit | Controller | show-project', function(hooks) {
     assert.ok(controller);
 
     const project = server.create('project', {
-      bbl_featurecollection: {
+      bblFeaturecollection: {
         features: [],
       },
     });
@@ -76,16 +76,16 @@ module('Unit | Controller | show-project', function(hooks) {
       id: 1,
       projects: [
         {
-          dcp_name: 'P2012M046',
+          dcpName: 'P2012M046',
         },
         {
-          dcp_name: 'N2014Q176',
+          dcpName: 'N2014Q176',
         },
       ],
     };
 
     const project = server.create('project', {
-      dcp_name: 'P2003B056',
+      dcpName: 'P2003B056',
     });
 
     const projectModel = await this.owner.lookup('service:store').findRecord('project', project.id);
@@ -105,16 +105,16 @@ module('Unit | Controller | show-project', function(hooks) {
       id: 1,
       projects: [
         {
-          dcp_name: 'N2014Q176',
+          dcpName: 'N2014Q176',
         },
         {
-          dcp_name: 'P2012M046',
+          dcpName: 'P2012M046',
         },
       ],
     };
 
     const project = server.create('project', {
-      dcp_name: 'P2012M046',
+      dcpName: 'P2012M046',
     });
 
     const projectModel = await this.owner.lookup('service:store').findRecord('project', project.id);

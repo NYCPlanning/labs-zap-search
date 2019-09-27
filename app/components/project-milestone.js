@@ -17,7 +17,7 @@ export default class ProjectMilestoneComponent extends Component {
   }
 
   // one of 'past', 'present', or 'future'
-  @computed('milestone.displayDate,milestone.displayDate2')
+  @computed('milestone.{displayDate,displayDate2}')
   get tense() {
     const date1 = this.get('milestone.displayDate');
     const date2 = this.get('milestone.displayDate2');
@@ -33,7 +33,7 @@ export default class ProjectMilestoneComponent extends Component {
     return 'future';
   }
 
-  @computed('tense,milestone.displayDate,milestone.displayDate2')
+  @computed('tense', 'milestone.{displayDate,displayDate2}')
   get timeRelativeToNow() {
     const tense = this.get('tense');
     const date1 = this.get('milestone.displayDate');

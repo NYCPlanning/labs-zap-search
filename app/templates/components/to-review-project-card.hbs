@@ -5,11 +5,11 @@
   <div class="grid-x grid-x-small-gutters">
     <div class="cell large-6">
       <h3 class="tiny-margin-bottxrom">
-        {{#link-to 'show-project' project.id}}{{project.dcp_projectname}}{{/link-to}}
-        <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
+        {{#link-to 'show-project' project.id}}{{project.dcpProjectname}}{{/link-to}}
+        <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{project.applicants}}</h5>
-      <p>{{project.dcp_projectbrief}}</p>
+      <p>{{project.dcpProjectbrief}}</p>
     </div>
     <div class="cell medium-4 large-shrink">
       <div class="lup-countdown medium-margin-right medium-margin-left">
@@ -28,7 +28,7 @@
                 {{#each dedupedHearings as |hearing|}}
                   <li class="grid-x small-margin-bottom">
                     <div class="cell shrink small-margin-right">
-                      {{#if (is-before hearing.dateofpublichearing)}}
+                      {{#if (is-before hearing.dcpDateofpublichearing)}}
                         {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
                       {{else}}
                         {{fa-icon "check" class="blue" fixedWidth=true}}
@@ -36,14 +36,14 @@
                     </div>
                     <div class="cell-auto">
                       <strong class="display-block hearing-location">
-                        {{~hearing.publichearinglocation~}}
+                        {{~hearing.dcpPublichearinglocation~}}
                       </strong>
                       <span class="hearing-date">
-                        {{~moment-format hearing.dateofpublichearing "MM/D/YYYY"~}}
+                        {{~moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"~}}
                       </span>
                       <span class="light-gray">|</span>
                       <span class="hearing-time">
-                        {{~moment-format hearing.dateofpublichearing "h:mm A"~}}
+                        {{~moment-format hearing.dcpDateofpublichearing "h:mm A"~}}
                       </span>
                     </div>
                   </li>

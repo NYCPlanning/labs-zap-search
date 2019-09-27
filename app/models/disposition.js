@@ -16,11 +16,11 @@ export default class DispositionModel extends Model {
   // ONE disposition has ONE action
   @belongsTo('action', { async: true }) action;
 
-  // sourced from dcp_publichearinglocation
-  @attr('string', { defaultValue: '' }) publichearinglocation;
+  // sourced from dcp_dcpPublichearinglocation
+  @attr('string', { defaultValue: '' }) dcpPublichearinglocation;
 
-  // sourced from dcp_dateofpublichearing
-  @attr('date', { defaultValue: null }) dateofpublichearing;
+  // sourced from dcp_dcpDateofpublichearing
+  @attr('date', { defaultValue: null }) dcpDateofpublichearing;
 
   // Not needed
   // @attr('string', { defaultValue: '' }) formCompleterName;
@@ -90,4 +90,8 @@ export default class DispositionModel extends Model {
   @attr('boolean', {
     defaultValue: null,
   }) wasaquorumpresent;
+
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
+  }
 }

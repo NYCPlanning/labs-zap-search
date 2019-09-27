@@ -8,11 +8,11 @@
     <div class="grid-x grid-x-small-gutters">
       <div class="cell large-6">
         <h3 class="tiny-margin-bottom">
-          {{#link-to 'show-project' project.id}}{{project.dcp_projectname}}{{/link-to}}
-          <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
+          {{#link-to 'show-project' project.id}}{{project.dcpProjectname}}{{/link-to}}
+          <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
         </h3>
         <h5 class="applicant">{{project.applicants}}</h5>
-        <p>{{project.dcp_projectbrief}}</p>
+        <p>{{project.dcpProjectbrief}}</p>
       </div>
       <div class="cell medium-auto">
         <ul class="no-bullet no-margin">
@@ -41,27 +41,7 @@
       </div>
       <div class="cell medium-auto">
         <ul class="no-bullet no-margin">
-          {{#each project.actions as |action|}}
-            {{#each action.recommendations as |recommendation|}}
-              <li class="grid-x">
-                <div class="cell shrink small-margin-right">
-                  {{#if (eq recommendation.recommendation 'Approved')}}
-                    {{fa-icon 'thumbs-up' class='green-dark' fixedWidth=true}}
-                  {{else if (eq recommendation.recommendation 'Disapproved')}}
-                    {{fa-icon 'thumbs-down' class='red-dark' fixedWidth=true}}
-                  {{/if}}
-                </div>
-                <div class="cell auto">
-                  <p class="small-margin-bottom">
-                    <strong>{{model-name recommendation}}</strong>&nbsp;{{recommendation.recommendation}}
-                    <small class="display-block">
-                      {{recommendation.dateReceived}}
-                    </small>
-                  </p>
-                </div>
-              </li>
-            {{/each}}
-          {{/each}}
+          {{!-- TODO: Figure out what this loop was supposed to be --}}
         </ul>
       </div>
     </div>

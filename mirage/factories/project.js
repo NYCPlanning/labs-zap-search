@@ -3,143 +3,143 @@ import bblFeatureCollection from '../test-data/bbl-feature-collection';
 
 export default Factory.extend({
 
-  // dcp_projectid was deleted from Project model
+  // dcpProjectid was deleted from Project model
   // Also, faker.random.uuid() seems broken:
   // https://github.com/Marak/faker.js/issues/790
   // id() {
   //   return faker.random.uuid();
   // },
 
-  dcp_name() {
+  dcpName() {
     return faker.random.number();
   },
 
-  dcp_alterationmapnumber() {
+  dcpAlterationmapnumber() {
     return faker.random.number();
   },
 
-  dcp_borough() {
+  dcpBorough() {
     return faker.random.arrayElement(['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']);
   },
 
-  dcp_bsanumber() {
+  dcpBsanumber() {
     return faker.random.number();
   },
 
-  dcp_ceqrnumber() {
+  dcpCeqrnumber() {
     return faker.random.number();
   },
 
-  dcp_ceqrtype() {
+  dcpCeqrtype() {
     return faker.random.arrayElement(['Type I', 'Type II', 'Unlisted']);
   },
 
-  dcp_certifiedreferred() {
+  dcpCertifiedreferred() {
     return faker.date.past();
   },
 
-  dcp_currentenvironmentmilestone() {
+  dcpCurrentenvironmentmilestone() {
     return faker.random.word();
   },
 
-  dcp_currentmilestone() {
+  dcpCurrentmilestone() {
     return faker.random.word();
   },
 
-  dcp_decpermitnumber() {
+  dcpDecpermitnumber() {
     return faker.random.number();
   },
 
-  dcp_easeis() {
+  dcpEaseis() {
     return faker.random.word();
   },
 
-  dcp_femafloodzonea() {
+  dcpFemafloodzonea() {
     return faker.random.arrayElement(['Flood Zone A', '']);
   },
 
-  dcp_femafloodzonecoastala() {
+  dcpFemafloodzonecoastala() {
     return faker.random.arrayElement(['Coastal Flood Zone', '']);
   },
 
-  dcp_femafloodzoneshadedx() {
+  dcpFemafloodzoneshadedx() {
     return faker.random.arrayElement(['Shaded Flood Zone X', '']);
   },
 
-  dcp_femafloodzonev() {
+  dcpFemafloodzonev() {
     return faker.random.arrayElement(['Flood Zone V', '']);
   },
 
-  dcp_leadagencyforenvreview() {
+  dcpLeadagencyforenvreview() {
     return faker.commerce.department();
   },
 
-  dcp_leaddivision() {
+  dcpLeaddivision() {
     return faker.commerce.department();
   },
 
-  dcp_lpcnumber() {
+  dcpLpcnumber() {
     return faker.random.number();
   },
 
-  dcp_nydospermitnumber() {
+  dcpNydospermitnumber() {
     return faker.random.number();
   },
 
-  dcp_previousactiononsite() {
+  dcpPreviousactiononsite() {
     return faker.random.word();
   },
 
-  dcp_projectbrief() {
+  dcpProjectbrief() {
     return faker.lorem.paragraph(7);
   },
 
-  dcp_projectname() {
+  dcpProjectname() {
     return `
       ${faker.random.arrayElement([faker.address.streetName(), faker.company.companyName()])}
       ${faker.random.arrayElement(['Rezoning', faker.address.streetSuffix()])}
     `;
   },
 
-  dcp_publicstatus() {
+  dcpPublicstatus() {
     return faker.random.arrayElement(['Active', 'Approved', 'Withdrawn']);
   },
 
-  dcp_publicstatus_simp() {
+  dcpPublicstatusSimp() {
     return faker.random.arrayElement(['Active', 'Approved', 'Withdrawn']);
   },
 
-  dcp_hiddenprojectmetrictarget() {
+  dcpHiddenprojectmetrictarget() {
     return faker.random.word();
   },
 
-  dcp_sischoolseat() {
+  dcpSischoolseat() {
     return faker.random.boolean();
   },
 
-  dcp_sisubdivision() {
+  dcpSisubdivision() {
     return faker.random.boolean();
   },
 
-  dcp_ulurp_nonulurp() {
+  dcpUlurpNonulurp() {
     return faker.random.arrayElement(['ULURP', 'Non-ULURP']);
   },
 
-  dcp_wrpnumber() {
+  dcpWrpnumber() {
     return faker.random.number();
   },
 
-  dcp_communitydistrict() {
+  dcpCommunitydistrict() {
     return faker.random.word();
   },
 
-  dcp_communitydistricts: 'BX08;SI01;SI02;SI03',
+  dcpCommunitydistricts: 'BX08;SI01;SI02;SI03',
 
-  dcp_validatedcommunitydistricts() {
+  dcpValidatedcommunitydistricts() {
     return faker.random.word();
   },
 
-  bbl_featurecollection() {
+  bblFeaturecollection() {
     return bblFeatureCollection;
   },
 

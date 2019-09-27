@@ -6,9 +6,9 @@ import EmberObject, { action } from '@ember/object';
 // the single date and single location values are set on this object
 // then later the hearing location and date for EVERY disposition is set with these values
 class DispositionForAllActions extends EmberObject {
-  publichearinglocation = '';
+  dcpPublichearinglocation = '';
 
-  dateofpublichearing = '';
+  dcpDateofpublichearing = '';
 }
 
 export default class MyProjectsProjectHearingAddController extends Controller {
@@ -62,13 +62,13 @@ export default class MyProjectsProjectHearingAddController extends Controller {
 
     // if user is submitting ONE hearing for ALL actions
     if (allActions) {
-      const allActionsDispHearingLocation = dispositionForAllActions.publichearinglocation;
-      const allActionsDispHearingDate = dispositionForAllActions.dateofpublichearing;
+      const allActionsDispHearingLocation = dispositionForAllActions.dcpPublichearinglocation;
+      const allActionsDispHearingDate = dispositionForAllActions.dcpDateofpublichearing;
       fieldsFilled = allActionsDispHearingLocation && allActionsDispHearingDate;
     // if user is submitting a hearing PER action
     } else {
-      const dispositionHearingLocations = dispositions.map(disp => `${disp.publichearinglocation}`);
-      const dispositionHearingDates = dispositions.map(disp => disp.dateofpublichearing);
+      const dispositionHearingLocations = dispositions.map(disp => `${disp.dcpPublichearinglocation}`);
+      const dispositionHearingDates = dispositions.map(disp => disp.dcpDateofpublichearing);
       // using function infoExists, fieldsFilled checks whether each item in array is truthy
       fieldsFilled = dispositionHearingLocations.every(infoExists) && dispositionHearingDates.every(infoExists);
     }
@@ -88,15 +88,15 @@ export default class MyProjectsProjectHearingAddController extends Controller {
     try {
       // if user is submitting ONE hearing for ALL actions
       if (allActions) {
-        const allActionsDispHearingLocation = this.get('dispositionForAllActions.publichearinglocation');
-        const allActionsDispHearingDate = this.get('dispositionForAllActions.dateofpublichearing');
+        const allActionsDispHearingLocation = this.get('dispositionForAllActions.dcpPublichearinglocation');
+        const allActionsDispHearingDate = this.get('dispositionForAllActions.dcpDateofpublichearing');
 
         // iterate through each disposition on the modal
         // set hearing location and date on each one with the single value that the user input
         // this single value is saved on dispositionForAllActions object
         dispositions.forEach(function(disposition) {
-          disposition.set('publichearinglocation', allActionsDispHearingLocation);
-          disposition.set('dateofpublichearing', allActionsDispHearingDate);
+          disposition.set('dcpPublichearinglocation', allActionsDispHearingLocation);
+          disposition.set('dcpDateofpublichearing', allActionsDispHearingDate);
         });
       }
       await dispositions.save();

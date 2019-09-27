@@ -220,7 +220,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     });
     this.dispositions.forEach(function(disposition) {
       if (thisCtrl.allActions) {
-        thisCtrl.send('setDispositionRecByPartType', disposition, thisCtrl.dispositionForAllActions.recommendation);
+        thisCtrl.send('setDispositionRec', disposition, thisCtrl.dispositionForAllActions.recommendation);
         disposition.setProperties({
           votinginfavorrecommendation: thisCtrl.dispositionForAllActions.votinginfavorrecommendation,
           votingagainstrecommendation: thisCtrl.dispositionForAllActions.votingagainstrecommendation,
