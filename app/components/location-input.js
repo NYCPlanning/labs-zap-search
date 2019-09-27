@@ -7,7 +7,7 @@ export default class LocationInputComponent extends Component {
 
   // targetField is set on the form render
   // represents the attribute that is to be set to the new value
-  // e.g. disposition.dateofpublichearing
+  // e.g. disposition.dcpDateofpublichearing
   targetField = '';
 
   // local attributes saved on every key-down event
@@ -23,7 +23,7 @@ export default class LocationInputComponent extends Component {
 
     // targetField is set when component is rendered
     // target attribute to be changed
-    // e.g. disposition.publichearinglocation
+    // e.g. disposition.dcpPublichearinglocation
     this.set('targetField', this.location);
   }
 }

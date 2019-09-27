@@ -31,16 +31,16 @@
                 @route="show-project"
                 @model={{project}}
               >
-                {{project.dcp_projectname}}
+                {{project.dcpProjectname}}
               </LinkTo>
-              <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
+              <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
             </h3>
             <h5 class="applicant">{{project.applicants}}</h5>
-            <p>{{project.dcp_projectbrief}}</p>
+            <p>{{project.dcpProjectbrief}}</p>
           </div>
         </div>
         <div class="cell large-7">
-          {{#if this.dispositions.firstObject.publichearinglocation}}
+          {{#if this.dispositions.firstObject.dcpPublichearinglocation}}
             <strong>
               <legend>
                 Was a Quorum Present at your hearing(s)?
@@ -50,17 +50,17 @@
               A quorum requires the presence of 20% of appointed board members, and not fewer than seven members.
             </p>
             {{#each this.dispositions as |disposition idx|}}
-              {{#if disposition.dateofpublichearing}}
+              {{#if disposition.dcpDateofpublichearing}}
                 <div class="grid-x align-middle">
                   <p class="cell auto small-order-2">
                     <strong class="display-block">
-                      {{moment-format disposition.dateofpublichearing "MM/D/YYYY"}}
+                      {{moment-format disposition.dcpDateofpublichearing "MM/D/YYYY"}}
                       <span class="light-gray">|</span>
-                      {{disposition.publichearinglocation}}
+                      {{disposition.dcpPublichearinglocation}}
                     </strong>
-                    {{disposition.action.name}}
+                    {{disposition.action.dcpName}}
                     <small>
-                      ({{disposition.action.ulurpnumber}})
+                      ({{disposition.action.dcpUlurpnumber}})
                     </small>
                   </p>
                   <fieldset class="cell shrink medium-margin-bottom small-margin-right recommendation-quorum-fieldiset">
@@ -246,9 +246,9 @@
               </legend>
               {{#each this.dispositionAndChangesetPairs as |dispositionChangesetPair idx|}}
                 <h4>
-                  {{dispositionChangesetPair.disposition.action.name}}
+                  {{dispositionChangesetPair.disposition.action.dcpName}}
                   <small class="dark-gray">
-                    {{dispositionChangesetPair.disposition.action.ulurpnumber}}
+                    {{dispositionChangesetPair.disposition.action.dcpUlurpnumber}}
                   </small>
                 </h4>
                 <div
@@ -467,25 +467,25 @@
               <div id="recommendation-confirmation" class="reveal-overlay" style="display:block;">
                 <div class="reveal" role="dialog" aria-hidden="false" tabindex="-1" style="display:block;">
                   <h3>Confirm recommendation information</h3>
-                  {{#if this.dispositions.firstObject.publichearinglocation}}
+                  {{#if this.dispositions.firstObject.dcpPublichearinglocation}}
                     <h5>
                       Was a Quorum Present at your Hearing(s)?
                     </h5>
                     {{#each this.dispositions as |disposition idx|}}
-                      {{#if disposition.dateofpublichearing}}
+                      {{#if disposition.dcpDateofpublichearing}}
                         <p class="grid-x align-middle">
                           <strong class="cell small-1">
                             {{if disposition.wasaquorumpresent "Yes" "No"}}
                           </strong>
                           <span class="cell auto">
                             <strong class="display-block">
-                              {{moment-format disposition.dateofpublichearing "MM/D/YYYY"}}
+                              {{moment-format disposition.dcpDateofpublichearing "MM/D/YYYY"}}
                               <span class="light-gray">|</span>
-                              {{disposition.publichearinglocation}}
+                              {{disposition.dcpPublichearinglocation}}
                             </strong>
-                            {{disposition.action.name}}
+                            {{disposition.action.dcpName}}
                             <small>
-                              ({{disposition.action.ulurpnumber}})
+                              ({{disposition.action.dcpUlurpnumber}})
                             </small>
                           </span>
                         </p>
@@ -506,9 +506,9 @@
                   {{else}}
                     {{#each this.dispositionAndChangesetPairs as |dispositionChangesetPair idx|}}
                       <h5 class="large-margin-top">
-                        Recommendation: {{dispositionChangesetPair.disposition.action.name}}
+                        Recommendation: {{dispositionChangesetPair.disposition.action.dcpName}}
                         <small class="dark-gray">
-                          ({{dispositionChangesetPair.disposition.action.ulurpnumber}})
+                          ({{dispositionChangesetPair.disposition.action.dcpUlurpnumber}})
                         </small>
                       </h5>
                       <p>

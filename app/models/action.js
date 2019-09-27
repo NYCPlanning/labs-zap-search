@@ -18,12 +18,10 @@ export default class ActionModel extends Model {
 
   // Name of action e.g. "Zoning Text Amendment"
   // sourced from dcp_name -- SUBSTRING(a.dcp_name FROM '-{1}\s*(.*)')
-  // sourced ZAP-API: name
   @attr('string') dcpName;
 
   // Action Code e.g. "ZR"
   // sourced from CRM: dcp_name -- SUBSTRING(a.dcp_name FROM '^(\w+)')
-  // sourced from ZAP-API: actioncode
   @attr('string') actioncode;
 
   // sourced from dcp_name-- e.g. 'ZR - Zoning Text Amendment'
@@ -47,4 +45,8 @@ export default class ActionModel extends Model {
 
   // sourced from dcp_ccresolutionnumber
   @attr('string') dcpCcresolutionnumber;
+
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
+  }
 }

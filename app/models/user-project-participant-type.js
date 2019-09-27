@@ -21,4 +21,8 @@ export default class UserProjectParticipantTypeModel extends Model {
   // could calculate this based on user.representing
   // could calculate this from email e.g. 'bxbp@planning.nyc.gov' or 'qncb5@planning.nyc.gov'
   @attr('string') participantType;
+
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
+  }
 }

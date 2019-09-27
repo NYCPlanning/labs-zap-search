@@ -63,8 +63,8 @@ export default class ProjectFeedbackComponent extends Component {
 
   @action
   submitFlag() {
-    const projectname = this.get('project.dcp_projectname');
-    const projectid = this.get('project.dcp_name');
+    const projectname = this.get('project.dcpProjectname');
+    const projectid = this.get('project.dcpName');
     const { flagText, reCaptchaResponse } = this;
 
     fetch(`${ENV.host}/projects/feedback`, {
