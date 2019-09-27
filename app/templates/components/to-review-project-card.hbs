@@ -26,7 +26,7 @@
             <h5 class="column-header">Hearing Information</h5>
                 <ul class="no-bullet">
                 {{#each dedupedHearings as |hearing|}}
-                  <li class="grid-x">
+                  <li class="grid-x small-margin-bottom">
                     <div class="cell shrink small-margin-right">
                       {{#if (is-before hearing.dateofpublichearing)}}
                         {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
