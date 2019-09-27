@@ -3,7 +3,11 @@
 // --------------------------------------------------
 
 .reveal-overlay {
-  position: absolute;
+  padding: 1rem;
+
+  @include breakpoint(medium) {
+    position: absolute;
+  }
 }
 
 .reveal {
