@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import { action, computed } from '@ember/object';
 import turfBbox from '@turf/bbox';
 import turfBuffer from '@turf/buffer';
+import { hearingsSubmitted } from 'labs-zap-search/helpers/hearings-submitted';
 
 /**
  * The ShowProjectController is an EmberJS controller which handles the
@@ -52,45 +53,12 @@ export default class ShowProjectController extends Controller {
     } return false;
   }
 
+  // hearingsSubmitted is a helper that iterates through each disposition
+  // and checks whether disposition has dcpPublichearinglocation and dcpDateofpublichearing
   @computed('model')
-  get hearingsSubmitted() {
+  get hearingsSubmittedForProject() {
     const dispositions = this.get('model.dispositions');
-
-    // a function to check if each hearing location/date field is truthy
-    function infoExists(hearingInfo) {
-      return hearingInfo;
-    }
-
-    const dispositionHearingLocations = dispositions.map(disp => `${disp.dcpPublichearinglocation}`);
-    const dispositionHearingDates = dispositions.map(disp => disp.dcpDateofpublichearing);
-    // using function infoExists, fieldsFilled checks whether each item in array is truthy
-    const hearingsSubmitted = dispositionHearingLocations.every(infoExists) && dispositionHearingDates.every(infoExists);
-
-    return hearingsSubmitted;
-  }
-
-  @computed('hearingsSubmitted', 'model')
-  get dedupedHearings() {
-    const dispositions = this.get('model.dispositions');
-
-    let deduped;
-    const hearingsSubmitted = this.get('hearingsSubmitted');
-
-    if (hearingsSubmitted) {
-      deduped = dispositions.reduce((acc, current) => {
-        const matchingProps = acc.find(item => item.dcpPublichearinglocation === current.dcpPublichearinglocation && item.dcpDateofpublichearing.toString() === current.dcpDateofpublichearing.toString());
-
-        // if the properties DO match
-        if (matchingProps) {
-          // just return original object, WITHOUT concatenating the duplicate
-          return acc;
-        // if the properties DO NOT match
-        // concatenate the new object onto the array
-        } return acc.concat([current]);
-      }, []);
-    }
-
-    return deduped;
+    return hearingsSubmitted(dispositions);
   }
 
   @computed('model.bblFeaturecollection')
