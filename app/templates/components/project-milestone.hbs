@@ -29,10 +29,10 @@
   {{#if milestone.displayDate}}
     <div class="milestone-dates">
       {{#if milestone.displayDate}}
-        <div>{{moment-format milestone.displayDate "MMMM D, YYYY" }} {{#if milestone.displayDate_2}}<small>Start</small>{{/if}}</div>
+        <div>{{moment-format milestone.displayDate "MMMM D, YYYY" }} {{#if milestone.displayDate2}}<small>Start</small>{{/if}}</div>
       {{/if}}
-      {{#if milestone.displayDate_2}}
-        <div>{{moment-format milestone.displayDate_2 "MMMM D, YYYY" }} <small>End</small></div>
+      {{#if milestone.displayDate2}}
+        <div>{{moment-format milestone.displayDate2 "MMMM D, YYYY" }} <small>End</small></div>
       {{/if}}
       {{#if timeRelativeToNow}}
         <div class="milestone-offset">{{timeRelativeToNow}}</div>

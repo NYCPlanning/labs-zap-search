@@ -67,8 +67,8 @@ export default function(server) {
           user: seedCBUser,
           project: seedCBUserProjects[i],
           action: seedCBUserProjects[i].actions.models[j],
-          publichearinglocation: 'Canal street',
-          dateofpublichearing: '2018-11-02T01:21:46',
+          dcpPublichearinglocation: 'Canal street',
+          dcpDateofpublichearing: '2018-11-02T01:21:46',
         });
       } else {
         server.create('disposition', {

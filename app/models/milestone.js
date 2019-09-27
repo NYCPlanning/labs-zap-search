@@ -47,7 +47,7 @@ export default class MilestoneModel extends Model {
   @attr('string') displayDate;
 
   // --> CRM:display_date_2 | e.g. null
-  @attr('string') displayDate_2;
+  @attr('string') displayDate2;
 
   // --> CRM:dcp_milestoneoutcome
   @attr('string') outcome;
@@ -64,5 +64,9 @@ export default class MilestoneModel extends Model {
     if (this.isRevised) return `Revised ${this.displayName}`;
 
     return this.displayName;
+  }
+
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
   }
 }

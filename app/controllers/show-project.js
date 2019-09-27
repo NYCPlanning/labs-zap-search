@@ -61,8 +61,8 @@ export default class ShowProjectController extends Controller {
       return hearingInfo;
     }
 
-    const dispositionHearingLocations = dispositions.map(disp => `${disp.publichearinglocation}`);
-    const dispositionHearingDates = dispositions.map(disp => disp.dateofpublichearing);
+    const dispositionHearingLocations = dispositions.map(disp => `${disp.dcpPublichearinglocation}`);
+    const dispositionHearingDates = dispositions.map(disp => disp.dcpDateofpublichearing);
     // using function infoExists, fieldsFilled checks whether each item in array is truthy
     const hearingsSubmitted = dispositionHearingLocations.every(infoExists) && dispositionHearingDates.every(infoExists);
 
@@ -78,7 +78,7 @@ export default class ShowProjectController extends Controller {
 
     if (hearingsSubmitted) {
       deduped = dispositions.reduce((acc, current) => {
-        const matchingProps = acc.find(item => item.publichearinglocation === current.publichearinglocation && item.dateofpublichearing.toString() === current.dateofpublichearing.toString());
+        const matchingProps = acc.find(item => item.dcpPublichearinglocation === current.dcpPublichearinglocation && item.dcpDateofpublichearing.toString() === current.dcpDateofpublichearing.toString());
 
         // if the properties DO match
         if (matchingProps) {

@@ -28,7 +28,7 @@
                 {{#each dedupedHearings as |hearing|}}
                   <li class="grid-x">
                     <div class="cell shrink small-margin-right">
-                      {{#if (is-before hearing.dateofpublichearing)}}
+                      {{#if (is-before hearing.dcpDateofpublichearing)}}
                         {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
                       {{else}}
                         {{fa-icon "check" class="blue" fixedWidth=true}}
@@ -36,14 +36,14 @@
                     </div>
                     <div class="cell-auto">
                       <strong class="display-block hearing-location">
-                        {{~hearing.publichearinglocation~}}
+                        {{~hearing.dcpPublichearinglocation~}}
                       </strong>
                       <span class="hearing-date">
-                        {{~moment-format hearing.dateofpublichearing "MM/D/YYYY"~}}
+                        {{~moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"~}}
                       </span>
                       <span class="light-gray">|</span>
                       <span class="hearing-time">
-                        {{~moment-format hearing.dateofpublichearing "h:mm A"~}}
+                        {{~moment-format hearing.dcpDateofpublichearing "h:mm A"~}}
                       </span>
                     </div>
                   </li>

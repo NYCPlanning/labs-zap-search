@@ -8,12 +8,12 @@
           @route="show-project"
           @model={{project}}
         >
-          {{model.dcp_projectname}}
+          {{model.dcpProjectname}}
         </LinkTo>
-        <small class="dark-gray">{{model.ulurp_nonulurp}}</small>
+        <small class="dark-gray">{{model.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{model.applicants}}</h5>
-      <p>{{model.dcp_projectbrief}}</p>
+      <p>{{model.dcpProjectbrief}}</p>
     </div>
   </div>
   <div class="large-7 cell">
@@ -77,28 +77,28 @@
           {{#if allActions}}
             <p>
               <strong class="display-block hearing-location">
-                {{~dispositionForAllActions.publichearinglocation~}}
+                {{~dispositionForAllActions.dcpPublichearinglocation~}}
               </strong>
               <span class="hearing-date">
-                {{~moment-format dispositionForAllActions.dateofpublichearing "MM/D/YYYY"~}}
+                {{~moment-format dispositionForAllActions.dcpDateofpublichearing "MM/D/YYYY"~}}
               </span>
               <span class="light-gray">|</span>
               <span class="hearing-time">
-                {{~moment-format dispositionForAllActions.dateofpublichearing "h:mm A"~}}
+                {{~moment-format dispositionForAllActions.dcpDateofpublichearing "h:mm A"~}}
               </span>
             </p>
           {{else}}
             {{#each model.dispositions as |disposition|}}
               <p>
                 <strong class="display-block" data-test-hearing-location-confirmation="{{disposition.id}}">
-                  {{~disposition.publichearinglocation~}}
+                  {{~disposition.dcpPublichearinglocation~}}
                 </strong>
                 <span data-test-hearing-date-confirmation="{{disposition.id}}">
-                  {{~moment-format disposition.dateofpublichearing "MM/D/YYYY"~}}
+                  {{~moment-format disposition.dcpDateofpublichearing "MM/D/YYYY"~}}
                 </span>
                 <span class="light-gray">|</span>
                 <span data-test-hearing-time-confirmation="{{disposition.id}}">
-                  {{~moment-format disposition.dateofpublichearing "h:mm A"~}}
+                  {{~moment-format disposition.dcpDateofpublichearing "h:mm A"~}}
                 </span>
               </p>
             {{/each}}
