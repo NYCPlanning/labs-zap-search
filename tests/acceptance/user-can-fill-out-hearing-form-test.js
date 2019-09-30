@@ -135,13 +135,13 @@ module('Acceptance | user can save hearing form', function(hooks) {
     assert.notOk(find('[data-test-button="confirmHearing"]'));
 
     // ## DISPOSITION 2 #######################################################
-    await fillIn('[data-test-location-input="23"]', '135 Flowers Ave, Brooklyn, NY');
+    await fillIn('[data-test-location-input="23"]', '121 Bananas Ave, Queens, NY');
     await triggerEvent('[data-test-location-input="23"]', 'keyup');
     await click('[data-test-date-input="23"]');
-    await Pikaday.selectDate(new Date('2020-11-12T00:00:00'));
-    await fillIn('[data-test-hour-input="23"]', 5);
-    await fillIn('[data-test-minute-input="23"]', 45);
-    await selectChoose('[data-test-timeofday-dropdown="23"] .timeofday-dropdown', 'AM');
+    await Pikaday.selectDate(new Date('2020-10-21T00:00:00'));
+    await fillIn('[data-test-hour-input="23"]', 6);
+    await fillIn('[data-test-minute-input="23"]', 30);
+    await selectChoose('[data-test-timeofday-dropdown="23"] .timeofday-dropdown', 'PM');
 
     // assert that user cannot submit hearing form yet
     await click('[data-test-button="checkHearing"]');
@@ -176,12 +176,12 @@ module('Acceptance | user can save hearing form', function(hooks) {
     assert.notOk(find('[data-test-button="confirmHearing"]'));
 
     // ## DISPOSITION 5 #######################################################
-    await fillIn('[data-test-location-input="26"]', '182 Turtles Ave, Queens, NY');
+    await fillIn('[data-test-location-input="26"]', '121 Bananas Ave, Queens, NY');
     await triggerEvent('[data-test-location-input="26"]', 'keyup');
     await click('[data-test-date-input="26"]');
-    await Pikaday.selectDate(new Date('2020-11-12T00:00:00'));
-    await fillIn('[data-test-hour-input="26"]', 5);
-    await fillIn('[data-test-minute-input="26"]', 45);
+    await Pikaday.selectDate(new Date('2020-10-21T00:00:00'));
+    await fillIn('[data-test-hour-input="26"]', 6);
+    await fillIn('[data-test-minute-input="26"]', 30);
     await selectChoose('[data-test-timeofday-dropdown="26"] .timeofday-dropdown', 'PM');
 
     // assert that user cannot submit hearing form yet
@@ -194,9 +194,9 @@ module('Acceptance | user can save hearing form', function(hooks) {
       keyCode: 84, // t
     });
     await click('[data-test-date-input="27"]');
-    await Pikaday.selectDate(new Date('2020-11-12T00:00:00'));
-    await fillIn('[data-test-hour-input="27"]', 5);
-    await fillIn('[data-test-minute-input="27"]', 45);
+    await Pikaday.selectDate(new Date('2020-10-21T00:00:00'));
+    await fillIn('[data-test-hour-input="27"]', 6);
+    await fillIn('[data-test-minute-input="27"]', 30);
     await selectChoose('[data-test-timeofday-dropdown="27"] .timeofday-dropdown', 'PM');
 
     // assert that user cannot submit hearing form yet
@@ -204,32 +204,69 @@ module('Acceptance | user can save hearing form', function(hooks) {
     assert.notOk(find('[data-test-button="confirmHearing"]'));
 
     // ## DISPOSITION 7 #######################################################
-    await fillIn('[data-test-location-input="28"]', '902 Pine Tree Ave, Bronx, NY');
+    await fillIn('[data-test-location-input="28"]', '121 Bananas Ave, Queens, NY');
     await triggerEvent('[data-test-location-input="28"]', 'keyup');
     await click('[data-test-date-input="28"]');
-    await Pikaday.selectDate(new Date('2020-11-12T00:00:00'));
-    await fillIn('[data-test-hour-input="28"]', 5);
-    await fillIn('[data-test-minute-input="28"]', 45);
-    await selectChoose('[data-test-timeofday-dropdown="28"] .timeofday-dropdown', 'PM');
+    await Pikaday.selectDate(new Date('2020-10-21T00:00:00'));
+    await fillIn('[data-test-hour-input="28"]', 1);
+    await fillIn('[data-test-minute-input="28"]', 25);
+    await selectChoose('[data-test-timeofday-dropdown="28"] .timeofday-dropdown', 'AM');
 
-    // clicking on checkHearing button should open modal
+    // clicking on checkHearing button should open modal for user to review hearing input
     await click('[data-test-button="checkHearing"]');
 
-    // check that confirmHearing button in modal is present
-    assert.ok(find('[data-test-button="confirmHearing"]'));
+    // #####################################################################################################
+    // ######## Creating variables for checking if hearings list shows up correctly #########################
+    // assert that list of hearings text shows up correctly
+    const location22 = this.element.querySelector('[data-test-hearing-location="22"]').textContent;
+    const time22 = this.element.querySelector('[data-test-hearing-time="22"]').textContent;
+    const date22 = this.element.querySelector('[data-test-hearing-date="22"]').textContent;
+    const location28 = this.element.querySelector('[data-test-hearing-location="28"]').textContent;
+    const time28 = this.element.querySelector('[data-test-hearing-time="28"]').textContent;
+    const date28 = this.element.querySelector('[data-test-hearing-date="28"]').textContent;
+    // there will be three actions associated with hearing 22-- since hearing 22, 23, and 25 were duplicates
+    const action22 = this.element.querySelector('[data-test-hearing-actions-list="22"]').textContent;
+    const action23 = this.element.querySelector('[data-test-hearing-actions-list="22"]').textContent;
+    const action25 = this.element.querySelector('[data-test-hearing-actions-list="22"]').textContent;
+    // hearing 28 has the same location and date as hearing 22, but a differen time
+    const action28 = this.element.querySelector('[data-test-hearing-actions-list="28"]').textContent;
 
-    // assert that the hearing location in the modal equals the input value
-    assert.equal(this.element.querySelector('[data-test-hearing-location-confirmation="22"]').textContent, '121 Bananas Ave, Queens, NY');
-    assert.equal(this.element.querySelector('[data-test-hearing-time-confirmation="22"]').textContent, '6:30 PM');
-    assert.equal(this.element.querySelector('[data-test-hearing-date-confirmation="22"]').textContent, '10/21/2020');
+    // check that the hearing text content is correct
+    const location22Correct = location22 === '121 Bananas Ave, Queens, NY';
+    const time22Correct = time22 === '6:30 PM';
+    const date22Correct = date22 === '10/21/2020';
+    const location28Correct = location28 === '121 Bananas Ave, Queens, NY';
+    const time28Correct = time28 === '1:25 AM';
+    const date28Correct = date28 === '10/21/2020';
+    // sometimes the ulurp number is displayed, whereas sometimes the action name is displayed
+    const action22Correct = action22.includes('C780076TLK') || action22.includes('Zoning Special Permit');
+    const action23Correct = action23.includes('N860877TCM') || action23.includes('Zoning Text Amendment');
+    const action25Correct = action25.includes('190172ZMK') || action25.includes('Enclosed Sidewalk Cafe');
+    const action28Correct = action28.includes('190256ZMK') || action28.includes('Zoning Certification');
 
-    assert.equal(this.element.querySelector('[data-test-hearing-location-confirmation="25"]').textContent, '144 Piranha Ave, Manhattan, NY');
-    assert.equal(this.element.querySelector('[data-test-hearing-time-confirmation="25"]').textContent, '5:45 AM');
-    assert.equal(this.element.querySelector('[data-test-hearing-date-confirmation="25"]').textContent, '11/12/2020');
+    // variables to check all hearing and actions text at once
+    const hearingInfo = location22Correct && date22Correct && time22Correct && location28Correct && date28Correct && time28Correct;
+    const actionsInfo = action22Correct && action23Correct && action25Correct && action28Correct;
 
+    // ##################################################################################################################
+
+    // assert that hearing info in modal is correct
+    assert.ok(hearingInfo);
+    assert.ok(actionsInfo);
+
+    // officially saves the hearing info to the model
     await click('[data-test-button="confirmHearing"]');
 
     assert.equal(currentURL(), '/my-projects/4/hearing/done');
+
+    // clicking back to to-review
+    await click('[data-test-button="back-to-review"]');
+
+    assert.ok(hearingInfo);
+    assert.ok(actionsInfo);
+
+    // make sure that project 5 does not have a hearings list
+    assert.notOk(find('[data-test-hearing-location="29"]'));
   });
 
   test('user cannot submit hearing form if hour or minute contain invalid values', async function(assert) {

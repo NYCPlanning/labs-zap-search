@@ -170,38 +170,13 @@
                 <p class="text-small dark-gray"><strong>Ends 09/02/19</strong></p>
               </div>
             </div>
-              {{#if hearingsSubmitted}}
+              {{#if hearingsSubmittedForProject}}
                 {{#link-to "my-projects.project.recommendations.add" model.id}}
-                <span class="button expanded" disabled={{not hearingsSubmitted}} data-test-button-to-rec-form>
+                <span class="button expanded" disabled={{not hearingsSubmittedForProject}} data-test-button-to-rec-form>
                   Submit Participant Type Recommendation
                 </span>
                 {{/link-to}}
-                <h4 class="small-margin-bottom">Hearings</h4>
-                <ul class="no-bullet">
-                {{#each dedupedHearings as |hearing|}}
-                  <li class="grid-x">
-                    <div class="cell shrink small-margin-right">
-                      {{#if (is-before hearing.dcpDateofpublichearing)}}
-                        {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
-                      {{else}}
-                        {{fa-icon "check" class="blue" fixedWidth=true}}
-                      {{/if}}
-                    </div>
-                    <div class="cell-auto">
-                      <strong class="display-block hearing-location">
-                        {{~hearing.dcpPublichearinglocation~}}
-                      </strong>
-                      <span class="hearing-date">
-                        {{~moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"~}}
-                      </span>
-                      <span class="light-gray">|</span>
-                      <span class="hearing-time">
-                        {{~moment-format hearing.dcpDateofpublichearing "h:mm A"~}}
-                      </span>
-                    </div>
-                  </li>
-                {{/each}}
-                </ul>
+                {{deduped-hearings-list project=model attribute="dcpName"}}
               {{else}}
                 {{#link-to "my-projects.project.hearing.add" model.id}}
                   <span class="button expanded" data-test-button-to-hearing-form>

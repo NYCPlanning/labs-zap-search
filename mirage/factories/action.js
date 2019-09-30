@@ -10,7 +10,7 @@ export default Factory.extend({
   },
 
   dcpName(i) {
-    return faker.list.cycle('Zoning Special Permit', 'Zoning Text Amendment', 'Disposition of Non-Residential City-Owned Property', 'Change in City Map')(i);
+    return faker.list.cycle('Zoning Special Permit', 'Zoning Text Amendment', 'Business Improvement District', 'Change in City Map', 'Enclosed Sidewalk Cafe', 'Large Scale Special Permit', 'Zoning Certification')(i);
   },
 
   actioncode(i) {
@@ -26,7 +26,7 @@ export default Factory.extend({
   },
 
   dcpUlurpnumber(i) {
-    return faker.list.random('C780076TLK', 'N860877TCM', 'I030148MMQ')(i);
+    return faker.list.cycle('C780076TLK', 'N860877TCM', 'I030148MMQ', '200088ZMX', '190172ZMK', 'N190257ZRK', '190256ZMK')(i);
   },
 
   dcpZoningresolution(i) {
