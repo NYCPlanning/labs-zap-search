@@ -69,10 +69,8 @@
         </button>
     {{/if}}
 
-    {{#if modalOpen}}
-      <div id="hearing-confirmation" class="reveal-overlay" style="display:block;">
-        <div class="reveal" role="dialog" aria-hidden="false" tabindex="-1" style="display:block;">
-          <h3>Confirm hearing information</h3>
+      {{#confirmation-modal open=modalOpen}}
+        <h3>Confirm hearing information</h3>
 
           {{#if allActions}}
             <li class="grid-x">
@@ -96,32 +94,30 @@
             {{deduped-hearings-list project=model attribute="dcpUlurpnumber"}}
           {{/if}}
 
-          <p class="callout warning text-small">
-            Once you submit hearing information, you can not edit it. You'll need to contact the Lead Planner to make any changes.
-          </p>
+        <p class="callout warning text-small">
+          Once you submit hearing information, you can not edit it. You'll need to contact the Lead Planner to make any changes.
+        </p>
 
-          <p>
-            <button
-              class="button"
-              data-test-button="confirmHearing"
-              type="button"
-              onClick={{action "onConfirm"}}
-            >
-              Submit Hearing Information
-            </button>
+        <p>
+          <button
+            class="button"
+            data-test-button="confirmHearing"
+            type="button"
+            onClick={{action "onConfirm"}}
+          >
+            Submit Hearing Information
+          </button>
 
-            <button
-              class="button clear"
-              data-test-button="closeModal"
-              type="button"
-              onClick={{action "closeModal"}}
-            >
-              Cancel <small>(continue editing)</small>
-            </button>
-          </p>
-        </div>
-      </div>
-    {{/if}}
+          <button
+            class="button clear"
+            data-test-button="closeModal"
+            type="button"
+            onClick={{action "closeModal"}}
+          >
+            Cancel <small>(continue editing)</small>
+          </button>
+        </p>
+      {{/confirmation-modal}}
   </div>
 </div>
 
