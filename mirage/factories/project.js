@@ -91,7 +91,7 @@ export default Factory.extend({
   },
 
   dcpProjectbrief() {
-    return `${faker.lorem.sentences()}. [Test](https://google.com)`;
+    return faker.lorem.paragraph(7);
   },
 
   dcpProjectname() {
