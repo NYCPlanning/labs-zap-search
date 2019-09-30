@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="cell large-7">
-          {{#if this.dispositions.firstObject.dcpPublichearinglocation}}
+          {{#if hearingsSubmittedForProject}}
             <strong>
               <legend>
                 Was a Quorum Present at your hearing(s)?
@@ -49,49 +49,52 @@
             <p class="help-text">
               A quorum requires the presence of 20% of appointed board members, and not fewer than seven members.
             </p>
-            {{#each this.dispositions as |disposition idx|}}
-              {{#if disposition.dcpDateofpublichearing}}
-                <div class="grid-x align-middle">
-                  <p class="cell auto small-order-2">
-                    <strong class="display-block">
-                      {{moment-format disposition.dcpDateofpublichearing "MM/D/YYYY"}}
-                      <span class="light-gray">|</span>
-                      {{disposition.dcpPublichearinglocation}}
-                    </strong>
-                    {{disposition.action.dcpName}}
-                    <small>
-                      ({{disposition.action.dcpUlurpnumber}})
-                    </small>
-                  </p>
-                  <fieldset class="cell shrink medium-margin-bottom small-margin-right recommendation-quorum-fieldiset">
-                    <input type="radio"
-                      name={{concat idx '-quorum'}}
-                      id={{concat idx '-quorum-yes'}}
-                      checked={{if disposition.wasaquorumpresent "checked"}}
-                      onClick={{action 'updateDispositionAttr' disposition 'wasaquorumpresent' true}}
-                    />
-                    <label
-                      for="{{concat idx '-quorum-yes'}}"
-                      {{action 'updateDispositionAttr' disposition 'wasaquorumpresent' true}}
-                    >
-                      Yes
-                    </label>
-                    <input type="radio"
-                      name={{concat idx '-quorum'}}
-                      id={{concat idx '-quorum-no'}}
-                      checked={{if (eq disposition.wasaquorumpresent false) "checked"}}
-                      onClick={{action 'updateDispositionAttr' disposition 'wasaquorumpresent' false}}
-                    />
-                    <label
-                      for="{{concat idx '-quorum-no'}}"
-                      {{action 'updateDispositionAttr' disposition 'wasaquorumpresent' false}}
-                    >
-                      No
-                    </label>
-                  </fieldset>
-                </div>
-              {{/if}}
-            {{/each}}
+            {{#deduped-hearings-list project=project as |dedupedHearings|}}
+              {{#each dedupedHearings as |hearing idx|}}
+                {{#if hearing.dcpDateofpublichearing}}
+                  <div class="grid-x align-middle">
+                    <p class="cell auto small-order-2">
+                      <strong class="display-block">
+                        {{moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"}}
+                        <span class="light-gray">|</span>
+                        {{hearing.dcpPublichearinglocation}}
+                      </strong>
+                      <span data-test-hearing-actions-list="{{hearing.id}}" class="display-block text-tiny">
+                        {{#each hearing.hearingActions as |action index|}}
+                          {{if (gt index 0) ", "}}{{action.dcpUlurpnumber}}
+                        {{/each}}
+                      </span>
+                    </p>
+                    <fieldset class="cell shrink medium-margin-bottom small-margin-right recommendation-quorum-fieldiset">
+                      <input type="radio"
+                        name={{concat idx '-quorum'}}
+                        id={{concat idx '-quorum-yes'}}
+                        checked={{if hearing.wasaquorumpresent "checked"}}
+                        onClick={{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' true}}
+                      />
+                      <label
+                        for="{{concat idx '-quorum-yes'}}"
+                        {{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' true}}
+                      >
+                        Yes
+                      </label>
+                      <input type="radio"
+                        name={{concat idx '-quorum'}}
+                        id={{concat idx '-quorum-no'}}
+                        checked={{if (eq hearing.wasaquorumpresent false) "checked"}}
+                        onClick={{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' false}}
+                      />
+                      <label
+                        for="{{concat idx '-quorum-no'}}"
+                        {{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' false}}
+                      >
+                        No
+                      </label>
+                    </fieldset>
+                  </div>
+                {{/if}}
+              {{/each}}
+            {{/deduped-hearings-list}}
           {{/if}}
           {{#if (gt this.dispositions.length 1)}}
             <fieldset class="medium-margin-bottom medium-margin-top">
@@ -465,32 +468,31 @@
             </div>
             {{#confirmation-modal open=modalOpen}}
               <h3>Confirm recommendation information</h3>
-              {{#if this.dispositions.firstObject.dcpPublichearinglocation}}
                 <h5>
                   Was a Quorum Present at your Hearing(s)?
                 </h5>
-                {{#each this.dispositions as |disposition idx|}}
-                  {{#if disposition.dcpDateofpublichearing}}
+                {{#deduped-hearings-list project=project as |dedupedHearings|}}
+                  {{#each dedupedHearings as |hearing idx|}}
                     <p class="grid-x align-middle">
                       <strong class="cell small-1">
-                        {{if disposition.wasaquorumpresent "Yes" "No"}}
+                        {{if hearing.wasaquorumpresent "Yes" "No"}}
                       </strong>
                       <span class="cell auto">
                         <strong class="display-block">
-                          {{moment-format disposition.dcpDateofpublichearing "MM/D/YYYY"}}
+                          {{moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"}}
                           <span class="light-gray">|</span>
-                          {{disposition.dcpPublichearinglocation}}
+                          {{hearing.dcpPublichearinglocation}}
                         </strong>
-                        {{disposition.action.dcpName}}
-                        <small>
-                          ({{disposition.action.dcpUlurpnumber}})
-                        </small>
+                        <span data-test-hearing-actions-list="{{hearing.id}}" class="display-block text-tiny">
+                          {{#each hearing.hearingActions as |action index|}}
+                            {{if (gt index 0) ", "}}{{action.dcpUlurpnumber}}
+                          {{/each}}
+                        </span>
                       </span>
                     </p>
-                  {{/if}}
-                {{/each}}
-              {{/if}}
-              {{#if this.allActions}}
+                  {{/each}}
+                {{/deduped-hearings-list}}
+                {{#if this.allActions}}
                 <h5>
                   Recommendation:
                 </h5>

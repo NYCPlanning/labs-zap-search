@@ -87,9 +87,9 @@ export default class DispositionModel extends Model {
   @attr('number') totalmembersappointedtotheboard;
 
   // sourced from dcp_wasaquorumpresent
-  @attr('boolean', {
-    defaultValue: null,
-  }) wasaquorumpresent;
+  // NOTE: when this is defined as boolean, it automatically changes to false from null
+  // we want this to be null until a user selects yes or no
+  @attr({ defaultValue: null }) wasaquorumpresent;
 
   unknownProperty(key) {
     console.log(`Unexpected access of ${key} on ${this}`);
