@@ -4,6 +4,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import lookupValidator from 'ember-changeset-validations';
 import Changeset from 'ember-changeset';
+import { hearingsSubmitted } from 'labs-zap-search/helpers/hearings-submitted';
 import {
   bpDispositionForAllActionsValidations,
   cbBbDispositionForAllActionsValidations,
@@ -63,6 +64,14 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   dispositionForAllActions = DispositionForAllActions.create();
 
   minDate = MINIMUM_VOTE_DATE;
+
+  // hearingsSubmitted is a helper that iterates through each disposition
+  // and checks whether disposition has publichearinglocation and dateofpublichearing
+  @computed('project')
+  get hearingsSubmittedForProject() {
+    const dispositions = this.get('project.dispositions');
+    return hearingsSubmitted(dispositions);
+  }
 
   @computed('dispositionForAllActions', 'participantType')
   get dispositionForAllActionsChangeset() {
@@ -151,11 +160,23 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     this.set(property, newVal);
   }
 
-  // For setting disposition recommendation, use the action
-  // "setDispositionRecByPartType" instead.
   @action
-  updateDispositionAttr(disposition, attrName, newVal) {
-    disposition.set(attrName, newVal);
+  updateDispositionAttr(dedupedObject, dispositions, attrName, newVal) {
+    // array of duplicate dispositions
+    // this is from the dedupedHearings' duplicateDisps property
+    const arrayOfDuplicates = dedupedObject.duplicateDisps;
+
+    arrayOfDuplicates.forEach(function(duplicate) {
+      // set the attribute to the new value selected by the user
+      // set on the disposition object in the duplicateDisps array
+      duplicate.set(attrName, newVal);
+      const newAttributeValue = duplicate.get(attrName);
+
+      // find disposition object in model that matches the id of the current duplicate disp
+      const matchingDispObject = dispositions.find(item => item.id === duplicate.id);
+      // set the disposition model attribute to the updated duplicate disp attribute value
+      matchingDispObject.set(attrName, newAttributeValue);
+    });
   }
 
   /**
