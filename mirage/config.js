@@ -28,18 +28,44 @@ export default function () {
   this.passthrough('https://layers-api-staging.planninglabs.nyc/**');
   this.passthrough('/test-data/**');
 
+  // If the project_lup_status queryParam is set, this endpoint
+  // returns CB projects (projects belonging to the first mirage User)
+  // within the spcified tab.
+  // TODO: If we build mirage functionality to mock logging in as different users,
+  // then in this endpoint we should also filter to projects belonging to the specific
+  // logged in user.
+  // NOTE: This endpoint supports both the project lists in the user dashboard and the projects list
+  // on the homepage.
   this.get('/projects', function (schema, request) {
-    const { queryParams: { page: offsetParam = 1 } } = request;
+    const { queryParams: { page: offsetParam = 1, project_lup_status } } = request;
     const offset = offsetParam - 1;
     const begin = 0 + (30 * offset);
+    const filterByTab = schema.users.all().length > 0 && project_lup_status;
+    let json = null;
+    let projects = null;
 
-    const json = this.serialize(
-      schema.projects.all().slice(begin, begin + 30),
-    );
+    if (filterByTab) {
+      const firstUserId = schema.users.first().id;
+      // If querying for projects falling under a specific dashboard tab....
+      if (project_lup_status === 'upcoming') {
+        projects = schema.projects.where(project => project.tab === 'upcoming' && project.userIds.includes(firstUserId));
+      } else if (project_lup_status === 'to-review') {
+        projects = schema.projects.where(project => project.tab === 'to-review' && project.userIds.includes(firstUserId));
+      } else if (project_lup_status === 'reviewed') {
+        projects = schema.projects.where(project => project.tab === 'reviewed' && project.userIds.includes(firstUserId));
+      } else if (project_lup_status === 'archive') {
+        projects = schema.projects.where(project => project.tab === 'archive' && project.userIds.includes(firstUserId));
+      }
+    } else {
+      // If querying for all projects for the homepage....
+      projects = schema.projects.all().slice(begin, begin + 30);
+    }
+
+    json = this.serialize(projects);
 
     json.meta = {
-      total: schema.projects.all().length,
-      pageTotal: 30,
+      total: filterByTab ? projects.length : schema.projects.all().length,
+      pageTotal: filterByTab ? projects.length : 30,
       tiles: ['http://localhost:4200/test-data/tiles/96.mvt'],
       bounds: [[-73.9916082509177, 40.6824244259472], [-73.8847869770557, 40.8933091086328]],
     };

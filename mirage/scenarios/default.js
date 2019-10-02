@@ -608,8 +608,8 @@ export default function(server) {
 
   // "SEVENTH" CB PROJECT (Archived)
   seedCBUserProjects[6].update({
-    tab: 'archived',
-    dcpPublicstatusSimp: 'approved',
+    tab: 'archive',
+    dcp_publicstatus_simp: 'approved',
   });
 
   server.create('milestone', 'certifiedReferred', {
