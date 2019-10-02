@@ -101,12 +101,16 @@ export default Factory.extend({
     `;
   },
 
-  dcpPublicstatus() {
+  publicStatus() {
     return faker.random.arrayElement(['Active', 'Approved', 'Withdrawn']);
   },
 
   dcpPublicstatusSimp() {
-    return faker.random.arrayElement(['Active', 'Approved', 'Withdrawn']);
+    return faker.random.arrayElement(['Filed', 'In Public Review', 'Completed']);
+  },
+
+  projectCompleted() {
+    return faker.date.past();
   },
 
   dcpHiddenprojectmetrictarget() {
