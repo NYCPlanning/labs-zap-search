@@ -79,7 +79,7 @@
       </ul>
     {{/if}}
 
-    {{#if true}} {{!-- if there's a recommendation for the LUP associate with this milestone --}}
+    {{#if true}} {{!-- if there are recommendations for the LUP associate with this milestone --}}
       <h6>Vote:</h6>
       <ul class="sub-milestones no-bullet">
         <li class="grid-x">
@@ -88,16 +88,16 @@
               {{fa-icon 'thumbs-up' fixedWidth=true class='green-muted'}}
             {{else if false}}{{!-- disapproval --}}
               {{fa-icon 'thumbs-down' fixedWidth=true class='red-muted'}}
-            {{else}}
+            {{else}}{{!-- waived --}}
               {{fa-icon 'comment-slash' fixedWidth=true class='light-gray'}}
             {{/if}}
           </div>
           <div class="cell auto">
             <strong>
-              {{!-- show each of these if they're not zero --}}
-              6 In Favor,
-              4 Against,
-              2 Abstain
+              {{!-- if this isn't deduped all actions, show the action and a ":" before the counts --}}
+              <span class="display-inline-block">6 In Favor,</span>
+              <span class="display-inline-block">4 Against,</span>
+              <span class="display-inline-block">2 Abstain</span>
             </strong>
             <small class="datetime">August 22, 2019</small>
           </div>
