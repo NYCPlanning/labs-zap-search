@@ -3,7 +3,7 @@ import { action, computed } from '@ember/object';
 
 const expandToPolygonZoomThreshold = 14;
 const PROJECT_STATUS_COLOR_RAMP_CONFIG = {
-  property: 'dcp_publicstatus_simp',
+  property: 'dcpPublicstatusSimp',
   type: 'categorical',
   stops: [
     ['Filed', '#FF9400'],

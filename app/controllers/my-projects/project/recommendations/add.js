@@ -1,7 +1,18 @@
 import Controller from '@ember/controller';
-import EmberObject, { action } from '@ember/object';
+import EmberObject, { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import lookupValidator from 'ember-changeset-validations';
+import Changeset from 'ember-changeset';
+import {
+  bpDispositionForAllActionsValidations,
+  cbBbDispositionForAllActionsValidations,
+  communityBoardDispositionValidations,
+  boroughBoardDispositionValidations,
+  boroughPresidentDispositionValidations,
+} from '../../../../validations/recommendation';
+
+const MINIMUM_VOTE_DATE = new Date(1990, 1, 1);
 
 const RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP = {
   BB: 'boroughboardrecommendation',
@@ -17,13 +28,13 @@ class DispositionForAllActions extends EmberObject {
   // communityboardrecommendation, boroughboardrecommendation or boroughpresidentrecommendation
   recommendation = '';
 
-  votinginfavorrecommendation = 0;
+  votinginfavorrecommendation = null;
 
-  votingagainstrecommendation = 0;
+  votingagainstrecommendation = null;
 
-  votingabstainingonrecommendation = 0;
+  votingabstainingonrecommendation = null;
 
-  totalmembersappointedtotheboard = 0;
+  totalmembersappointedtotheboard = null;
 
   votelocation = '';
 
@@ -51,6 +62,80 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   dispositionForAllActions = DispositionForAllActions.create();
 
+  minDate = MINIMUM_VOTE_DATE;
+
+  @computed('dispositionForAllActions', 'participantType')
+  get dispositionForAllActionsChangeset() {
+    const { participantType } = this;
+    let dispositionForAllActionsValidations = null;
+    if (participantType === 'CB') {
+      dispositionForAllActionsValidations = cbBbDispositionForAllActionsValidations;
+    }
+    if (participantType === 'BB') {
+      dispositionForAllActionsValidations = cbBbDispositionForAllActionsValidations;
+    }
+    if (participantType === 'BP') {
+      dispositionForAllActionsValidations = bpDispositionForAllActionsValidations;
+    }
+    return new Changeset(this.dispositionForAllActions, lookupValidator(dispositionForAllActionsValidations), dispositionForAllActionsValidations);
+  }
+
+  // this.dispositionsChangesets[i] is the changeset for this.dispositions[i]
+  @computed('dispositions', 'participantType')
+  get dispositionsChangesets() {
+    const { participantType } = this;
+    let dispositionValidations = null;
+    if (participantType === 'CB') {
+      dispositionValidations = communityBoardDispositionValidations;
+    }
+    if (participantType === 'BB') {
+      dispositionValidations = boroughBoardDispositionValidations;
+    }
+    if (participantType === 'BP') {
+      dispositionValidations = boroughPresidentDispositionValidations;
+    }
+    return this.dispositions.map(disposition => new Changeset(disposition, lookupValidator(dispositionValidations), dispositionValidations));
+  }
+
+  @computed('dispositions', 'dispositionsChangesets')
+  get dispositionAndChangesetPairs() {
+    const dispositionAndChangesetPairs = [];
+    for (let i = 0; i < this.dispositions.length; i += 1) {
+      dispositionAndChangesetPairs.push({
+        disposition: this.dispositions.objectAt(i),
+        changeset: this.dispositionsChangesets.objectAt(i),
+      });
+    }
+    return dispositionAndChangesetPairs;
+  }
+
+  @computed('dispositionsChangesets.@each.isValid')
+  get isDispositionsChangesetsValid() {
+    let isValid = true;
+    this.dispositionsChangesets.forEach((dispositionChangeset) => {
+      if (!dispositionChangeset.isValid) {
+        isValid = false;
+      }
+    });
+    return isValid;
+  }
+
+  @computed('allActions', 'dispositionForAllActionsChangeset.isValid', 'isDispositionsChangesetsValid')
+  get isFormValid() {
+    if (this.allActions) {
+      if (this.dispositionForAllActionsChangeset.isValid) {
+        return true;
+      }
+      return false;
+    }
+    if (this.isDispositionsChangesetsValid) {
+      if (!(this.dispositionForAllActionsChangeset.error.votelocation || this.dispositionForAllActionsChangeset.error.dateofvote)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   // recommendation options for disposition.communityboardrecommendation,
   // disposition.boroughboardrecommendation, disposition.boroughpresidentrecommendation
   recOptions = [
@@ -74,27 +159,46 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   }
 
   /**
- * @param { Disposition } disposition
- * @param { String } recommendation
- * @param { String } participantType (optional)
- * assigns the `recommendation` string to either the `
+ * @param { Changeset } dispositionChangeset
+ * @param { String } recommendation -- string recommendation value. i.e. 'Approved', 'Disapproved w/ Modifications'...
+ * If this.allActions === true, sets the 'recommendation' field
+ * for the passed disposition.
+ * Otherwise, assigns the `recommendation` argument to the
+ * field corresponding to the current participantType.
+ * If the value of `recommendation` is 'Waived', this action executes dispositionChangeset.validate()
+ * in order to remove "invalid ui" styles on vote inputs.
  * TODO: Update this to rely on the disposition.participantType field
  * when it is implemented in the ZAP-API.
  */
   @action
-  setDispositionRecByPartType (disposition, recommendation) {
+  setDispositionRec (dispositionChangeset, recommendation) {
     const { participantType } = this;
     const targetField = RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
-    if (!targetField) {
-      console.log('ZAP Error: Invalid disposition participant type.');
-      this.transitionToRoute('oops');
+
+    if (this.allActions) {
+      dispositionChangeset.set('recommendation', recommendation);
+    } else {
+      if (!targetField) {
+        console.log('ZAP Error: Invalid disposition participant type.');
+        this.transitionToRoute('oops');
+      }
+      dispositionChangeset.set(targetField, recommendation);
     }
-    disposition.set(targetField, recommendation);
+    if ((recommendation === 'Waived') && (participantType !== 'BP')) {
+      dispositionChangeset.validate('votinginfavorrecommendation');
+      dispositionChangeset.validate('votingagainstrecommendation');
+      dispositionChangeset.validate('votingabstainingonrecommendation');
+      dispositionChangeset.validate('totalmembersappointedtotheboard');
+    }
   }
 
   @action
   async onContinue() {
-    this.set('modalOpen', true);
+    this.dispositionForAllActionsChangeset.validate();
+    this.dispositionsChangesets.forEach(changeset => changeset.validate());
+    if (this.isFormValid) {
+      this.set('modalOpen', true);
+    }
   }
 
   @action
@@ -110,9 +214,13 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   @action
   submitRecommendations() {
     const thisCtrl = this;
+    this.dispositionForAllActionsChangeset.execute();
+    this.dispositionsChangesets.forEach(function(dispositionChangeset) {
+      dispositionChangeset.execute();
+    });
     this.dispositions.forEach(function(disposition) {
       if (thisCtrl.allActions) {
-        thisCtrl.send('setDispositionRecByPartType', disposition, thisCtrl.dispositionForAllActions.recommendation);
+        thisCtrl.send('setDispositionRec', disposition, thisCtrl.dispositionForAllActions.recommendation);
         disposition.setProperties({
           votinginfavorrecommendation: thisCtrl.dispositionForAllActions.votinginfavorrecommendation,
           votingagainstrecommendation: thisCtrl.dispositionForAllActions.votingagainstrecommendation,
@@ -128,14 +236,14 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       disposition.save();
     });
     this.dispositionForAllActions.setProperties({
-      recommendation: '',
-      votinginfavorrecommendation: 0,
-      votingagainstrecommendation: 0,
-      votingabstainingonrecommendation: 0,
-      totalmembersappointedtotheboard: 0,
-      votelocation: '',
-      dateofvote: '',
-      consideration: '',
+      recommendation: null,
+      votinginfavorrecommendation: null,
+      votingagainstrecommendation: null,
+      votingabstainingonrecommendation: null,
+      totalmembersappointedtotheboard: null,
+      votelocation: null,
+      dateofvote: null,
+      consideration: null,
     });
     this.set('modalOpen', false);
     this.transitionToRoute('my-projects.project.recommendations.done');

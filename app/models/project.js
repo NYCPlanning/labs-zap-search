@@ -16,6 +16,16 @@ const EmptyFeatureCollection = {
   }],
 };
 
+const COMMUNITY_BOARD_REFERRAL_MILESTONE_ID = '923beec4-dad0-e711-8116-1458d04e2fb8';
+const BOROUGH_PRESIDENT_REFERRAL_MILESTONE_ID = '943beec4-dad0-e711-8116-1458d04e2fb8';
+const BOROUGH_BOARD_REFERRAL_MILESTONE_ID = '963beec4-dad0-e711-8116-1458d04e2fb8';
+
+const MILESTONE_ID_LOOKUP = {
+  CB: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
+  BP: BOROUGH_PRESIDENT_REFERRAL_MILESTONE_ID,
+  BB: BOROUGH_BOARD_REFERRAL_MILESTONE_ID,
+};
+
 export default class ProjectModel extends Model {
   // Many Users to Many Projects
   @hasMany('user') users;
@@ -31,57 +41,144 @@ export default class ProjectModel extends Model {
 
   @hasMany('milestone', { async: false }) milestones;
 
+  // Attributes for dashboard view
+  @attr() tab;
+
+  @attr() teammemberrole;
+
   @attr() applicantteam;
+
+  @computed('milestones')
+  get publicReviewPlannedStartDate() {
+    const { dcpPlannedstartdate } = this.milestones.find(milestone => milestone.dcpMilestone === COMMUNITY_BOARD_REFERRAL_MILESTONE_ID) || {};
+    return dcpPlannedstartdate || null;
+  }
+
+  // The following <tab>MilestoneActual<Start/End>
+  // date fields represent different dates from different milestones
+  // depending on `tab`:
+
+  // If `tab` is `upcoming`...
+  // if the project is in public review, this field is used to display the participant's review planned start date.
+  // else this field returns null
+  @computed('tab', 'teammemberrole', 'milestones')
+  get upcomingMilestonePlannedStartDate() {
+    if (this.tab === 'upcoming') {
+      if (this.dcpPublicstatusSimp !== 'filed') {
+        const participantMilestoneId = MILESTONE_ID_LOOKUP[this.teammemberrole];
+        const participantReviewMilestone = this.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId);
+        return participantReviewMilestone ? participantReviewMilestone.dcpPlannedstartdate : null;
+      }
+    }
+    return null;
+  }
+
+  // If `tab` is to-review', these start/end dates are derived from
+  // the participant's (specified by `teammemberrole`) review milestone.
+  @computed('tab', 'teammemberrole', 'milestones')
+  get toReviewMilestoneActualStartDate() {
+    if (this.tab !== 'to-review') {
+      return null;
+    }
+    const participantMilestoneId = MILESTONE_ID_LOOKUP[this.teammemberrole];
+    const { dcpActualstartdate } = this.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    return dcpActualstartdate;
+  }
+
+  @computed('tab', 'teammemberrole', 'milestones')
+  get toReviewMilestoneActualEndDate() {
+    if (this.tab !== 'to-review') {
+      return null;
+    }
+    const participantMilestoneId = MILESTONE_ID_LOOKUP[this.teammemberrole];
+    const { dcpActualenddate } = this.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    return dcpActualenddate;
+  }
+
+  // If `tab` is 'reviewed'...
+  //   - these start/end dates come from the current In Progress milestone
+  //   - an array of milestone dates is returned
+  @computed('tab', 'teammemberrole', 'milestones')
+  get reviewedMilestoneActualStartDate() {
+    if (this.tab !== 'reviewed') {
+      return null;
+    }
+    const inProgressMilestones = this.milestones.filter(milestone => milestone.statuscode === 'In Progress');
+    return inProgressMilestones.map(milestone => ({
+      milestone: milestone.dcpMilestone,
+      dcpActualstartdate: milestone.dcpActualstartdate,
+    }));
+  }
+
+  @computed('tab', 'teammemberrole', 'milestones')
+  get reviewedMilestoneActualEndDate() {
+    if (this.tab !== 'reviewed') {
+      return null;
+    }
+    const inProgressMilestones = this.milestones.filter(milestone => milestone.statuscode === 'In Progress');
+    return inProgressMilestones.map(milestone => ({
+      milestone: milestone.dcpMilestone,
+      dcpActualenddate: milestone.dcpActualenddate,
+    }));
+  }
 
   // array of applicant objects
   @attr() applicants;
 
-  @attr('string') dcp_name;
+  @attr('string') dcpName;
 
-  @attr() dcp_applicanttype;
+  @attr() dcpApplicanttype;
 
-  @attr() dcp_borough;
+  @attr() dcpBorough;
 
-  @attr('string') dcp_ceqrnumber;
+  @attr('string') dcpCeqrnumber;
 
-  @attr() dcp_ceqrtype;
+  @attr() dcpCeqrtype;
 
-  @attr('string') dcp_certifiedreferred;
+  @attr('string') dcpCertifiedreferred;
 
-  @attr('boolean') dcp_femafloodzonea;
+  @attr('boolean') dcpFemafloodzonea;
 
-  @attr('boolean') dcp_femafloodzonecoastala;
+  @attr('boolean') dcpFemafloodzonecoastala;
 
-  @attr('boolean') dcp_femafloodzoneshadedx;
+  @attr('boolean') dcpFemafloodzoneshadedx;
 
-  @attr('boolean') dcp_femafloodzonev;
+  @attr('boolean') dcpFemafloodzonev;
 
-  @attr('boolean') dcp_sisubdivision;
+  @attr('boolean') dcpSisubdivision;
 
-  @attr('boolean') dcp_sischoolseat;
+  @attr('boolean') dcpSischoolseat;
 
-  @attr('string') dcp_projectbrief;
+  @attr('string') dcpProjectbrief;
 
-  @attr('string') dcp_projectname;
+  @attr('string') dcpProjectname;
 
-  @attr('string', { defaultValue: '' }) dcp_publicstatus_simp;
+  @attr('string', { defaultValue: '' }) dcpPublicstatusSimp;
 
-  @attr() dcp_hiddenprojectmetrictarget;
+  @attr() dcpHiddenprojectmetrictarget;
 
-  @attr('string') dcp_ulurp_nonulurp;
+  @attr('string') dcpUlurpNonulurp;
 
-  @attr() dcp_communitydistrict;
+  @attr() dcpCommunitydistrict;
 
-  @attr('string') dcp_communitydistricts;
+  @attr('string') dcpCommunitydistricts;
 
-  @attr('string') dcp_validatedcommunitydistricts;
+  @attr('string') dcpValidatedcommunitydistricts;
 
-  @attr('boolean') has_centroid;
+  @attr('boolean') hasCentroid;
+
+  @attr() dcpBsanumber;
+
+  @attr() dcpWrpnumber;
+
+  @attr() dcpLpcnumber;
+
+  @attr() dcpNydospermitnumber;
 
   @attr() bbls;
 
   @attr({ defaultValue: () => EmptyFeatureCollection })
-  bbl_featurecollection;
+  bblFeaturecollection;
 
   @attr() addresses;
 
@@ -93,14 +190,18 @@ export default class ProjectModel extends Model {
 
   @attr() lastmilestonedate;
 
-  @attr() video_links;
+  @attr() videoLinks;
 
-  @computed('bbl_featurecollection')
+  @computed('bblFeaturecollection')
   get bblFeatureCollectionSource() {
-    const data = this.bbl_featurecollection;
+    const data = this.bblFeaturecollection;
     return {
       type: 'geojson',
       data,
     };
+  }
+
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
   }
 }

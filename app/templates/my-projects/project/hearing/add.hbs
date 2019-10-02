@@ -8,12 +8,12 @@
           @route="show-project"
           @model={{project}}
         >
-          {{model.dcp_projectname}}
+          {{model.dcpProjectname}}
         </LinkTo>
-        <small class="dark-gray">{{model.ulurp_nonulurp}}</small>
+        <small class="dark-gray">{{model.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{model.applicants}}</h5>
-      <p>{{model.dcp_projectbrief}}</p>
+      <p>{{model.dcpProjectbrief}}</p>
     </div>
   </div>
   <div class="large-7 cell">
@@ -50,7 +50,7 @@
         checkIfMissing=checkIfMissing}}
     {{else if (eq allActions false)}}
       {{#each model.dispositions as |disposition|}}
-        <h4>{{disposition.action.name}}  <small class="dark-gray">{{disposition.action.ulurpnumber}}</small></h4>
+        <h4>{{disposition.action.dcpName}}  <small class="dark-gray">{{disposition.action.dcpUlurpnumber}}</small></h4>
         {{hearing-form
           disposition=disposition
           allActions=allActions
@@ -69,67 +69,55 @@
         </button>
     {{/if}}
 
-    {{#if modalOpen}}
-      <div id="hearing-confirmation" class="reveal-overlay" style="display:block;">
-        <div class="reveal" role="dialog" aria-hidden="false" tabindex="-1" style="display:block;">
-          <h3>Confirm hearing information</h3>
+      {{#confirmation-modal open=modalOpen}}
+        <h3>Confirm hearing information</h3>
 
           {{#if allActions}}
-            <p>
-              <strong class="display-block hearing-location">
-                {{~dispositionForAllActions.publichearinglocation~}}
-              </strong>
-              <span class="hearing-date">
-                {{~moment-format dispositionForAllActions.dateofpublichearing "MM/D/YYYY"~}}
-              </span>
-              <span class="light-gray">|</span>
-              <span class="hearing-time">
-                {{~moment-format dispositionForAllActions.dateofpublichearing "h:mm A"~}}
-              </span>
-            </p>
-          {{else}}
-            {{#each model.dispositions as |disposition|}}
-              <p>
-                <strong class="display-block" data-test-hearing-location-confirmation="{{disposition.id}}">
-                  {{~disposition.publichearinglocation~}}
+            <li class="grid-x">
+              <div class="cell shrink small-margin-right">
+                  {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
+              </div>
+              <div class="cell auto">
+                <strong class="display-block hearing-location">
+                  {{~dispositionForAllActions.dcpPublichearinglocation~}}
                 </strong>
-                <span data-test-hearing-date-confirmation="{{disposition.id}}">
-                  {{~moment-format disposition.dateofpublichearing "MM/D/YYYY"~}}
+                <span class="hearing-date">
+                  {{~moment-format dispositionForAllActions.dcpDateofpublichearing "MM/D/YYYY"~}}
                 </span>
                 <span class="light-gray">|</span>
-                <span data-test-hearing-time-confirmation="{{disposition.id}}">
-                  {{~moment-format disposition.dateofpublichearing "h:mm A"~}}
+                <span class="hearing-time">
+                  {{~moment-format dispositionForAllActions.dcpDateofpublichearing "h:mm A"~}}
                 </span>
-              </p>
-            {{/each}}
+              </div>
+            </li>
+          {{else}}
+            {{deduped-hearings-list project=model attribute="dcpUlurpnumber"}}
           {{/if}}
 
-          <p class="callout warning text-small">
-            Once you submit hearing information, you can not edit it. You'll need to contact the Lead Planner to make any changes.
-          </p>
+        <p class="callout warning text-small">
+          Once you submit hearing information, you can not edit it. You'll need to contact the Lead Planner to make any changes.
+        </p>
 
-          <p>
-            <button
-              class="button"
-              data-test-button="confirmHearing"
-              type="button"
-              onClick={{action "onConfirm"}}
-            >
-              Submit Hearing Information
-            </button>
+        <p>
+          <button
+            class="button"
+            data-test-button="confirmHearing"
+            type="button"
+            onClick={{action "onConfirm"}}
+          >
+            Submit Hearing Information
+          </button>
 
-            <button
-              class="button clear"
-              data-test-button="closeModal"
-              type="button"
-              onClick={{action "closeModal"}}
-            >
-              Cancel <small>(continue editing)</small>
-            </button>
-          </p>
-        </div>
-      </div>
-    {{/if}}
+          <button
+            class="button clear"
+            data-test-button="closeModal"
+            type="button"
+            onClick={{action "closeModal"}}
+          >
+            Cancel <small>(continue editing)</small>
+          </button>
+        </p>
+      {{/confirmation-modal}}
   </div>
 </div>
 

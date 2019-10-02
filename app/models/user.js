@@ -51,4 +51,8 @@ export default class UserModel extends Model {
 
     return participantReassigned;
   }
+
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
+  }
 }

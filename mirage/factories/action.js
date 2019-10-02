@@ -5,12 +5,12 @@ export default Factory.extend({
   // project: association({
   // }),
 
-  action() {
+  dcpAction() {
     return '566ede3a-dad0-e711-8125-1458d04e2f18';
   },
 
-  name(i) {
-    return faker.list.cycle('Zoning Special Permit', 'Zoning Text Amendment', 'Disposition of Non-Residential City-Owned Property', 'Change in City Map')(i);
+  dcpName(i) {
+    return faker.list.cycle('Zoning Special Permit', 'Zoning Text Amendment', 'Business Improvement District', 'Change in City Map', 'Enclosed Sidewalk Cafe', 'Large Scale Special Permit', 'Zoning Certification')(i);
   },
 
   actioncode(i) {
@@ -25,15 +25,15 @@ export default Factory.extend({
     return faker.list.random('Active', 'inActive')(i);
   },
 
-  ulurpnumber(i) {
-    return faker.list.random('C780076TLK', 'N860877TCM', 'I030148MMQ')(i);
+  dcpUlurpnumber(i) {
+    return faker.list.cycle('C780076TLK', 'N860877TCM', 'I030148MMQ', '200088ZMX', '190172ZMK', 'N190257ZRK', '190256ZMK')(i);
   },
 
-  zoningresolution(i) {
+  dcpZoningresolution(i) {
     return faker.list.random('', '4399')(i);
   },
 
-  ccresolutionnumber(i) {
+  dcpCcresolutionnumber(i) {
     return faker.list.random('', '2575')(i);
   },
 });

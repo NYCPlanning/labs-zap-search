@@ -10,7 +10,7 @@ export default class DateTimePickerComponent extends Component {
 
   // targetField is set on the form render
   // represents the attribute that is to be set to the new value
-  // e.g. disposition.dateofpublichearing
+  // e.g. disposition.dcpDateofpublichearing
   targetField = '';
 
   // the options for the AM/PM power-select

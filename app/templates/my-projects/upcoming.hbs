@@ -8,11 +8,11 @@
     <div class="grid-x grid-x-small-gutters">
       <div class="cell large-6">
         <h3 class="tiny-margin-bottom">
-          {{#link-to 'show-project' project.id}}{{project.dcp_projectname}}{{/link-to}}
-          <small class="dark-gray">{{project.ulurp_nonulurp}}</small>
+          {{#link-to 'show-project' project.id}}{{project.dcpProjectname}}{{/link-to}}
+          <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
         </h3>
         <h5 class="applicant">{{project.applicants}}</h5>
-        <p>{{project.dcp_projectbrief}}</p>
+        <p>{{project.dcpProjectbrief}}</p>
       </div>
       <div class="cell medium-4 large-shrink">
         <p class="text-center medium-margin-right medium-margin-left">
@@ -24,10 +24,10 @@
       <div class="cell medium-auto">
         <ul class="no-bullet no-margin">
           {{#each project.milestones as |milestone|}}
-            <li class="grid-x">
+            <li class="grid-x small-margin-bottom">
               <div class="cell shrink small-margin-right">
                 {{#if (eq milestone.statuscode "Completed")}}
-                  {{fa-icon 'check' class='green-dark' fixedWidth=true}}
+                  {{fa-icon 'check' class='blue' fixedWidth=true}}
                 {{else if (eq milestone.statuscode "Overridden")}}
                   {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
                 {{else if (eq milestone.statuscode "Not Started")}}
@@ -37,10 +37,8 @@
                 {{/if}}
               </div>
               <div class="cell auto">
-                <p class="small-margin-bottom">
-                  <strong>{{milestone.milestonename}}</strong>
-                  <small class="display-block">{{milestone.displayDate}}</small>
-                </p>
+                <strong class="display-inline-block">{{milestone.milestonename}}</strong>
+                <small class="display-inline-block">{{milestone.displayDate}}</small>
               </div>
             </li>
           {{/each}}

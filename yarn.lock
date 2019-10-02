@@ -4376,6 +4376,25 @@ ember-basic-dropdown@^1.0.0, ember-basic-dropdown@^1.1.0:
     ember-cli-htmlbars "^3.0.1"
     ember-maybe-in-element "^0.2.0"
 
+ember-changeset-validations@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ember-changeset-validations/-/ember-changeset-validations-2.1.0.tgz#454b5adc1e4b4bcb0bdf1896a5d50f0bee77b1f0"
+  integrity sha512-LOAA8KSjpmZkDFvUkFJwDlgiJrQGUwtYAM3ZBTEpbQ8uKo5KEkZ1KkV2hNBV3U9Dv6AEauKp/RpwB9Pn10fzdA==
+  dependencies:
+    ember-changeset "^2.0.0"
+    ember-cli-babel "^6.16.0"
+    ember-cli-htmlbars "^3.0.0"
+    ember-get-config "^0.2.4"
+    ember-validators "^2.0.0"
+
+ember-changeset@^2.0.0:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/ember-changeset/-/ember-changeset-2.1.2.tgz#8313db829905299e78fe2c5e3df1563551a4c81d"
+  integrity sha512-zUp9cx/jggV5/HH58AnsoYHvxd9Lea0gPcf98gIYKEJb/yoA034eWUxnL5gMZ9cW0wZg+GxdF3I592K8GBpYoQ==
+  dependencies:
+    ember-cli-babel "^6.16.0"
+    ember-deep-set "^0.2.0"
+
 ember-clean-project@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ember-clean-project/-/ember-clean-project-1.0.1.tgz#40feb8f456652c52e2a00859fda368c125c1d7dc"
@@ -4413,7 +4432,7 @@ ember-cli-babel@6.14.1:
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^6.0.0, ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.10.0, ember-cli-babel@^6.11.0, ember-cli-babel@^6.12.0, ember-cli-babel@^6.16.0, ember-cli-babel@^6.17.0, ember-cli-babel@^6.18.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.2, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@^6.9.0:
+ember-cli-babel@^6.0.0, ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6.1.0, ember-cli-babel@^6.10.0, ember-cli-babel@^6.11.0, ember-cli-babel@^6.12.0, ember-cli-babel@^6.16.0, ember-cli-babel@^6.17.0, ember-cli-babel@^6.18.0, ember-cli-babel@^6.3.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.2, ember-cli-babel@^6.8.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2, ember-cli-babel@^6.9.0, ember-cli-babel@^6.9.2:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.18.0.tgz#3f6435fd275172edeff2b634ee7b29ce74318957"
   dependencies:
@@ -4970,6 +4989,13 @@ ember-decorators@6.0.0:
     "@ember-decorators/object" "^6.0.0"
     ember-cli-babel "^7.7.3"
 
+ember-deep-set@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ember-deep-set/-/ember-deep-set-0.2.0.tgz#93428b599f884c3da0550cbcc062b9ec5969a71e"
+  integrity sha512-3vg9Cw4CIInXzufZMQmScClg23mUw+2ybO53L51spFYP/eGaVmGduWmhrVljyl4lHKN7hW/jvG/YVWtwTPSTKA==
+  dependencies:
+    ember-cli-babel "^7.1.2"
+
 ember-export-application-global@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ember-export-application-global/-/ember-export-application-global-2.0.0.tgz#8d6d7619ac8a1a3f8c43003549eb21ebed685bd2"
@@ -5185,6 +5211,13 @@ ember-qunit@^4.4.1:
     ember-cli-test-loader "^2.2.0"
     qunit "^2.9.2"
 
+ember-require-module@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ember-require-module/-/ember-require-module-0.3.0.tgz#65aff7908b5b846467e4526594d33cfe0c23456b"
+  integrity sha512-rYN4YoWbR9VlJISSmx0ZcYZOgMcXZLGR7kdvp3zDerjIvYmHm/3p+K56fEAYmJILA6W4F+cBe41Tq2HuQAZizA==
+  dependencies:
+    ember-cli-babel "^6.9.2"
+
 ember-resolver@^5.0.1:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ember-resolver/-/ember-resolver-5.2.0.tgz#6a9fd7e9483be694adce77abaf9585529d060bbb"
@@ -5321,6 +5354,14 @@ ember-truth-helpers@^2.0.0, ember-truth-helpers@^2.1.0:
   resolved "https://registry.yarnpkg.com/ember-truth-helpers/-/ember-truth-helpers-2.1.0.tgz#d4dab4eee7945aa2388126485977baeb33ca0798"
   dependencies:
     ember-cli-babel "^6.6.0"
+
+ember-validators@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ember-validators/-/ember-validators-2.0.0.tgz#4100e17feb9c3a6cf4072732010697bbd674f8cb"
+  integrity sha512-OhXGN2UbFQY+lhkWOdW347NZsIWGj/fpTJbOfNxjyMQW/c3fvPEIvrhlvWf1JwHGKQTJDHpMQJgA/Luq39GDgQ==
+  dependencies:
+    ember-cli-babel "^6.9.2"
+    ember-require-module "^0.3.0"
 
 ember-weakmap@^3.0.0:
   version "3.3.2"

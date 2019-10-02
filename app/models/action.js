@@ -14,16 +14,14 @@ export default class ActionModel extends Model {
   @hasMany('disposition') dispositions;
 
   // id sourced from dcp_action, unique action IDs--e.g. '566ede3a-dad0-e711-8125-1458d04e2f18'
-  @attr('string') action;
+  @attr('string') dcpAction;
 
   // Name of action e.g. "Zoning Text Amendment"
   // sourced from dcp_name -- SUBSTRING(a.dcp_name FROM '-{1}\s*(.*)')
-  // sourced ZAP-API: name
-  @attr('string') name;
+  @attr('string') dcpName;
 
   // Action Code e.g. "ZR"
   // sourced from CRM: dcp_name -- SUBSTRING(a.dcp_name FROM '^(\w+)')
-  // sourced from ZAP-API: actioncode
   @attr('string') actioncode;
 
   // sourced from dcp_name-- e.g. 'ZR - Zoning Text Amendment'
@@ -40,11 +38,15 @@ export default class ActionModel extends Model {
   @attr('string') statecode;
 
   // sourced from dcp_ulurpnumber
-  @attr('string') ulurpnumber;
+  @attr('string') dcpUlurpnumber;
 
   // sourced from dcp_zoningresolution
-  @attr('string') zoningresolution;
+  @attr('string') dcpZoningresolution;
 
   // sourced from dcp_ccresolutionnumber
-  @attr('string') ccresolutionNumber;
+  @attr('string') dcpCcresolutionnumber;
+
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
+  }
 }

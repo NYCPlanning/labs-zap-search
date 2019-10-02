@@ -1,11 +1,5 @@
 import DS from 'ember-data';
-import ENV from 'labs-zap-search/config/environment';
-import { dasherize } from '@ember/string';
 
-const { JSONAPISerializer } = DS;
-
-export default class ApplicationSerializer extends JSONAPISerializer {
-  keyForAttribute(key) { // eslint-disable-line
-    return (ENV.environment === 'production' || ENV.environment === 'staging' || ENV.environment === 'devlocal' || ENV.environment === 'devlive') ? key : dasherize(key);
-  }
+export default class ApplicationSerializer extends DS.JSONAPISerializer {
+  attrs = { displayDate2: 'display-date-2' };
 }
