@@ -3,7 +3,7 @@
   otherwise show the "Sign In" button.
   --}}
 {{#if this.session.isAuthenticated}}
-  <li data-test-my-projects-button>{{link-to 'My Projects' 'my-projects'}}</li>
+  <li>{{#link-to 'my-projects'}}<span data-test-my-projects-button>My Projects</span>{{/link-to}}</li>
   <li class="auth--container">
     {{fa-icon 'user-circle' size='2x' class="auth--icon"}}
     <div>

@@ -4,32 +4,12 @@
 >
   <div class="grid-x grid-x-small-gutters">
     <div class="cell large-5">
-      <h3 class="tiny-margin-bottxrom">
-        {{#link-to 'show-project' project.id}}<span data-test-project-profile-button>{{project.dcpProjectname}}</span>{{/link-to}}
+      <h3 class="tiny-margin-bottom">
+        {{#link-to 'show-project' project.id}}{{project.dcpProjectname}}{{/link-to}}
         <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{project.applicants}}</h5>
       <p>{{project.dcpProjectbrief}}</p>
-    </div>
-    <div class="cell medium-4 large-shrink">
-      <div class="lup-countdown medium-margin-right medium-margin-left">
-        <p class="cert-date">Community Board Review</p>
-        <p class="days">{{timeRemaining}}</p>
-        <p class="total">of {{timeDuration}} days remain</p>
-        <p class="end-date">Ends {{moment-format project.toReviewMilestoneActualEndDate "M/D/YYYY"}}</p>
-      </div>
-    </div>
-    <div class="cell medium-8 large-auto">
-      {{#if hearingsSubmittedOrWaived}}
-        <LinkTo @route="my-projects.project.recommendations.add"
-          @model={{project.id}}
-          @query={{hash participantType="CB"}}
-          class="button expanded"
-          data-test-button="submitRecommendation"
-        >
-          Submit Community Board Recommendation
-        </LinkTo>
-      {{/if}}
       {{#if hearingsWaived}}
         <span data-test-hearings-waived-message="{{project.id}}">You have opted out of submitting hearings</span>
       {{/if}}
@@ -90,6 +70,61 @@
           </span>
         </p>
       {{/if}}
+    </div>
+    <div class="cell medium-4 large-shrink">
+      <p class="text-center medium-margin-right medium-margin-left">
+        {{#if (eq project.upcomingMilestonePlannedStartDate)}}
+          <span class="display-block tiny-margin-bottom">
+            Borough President<br>
+            Review Begins
+          </span>
+          <span class="display-block lead small-margin-bottom">
+            <strong>
+              {{moment-format project.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
+            </strong>
+          </span>
+        {{else}}
+          <span class="display-block tiny-margin-bottom">
+            Public Review Begins
+          </span>
+          <span class="display-block lead small-margin-bottom">
+            <strong>
+              {{moment-format project.publicReviewPlannedStartDate "M/D/YYYY"}}
+            </strong>
+          </span>
+        {{/if}}
+        <span class="display-block text-tiny">(Estimated Start Date)</span>
+      </p>
+    </div>
+    <div class="cell medium-auto">
+      <ul class="no-bullet no-margin">
+        {{#each project.tabSpecificMilestones as |milestone|}}
+          <li class="grid-x small-margin-bottom">
+            <div class="cell shrink small-margin-right">
+              {{#if (eq milestone.statuscode "Completed")}}
+                {{fa-icon 'check' class='blue' fixedWidth=true}}
+              {{else if (eq milestone.statuscode "In Progress")}}
+                {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
+              {{else if (eq milestone.statuscode "Overridden")}}
+                {{fa-icon 'times' class='red-muted' fixedWidth=true}}
+              {{else if (eq milestone.statuscode "Not Started")}}
+                <span data-test={{if (string-includes milestone.milestonename "Referral") "upcoming-indicator"}}>
+                  {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
+                </span>
+              {{/if}}
+            </div>
+            <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
+              <strong>{{milestone.milestonename}}</strong>
+              <small class="display-inline-block">
+                {{#if (eq milestone.statuscode "Not Started")}}
+                  Estimated
+                {{/if}}
+                {{milestone.displayDate}}
+              </small>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
     </div>
   </div>
 </div>
