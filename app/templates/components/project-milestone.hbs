@@ -47,9 +47,9 @@
     </p>
 
     {{!-- TODO: Make this hardcoded logic work --}}
-    {{#if true}} {{!-- if there are hearings for the LUP associate with this milestone] --}}
+    {{#if true}} {{!-- if there are hearings for the LUP associate with this milestone --}}
       <h6>Public Hearings:</h6>
-      <ul class="milestone-hearings no-bullet">
+      <ul class="sub-milestones no-bullet">
         <li class="grid-x">
           <div class="cell shrink small-margin-right">
             {{#if true}} {{!-- if past --}}
@@ -59,8 +59,8 @@
             {{/if}}
           </div>
           <div class="cell auto">
-            <strong class="sub-milestone--location">This is a really long hearing location name</strong>
-            <small class="sub-milestone--datetime">August 10, 2019, 7:30 PM</small>
+            <strong>This is a really long hearing location name</strong>
+            <small class="datetime">August 10, 2019, 7:30 PM</small>
           </div>
         </li>
         <li class="grid-x">
@@ -72,24 +72,37 @@
             {{/if}}
           </div>
           <div class="cell auto">
-            <strong class="sub-milestone--location">Future Hearing Location</strong>
-            <small class="sub-milestone--datetime">August 10, 2019, 7:30 PM</small>
+            <strong>Future Hearing Location</strong>
+            <small class="datetime">August 10, 2019, 7:30 PM</small>
           </div>
         </li>
       </ul>
     {{/if}}
 
-    {{#if true}} {{!-- if there's a recommendation && vote date --}}
+    {{#if true}} {{!-- if there's a recommendation for the LUP associate with this milestone --}}
       <h6>Vote:</h6>
-      <div class="milestone-vote grid-x">
-        <div class="cell shrink small-margin-right">
-          {{fa-icon 'check' fixedWidth=true class='blue-muted'}}
-        </div>
-        <div class="cell auto">
-          <strong class="sub-milestone--location">Location of the Vote</strong>
-          <small class="sub-milestone--datetime">August 22, 2019, 7:30 PM</small>
-        </div>
-      </div>
+      <ul class="sub-milestones no-bullet">
+        <li class="grid-x">
+          <div class="cell shrink small-margin-right">
+            {{#if true}}{{!-- if recommend approval --}}
+              {{fa-icon 'thumbs-up' fixedWidth=true class='green-muted'}}
+            {{else if false}}{{!-- disapproval --}}
+              {{fa-icon 'thumbs-down' fixedWidth=true class='red-muted'}}
+            {{else}}
+              {{fa-icon 'comment-slash' fixedWidth=true class='light-gray'}}
+            {{/if}}
+          </div>
+          <div class="cell auto">
+            <strong>
+              {{!-- show each of these if they're not zero --}}
+              6 In Favor,
+              4 Against,
+              2 Abstain
+            </strong>
+            <small class="datetime">August 22, 2019</small>
+          </div>
+        </li>
+      </ul>
     {{/if}}
 
     {{#if milestone.outcome}}
