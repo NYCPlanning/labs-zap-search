@@ -1,17 +1,36 @@
-<h5>
-  Thanks for submitting your hearing!
-</h5>
-<LinkTo
-  @route="show-project"
-  @model={{this.model.id}}
-  data-test-button="back-to-project-profile"
->
-  &lt;&lt;&nbsp;Back to Project Profile
-</LinkTo>
-<br>
-<LinkTo
-  @route="my-projects.to-review"
-  data-test-button="back-to-review"
->
-  &lt;&lt;&nbsp;Back to "To Review"
-</LinkTo>
+<h2>Thank you!</h2>
+<div class="grid-x grid-margin-x">
+  <div class="large-5 cell large-order-2">
+    <p>Hearings submitted for:</p>
+    <div class="project-summary-card callout large-margin-bottom">
+      <h3 class="tiny-margin-bottom">
+        <LinkTo
+          @route="show-project"
+          @model={{project}}
+          data-test-button="back-to-project-profile"
+        >
+          {{model.dcpProjectname}}
+        </LinkTo>
+        <small class="dark-gray">{{model.dcpUlurpNonulurp}}</small>
+      </h3>
+      <h5 class="applicant">{{model.applicants}}</h5>
+      <p>{{model.dcpProjectbrief}}</p>
+    </div>
+  </div>
+  <div class="large-7 cell">
+
+    <h3>Your hearings have been submitted.</h3>
+
+    {{!-- TODO: Update this message if/when hearings are noticed directly to the City Record --}}
+    <p class="large-margin-bottom">Please be sure to visit <a href="https://a856-cityrecord.nyc.gov/">The City Record Online</a> to submit your hearing information.</p>
+
+    <LinkTo
+      @route="my-projects.to-review"
+      data-test-button="back-to-review"
+      class="button gray"
+    >
+      Go to My Projects
+    </LinkTo>
+
+  </div>
+</div>
