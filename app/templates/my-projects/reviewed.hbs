@@ -1,51 +1,7 @@
 <h5>Projects that you have reviewed which are still in the public review process</h5>
 
 {{#each this.model as |project|}}
-  <div
-    class="project-summary-card callout"
-    data-test-project-card
-  >
-    <div class="grid-x grid-x-small-gutters">
-      <div class="cell large-6">
-        <h3 class="tiny-margin-bottom">
-          {{#link-to 'show-project' project.id}}{{project.dcpProjectname}}{{/link-to}}
-          <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
-        </h3>
-        <h5 class="applicant">{{project.applicants}}</h5>
-        <p>{{project.dcpProjectbrief}}</p>
-      </div>
-      <div class="cell medium-auto">
-        <ul class="no-bullet no-margin">
-          {{#each project.milestones as |milestone|}}
-            <li class="grid-x">
-              <div class="cell shrink small-margin-right">
-                {{#if (eq milestone.statuscode "Completed")}}
-                  <span data-test={{if (string-includes milestone.milestonename "Referral") "reviewed-indicator"}}>
-                    {{fa-icon 'check' class='blue' fixedWidth=true}}
-                  </span>
-                {{else if (eq milestone.statuscode "Overridden")}}
-                  {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
-                {{else}}
-                  {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
-                {{/if}}
-              </div>
-              <div class="cell auto">
-                <p class="small-margin-bottom">
-                  <strong>{{milestone.milestonename}}</strong>
-                  <small class="display-block">{{milestone.displayDate}}</small>
-                </p>
-              </div>
-            </li>
-          {{/each}}
-        </ul>
-      </div>
-      <div class="cell medium-auto">
-        <ul class="no-bullet no-margin">
-          {{!-- TODO: Figure out what this loop was supposed to be --}}
-        </ul>
-      </div>
-    </div>
-  </div>
+  {{reviewed-project-card project=project}}
 {{/each}}
 
 {{outlet}}

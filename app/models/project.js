@@ -99,25 +99,15 @@ export default class ProjectModel extends Model {
   //   - these start/end dates come from the current In Progress milestone
   //   - an array of milestone dates is returned
   @computed('tab', 'teammemberrole', 'milestones')
-  get reviewedMilestoneActualStartDate() {
+  get reviewedMilestoneActualStartEndDates() {
     if (this.tab !== 'reviewed') {
       return null;
     }
     const inProgressMilestones = this.milestones.filter(milestone => milestone.statuscode === 'In Progress');
     return inProgressMilestones.map(milestone => ({
       milestone: milestone.dcpMilestone,
+      displayName: milestone.displayName,
       dcpActualstartdate: milestone.dcpActualstartdate,
-    }));
-  }
-
-  @computed('tab', 'teammemberrole', 'milestones')
-  get reviewedMilestoneActualEndDate() {
-    if (this.tab !== 'reviewed') {
-      return null;
-    }
-    const inProgressMilestones = this.milestones.filter(milestone => milestone.statuscode === 'In Progress');
-    return inProgressMilestones.map(milestone => ({
-      milestone: milestone.dcpMilestone,
       dcpActualenddate: milestone.dcpActualenddate,
     }));
   }
