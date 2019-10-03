@@ -1,0 +1,56 @@
+<div
+    class="project-summary-card callout"
+    data-test-project-card
+  >
+    <div class="grid-x grid-x-small-gutters">
+      <div class="cell large-6">
+        <h3 class="tiny-margin-bottom">
+          {{#link-to 'show-project' this.projectid}}{{this.projectdcpProjectname}}{{/link-to}}
+          <small class="dark-gray">{{this.projectdcpUlurpNonulurp}}</small>
+        </h3>
+        <h5 class="applicant">{{this.projectapplicants}}</h5>
+        <p>{{this.projectdcpProjectbrief}}</p>
+      </div>
+      <div class="cell medium-4 large-shrink">
+        {{#each this.timeDisplays as |timeDisplay|}}
+          <div class="lup-countdown medium-margin-right medium-margin-left">
+            <p class="cert-date">{{timeDisplay.displayName}}</p>
+            <p class="days">{{timeDisplay.timeRemaining}}</p>
+            <p class="total">of {{timeDisplay.timeDuration}} days remain</p>
+            <p class="end-date">Ends {{moment-format this.project.actualenddate "M/D/YYYY"}}</p>
+          </div>
+        {{/each}}
+      </div>
+      <div class="cell medium-auto">
+        <ul class="no-bullet no-margin">
+          {{#each this.project.milestones as |milestone|}}
+            <li class="grid-x">
+              <div class="cell shrink small-margin-right">
+                {{#if (eq milestone.statuscode "Completed")}}
+                  <span data-test={{if (string-includes milestone.milestonename "Referral") "reviewed-indicator"}}>
+                    {{fa-icon 'check' class='blue' fixedWidth=true}}
+                  </span>
+                {{else if (eq milestone.statuscode "Overridden")}}
+                  {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
+                {{else}}
+                  {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
+                {{/if}}
+              </div>
+              <div class="cell auto">
+                <p class="small-margin-bottom">
+                  <strong>{{milestone.milestonename}}</strong>
+                  <small class="display-block">{{milestone.displayDate}}</small>
+                </p>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="cell medium-auto">
+        <ul class="no-bullet no-margin">
+          {{!-- TODO: Figure out what this loop was supposed to be --}}
+        </ul>
+      </div>
+    </div>
+  </div>
+  

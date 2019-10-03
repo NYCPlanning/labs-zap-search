@@ -16,8 +16,26 @@
       </div>
       <div class="cell medium-4 large-shrink">
         <p class="text-center medium-margin-right medium-margin-left">
-          <span class="display-block tiny-margin-bottom">Public Review</span>
-          <span class="display-block lead small-margin-bottom"><strong>June 12, 2018</strong></span>
+          {{#if (eq project.upcomingMilestonePlannedStartDate)}}
+            <span class="display-block tiny-margin-bottom">
+              Borough President<br>
+              Review Begins
+            </span>
+            <span class="display-block lead small-margin-bottom">
+              <strong>
+                {{moment-format project.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
+              </strong>
+            </span>
+          {{else}}
+            <span class="display-block tiny-margin-bottom">
+              Public Review Begins
+            </span>
+            <span class="display-block lead small-margin-bottom">
+              <strong>
+                {{moment-format project.publicReviewPlannedStartDate "M/D/YYYY"}}
+              </strong>
+            </span>
+          {{/if}}
           <span class="display-block text-tiny">(Estimated Start Date)</span>
         </p>
       </div>
