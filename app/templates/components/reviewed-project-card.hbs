@@ -38,7 +38,7 @@
                   {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
                 {{/if}}
               </div>
-              <div class="cell auto">
+              <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
                 <p class="small-margin-bottom">
                   <strong>{{milestone.milestonename}}</strong>
                   <small class="display-block">{{milestone.displayDate}}</small>
