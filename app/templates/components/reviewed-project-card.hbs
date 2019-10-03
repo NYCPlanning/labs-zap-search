@@ -3,7 +3,7 @@
     data-test-project-card
   >
     <div class="grid-x grid-x-small-gutters">
-      <div class="cell large-6">
+      <div class="cell large-5">
         <h3 class="tiny-margin-bottom">
           {{#link-to 'show-project' this.project.id}}{{this.project.dcpProjectname}}{{/link-to}}
           <small class="dark-gray">{{this.project.dcpUlurpNonulurp}}</small>
@@ -44,11 +44,6 @@
               </div>
             </li>
           {{/each}}
-        </ul>
-      </div>
-      <div class="cell medium-auto">
-        <ul class="no-bullet no-margin">
-          {{!-- TODO: Figure out what this loop was supposed to be --}}
         </ul>
       </div>
     </div>
