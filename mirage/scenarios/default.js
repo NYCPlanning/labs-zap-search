@@ -609,8 +609,8 @@ export default function(server) {
   // "SEVENTH" CB PROJECT (Archived)
   seedCBUserProjects[6].update({
     tab: 'archive',
-    publicStatus: 'Approved',
-    projectCompleted: moment().subtract(15, 'days'),
+    dcpPublicstatus: 'Approved',
+    dcpProjectcompleted: moment().subtract(15, 'days'),
   });
 
   server.create('milestone', 'certifiedReferred', {

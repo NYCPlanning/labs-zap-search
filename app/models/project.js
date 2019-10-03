@@ -143,11 +143,11 @@ export default class ProjectModel extends Model {
 
   @attr('string') dcpProjectname;
 
-  @attr('string', { defaultValue: '' }) publicStatus;
+  @attr('string', { defaultValue: '' }) dcpPublicstatus;
 
   @attr('string', { defaultValue: '' }) dcpPublicstatusSimp;
 
-  @attr('string') projectCompleted;
+  @attr('string') dcpProjectcompleted;
 
   @attr() dcpHiddenprojectmetrictarget;
 

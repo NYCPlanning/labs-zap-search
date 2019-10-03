@@ -5,11 +5,11 @@
     <div class="grid-x grid-x-small-gutters">
       <div class="cell large-6">
         <h3 class="tiny-margin-bottom">
-          {{#link-to 'show-project' this.projectid}}{{this.projectdcpProjectname}}{{/link-to}}
-          <small class="dark-gray">{{this.projectdcpUlurpNonulurp}}</small>
+          {{#link-to 'show-project' this.project.id}}{{this.project.dcpProjectname}}{{/link-to}}
+          <small class="dark-gray">{{this.project.dcpUlurpNonulurp}}</small>
         </h3>
-        <h5 class="applicant">{{this.projectapplicants}}</h5>
-        <p>{{this.projectdcpProjectbrief}}</p>
+        <h5 class="applicant">{{this.project.applicants}}</h5>
+        <p>{{this.project.dcpProjectbrief}}</p>
       </div>
       <div class="cell medium-4 large-shrink">
         {{#each this.timeDisplays as |timeDisplay|}}
@@ -53,4 +53,3 @@
       </div>
     </div>
   </div>
-  
