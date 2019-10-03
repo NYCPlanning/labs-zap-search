@@ -35,7 +35,7 @@
                   </span>
                 {{/if}}
               </div>
-              <div class="cell auto">
+              <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
                 <strong>{{milestone.milestonename}}</strong>
                 <small class="display-inline-block">{{milestone.displayDate}}</small>
               </div>

@@ -30,13 +30,15 @@
                   <span data-test={{if (string-includes milestone.milestonename "Referral") "reviewed-indicator"}}>
                     {{fa-icon 'check' class='blue' fixedWidth=true}}
                   </span>
+                {{else if (eq milestone.statuscode "In Progress")}}
+                  {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
                 {{else if (eq milestone.statuscode "Overridden")}}
-                  {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
+                  {{fa-icon 'times' class='red-muted' fixedWidth=true}}
                 {{else}}
                   {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
                 {{/if}}
               </div>
-              <div class="cell auto">
+              <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
                 <p class="small-margin-bottom">
                   <strong>{{milestone.milestonename}}</strong>
                   <small class="display-block">{{milestone.displayDate}}</small>

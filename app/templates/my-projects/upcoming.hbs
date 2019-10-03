@@ -46,17 +46,24 @@
               <div class="cell shrink small-margin-right">
                 {{#if (eq milestone.statuscode "Completed")}}
                   {{fa-icon 'check' class='blue' fixedWidth=true}}
+                {{else if (eq milestone.statuscode "In Progress")}}
+                  {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
                 {{else if (eq milestone.statuscode "Overridden")}}
-                  {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
+                  {{fa-icon 'times' class='red-muted' fixedWidth=true}}
                 {{else if (eq milestone.statuscode "Not Started")}}
                   <span data-test={{if (string-includes milestone.milestonename "Referral") "upcoming-indicator"}}>
                     {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
                   </span>
                 {{/if}}
               </div>
-              <div class="cell auto">
+              <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
                 <strong>{{milestone.milestonename}}</strong>
-                <small class="display-inline-block">{{milestone.displayDate}}</small>
+                <small class="display-inline-block">
+                  {{#if (eq milestone.statuscode "Not Started")}}
+                    Estimated
+                  {{/if}}
+                  {{milestone.displayDate}}
+                </small>
               </div>
             </li>
           {{/each}}
