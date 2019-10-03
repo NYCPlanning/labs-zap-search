@@ -41,7 +41,7 @@
       </div>
       <div class="cell medium-auto">
         <ul class="no-bullet no-margin">
-          {{#each project.milestones as |milestone|}}
+          {{#each project.tabSpecificMilestones as |milestone|}}
             <li class="grid-x small-margin-bottom">
               <div class="cell shrink small-margin-right">
                 {{#if (eq milestone.statuscode "Completed")}}
