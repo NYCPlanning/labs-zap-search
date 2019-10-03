@@ -48,7 +48,7 @@ export default class ProjectModel extends Model {
   // Attributes for dashboard view
   @attr() tab;
 
-  @attr() teammemberrole;
+  @attr() dcpLupteammemberrole;
 
   @attr() applicantteam;
 
@@ -70,11 +70,11 @@ export default class ProjectModel extends Model {
   // If `tab` is `upcoming`...
   // if the project is in public review, this field is used to display the participant's review planned start date.
   // else this field returns null
-  @computed('tab', 'teammemberrole', 'milestones')
+  @computed('tab', 'dcpLupteammemberrole', 'milestones')
   get upcomingMilestonePlannedStartDate() {
     if (this.tab === 'upcoming') {
       if (this.dcpPublicstatusSimp !== 'filed') {
-        const participantMilestoneId = MILESTONE_ID_LOOKUP[this.teammemberrole];
+        const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
         const participantReviewMilestone = this.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId);
         return participantReviewMilestone ? participantReviewMilestone.dcpPlannedstartdate : null;
       }
@@ -83,23 +83,23 @@ export default class ProjectModel extends Model {
   }
 
   // If `tab` is to-review', these start/end dates are derived from
-  // the participant's (specified by `teammemberrole`) review milestone.
-  @computed('tab', 'teammemberrole', 'milestones')
+  // the participant's (specified by `dcpLupteammemberrole`) review milestone.
+  @computed('tab', 'dcpLupteammemberrole', 'milestones')
   get toReviewMilestoneActualStartDate() {
     if (this.tab !== 'to-review') {
       return null;
     }
-    const participantMilestoneId = MILESTONE_ID_LOOKUP[this.teammemberrole];
+    const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
     const { dcpActualstartdate } = this.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return dcpActualstartdate;
   }
 
-  @computed('tab', 'teammemberrole', 'milestones')
+  @computed('tab', 'dcpLupteammemberrole', 'milestones')
   get toReviewMilestoneActualEndDate() {
     if (this.tab !== 'to-review') {
       return null;
     }
-    const participantMilestoneId = MILESTONE_ID_LOOKUP[this.teammemberrole];
+    const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
     const { dcpActualenddate } = this.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return dcpActualenddate;
   }
@@ -107,7 +107,7 @@ export default class ProjectModel extends Model {
   // If `tab` is 'reviewed'...
   //   - these start/end dates come from the current In Progress milestone
   //   - an array of milestone dates is returned
-  @computed('tab', 'teammemberrole', 'milestones')
+  @computed('tab', 'dcpLupteammemberrole', 'milestones')
   get reviewedMilestoneActualStartEndDates() {
     if (this.tab !== 'reviewed') {
       return null;
