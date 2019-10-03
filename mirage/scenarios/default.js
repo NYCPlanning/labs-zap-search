@@ -11,7 +11,7 @@ export default function(server) {
   });
 
   const seedCBUserProjects = server.createList('project', NUM_CB_USER_PROJECTS, {
-    teammemberrole: 'CB',
+    dcpLupteammemberrole: 'CB',
   });
   seedCBUser.projects = seedCBUserProjects;
 
@@ -21,7 +21,7 @@ export default function(server) {
     landUseParticipant: 'BXBP',
   });
   const seedBPUserProjects = server.createList('project', NUM_BP_USER_PROJECTS, {
-    teammemberrole: 'BP',
+    dcpLupteammemberrole: 'BP',
   });
   seedBPUser.projects = seedBPUserProjects;
 
