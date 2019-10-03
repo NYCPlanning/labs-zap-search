@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 const {
   Model, attr, hasMany,
@@ -27,6 +28,9 @@ const MILESTONE_ID_LOOKUP = {
 };
 
 export default class ProjectModel extends Model {
+  @service
+  milestoneConstants;
+
   // Many Users to Many Projects
   @hasMany('user') users;
 
@@ -52,6 +56,11 @@ export default class ProjectModel extends Model {
   get publicReviewPlannedStartDate() {
     const { dcpPlannedstartdate } = this.milestones.find(milestone => milestone.dcpMilestone === COMMUNITY_BOARD_REFERRAL_MILESTONE_ID) || {};
     return dcpPlannedstartdate || null;
+  }
+
+  @computed('milestones')
+  get tabSpecificMilestones() {
+    return this.milestones.filter(milestone => this.milestoneConstants.milestoneListByTabLookup[this.tab].includes(milestone.dcpMilestone));
   }
 
   // The following <tab>MilestoneActual<Start/End>
