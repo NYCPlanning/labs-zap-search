@@ -17,7 +17,7 @@
             <p class="cert-date">{{timeDisplay.displayName}}</p>
             <p class="days">{{timeDisplay.timeRemaining}}</p>
             <p class="total">of {{timeDisplay.timeDuration}} days remain</p>
-            <p class="end-date">Ends {{moment-format this.project.actualenddate "M/D/YYYY"}}</p>
+            <p class="end-date">Ends {{moment-format timeDisplay.dcpActualenddate "M/D/YYYY"}}</p>
           </div>
         {{/each}}
       </div>

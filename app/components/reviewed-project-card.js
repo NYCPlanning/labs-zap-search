@@ -15,6 +15,7 @@ export default class ReviewedProjectCardComponent extends Component {
       displayName: startEndDate.displayName,
       timeRemaining: moment(startEndDate.dcpActualenddate).diff(moment().endOf('day'), 'days'),
       timeDuration: moment(startEndDate.dcpActualenddate).diff(moment(startEndDate.dcpActualstartdate), 'days'),
+      dcpActualenddate: startEndDate.dcpActualenddate,
     }));
   }
 }
