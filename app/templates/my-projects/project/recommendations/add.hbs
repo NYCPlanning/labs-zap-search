@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="cell large-7">
-          {{#if hearingsSubmittedForProject}}
+          {{#if (and hearingsSubmitted (not hearingsWaived))}}
             <strong>
               <legend>
                 Was a Quorum Present at your hearing(s)?
@@ -95,6 +95,13 @@
                 {{/if}}
               {{/each}}
             {{/deduped-hearings-list}}
+          {{/if}}
+          {{#if (and hearingsWaived (not hearingsSubmitted))}}
+            <div data-test-hearings-waived-message>
+              <h5>Note: You have opted out of submitting hearings for this project.</h5>
+              <p class="text-small">Without proper notice of a public hearing, the [Participant Type]'s recommendation does not comply with City Charter requirements. NYC Planning will still accept a recommendation, but a disapproval will not trigger an automatic City Council call up.</p>
+            </div>
+            <hr>
           {{/if}}
           {{#if (gt this.dispositions.length 1)}}
             <fieldset class="medium-margin-bottom medium-margin-top">

@@ -170,12 +170,14 @@
                 <p class="text-small dark-gray"><strong>Ends 09/02/19</strong></p>
               </div>
             </div>
-              {{#if hearingsSubmittedForProject}}
+              {{#if hearingsSubmittedOrWaived}}
                 {{#link-to "my-projects.project.recommendations.add" model.id}}
-                <span class="button expanded" disabled={{not hearingsSubmittedForProject}} data-test-button-to-rec-form>
+                <span class="button expanded" data-test-button-to-rec-form>
                   Submit Participant Type Recommendation
                 </span>
                 {{/link-to}}
+              {{/if}}
+              {{#if hearingsSubmitted}}
                 {{#deduped-hearings-list project=model as |dedupedHearings|}}
                   <h5 class="column-header">Hearing Information</h5>
                       <ul class="no-bullet">
@@ -209,12 +211,28 @@
                       {{/each}}
                       </ul>
                 {{/deduped-hearings-list}}
-              {{else}}
+              {{/if}}
+              {{#if hearingsWaived}}
+                <span data-test-hearings-waived-message>You have opted out of submitting hearings</span>
+              {{/if}}
+              {{#if hearingsNotSubmittedNotWaived}}
                 {{#link-to "my-projects.project.hearing.add" model.id}}
-                  <span class="button expanded" data-test-button-to-hearing-form>
+                  <span class="button expanded" data-test-button-hearing-form>
                     Submit Participant Type Hearing Info
                   </span>
                 {{/link-to}}
+                <p class="text-small text-right">
+                  <span class="display-inline-block">
+                    <button
+                      class="button tiny clear no-margin"
+                      onClick={{action "openOptOutHearingPopup"}}
+                      data-test-button="optOutHearingOpenPopup"
+                    >
+                      Opt out of hearings
+                    </button>
+                    {{waive-hearings-popup project=model showPopup=showPopup}}
+                  </span>
+                </p>
               {{/if}}
           </div>
         {{/if}}

@@ -1,25 +1,12 @@
 import Component from '@ember/component';
 import { computed, action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import moment from 'moment';
 
-export default class ToReviewProjectCardComponent extends Component {
+export default class UpcomingProjectCardComponent extends Component {
   @service
   currentUser;
 
   showPopup = false;
-
-  project = {};
-
-  @computed('project.toReviewMilestoneActualEndDate')
-  get timeRemaining() {
-    return moment(this.project.toReviewMilestoneActualEndDate).diff(moment().endOf('day'), 'days');
-  }
-
-  @computed('project.{toReviewMilestoneActualStartDate,toReviewMilestoneActualEndDate}')
-  get timeDuration() {
-    return moment(this.project.toReviewMilestoneActualEndDate).diff(moment(this.project.toReviewMilestoneActualStartDate), 'days');
-  }
 
   // if the each dcpPublichearinglocation and dcpDateofpublichearing properties are filled in dispositions array,
   // then hearings have been submitted for that project
@@ -51,7 +38,6 @@ export default class ToReviewProjectCardComponent extends Component {
   get hearingsSubmittedOrWaived() {
     const hearingsSubmitted = this.get('hearingsSubmitted');
     const hearingsWaived = this.get('hearingsWaived');
-    console.log('hearingsSubmittedOrWaived', !!hearingsSubmitted || !!hearingsWaived);
     return !!hearingsSubmitted || !!hearingsWaived;
   }
 
@@ -59,7 +45,6 @@ export default class ToReviewProjectCardComponent extends Component {
   get hearingsNotSubmittedNotWaived() {
     const hearingsSubmitted = this.get('hearingsSubmitted');
     const hearingsWaived = this.get('hearingsWaived');
-    console.log('hearingsNotSubmittedNotWaived', !hearingsSubmitted && !hearingsWaived);
     return !hearingsSubmitted && !hearingsWaived;
   }
 
