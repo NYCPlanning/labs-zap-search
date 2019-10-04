@@ -20,6 +20,13 @@ export default function(server) {
     email: 'bxbp@planning.nyc.gov',
     landUseParticipant: 'BXBP',
   });
+
+  const seedBBUser = server.create('user', {
+    id: 3,
+    email: 'bxbb@planning.nyc.gov',
+    landUseParticipant: 'BXBB',
+  });
+
   const seedBPUserProjects = server.createList('project', NUM_BP_USER_PROJECTS, {
     dcpLupteammemberrole: 'BP',
   });
@@ -70,19 +77,28 @@ export default function(server) {
     const newActions = server.createList('action', (i % 2 === 1) ? 1 : 7);
     seedCBUserProjects[i].actions = newActions;
     for (let j = 0; j < seedCBUserProjects[i].actions.models.length; j += 1) {
-      if (i < 3) {
-        server.create('disposition', {
-          user: seedCBUser,
+      server.create('disposition', 'communityBoardDisposition', {
+        user: seedCBUser,
+        project: seedCBUserProjects[i],
+        action: seedCBUserProjects[i].actions.models[j],
+        dcpPublichearinglocation: (i < 3) ? 'Canal street' : null,
+        dcpDateofpublichearing: (i < 3) ? moment().subtract(22, 'days') : null,
+      });
+      if (i > 4) {
+        server.create('disposition', 'boroughPresidentDisposition', {
+          user: seedBPUser,
           project: seedCBUserProjects[i],
           action: seedCBUserProjects[i].actions.models[j],
-          dcpPublichearinglocation: 'Canal street',
-          dcpDateofpublichearing: '2018-11-02T01:21:46',
+          dcpPublichearinglocation: 'Nassau street',
+          dcpDateofpublichearing: moment().subtract(10, 'days'),
         });
-      } else {
-        server.create('disposition', {
-          user: seedCBUser,
+        server.create('disposition', 'boroughBoardDisposition', {
+          user: seedBBUser,
           project: seedCBUserProjects[i],
           action: seedCBUserProjects[i].actions.models[j],
+          dcpPublichearinglocation: 'Fulton street',
+          dcpDateofpublichearing: moment().subtract(10, 'days'),
+          boroughboardrecommendation: 'Approved',
         });
       }
     }
