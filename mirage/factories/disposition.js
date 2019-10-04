@@ -14,16 +14,14 @@ export default Factory.extend({
   // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
+  datereceived: null,
+
   consideration() {
     return faker.lorem.sentences();
   },
 
   votelocation() {
     return faker.address.streetAddress();
-  },
-
-  datereceived() {
-    return faker.date.past();
   },
 
   dateofvote() {

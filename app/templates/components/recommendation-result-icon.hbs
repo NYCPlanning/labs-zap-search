@@ -1,0 +1,9 @@
+{{#if (or (eq this.recommendation "Approved") (eq this.recommendation "Approved with Modifications/Conditions"))}}
+  {{fa-icon 'thumbs-up' class='green-muted' fixedWidth=true}}
+{{/if}}
+{{#if (or (eq this.recommendation "Disapproved") (eq this.recommendation "Disapproved with Modifications/Conditions"))}}
+  {{fa-icon 'thumbs-down' class='red-muted' fixedWidth=true}}
+{{/if}}
+{{#if (eq this.recommendation "Waived")}}
+  {{fa-icon 'comment-slash' class='gray' fixedWidth=true}}
+{{/if}}

@@ -20,61 +20,10 @@
     <div class="cell medium-auto">
       <ul class="no-bullet no-margin">
         {{#each this.project.tabSpecificMilestones as |milestone|}}
-          <li class="grid-x small-margin-bottom">
-            <div class="cell shrink small-margin-right">
-              {{#if (eq milestone.statuscode "Completed")}}
-                {{fa-icon 'check' class='blue' fixedWidth=true}}
-              {{else if (eq milestone.statuscode "Overridden")}}
-                {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
-              {{else if (eq milestone.statuscode "Not Started")}}
-                <span data-test={{if (string-includes milestone.milestonename "Referral") "upcoming-indicator"}}>
-                  {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
-                </span>
-              {{/if}}
-            </div>
-            <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
-              <strong>
-                {{milestone.milestonename}}
-              </strong>
-              {{#each this.project.dispositions as |disposition|}}
-                {{#if (eq milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
-                  {{#if (or (eq disposition.communityboardrecommendation "Approved") (eq disposition.communityboardrecommendation "Approved with Modifications/Conditions"))}}
-                    {{fa-icon 'thumbs-up' class='green-muted' fixedWidth=true}}
-                  {{/if}}
-                  {{#if (or (eq disposition.communityboardrecommendation "Disapproved") (eq disposition.communityboardrecommendation "Disapproved with Modifications/Conditions"))}}
-                    {{fa-icon 'thumbs-down' class='red-muted' fixedWidth=true}}
-                  {{/if}}
-                  {{#if (eq disposition.communityboardrecommendation "Waived")}}
-                    {{fa-icon 'comment-slash' class='gray' fixedWidth=true}}
-                  {{/if}}
-                {{/if}}
-                {{#if (eq milestone.dcpMilestone this.milestoneConstants.BOROUGH_BOARD_REFERRAL)}}
-                  {{#if (or (eq disposition.boroughboardrecommendation "Approved") (eq disposition.boroughboardrecommendation "Approved with Modifications/Conditions"))}}
-                    {{fa-icon 'thumbs-up' class='green-muted' fixedWidth=true}}
-                  {{/if}}
-                  {{#if (or (eq disposition.boroughboardrecommendation "Disapproved") (eq disposition.boroughboardrecommendation "Disapproved with Modifications/Conditions"))}}
-                    {{fa-icon 'thumbs-down' class='red-muted' fixedWidth=true}}
-                  {{/if}}
-                  {{#if (eq disposition.boroughboardrecommendation "Waived")}}
-                    {{fa-icon 'comment-slash' class='gray' fixedWidth=true}}
-                  {{/if}}
-                {{/if}}
-                {{#if (eq milestone.dcpMilestone this.milestoneConstants.BOROUGH_PRESIDENT_REFERRAL)}}
-                  {{#if (or (eq disposition.boroughpresidentrecommendation "Approved") (eq disposition.boroughpresidentrecommendation "Approved with Modifications/Conditions"))}}
-                    {{fa-icon 'thumbs-up' class='green-muted' fixedWidth=true}}
-                  {{/if}}
-                  {{#if (or (eq disposition.boroughpresidentrecommendation "Disapproved") (eq disposition.boroughpresidentrecommendation "Disapproved with Modifications/Conditions"))}}
-                    {{fa-icon 'thumbs-down' class='red-muted' fixedWidth=true}}
-                  {{/if}}
-                  {{#if (eq disposition.boroughpresidentrecommendation "Waived")}}
-                    {{fa-icon 'comment-slash' class='gray' fixedWidth=true}}
-                  {{/if}}
-                {{/if}}
-              {{/each}}
-              <br>
-              <small class="display-inline-block">{{milestone.displayDate}}</small>
-            </div>
-          </li>
+          <ArchiveProjectMilestoneListItem
+            @project={{this.project}}
+            @milestone={{milestone}}
+          />
         {{/each}}
       </ul>
     </div>
