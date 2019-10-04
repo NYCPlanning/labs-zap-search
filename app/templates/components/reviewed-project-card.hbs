@@ -40,7 +40,9 @@
               </div>
               <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
                 <p class="small-margin-bottom">
-                  <strong>{{milestone.milestonename}}</strong>
+                  <strong>
+                    {{milestone.milestonename}}
+                  </strong>
                   {{#each this.project.dispositions as |disposition|}}
                     {{#if (eq milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
                       {{#if (or (eq disposition.communityboardrecommendation "Approved") (eq disposition.communityboardrecommendation "Approved with Modifications/Conditions"))}}
@@ -76,7 +78,8 @@
                       {{/if}}
                     {{/if}}
                   {{/each}}
-                  <small class="display-inline-block">{{milestone.displayDate}}</small>
+                  <br>
+                  <small class="display-block">{{milestone.displayDate}}</small>
                 </p>
               </div>
             </li>
