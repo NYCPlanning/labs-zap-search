@@ -1,4 +1,4 @@
-import { module, test, skip } from 'qunit';
+import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -8,13 +8,130 @@ import EmberObject from '@ember/object';
 module('Integration | Component | deduped-hearings-list', function(hooks) {
   setupRenderingTest(hooks);
 
-  skip('deduped-hearings-list is rendered', async function(assert) {
-    this.set('ourProject', { dispositions: [] });
+  test('check that hearings list renders when user has submitted hearings', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.set('myAction', function(val) { ... });
+
+    // dates for dcpDateofpublichearing
+    const date_A = new Date('2020-10-21T18:30:00');
+    const date_B = new Date('2020-11-12T17:45:00');
+    const date_C = new Date('2020-10-21T09:25:00');
+
+    const projObject = EmberObject.extend({});
+
+    const ourDisps = EmberObject.extend({});
+
+    // Disposition 22 ############## DUPLICATE WITH 23 & 26
+    const disp22 = ourDisps.create({
+      id: 22,
+      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+      dcpDateofpublichearing: date_A,
+      action: {
+        dcpName: 'Zoning Special Permit',
+        dcpUlurpnumber: 'C780076TLK',
+      },
+    });
+
+    // Disposition 23 ############## DUPLICATE WITH 22 & 26
+    const disp23 = ourDisps.create({
+      id: 23,
+      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+      dcpDateofpublichearing: date_A,
+      action: {
+        dcpName: 'Zoning Text Amendment',
+        dcpUlurpnumber: 'N860877TCM',
+      },
+    });
+
+    // Disposition 24 ##########################################################
+    const disp24 = ourDisps.create({
+      id: 24,
+      dcpPublichearinglocation: '186 Alligators Ave, Staten Island, NY',
+      dcpDateofpublichearing: date_B,
+      action: {
+        dcpName: 'Business Improvement District',
+        dcpUlurpnumber: 'I030148MMQ',
+      },
+    });
+
+    // Disposition 25 ##########################################################
+    const disp25 = ourDisps.create({
+      id: 25,
+      dcpPublichearinglocation: '144 Piranha Ave, Manhattan, NY',
+      dcpDateofpublichearing: date_B,
+      action: {
+        dcpName: 'Change in City Map',
+        dcpUlurpnumber: '200088ZMX',
+      },
+    });
+
+    // Disposition 26 ############## DUPLICATE WITH 22 & 23
+    const disp26 = ourDisps.create({
+      id: 26,
+      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+      dcpDateofpublichearing: date_A,
+      action: {
+        dcpName: 'Enclosed Sidewalk Cafe',
+        dcpUlurpnumber: '190172ZMK',
+      },
+    });
+
+    // Disposition 27 ##########################################################
+    const disp27 = ourDisps.create({
+      id: 27,
+      dcpPublichearinglocation: '456 Crocodiles Ave, Bronx, NY',
+      dcpDateofpublichearing: date_B,
+      action: {
+        dcpName: 'Large Scale Special Permit',
+        dcpUlurpnumber: 'N190257ZRK',
+      },
+    });
+
+
+    // Disposition 28 ##########################################################
+    const disp28 = ourDisps.create({
+      id: 28,
+      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+      dcpDateofpublichearing: date_C,
+      action: {
+        dcpName: 'Zoning Certification',
+        dcpUlurpnumber: '190256ZMK',
+      },
+    });
+
+    const project = projObject.create({
+      id: 1,
+      dispositions: [disp22, disp23, disp24, disp25, disp26, disp27, disp28],
+    });
+
+    this.set('project', project);
 
     await render(hbs`
-      {{deduped-hearings-list project=ourProject}}
+      {{#to-review-project-card project=project}}
+      {{/to-review-project-card}}
     `);
-    assert.equal(this.element.textContent.trim(), 'Hearing Information');
+
+    const list = this.element.textContent.trim();
+
+    assert.ok(list.includes('121 Bananas Ave'));
+    assert.ok(list.includes('186 Alligators Ave'));
+    assert.ok(list.includes('144 Piranha Ave'));
+    assert.ok(list.includes('456 Crocodiles Ave'));
+
+    assert.ok(list.includes('10/21/2020'));
+    assert.ok(list.includes('11/12/2020'));
+
+    assert.ok(list.includes('6:30 PM'));
+    assert.ok(list.includes('9:25 AM'));
+    assert.ok(list.includes('5:45 PM'));
+
+    assert.ok(list.includes('C780076TLK'));
+    assert.ok(list.includes('N860877TCM'));
+    assert.ok(list.includes('190172ZMK'));
+    assert.ok(list.includes('I030148MMQ'));
+    assert.ok(list.includes('200088ZMX'));
+    assert.ok(list.includes('N190257ZRK'));
+    assert.ok(list.includes('190256ZMK'));
   });
 
   test('dedupeAndExtract function works', async function(assert) {
