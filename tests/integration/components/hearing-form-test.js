@@ -15,6 +15,12 @@ module('Integration | Component | hearing-form', function(hooks) {
 
     await render(hbs`{{hearing-form}}`);
 
-    assert.ok(this.element);
+    const form = this.element.textContent.trim();
+
+    assert.ok(form.includes('Hearing Location'));
+    assert.ok(form.includes('Hearing Date'));
+    assert.ok(form.includes('Hour'));
+    assert.ok(form.includes('Minute'));
+    assert.ok(form.includes('AM/PM'));
   });
 });

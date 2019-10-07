@@ -51,7 +51,6 @@ export default class ToReviewProjectCardComponent extends Component {
   get hearingsSubmittedOrWaived() {
     const hearingsSubmitted = this.get('hearingsSubmitted');
     const hearingsWaived = this.get('hearingsWaived');
-    console.log('hearingsSubmittedOrWaived', !!hearingsSubmitted || !!hearingsWaived);
     return !!hearingsSubmitted || !!hearingsWaived;
   }
 
@@ -59,7 +58,6 @@ export default class ToReviewProjectCardComponent extends Component {
   get hearingsNotSubmittedNotWaived() {
     const hearingsSubmitted = this.get('hearingsSubmitted');
     const hearingsWaived = this.get('hearingsWaived');
-    console.log('hearingsNotSubmittedNotWaived', !hearingsSubmitted && !hearingsWaived);
     return !hearingsSubmitted && !hearingsWaived;
   }
 

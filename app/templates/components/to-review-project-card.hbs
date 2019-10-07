@@ -5,7 +5,7 @@
   <div class="grid-x grid-x-small-gutters">
     <div class="cell large-5">
       <h3 class="tiny-margin-bottxrom">
-        {{#link-to 'show-project' project.id}}<span data-test-project-profile-button>{{project.dcpProjectname}}</span>{{/link-to}}
+        {{#link-to 'show-project' project.id}}<span data-test-project-profile-button="{{project.id}}">{{project.dcpProjectname}}</span>{{/link-to}}
         <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{project.applicants}}</h5>
@@ -35,7 +35,7 @@
       {{/if}}
       {{#if hearingsSubmitted}}
         {{#deduped-hearings-list project=project as |dedupedHearings|}}
-          <h6>Comminity Board Hearings:</h6>
+          <h6>Community Board Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}
                 <li class="grid-x small-margin-bottom">
@@ -75,7 +75,7 @@
           class="button expanded tiny-margin-bottom"
           data-test-button="submitHearing"
         >
-          Submit Comminity Board Hearing Info
+          Submit Community Board Hearing Info
         </LinkTo>
         <p class="text-small text-right">
           <span class="display-inline-block">
