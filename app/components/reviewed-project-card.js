@@ -7,9 +7,6 @@ export default class ReviewedProjectCardComponent extends Component {
   @service
   currentUser;
 
-  @service
-  milestoneConstants;
-
   project = {};
 
   @computed('project.reviewedMilestoneActualStartEndDates')

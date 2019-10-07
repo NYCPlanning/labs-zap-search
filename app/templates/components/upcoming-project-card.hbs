@@ -119,7 +119,7 @@
                 {{#if (eq milestone.statuscode "Not Started")}}
                   Estimated
                 {{/if}}
-                {{milestone.displayDate}}
+                {{~moment-format milestone.displayDate "MM/D/YYYY"~}}
               </small>
             </div>
           </li>

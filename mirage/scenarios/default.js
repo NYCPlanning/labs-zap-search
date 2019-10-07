@@ -83,6 +83,9 @@ export default function(server) {
         action: seedCBUserProjects[i].actions.models[j],
         dcpPublichearinglocation: (i < 3) ? 'Canal street' : null,
         dcpDateofpublichearing: (i < 3) ? moment().subtract(22, 'days') : null,
+        // In reality this should fall within the community board review's duration,
+        // so this mock date may not be accurate.
+        datereceived: moment().subtract(80, 'days'),
       });
       if (i > 4) {
         server.create('disposition', 'boroughPresidentDisposition', {
@@ -91,6 +94,9 @@ export default function(server) {
           action: seedCBUserProjects[i].actions.models[j],
           dcpPublichearinglocation: 'Nassau street',
           dcpDateofpublichearing: moment().subtract(10, 'days'),
+          // In reality this should fall within the president's review duration,
+          // so this mock date may not be accurate.
+          datereceived: moment().subtract(120, 'days'),
         });
         server.create('disposition', 'boroughBoardDisposition', {
           user: seedBBUser,
@@ -99,6 +105,9 @@ export default function(server) {
           dcpPublichearinglocation: 'Fulton street',
           dcpDateofpublichearing: moment().subtract(10, 'days'),
           boroughboardrecommendation: 'Approved',
+          // In reality this should fall within the board's review duration,
+          // so this mock date may not be accurate.
+          datereceived: moment().subtract(100, 'days'),
         });
       }
     }
@@ -231,6 +240,7 @@ export default function(server) {
     project: seedCBUserProjects[0],
     statuscode: 'Not Started',
     dcpPlannedstartdate: moment().add(32, 'days'),
+    displayDate: moment().add(32, 'days'),
   });
 
   // "SECOND" CB PROJECT (Upcoming)
@@ -289,6 +299,7 @@ export default function(server) {
     project: seedCBUserProjects[1],
     statuscode: 'Not Started',
     dcpPlannedstartdate: moment().add(52, 'days'),
+    displayDate: moment().add(52, 'days'),
   });
 
   // "THIRD" CB PROJECT (Upcoming)
@@ -401,6 +412,7 @@ export default function(server) {
     project: seedCBUserProjects[2],
     statuscode: 'Not Started',
     dcpPlannedstartdate: moment().add(90, 'days'),
+    displayDate: moment().add(90, 'days'),
   });
 
   // "FOURTH" CB PROJECT (To Review)

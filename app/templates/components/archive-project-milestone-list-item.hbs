@@ -1,0 +1,59 @@
+<li class="grid-x small-margin-bottom"
+  data-test-milestone-list-item
+>
+  <div class="cell shrink small-margin-right">
+    {{#if (eq this.milestone.statuscode "Completed")}}
+      {{fa-icon 'check' class='blue' fixedWidth=true}}
+    {{else if (eq this.milestone.statuscode "Overridden")}}
+      {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
+    {{else if (eq this.milestone.statuscode "Not Started")}}
+      <span data-test={{if (string-includes this.milestone.milestonename "Referral") "upcoming-indicator"}}>
+        {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
+      </span>
+    {{/if}}
+  </div>
+  <div class="cell auto {{if (eq this.milestone.statuscode "Not Started") 'gray'}}">
+    <strong>
+      {{this.milestone.milestonename}}
+    </strong>
+    {{#if (eq this.milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
+      {{#each this.communityBoardDispositions as |disposition|}}
+        <RecommendationResultIcon
+          @recommendation={{disposition.communityboardrecommendation}}
+        />
+      {{/each}}
+      <br>
+      <small class="display-block">
+        Recommendation submitted&nbsp;{{~moment-format this.anyCommunityBoardDispositionDateReceived "MM/D/YYYY"~}}
+      </small>
+    {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_BOARD_REFERRAL)}}
+      {{#each this.boroughBoardDispositions as |disposition|}}
+        <RecommendationResultIcon
+          @recommendation={{disposition.boroughboardrecommendation}}
+        />
+      {{/each}}
+      <br>
+      <small class="display-block">
+        Recommendation submitted&nbsp;{{~moment-format this.anyBoroughBoardDispositionDateReceived "MM/D/YYYY"~}}
+      </small>
+    {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_PRESIDENT_REFERRAL)}}
+      {{#each this.boroughPresidentDispositions as |disposition|}}
+        <RecommendationResultIcon
+          @recommendation={{disposition.boroughpresidentrecommendation}}
+        />
+      {{/each}}
+      <br>
+      <small class="display-block">
+        Recommendation submitted&nbsp;{{~moment-format this.anyBoroughPresidentDispositionDateReceived "MM/D/YYYY"~}}
+      </small>
+    {{else}}
+      <br>
+      <small class="display-block">
+        {{#if (eq this.milestone.statuscode "Not Started")}}
+          Estimated
+        {{/if}}
+        {{~moment-format this.milestone.displayDate "MM/D/YYYY"~}}
+      </small>
+    {{/if}}
+  </div>
+</li>
