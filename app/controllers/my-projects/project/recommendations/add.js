@@ -103,6 +103,9 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   // this.dispositionsChangesets[i] is the changeset for this.dispositions[i]
   @computed('dispositions', 'participantType')
   get dispositionsChangesets() {
+    if (!this.dispositions) {
+      return [];
+    }
     const { participantType } = this;
     let dispositionValidations = null;
     if (participantType === 'CB') {

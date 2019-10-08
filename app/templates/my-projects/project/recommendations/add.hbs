@@ -41,7 +41,9 @@
         </div>
         <div class="cell large-7">
           {{#if (and hearingsSubmitted (not hearingsWaived))}}
-            <strong>
+            <strong
+              data-test-quorum-question
+            >
               <legend>
                 Was a Quorum Present at your hearing(s)?
               </legend>
@@ -71,6 +73,7 @@
                         id={{concat idx '-quorum-yes'}}
                         checked={{if hearing.wasaquorumpresent "checked"}}
                         onClick={{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' true}}
+                        data-test-quorum-yes="{{idx}}"
                       />
                       <label
                         for="{{concat idx '-quorum-yes'}}"
@@ -83,6 +86,7 @@
                         id={{concat idx '-quorum-no'}}
                         checked={{if (eq hearing.wasaquorumpresent false) "checked"}}
                         onClick={{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' false}}
+                        data-test-quorum-no="{{idx}}"
                       />
                       <label
                         for="{{concat idx '-quorum-no'}}"
@@ -104,7 +108,9 @@
             <hr>
           {{/if}}
           {{#if (gt this.dispositions.length 1)}}
-            <fieldset class="medium-margin-bottom medium-margin-top">
+            <fieldset class="medium-margin-bottom medium-margin-top"
+              data-test-all-actions-fieldset
+            >
               <legend>
                 <strong>
                   Would you like to submit a single recommendation for all actions?
@@ -116,6 +122,7 @@
                 id="all-actions-yes"
                 checked={{if (eq this.allActions true) "checked"}}
                 onClick={{action "setProp" "allActions" true}}
+                data-test-all-actions-yes
               />
               <label for="all-actions-yes">
                 Yes
@@ -126,6 +133,7 @@
                 id="all-actions-no"
                 checked={{if (eq this.allActions false) "checked"}}
                 onClick={{action "setProp" "allActions" false}}
+                data-test-all-actions-no
               />
               <label for="all-actions-no">
                 No, I will submit a recommendation for each action
@@ -139,23 +147,29 @@
                   Submit a recommendation for all actions
                 </strong>
               </legend>
-              <div
-                class={{if this.dispositionForAllActionsChangeset.error.recommendation "is-invalid-label"}}
-              >
-                <PowerSelect
-                  @searchEnabled={{false}}
-                  @options={{this.recOptions}}
-                  @placeholder="Select a recommendation"
-                  @selected={{this.dispositionForAllActionsChangeset.recommendation}}
-                  @onchange={{action "setDispositionRec" dispositionForAllActionsChangeset}}
-                  as |recOption|
+              {{#if this.dispositionForAllActionsChangeset}}
+                <div
+                  class={{if this.dispositionForAllActionsChangeset.error.recommendation "is-invalid-label"}}
                 >
-                  {{recOption}}
-                </PowerSelect>
-                <span class="form-error is-visible" role="alert">
-                  {{this.dispositionForAllActionsChangeset.error.recommendation.validation}}
-                </span>
-              </div>
+                  <label
+                    data-test-all-actions-recommendation
+                  >
+                    <PowerSelect
+                      @searchEnabled={{false}}
+                      @options={{this.recOptions}}
+                      @placeholder="Select a recommendation"
+                      @selected={{this.dispositionForAllActionsChangeset.recommendation}}
+                      @onchange={{action "setDispositionRec" this.dispositionForAllActionsChangeset}}
+                      as |recOption|
+                    >
+                      {{recOption}}
+                    </PowerSelect>
+                  </label>
+                  <span class="form-error is-visible" role="alert">
+                    {{this.dispositionForAllActionsChangeset.error.recommendation.validation}}
+                  </span>
+                </div>
+              {{/if}}
               {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
                 <legend class="show-for-sr">
                   <strong>
@@ -178,6 +192,7 @@
                       @value={{this.dispositionForAllActionsChangeset.votinginfavorrecommendation}}
                       @key-up={{fn (mut this.dispositionForAllActionsChangeset.votinginfavorrecommendation) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.votinginfavorrecommendation "is-invalid-input"}}
+                      data-test-all-actions-votinginfavorrecommendation
                     />
                     <span class="form-error is-visible" role="alert">
                       {{this.dispositionForAllActionsChangeset.error.votinginfavorrecommendation.validation}}
@@ -198,6 +213,7 @@
                       @value={{this.dispositionForAllActionsChangeset.votingagainstrecommendation}}
                       @key-up={{fn (mut this.dispositionForAllActionsChangeset.votingagainstrecommendation) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.votingagainstrecommendation "is-invalid-input"}}
+                      data-test-all-actions-votingagainstrecommendation
                     />
                     <span class="form-error is-visible" role="alert">
                       {{this.dispositionForAllActionsChangeset.error.votingagainstrecommendation.validation}}
@@ -218,6 +234,7 @@
                       @value={{this.dispositionForAllActionsChangeset.votingabstainingonrecommendation}}
                       @key-up={{fn (mut this.dispositionForAllActionsChangeset.votingabstainingonrecommendation) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.votingabstainingonrecommendation "is-invalid-input"}}
+                      data-test-all-actions-votingabstainingonrecommendation
                     />
                     <span class="form-error is-visible" role="alert">
                       {{this.dispositionForAllActionsChangeset.error.votingabstainingonrecommendation.validation}}
@@ -238,6 +255,7 @@
                       @value={{this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard}}
                       @key-up={{fn (mut this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.totalmembersappointedtotheboard "is-invalid-input"}}
+                      data-test-all-actions-totalmembersappointedtotheboard
                     />
                     <span class="form-error is-visible" role="alert">
                       {{this.dispositionForAllActionsChangeset.error.totalmembersappointedtotheboard.validation}}
@@ -264,16 +282,20 @@
                 <div
                   class={{if (get dispositionChangesetPair.changeset.error (rec-field-by-parttype-lookup this.participantType)) "is-invalid-label"}}
                 >
-                  <PowerSelect
-                    @searchEnabled={{false}}
-                    @options={{this.recOptions}}
-                    @placeholder="Select a recommendation"
-                    @selected={{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}
-                    @onchange={{action "setDispositionRec" dispositionChangesetPair.changeset}}
-                    as |recOption|
+                  <label
+                    data-test-each-action-recommendation={{idx}}
                   >
-                    {{recOption}}
-                  </PowerSelect>
+                    <PowerSelect
+                      @searchEnabled={{false}}
+                      @options={{this.recOptions}}
+                      @placeholder="Select a recommendation"
+                      @selected={{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}
+                      @onchange={{action "setDispositionRec" dispositionChangesetPair.changeset}}
+                      as |recOption|
+                    >
+                      {{recOption}}
+                    </PowerSelect>
+                  </label>
                   <span class="form-error is-visible" role="alert">
                     {{get (get dispositionChangesetPair.changeset.error (rec-field-by-parttype-lookup this.participantType)) "validation"}}
                   </span>
@@ -300,6 +322,7 @@
                         @value={{dispositionChangesetPair.changeset.votinginfavorrecommendation}}
                         @key-up={{fn (mut dispositionChangesetPair.changeset.votinginfavorrecommendation) value="target.value"}}
                         @class={{if dispositionChangesetPair.changeset.error.votinginfavorrecommendation "is-invalid-input"}}
+                        data-test-each-action-votes={{concat "in-favor-" idx}}
                       />
                       <span class="form-error is-visible" role="alert">
                         {{dispositionChangesetPair.changeset.error.votinginfavorrecommendation.validation}}
@@ -320,6 +343,7 @@
                       @value={{dispositionChangesetPair.changeset.votingagainstrecommendation}}
                       @key-up={{fn (mut dispositionChangesetPair.changeset.votingagainstrecommendation) value="target.value"}}
                       @class={{if dispositionChangesetPair.changeset.error.votingagainstrecommendation "is-invalid-input"}}
+                      data-test-each-action-votes={{concat "against-" idx}}
                     />
                     <span class="form-error is-visible" role="alert">
                       {{dispositionChangesetPair.changeset.error.votingagainstrecommendation.validation}}
@@ -340,6 +364,7 @@
                       @value={{dispositionChangesetPair.changeset.votingabstainingonrecommendation}}
                       @key-up={{fn (mut dispositionChangesetPair.changeset.votingabstainingonrecommendation) value="target.value"}}
                       @class={{if dispositionChangesetPair.changeset.error.votingabstainingonrecommendation "is-invalid-input"}}
+                      data-test-each-action-votes={{concat "abstain-" idx}}
                     />
                     <span class="form-error is-visible" role="alert">
                       {{dispositionChangesetPair.changeset.error.votingabstainingonrecommendation.validation}}
@@ -360,6 +385,7 @@
                       @value={{dispositionChangesetPair.changeset.totalmembersappointedtotheboard}}
                       @key-up={{fn (mut dispositionChangesetPair.changeset.totalmembersappointedtotheboard) value="target.value"}}
                       @class={{if dispositionChangesetPair.changeset.error.totalmembersappointedtotheboard "is-invalid-input"}}
+                      data-test-each-action-votes={{concat "total-members-" idx}}
                     />
                     <span class="form-error is-visible" role="alert">
                       {{dispositionChangesetPair.changeset.error.totalmembersappointedtotheboard.validation}}
@@ -381,6 +407,7 @@
                       @placeholder="Add a Recommendation comment for this action here."
                       @rows="4"
                       @class={{if dispositionChangesetPair.changeset.error.consideration "is-invalid-input"}}
+                      data-test-each-action-consideration={{idx}}
                     />
                     <span class="form-error is-visible" role="alert">
                       {{dispositionChangesetPair.changeset.error.consideration.validation}}
@@ -415,6 +442,7 @@
                       @value={{this.dispositionForAllActionsChangeset.votelocation}}
                       @key-up={{fn (mut this.dispositionForAllActionsChangeset.votelocation) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.votelocation "is-invalid-input"}}
+                      data-test-all-actions-votelocation
                     />
                     <span class="form-error is-visible" role="alert">
                       {{this.dispositionForAllActionsChangeset.error.votelocation.validation}}
@@ -435,6 +463,7 @@
                       @minDate={{this.minDate}}
                       @onSelection={{fn (mut this.dispositionForAllActionsChangeset.dateofvote) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.dateofvote "is-invalid-input"}}
+                      data-test-all-actions-dateofvote
                     />
                     <span class="form-error is-visible" role="alert">
                       {{this.dispositionForAllActionsChangeset.error.dateofvote.validation}}
@@ -456,6 +485,7 @@
                 @placeholder="Add Recommendation comment for all actions here."
                 @rows="4"
                 @class={{if this.dispositionForAllActionsChangeset.error.consideration "is-invalid-input"}}
+                data-test-all-actions-consideration
               />
               <span class="form-error is-visible" role="alert">
                 {{this.dispositionForAllActionsChangeset.error.consideration.validation}}
@@ -475,40 +505,64 @@
             </div>
             {{#confirmation-modal open=modalOpen}}
               <h3>Confirm recommendation information</h3>
-                <h5>
-                  Was a Quorum Present at your Hearing(s)?
-                </h5>
-                {{#deduped-hearings-list project=project as |dedupedHearings|}}
-                  {{#each dedupedHearings as |hearing idx|}}
-                    <p class="grid-x align-middle">
-                      <strong class="cell small-1">
-                        {{if hearing.wasaquorumpresent "Yes" "No"}}
+              <h5>
+                Was a Quorum Present at your Hearing(s)?
+              </h5>
+              {{#deduped-hearings-list project=project as |dedupedHearings|}}
+                {{#each dedupedHearings as |hearing idx|}}
+                  <p class="grid-x align-middle">
+                    <strong class="cell small-1"
+                      data-test-quorum-answer={{idx}}
+                    >
+                      {{if hearing.wasaquorumpresent "Yes" "No"}}
+                    </strong>
+                    <span class="cell auto">
+                      <strong class="display-block">
+                        {{moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"}}
+                        <span class="light-gray">|</span>
+                        {{hearing.dcpPublichearinglocation}}
                       </strong>
-                      <span class="cell auto">
-                        <strong class="display-block">
-                          {{moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"}}
-                          <span class="light-gray">|</span>
-                          {{hearing.dcpPublichearinglocation}}
-                        </strong>
-                        <span data-test-hearing-actions-list="{{hearing.id}}" class="display-block text-tiny">
-                          {{#each hearing.hearingActions as |action index|}}
-                            {{if (gt index 0) ", "}}{{action.dcpUlurpnumber}}
-                          {{/each}}
-                        </span>
+                      <span data-test-hearing-actions-list="{{hearing.id}}" class="display-block text-tiny">
+                        {{#each hearing.hearingActions as |action index|}}
+                          {{if (gt index 0) ", "}}{{action.dcpUlurpnumber}}
+                        {{/each}}
                       </span>
-                    </p>
-                  {{/each}}
-                {{/deduped-hearings-list}}
-                {{#if this.allActions}}
+                    </span>
+                  </p>
+                {{/each}}
+              {{/deduped-hearings-list}}
+              {{#if this.allActions}}
                 <h5>
                   Recommendation:
                 </h5>
-                <p><strong>{{this.dispositionForAllActionsChangeset.recommendation}}</strong></p>
+                <p
+                  data-test-confirmation-all-actions-recommendation
+                >
+                  <strong>
+                    {{this.dispositionForAllActionsChangeset.recommendation}}
+                  </strong>
+                </p>
                 {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                  <p>Votes in Favor: {{this.dispositionForAllActionsChangeset.votinginfavorrecommendation}}</p>
-                  <p>Votes Against: {{this.dispositionForAllActionsChangeset.votingagainstrecommendation}}</p>
-                  <p>Abstain: {{this.dispositionForAllActionsChangeset.votingabstainingonrecommendation}}</p>
-                  <p>Total Members: {{this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard}}</p>
+                  <p
+                    data-test-confirmation-all-actions-votinginfavorrecommendation
+                  >
+                    Votes in Favor: {{this.dispositionForAllActionsChangeset.votinginfavorrecommendation}}
+                  </p>
+                  <p
+                    data-test-confirmation-all-actions-votingagainstrecommendation
+                  >
+                    Votes Against: {{this.dispositionForAllActionsChangeset.votingagainstrecommendation}}
+                  </p>
+                  <p
+                    data-test-confirmation-all-actions-votingabstainingonrecommendation
+                  >
+                    Abstain: {{this.dispositionForAllActionsChangeset.votingabstainingonrecommendation}}
+                  </p>
+                  <p
+                    data-test-confirmation-all-actions-totalmembersappointedtotheboard
+                  >
+                    Total Members: {{this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard}}
+                  </p>
                 {{/if}}
               {{else}}
                 {{#each this.dispositionAndChangesetPairs as |dispositionChangesetPair idx|}}
@@ -518,27 +572,57 @@
                       ({{dispositionChangesetPair.disposition.action.dcpUlurpnumber}})
                     </small>
                   </h5>
-                  <p>
+                  <p
+                    data-test-confirmation-each-action-recommendation={{idx}}
+                  >
                     <strong>{{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}</strong>
                   </p>
                   {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                    <p>Votes in Favor: {{dispositionChangesetPair.changeset.votinginfavorrecommendation}}</p>
-                    <p>Votes Against: {{dispositionChangesetPair.changeset.votingagainstrecommendation}}</p>
-                    <p>Abstain: {{dispositionChangesetPair.changeset.votingabstainingonrecommendation}}</p>
-                    <p>Total Members: {{disdispositionChangesetPair.changeset.totalmembersappointedtotheboard}}</p>
+                    <p
+                      data-test-confirmation-each-action-votes={{concat "in-favor-" idx}}
+                    >
+                      Votes in Favor: {{dispositionChangesetPair.changeset.votinginfavorrecommendation}}
+                    </p>
+                    <p
+                      data-test-confirmation-each-action-votes={{concat "against-" idx}}
+                    >
+                      Votes Against: {{dispositionChangesetPair.changeset.votingagainstrecommendation}}
+                    </p>
+                    <p
+                      data-test-confirmation-each-action-votes={{concat "abstain-" idx}}
+                    >
+                      Abstain: {{dispositionChangesetPair.changeset.votingabstainingonrecommendation}}
+                    </p>
+                    <p
+                      data-test-confirmation-each-action-votes={{concat "total-members-" idx}}
+                    >
+                      Total Members: {{dispositionChangesetPair.changeset.totalmembersappointedtotheboard}}
+                    </p>
                   {{/if}}
-                  <div class="display-block">
+                  <div class="display-block"
+                    data-test-confirmation-each-action-consideration={{idx}}
+                  >
                     Comment: {{dispositionChangesetPair.changeset.consideration}}
                   </div>
                 {{/each}}
               {{/if}}
               {{#if (or (eq this.allActions true) (eq this.allActions false))}}
                 {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                  <p>Vote Location: {{this.dispositionForAllActionsChangeset.votelocation}}</p>
-                  <p>Vote Date: {{this.dispositionForAllActionsChangeset.dateofvote}}</p>
+                  <p
+                    data-test-confirmation-all-actions-votelocation
+                  >
+                    Vote Location: {{this.dispositionForAllActionsChangeset.votelocation}}
+                  </p>
+                  <p
+                    data-test-confirmation-all-actions-dateofvote
+                  >
+                    Vote Date: {{this.dispositionForAllActionsChangeset.dateofvote}}
+                  </p> 
                 {{/if}}
                 {{#if (eq this.allActions true)}}
-                  <p>
+                  <p
+                    data-test-confirmation-all-actions-consideration
+                  >
                     Comment: {{this.dispositionForAllActionsChangeset.consideration}}
                   </p>
                 {{/if}}
@@ -558,6 +642,7 @@
                   data-test-button="confirmRecommendation"
                   type="button"
                   onClick={{action this.submitRecommendations}}
+                  data-test-submit
                 >
                   Submit Recommendation Information
                 </button>
@@ -566,6 +651,7 @@
                   data-test-button="closeModal"
                   type="button"
                   onClick={{action this.closeModal}}
+                  data-test-cancel
                 >
                   Cancel <small>(continue editing)</small>
                 </button>
@@ -576,6 +662,7 @@
                 class="button large-margin-top"
                 type="button"
                 onClick={{this.onContinue}}
+                data-test-continue
               >
                 Continue
               </button>

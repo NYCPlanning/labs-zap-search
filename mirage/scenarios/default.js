@@ -77,28 +77,42 @@ export default function(server) {
     const newActions = server.createList('action', (i % 2 === 1) ? 1 : 7);
     seedCBUserProjects[i].actions = newActions;
     for (let j = 0; j < seedCBUserProjects[i].actions.models.length; j += 1) {
-      server.create('disposition', 'communityBoardDisposition', {
-        user: seedCBUser,
-        project: seedCBUserProjects[i],
-        action: seedCBUserProjects[i].actions.models[j],
-        dcpPublichearinglocation: (i < 3) ? 'Canal street' : null,
-        dcpDateofpublichearing: (i < 3) ? moment().subtract(22, 'days') : null,
-        // In reality this should fall within the community board review's duration,
-        // so this mock date may not be accurate.
-        datereceived: moment().subtract(80, 'days'),
-      });
       if (i > 4) {
-        server.create('disposition', 'boroughPresidentDisposition', {
+        server.create('disposition', 'submittedCommunityBoardDisposition', {
+          user: seedCBUser,
+          project: seedCBUserProjects[i],
+          action: seedCBUserProjects[i].actions.models[j],
+          dcpPublichearinglocation: 'Canal Street',
+          dcpDateofpublichearing: moment().subtract(22, 'days'),
+          // In reality this should fall within the community board review's duration,
+          // so this mock date may not be accurate.
+          datereceived: moment().subtract(80, 'days'),
+        });
+      } else {
+        server.create('disposition', {
+          user: seedCBUser,
+          project: seedCBUserProjects[i],
+          action: seedCBUserProjects[i].actions.models[j],
+          dcpPublichearinglocation: null,
+          dcpDateofpublichearing: null,
+          // In reality this should fall within the community board review's duration,
+          // so this mock date may not be accurate.
+          datereceived: moment().subtract(80, 'days'),
+        });
+      }
+      if (i > 5) {
+        server.create('disposition', 'submittedBoroughPresidentDisposition', {
           user: seedBPUser,
           project: seedCBUserProjects[i],
           action: seedCBUserProjects[i].actions.models[j],
           dcpPublichearinglocation: 'Nassau street',
           dcpDateofpublichearing: moment().subtract(10, 'days'),
+          boroughboardrecommendation: 'Disapproved',
           // In reality this should fall within the president's review duration,
           // so this mock date may not be accurate.
           datereceived: moment().subtract(120, 'days'),
         });
-        server.create('disposition', 'boroughBoardDisposition', {
+        server.create('disposition', 'submittedBoroughBoardDisposition', {
           user: seedBBUser,
           project: seedCBUserProjects[i],
           action: seedCBUserProjects[i].actions.models[j],
