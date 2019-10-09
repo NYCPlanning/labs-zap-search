@@ -1,7 +1,22 @@
 <h5>Projects that require you to submit your hearing dates and recommendations</h5>
 
-{{#each this.model as |project|}}
-  {{to-review-project-card project=project}}
-{{/each}}
+{{#if this.model}}
+
+  {{#each this.model as |project|}}
+    {{to-review-project-card project=project}}
+  {{/each}}
+
+{{else}}
+
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x grid-padding-y align-middle" style="min-height: 50vh">
+      <div class="cell large-6 large-offset-3 text-center">
+        <h2 class="charcoal">You currently have no projects to&nbsp;review.</h2>
+        <p class="text-large">If something has gone wrong, or you believe projects are missing from this&nbsp;list, please <a href="https://www1.nyc.gov/site/planning/about/contact-us.page">contact the Department of City&nbsp;Planning</a>.</p>
+      </div>
+    </div>
+  </div>
+
+{{/if}}
 
 {{outlet}}
