@@ -8,7 +8,6 @@ import {
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
-import seedMirage from '../../mirage/scenarios/default';
 
 module('Acceptance | user can waive hearings', function(hooks) {
   setupApplicationTest(hooks);
@@ -27,7 +26,18 @@ module('Acceptance | user can waive hearings', function(hooks) {
   });
 
   test('user can waive hearings on to-review page', async function(assert) {
-    seedMirage(server);
+    const disp1 = server.create('disposition', {
+      id: 17,
+      dcpPublichearinglocation: '',
+      dcpDateofpublichearing: null,
+      action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+    });
+
+    this.server.create('project', {
+      id: 4,
+      tab: 'to-review',
+      dispositions: [disp1],
+    });
 
     await authenticateSession();
 
@@ -59,23 +69,32 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
   test('User can waive hearings on the show-project page', async function(assert) {
     await authenticateSession();
+
+    const disp1 = server.create('disposition', {
+      id: 17,
+      dcpPublichearinglocation: '',
+      dcpDateofpublichearing: null,
+      action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+    });
     // user has to be signed in and assigned to that project (dcp_name matches)
     const userProject = server.create('project', {
-      id: 1,
+      id: 5,
       dcp_name: 'P2012M046',
+      tab: 'to-review',
+      dispositions: [disp1],
     });
 
     this.server.create('project', {
-      id: 1,
+      id: 5,
       dcp_name: 'P2012M046',
+      tab: 'to-review',
+      dispositions: [disp1],
     });
 
     this.server.create('user', {
       emailaddress1: 'testuser@planning.nyc.gov',
       projects: [userProject],
     });
-
-    seedMirage(server);
 
     // simulate presence of location hash after OAUTH redirect
     window.location.hash = '#access_token=test';
@@ -110,11 +129,20 @@ module('Acceptance | user can waive hearings', function(hooks) {
   });
 
   test('user can waive hearings on upcoming page', async function(assert) {
+    const disp1 = server.create('disposition', {
+      id: 17,
+      dcpPublichearinglocation: '',
+      dcpDateofpublichearing: null,
+      action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+    });
+
+    this.server.create('project', {
+      id: 4,
+      tab: 'upcoming',
+      dispositions: [disp1],
+    });
+
     await authenticateSession();
-
-    seedMirage(server);
-
-    this.server.create('disposition', { id: 1, dcpPublichearinglocation: '', dcpDateofpublichearing: null });
 
     await visit('/my-projects/upcoming');
 
@@ -135,26 +163,34 @@ module('Acceptance | user can waive hearings', function(hooks) {
     assert.ok(find('[data-test-hearings-waived-message]'));
   });
 
-  test('User waives hearings on show-project page and they appears on to-review', async function(assert) {
+  test('User waives hearings on show-project page and they appear on to-review', async function(assert) {
     await authenticateSession();
     // user has to be signed in and assigned to that project (dcp_name matches)
+    const disp1 = server.create('disposition', {
+      id: 17,
+      dcpPublichearinglocation: '',
+      dcpDateofpublichearing: null,
+      action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+    });
+    // user has to be signed in and assigned to that project (dcp_name matches)
     const userProject = server.create('project', {
-      id: 1,
+      id: 5,
       dcp_name: 'P2012M046',
+      tab: 'to-review',
+      dispositions: [disp1],
     });
 
     this.server.create('project', {
-      id: 1,
+      id: 5,
       dcp_name: 'P2012M046',
+      tab: 'to-review',
+      dispositions: [disp1],
     });
 
     this.server.create('user', {
       emailaddress1: 'testuser@planning.nyc.gov',
       projects: [userProject],
     });
-
-    seedMirage(server);
-
     // simulate presence of location hash after OAUTH redirect
     window.location.hash = '#access_token=test';
 
@@ -170,5 +206,55 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     assert.ok(find('[data-test-hearings-waived-message="5"]'));
     assert.notOk(find('[data-test-hearings-waived-message="4"]'));
+  });
+
+  test('User waives hearings on to-review page and they appear on show-project', async function(assert) {
+    await authenticateSession();
+    // user has to be signed in and assigned to that project (dcp_name matches)
+    const disp1 = server.create('disposition', {
+      id: 17,
+      dcpPublichearinglocation: '',
+      dcpDateofpublichearing: null,
+      action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+    });
+    // user has to be signed in and assigned to that project (dcp_name matches)
+    const userProject = server.create('project', {
+      id: 5,
+      dcp_name: 'P2012M046',
+      tab: 'to-review',
+      dispositions: [disp1],
+    });
+
+    this.server.create('project', {
+      id: 5,
+      dcp_name: 'P2012M046',
+      tab: 'to-review',
+      dispositions: [disp1],
+    });
+
+    this.server.create('user', {
+      emailaddress1: 'testuser@planning.nyc.gov',
+      projects: [userProject],
+    });
+    // simulate presence of location hash after OAUTH redirect
+    window.location.hash = '#access_token=test';
+
+    await visit('/login');
+
+    await visit('/my-projects/to-review');
+
+    assert.ok('[data-test-button="submitHearing"]');
+
+    await click('[data-test-button="optOutHearingOpenPopup"]');
+
+    await click('[data-test-button="onConfirmOptOutHearing"]');
+
+    assert.ok(find('[data-test-hearings-waived-message]'));
+
+    await click('[data-test-project-profile-button="5"]');
+
+    assert.notOk(find('[data-test-button-hearing-form]'));
+    assert.ok(find('[data-test-hearings-waived-message]'));
+    assert.ok(find('[data-test-button-to-rec-form]'));
   });
 });

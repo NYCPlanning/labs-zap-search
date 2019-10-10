@@ -12,7 +12,6 @@ import { Interactor as Pikaday } from 'ember-pikaday/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { selectChoose } from 'ember-power-select/test-support';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
-import seedMirage from '../../mirage/scenarios/default';
 
 module('Acceptance | user can save hearing form', function(hooks) {
   setupApplicationTest(hooks);
@@ -31,14 +30,12 @@ module('Acceptance | user can save hearing form', function(hooks) {
   });
 
   hooks.beforeEach(async function() {
-    // TODO: Remove this dependency on default Mirage scenario if it becomes too much overhead
-    // to update these tests to align with them.
-    seedMirage(server);
-
     await authenticateSession();
   });
 
   test('user cannot submit hearing form until all inputs are filled for AllActions', async function(assert) {
+    this.server.create('project', { id: 4, tab: 'to-review' });
+
     await visit('/my-projects/4/hearing/add');
 
     // make sure that the submit button is not showing up until a user selects a radio button
@@ -109,6 +106,42 @@ module('Acceptance | user can save hearing form', function(hooks) {
   });
 
   test('user cannot submit hearing form until all inputs are filled for ONE action per hearing', async function(assert) {
+    const disp1 = server.create('disposition', {
+      id: 17,
+      action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+    });
+    const disp2 = server.create('disposition', {
+      id: 18,
+      action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+    });
+    const disp3 = server.create('disposition', {
+      id: 19,
+      action: server.create('action', { dcpName: 'Business Improvement District', dcpUlurpnumber: 'I030148MMQ' }),
+    });
+    const disp4 = server.create('disposition', {
+      id: 20,
+      action: server.create('action', { dcpName: 'Change in City Map', dcpUlurpnumber: '200088ZMX' }),
+    });
+    const disp5 = server.create('disposition', {
+      id: 21,
+      action: server.create('action', { dcpName: 'Enclosed Sidewalk Cafe', dcpUlurpnumber: '190172ZMK' }),
+    });
+    const disp6 = server.create('disposition', {
+      id: 22,
+      action: server.create('action', { dcpName: 'Large Scale Special Permit', dcpUlurpnumber: 'N190257ZRK' }),
+    });
+    const disp7 = server.create('disposition', {
+      id: 23,
+      action: server.create('action', { dcpName: 'Zoning Certification', dcpUlurpnumber: '190256ZMK' }),
+    });
+
+    this.server.create('project', {
+      id: 5,
+      tab: 'to-review',
+      actions: server.createList('action', 7),
+      dispositions: [disp1, disp2, disp3, disp4, disp5, disp6, disp7],
+    });
+
     await visit('/my-projects/5/hearing/add');
 
     // make sure that the submit button is not showing up until a user selects a radio button
@@ -224,10 +257,10 @@ module('Acceptance | user can save hearing form', function(hooks) {
     const location23 = this.element.querySelector('[data-test-hearing-location="23"]').textContent;
     const time23 = this.element.querySelector('[data-test-hearing-time="23"]').textContent;
     const date23 = this.element.querySelector('[data-test-hearing-date="23"]').textContent;
-    // there will be three actions associated with hearing 22-- since hearing 17, 18, 20 were duplicates
+    // there will be three actions associated with hearing 22-- since hearing 17, 18, 21 were duplicates
     const action17 = this.element.querySelector('[data-test-hearing-actions-list="17"]').textContent;
     const action18 = this.element.querySelector('[data-test-hearing-actions-list="17"]').textContent;
-    const action20 = this.element.querySelector('[data-test-hearing-actions-list="17"]').textContent;
+    const action21 = this.element.querySelector('[data-test-hearing-actions-list="17"]').textContent;
     // hearing 23 has the same location and date as hearing 22, but a differen time
     const action23 = this.element.querySelector('[data-test-hearing-actions-list="23"]').textContent;
 
@@ -239,11 +272,11 @@ module('Acceptance | user can save hearing form', function(hooks) {
     assert.equal(time23, '1:25 AM', "correct text for data-test-hearing-time='23'");
     assert.equal(date23, '10/21/2020', "correct text for data-test-hearing-date='23'");
     // sometimes the ulurp number is displayed, whereas sometimes the action name is displayed
-    assert.ok(action17.includes('I030148MMQ') || action17.includes('Business Improvement District'), 'action17 includes correct ulurp info');
-    assert.ok(action18.includes('200088ZMX') || action18.includes('Change in City Map'), 'action18 includes correct ulurp info');
-    assert.ok(action20.includes('190256ZMK') || action20.includes('Zoning Certification'), 'action20 includes correct ulurp info');
-    assert.ok(action23.includes('N860877TCM') || action23.includes('Zoning Text Amendment '), 'action23 includes correct ulurp info');
+    assert.ok(action17.includes('C780076TLK') || action17.includes('Zoning Special Permit'), 'action17 includes correct ulurp info');
+    assert.ok(action18.includes('N860877TCM') || action17.includes('Zoning Text Amendment'), 'action17 includes correct ulurp info');
+    assert.ok(action21.includes('190172ZMK') || action17.includes('Enclosed Sidewalk Cafe'), 'action17 includes correct ulurp info');
 
+    assert.ok(action23.includes('190256ZMK') || action23.includes('Zoning Certification'), 'action23 includes correct ulurp info');
 
     // ##################################################################################################################
 
@@ -262,6 +295,8 @@ module('Acceptance | user can save hearing form', function(hooks) {
   });
 
   test('user cannot submit hearing form if hour or minute contain invalid values', async function(assert) {
+    this.server.create('project', { id: 4, tab: 'to-review' });
+
     await visit('/my-projects/4/hearing/add');
 
     // user selects radio button for a SINGLE hearing for ALL actions
