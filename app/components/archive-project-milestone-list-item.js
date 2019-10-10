@@ -12,36 +12,36 @@ export default class ArchiveProjectMilestoneListItemComponent extends Component 
 
   @computed('project.dispositions')
   get communityBoardDispositions() {
-    return this.project.dispositions.filter(disposition => disposition.communityboardrecommendation);
+    return this.project.dispositions.filter(disposition => disposition.dcpCommunityboardrecommendation);
   }
 
-  // Since all CB dispositions should have the same "datereceived", get the first one that's defined.
+  // Since all CB dispositions should have the same "dcpDatereceived", get the first one that's defined.
   // TODO: Later, if we break out review outcomes by community board (for projects with multiple CBs),
-  // we should also get community board dispositions datereceived per community board.
+  // we should also get community board dispositions dcpDatereceived per community board.
   @computed('communityBoardDispositions')
   get anyCommunityBoardDispositionDateReceived() {
-    return this.communityBoardDispositions.map(disposition => disposition.datereceived).find(datereceived => !!datereceived);
+    return this.communityBoardDispositions.map(disposition => disposition.dcpDatereceived).find(dcpDatereceived => !!dcpDatereceived);
   }
 
   @computed('project.dispositions')
   get boroughBoardDispositions() {
-    return this.project.dispositions.filter(disposition => disposition.boroughboardrecommendation);
+    return this.project.dispositions.filter(disposition => disposition.dcpBoroughboardrecommendation);
   }
 
   // The comment for anyCommunityBoardDispositionDateReceived applies here as well.
   @computed('boroughBoardDispositions')
   get anyBoroughBoardDispositionDateReceived() {
-    return this.boroughBoardDispositions.map(disposition => disposition.datereceived).find(datereceived => !!datereceived);
+    return this.boroughBoardDispositions.map(disposition => disposition.dcpDatereceived).find(dcpDatereceived => !!dcpDatereceived);
   }
 
   @computed('project.dispositions')
   get boroughPresidentDispositions() {
-    return this.project.dispositions.filter(disposition => disposition.boroughpresidentrecommendation);
+    return this.project.dispositions.filter(disposition => disposition.dcpBoroughpresidentrecommendation);
   }
 
   // The comment for anyCommunityBoardDispositionDateReceived applies here as well.
   @computed('boroughPresidentDispositions')
   get anyBoroughPresidentDispositionDateReceived() {
-    return this.boroughPresidentDispositions.map(disposition => disposition.datereceived).find(datereceived => !!datereceived);
+    return this.boroughPresidentDispositions.map(disposition => disposition.dcpDatereceived).find(dcpDatereceived => !!dcpDatereceived);
   }
 }

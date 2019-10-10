@@ -71,26 +71,26 @@
                       <input type="radio"
                         name={{concat idx '-quorum'}}
                         id={{concat idx '-quorum-yes'}}
-                        checked={{if hearing.wasaquorumpresent "checked"}}
-                        onClick={{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' true}}
+                        checked={{if hearing.dcpWasaquorumpresent "checked"}}
+                        onClick={{action 'updateDispositionAttr' hearing project.dispositions 'dcpWasaquorumpresent' true}}
                         data-test-quorum-yes="{{idx}}"
                       />
                       <label
                         for="{{concat idx '-quorum-yes'}}"
-                        {{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' true}}
+                        {{action 'updateDispositionAttr' hearing project.dispositions 'dcpWasaquorumpresent' true}}
                       >
                         Yes
                       </label>
                       <input type="radio"
                         name={{concat idx '-quorum'}}
                         id={{concat idx '-quorum-no'}}
-                        checked={{if (eq hearing.wasaquorumpresent false) "checked"}}
-                        onClick={{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' false}}
+                        checked={{if (eq hearing.dcpWasaquorumpresent false) "checked"}}
+                        onClick={{action 'updateDispositionAttr' hearing project.dispositions 'dcpWasaquorumpresent' false}}
                         data-test-quorum-no="{{idx}}"
                       />
                       <label
                         for="{{concat idx '-quorum-no'}}"
-                        {{action 'updateDispositionAttr' hearing project.dispositions 'wasaquorumpresent' false}}
+                        {{action 'updateDispositionAttr' hearing project.dispositions 'dcpWasaquorumpresent' false}}
                       >
                         No
                       </label>
@@ -180,7 +180,7 @@
                   <div  class="cell medium-3">
                     <label
                       for="all-actions-votes-in-favor"
-                      class={{if this.dispositionForAllActionsChangeset.error.votinginfavorrecommendation "is-invalid-label"}}
+                      class={{if this.dispositionForAllActionsChangeset.error.dcpVotinginfavorrecommendation "is-invalid-label"}}
                     >
                       Votes In Favor
                     </label>
@@ -189,19 +189,19 @@
                       @type="number"
                       @min=0
                       @max=999
-                      @value={{this.dispositionForAllActionsChangeset.votinginfavorrecommendation}}
-                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.votinginfavorrecommendation) value="target.value"}}
-                      @class={{if this.dispositionForAllActionsChangeset.error.votinginfavorrecommendation "is-invalid-input"}}
-                      data-test-all-actions-votinginfavorrecommendation
+                      @value={{this.dispositionForAllActionsChangeset.dcpVotinginfavorrecommendation}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.dcpVotinginfavorrecommendation) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.dcpVotinginfavorrecommendation "is-invalid-input"}}
+                      data-test-all-actions-dcpVotinginfavorrecommendation
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{this.dispositionForAllActionsChangeset.error.votinginfavorrecommendation.validation}}
+                      {{this.dispositionForAllActionsChangeset.error.dcpVotinginfavorrecommendation.validation}}
                     </span>
                   </div>
                   <div  class="cell medium-3">
                     <label
                       for="all-actions-votes-against"
-                      class={{if this.dispositionForAllActionsChangeset.error.votingagainstrecommendation "is-invalid-label"}}
+                      class={{if this.dispositionForAllActionsChangeset.error.dcpVotingagainstrecommendation "is-invalid-label"}}
                     >
                       Votes Against
                     </label>
@@ -210,19 +210,19 @@
                       @type="number"
                       @min=0
                       @max=999
-                      @value={{this.dispositionForAllActionsChangeset.votingagainstrecommendation}}
-                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.votingagainstrecommendation) value="target.value"}}
-                      @class={{if this.dispositionForAllActionsChangeset.error.votingagainstrecommendation "is-invalid-input"}}
-                      data-test-all-actions-votingagainstrecommendation
+                      @value={{this.dispositionForAllActionsChangeset.dcpVotingagainstrecommendation}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.dcpVotingagainstrecommendation) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.dcpVotingagainstrecommendation "is-invalid-input"}}
+                      data-test-all-actions-dcpVotingagainstrecommendation
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{this.dispositionForAllActionsChangeset.error.votingagainstrecommendation.validation}}
+                      {{this.dispositionForAllActionsChangeset.error.dcpVotingagainstrecommendation.validation}}
                     </span>
                   </div>
                   <div  class="cell medium-3">
                     <label
                       for="all-actions-votes-abstain"
-                      class={{if this.dispositionForAllActionsChangeset.error.votingabstainingonrecommendation "is-invalid-label"}}
+                      class={{if this.dispositionForAllActionsChangeset.error.dcpVotingabstainingonrecommendation "is-invalid-label"}}
                     >
                       Abstain
                     </label>
@@ -231,19 +231,19 @@
                       @type="number"
                       @min=0
                       @max=999
-                      @value={{this.dispositionForAllActionsChangeset.votingabstainingonrecommendation}}
-                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.votingabstainingonrecommendation) value="target.value"}}
-                      @class={{if this.dispositionForAllActionsChangeset.error.votingabstainingonrecommendation "is-invalid-input"}}
-                      data-test-all-actions-votingabstainingonrecommendation
+                      @value={{this.dispositionForAllActionsChangeset.dcpVotingabstainingonrecommendation}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.dcpVotingabstainingonrecommendation) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.dcpVotingabstainingonrecommendation "is-invalid-input"}}
+                      data-test-all-actions-dcpVotingabstainingonrecommendation
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{this.dispositionForAllActionsChangeset.error.votingabstainingonrecommendation.validation}}
+                      {{this.dispositionForAllActionsChangeset.error.dcpVotingabstainingonrecommendation.validation}}
                     </span>
                   </div>
                   <div  class="cell medium-3">
                     <label
                       for="all-actions-votes-total-members"
-                      class={{if this.dispositionForAllActionsChangeset.error.totalmembersappointedtotheboard "is-invalid-label"}}
+                      class={{if this.dispositionForAllActionsChangeset.error.dcpTotalmembersappointedtotheboard "is-invalid-label"}}
                     >
                       Total Members
                     </label>
@@ -252,13 +252,13 @@
                       @type="number"
                       @min=0
                       @max=999
-                      @value={{this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard}}
-                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard) value="target.value"}}
-                      @class={{if this.dispositionForAllActionsChangeset.error.totalmembersappointedtotheboard "is-invalid-input"}}
-                      data-test-all-actions-totalmembersappointedtotheboard
+                      @value={{this.dispositionForAllActionsChangeset.dcpTotalmembersappointedtotheboard}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.dcpTotalmembersappointedtotheboard) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.dcpTotalmembersappointedtotheboard "is-invalid-input"}}
+                      data-test-all-actions-dcpTotalmembersappointedtotheboard
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{this.dispositionForAllActionsChangeset.error.totalmembersappointedtotheboard.validation}}
+                      {{this.dispositionForAllActionsChangeset.error.dcpTotalmembersappointedtotheboard.validation}}
                     </span>
                   </div>
                 </div>
@@ -310,7 +310,7 @@
                     <div  class="cell medium-3">
                       <label
                         for={{concat "disposition-" (concat idx "-votes-in-favor")}}
-                        class={{if dispositionChangesetPair.changeset.error.votinginfavorrecommendation "is-invalid-label"}}
+                        class={{if dispositionChangesetPair.changeset.error.dcpVotinginfavorrecommendation "is-invalid-label"}}
                       >
                         Votes In Favor
                       </label>
@@ -319,19 +319,19 @@
                         @type="number"
                         @min=0
                         @max=999
-                        @value={{dispositionChangesetPair.changeset.votinginfavorrecommendation}}
-                        @key-up={{fn (mut dispositionChangesetPair.changeset.votinginfavorrecommendation) value="target.value"}}
-                        @class={{if dispositionChangesetPair.changeset.error.votinginfavorrecommendation "is-invalid-input"}}
+                        @value={{dispositionChangesetPair.changeset.dcpVotinginfavorrecommendation}}
+                        @key-up={{fn (mut dispositionChangesetPair.changeset.dcpVotinginfavorrecommendation) value="target.value"}}
+                        @class={{if dispositionChangesetPair.changeset.error.dcpVotinginfavorrecommendation "is-invalid-input"}}
                         data-test-each-action-votes={{concat "in-favor-" idx}}
                       />
                       <span class="form-error is-visible" role="alert">
-                        {{dispositionChangesetPair.changeset.error.votinginfavorrecommendation.validation}}
+                        {{dispositionChangesetPair.changeset.error.dcpVotinginfavorrecommendation.validation}}
                       </span>
                     </div>
                     <div  class="cell medium-3">
                     <label
                       for={{concat "disposition-" (concat idx "-votes-against")}}
-                      class={{if dispositionChangesetPair.changeset.error.votingagainstrecommendation "is-invalid-label"}}
+                      class={{if dispositionChangesetPair.changeset.error.dcpVotingagainstrecommendation "is-invalid-label"}}
                     >
                       Votes Against
                     </label>
@@ -340,19 +340,19 @@
                       @type="number"
                       @min=0
                       @max=999
-                      @value={{dispositionChangesetPair.changeset.votingagainstrecommendation}}
-                      @key-up={{fn (mut dispositionChangesetPair.changeset.votingagainstrecommendation) value="target.value"}}
-                      @class={{if dispositionChangesetPair.changeset.error.votingagainstrecommendation "is-invalid-input"}}
+                      @value={{dispositionChangesetPair.changeset.dcpVotingagainstrecommendation}}
+                      @key-up={{fn (mut dispositionChangesetPair.changeset.dcpVotingagainstrecommendation) value="target.value"}}
+                      @class={{if dispositionChangesetPair.changeset.error.dcpVotingagainstrecommendation "is-invalid-input"}}
                       data-test-each-action-votes={{concat "against-" idx}}
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{dispositionChangesetPair.changeset.error.votingagainstrecommendation.validation}}
+                      {{dispositionChangesetPair.changeset.error.dcpVotingagainstrecommendation.validation}}
                     </span>
                   </div>
                   <div  class="cell medium-3">
                     <label
                       for={{concat "disposition-" (concat idx "-votes-abstain")}}
-                      class={{if dispositionChangesetPair.changeset.error.votingabstainingonrecommendation "is-invalid-label"}}
+                      class={{if dispositionChangesetPair.changeset.error.dcpVotingabstainingonrecommendation "is-invalid-label"}}
                     >
                       Abstain
                     </label>
@@ -361,19 +361,19 @@
                       @type="number"
                       @min=0
                       @max=999
-                      @value={{dispositionChangesetPair.changeset.votingabstainingonrecommendation}}
-                      @key-up={{fn (mut dispositionChangesetPair.changeset.votingabstainingonrecommendation) value="target.value"}}
-                      @class={{if dispositionChangesetPair.changeset.error.votingabstainingonrecommendation "is-invalid-input"}}
+                      @value={{dispositionChangesetPair.changeset.dcpVotingabstainingonrecommendation}}
+                      @key-up={{fn (mut dispositionChangesetPair.changeset.dcpVotingabstainingonrecommendation) value="target.value"}}
+                      @class={{if dispositionChangesetPair.changeset.error.dcpVotingabstainingonrecommendation "is-invalid-input"}}
                       data-test-each-action-votes={{concat "abstain-" idx}}
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{dispositionChangesetPair.changeset.error.votingabstainingonrecommendation.validation}}
+                      {{dispositionChangesetPair.changeset.error.dcpVotingabstainingonrecommendation.validation}}
                     </span>
                   </div>
                   <div  class="cell medium-3">
                     <label
                       for={{concat "disposition-" (concat idx "-votes-total-members")}}
-                      class={{if dispositionChangesetPair.changeset.error.totalmembersappointedtotheboard "is-invalid-label"}}
+                      class={{if dispositionChangesetPair.changeset.error.dcpTotalmembersappointedtotheboard "is-invalid-label"}}
                     >
                       Total Members
                     </label>
@@ -382,13 +382,13 @@
                       @type="number"
                       @min=0
                       @max=999
-                      @value={{dispositionChangesetPair.changeset.totalmembersappointedtotheboard}}
-                      @key-up={{fn (mut dispositionChangesetPair.changeset.totalmembersappointedtotheboard) value="target.value"}}
-                      @class={{if dispositionChangesetPair.changeset.error.totalmembersappointedtotheboard "is-invalid-input"}}
+                      @value={{dispositionChangesetPair.changeset.dcpTotalmembersappointedtotheboard}}
+                      @key-up={{fn (mut dispositionChangesetPair.changeset.dcpTotalmembersappointedtotheboard) value="target.value"}}
+                      @class={{if dispositionChangesetPair.changeset.error.dcpTotalmembersappointedtotheboard "is-invalid-input"}}
                       data-test-each-action-votes={{concat "total-members-" idx}}
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{dispositionChangesetPair.changeset.error.totalmembersappointedtotheboard.validation}}
+                      {{dispositionChangesetPair.changeset.error.dcpTotalmembersappointedtotheboard.validation}}
                     </span>
                   </div>
                   </div>
@@ -396,21 +396,21 @@
                 <div class="grid-x grid-margin-x">
                   <div class="cell">
                     <label
-                      for={{concat "disposition-" (concat idx "-consideration")}}
-                      class={{if dispositionChangesetPair.changeset.error.consideration "is-invalid-label"}}
+                      for={{concat "disposition-" (concat idx "-dcpConsideration")}}
+                      class={{if dispositionChangesetPair.changeset.error.dcpConsideration "is-invalid-label"}}
                     >
                       Recommendation Comment
                     </label>
                     <Textarea
-                      @id={{concat "disposition-" (concat idx "-consideration")}}
-                      @value={{dispositionChangesetPair.changeset.consideration}}
+                      @id={{concat "disposition-" (concat idx "-dcpConsideration")}}
+                      @value={{dispositionChangesetPair.changeset.dcpConsideration}}
                       @placeholder="Add a Recommendation comment for this action here."
                       @rows="4"
-                      @class={{if dispositionChangesetPair.changeset.error.consideration "is-invalid-input"}}
-                      data-test-each-action-consideration={{idx}}
+                      @class={{if dispositionChangesetPair.changeset.error.dcpConsideration "is-invalid-input"}}
+                      data-test-each-action-dcpConsideration={{idx}}
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{dispositionChangesetPair.changeset.error.consideration.validation}}
+                      {{dispositionChangesetPair.changeset.error.dcpConsideration.validation}}
                     </span>
                   </div>
                 </div>
@@ -430,7 +430,7 @@
                   <div class="cell medium-6">
                     <label
                       for="all-actions-vote-location"
-                      class={{if this.dispositionForAllActionsChangeset.error.votelocation "is-invalid-label"}}
+                      class={{if this.dispositionForAllActionsChangeset.error.dcpVotelocation "is-invalid-label"}}
                     >
                       Vote Location
                     </label>
@@ -439,34 +439,34 @@
                       @type="text"
                       @placeholder="Add a location"
                       @autocomplete="off"
-                      @value={{this.dispositionForAllActionsChangeset.votelocation}}
-                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.votelocation) value="target.value"}}
-                      @class={{if this.dispositionForAllActionsChangeset.error.votelocation "is-invalid-input"}}
-                      data-test-all-actions-votelocation
+                      @value={{this.dispositionForAllActionsChangeset.dcpVotelocation}}
+                      @key-up={{fn (mut this.dispositionForAllActionsChangeset.dcpVotelocation) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.dcpVotelocation "is-invalid-input"}}
+                      data-test-all-actions-dcpVotelocation
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{this.dispositionForAllActionsChangeset.error.votelocation.validation}}
+                      {{this.dispositionForAllActionsChangeset.error.dcpVotelocation.validation}}
                     </span>
                   </div>
                   <div class="cell medium-6">
                     <label
                       for="all-actions-vote-date"
-                      class={{if this.dispositionForAllActionsChangeset.error.dateofvote "is-invalid-label"}}
+                      class={{if this.dispositionForAllActionsChangeset.error.dcpDateofvote "is-invalid-label"}}
                     >
                       Vote Date
                     </label>
                     <PikadayInput
                       @id="all-actions-vote-date"
                       @placeholder='Select a date'
-                      @value={{this.dispositionForAllActionsChangeset.dateofvote}}
+                      @value={{this.dispositionForAllActionsChangeset.dcpDateofvote}}
                       @format='MM/DD/YYYY'
                       @minDate={{this.minDate}}
-                      @onSelection={{fn (mut this.dispositionForAllActionsChangeset.dateofvote) value="target.value"}}
-                      @class={{if this.dispositionForAllActionsChangeset.error.dateofvote "is-invalid-input"}}
-                      data-test-all-actions-dateofvote
+                      @onSelection={{fn (mut this.dispositionForAllActionsChangeset.dcpDateofvote) value="target.value"}}
+                      @class={{if this.dispositionForAllActionsChangeset.error.dcpDateofvote "is-invalid-input"}}
+                      data-test-all-actions-dcpDateofvote
                     />
                     <span class="form-error is-visible" role="alert">
-                      {{this.dispositionForAllActionsChangeset.error.dateofvote.validation}}
+                      {{this.dispositionForAllActionsChangeset.error.dcpDateofvote.validation}}
                     </span>
                   </div>
                 </div>
@@ -474,21 +474,21 @@
             {{/if}}
             {{#if (eq this.allActions true)}}
               <label
-                for="all-actions-consideration"
-                class={{if this.dispositionForAllActionsChangeset.error.consideration "is-invalid-label"}}
+                for="all-actions-dcpConsideration"
+                class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-label"}}
               >
                 Recommendation Comment for all actions.
               </label>
               <Textarea
-                @id="all-actions-consideration"
-                @value={{this.dispositionForAllActionsChangeset.consideration}}
+                @id="all-actions-dcpConsideration"
+                @value={{this.dispositionForAllActionsChangeset.dcpConsideration}}
                 @placeholder="Add Recommendation comment for all actions here."
                 @rows="4"
-                @class={{if this.dispositionForAllActionsChangeset.error.consideration "is-invalid-input"}}
-                data-test-all-actions-consideration
+                @class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-input"}}
+                data-test-all-actions-dcpConsideration
               />
               <span class="form-error is-visible" role="alert">
-                {{this.dispositionForAllActionsChangeset.error.consideration.validation}}
+                {{this.dispositionForAllActionsChangeset.error.dcpConsideration.validation}}
               </span>
             {{/if}}
             <div class="callout">
@@ -514,7 +514,7 @@
                     <strong class="cell small-1"
                       data-test-quorum-answer={{idx}}
                     >
-                      {{if hearing.wasaquorumpresent "Yes" "No"}}
+                      {{if hearing.dcpWasaquorumpresent "Yes" "No"}}
                     </strong>
                     <span class="cell auto">
                       <strong class="display-block">
@@ -544,24 +544,24 @@
                 </p>
                 {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
                   <p
-                    data-test-confirmation-all-actions-votinginfavorrecommendation
+                    data-test-confirmation-all-actions-dcpVotinginfavorrecommendation
                   >
-                    Votes in Favor: {{this.dispositionForAllActionsChangeset.votinginfavorrecommendation}}
+                    Votes in Favor: {{this.dispositionForAllActionsChangeset.dcpVotinginfavorrecommendation}}
                   </p>
                   <p
-                    data-test-confirmation-all-actions-votingagainstrecommendation
+                    data-test-confirmation-all-actions-dcpVotingagainstrecommendation
                   >
-                    Votes Against: {{this.dispositionForAllActionsChangeset.votingagainstrecommendation}}
+                    Votes Against: {{this.dispositionForAllActionsChangeset.dcpVotingagainstrecommendation}}
                   </p>
                   <p
-                    data-test-confirmation-all-actions-votingabstainingonrecommendation
+                    data-test-confirmation-all-actions-dcpVotingabstainingonrecommendation
                   >
-                    Abstain: {{this.dispositionForAllActionsChangeset.votingabstainingonrecommendation}}
+                    Abstain: {{this.dispositionForAllActionsChangeset.dcpVotingabstainingonrecommendation}}
                   </p>
                   <p
-                    data-test-confirmation-all-actions-totalmembersappointedtotheboard
+                    data-test-confirmation-all-actions-dcpTotalmembersappointedtotheboard
                   >
-                    Total Members: {{this.dispositionForAllActionsChangeset.totalmembersappointedtotheboard}}
+                    Total Members: {{this.dispositionForAllActionsChangeset.dcpTotalmembersappointedtotheboard}}
                   </p>
                 {{/if}}
               {{else}}
@@ -581,49 +581,49 @@
                     <p
                       data-test-confirmation-each-action-votes={{concat "in-favor-" idx}}
                     >
-                      Votes in Favor: {{dispositionChangesetPair.changeset.votinginfavorrecommendation}}
+                      Votes in Favor: {{dispositionChangesetPair.changeset.dcpVotinginfavorrecommendation}}
                     </p>
                     <p
                       data-test-confirmation-each-action-votes={{concat "against-" idx}}
                     >
-                      Votes Against: {{dispositionChangesetPair.changeset.votingagainstrecommendation}}
+                      Votes Against: {{dispositionChangesetPair.changeset.dcpVotingagainstrecommendation}}
                     </p>
                     <p
                       data-test-confirmation-each-action-votes={{concat "abstain-" idx}}
                     >
-                      Abstain: {{dispositionChangesetPair.changeset.votingabstainingonrecommendation}}
+                      Abstain: {{dispositionChangesetPair.changeset.dcpVotingabstainingonrecommendation}}
                     </p>
                     <p
                       data-test-confirmation-each-action-votes={{concat "total-members-" idx}}
                     >
-                      Total Members: {{dispositionChangesetPair.changeset.totalmembersappointedtotheboard}}
+                      Total Members: {{dispositionChangesetPair.changeset.dcpTotalmembersappointedtotheboard}}
                     </p>
                   {{/if}}
                   <div class="display-block"
-                    data-test-confirmation-each-action-consideration={{idx}}
+                    data-test-confirmation-each-action-dcpConsideration={{idx}}
                   >
-                    Comment: {{dispositionChangesetPair.changeset.consideration}}
+                    Comment: {{dispositionChangesetPair.changeset.dcpConsideration}}
                   </div>
                 {{/each}}
               {{/if}}
               {{#if (or (eq this.allActions true) (eq this.allActions false))}}
                 {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
                   <p
-                    data-test-confirmation-all-actions-votelocation
+                    data-test-confirmation-all-actions-dcpVotelocation
                   >
-                    Vote Location: {{this.dispositionForAllActionsChangeset.votelocation}}
+                    Vote Location: {{this.dispositionForAllActionsChangeset.dcpVotelocation}}
                   </p>
                   <p
-                    data-test-confirmation-all-actions-dateofvote
+                    data-test-confirmation-all-actions-dcpDateofvote
                   >
-                    Vote Date: {{this.dispositionForAllActionsChangeset.dateofvote}}
+                    Vote Date: {{this.dispositionForAllActionsChangeset.dcpDateofvote}}
                   </p> 
                 {{/if}}
                 {{#if (eq this.allActions true)}}
                   <p
-                    data-test-confirmation-all-actions-consideration
+                    data-test-confirmation-all-actions-dcpConsideration
                   >
-                    Comment: {{this.dispositionForAllActionsChangeset.consideration}}
+                    Comment: {{this.dispositionForAllActionsChangeset.dcpConsideration}}
                   </p>
                 {{/if}}
                 <p>Attached files:</p>
