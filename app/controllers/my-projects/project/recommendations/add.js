@@ -15,9 +15,9 @@ import {
 const MINIMUM_VOTE_DATE = new Date(1990, 1, 1);
 
 const RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP = {
-  BB: 'boroughboardrecommendation',
-  BP: 'boroughpresidentrecommendation',
-  CB: 'communityboardrecommendation',
+  BB: 'dcpBoroughboardrecommendation',
+  BP: 'dcpBoroughpresidentrecommendation',
+  CB: 'dcpCommunityboardrecommendation',
 };
 
 // all attributes in this class map to their exact match in the Disposition model
@@ -25,22 +25,22 @@ class DispositionForAllActions extends EmberObject {
   // the selected recommendation option if applying filled Recommendation
   // to all actions.
   // On submission, this is mapped to the correct Disposition model attribute. ie.
-  // communityboardrecommendation, boroughboardrecommendation or boroughpresidentrecommendation
+  // dcpCommunityboardrecommendation, dcpBoroughboardrecommendation or dcpBoroughpresidentrecommendation
   recommendation = '';
 
-  votinginfavorrecommendation = null;
+  dcpVotinginfavorrecommendation = null;
 
-  votingagainstrecommendation = null;
+  dcpVotingagainstrecommendation = null;
 
-  votingabstainingonrecommendation = null;
+  dcpVotingabstainingonrecommendation = null;
 
-  totalmembersappointedtotheboard = null;
+  dcpTotalmembersappointedtotheboard = null;
 
-  votelocation = '';
+  dcpVotelocation = '';
 
-  dateofvote = '';
+  dcpDateofvote = '';
 
-  consideration = '';
+  dcpConsideration = '';
 }
 
 export default class MyProjectsProjectRecommendationsAddController extends Controller {
@@ -103,6 +103,9 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   // this.dispositionsChangesets[i] is the changeset for this.dispositions[i]
   @computed('dispositions', 'participantType')
   get dispositionsChangesets() {
+    if (!this.dispositions) {
+      return [];
+    }
     const { participantType } = this;
     let dispositionValidations = null;
     if (participantType === 'CB') {
@@ -149,15 +152,15 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       return false;
     }
     if (this.isDispositionsChangesetsValid) {
-      if (!(this.dispositionForAllActionsChangeset.error.votelocation || this.dispositionForAllActionsChangeset.error.dateofvote)) {
+      if (!(this.dispositionForAllActionsChangeset.error.dcpVotelocation || this.dispositionForAllActionsChangeset.error.dcpDateofvote)) {
         return true;
       }
     }
     return false;
   }
 
-  // recommendation options for disposition.communityboardrecommendation,
-  // disposition.boroughboardrecommendation, disposition.boroughpresidentrecommendation
+  // recommendation options for disposition.dcpCommunityboardrecommendation,
+  // disposition.dcpBoroughboardrecommendation, disposition.dcpBoroughpresidentrecommendation
   recOptions = [
     'Approved',
     'Approved with Modifications/Conditions',
@@ -217,10 +220,10 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       dispositionChangeset.set(targetField, recommendation);
     }
     if ((recommendation === 'Waived') && (participantType !== 'BP')) {
-      dispositionChangeset.validate('votinginfavorrecommendation');
-      dispositionChangeset.validate('votingagainstrecommendation');
-      dispositionChangeset.validate('votingabstainingonrecommendation');
-      dispositionChangeset.validate('totalmembersappointedtotheboard');
+      dispositionChangeset.validate('dcpVotinginfavorrecommendation');
+      dispositionChangeset.validate('dcpVotingagainstrecommendation');
+      dispositionChangeset.validate('dcpVotingabstainingonrecommendation');
+      dispositionChangeset.validate('dcpTotalmembersappointedtotheboard');
     }
   }
 
@@ -254,28 +257,28 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       if (thisCtrl.allActions) {
         thisCtrl.send('setDispositionRec', disposition, thisCtrl.dispositionForAllActions.recommendation);
         disposition.setProperties({
-          votinginfavorrecommendation: thisCtrl.dispositionForAllActions.votinginfavorrecommendation,
-          votingagainstrecommendation: thisCtrl.dispositionForAllActions.votingagainstrecommendation,
-          votingabstainingonrecommendation: thisCtrl.dispositionForAllActions.votingabstainingonrecommendation,
-          totalmembersappointedtotheboard: thisCtrl.dispositionForAllActions.totalmembersappointedtotheboard,
-          consideration: thisCtrl.dispositionForAllActions.consideration,
+          dcpVotinginfavorrecommendation: thisCtrl.dispositionForAllActions.dcpVotinginfavorrecommendation,
+          dcpVotingagainstrecommendation: thisCtrl.dispositionForAllActions.dcpVotingagainstrecommendation,
+          dcpVotingabstainingonrecommendation: thisCtrl.dispositionForAllActions.dcpVotingabstainingonrecommendation,
+          dcpTotalmembersappointedtotheboard: thisCtrl.dispositionForAllActions.dcpTotalmembersappointedtotheboard,
+          dcpConsideration: thisCtrl.dispositionForAllActions.dcpConsideration,
         });
       }
       disposition.setProperties({
-        votelocation: thisCtrl.dispositionForAllActions.votelocation,
-        dateofvote: thisCtrl.dispositionForAllActions.dateofvote,
+        dcpVotelocation: thisCtrl.dispositionForAllActions.dcpVotelocation,
+        dcpDateofvote: thisCtrl.dispositionForAllActions.dcpDateofvote,
       });
       disposition.save();
     });
     this.dispositionForAllActions.setProperties({
       recommendation: null,
-      votinginfavorrecommendation: null,
-      votingagainstrecommendation: null,
-      votingabstainingonrecommendation: null,
-      totalmembersappointedtotheboard: null,
-      votelocation: null,
-      dateofvote: null,
-      consideration: null,
+      dcpVotinginfavorrecommendation: null,
+      dcpVotingagainstrecommendation: null,
+      dcpVotingabstainingonrecommendation: null,
+      dcpTotalmembersappointedtotheboard: null,
+      dcpVotelocation: null,
+      dcpDateofvote: null,
+      dcpConsideration: null,
     });
     this.set('modalOpen', false);
     this.transitionToRoute('my-projects.project.recommendations.done');

@@ -2,51 +2,31 @@ import { Factory, faker, trait } from 'ember-cli-mirage';
 
 export default Factory.extend({
   // #### Recommendation Type per Each of the 3 Participants ####
-  // sourced from dcp_boroughpresidentrecommendation
+  // sourced from dcp_dcpBoroughpresidentrecommendation
   // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
   // 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation', N/A is defualt
 
-  // sourced from dcp_boroughboardrecommendation
+  // sourced from dcp_dcpBoroughboardrecommendation
   // e.g. 'Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying', N/A as default
 
-  // sourced from dcp_communityboardrecommendation
+  // sourced from dcp_dcpCommunityboardrecommendation
   // 'Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions',
   // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
-  datereceived: null,
+  dcpDatereceived: null,
 
-  consideration() {
-    return faker.lorem.sentences();
-  },
+  dcpWasaquorumpresent: null,
 
-  votelocation() {
-    return faker.address.streetAddress();
-  },
+  dcpPublichearinglocation: null,
 
-  dateofvote() {
-    return faker.date.past();
-  },
+  dcpDateofpublichearing: null,
 
-  votinginfavorrecommendation() {
-    return 15;
-  },
+  dcpBoroughpresidentrecommendation: null,
 
-  votingagainstrecommendation() {
-    return 4;
-  },
+  dcpBoroughboardrecommendation: null,
 
-  votingabstainingonrecommendation() {
-    return 1;
-  },
-
-  totalmembersappointedtotheboard() {
-    return 20;
-  },
-
-  wasaquorumpresent() {
-    return null;
-  },
+  dcpCommunityboardrecommendation: null,
 
   statecode(i) {
     return faker.list.random('Active', 'Inactive')(i);
@@ -56,37 +36,66 @@ export default Factory.extend({
     return faker.list.random('Draft', 'Saved', 'Submitted', 'Deactivated', 'Not Submitted')(i);
   },
 
-  docketdescription() {
-    return faker.lorem.sentence();
-  },
+  submitted: trait({
+    dcpConsideration() {
+      return faker.lorem.sentences();
+    },
 
-  communityBoardDisposition: trait({
-    boroughpresidentrecommendation: null,
+    dcpVotelocation() {
+      return faker.address.streetAddress();
+    },
 
-    boroughboardrecommendation: null,
+    dcpDateofvote() {
+      return faker.date.past();
+    },
 
-    communityboardrecommendation() {
+    dcpVotinginfavorrecommendation() {
+      return 15;
+    },
+
+    dcpVotingagainstrecommendation() {
+      return 4;
+    },
+
+    dcpVotingabstainingonrecommendation() {
+      return 1;
+    },
+
+    dcpTotalmembersappointedtotheboard() {
+      return 20;
+    },
+    dcpDocketdescription() {
+      return faker.lorem.sentence();
+    },
+  }),
+
+  submittedCommunityBoardDisposition: trait({
+    dcpBoroughpresidentrecommendation: null,
+
+    dcpBoroughboardrecommendation: null,
+
+    dcpCommunityboardrecommendation() {
       return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
     },
   }),
 
-  boroughBoardDisposition: trait({
-    boroughpresidentrecommendation: null,
+  submittedBoroughBoardDisposition: trait({
+    dcpBoroughpresidentrecommendation: null,
 
-    boroughboardrecommendation() {
+    dcpBoroughboardrecommendation() {
       return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
     },
 
-    communityboardrecommendation: null,
+    dcpCommunityboardrecommendation: null,
   }),
 
-  boroughPresidentDisposition: trait({
-    boroughpresidentrecommendation() {
+  submittedBoroughPresidentDisposition: trait({
+    dcpBoroughpresidentrecommendation() {
       return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
     },
 
-    boroughboardrecommendation: null,
+    dcpBoroughboardrecommendation: null,
 
-    communityboardrecommendation: null,
+    dcpCommunityboardrecommendation: null,
   }),
 });

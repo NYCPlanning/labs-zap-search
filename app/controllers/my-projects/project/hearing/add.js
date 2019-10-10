@@ -85,28 +85,28 @@ export default class MyProjectsProjectHearingAddController extends Controller {
     const { dispositions } = this.model;
     const allActions = this.get('allActions');
 
-    try {
-      // if user is submitting ONE hearing for ALL actions
-      if (allActions) {
-        const allActionsDispHearingLocation = this.get('dispositionForAllActions.dcpPublichearinglocation');
-        const allActionsDispHearingDate = this.get('dispositionForAllActions.dcpDateofpublichearing');
+    // if user is submitting ONE hearing for ALL actions
+    if (allActions) {
+      const allActionsDispHearingLocation = this.get('dispositionForAllActions.dcpPublichearinglocation');
+      const allActionsDispHearingDate = this.get('dispositionForAllActions.dcpDateofpublichearing');
 
-        // iterate through each disposition on the modal
-        // set hearing location and date on each one with the single value that the user input
-        // this single value is saved on dispositionForAllActions object
-        dispositions.forEach(function(disposition) {
-          disposition.set('dcpPublichearinglocation', allActionsDispHearingLocation);
-          disposition.set('dcpDateofpublichearing', allActionsDispHearingDate);
-        });
-      }
-      await dispositions.save();
+      // iterate through each disposition on the modal
+      // set hearing location and date on each one with the single value that the user input
+      // this single value is saved on dispositionForAllActions object
+      dispositions.forEach(function(disposition) {
+        disposition.set('dcpPublichearinglocation', allActionsDispHearingLocation);
+        disposition.set('dcpDateofpublichearing', allActionsDispHearingDate);
+      });
+    }
 
+    dispositions.save().then(() => {
       this.set('hearingSubmitted', false);
       this.set('checkIfMissing', false);
       this.set('modalOpen', false);
       this.transitionToRoute('my-projects.project.hearing.done');
-    } catch (e) {
-      alert('Sorry about that, unable to connect to server, can you try again?'); // eslint-disable-line
-    }
+    }, (e) => {
+      this.set('error', e);
+      console.log('server error', e);
+    });
   }
 }
