@@ -86,7 +86,7 @@ export default function(server) {
           dcpDateofpublichearing: moment().subtract(22, 'days'),
           // In reality this should fall within the community board review's duration,
           // so this mock date may not be accurate.
-          datereceived: moment().subtract(80, 'days'),
+          dcpDatereceived: moment().subtract(80, 'days'),
         });
       } else {
         server.create('disposition', {
@@ -97,7 +97,7 @@ export default function(server) {
           dcpDateofpublichearing: null,
           // In reality this should fall within the community board review's duration,
           // so this mock date may not be accurate.
-          datereceived: moment().subtract(80, 'days'),
+          dcpDatereceived: moment().subtract(80, 'days'),
         });
       }
       if (i > 5) {
@@ -107,10 +107,10 @@ export default function(server) {
           action: seedCBUserProjects[i].actions.models[j],
           dcpPublichearinglocation: 'Nassau street',
           dcpDateofpublichearing: moment().subtract(10, 'days'),
-          boroughboardrecommendation: 'Disapproved',
+          dcpBoroughboardrecommendation: 'Disapproved',
           // In reality this should fall within the president's review duration,
           // so this mock date may not be accurate.
-          datereceived: moment().subtract(120, 'days'),
+          dcpDatereceived: moment().subtract(120, 'days'),
         });
         server.create('disposition', 'submittedBoroughBoardDisposition', {
           user: seedBBUser,
@@ -118,10 +118,10 @@ export default function(server) {
           action: seedCBUserProjects[i].actions.models[j],
           dcpPublichearinglocation: 'Fulton street',
           dcpDateofpublichearing: moment().subtract(10, 'days'),
-          boroughboardrecommendation: 'Approved',
+          dcpBoroughboardrecommendation: 'Approved',
           // In reality this should fall within the board's review duration,
           // so this mock date may not be accurate.
-          datereceived: moment().subtract(100, 'days'),
+          dcpDatereceived: moment().subtract(100, 'days'),
         });
       }
     }

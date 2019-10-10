@@ -2,31 +2,31 @@ import { Factory, faker, trait } from 'ember-cli-mirage';
 
 export default Factory.extend({
   // #### Recommendation Type per Each of the 3 Participants ####
-  // sourced from dcp_boroughpresidentrecommendation
+  // sourced from dcp_dcpBoroughpresidentrecommendation
   // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
   // 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation', N/A is defualt
 
-  // sourced from dcp_boroughboardrecommendation
+  // sourced from dcp_dcpBoroughboardrecommendation
   // e.g. 'Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying', N/A as default
 
-  // sourced from dcp_communityboardrecommendation
+  // sourced from dcp_dcpCommunityboardrecommendation
   // 'Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions',
   // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
-  datereceived: null,
+  dcpDatereceived: null,
 
-  wasaquorumpresent: null,
+  dcpWasaquorumpresent: null,
 
   dcpPublichearinglocation: null,
 
   dcpDateofpublichearing: null,
 
-  boroughpresidentrecommendation: null,
+  dcpBoroughpresidentrecommendation: null,
 
-  boroughboardrecommendation: null,
+  dcpBoroughboardrecommendation: null,
 
-  communityboardrecommendation: null,
+  dcpCommunityboardrecommendation: null,
 
   statecode(i) {
     return faker.list.random('Active', 'Inactive')(i);
@@ -37,65 +37,65 @@ export default Factory.extend({
   },
 
   submitted: trait({
-    consideration() {
+    dcpConsideration() {
       return faker.lorem.sentences();
     },
 
-    votelocation() {
+    dcpVotelocation() {
       return faker.address.streetAddress();
     },
 
-    dateofvote() {
+    dcpDateofvote() {
       return faker.date.past();
     },
 
-    votinginfavorrecommendation() {
+    dcpVotinginfavorrecommendation() {
       return 15;
     },
 
-    votingagainstrecommendation() {
+    dcpVotingagainstrecommendation() {
       return 4;
     },
 
-    votingabstainingonrecommendation() {
+    dcpVotingabstainingonrecommendation() {
       return 1;
     },
 
-    totalmembersappointedtotheboard() {
+    dcpTotalmembersappointedtotheboard() {
       return 20;
     },
-    docketdescription() {
+    dcpDocketdescription() {
       return faker.lorem.sentence();
     },
   }),
 
   submittedCommunityBoardDisposition: trait({
-    boroughpresidentrecommendation: null,
+    dcpBoroughpresidentrecommendation: null,
 
-    boroughboardrecommendation: null,
+    dcpBoroughboardrecommendation: null,
 
-    communityboardrecommendation() {
+    dcpCommunityboardrecommendation() {
       return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
     },
   }),
 
   submittedBoroughBoardDisposition: trait({
-    boroughpresidentrecommendation: null,
+    dcpBoroughpresidentrecommendation: null,
 
-    boroughboardrecommendation() {
+    dcpBoroughboardrecommendation() {
       return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
     },
 
-    communityboardrecommendation: null,
+    dcpCommunityboardrecommendation: null,
   }),
 
   submittedBoroughPresidentDisposition: trait({
-    boroughpresidentrecommendation() {
+    dcpBoroughpresidentrecommendation() {
       return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
     },
 
-    boroughboardrecommendation: null,
+    dcpBoroughboardrecommendation: null,
 
-    communityboardrecommendation: null,
+    dcpCommunityboardrecommendation: null,
   }),
 });

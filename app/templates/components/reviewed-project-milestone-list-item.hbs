@@ -22,7 +22,7 @@
       {{#if (eq this.milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
         {{#each this.communityBoardDispositions as |disposition|}}
           <RecommendationResultIcon
-            @recommendation={{disposition.communityboardrecommendation}}
+            @recommendation={{disposition.dcpCommunityboardrecommendation}}
           />
         {{/each}}
         <br>
@@ -32,7 +32,7 @@
       {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_BOARD_REFERRAL)}}
         {{#each this.boroughBoardDispositions as |disposition|}}
           <RecommendationResultIcon
-            @recommendation={{disposition.boroughboardrecommendation}}
+            @recommendation={{disposition.dcpBoroughboardrecommendation}}
           />
         {{/each}}
         <br>
@@ -42,7 +42,7 @@
       {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_PRESIDENT_REFERRAL)}}
         {{#each this.boroughPresidentDispositions as |disposition|}}
           <RecommendationResultIcon
-            @recommendation={{disposition.boroughpresidentrecommendation}}
+            @recommendation={{disposition.dcpBoroughpresidentrecommendation}}
           />
         {{/each}}
         <br>

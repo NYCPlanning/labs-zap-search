@@ -29,39 +29,39 @@ export default class DispositionModel extends Model {
   // @attr('string', { defaultValue: '' }) formCompleterTitle;
 
   // #### Recommendation Type per Each of the 3 Participants ####
-  // sourced from dcp_boroughpresidentrecommendation
+  // sourced from dcp_dcpBoroughpresidentrecommendation
   // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
   // 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation', N/A is defualt
 
-  // sourced from dcp_boroughboardrecommendation
+  // sourced from dcp_dcpBoroughboardrecommendation
   // e.g. 'Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying', N/A as default
 
-  // sourced from dcp_communityboardrecommendation
+  // sourced from dcp_dcpCommunityboardrecommendation
   // 'Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions',
   // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
-  @attr('string', { defaultValue: '' }) boroughpresidentrecommendation;
+  @attr('string', { defaultValue: '' }) dcpBoroughpresidentrecommendation;
 
-  @attr('string', { defaultValue: '' }) boroughboardrecommendation;
+  @attr('string', { defaultValue: '' }) dcpBoroughboardrecommendation;
 
-  @attr('string', { defaultValue: '' }) communityboardrecommendation;
+  @attr('string', { defaultValue: '' }) dcpCommunityboardrecommendation;
 
-  // sourced from dcp_consideration
+  // sourced from dcp_dcpConsideration
   // memo, exta information from participant
-  @attr('string', { defaultValue: '' }) consideration;
+  @attr('string', { defaultValue: '' }) dcpConsideration;
 
-  // sourced from dcp_votelocation
-  @attr('string', { defaultValue: '' }) votelocation;
+  // sourced from dcp_dcpVotelocation
+  @attr('string', { defaultValue: '' }) dcpVotelocation;
 
   // calculate this upon form submission
-  @attr('date') datereceived;
+  @attr('date') dcpDatereceived;
 
-  // link to dcp_dateofvote
+  // link to dcp_dcpDateofvote
   // TODO: investigate the format server expects.
   // potentially switch back to "Date" attribute type, if compatible with
   // backend
-  @attr('date', { defaultValue: null }) dateofvote;
+  @attr('date', { defaultValue: null }) dcpDateofvote;
 
   // sourced from statecode
   // "Active" vs "Inactive"
@@ -72,24 +72,24 @@ export default class DispositionModel extends Model {
   @attr('string') statuscode;
 
   // sourced from dcp_docketdescription
-  @attr('string') docketdescription;
+  @attr('string') dcpDocketdescription;
 
-  // sourced from dcp_votinginfavorrecommendation
-  @attr('number') votinginfavorrecommendation;
+  // sourced from dcp_dcpVotinginfavorrecommendation
+  @attr('number') dcpVotinginfavorrecommendation;
 
   // sourced from dcp_votingagainstrecommendation
-  @attr('number') votingagainstrecommendation;
+  @attr('number') dcpVotingagainstrecommendation;
 
   // sourced from dcp_votingabstainingonrecommendation
-  @attr('number') votingabstainingonrecommendation;
+  @attr('number') dcpVotingabstainingonrecommendation;
 
   // sourced from dcp_totalmembersappointedtotheboard
-  @attr('number') totalmembersappointedtotheboard;
+  @attr('number') dcpTotalmembersappointedtotheboard;
 
   // sourced from dcp_wasaquorumpresent
   // NOTE: when this is defined as boolean, it automatically changes to false from null
   // we want this to be null until a user selects yes or no
-  @attr({ defaultValue: null }) wasaquorumpresent;
+  @attr({ defaultValue: null }) dcpWasaquorumpresent;
 
   unknownProperty(key) {
     console.log(`Unexpected access of ${key} on ${this}`);

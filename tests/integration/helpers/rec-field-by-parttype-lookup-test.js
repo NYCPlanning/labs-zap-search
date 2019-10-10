@@ -11,7 +11,7 @@ module('Integration | Helper | rec-field-by-parttype-lookup', function(hooks) {
 
     await render(hbs`{{rec-field-by-parttype-lookup participantType}}`);
 
-    assert.equal(this.element.textContent.trim(), 'communityboardrecommendation');
+    assert.equal(this.element.textContent.trim(), 'dcpCommunityboardrecommendation');
   });
 
   test('it returns right recommendation field for BP partType', async function(assert) {
@@ -19,7 +19,7 @@ module('Integration | Helper | rec-field-by-parttype-lookup', function(hooks) {
 
     await render(hbs`{{rec-field-by-parttype-lookup participantType}}`);
 
-    assert.equal(this.element.textContent.trim(), 'boroughpresidentrecommendation');
+    assert.equal(this.element.textContent.trim(), 'dcpBoroughpresidentrecommendation');
   });
 
   test('it returns right recommendation field for BB partType', async function(assert) {
@@ -27,7 +27,7 @@ module('Integration | Helper | rec-field-by-parttype-lookup', function(hooks) {
 
     await render(hbs`{{rec-field-by-parttype-lookup participantType}}`);
 
-    assert.equal(this.element.textContent.trim(), 'boroughboardrecommendation');
+    assert.equal(this.element.textContent.trim(), 'dcpBoroughboardrecommendation');
   });
 
   test('it has an undefined return value for invalid partType', async function(assert) {

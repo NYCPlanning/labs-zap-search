@@ -8,7 +8,7 @@ const commentPresenceMessage = 'Please enter a comment';
 const dateMessage = 'Please enter a valid date';
 const numberMessage = 'Please enter a valid non-negative number';
 const recommendationPresenceMessage = 'Please select a recommendation';
-const votelocationPresenceMessage = 'Please enter a vote location';
+const dcpVotelocationPresenceMessage = 'Please enter a vote location';
 
 // The following exports are Validation Maps to support ember-changesets
 // used in forms like the recommendation form.
@@ -24,7 +24,7 @@ export const dispositionForAllActionsValidations = {
     message: recommendationPresenceMessage,
   }),
 
-  consideration: validatePresence({
+  dcpConsideration: validatePresence({
     presence: true,
     message: commentPresenceMessage,
   }),
@@ -37,7 +37,7 @@ export const bpDispositionForAllActionsValidations = {
 export const cbBbDispositionForAllActionsValidations = {
   ...dispositionForAllActionsValidations,
 
-  votinginfavorrecommendation: [
+  dcpVotinginfavorrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -51,7 +51,7 @@ export const cbBbDispositionForAllActionsValidations = {
     }),
   ],
 
-  votingagainstrecommendation: [
+  dcpVotingagainstrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -65,7 +65,7 @@ export const cbBbDispositionForAllActionsValidations = {
     }),
   ],
 
-  votingabstainingonrecommendation: [
+  dcpVotingabstainingonrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -79,7 +79,7 @@ export const cbBbDispositionForAllActionsValidations = {
     }),
   ],
 
-  totalmembersappointedtotheboard: [
+  dcpTotalmembersappointedtotheboard: [
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -93,12 +93,12 @@ export const cbBbDispositionForAllActionsValidations = {
     }),
   ],
 
-  votelocation: validatePresence({
+  dcpVotelocation: validatePresence({
     presence: true,
-    message: votelocationPresenceMessage,
+    message: dcpVotelocationPresenceMessage,
   }),
 
-  dateofvote: validatePresence({
+  dcpDateofvote: validatePresence({
     presence: true,
     message: dateMessage,
   }),
@@ -106,7 +106,7 @@ export const cbBbDispositionForAllActionsValidations = {
 
 /* Validations for Dispositions by Action */
 export const dispositionValidations = {
-  consideration: validatePresence({
+  dcpConsideration: validatePresence({
     presence: true,
     message: commentPresenceMessage,
   }),
@@ -115,10 +115,10 @@ export const dispositionValidations = {
 export const communityBoardDispositionValidations = {
   ...dispositionValidations,
 
-  votinginfavorrecommendation: [
+  dcpVotinginfavorrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
-      unless: 'communityboardrecommendation',
+      unless: 'dcpCommunityboardrecommendation',
       value: 'Waived',
       message: numberMessage,
     }),
@@ -129,10 +129,10 @@ export const communityBoardDispositionValidations = {
     }),
   ],
 
-  votingagainstrecommendation: [
+  dcpVotingagainstrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
-      unless: 'communityboardrecommendation',
+      unless: 'dcpCommunityboardrecommendation',
       value: 'Waived',
       message: numberMessage,
     }),
@@ -143,10 +143,10 @@ export const communityBoardDispositionValidations = {
     }),
   ],
 
-  votingabstainingonrecommendation: [
+  dcpVotingabstainingonrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
-      unless: 'communityboardrecommendation',
+      unless: 'dcpCommunityboardrecommendation',
       value: 'Waived',
       message: numberMessage,
     }),
@@ -157,10 +157,10 @@ export const communityBoardDispositionValidations = {
     }),
   ],
 
-  totalmembersappointedtotheboard: [
+  dcpTotalmembersappointedtotheboard: [
     validatePresenceUnlessValue({
       presence: true,
-      unless: 'communityboardrecommendation',
+      unless: 'dcpCommunityboardrecommendation',
       value: 'Waived',
       message: numberMessage,
     }),
@@ -171,17 +171,17 @@ export const communityBoardDispositionValidations = {
     }),
   ],
 
-  boroughpresidentrecommendation: validatePresence({
+  dcpBoroughpresidentrecommendation: validatePresence({
     presence: false,
     message: recommendationPresenceMessage,
   }),
 
-  boroughboardrecommendation: validatePresence({
+  dcpBoroughboardrecommendation: validatePresence({
     presence: false,
     message: recommendationPresenceMessage,
   }),
 
-  communityboardrecommendation: validatePresence({
+  dcpCommunityboardrecommendation: validatePresence({
     presence: true,
     message: recommendationPresenceMessage,
   }),
@@ -190,10 +190,10 @@ export const communityBoardDispositionValidations = {
 export const boroughBoardDispositionValidations = {
   ...dispositionValidations,
 
-  votinginfavorrecommendation: [
+  dcpVotinginfavorrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
-      unless: 'boroughboardrecommendation',
+      unless: 'dcpBoroughboardrecommendation',
       value: 'Waived',
       message: numberMessage,
     }),
@@ -204,10 +204,10 @@ export const boroughBoardDispositionValidations = {
     }),
   ],
 
-  votingagainstrecommendation: [
+  dcpVotingagainstrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
-      unless: 'boroughboardrecommendation',
+      unless: 'dcpBoroughboardrecommendation',
       value: 'Waived',
       message: numberMessage,
     }),
@@ -218,10 +218,10 @@ export const boroughBoardDispositionValidations = {
     }),
   ],
 
-  votingabstainingonrecommendation: [
+  dcpVotingabstainingonrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
-      unless: 'boroughboardrecommendation',
+      unless: 'dcpBoroughboardrecommendation',
       value: 'Waived',
       message: numberMessage,
     }),
@@ -232,10 +232,10 @@ export const boroughBoardDispositionValidations = {
     }),
   ],
 
-  totalmembersappointedtotheboard: [
+  dcpTotalmembersappointedtotheboard: [
     validatePresenceUnlessValue({
       presence: true,
-      unless: 'boroughboardrecommendation',
+      unless: 'dcpBoroughboardrecommendation',
       value: 'Waived',
       message: numberMessage,
     }),
@@ -246,17 +246,17 @@ export const boroughBoardDispositionValidations = {
     }),
   ],
 
-  boroughpresidentrecommendation: validatePresence({
+  dcpBoroughpresidentrecommendation: validatePresence({
     presence: false,
     message: recommendationPresenceMessage,
   }),
 
-  boroughboardrecommendation: validatePresence({
+  dcpBoroughboardrecommendation: validatePresence({
     presence: true,
     message: recommendationPresenceMessage,
   }),
 
-  communityboardrecommendation: validatePresence({
+  dcpCommunityboardrecommendation: validatePresence({
     presence: false,
     message: recommendationPresenceMessage,
   }),
@@ -265,17 +265,17 @@ export const boroughBoardDispositionValidations = {
 export const boroughPresidentDispositionValidations = {
   ...dispositionValidations,
 
-  boroughpresidentrecommendation: validatePresence({
+  dcpBoroughpresidentrecommendation: validatePresence({
     presence: true,
     message: recommendationPresenceMessage,
   }),
 
-  boroughboardrecommendation: validatePresence({
+  dcpBoroughboardrecommendation: validatePresence({
     presence: false,
     message: recommendationPresenceMessage,
   }),
 
-  communityboardrecommendation: validatePresence({
+  dcpCommunityboardrecommendation: validatePresence({
     presence: false,
     message: recommendationPresenceMessage,
   }),
