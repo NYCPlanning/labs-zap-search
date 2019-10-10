@@ -370,4 +370,37 @@ module('Acceptance | user can save hearing form', function(hooks) {
 
     assert.equal(currentURL(), '/my-projects/4/hearing/done');
   });
+
+  test('if there is a server error when running .save(), user will see error message', async function(assert) {
+    this.server.create('disposition');
+    this.server.patch('/dispositions/:id', { errors: ['server problem'] }, 500); // force mirage to error
+
+    await visit('/my-projects/4/hearing/add');
+
+    // user selects radio button for a SINGLE hearing for ALL actions
+    await click('[data-test-radio="all-action-yes"]');
+
+    await fillIn('[data-test-allactions-input="location"]', '121 Bananas Ave, Queens, NY');
+
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="location"]', 'keyup');
+
+    await click('[data-test-allactions-input="date"]');
+
+    const hearingDate = new Date('2020-10-21T00:00:00'); // Wednesday, October 21, 2020
+    await Pikaday.selectDate(hearingDate);
+
+    await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'AM');
+    await fillIn('[data-test-allactions-input="hour"]', 5);
+    await fillIn('[data-test-allactions-input="minute"]', 35);
+
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    await click('[data-test-button="checkHearing"]');
+
+    await click('[data-test-button="confirmHearing"]');
+
+    assert.ok(find('[data-test-error-alert-message]'));
+  });
 });
