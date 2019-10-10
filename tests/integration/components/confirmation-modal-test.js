@@ -6,7 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | confirmation-modal', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('the confirmation modal has a close button', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
@@ -17,6 +17,6 @@ module('Integration | Component | confirmation-modal', function(hooks) {
       {{/confirmation-modal}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.querySelector('.close-button').hasAttribute('aria-label'), true);
   });
 });

@@ -22,13 +22,41 @@
 {{else}}
   <li>
     <a
-      data-test-auth-login-button
+      data-test-auth-login-button 
       class="auth--login-button"
-      href={{this.oauthEndpoint}}
-    >
+      {{action toggleAuthModal}}
+      >
       {{fa-icon 'user-circle' class="light-gray"}}
       Sign In
-      <sup>{{fa-icon 'external-link-alt'}}</sup>
     </a>
   </li>
 {{/if}}
+
+{{#ember-wormhole to="reveal-modal-container"}}
+  {{#confirmation-modal open=showAuthModal}}
+    <h2 class="large-margin-right small-margin-bottom">Borough&nbsp;Presidents &amp;&nbsp;Community&nbsp;Boards,</h2>
+    <p class="lead">
+      <strong>Use your NYC.ID account to connect to the Zoning Application Portal.</strong>
+      <small><a href="https://www1.nyc.gov/assets/nyc4d/html/services-nycid/user-features-benefits.shtml" class="no-wrap">What is NYC.ID?</a></small>
+    </p>
+    <p class="small-margin-bottom">Log in with the email address associated with the Zoning Application Portal.</p>
+    <p>If you're unsure which email address to use, please contact City Planning at <a href="mailto:ZAP_feedback_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a> or 212-720-3300.</p>
+    <ul class="text-small">
+      <li>
+        <p class="small-margin-bottom">For NYC.GOV credentials, select the "NYC Employees" option</p>
+      </li>
+      <li>
+        <p>For non-NYC.GOV email addresses, enter your existing NYC.ID credentials (you may need to create an NYC.ID account)</p>
+      </li>
+    </ul>
+    <p>Once you're logged in, you'll be redirected back to the Zoning Application Portal, where you'll see your list of assigned projects.</p>
+
+    <a
+      class="button large expanded"
+      href={{this.oauthEndpoint}}
+    >
+      Sign in with NYC.ID
+      <sup>{{fa-icon 'external-link-alt'}}</sup>
+    </a>
+  {{/confirmation-modal}}
+{{/ember-wormhole}}

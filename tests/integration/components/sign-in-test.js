@@ -18,7 +18,7 @@ module('Integration | Component | sign-in', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<SignIn />`);
+    await render(hbs`<SignIn /><div id="reveal-modal-container"></div>`);
 
     assert.equal(this.element.textContent.trim(), 'Sign In');
   });
@@ -28,7 +28,7 @@ module('Integration | Component | sign-in', function(hooks) {
       emailaddress1: 'test@planning.nyc.gov',
     });
 
-    await render(hbs`<SignIn />`);
+    await render(hbs`<SignIn /><div id="reveal-modal-container"></div>`);
 
     assert.equal(find('[data-test-auth-name]').textContent.trim(), 'test@planning.nyc.gov');
 

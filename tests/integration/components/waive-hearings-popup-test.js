@@ -17,11 +17,12 @@ module('Integration | Component | waive-hearings-popup', function(hooks) {
       {{#waive-hearings-popup
         showPopup=true}}
       {{/waive-hearings-popup}}
+      <div id="reveal-modal-container"></div>
     `);
 
     const waiveHearingsMessageOnPopup = this.element.textContent.trim();
 
-    const messageVisible = waiveHearingsMessageOnPopup.includes('Are you sure you want to opt out of submitting hearings for this project?');
+    const messageVisible = waiveHearingsMessageOnPopup.includes('Are you sure you want to opt out of submitting hearings?');
 
     assert.ok(messageVisible);
   });

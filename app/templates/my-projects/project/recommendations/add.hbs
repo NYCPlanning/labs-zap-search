@@ -473,6 +473,18 @@
               </label>
               <input type="file" id="exampleFileUpload_2" class="show-for-sr">
             </div>
+            <fieldset class="medium-margin-bottom">
+              <button
+                class="button large-margin-top"
+                type="button"
+                onClick={{this.onContinue}}
+              >
+                Continue
+              </button>
+            </fieldset>
+          {{/if}}
+
+          {{#ember-wormhole to="reveal-modal-container"}}
             {{#confirmation-modal open=modalOpen}}
               <h3>Confirm recommendation information</h3>
                 <h5>
@@ -571,16 +583,8 @@
                 </button>
               </p>
             {{/confirmation-modal}}
-            <fieldset class="medium-margin-bottom">
-              <button
-                class="button large-margin-top"
-                type="button"
-                onClick={{this.onContinue}}
-              >
-                Continue
-              </button>
-            </fieldset>
-          {{/if}}
+          {{/ember-wormhole}}
+
         </div>
       </div>
     </div>

@@ -69,6 +69,7 @@
         </button>
     {{/if}}
 
+    {{#ember-wormhole to="reveal-modal-container"}}
       {{#confirmation-modal open=modalOpen}}
         <h3>Confirm hearing information</h3>
 
@@ -150,6 +151,7 @@
           </button>
         </p>
       {{/confirmation-modal}}
+    {{/ember-wormhole}}
   </div>
 </div>
 

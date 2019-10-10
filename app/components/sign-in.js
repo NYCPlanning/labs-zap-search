@@ -8,6 +8,8 @@ import ENV from 'labs-zap-search/config/environment';
 export default class SignInComponent extends Component {
   oauthEndpoint = ENV.OAUTH_ENDPOINT;
 
+  showAuthModal = false;
+
   @service
   session
 
@@ -19,5 +21,10 @@ export default class SignInComponent extends Component {
     this.session.invalidate();
 
     this.router.transitionTo('logout');
+  }
+
+  @action
+  toggleAuthModal() {
+    this.set('showAuthModal', !this.get('showAuthModal'));
   }
 }
