@@ -503,6 +503,19 @@
               </label>
               <input type="file" id="exampleFileUpload_2" class="show-for-sr">
             </div>
+            <fieldset class="medium-margin-bottom">
+              <button
+                class="button large-margin-top"
+                type="button"
+                onClick={{this.onContinue}}
+                data-test-continue
+              >
+                Continue
+              </button>
+            </fieldset>
+          {{/if}}
+
+          {{#ember-wormhole to="reveal-modal-container"}}
             {{#confirmation-modal open=modalOpen}}
               <h3>Confirm recommendation information</h3>
               <h5>
@@ -617,7 +630,7 @@
                     data-test-confirmation-all-actions-dcpDateofvote
                   >
                     Vote Date: {{this.dispositionForAllActionsChangeset.dcpDateofvote}}
-                  </p> 
+                  </p>
                 {{/if}}
                 {{#if (eq this.allActions true)}}
                   <p
@@ -657,17 +670,8 @@
                 </button>
               </p>
             {{/confirmation-modal}}
-            <fieldset class="medium-margin-bottom">
-              <button
-                class="button large-margin-top"
-                type="button"
-                onClick={{this.onContinue}}
-                data-test-continue
-              >
-                Continue
-              </button>
-            </fieldset>
-          {{/if}}
+          {{/ember-wormhole}}
+
         </div>
       </div>
     </div>

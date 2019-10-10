@@ -69,103 +69,105 @@
         </button>
     {{/if}}
 
-        {{#confirmation-modal open=modalOpen}}
-          {{#if error}}
-            <div class="cell auto">
-              <span data-test-error-alert-message>
-                Oops something went wrong, can you try again?
-              </span>
-            </div>
+    {{#ember-wormhole to="reveal-modal-container"}}
+      {{#confirmation-modal open=modalOpen}}
+        {{#if error}}
+          <div class="cell auto">
+            <span data-test-error-alert-message>
+              Oops something went wrong, can you try again?
+            </span>
+          </div>
+          <button
+            class="button clear"
+            data-test-button="backToHearingFormAfterError"
+            type="button"
+            onClick={{action "closeModal"}}
+          >
+            Back to hearing form
+          </button>
+        {{else}}
+          <h3>Confirm hearing information</h3>
+
+            {{#if allActions}}
+              <li class="grid-x">
+                <div class="cell shrink small-margin-right">
+                    {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
+                </div>
+                <div class="cell auto">
+                  <strong class="display-block hearing-location">
+                    {{~dispositionForAllActions.dcpPublichearinglocation~}}
+                  </strong>
+                  <span class="hearing-date">
+                    {{~moment-format dispositionForAllActions.dcpDateofpublichearing "MM/D/YYYY"~}}
+                  </span>
+                  <span class="light-gray">|</span>
+                  <span class="hearing-time">
+                    {{~moment-format dispositionForAllActions.dcpDateofpublichearing "h:mm A"~}}
+                  </span>
+                </div>
+              </li>
+            {{else}}
+              {{#deduped-hearings-list project=model as |dedupedHearings|}}
+                <h5 class="column-header">Hearing Information</h5>
+                    <ul class="no-bullet">
+                    {{#each dedupedHearings as |hearing|}}
+                      <li class="grid-x small-margin-bottom">
+                        <div class="cell shrink small-margin-right">
+                          {{#if (is-before hearing.dcpDateofpublichearing)}}
+                            {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
+                          {{else}}
+                            {{fa-icon "check" class="blue" fixedWidth=true}}
+                          {{/if}}
+                        </div>
+                        <div class="cell auto">
+                          <strong data-test-hearing-location="{{hearing.id}}" class="display-block">
+                            {{~hearing.dcpPublichearinglocation~}}
+                          </strong>
+                          <span data-test-hearing-date="{{hearing.id}}">
+                            {{~moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"~}}
+                          </span>
+                          <span class="light-gray">|</span>
+                          <span data-test-hearing-time="{{hearing.id}}">
+                            {{~moment-format hearing.dcpDateofpublichearing "h:mm A"~}}
+                          </span>
+                          <span data-test-hearing-actions-list="{{hearing.id}}" class="display-block text-tiny">
+                            {{#each hearing.hearingActions as |action index|}}
+                              {{if (gt index 0) ", "}}{{action.dcpUlurpnumber}}
+                            {{/each}}
+                          </span>
+                        </div>
+                      </li>
+                    {{/each}}
+                    </ul>
+              {{/deduped-hearings-list}}
+            {{/if}}
+
+          <p class="callout warning text-small">
+            Once you submit hearing information, you cannot edit it. You'll need to contact the Lead Planner to make any changes.
+          </p>
+
+          <p>
+            <button
+              class="button"
+              data-test-button="confirmHearing"
+              type="button"
+              onClick={{action "onConfirm"}}
+            >
+              Submit Hearing Information
+            </button>
+
             <button
               class="button clear"
-              data-test-button="backToHearingFormAfterError"
+              data-test-button="closeModal"
               type="button"
               onClick={{action "closeModal"}}
             >
-              Back to hearing form
+              Cancel <small>(continue editing)</small>
             </button>
-          {{else}}
-            <h3>Confirm hearing information</h3>
-
-              {{#if allActions}}
-                <li class="grid-x">
-                  <div class="cell shrink small-margin-right">
-                      {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
-                  </div>
-                  <div class="cell auto">
-                    <strong class="display-block hearing-location">
-                      {{~dispositionForAllActions.dcpPublichearinglocation~}}
-                    </strong>
-                    <span class="hearing-date">
-                      {{~moment-format dispositionForAllActions.dcpDateofpublichearing "MM/D/YYYY"~}}
-                    </span>
-                    <span class="light-gray">|</span>
-                    <span class="hearing-time">
-                      {{~moment-format dispositionForAllActions.dcpDateofpublichearing "h:mm A"~}}
-                    </span>
-                  </div>
-                </li>
-              {{else}}
-                {{#deduped-hearings-list project=model as |dedupedHearings|}}
-                  <h5 class="column-header">Hearing Information</h5>
-                      <ul class="no-bullet">
-                      {{#each dedupedHearings as |hearing|}}
-                        <li class="grid-x small-margin-bottom">
-                          <div class="cell shrink small-margin-right">
-                            {{#if (is-before hearing.dcpDateofpublichearing)}}
-                              {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
-                            {{else}}
-                              {{fa-icon "check" class="blue" fixedWidth=true}}
-                            {{/if}}
-                          </div>
-                          <div class="cell auto">
-                            <strong data-test-hearing-location="{{hearing.id}}" class="display-block">
-                              {{~hearing.dcpPublichearinglocation~}}
-                            </strong>
-                            <span data-test-hearing-date="{{hearing.id}}">
-                              {{~moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"~}}
-                            </span>
-                            <span class="light-gray">|</span>
-                            <span data-test-hearing-time="{{hearing.id}}">
-                              {{~moment-format hearing.dcpDateofpublichearing "h:mm A"~}}
-                            </span>
-                            <span data-test-hearing-actions-list="{{hearing.id}}" class="display-block text-tiny">
-                              {{#each hearing.hearingActions as |action index|}}
-                                {{if (gt index 0) ", "}}{{action.dcpUlurpnumber}}
-                              {{/each}}
-                            </span>
-                          </div>
-                        </li>
-                      {{/each}}
-                      </ul>
-                {{/deduped-hearings-list}}
-              {{/if}}
-
-            <p class="callout warning text-small">
-              Once you submit hearing information, you cannot edit it. You'll need to contact the Lead Planner to make any changes.
-            </p>
-
-            <p>
-              <button
-                class="button"
-                data-test-button="confirmHearing"
-                type="button"
-                onClick={{action "onConfirm"}}
-              >
-                Submit Hearing Information
-              </button>
-
-              <button
-                class="button clear"
-                data-test-button="closeModal"
-                type="button"
-                onClick={{action "closeModal"}}
-              >
-                Cancel <small>(continue editing)</small>
-              </button>
-            </p>
-          {{/if}}
-        {{/confirmation-modal}}
+          </p>
+        {{/if}}
+      {{/confirmation-modal}}
+    {{/ember-wormhole}}
   </div>
 </div>
 

@@ -2,11 +2,16 @@
 // Module: Reveal Modal
 // --------------------------------------------------
 
+#reveal-modal-container {
+  z-index: 3;
+}
+
 .reveal-overlay {
   padding: 1rem;
 
   @include breakpoint(medium) {
-    position: absolute;
+    padding: 4rem 1rem;
+    // position: absolute;
   }
 }
 
@@ -17,10 +22,5 @@
 
   &:focus {
     outline: none;
-  }
-
-  @include breakpoint(medium) {
-    margin-top: 2rem;
-    margin-bottom: 4rem;
   }
 }

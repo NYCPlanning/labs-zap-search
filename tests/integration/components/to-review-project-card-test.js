@@ -45,6 +45,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     await render(hbs`
       {{#to-review-project-card project=project}}
       {{/to-review-project-card}}
+      <div id="reveal-modal-container"></div>
     `);
 
     const card = this.element.textContent.trim();
@@ -92,6 +93,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     await render(hbs`
       {{#to-review-project-card project=project}}
       {{/to-review-project-card}}
+      <div id="reveal-modal-container"></div>
     `);
 
     const card = this.element.textContent.trim();
@@ -136,6 +138,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     await render(hbs`
       {{#to-review-project-card project=project}}
       {{/to-review-project-card}}
+      <div id="reveal-modal-container"></div>
     `);
 
     const card = this.element.textContent.trim();
