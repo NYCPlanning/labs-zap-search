@@ -62,7 +62,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     await click('[data-test-button="submitRecommendation"]');
 
-    assert.equal(currentURL(), '/my-projects/4/recommendations/add?participantType=CB');
+    assert.equal(currentURL(), '/my-projects/4/recommendations/add');
 
     assert.ok(find('[data-test-hearings-waived-message]'));
   });
