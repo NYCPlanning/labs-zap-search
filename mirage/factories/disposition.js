@@ -16,37 +16,17 @@ export default Factory.extend({
 
   datereceived: null,
 
-  consideration() {
-    return faker.lorem.sentences();
-  },
+  wasaquorumpresent: null,
 
-  votelocation() {
-    return faker.address.streetAddress();
-  },
+  dcpPublichearinglocation: null,
 
-  dateofvote() {
-    return faker.date.past();
-  },
+  dcpDateofpublichearing: null,
 
-  votinginfavorrecommendation() {
-    return 15;
-  },
+  boroughpresidentrecommendation: null,
 
-  votingagainstrecommendation() {
-    return 4;
-  },
+  boroughboardrecommendation: null,
 
-  votingabstainingonrecommendation() {
-    return 1;
-  },
-
-  totalmembersappointedtotheboard() {
-    return 20;
-  },
-
-  wasaquorumpresent() {
-    return null;
-  },
+  communityboardrecommendation: null,
 
   statecode(i) {
     return faker.list.random('Active', 'Inactive')(i);
@@ -56,11 +36,40 @@ export default Factory.extend({
     return faker.list.random('Draft', 'Saved', 'Submitted', 'Deactivated', 'Not Submitted')(i);
   },
 
-  docketdescription() {
-    return faker.lorem.sentence();
-  },
+  submitted: trait({
+    consideration() {
+      return faker.lorem.sentences();
+    },
 
-  communityBoardDisposition: trait({
+    votelocation() {
+      return faker.address.streetAddress();
+    },
+
+    dateofvote() {
+      return faker.date.past();
+    },
+
+    votinginfavorrecommendation() {
+      return 15;
+    },
+
+    votingagainstrecommendation() {
+      return 4;
+    },
+
+    votingabstainingonrecommendation() {
+      return 1;
+    },
+
+    totalmembersappointedtotheboard() {
+      return 20;
+    },
+    docketdescription() {
+      return faker.lorem.sentence();
+    },
+  }),
+
+  submittedCommunityBoardDisposition: trait({
     boroughpresidentrecommendation: null,
 
     boroughboardrecommendation: null,
@@ -70,7 +79,7 @@ export default Factory.extend({
     },
   }),
 
-  boroughBoardDisposition: trait({
+  submittedBoroughBoardDisposition: trait({
     boroughpresidentrecommendation: null,
 
     boroughboardrecommendation() {
@@ -80,7 +89,7 @@ export default Factory.extend({
     communityboardrecommendation: null,
   }),
 
-  boroughPresidentDisposition: trait({
+  submittedBoroughPresidentDisposition: trait({
     boroughpresidentrecommendation() {
       return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
     },
