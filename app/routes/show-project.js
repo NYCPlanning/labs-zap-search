@@ -18,6 +18,7 @@ export default class ShowProjectRoute extends Route {
     super.setupController(controller, model);
     const userFromCurrentUser = await this.currentUser.get('user');
     controller.set('user', userFromCurrentUser);
+    controller.set('currentProjectTab', model.tab);
   }
 
   @action

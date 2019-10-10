@@ -83,4 +83,51 @@ module('Acceptance | authenticated user sees authenticated features', function(h
 
     assert.notOk(find('[data-test-hearing-rec-shortcuts]'));
   });
+
+  test('User does not see recommendation button unless project is under to-review tab', async function(assert) {
+    // user has to be signed in and assigned to that project (dcp_name matches)
+    const userProject1 = server.create('project', {
+      id: 1,
+      dcp_name: 'N2018Q077',
+      tab: 'upcoming',
+    });
+
+    const userProject2 = server.create('project', {
+      id: 2,
+      dcp_name: 'P2012M046',
+      tab: 'to-review',
+    });
+
+    this.server.create('project', {
+      id: 1,
+      dcp_name: 'N2018Q077',
+      tab: 'upcoming',
+    });
+
+    this.server.create('project', {
+      id: 2,
+      dcp_name: 'P2012M046',
+      tab: 'to-review',
+    });
+
+    this.server.create('user', {
+      emailaddress1: 'testuser@planning.nyc.gov',
+      projects: [userProject1, userProject2],
+    });
+
+    // simulate presence of location hash after OAUTH redirect
+    window.location.hash = '#access_token=test';
+
+    await visit('/login');
+
+    // project under 'upcoming' tab should NOT have recommendation button
+    await visit('/projects/1');
+
+    assert.notOk(find('[data-test-button-to-rec-form]'));
+
+    // project under 'to-review' tab should have recommendation button
+    await visit('/projects/2');
+
+    assert.ok(find('[data-test-button-to-rec-form]'));
+  });
 });
