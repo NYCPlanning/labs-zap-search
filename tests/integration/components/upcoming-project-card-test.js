@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import EmberObject from '@ember/object';
 
 module('Integration | Component | upcoming-project-card', function(hooks) {
   setupRenderingTest(hooks);
@@ -11,31 +10,29 @@ module('Integration | Component | upcoming-project-card', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
+    const store = this.owner.lookup('service:store');
+
     const hearingDate = new Date('2020-10-21T18:30:00');
 
-    const projObject = EmberObject.extend({});
-
-    const dispObject = EmberObject.extend({});
-
-    const disp1 = dispObject.create({
+    const disp1 = store.createRecord('disposition', {
       id: 1,
       dcpPublichearinglocation: '341 Yellow Avenue',
       dcpDateofpublichearing: hearingDate,
     });
 
-    const disp2 = dispObject.create({
+    const disp2 = store.createRecord('disposition', {
       id: 2,
       dcpPublichearinglocation: '890 Purple Street',
       dcpDateofpublichearing: hearingDate,
     });
 
-    const disp3 = dispObject.create({
+    const disp3 = store.createRecord('disposition', {
       id: 3,
       dcpPublichearinglocation: '124 Green Boulevard',
       dcpDateofpublichearing: hearingDate,
     });
 
-    const project = projObject.create({
+    const project = store.createRecord('project', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
     });
@@ -59,30 +56,28 @@ module('Integration | Component | upcoming-project-card', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    const projObject = EmberObject.extend({});
+    const store = this.owner.lookup('service:store');
 
-    const dispObject = EmberObject.extend({});
-
-    const disp1 = dispObject.create({
+    const disp1 = store.createRecord('disposition', {
       id: 1,
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
     });
 
-    const disp2 = dispObject.create({
+    const disp2 = store.createRecord('disposition', {
       id: 2,
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
     });
 
-    const disp3 = dispObject.create({
+    const disp3 = store.createRecord('disposition', {
       id: 3,
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
     });
 
 
-    const project = projObject.create({
+    const project = store.createRecord('project', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
     });
@@ -105,29 +100,27 @@ module('Integration | Component | upcoming-project-card', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    const projObject = EmberObject.extend({});
+    const store = this.owner.lookup('service:store');
 
-    const dispObject = EmberObject.extend({});
-
-    const disp1 = dispObject.create({
+    const disp1 = store.createRecord('disposition', {
       id: 1,
       dcpPublichearinglocation: 'waived',
       dcpDateofpublichearing: null,
     });
 
-    const disp2 = dispObject.create({
+    const disp2 = store.createRecord('disposition', {
       id: 2,
       dcpPublichearinglocation: 'waived',
       dcpDateofpublichearing: null,
     });
 
-    const disp3 = dispObject.create({
+    const disp3 = store.createRecord('disposition', {
       id: 3,
       dcpPublichearinglocation: 'waived',
       dcpDateofpublichearing: null,
     });
 
-    const project = projObject.create({
+    const project = store.createRecord('project', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
     });

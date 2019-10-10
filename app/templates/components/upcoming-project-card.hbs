@@ -10,10 +10,10 @@
       </h3>
       <h5 class="applicant">{{project.applicants}}</h5>
       <p>{{project.dcpProjectbrief}}</p>
-      {{#if hearingsWaived}}
+      {{#if project.hearingsWaived}}
         <span data-test-hearings-waived-message="{{project.id}}">You have opted out of submitting hearings</span>
       {{/if}}
-      {{#if hearingsSubmitted}}
+      {{#if project.hearingsSubmitted}}
         {{#deduped-hearings-list project=project as |dedupedHearings|}}
           <h6>Community Board Hearings:</h6>
               <ul class="no-bullet">
@@ -48,7 +48,7 @@
               </ul>
         {{/deduped-hearings-list}}
       {{/if}}
-      {{#if hearingsNotSubmittedNotWaived}}
+      {{#if project.hearingsNotSubmittedNotWaived}}
         <LinkTo
           @route="my-projects.project.hearing.add"
           @model={{project.id}}
