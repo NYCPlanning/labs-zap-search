@@ -372,7 +372,9 @@ module('Acceptance | user can save hearing form', function(hooks) {
   });
 
   test('if there is a server error when running .save(), user will see error message', async function(assert) {
-    this.server.create('disposition');
+    const disp1 = server.create('disposition', { dcpPublichearinglocation: '', dcpDateofpublichearing: null });
+    this.server.create('project', { id: 4, dispositions: [disp1] });
+
     this.server.patch('/dispositions/:id', { errors: ['server problem'] }, 500); // force mirage to error
 
     await visit('/my-projects/4/hearing/add');

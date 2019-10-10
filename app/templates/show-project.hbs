@@ -159,24 +159,26 @@
             class="project--lup-section callout"
           >
             <h3 class="small-margin-bottom">Community Board Review</h3>
-            <div class="grid-x grid-x-small-gutters align-bottom">
-              <div class="cell medium-auto">
-                <p class="lead">
-                  <strong>8</strong>
-                  <small>of 60 days remain</small>
-                </p>
+            {{#if (eq this.currentProjectTab 'to-review')}}
+              <div class="grid-x grid-x-small-gutters align-bottom">
+                <div class="cell medium-auto">
+                  <p class="lead">
+                    <strong>8</strong>
+                    <small>of 60 days remain</small>
+                  </p>
+                </div>
+                <div class="cell medium-shrink medium-text-right">
+                  <p class="text-small dark-gray"><strong>Ends 09/02/19</strong></p>
+                </div>
               </div>
-              <div class="cell medium-shrink medium-text-right">
-                <p class="text-small dark-gray"><strong>Ends 09/02/19</strong></p>
-              </div>
-            </div>
-              {{#if hearingsSubmittedOrWaived}}
-                {{#link-to "my-projects.project.recommendations.add" model.id}}
-                <span class="button expanded" data-test-button-to-rec-form>
-                  Submit Participant Type Recommendation
-                </span>
-                {{/link-to}}
-              {{/if}}
+                {{#if hearingsSubmittedOrWaived}}
+                  {{#link-to "my-projects.project.recommendations.add" model.id}}
+                  <span class="button expanded" data-test-button-to-rec-form>
+                    Submit Participant Type Recommendation
+                  </span>
+                  {{/link-to}}
+                {{/if}}
+            {{/if}}
               {{#if hearingsSubmitted}}
                 {{#deduped-hearings-list project=model as |dedupedHearings|}}
                   <h5 class="column-header">Hearing Information</h5>
