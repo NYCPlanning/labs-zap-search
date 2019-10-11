@@ -64,26 +64,6 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   minDate = MINIMUM_VOTE_DATE;
 
-  // if the first object dcpPublichearinglocation and dcpDateofpublichearing properties are filled,
-  // then hearings have been submitted for that project
-  @computed('model.dispositions.firstObject.{dcpPublichearinglocation,dcpDateofpublichearing}')
-  get hearingsSubmitted() {
-    const location = this.get('model.dispositions.firstObject.dcpPublichearinglocation');
-    const date = this.get('model.dispositions.firstObject.dcpDateofpublichearing');
-    const locationAndDate = !!location && !!date;
-    return locationAndDate;
-  }
-
-  // if the first object dcpPublichearinglocation is "waived",
-  // then hearings have been waived
-  @computed('model.dispositions.firstObject.dcpPublichearinglocation')
-  get hearingsWaived() {
-    const firstObjectLocation = this.get('model.dispositions.firstObject.dcpPublichearinglocation');
-    const hearingsWaived = firstObjectLocation === 'waived';
-
-    return hearingsWaived;
-  }
-
   @computed('dispositionForAllActions', 'participantType')
   get dispositionForAllActionsChangeset() {
     const { participantType } = this;

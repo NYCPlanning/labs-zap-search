@@ -171,7 +171,7 @@
                   <p class="text-small dark-gray"><strong>Ends 09/02/19</strong></p>
                 </div>
               </div>
-                {{#if hearingsSubmittedOrWaived}}
+                {{#if model.hearingsSubmittedOrWaived}}
                   {{#link-to "my-projects.project.recommendations.add" model.id class="button expanded"}}
                   <span data-test-button-to-rec-form>
                     {{fa-icon 'thumbs-up' prefix='far' fixedWidth=true size="lg"}}
@@ -180,7 +180,7 @@
                   {{/link-to}}
                 {{/if}}
             {{/if}}
-              {{#if hearingsSubmitted}}
+              {{#if model.hearingsSubmitted}}
                 {{#deduped-hearings-list project=model as |dedupedHearings|}}
                   <h5 class="column-header">Hearing Information</h5>
                       <ul class="no-bullet">
@@ -215,10 +215,10 @@
                       </ul>
                 {{/deduped-hearings-list}}
               {{/if}}
-              {{#if hearingsWaived}}
+              {{#if model.hearingsWaived}}
                 <span data-test-hearings-waived-message>You have opted out of submitting hearings</span>
               {{/if}}
-              {{#if hearingsNotSubmittedNotWaived}}
+              {{#if model.hearingsNotSubmittedNotWaived}}
                 {{#link-to "my-projects.project.hearing.add" model.id class="button expanded"}}
                   <span data-test-button-hearing-form>
                     {{fa-icon 'calendar-alt' prefix='far' fixedWidth=true size="lg"}}
