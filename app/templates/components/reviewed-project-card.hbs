@@ -3,7 +3,7 @@
     data-test-project-card
   >
     <div class="grid-x grid-x-small-gutters">
-      <div class="cell large-5">
+      <div class="cell large-4 xlarge-5">
         <h3 class="tiny-margin-bottom">
           {{#link-to 'show-project' this.project.id}}{{this.project.dcpProjectname}}{{/link-to}}
           <small class="dark-gray">{{this.project.dcpUlurpNonulurp}}</small>
@@ -11,7 +11,7 @@
         <h5 class="applicant">{{this.project.applicants}}</h5>
         <p>{{this.project.dcpProjectbrief}}</p>
       </div>
-      <div class="cell medium-4 large-shrink">
+      <div class="cell medium-4 large-3 xlarge-2">
         {{#each this.timeDisplays as |timeDisplay|}}
           <div class="lup-countdown medium-margin-right medium-margin-left">
             <p class="cert-date">{{timeDisplay.displayName}}</p>

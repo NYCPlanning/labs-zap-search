@@ -3,13 +3,91 @@
   data-test-project-card
 >
   <div class="grid-x grid-x-small-gutters">
-    <div class="cell large-5">
+    <div class="cell large-4 xlarge-5">
       <h3 class="tiny-margin-bottom">
         {{#link-to 'show-project' project.id}}<span data-test-project-profile-button="{{project.id}}">{{project.dcpProjectname}}</span>{{/link-to}}
         <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{project.applicants}}</h5>
       <p>{{project.dcpProjectbrief}}</p>
+    </div>
+    <div class="cell medium-4 large-3 xlarge-2">
+      <p class="text-center medium-margin-right medium-margin-left">
+        {{#if (eq project.upcomingMilestonePlannedStartDate)}}
+          <span class="display-block tiny-margin-bottom">
+            Borough President<br>
+            Review Begins
+          </span>
+          <span class="display-block lead small-margin-bottom">
+            <strong>
+              {{moment-format project.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
+            </strong>
+          </span>
+        {{else}}
+          <span class="display-block tiny-margin-bottom">
+            Public Review Begins
+          </span>
+          <span class="display-block lead small-margin-bottom">
+            <strong>
+              {{moment-format project.publicReviewPlannedStartDate "M/D/YYYY"}}
+            </strong>
+          </span>
+        {{/if}}
+        <span class="display-block text-tiny">(Estimated Start Date)</span>
+      </p>
+    </div>
+    <div class="cell medium-auto">
+      {{#if project.hearingsNotSubmittedNotWaived}}
+        <LinkTo
+          @route="my-projects.project.hearing.add"
+          @model={{project.id}}
+          class="button expanded tiny-margin-bottom"
+          data-test-button="submitHearing"
+        >
+          {{fa-icon 'calendar-alt' prefix='far' fixedWidth=true size="lg"}}
+          Submit {{participant-type-label project.dcpLupteammemberrole}} Hearing Info
+        </LinkTo>
+        <p class="text-small text-right">
+          <span class="display-inline-block">
+            <button
+              class="button tiny clear no-margin"
+              onClick={{action "openOptOutHearingPopup"}}
+              data-test-button="optOutHearingOpenPopup"
+            >
+              Opt out of hearings
+            </button>
+            {{waive-hearings-popup project=project showPopup=showPopup}}
+          </span>
+        </p>
+      {{/if}}
+      <ul class="no-bullet no-margin">
+        {{#each project.tabSpecificMilestones as |milestone|}}
+          <li class="grid-x small-margin-bottom">
+            <div class="cell shrink small-margin-right">
+              {{#if (eq milestone.statuscode "Completed")}}
+                {{fa-icon 'check' class='blue' fixedWidth=true}}
+              {{else if (eq milestone.statuscode "In Progress")}}
+                {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
+              {{else if (eq milestone.statuscode "Overridden")}}
+                {{fa-icon 'times' class='red-muted' fixedWidth=true}}
+              {{else if (eq milestone.statuscode "Not Started")}}
+                <span data-test={{if (string-includes milestone.milestonename "Referral") "upcoming-indicator"}}>
+                  {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
+                </span>
+              {{/if}}
+            </div>
+            <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
+              <strong>{{milestone.milestonename}}</strong>
+              <small class="display-inline-block">
+                {{#if (eq milestone.statuscode "Not Started")}}
+                  Estimated
+                {{/if}}
+                {{~moment-format milestone.displayDate "MM/D/YYYY"~}}
+              </small>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
       {{#if project.hearingsWaived}}
         <span data-test-hearings-waived-message="{{project.id}}">You have opted out of submitting hearings</span>
       {{/if}}
@@ -48,84 +126,6 @@
               </ul>
         {{/deduped-hearings-list}}
       {{/if}}
-      {{#if project.hearingsNotSubmittedNotWaived}}
-        <LinkTo
-          @route="my-projects.project.hearing.add"
-          @model={{project.id}}
-          class="button expanded tiny-margin-bottom"
-          data-test-button="submitHearing"
-        >
-          {{fa-icon 'calendar-alt' prefix='far' fixedWidth=true size="lg"}}
-          Submit {{participant-type-label project.dcpLupteammemberrole}} Hearing Info
-        </LinkTo>
-        <p class="text-small text-right">
-          <span class="display-inline-block">
-            <button
-              class="button tiny clear no-margin"
-              onClick={{action "openOptOutHearingPopup"}}
-              data-test-button="optOutHearingOpenPopup"
-            >
-              Opt out of hearings
-            </button>
-            {{waive-hearings-popup project=project showPopup=showPopup}}
-          </span>
-        </p>
-      {{/if}}
-    </div>
-    <div class="cell medium-4 large-shrink">
-      <p class="text-center medium-margin-right medium-margin-left">
-        {{#if (eq project.upcomingMilestonePlannedStartDate)}}
-          <span class="display-block tiny-margin-bottom">
-            Borough President<br>
-            Review Begins
-          </span>
-          <span class="display-block lead small-margin-bottom">
-            <strong>
-              {{moment-format project.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
-            </strong>
-          </span>
-        {{else}}
-          <span class="display-block tiny-margin-bottom">
-            Public Review Begins
-          </span>
-          <span class="display-block lead small-margin-bottom">
-            <strong>
-              {{moment-format project.publicReviewPlannedStartDate "M/D/YYYY"}}
-            </strong>
-          </span>
-        {{/if}}
-        <span class="display-block text-tiny">(Estimated Start Date)</span>
-      </p>
-    </div>
-    <div class="cell medium-auto">
-      <ul class="no-bullet no-margin">
-        {{#each project.tabSpecificMilestones as |milestone|}}
-          <li class="grid-x small-margin-bottom">
-            <div class="cell shrink small-margin-right">
-              {{#if (eq milestone.statuscode "Completed")}}
-                {{fa-icon 'check' class='blue' fixedWidth=true}}
-              {{else if (eq milestone.statuscode "In Progress")}}
-                {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
-              {{else if (eq milestone.statuscode "Overridden")}}
-                {{fa-icon 'times' class='red-muted' fixedWidth=true}}
-              {{else if (eq milestone.statuscode "Not Started")}}
-                <span data-test={{if (string-includes milestone.milestonename "Referral") "upcoming-indicator"}}>
-                  {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
-                </span>
-              {{/if}}
-            </div>
-            <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
-              <strong>{{milestone.milestonename}}</strong>
-              <small class="display-inline-block">
-                {{#if (eq milestone.statuscode "Not Started")}}
-                  Estimated
-                {{/if}}
-                {{~moment-format milestone.displayDate "MM/D/YYYY"~}}
-              </small>
-            </div>
-          </li>
-        {{/each}}
-      </ul>
     </div>
   </div>
 </div>
