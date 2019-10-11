@@ -4,20 +4,20 @@
 
 .label {
   .publicstatus-filed & {
-    background: lighten($filed-color, 15%);
-    color: color-pick-contrast(lighten($filed-color, 15%), ($label-color, $label-color-alt));
+    background: $filed-color;
+    color: $black;
   }
   .publicstatus-in-public-review & {
-    background: lighten($in-public-review-color, 15%);
-    color: color-pick-contrast(lighten($in-public-review-color, 15%), ($label-color, $label-color-alt));
+    background: $in-public-review-color;
+    color: $white;
   }
   .publicstatus-completed & {
-   background: lighten($completed-color, 15%);
-   color: color-pick-contrast(lighten($completed-color, 15%), ($label-color, $label-color-alt));
+   background: $completed-color;
+   color: $black;
   }
   .publicstatus-unknown & {
-   background: lighten($dark-gray, 15%);
-   color: color-pick-contrast(lighten($dark-gray, 15%), ($label-color, $label-color-alt));
+   background: $light-gray;
+   color: $black;
   }
 }
 

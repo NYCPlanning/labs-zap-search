@@ -6,9 +6,9 @@ const PROJECT_STATUS_COLOR_RAMP_CONFIG = {
   property: 'dcp_publicstatus_simp',
   type: 'categorical',
   stops: [
-    ['Filed', '#FF9400'],
-    ['In Public Review', '#78D271'],
-    ['Completed', '#44A3D5'],
+    ['Filed', '#78D271'],
+    ['In Public Review', '#0979C3'],
+    ['Completed', '#a6cee3'],
   ],
   default: '#6b717b',
 };
