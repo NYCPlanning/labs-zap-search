@@ -195,7 +195,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       dispositionChangeset.set('recommendation', recommendation);
     } else {
       if (!targetField) {
-        console.log('ZAP Error: Invalid disposition participant type.');
+        console.log('ZAP Error: Invalid disposition participant type.'); // eslint-disable-line
         this.transitionToRoute('oops');
       }
       dispositionChangeset.set(targetField, recommendation);
@@ -228,7 +228,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
    * disposition before saving those dispositions.
    */
   @action
-  submitRecommendations() {
+  async submitRecommendations() {
     const thisCtrl = this;
     this.dispositionForAllActionsChangeset.execute();
     this.dispositionsChangesets.forEach(function(dispositionChangeset) {
@@ -249,20 +249,25 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
         dcpVotelocation: thisCtrl.dispositionForAllActions.dcpVotelocation,
         dcpDateofvote: thisCtrl.dispositionForAllActions.dcpDateofvote,
       });
-      disposition.save();
     });
-    this.dispositionForAllActions.setProperties({
-      recommendation: null,
-      dcpVotinginfavorrecommendation: null,
-      dcpVotingagainstrecommendation: null,
-      dcpVotingabstainingonrecommendation: null,
-      dcpTotalmembersappointedtotheboard: null,
-      dcpVotelocation: null,
-      dcpDateofvote: null,
-      dcpConsideration: null,
-    });
-    this.set('modalOpen', false);
-    this.transitionToRoute('my-projects.project.recommendations.done');
-    return true;
+
+    try {
+      await this.dispositions.save();
+
+      this.dispositionForAllActions.setProperties({
+        recommendation: null,
+        dcpVotinginfavorrecommendation: null,
+        dcpVotingagainstrecommendation: null,
+        dcpVotingabstainingonrecommendation: null,
+        dcpTotalmembersappointedtotheboard: null,
+        dcpVotelocation: null,
+        dcpDateofvote: null,
+        dcpConsideration: null,
+      });
+      this.set('modalOpen', false);
+      this.transitionToRoute('my-projects.project.recommendations.done');
+    } catch (e) {
+      console.log(e); // eslint-disable-line
+    }
   }
 }
