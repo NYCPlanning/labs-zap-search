@@ -12,46 +12,47 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
 
-const NUM_CB_USER_PROJECTS = 2;
+const NUM_USER_PROJECTS = 2;
 
 // First project will have 3 dispos with hearings, second project will have 1 dispo without hearing
-function setUpCBProjectAndDispos(server) {
-  const seedCBUser = server.create('user', {
+function setUpProjectAndDispos(server, participantType) {
+  const seedUser = server.create('user', {
     id: 1,
+    // These two fields don't matter to these tests
     email: 'qncb5@planning.nyc.gov',
     landUseParticipant: 'QNCB5',
   });
-  const seedCBUserProjects = server.createList('project', NUM_CB_USER_PROJECTS, {
-    dcpLupteammemberrole: 'CB',
+  const seedUserProjects = server.createList('project', NUM_USER_PROJECTS, {
+    dcpLupteammemberrole: participantType,
   });
-  seedCBUser.projects = seedCBUserProjects;
+  seedUser.projects = seedUserProjects;
 
   let projectIdx = 0;
-  seedCBUserProjects[projectIdx].actions = server.createList('action', 3);
+  seedUserProjects[projectIdx].actions = server.createList('action', 3);
   for (let j = 0; j < 2; j += 1) {
     server.create('disposition', {
-      user: seedCBUser,
-      project: seedCBUserProjects[projectIdx],
-      action: seedCBUserProjects[projectIdx].actions.models[j],
+      user: seedUser,
+      project: seedUserProjects[projectIdx],
+      action: seedUserProjects[projectIdx].actions.models[j],
       dcpPublichearinglocation: 'Canal street',
       dcpDateofpublichearing: moment().subtract(22, 'days'),
     });
   }
 
   server.create('disposition', {
-    user: seedCBUser,
-    project: seedCBUserProjects[projectIdx],
-    action: seedCBUserProjects[projectIdx].actions.models[2],
+    user: seedUser,
+    project: seedUserProjects[projectIdx],
+    action: seedUserProjects[projectIdx].actions.models[2],
     dcpPublichearinglocation: 'Hudson Yards',
     dcpDateofpublichearing: moment().subtract(28, 'days'),
   });
 
   projectIdx = 1;
-  seedCBUserProjects[projectIdx].actions = server.createList('action', 1);
+  seedUserProjects[projectIdx].actions = server.createList('action', 1);
   server.create('disposition', {
-    user: seedCBUser,
-    project: seedCBUserProjects[projectIdx],
-    action: seedCBUserProjects[projectIdx].actions.models[0],
+    user: seedUser,
+    project: seedUserProjects[projectIdx],
+    action: seedUserProjects[projectIdx].actions.models[0],
     dcpPublichearinglocation: null,
     dcpDateofpublichearing: null,
   });
@@ -73,7 +74,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('CB User does not see quorum question if no hearings submitted', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();
 
@@ -84,7 +85,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('CB User does not see quorum question if no hearings submitted', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();
 
@@ -95,7 +96,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('CB User does not see "All Actions" question if project has only one disposition', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();
 
@@ -107,11 +108,11 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('CB User can submit one recommendation for all actions', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();
 
-    await visit('/my-projects/1/recommendations/add?participantType=CB');
+    await visit('/my-projects/1/recommendations/add');
 
     await click('[data-test-quorum-yes="0"]');
 
@@ -154,11 +155,11 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('CB User can submit a recommendation for each action', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();
 
-    await visit('/my-projects/1/recommendations/add?participantType=CB');
+    await visit('/my-projects/1/recommendations/add');
 
     await click('[data-test-quorum-no="0"]');
 
@@ -222,11 +223,11 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('BP User can submit one recommendation for all actions', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'BP');
 
     await authenticateSession();
 
-    await visit('/my-projects/1/recommendations/add?participantType=BP');
+    await visit('/my-projects/1/recommendations/add');
 
     await click('[data-test-quorum-no="0"]');
 
@@ -248,11 +249,11 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('BP User can submit a recommendation for each action', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'BP');
 
     await authenticateSession();
 
-    await visit('/my-projects/1/recommendations/add?participantType=BP');
+    await visit('/my-projects/1/recommendations/add');
 
     await click('[data-test-quorum-no="0"]');
 
@@ -286,11 +287,11 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('BP does not see vote fields', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'BP');
 
     await authenticateSession();
 
-    await visit('/my-projects/1/recommendations/add?participantType=BP');
+    await visit('/my-projects/1/recommendations/add');
 
     await click('[data-test-quorum-no="0"]');
 
@@ -323,11 +324,11 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('BP does not see vote fields on confirmation modal', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'BP');
 
     await authenticateSession();
 
-    await visit('/my-projects/1/recommendations/add?participantType=BP');
+    await visit('/my-projects/1/recommendations/add');
 
     await click('[data-test-quorum-yes="0"]');
 
@@ -378,11 +379,11 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
   });
 
   test('CB User can waive vote fields', async function(assert) {
-    setUpCBProjectAndDispos(server);
+    setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();
 
-    await visit('/my-projects/1/recommendations/add?participantType=CB');
+    await visit('/my-projects/1/recommendations/add');
 
     await click('[data-test-quorum-yes="0"]');
 

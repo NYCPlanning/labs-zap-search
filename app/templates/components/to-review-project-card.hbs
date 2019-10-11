@@ -13,7 +13,7 @@
     </div>
     <div class="cell medium-4 large-shrink">
       <div class="lup-countdown medium-margin-right medium-margin-left">
-        <p class="cert-date">Community Board Review</p>
+        <p class="cert-date">{{participant-type-label project.dcpLupteammemberrole}} Review</p>
         <p class="days">{{timeRemaining}}</p>
         <p class="total">of {{timeDuration}} days remain</p>
         <p class="end-date">Ends {{moment-format project.toReviewMilestoneActualEndDate "M/D/YYYY"}}</p>
@@ -23,12 +23,11 @@
       {{#if project.hearingsSubmittedOrWaived}}
         <LinkTo @route="my-projects.project.recommendations.add"
           @model={{project.id}}
-          @query={{hash participantType="CB"}}
           class="button expanded"
           data-test-button="submitRecommendation"
         >
           {{fa-icon 'thumbs-up' prefix='far' fixedWidth=true size="lg"}}
-          Submit Community Board Recommendation
+          Submit {{participant-type-label project.dcpLupteammemberrole}} Recommendation
         </LinkTo>
       {{/if}}
       {{#if project.hearingsWaived}}
@@ -36,7 +35,7 @@
       {{/if}}
       {{#if project.hearingsSubmitted}}
         {{#deduped-hearings-list project=project as |dedupedHearings|}}
-          <h6>Community Board Hearings:</h6>
+          <h6>{{participant-type-label project.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}
                 <li class="grid-x small-margin-bottom">
@@ -77,7 +76,7 @@
           data-test-button="submitHearing"
         >
           {{fa-icon 'calendar-alt' prefix='far' fixedWidth=true size="lg"}}
-          Submit Community Board Hearing Info
+          Submit {{participant-type-label project.dcpLupteammemberrole}} Hearing Info
         </LinkTo>
         <p class="text-small text-right">
           <span class="display-inline-block">

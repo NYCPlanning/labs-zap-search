@@ -65,7 +65,7 @@ module('Acceptance | dashboard tab links', function(hooks) {
 
     await visit('/my-projects/to-review');
 
-    await visit('/my-projects/1/recommendations/add?participantType=CB');
+    await visit('/my-projects/1/recommendations/add');
 
     assert.notOk(find('[data-test-dashboard-tab-links]'));
 

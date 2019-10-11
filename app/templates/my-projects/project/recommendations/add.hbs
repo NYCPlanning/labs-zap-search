@@ -13,14 +13,7 @@
   <div class="grid-container">
     <div class="grid-x grid-x-container">
       <h2>
-        Add
-        {{#if (eq participantType "BP")}}
-          Borough&nbsp;President
-        {{else if (eq participantType "BB")}}
-          Borough&nbsp;Board
-        {{else if (eq participantType "CB")}}
-          Community&nbsp;Board
-        {{/if}}Recommendation
+        Add {{participant-type-label project.dcpLupteammemberrole}} Recommendation
       </h2>
       <div class="grid-x grid-margin-x">
         <div class="large-5 cell large-order-2">
@@ -103,7 +96,7 @@
           {{#if project.hearingsWaived}}
             <div data-test-hearings-waived-message>
               <h5>Note: You have opted out of submitting hearings for this project.</h5>
-              <p class="text-small">Without proper notice of a public hearing, the [Participant Type]'s recommendation does not comply with City Charter requirements. NYC Planning will still accept a recommendation, but a disapproval will not trigger an automatic City Council call up.</p>
+              <p class="text-small">Without proper notice of a public hearing, the {{participant-type-label project.dcpLupteammemberrole}}'s recommendation does not comply with City Charter requirements. NYC Planning will still accept a recommendation, but a disapproval will not trigger an automatic City Council call up.</p>
             </div>
             <hr>
           {{/if}}

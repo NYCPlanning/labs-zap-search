@@ -35,6 +35,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     const project = store.createRecord('project', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
+      dcpLupteammemberrole: 'CB',
     });
 
     this.set('project', project);
@@ -80,6 +81,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     const project = store.createRecord('project', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
+      dcpLupteammemberrole: 'CB',
     });
 
     this.set('project', project);
@@ -124,6 +126,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     const project = store.createRecord('project', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
+      dcpLupteammemberrole: 'CB',
     });
 
     this.set('project', project);

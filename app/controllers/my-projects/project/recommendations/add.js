@@ -44,13 +44,14 @@ class DispositionForAllActions extends EmberObject {
 }
 
 export default class MyProjectsProjectRecommendationsAddController extends Controller {
-  queryParams = ['participantType'];
-
   @service
   store;
 
   @service
   currentUser;
+
+  @alias('model.dcpLupteammemberrole')
+  participantType;
 
   // the project is available through the model.
   @alias('model')

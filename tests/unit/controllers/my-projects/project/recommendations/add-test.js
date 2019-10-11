@@ -107,7 +107,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     controller.set('allActions', true);
 
-    controller.set('participantType', 'CB');
+    controller.set('model', { dcpLupteammemberrole: 'CB' });
 
     controller.send('setDispositionRec', controller.dispositionForAllActionsChangeset, 'Disapproved');
 
@@ -120,7 +120,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     controller.set('allActions', false);
 
-    controller.set('participantType', 'CB');
+    controller.set('model', { dcpLupteammemberrole: 'CB' });
 
     controller.set('dispositions', server.createList('disposition', 3));
     controller.send('setDispositionRec', controller.dispositionsChangesets[0], 'Disapproved');
@@ -129,7 +129,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
     assert.equal(controller.dispositionsChangesets[0].get('dcpBoroughboardrecommendation'), undefined);
     assert.equal(controller.dispositionsChangesets[0].get('dcpBoroughpresidentrecommendation'), undefined);
 
-    controller.set('participantType', 'BB');
+    controller.set('model', { dcpLupteammemberrole: 'BB' });
 
     controller.send('setDispositionRec', controller.dispositionsChangesets[1], 'Approved');
 
@@ -137,7 +137,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
     assert.equal(controller.dispositionsChangesets[1].get('dcpBoroughboardrecommendation'), 'Approved');
     assert.equal(controller.dispositionsChangesets[1].get('dcpBoroughpresidentrecommendation'), undefined);
 
-    controller.set('participantType', 'BP');
+    controller.set('model', { dcpLupteammemberrole: 'BP' });
 
     controller.send('setDispositionRec', controller.dispositionsChangesets[2], 'Waived');
 
@@ -154,7 +154,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     controller.set('allActions', true);
 
-    controller.set('participantType', 'CB');
+    controller.set('model', { dcpLupteammemberrole: 'CB' });
 
     controller.set('dispositions', [EmberObject.create(), EmberObject.create()]);
 
@@ -201,7 +201,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     controller.set('allActions', false);
 
-    controller.set('participantType', 'CB');
+    controller.set('model', { dcpLupteammemberrole: 'CB' });
 
     controller.set('dispositions', [EmberObject.create(), EmberObject.create()]);
 
