@@ -172,8 +172,9 @@
                 </div>
               </div>
                 {{#if hearingsSubmittedOrWaived}}
-                  {{#link-to "my-projects.project.recommendations.add" model.id}}
-                  <span class="button expanded" data-test-button-to-rec-form>
+                  {{#link-to "my-projects.project.recommendations.add" model.id class="button expanded"}}
+                  <span data-test-button-to-rec-form>
+                    {{fa-icon 'thumbs-up' prefix='far' fixedWidth=true size="lg"}}
                     Submit Participant Type Recommendation
                   </span>
                   {{/link-to}}
@@ -218,8 +219,9 @@
                 <span data-test-hearings-waived-message>You have opted out of submitting hearings</span>
               {{/if}}
               {{#if hearingsNotSubmittedNotWaived}}
-                {{#link-to "my-projects.project.hearing.add" model.id}}
-                  <span class="button expanded" data-test-button-hearing-form>
+                {{#link-to "my-projects.project.hearing.add" model.id class="button expanded"}}
+                  <span data-test-button-hearing-form>
+                    {{fa-icon 'calendar-alt' prefix='far' fixedWidth=true size="lg"}}
                     Submit Participant Type Hearing Info
                   </span>
                 {{/link-to}}
