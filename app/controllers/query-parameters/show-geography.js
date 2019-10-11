@@ -16,7 +16,7 @@ export const projectParams = new QueryParams({
  * filters it should send to the API.
  */
   'applied-filters': {
-    defaultValue: ['dcp_certifiedreferred'].sort(),
+    defaultValue: ['dcp_publicstatus'].sort(),
     refresh: true,
     serialize(value) {
       return value.toString();
@@ -85,7 +85,7 @@ export const projectParams = new QueryParams({
     },
   },
   dcp_publicstatus: {
-    defaultValue: [].sort(),
+    defaultValue: ['Filed', 'In Public Review'].sort(),
     refresh: true,
     serialize(value) {
       value = value.filter(d => d !== '');
