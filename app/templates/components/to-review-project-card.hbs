@@ -3,7 +3,7 @@
   data-test-project-card
 >
   <div class="grid-x grid-x-small-gutters">
-    <div class="cell large-5">
+    <div class="cell large-4 xlarge-5">
       <h3 class="tiny-margin-bottxrom">
         {{#link-to 'show-project' project.id}}<span data-test-project-profile-button="{{project.id}}">{{project.dcpProjectname}}</span>{{/link-to}}
         <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
@@ -11,7 +11,7 @@
       <h5 class="applicant">{{project.applicants}}</h5>
       <p>{{project.dcpProjectbrief}}</p>
     </div>
-    <div class="cell medium-4 large-shrink">
+    <div class="cell medium-4 large-3 xlarge-2">
       <div class="lup-countdown medium-margin-right medium-margin-left">
         <p class="cert-date">{{participant-type-label project.dcpLupteammemberrole}} Review</p>
         <p class="days">{{timeRemaining}}</p>
