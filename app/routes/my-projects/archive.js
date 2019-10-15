@@ -10,7 +10,10 @@ export default class MyProjectsArchiveRoute extends Route {
 
   async model() {
     // Use this endpoint for now. This will need to be updated when the backend is finalized.
-    const archiveProjects = await this.store.query('project', { project_lup_status: 'archive', include: 'actions,milestones,dispositions.action' }, {
+    return this.store.query('assignment', {
+      tab: 'archive',
+      include: 'project.milestones,project.dispositions,project.actions',
+    }, {
       reload: true,
     });
     return archiveProjects;

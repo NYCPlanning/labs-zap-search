@@ -1,4 +1,4 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory, faker, trait } from 'ember-cli-mirage';
 import bblFeatureCollection from '../test-data/bbl-feature-collection';
 
 export default Factory.extend({
@@ -177,4 +177,30 @@ export default Factory.extend({
       },
     ];
   },
+
+  cycleTabs: trait({
+    tab(i) {
+      return faker.list.cycle('archive', 'reviewed', 'to-review', 'upcoming')(i);
+    }
+  }),
+
+  withMilestones: trait({
+    afterCreate(project, server) {
+      server.createList('milestone', 10, { project });
+    },
+  }),
+
+  withActionsAndDispositions: trait({
+    afterCreate(project, server) {
+      // server
+      //   .createList('action', 2, { project });
+
+      server
+        .createList('disposition', 2, { project });
+
+      // server.db.actions.update({
+      //   dispositions: server.schema.dispositions.all(),
+      // });
+    }
+  }),
 });

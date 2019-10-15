@@ -9,8 +9,9 @@ export default class MyProjectsToReviewRoute extends Route {
   store;
 
   async model() {
-    return this.store.findAll('assignment', {
-      include: 'dispositions,project',
+    return this.store.query('assignment', {
+      tab: 'to-review',
+      include: 'project.milestones,project.dispositions,project.actions',
     }, {
       reload: true,
     });
