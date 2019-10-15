@@ -90,7 +90,7 @@ export default class AssignmentModel extends Model {
   //   - these start/end dates come from the current In Progress milestone
   //   - an array of milestone dates is returned
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
-  get reviewedMilestoneActualStartEndDates() {
+  get reviewedMilestoneDates() {
     if (this.tab !== 'reviewed') {
       return null;
     }
@@ -100,6 +100,7 @@ export default class AssignmentModel extends Model {
       displayName: milestone.displayName,
       dcpActualstartdate: milestone.dcpActualstartdate,
       dcpActualenddate: milestone.dcpActualenddate,
+      dcpPlannedcompletiondate: milestone.dcpPlannedcompletiondate,
     }));
   }
 }

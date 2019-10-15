@@ -7,14 +7,14 @@
     {{else if (eq this.milestone.statuscode "Overridden")}}
       {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
     {{else if (eq this.milestone.statuscode "Not Started")}}
-      <span data-test={{if (string-includes this.milestone.milestonename "Referral") "upcoming-indicator"}}>
+      <span data-test={{if (string-includes this.milestone.displayName "Review") "upcoming-indicator"}}>
         {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
       </span>
     {{/if}}
   </div>
   <div class="cell auto {{if (eq this.milestone.statuscode "Not Started") 'gray'}}">
     <strong>
-      {{this.milestone.milestonename}}
+      {{this.milestone.displayName}}
     </strong>
     {{#if (eq this.milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
       {{#each this.communityBoardDispositions as |disposition|}}

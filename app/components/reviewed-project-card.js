@@ -8,13 +8,13 @@ export default class ReviewedProjectCardComponent extends Component {
   currentUser;
 
   assignment = {
-    reviewedMilestoneActualStartEndDates: [],
+    reviewedMilestoneDates: [],
   };
 
   // Assumes at most two milestones are 'In Progress'
-  @computed('assignment.reviewedMilestoneActualStartEndDates')
+  @computed('assignment.reviewedMilestoneDates')
   get timeDisplayLabel() {
-    const inProgressMilestonesDates = this.assignment.reviewedMilestoneActualStartEndDates;
+    const inProgressMilestonesDates = this.assignment.reviewedMilestoneDates;
     if (inProgressMilestonesDates.length > 1 && inProgressMilestonesDates[0] && inProgressMilestonesDates[1]) {
       return `${inProgressMilestonesDates[0].displayName.replace(' Review', '').trim()} and ${inProgressMilestonesDates[1].displayName}`;
     }
@@ -24,9 +24,10 @@ export default class ReviewedProjectCardComponent extends Component {
     return '';
   }
 
-  @computed('assignment.reviewedMilestoneActualStartEndDates')
-  get timeDisplay() {
-    const firstInProgressMilestoneDates = this.assignment.reviewedMilestoneActualStartEndDates[0] || {};
+  @computed('assignment.reviewedMilestoneDates')
+  // used when dcpActualenddate exists
+  get actualTimeDisplay() {
+    const firstInProgressMilestoneDates = this.assignment.reviewedMilestoneDates[0] || {};
     if (firstInProgressMilestoneDates.displayName && firstInProgressMilestoneDates.dcpActualstartdate && firstInProgressMilestoneDates.dcpActualenddate) {
       return {
         displayName: firstInProgressMilestoneDates.displayName,
@@ -40,6 +41,26 @@ export default class ReviewedProjectCardComponent extends Component {
       timeRemaining: null,
       timeDuration: null,
       dcpActualenddate: null,
+    };
+  }
+
+  @computed('assignment.reviewedMilestoneDates')
+  // used when dcpActualenddate doesn't exist but dcpPlannedcompletiondate does
+  get plannedTimeDisplay() {
+    const firstInProgressMilestoneDates = this.assignment.reviewedMilestoneDates[0] || {};
+    if (firstInProgressMilestoneDates.displayName && firstInProgressMilestoneDates.dcpActualstartdate && firstInProgressMilestoneDates.dcpPlannedcompletiondate) {
+      return {
+        displayName: firstInProgressMilestoneDates.displayName,
+        estTimeRemaining: moment(firstInProgressMilestoneDates.dcpPlannedcompletiondate).diff(moment(), 'days'),
+        estTimeDuration: moment(firstInProgressMilestoneDates.dcpPlannedcompletiondate).diff(moment(firstInProgressMilestoneDates.dcpActualstartdate), 'days'),
+        dcpPlannedcompletiondate: firstInProgressMilestoneDates.dcpPlannedcompletiondate,
+      };
+    }
+    return {
+      displayName: null,
+      estTimeRemaining: null,
+      estTimeDuration: null,
+      dcpPlannedcompletiondate: null,
     };
   }
 }
