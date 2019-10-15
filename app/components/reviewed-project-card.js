@@ -7,15 +7,39 @@ export default class ReviewedProjectCardComponent extends Component {
   @service
   currentUser;
 
-  project = {};
+  project = {
+    reviewedMilestoneActualStartEndDates: [],
+  };
+
+  // Assumes at most two milestones are 'In Progress'
+  @computed('project.reviewedMilestoneActualStartEndDates')
+  get timeDisplayLabel() {
+    const inProgressMilestonesDates = this.project.reviewedMilestoneActualStartEndDates;
+    if (inProgressMilestonesDates.length > 1 && inProgressMilestonesDates[0] && inProgressMilestonesDates[1]) {
+      return `${inProgressMilestonesDates[0].displayName.replace(' Review', '').trim()} and ${inProgressMilestonesDates[1].displayName}`;
+    }
+    if (inProgressMilestonesDates[0]) {
+      return inProgressMilestonesDates[0].displayName;
+    }
+    return '';
+  }
 
   @computed('project.reviewedMilestoneActualStartEndDates')
-  get timeDisplays() {
-    return this.project.reviewedMilestoneActualStartEndDates.map(startEndDate => ({
-      displayName: startEndDate.displayName,
-      timeRemaining: moment(startEndDate.dcpActualenddate).diff(moment().endOf('day'), 'days'),
-      timeDuration: moment(startEndDate.dcpActualenddate).diff(moment(startEndDate.dcpActualstartdate), 'days'),
-      dcpActualenddate: startEndDate.dcpActualenddate,
-    }));
+  get timeDisplay() {
+    const firstInProgressMilestoneDates = this.project.reviewedMilestoneActualStartEndDates[0] || {};
+    if (firstInProgressMilestoneDates.displayName && firstInProgressMilestoneDates.dcpActualstartdate && firstInProgressMilestoneDates.dcpActualenddate) {
+      return {
+        displayName: firstInProgressMilestoneDates.displayName,
+        timeRemaining: moment(firstInProgressMilestoneDates.dcpActualenddate).diff(moment(), 'days'),
+        timeDuration: moment(firstInProgressMilestoneDates.dcpActualenddate).diff(moment(firstInProgressMilestoneDates.dcpActualstartdate), 'days'),
+        dcpActualenddate: firstInProgressMilestoneDates.dcpActualenddate,
+      };
+    }
+    return {
+      displayName: null,
+      timeRemaining: null,
+      timeDuration: null,
+      dcpActualenddate: null,
+    };
   }
 }
