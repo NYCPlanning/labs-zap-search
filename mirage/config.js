@@ -99,6 +99,7 @@ export default function () {
   this.get('/users/:id');
 
   this.get('/actions');
+  this.get('/assignments');
   this.get('/actions/:id');
 
   // TODO: This may need to be updated when the current-user service

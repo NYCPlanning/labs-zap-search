@@ -6,4 +6,5 @@ export default Model.extend({
   userProjectParticipantTypes: hasMany(),
   dispositions: hasMany(),
   milestones: hasMany(),
+  assignments: hasMany(),
 });
