@@ -12,49 +12,58 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
 
-const NUM_USER_PROJECTS = 2;
-
 // First project will have 3 dispos with hearings, second project will have 1 dispo without hearing
 function setUpProjectAndDispos(server, participantType) {
-  const seedUser = server.create('user', {
+  server.create('user', {
     id: 1,
     // These two fields don't matter to these tests
     email: 'qncb5@planning.nyc.gov',
     landUseParticipant: 'QNCB5',
-  });
-  const seedUserProjects = server.createList('project', NUM_USER_PROJECTS, {
-    dcpLupteammemberrole: participantType,
-  });
-  seedUser.projects = seedUserProjects;
-
-  let projectIdx = 0;
-  seedUserProjects[projectIdx].actions = server.createList('action', 3);
-  for (let j = 0; j < 2; j += 1) {
-    server.create('disposition', {
-      user: seedUser,
-      project: seedUserProjects[projectIdx],
-      action: seedUserProjects[projectIdx].actions.models[j],
-      dcpPublichearinglocation: 'Canal street',
-      dcpDateofpublichearing: moment().subtract(22, 'days'),
-    });
-  }
-
-  server.create('disposition', {
-    user: seedUser,
-    project: seedUserProjects[projectIdx],
-    action: seedUserProjects[projectIdx].actions.models[2],
-    dcpPublichearinglocation: 'Hudson Yards',
-    dcpDateofpublichearing: moment().subtract(28, 'days'),
-  });
-
-  projectIdx = 1;
-  seedUserProjects[projectIdx].actions = server.createList('action', 1);
-  server.create('disposition', {
-    user: seedUser,
-    project: seedUserProjects[projectIdx],
-    action: seedUserProjects[projectIdx].actions.models[0],
-    dcpPublichearinglocation: null,
-    dcpDateofpublichearing: null,
+    assignments: [
+      server.create('assignment', {
+        id: 1,
+        tab: 'to-review',
+        dcpLupteammemberrole: participantType,
+        dispositions: [
+          server.create('disposition', {
+            dcpPublichearinglocation: 'Canal street',
+            dcpDateofpublichearing: moment().subtract(22, 'days'),
+            action: server.create('action'),
+          }),
+          server.create('disposition', {
+            dcpPublichearinglocation: 'Canal street',
+            dcpDateofpublichearing: moment().subtract(22, 'days'),
+            action: server.create('action'),
+          }),
+          server.create('disposition', {
+            dcpPublichearinglocation: 'Hudson Yards',
+            dcpDateofpublichearing: moment().subtract(28, 'days'),
+            action: server.create('action'),
+          }),
+        ],
+        project: server.create('project', {
+          actions: server.schema.actions.all(),
+          dispositions: server.schema.dispositions.all(),
+        }),
+      }),
+      server.create('assignment', {
+        id: 2,
+        tab: 'to-review',
+        dcpLupteammemberrole: participantType,
+        dispositions: [
+          server.create('disposition', {
+            id: 5,
+            dcpPublichearinglocation: null,
+            dcpDateofpublichearing: null,
+            action: server.create('action'),
+          }),
+        ],
+        project: server.create('project', {
+          actions: server.schema.actions.all(),
+          dispositions: [server.schema.dispositions.find(5)],
+        }),
+      }),
+    ],
   });
 }
 
@@ -73,7 +82,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await invalidateSession();
   });
 
-  test('CB User does not see quorum question if no hearings submitted', async function(assert) {
+  test('CB User does see quorum question on project 1 if because hearings were submitted', async function(assert) {
     setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();
@@ -84,7 +93,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     assert.ok(find('[data-test-hearing-actions-list]'));
   });
 
-  test('CB User does not see quorum question if no hearings submitted', async function(assert) {
+  test('CB User does not see quorum question on project 2 if no hearings submitted', async function(assert) {
     setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();

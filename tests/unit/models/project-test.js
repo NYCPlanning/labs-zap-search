@@ -108,21 +108,4 @@ module('Unit | Model | project', function(hooks) {
     assert.equal(model.hearingsSubmittedOrWaived, false);
     assert.equal(model.hearingsNotSubmittedNotWaived, true);
   });
-
-  test('publicReviewPlannedStartDate is calculated correctly', function(assert) {
-    const store = this.owner.lookup('service:store');
-
-    const dateA = new Date('2020-10-21T00:00:00'); // October 21, 2020
-
-    const milestone1 = store.createRecord('milestone', {
-      dcpMilestone: '923beec4-dad0-e711-8116-1458d04e2fb8',
-      dcpPlannedstartdate: dateA,
-    });
-
-    const model = run(() => store.createRecord('project', {
-      milestones: [milestone1],
-    }));
-
-    assert.equal(model.publicReviewPlannedStartDate, dateA);
-  });
 });

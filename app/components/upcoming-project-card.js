@@ -6,6 +6,8 @@ export default class UpcomingProjectCardComponent extends Component {
   @service
   currentUser;
 
+  assignment = {};
+
   showPopup = false;
 
   @action

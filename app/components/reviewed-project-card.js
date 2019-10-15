@@ -7,14 +7,14 @@ export default class ReviewedProjectCardComponent extends Component {
   @service
   currentUser;
 
-  project = {
+  assignment = {
     reviewedMilestoneActualStartEndDates: [],
   };
 
   // Assumes at most two milestones are 'In Progress'
-  @computed('project.reviewedMilestoneActualStartEndDates')
+  @computed('assignment.reviewedMilestoneActualStartEndDates')
   get timeDisplayLabel() {
-    const inProgressMilestonesDates = this.project.reviewedMilestoneActualStartEndDates;
+    const inProgressMilestonesDates = this.assignment.reviewedMilestoneActualStartEndDates;
     if (inProgressMilestonesDates.length > 1 && inProgressMilestonesDates[0] && inProgressMilestonesDates[1]) {
       return `${inProgressMilestonesDates[0].displayName.replace(' Review', '').trim()} and ${inProgressMilestonesDates[1].displayName}`;
     }
@@ -24,9 +24,9 @@ export default class ReviewedProjectCardComponent extends Component {
     return '';
   }
 
-  @computed('project.reviewedMilestoneActualStartEndDates')
+  @computed('assignment.reviewedMilestoneActualStartEndDates')
   get timeDisplay() {
-    const firstInProgressMilestoneDates = this.project.reviewedMilestoneActualStartEndDates[0] || {};
+    const firstInProgressMilestoneDates = this.assignment.reviewedMilestoneActualStartEndDates[0] || {};
     if (firstInProgressMilestoneDates.displayName && firstInProgressMilestoneDates.dcpActualstartdate && firstInProgressMilestoneDates.dcpActualenddate) {
       return {
         displayName: firstInProgressMilestoneDates.displayName,

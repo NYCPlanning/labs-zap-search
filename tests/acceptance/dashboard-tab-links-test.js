@@ -6,7 +6,7 @@ import {
 import { setupApplicationTest } from 'ember-qunit';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { invalidateSession } from 'ember-simple-auth/test-support';
+import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 
 module('Acceptance | dashboard tab links', function(hooks) {
   setupApplicationTest(hooks);
@@ -25,12 +25,11 @@ module('Acceptance | dashboard tab links', function(hooks) {
   });
 
   test('authenticated user sees dashboard tab links on /my-projects/<tab>', async function(assert) {
-    this.server.create('user', {
-      emailaddress1: 'testuser@planning.nyc.gov',
-    });
+    const user = this.server.create('user', 'withAssignments');
 
-    // simulate presence of location hash after OAUTH redirect
-    window.location.hash = '#access_token=test';
+    await authenticateSession({
+      id: user.id,
+    });
 
     await visit('/my-projects/to-review');
 
@@ -50,18 +49,11 @@ module('Acceptance | dashboard tab links', function(hooks) {
   });
 
   test('authenticated user does not see dashboard tab links on hearing or rec form pages', async function(assert) {
-    const userProject = server.create('project', {
-      id: 1,
-      dcp_name: 'P2012M046',
-    });
+    const user = this.server.create('user', 'withAssignments');
 
-    this.server.create('user', {
-      emailaddress1: 'testuser@planning.nyc.gov',
-      projects: [userProject],
+    await authenticateSession({
+      id: user.id,
     });
-
-    // simulate presence of location hash after OAUTH redirect
-    window.location.hash = '#access_token=test';
 
     await visit('/my-projects/to-review');
 

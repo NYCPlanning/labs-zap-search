@@ -6,7 +6,7 @@ import {
 import { setupApplicationTest } from 'ember-qunit';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { invalidateSession } from 'ember-simple-auth/test-support';
+import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 
 module('Acceptance | authenticated user sees authenticated features', function(hooks) {
   setupApplicationTest(hooks);
@@ -16,6 +16,9 @@ module('Acceptance | authenticated user sees authenticated features', function(h
     window.location.hash = '';
 
     await invalidateSession();
+    await authenticateSession({
+      id: 1,
+    });
   });
 
   hooks.afterEach(async function() {
@@ -32,25 +35,7 @@ module('Acceptance | authenticated user sees authenticated features', function(h
 
   test('User sees hearing and recommendation buttons on show-project if logged in and project assigned to them', async function(assert) {
     // user has to be signed in and assigned to that project (dcp_name matches)
-    const userProject = server.create('project', {
-      id: 1,
-      dcp_name: 'P2012M046',
-    });
-
-    this.server.create('project', {
-      id: 1,
-      dcp_name: 'P2012M046',
-    });
-
-    this.server.create('user', {
-      emailaddress1: 'testuser@planning.nyc.gov',
-      projects: [userProject],
-    });
-
-    // simulate presence of location hash after OAUTH redirect
-    window.location.hash = '#access_token=test';
-
-    await visit('/login');
+    this.server.create('user', 'withAssignments');
 
     await visit('/projects/1');
 
@@ -86,33 +71,15 @@ module('Acceptance | authenticated user sees authenticated features', function(h
 
   test('User does not see recommendation button unless project is under to-review tab', async function(assert) {
     // user has to be signed in and assigned to that project (dcp_name matches)
-    const userProject1 = server.create('project', {
-      id: 1,
-      dcp_name: 'N2018Q077',
-      tab: 'upcoming',
-    });
-
-    const userProject2 = server.create('project', {
-      id: 2,
-      dcp_name: 'P2012M046',
-      tab: 'to-review',
-    });
-
-    this.server.create('project', {
-      id: 1,
-      dcp_name: 'N2018Q077',
-      tab: 'upcoming',
-    });
-
-    this.server.create('project', {
-      id: 2,
-      dcp_name: 'P2012M046',
-      tab: 'to-review',
-    });
-
     this.server.create('user', {
-      emailaddress1: 'testuser@planning.nyc.gov',
-      projects: [userProject1, userProject2],
+      assignments: [
+        this.server.create('assignment', {
+          tab: 'upcoming',
+        }, 'withProject'),
+        this.server.create('assignment', {
+          tab: 'to-review',
+        }, 'withProject'),
+      ],
     });
 
     // simulate presence of location hash after OAUTH redirect

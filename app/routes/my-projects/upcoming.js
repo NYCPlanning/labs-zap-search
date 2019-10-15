@@ -9,9 +9,11 @@ export default class MyProjectsUpcomingRoute extends Route {
   store;
 
   async model() {
-    const upcomingProjects = await this.store.query('project', { project_lup_status: 'upcoming', include: 'actions,milestones,dispositions.action' }, {
+    return this.store.query('assignment', {
+      tab: 'upcoming',
+      include: 'project.milestones,project.dispositions,project.actions',
+    }, {
       reload: true,
     });
-    return upcomingProjects;
   }
 }

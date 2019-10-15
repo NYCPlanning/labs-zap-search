@@ -12,11 +12,10 @@ export default class UserModel extends Model {
   // Many Projects to Many Users
   @hasMany('project', { async: false }) projects;
 
+  @hasMany('assignment', { async: false }) assignments;
+
   // ONE User has Many User Project Participant Types
   @hasMany('userProjectParticipantType', { async: false }) userProjectParticipantTypes;
-
-  // ONE User has Many Dispositions
-  @hasMany('disposition') dispositions;
 
   @attr('string', { defaultValue: '' }) landUseParticipant;
 
@@ -50,9 +49,5 @@ export default class UserModel extends Model {
     const participantReassigned = participantLastTwoLetters[0] === 'BB' ? landUseParticipant.replace(lastTwoLetters, 'BP') : landUseParticipant;
 
     return participantReassigned;
-  }
-
-  unknownProperty(key) {
-    console.log(`Unexpected access of ${key} on ${this}`);
   }
 }
