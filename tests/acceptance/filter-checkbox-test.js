@@ -14,12 +14,12 @@ module('Acceptance | filter checkbox', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('User clicks Filed project status and it filters', async function(assert) {
+  test('User clicks Completed project status and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');
-    await click('[data-test-status-checkbox="Filed"]');
+    await click('[data-test-status-checkbox="Completed"]');
 
-    assert.equal(currentURL().includes('Filed'), true);
+    assert.equal(currentURL().includes('Completed'), true);
   });
 
   test('User clicks first FEMA Flood Zone status and it filters', async function(assert) {
@@ -37,7 +37,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await fillIn('[data-test-filter-control="filter-section-community-district"] .ember-power-select-multiple-options input', 'Brooklyn');
     await selectChoose('.community-district-dropdown-selection', 'Brooklyn 2');
 
-    assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_certifiedreferred&community-districts=BK02');
+    assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_publicstatus&community-districts=BK02');
   });
 
   test('User clicks ULURP checkbox and it filters', async function(assert) {
@@ -77,7 +77,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await click('[data-test-status-checkbox="In Public Review"]');
     await click('[data-test-status-checkbox="Filed"]');
 
-    assert.equal(currentURL(), '/projects?applied-filters=dcp_certifiedreferred%2Cdcp_publicstatus');
+    assert.equal(currentURL(), '/projects');
   });
 
   test('User can click on filter switches with updated state', async function(assert) {
@@ -85,7 +85,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/projects');
     await click('[data-test-filter-section="filter-section-fema-flood-zone"] .switch-paddle');
 
-    assert.equal(currentURL(), '/projects?applied-filters=dcp_certifiedreferred%2Cdcp_femafloodzonea%2Cdcp_femafloodzonecoastala%2Cdcp_femafloodzoneshadedx%2Cdcp_femafloodzonev');
+    assert.equal(currentURL(), '/projects?applied-filters=dcp_femafloodzonea%2Cdcp_femafloodzonecoastala%2Cdcp_femafloodzoneshadedx%2Cdcp_femafloodzonev%2Cdcp_publicstatus');
     await click('[data-test-filter-section="filter-section-fema-flood-zone"] .switch-paddle');
 
     assert.equal(currentURL(), '/projects');
