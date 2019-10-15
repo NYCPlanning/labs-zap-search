@@ -2,46 +2,44 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Integration | Component | upcoming-project-card', function(hooks) {
   setupRenderingTest(hooks);
+  setupMirage(hooks);
 
   test('check that hearings list appears when user has submitted hearings', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
-
-    const store = this.owner.lookup('service:store');
-
     const hearingDate = new Date('2020-10-21T18:30:00');
 
-    const disp1 = store.createRecord('disposition', {
-      id: 1,
-      dcpPublichearinglocation: '341 Yellow Avenue',
-      dcpDateofpublichearing: hearingDate,
-    });
+    this.server.create('assignment', {
+      tab: 'upcoming',
+      dispositions: [
+        this.server.create('disposition', {
+          id: 1,
+          dcpPublichearinglocation: '341 Yellow Avenue',
+          dcpDateofpublichearing: hearingDate,
+        }),
+        this.server.create('disposition', {
+          id: 2,
+          dcpPublichearinglocation: '890 Purple Street',
+          dcpDateofpublichearing: hearingDate,
+        }),
+        this.server.create('disposition', {
+          id: 3,
+          dcpPublichearinglocation: '124 Green Boulevard',
+          dcpDateofpublichearing: hearingDate,
+        }),
+      ],
+    }, 'withProject');
 
-    const disp2 = store.createRecord('disposition', {
-      id: 2,
-      dcpPublichearinglocation: '890 Purple Street',
-      dcpDateofpublichearing: hearingDate,
+    const store = this.owner.lookup('service:store');
+    this.assignment = await store.findRecord('assignment', 1, {
+      include: 'dispositions,project',
     });
-
-    const disp3 = store.createRecord('disposition', {
-      id: 3,
-      dcpPublichearinglocation: '124 Green Boulevard',
-      dcpDateofpublichearing: hearingDate,
-    });
-
-    const project = store.createRecord('project', {
-      id: 1,
-      dispositions: [disp1, disp2, disp3],
-    });
-
-    this.set('project', project);
 
     await render(hbs`
-      {{#to-review-project-card project=project}}
-      {{/to-review-project-card}}
+      {{#upcoming-project-card assignment=assignment}}
+      {{/upcoming-project-card}}
       <div id="reveal-modal-container"></div>
     `);
 
@@ -53,39 +51,37 @@ module('Integration | Component | upcoming-project-card', function(hooks) {
   });
 
   test('check that card renders and opt out of hearing BUTTON appears when hearing locations are empty strings', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+    this.server.create('assignment', {
+      tab: 'upcoming',
+      dispositions: [
+        this.server.create('disposition', {
+          id: 1,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+        }),
+        this.server.create('disposition', {
+          id: 2,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+        }),
+        this.server.create('disposition', {
+          id: 3,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+        }),
+      ],
+      project: this.server.create('project', {
+        dispositions: this.server.schema.dispositions.all(),
+      }),
+    });
 
     const store = this.owner.lookup('service:store');
-
-    const disp1 = store.createRecord('disposition', {
-      id: 1,
-      dcpPublichearinglocation: '',
-      dcpDateofpublichearing: null,
+    this.assignment = await store.findRecord('assignment', 1, {
+      include: 'dispositions,project,project.dispositions',
     });
-
-    const disp2 = store.createRecord('disposition', {
-      id: 2,
-      dcpPublichearinglocation: '',
-      dcpDateofpublichearing: null,
-    });
-
-    const disp3 = store.createRecord('disposition', {
-      id: 3,
-      dcpPublichearinglocation: '',
-      dcpDateofpublichearing: null,
-    });
-
-
-    const project = store.createRecord('project', {
-      id: 1,
-      dispositions: [disp1, disp2, disp3],
-    });
-
-    this.set('project', project);
 
     await render(hbs`
-      {{#upcoming-project-card project=project}}
+      {{#upcoming-project-card assignment=assignment}}
       {{/upcoming-project-card}}
       <div id="reveal-modal-container"></div>
     `);
@@ -97,38 +93,37 @@ module('Integration | Component | upcoming-project-card', function(hooks) {
   });
 
   test('check that card renders and opt out of hearing MESSAGE appears when hearing locations are waived', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+    this.server.create('assignment', {
+      tab: 'upcoming',
+      dispositions: [
+        this.server.create('disposition', {
+          id: 1,
+          dcpPublichearinglocation: 'waived',
+          dcpDateofpublichearing: null,
+        }),
+        this.server.create('disposition', {
+          id: 2,
+          dcpPublichearinglocation: 'waived',
+          dcpDateofpublichearing: null,
+        }),
+        this.server.create('disposition', {
+          id: 3,
+          dcpPublichearinglocation: 'waived',
+          dcpDateofpublichearing: null,
+        }),
+      ],
+      project: this.server.create('project', {
+        dispositions: this.server.schema.dispositions.all(),
+      }),
+    });
 
     const store = this.owner.lookup('service:store');
-
-    const disp1 = store.createRecord('disposition', {
-      id: 1,
-      dcpPublichearinglocation: 'waived',
-      dcpDateofpublichearing: null,
+    this.assignment = await store.findRecord('assignment', 1, {
+      include: 'dispositions,project,project.dispositions',
     });
-
-    const disp2 = store.createRecord('disposition', {
-      id: 2,
-      dcpPublichearinglocation: 'waived',
-      dcpDateofpublichearing: null,
-    });
-
-    const disp3 = store.createRecord('disposition', {
-      id: 3,
-      dcpPublichearinglocation: 'waived',
-      dcpDateofpublichearing: null,
-    });
-
-    const project = store.createRecord('project', {
-      id: 1,
-      dispositions: [disp1, disp2, disp3],
-    });
-
-    this.set('project', project);
 
     await render(hbs`
-      {{#upcoming-project-card project=project}}
+      {{#upcoming-project-card assignment=assignment}}
       {{/upcoming-project-card}}
       <div id="reveal-modal-container"></div>
     `);

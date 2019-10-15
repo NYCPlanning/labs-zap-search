@@ -6,34 +6,34 @@ export default class MyProjectsReviewedController extends Controller {
   @service
   currentUser;
 
-  // sort projects based on the user's review milestone `dcpActualenddate` descending
+  // sort assignments based on the user's review milestone `dcpActualenddate` descending
   @computed('model')
-  get sortedProjects() {
-    const projects = this.get('model');
-    const projectsWithSortingProperty = [];
+  get sortedAssignments() {
+    const assignments = this.get('model');
+    const assignmentsWithSortingProperty = [];
 
-    // create new array of projects
-    projects.forEach(function(project) {
-      projectsWithSortingProperty.push(project);
+    // create new array of assignments
+    assignments.forEach(function(assignment) {
+      assignmentsWithSortingProperty.push(assignment);
     });
-
+    console.log(assignmentsWithSortingProperty);
     // set a new property on each project item called `sortingActualEndDate`
     // based on the user's `dcpLupteammemberrole`, this new property
     // will be set to the user's review milestone `dcpActualenddate`
-    projectsWithSortingProperty.forEach(function(project) {
-      if (project.dcpLupteammemberrole === 'BP') {
-        const boroughPresidentReviewMilestone = project.milestones.find(m => m.displayName === 'Borough President Review');
-        project.set('sortingActualEndDate', boroughPresidentReviewMilestone.dcpActualenddate);
-      } else if (project.dcpLupteammemberrole === 'BB') {
-        const boroughBoardReviewMilestone = project.milestones.find(m => m.displayName === 'Borough Board Review');
-        project.set('sortingActualEndDate', boroughBoardReviewMilestone.dcpActualenddate);
-      } else if (project.dcpLupteammemberrole === 'CB') {
-        const communityBoardReviewMilestone = project.milestones.find(m => m.displayName === 'Community Board Review');
-        project.set('sortingActualEndDate', communityBoardReviewMilestone.dcpActualenddate);
+    assignmentsWithSortingProperty.forEach(function(assignment) {
+      if (assignment.dcpLupteammemberrole === 'BP') {
+        const boroughPresidentReviewMilestone = assignment.project.milestones.find(m => m.displayName === 'Borough President Review') || {};
+        assignment.set('sortingActualEndDate', boroughPresidentReviewMilestone.dcpActualenddate);
+      } else if (assignment.dcpLupteammemberrole === 'BB') {
+        const boroughBoardReviewMilestone = assignment.project.milestones.find(m => m.displayName === 'Borough Board Review') || {};
+        assignment.set('sortingActualEndDate', boroughBoardReviewMilestone.dcpActualenddate);
+      } else if (assignment.dcpLupteammemberrole === 'CB') {
+        const communityBoardReviewMilestone = assignment.project.milestones.find(m => m.displayName === 'Community Board Review') || {};
+        assignment.set('sortingActualEndDate', communityBoardReviewMilestone.dcpActualenddate);
       }
     });
 
     // this array of objects is then sorted by this date property and then reversed
-    return projectsWithSortingProperty.sortBy('sortingActualEndDate').reverseObjects();
+    return assignmentsWithSortingProperty.sortBy('sortingActualEndDate').reverseObjects();
   }
 }

@@ -159,9 +159,10 @@
             class="project--lup-section callout"
           >
             <h3 class="small-margin-bottom">
-              {{participant-type-label model.dcpLupteammemberrole}} Review
+              {{participant-type-label model.assignments.firstObject.dcpLupteammemberrole}} Review
             </h3>
-            {{#if (eq this.currentProjectTab 'to-review')}}
+
+            {{#if (contains 'to-review' this.currentProjectTab)}}
               <div class="grid-x grid-x-small-gutters align-bottom">
                 <div class="cell medium-auto">
                   <p class="lead">
@@ -173,17 +174,19 @@
                   <p class="text-small dark-gray"><strong>Ends 09/02/19</strong></p>
                 </div>
               </div>
+
               {{#if model.hearingsSubmittedOrWaived}}
-                {{#link-to "my-projects.project.recommendations.add" model.id class="button expanded"}}
+                {{#link-to "my-projects.assignment.recommendations.add" model.assignments.firstObject.id class="button expanded"}}
                 <span data-test-button-to-rec-form>
                   {{fa-icon 'thumbs-up' prefix='far' fixedWidth=true size="lg"}}
-                  Submit {{participant-type-label model.dcpLupteammemberrole}} Recommendation
+                  Submit {{participant-type-label model.assignments.firstObject.dcpLupteammemberrole}} Recommendation
                 </span>
                 {{/link-to}}
               {{/if}}
             {{/if}}
+
             {{#if model.hearingsSubmitted}}
-              {{#deduped-hearings-list project=model as |dedupedHearings|}}
+              {{#deduped-hearings-list dispositions=model.assignments.firstObject.dispositions as |dedupedHearings|}}
                 <h5 class="column-header">Hearing Information</h5>
                 <ul class="no-bullet">
                 {{#each dedupedHearings as |hearing|}}
@@ -230,10 +233,10 @@
             {{#if model.hearingsNotSubmittedNotWaived}}
               <div class="grid-x">
                 <div class="cell medium-auto">
-                  {{#link-to "my-projects.project.hearing.add" model.id class="button expanded"}}
+                  {{#link-to "my-projects.assignment.hearing.add" model.assignments.firstObject.id class="button expanded"}}
                     <span data-test-button-hearing-form>
                       {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
-                      Notice {{participant-type-label project.dcpLupteammemberrole}} Hearing
+                      Notice {{participant-type-label project.assignments.firstObject.dcpLupteammemberrole}} Hearing
                     </span>
                   {{/link-to}}
                 </div>

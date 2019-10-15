@@ -18,94 +18,80 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
     const date_C = new Date('2020-10-21T09:25:00');
 
     const store = this.owner.lookup('service:store');
-
-    // Disposition 22 ############## DUPLICATE WITH 23 & 26
-    const disp22 = store.createRecord('disposition', {
-      id: 22,
-      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-      dcpDateofpublichearing: date_A,
-      action: store.createRecord('action', {
-        dcpName: 'Zoning Special Permit',
-        dcpUlurpnumber: 'C780076TLK',
-      }),
-    });
-
-    // Disposition 23 ############## DUPLICATE WITH 22 & 26
-    const disp23 = store.createRecord('disposition', {
-      id: 23,
-      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-      dcpDateofpublichearing: date_A,
-      action: store.createRecord('action', {
-        dcpName: 'Zoning Text Amendment',
-        dcpUlurpnumber: 'N860877TCM',
-      }),
-    });
-
-    // Disposition 24 ##########################################################
-    const disp24 = store.createRecord('disposition', {
-      id: 24,
-      dcpPublichearinglocation: '186 Alligators Ave, Staten Island, NY',
-      dcpDateofpublichearing: date_B,
-      action: store.createRecord('action', {
-        dcpName: 'Business Improvement District',
-        dcpUlurpnumber: 'I030148MMQ',
-      }),
-    });
-
-    // Disposition 25 ##########################################################
-    const disp25 = store.createRecord('disposition', {
-      id: 25,
-      dcpPublichearinglocation: '144 Piranha Ave, Manhattan, NY',
-      dcpDateofpublichearing: date_B,
-      action: store.createRecord('action', {
-        dcpName: 'Change in City Map',
-        dcpUlurpnumber: '200088ZMX',
-      }),
-    });
-
-    // Disposition 26 ############## DUPLICATE WITH 22 & 23
-    const disp26 = store.createRecord('disposition', {
-      id: 26,
-      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-      dcpDateofpublichearing: date_A,
-      action: store.createRecord('action', {
-        dcpName: 'Enclosed Sidewalk Cafe',
-        dcpUlurpnumber: '190172ZMK',
-      }),
-    });
-
-    // Disposition 27 ##########################################################
-    const disp27 = store.createRecord('disposition', {
-      id: 27,
-      dcpPublichearinglocation: '456 Crocodiles Ave, Bronx, NY',
-      dcpDateofpublichearing: date_B,
-      action: store.createRecord('action', {
-        dcpName: 'Large Scale Special Permit',
-        dcpUlurpnumber: 'N190257ZRK',
-      }),
-    });
-
-
-    // Disposition 28 ##########################################################
-    const disp28 = store.createRecord('disposition', {
-      id: 28,
-      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-      dcpDateofpublichearing: date_C,
-      action: store.createRecord('action', {
-        dcpName: 'Zoning Certification',
-        dcpUlurpnumber: '190256ZMK',
-      }),
-    });
-
-    const project = store.createRecord('project', {
+    const assignment = store.createRecord('assignment', {
       id: 1,
-      dispositions: [disp22, disp23, disp24, disp25, disp26, disp27, disp28],
+      project: store.createRecord('project'),
+      dispositions: [
+        store.createRecord('disposition', {
+          id: 22,
+          dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+          dcpDateofpublichearing: date_A,
+          action: store.createRecord('action', {
+            dcpName: 'Zoning Special Permit',
+            dcpUlurpnumber: 'C780076TLK',
+          }),
+        }),
+        store.createRecord('disposition', {
+          id: 23,
+          dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+          dcpDateofpublichearing: date_A,
+          action: store.createRecord('action', {
+            dcpName: 'Zoning Text Amendment',
+            dcpUlurpnumber: 'N860877TCM',
+          }),
+        }),
+        store.createRecord('disposition', {
+          id: 24,
+          dcpPublichearinglocation: '186 Alligators Ave, Staten Island, NY',
+          dcpDateofpublichearing: date_B,
+          action: store.createRecord('action', {
+            dcpName: 'Business Improvement District',
+            dcpUlurpnumber: 'I030148MMQ',
+          }),
+        }),
+        store.createRecord('disposition', {
+          id: 25,
+          dcpPublichearinglocation: '144 Piranha Ave, Manhattan, NY',
+          dcpDateofpublichearing: date_B,
+          action: store.createRecord('action', {
+            dcpName: 'Change in City Map',
+            dcpUlurpnumber: '200088ZMX',
+          }),
+        }),
+        store.createRecord('disposition', {
+          id: 26,
+          dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+          dcpDateofpublichearing: date_A,
+          action: store.createRecord('action', {
+            dcpName: 'Enclosed Sidewalk Cafe',
+            dcpUlurpnumber: '190172ZMK',
+          }),
+        }),
+        store.createRecord('disposition', {
+          id: 27,
+          dcpPublichearinglocation: '456 Crocodiles Ave, Bronx, NY',
+          dcpDateofpublichearing: date_B,
+          action: store.createRecord('action', {
+            dcpName: 'Large Scale Special Permit',
+            dcpUlurpnumber: 'N190257ZRK',
+          }),
+        }),
+        store.createRecord('disposition', {
+          id: 28,
+          dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+          dcpDateofpublichearing: date_C,
+          action: store.createRecord('action', {
+            dcpName: 'Zoning Certification',
+            dcpUlurpnumber: '190256ZMK',
+          }),
+        }),
+      ],
     });
 
-    this.set('project', project);
+    this.set('assignment', assignment);
 
     await render(hbs`
-      {{#to-review-project-card project=project}}
+      {{#to-review-project-card assignment=assignment}}
       {{/to-review-project-card}}
     `);
 

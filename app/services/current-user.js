@@ -12,6 +12,7 @@ export default class CurrentUserService extends Service {
   // look up and return a PROMISE for the Ember Data Store's User object.
   @computed('session.{isAuthenticated,data.authenticated}')
   get user() {
+    console.log(this.session.data.authenticated);
     return this.store.peekRecord('user', this.session.data.authenticated.id);
   }
 

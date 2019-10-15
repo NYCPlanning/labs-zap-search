@@ -1,10 +1,9 @@
 <h5>Projects that require you to submit your hearing dates and recommendations</h5>
 
 {{#if this.model}}
-  {{#each sortedProjects as |project|}}
-    {{to-review-project-card project=project}}
+  {{#each sortedProjects as |assignment|}}
+    {{to-review-project-card assignment=assignment}}
   {{/each}}
-
 {{else}}
 
   <div class="grid-container">

@@ -5,22 +5,22 @@
   <div class="grid-x grid-x-small-gutters">
     <div class="cell large-4 xlarge-5">
       <h3 class="tiny-margin-bottom">
-        {{#link-to 'show-project' project.id}}<span data-test-project-profile-button="{{project.id}}">{{project.dcpProjectname}}</span>{{/link-to}}
-        <small class="dark-gray">{{project.dcpUlurpNonulurp}}</small>
+        {{#link-to 'show-project' assignment.project.id}}<span data-test-project-profile-button="{{assignment.project.id}}">{{assignment.project.dcpProjectname}}</span>{{/link-to}}
+        <small class="dark-gray">{{assignment.project.dcpUlurpNonulurp}}</small>
       </h3>
-      <h5 class="applicant">{{project.applicants}}</h5>
-      <p>{{project.dcpProjectbrief}}</p>
+      <h5 class="applicant">{{assignment.project.applicants}}</h5>
+      <p>{{assignment.project.dcpProjectbrief}}</p>
     </div>
     <div class="cell medium-4 large-3 xlarge-2">
       <p class="text-center medium-margin-right medium-margin-left">
-        {{#if project.upcomingMilestonePlannedStartDate}}
+        {{#if assignment.upcomingMilestonePlannedStartDate}}
           <span class="display-block tiny-margin-bottom">
             {{participant-type-label project.dcpLupteammemberrole}}<br>
             Review Begins
           </span>
           <span class="display-block lead small-margin-bottom">
             <strong>
-              {{moment-format project.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
+              {{moment-format assignment.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
             </strong>
           </span>
         {{else}}
@@ -29,7 +29,7 @@
           </span>
           <span class="display-block lead small-margin-bottom">
             <strong>
-              {{moment-format project.publicReviewPlannedStartDate "M/D/YYYY"}}
+              {{moment-format assignment.publicReviewPlannedStartDate "M/D/YYYY"}}
             </strong>
           </span>
         {{/if}}
@@ -37,12 +37,12 @@
       </p>
     </div>
     <div class="cell medium-auto">
-      {{#if project.hearingsNotSubmittedNotWaived}}
+      {{#if assignment.project.hearingsNotSubmittedNotWaived}}
         <div class="grid-x">
           <div class="cell medium-auto">
             <LinkTo
-              @route="my-projects.project.hearing.add"
-              @model={{project.id}}
+              @route="my-projects.assignment.hearing.add"
+              @model={{assignment}}
               class="button expanded"
               data-test-button="submitHearing"
             >
@@ -59,12 +59,13 @@
               {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
               <small>Opt Out</small>
             </button>
-            {{waive-hearings-popup project=project showPopup=showPopup}}
+
+            {{waive-hearings-popup project=assignment.project showPopup=showPopup}}
           </div>
         </div>
       {{/if}}
       <ul class="no-bullet no-margin">
-        {{#each project.tabSpecificMilestones as |milestone|}}
+        {{#each assignment.tabSpecificMilestones as |milestone|}}
           <li class="grid-x small-margin-bottom">
             <div class="cell shrink small-margin-right">
               {{#if (eq milestone.statuscode "Completed")}}
@@ -91,12 +92,12 @@
           </li>
         {{/each}}
       </ul>
-      {{#if project.hearingsWaived}}
-        <span data-test-hearings-waived-message="{{project.id}}">You've opted out of noticing a public hearing.</span>
+      {{#if assignment.project.hearingsWaived}}
+        <span data-test-hearings-waived-message="{{assignment.project.id}}">You've opted out of noticing a public hearing.</span>
       {{/if}}
-      {{#if project.hearingsSubmitted}}
-        {{#deduped-hearings-list project=project as |dedupedHearings|}}
-          <h6>{{participant-type-label project.dcpLupteammemberrole}} Hearings:</h6>
+      {{#if assignment.project.hearingsSubmitted}}
+        {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}
+          <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}
                 <li class="grid-x small-margin-bottom">

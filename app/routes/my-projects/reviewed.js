@@ -9,10 +9,11 @@ export default class MyProjectsReviewedRoute extends Route {
   store;
 
   async model() {
-    const reviewedProjects = await this.store.query('project', { project_lup_status: 'reviewed', include: 'actions,milestones,dispositions.action' }, {
+    return this.store.query('assignment', {
+      tab: 'reviewed',
+      include: 'project.milestones,project.dispositions,project.actions',
+    }, {
       reload: true,
     });
-
-    return reviewedProjects;
   }
 }

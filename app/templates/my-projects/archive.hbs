@@ -1,7 +1,7 @@
 <h5>Archive of projects that you have reviewed which are no longer in the public review process</h5>
 
-{{#each sortedProjects as |project|}}
-  <ArchiveProjectCard @project={{project}} />
+{{#each sortedProjects as |assignment|}}
+  <ArchiveProjectCard @project={{assignment.project}} />
 {{/each}}
 
 {{outlet}}

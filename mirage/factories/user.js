@@ -1,4 +1,4 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory, faker, trait } from 'ember-cli-mirage';
 
 export default Factory.extend({
   emailaddress1(i) {
@@ -16,4 +16,18 @@ export default Factory.extend({
   landUseParticipant(i) {
     return faker.list.cycle('BXBP', 'BXBB', 'QNCB5')(i);
   },
+
+  withAssignments: trait({
+    afterCreate(user, server) {
+      // withProject generates projects which are updated
+      // to associate with a user
+      server.createList('assignment', 2, { user }, 'withProject');
+    },
+  }),
+
+  withUserProjectParticipantTypes: trait({
+    afterCreate(user, server) {
+      server.createList('user-project-participant-type', 10);
+    },
+  }),
 });

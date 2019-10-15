@@ -28,19 +28,15 @@ export function dedupeAndExtract(records = [], uniqueField1, uniqueField2, propT
 }
 
 export default class DedupedHearingsListComponent extends Component {
-  // the actions "attribute" to display in the hearings list e.g. "ulurpnumber" or 'name'
-  // this is set when the component is rendered
-  attribute = '';
+  dispositions = [];
 
-  @computed('project')
+  @computed('dispositions')
   get dedupedHearings() {
-    const dispositions = this.get('project.dispositions');
-
     // setting a new property on each disposition called hearingActions which is an array of objects
     // property hearingActions is initally set to an array of the current disposition's action model.
     // During the reduce, if there is a duplicate in the array of dispositions,
     // the actions model for that duplicate disposition is pushed into this array
-    dispositions.forEach(function(disposition) {
+    this.dispositions.forEach(function(disposition) {
       disposition.set('hearingActions', [disposition.action]);
     });
 
@@ -48,7 +44,7 @@ export default class DedupedHearingsListComponent extends Component {
     // property duplicateDisps is initally set to an array of the current disposition model (itself)
     // During the reduce, if there is a duplicate in the array of dispositions,
     // that duplicate disposition is pushed into this array
-    dispositions.forEach(function(disposition) {
+    this.dispositions.forEach(function(disposition) {
       disposition.set('duplicateDisps', [disposition]);
     });
 
@@ -56,6 +52,6 @@ export default class DedupedHearingsListComponent extends Component {
     // each disposition object in the new deduped array will have a property hearingActions and duplicateDisps, both arrays of objects
     // hearingActions is an array of action model objects that are concatenated across all duplicate objects
     // duplicateDisps is an array of disposition model objects that are concatenated across all duplicate objects
-    return dedupeAndExtract(dispositions, 'dcpPublichearinglocation', 'dcpDateofpublichearing', 'action', 'hearingActions', 'duplicateDisps');
+    return dedupeAndExtract(this.dispositions, 'dcpPublichearinglocation', 'dcpDateofpublichearing', 'action', 'hearingActions', 'duplicateDisps');
   }
 }

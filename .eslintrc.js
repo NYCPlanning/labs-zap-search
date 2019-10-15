@@ -5,22 +5,22 @@ module.exports = {
   root: true,
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   parser: 'babel-eslint',
   plugins: [
-    'ember'
+    'ember',
   ],
   extends: [
     'eslint:recommended',
     'plugin:ember/recommended',
-    'airbnb-base'
+    'airbnb-base',
   ],
   env: {
     browser: true,
   },
-  globals:{
-    '$': true,
+  globals: {
+    $: true,
     d3: true,
   },
   rules: {
@@ -32,7 +32,7 @@ module.exports = {
     'space-before-function-paren': 0,
     'prefer-arrow-callback': 0,
     'no-underscore-dangle': 0,
-    'camelcase': 0,
+    camelcase: 0,
     'max-len': 0,
     'no-param-reassign': 0,
     'ember/avoid-leaking-state-in-ember-objects': 0,
@@ -48,14 +48,14 @@ module.exports = {
         'testem.js',
         'config/**/*.js',
         'lib/*/index.js',
-        'server/**/*.js'
+        'server/**/*.js',
       ],
       parserOptions: {
-        sourceType: 'script'
+        sourceType: 'script',
       },
       env: {
         browser: false,
-        node: true
+        node: true,
       },
       plugins: ['node'],
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
@@ -63,8 +63,8 @@ module.exports = {
 
         // this can be removed once the following is fixed
         // https://github.com/mysticatea/eslint-plugin-node/issues/77
-        'node/no-unpublished-require': 'off'
-      })
-    }
-  ]
+        'node/no-unpublished-require': 'off',
+      }),
+    },
+  ],
 };

@@ -16,6 +16,8 @@ export default class DispositionModel extends Model {
   // ONE disposition has ONE action
   @belongsTo('action', { async: true }) action;
 
+  @belongsTo('assignment', { async: true }) assignment;
+
   // sourced from dcp_dcpPublichearinglocation
   @attr('string', { defaultValue: '' }) dcpPublichearinglocation;
 
@@ -90,8 +92,4 @@ export default class DispositionModel extends Model {
   // NOTE: when this is defined as boolean, it automatically changes to false from null
   // we want this to be null until a user selects yes or no
   @attr({ defaultValue: null }) dcpWasaquorumpresent;
-
-  unknownProperty(key) {
-    console.log(`Unexpected access of ${key} on ${this}`);
-  }
 }

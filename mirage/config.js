@@ -99,6 +99,14 @@ export default function () {
   this.get('/users/:id');
 
   this.get('/actions');
+  this.get('/assignments', function(schema, request) {
+    const { queryParams: { tab } } = request;
+
+    return schema.assignments.where({
+      tab,
+    });
+  });
+  this.get('/assignments/:id');
   this.get('/actions/:id');
 
   // TODO: This may need to be updated when the current-user service

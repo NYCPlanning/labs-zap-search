@@ -82,13 +82,16 @@ module('Unit | Controller | show-project', function(hooks) {
           dcpName: 'N2014Q176',
         },
       ],
+      assignments: [],
     };
 
-    const project = server.create('project', {
+    const project = this.server.create('project', {
       dcpName: 'P2003B056',
+      dispositions: this.server.createList('disposition', 2),
     });
 
-    const projectModel = await this.owner.lookup('service:store').findRecord('project', project.id);
+    const projectModel = await this.owner.lookup('service:store')
+      .findRecord('project', project.id, { include: 'dispositions' });
 
     controller.model = projectModel;
     controller.user = user;
@@ -103,18 +106,18 @@ module('Unit | Controller | show-project', function(hooks) {
 
     const user = {
       id: 1,
-      projects: [
+      assignments: [
         {
-          dcpName: 'N2014Q176',
+          project: { id: 'N2014Q176' },
         },
         {
-          dcpName: 'P2012M046',
+          project: { id: 'P2012M046' },
         },
       ],
     };
 
     const project = server.create('project', {
-      dcpName: 'P2012M046',
+      id: 'P2012M046',
     });
 
     const projectModel = await this.owner.lookup('service:store').findRecord('project', project.id);

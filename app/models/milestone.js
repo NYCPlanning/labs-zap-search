@@ -65,8 +65,4 @@ export default class MilestoneModel extends Model {
 
     return this.displayName;
   }
-
-  unknownProperty(key) {
-    console.log(`Unexpected access of ${key} on ${this}`);
-  }
 }

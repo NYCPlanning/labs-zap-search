@@ -98,4 +98,10 @@ export default Factory.extend({
 
     dcpCommunityboardrecommendation: null,
   }),
+
+  withActions: trait({
+    afterCreate(disposition, server) {
+      server.createList('action', 7, { dispositions: [disposition] });
+    },
+  }),
 });

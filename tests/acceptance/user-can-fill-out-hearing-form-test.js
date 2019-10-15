@@ -34,7 +34,13 @@ module('Acceptance | user can save hearing form', function(hooks) {
   });
 
   test('user cannot submit hearing form until all inputs are filled for AllActions', async function(assert) {
-    this.server.create('project', { id: 4, tab: 'to-review' });
+    this.server.create('assignment', {
+      id: 4,
+      project: this.server.create('project', {
+        id: 4,
+        dispositions: this.server.createList('dispositions', 2, { tab: 'to-review' }),
+      }),
+    });
 
     await visit('/my-projects/4/hearing/add');
 
@@ -106,40 +112,40 @@ module('Acceptance | user can save hearing form', function(hooks) {
   });
 
   test('user cannot submit hearing form until all inputs are filled for ONE action per hearing', async function(assert) {
-    const disp1 = server.create('disposition', {
-      id: 17,
-      action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
-    });
-    const disp2 = server.create('disposition', {
-      id: 18,
-      action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
-    });
-    const disp3 = server.create('disposition', {
-      id: 19,
-      action: server.create('action', { dcpName: 'Business Improvement District', dcpUlurpnumber: 'I030148MMQ' }),
-    });
-    const disp4 = server.create('disposition', {
-      id: 20,
-      action: server.create('action', { dcpName: 'Change in City Map', dcpUlurpnumber: '200088ZMX' }),
-    });
-    const disp5 = server.create('disposition', {
-      id: 21,
-      action: server.create('action', { dcpName: 'Enclosed Sidewalk Cafe', dcpUlurpnumber: '190172ZMK' }),
-    });
-    const disp6 = server.create('disposition', {
-      id: 22,
-      action: server.create('action', { dcpName: 'Large Scale Special Permit', dcpUlurpnumber: 'N190257ZRK' }),
-    });
-    const disp7 = server.create('disposition', {
-      id: 23,
-      action: server.create('action', { dcpName: 'Zoning Certification', dcpUlurpnumber: '190256ZMK' }),
-    });
-
-    this.server.create('project', {
+    this.server.create('assignment', {
       id: 5,
-      tab: 'to-review',
-      actions: server.createList('action', 7),
-      dispositions: [disp1, disp2, disp3, disp4, disp5, disp6, disp7],
+      project: this.server.create('project', {
+        dispositions: [
+          server.create('disposition', {
+            id: 17,
+            action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 18,
+            action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+          server.create('disposition', {
+            id: 19,
+            action: server.create('action', { dcpName: 'Business Improvement District', dcpUlurpnumber: 'I030148MMQ' }),
+          }),
+          server.create('disposition', {
+            id: 20,
+            action: server.create('action', { dcpName: 'Change in City Map', dcpUlurpnumber: '200088ZMX' }),
+          }),
+          server.create('disposition', {
+            id: 21,
+            action: server.create('action', { dcpName: 'Enclosed Sidewalk Cafe', dcpUlurpnumber: '190172ZMK' }),
+          }),
+          server.create('disposition', {
+            id: 22,
+            action: server.create('action', { dcpName: 'Large Scale Special Permit', dcpUlurpnumber: 'N190257ZRK' }),
+          }),
+          server.create('disposition', {
+            id: 23,
+            action: server.create('action', { dcpName: 'Zoning Certification', dcpUlurpnumber: '190256ZMK' }),
+          }),
+        ],
+      }),
     });
 
     await visit('/my-projects/5/hearing/add');
@@ -165,6 +171,7 @@ module('Acceptance | user can save hearing form', function(hooks) {
 
     // assert that user cannot submit hearing form yet
     await click('[data-test-button="checkHearing"]');
+
     assert.notOk(find('[data-test-button="confirmHearing"]'));
 
     // ## DISPOSITION 2 #######################################################
@@ -289,13 +296,18 @@ module('Acceptance | user can save hearing form', function(hooks) {
     // clicking back to to-review
     await click('[data-test-button="back-to-review"]');
 
-
     // make sure that project 6 does not have a hearings list
     assert.notOk(find('[data-test-hearing-location="24"]'));
   });
 
   test('user cannot submit hearing form if hour or minute contain invalid values', async function(assert) {
-    this.server.create('project', { id: 4, tab: 'to-review' });
+    this.server.create('assignment', {
+      id: 4,
+      project: this.server.create('project', {
+        id: 4,
+        dispositions: this.server.createList('dispositions', 2, { tab: 'to-review' }),
+      }),
+    });
 
     await visit('/my-projects/4/hearing/add');
 
@@ -372,8 +384,16 @@ module('Acceptance | user can save hearing form', function(hooks) {
   });
 
   test('if there is a server error when running .save(), user will see error message', async function(assert) {
-    const disp1 = server.create('disposition', { dcpPublichearinglocation: '', dcpDateofpublichearing: null });
-    this.server.create('project', { id: 4, dispositions: [disp1] });
+    this.server.create('assignment', {
+      id: 4,
+      project: this.server.create('project', {
+        id: 4,
+        dispositions: this.server.createList('dispositions', 1, {
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+        }),
+      }),
+    });
 
     this.server.patch('/dispositions/:id', { errors: ['server problem'] }, 500); // force mirage to error
 

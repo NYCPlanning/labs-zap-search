@@ -45,8 +45,4 @@ export default class ActionModel extends Model {
 
   // sourced from dcp_ccresolutionnumber
   @attr('string') dcpCcresolutionnumber;
-
-  unknownProperty(key) {
-    console.log(`Unexpected access of ${key} on ${this}`);
-  }
 }
