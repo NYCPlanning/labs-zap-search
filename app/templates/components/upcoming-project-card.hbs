@@ -105,21 +105,29 @@
                     {{/if}}
                   </div>
                   <div class="cell auto">
-                    <strong data-test-hearing-location="{{hearing.id}}" class="display-block">
+
+                    <strong data-test-hearing-location="{{hearing.id}}" class="display-inline-block">
                       {{~hearing.dcpPublichearinglocation~}}
                     </strong>
-                    <span data-test-hearing-date="{{hearing.id}}">
-                      {{~moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"~}}
+
+                    <span class="display-inline-block">
+                      <span data-test-hearing-date="{{hearing.id}}">
+                        {{~moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"~}}
+                      </span>
+                      <span class="light-gray">|</span>
+                      <span data-test-hearing-time="{{hearing.id}}">
+                        {{~moment-format hearing.dcpDateofpublichearing "h:mm A"~}}
+                      </span>
                     </span>
-                    <span class="light-gray">|</span>
-                    <span data-test-hearing-time="{{hearing.id}}">
-                      {{~moment-format hearing.dcpDateofpublichearing "h:mm A"~}}
-                    </span>
-                    <span data-test-hearing-actions-list="{{hearing.id}}" class="display-block text-tiny">
-                      {{#each hearing.hearingActions as |action index|}}
-                        {{if (gt index 0) ", "}}{{action.dcpUlurpnumber}}
-                      {{/each}}
-                    </span>
+
+                    <small data-test-hearing-actions-list="{{hearing.id}}">
+                      {{#each hearing.hearingActions as |action index| ~}}
+                        <span class="label light-gray tiny-margin-bottom tiny-margin-right">
+                          {{action.dcpName}}
+                          <small>{{action.dcpUlurpnumber}}</small>
+                        </span>
+                      {{~/each}}
+                    </small>
                   </div>
                 </li>
               {{/each}}
