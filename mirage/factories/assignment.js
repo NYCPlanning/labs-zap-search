@@ -8,4 +8,10 @@ export default Factory.extend({
       }, 'withActionsAndDispositions', 'withMilestones');
     }
   }),
+
+  afterCreate(assignment, server) {
+    const dispositions = server.createList('disposition', 10);
+
+    this.update({ dispositions });
+  },
 });

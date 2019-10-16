@@ -19,7 +19,7 @@
     </div>
     <div class="cell medium-auto">
       <ul class="no-bullet no-margin">
-        {{#each this.project.tabSpecificMilestones as |milestone|}}
+        {{#each this.project.assignment.tabSpecificMilestones as |milestone|}}
           <ArchiveProjectMilestoneListItem
             @project={{this.project}}
             @milestone={{milestone}}

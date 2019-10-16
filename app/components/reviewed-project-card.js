@@ -7,11 +7,11 @@ export default class ReviewedProjectCardComponent extends Component {
   @service
   currentUser;
 
-  project = {};
+  assignment = {};
 
-  @computed('project.reviewedMilestoneActualStartEndDates')
+  @computed('assignment.reviewedMilestoneActualStartEndDates')
   get timeDisplays() {
-    return this.project.reviewedMilestoneActualStartEndDates.map(startEndDate => ({
+    return this.assignment.reviewedMilestoneActualStartEndDates.map(startEndDate => ({
       displayName: startEndDate.displayName,
       timeRemaining: moment(startEndDate.dcpActualenddate).diff(moment().endOf('day'), 'days'),
       timeDuration: moment(startEndDate.dcpActualenddate).diff(moment(startEndDate.dcpActualstartdate), 'days'),

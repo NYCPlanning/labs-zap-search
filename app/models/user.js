@@ -15,9 +15,6 @@ export default class UserModel extends Model {
   // ONE User has Many User Project Participant Types
   @hasMany('userProjectParticipantType', { async: false }) userProjectParticipantTypes;
 
-  // ONE User has Many Dispositions
-  @hasMany('disposition') dispositions;
-
   @attr('string', { defaultValue: '' }) landUseParticipant;
 
   // sourced from fullname e.g. 'Regis Philbin'

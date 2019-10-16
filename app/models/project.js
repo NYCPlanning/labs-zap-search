@@ -3,7 +3,7 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 const {
-  Model, attr, hasMany,
+  Model, attr, hasMany, belongsTo
 } = DS;
 
 const EmptyFeatureCollection = {
@@ -35,10 +35,7 @@ export default class ProjectModel extends Model {
 
   @hasMany('milestone', { async: false }) milestones;
 
-  // Attributes for dashboard view
-  @attr() tab;
-
-  @attr() dcpLupteammemberrole;
+  @hasMany('assignment', { async: false }) assignments;
 
   @attr() applicantteam;
 

@@ -54,7 +54,7 @@ module('Acceptance | my projects tabs filter', function(hooks) {
 
     // ##### to-review ##########################################################
     await visit('/my-projects/to-review');
-    await this.pauseTest();
+
     assert.equal(currentURL(), '/my-projects/to-review');
 
     assert.equal(findAll('[data-test-project-card]').length, 3, 'Number of displayed projects is same as number of users to-review projects');

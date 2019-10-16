@@ -26,10 +26,6 @@ export default Factory.extend({
       server.db.projects.update({
         users: [user],
       });
-
-      user.update({
-        dispositions: server.schema.dispositions.all(),
-      });
     },
   }),
 

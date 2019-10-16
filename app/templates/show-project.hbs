@@ -183,7 +183,7 @@
               {{/if}}
             {{/if}}
             {{#if model.hearingsSubmitted}}
-              {{#deduped-hearings-list project=model as |dedupedHearings|}}
+              {{#deduped-hearings-list dispositions=model.dispositions as |dedupedHearings|}}
                 <h5 class="column-header">Hearing Information</h5>
                 <ul class="no-bullet">
                 {{#each dedupedHearings as |hearing|}}

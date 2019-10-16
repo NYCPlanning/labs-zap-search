@@ -32,16 +32,19 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpDateofpublichearing: hearingDate,
     });
 
-    const project = store.createRecord('project', {
+    const assignment = store.createRecord('assignment', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
       dcpLupteammemberrole: 'CB',
+      project: store.createRecord('project', {
+        dispositions: [disp1, disp2, disp3],
+      }),
     });
 
-    this.set('project', project);
+    this.set('assignment', assignment);
 
     await render(hbs`
-      {{#to-review-project-card project=project}}
+      {{#to-review-project-card assignment=assignment}}
       {{/to-review-project-card}}
       <div id="reveal-modal-container"></div>
     `);
@@ -78,17 +81,20 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     });
 
 
-    const project = store.createRecord('project', {
+    const assignment = store.createRecord('assignment', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
       dcpLupteammemberrole: 'CB',
+      project: store.createRecord('project', {
+        dispositions: [disp1, disp2, disp3],
+      }),
     });
 
-    this.set('project', project);
+    this.set('assignment', assignment);
 
     // Template block usage:
     await render(hbs`
-      {{#to-review-project-card project=project}}
+      {{#to-review-project-card assignment=assignment}}
       {{/to-review-project-card}}
       <div id="reveal-modal-container"></div>
     `);
@@ -123,16 +129,19 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpDateofpublichearing: null,
     });
 
-    const project = store.createRecord('project', {
+    const assignment = store.createRecord('assignment', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
       dcpLupteammemberrole: 'CB',
+      project: store.createRecord('project', {
+        dispositions: [disp1, disp2, disp3],
+      }),
     });
 
-    this.set('project', project);
+    this.set('assignment', assignment);
 
     await render(hbs`
-      {{#to-review-project-card project=project}}
+      {{#to-review-project-card assignment=assignment}}
       {{/to-review-project-card}}
       <div id="reveal-modal-container"></div>
     `);

@@ -1,7 +1,7 @@
 <h5>Projects that you have reviewed which are still in the public review process</h5>
 
 {{#each this.model as |assignment|}}
-  <ReviewedProjectCard @project={{assignment.project}} />
+  <ReviewedProjectCard @assignment={{assignment}} />
 {{/each}}
 
 {{outlet}}

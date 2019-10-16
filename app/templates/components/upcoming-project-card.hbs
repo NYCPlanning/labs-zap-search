@@ -13,14 +13,14 @@
     </div>
     <div class="cell medium-4 large-3 xlarge-2">
       <p class="text-center medium-margin-right medium-margin-left">
-        {{#if (eq project.upcomingMilestonePlannedStartDate)}}
+        {{#if (eq project.assignment.upcomingMilestonePlannedStartDate)}}
           <span class="display-block tiny-margin-bottom">
             Borough President<br>
             Review Begins
           </span>
           <span class="display-block lead small-margin-bottom">
             <strong>
-              {{moment-format project.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
+              {{moment-format project.assignment.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
             </strong>
           </span>
         {{else}}
@@ -61,7 +61,7 @@
         </p>
       {{/if}}
       <ul class="no-bullet no-margin">
-        {{#each project.tabSpecificMilestones as |milestone|}}
+        {{#each this.project.assignment.tabSpecificMilestones as |milestone|}}
           <li class="grid-x small-margin-bottom">
             <div class="cell shrink small-margin-right">
               {{#if (eq milestone.statuscode "Completed")}}

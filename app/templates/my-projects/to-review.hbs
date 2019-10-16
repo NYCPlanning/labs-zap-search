@@ -3,7 +3,7 @@
 {{#if this.model}}
 
   {{#each this.model as |assignment|}}
-    {{to-review-project-card project=assignment.project}}
+    {{to-review-project-card assignment=assignment}}
   {{/each}}
 
 {{else}}

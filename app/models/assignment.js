@@ -1,7 +1,8 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-const { Model, belongsTo, attr } = DS;
+const { Model, belongsTo, hasMany, attr } = DS;
 const MILESTONE_ID_LOOKUP = {
   CB: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
   BP: BOROUGH_PRESIDENT_REFERRAL_MILESTONE_ID,
@@ -13,23 +14,29 @@ const BOROUGH_PRESIDENT_REFERRAL_MILESTONE_ID = '943beec4-dad0-e711-8116-1458d04
 const BOROUGH_BOARD_REFERRAL_MILESTONE_ID = '963beec4-dad0-e711-8116-1458d04e2fb8';
 
 export default class AssignmentModel extends Model {
+  @service
+  milestoneConstants;
+
   @belongsTo('project') project;
 
   @belongsTo('user') user;
 
-  @attr('string') dcpTeammemberrole;
+  // ZAP-API will filter this to the set of lupteammember role's dispos
+  @hasMany('disposition') dispositions;
+
+  @attr('string') dcpLupteammemberrole;
 
   @attr('string') tab;
 
   @computed('project.milestones')
   get publicReviewPlannedStartDate() {
-    const { dcpPlannedstartdate } = this.project.milestones.find(milestone => milestone.dcpMilestone === COMMUNITY_BOARD_REFERRAL_MILESTONE_ID) || {};
+    const { dcpPlannedstartdate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === COMMUNITY_BOARD_REFERRAL_MILESTONE_ID) || {};
     return dcpPlannedstartdate || null;
   }
 
   @computed('project.milestones')
   get tabSpecificMilestones() {
-    return this.project.milestones.filter(milestone => this.milestoneConstants.milestoneListByTabLookup[this.tab].includes(milestone.dcpMilestone));
+    return this.project.get('milestones').filter(milestone => this.milestoneConstants.milestoneListByTabLookup[this.tab].includes(milestone.dcpMilestone));
   }
 
   // The following <tab>MilestoneActual<Start/End>
@@ -44,7 +51,7 @@ export default class AssignmentModel extends Model {
     if (this.tab === 'upcoming') {
       if (this.dcpPublicstatusSimp !== 'filed') {
         const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
-        const participantReviewMilestone = this.project.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId);
+        const participantReviewMilestone = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId);
         return participantReviewMilestone ? participantReviewMilestone.dcpPlannedstartdate : null;
       }
     }
@@ -59,7 +66,7 @@ export default class AssignmentModel extends Model {
       return null;
     }
     const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
-    const { dcpActualstartdate } = this.project.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    const { dcpActualstartdate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return dcpActualstartdate;
   }
 
@@ -69,7 +76,7 @@ export default class AssignmentModel extends Model {
       return null;
     }
     const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
-    const { dcpActualenddate } = this.project.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    const { dcpActualenddate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return dcpActualenddate;
   }
 
@@ -81,7 +88,7 @@ export default class AssignmentModel extends Model {
     if (this.tab !== 'reviewed') {
       return null;
     }
-    const inProgressMilestones = this.project.milestones.filter(milestone => milestone.statuscode === 'In Progress');
+    const inProgressMilestones = this.project.get('milestones').filter(milestone => milestone.statuscode === 'In Progress');
     return inProgressMilestones.map(milestone => ({
       milestone: milestone.dcpMilestone,
       displayName: milestone.displayName,
@@ -90,4 +97,7 @@ export default class AssignmentModel extends Model {
     }));
   }
 
+  unknownProperty(key) {
+    console.log(`Unexpected access of ${key} on ${this}`);
+  }
 }
