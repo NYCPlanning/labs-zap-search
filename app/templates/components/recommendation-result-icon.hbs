@@ -7,3 +7,9 @@
 {{#if (eq this.recommendation "Waived")}}
   {{fa-icon 'comment-slash' class='gray' fixedWidth=true}}
 {{/if}}
+
+{{#ember-tooltip}}
+  <strong class="display-block tiny-margin-bottom">{{this.recommendation}}</strong>
+  <span class="display-inline-block">{{this.action.dcpName}}</span>
+  <small class="display-inline-block">{{this.action.dcpUlurpnumber}}</small>
+{{/ember-tooltip}}

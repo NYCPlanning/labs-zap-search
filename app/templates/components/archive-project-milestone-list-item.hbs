@@ -20,6 +20,7 @@
       {{#each this.communityBoardDispositions as |disposition|}}
         <RecommendationResultIcon
           @recommendation={{disposition.dcpCommunityboardrecommendation}}
+          @action={{disposition.action}}
         />
       {{/each}}
       <br>
@@ -30,6 +31,7 @@
       {{#each this.boroughBoardDispositions as |disposition|}}
         <RecommendationResultIcon
           @recommendation={{disposition.dcpBoroughboardrecommendation}}
+          @action={{disposition.action}}
         />
       {{/each}}
       <br>
@@ -40,6 +42,7 @@
       {{#each this.boroughPresidentDispositions as |disposition|}}
         <RecommendationResultIcon
           @recommendation={{disposition.dcpBoroughpresidentrecommendation}}
+          @action={{disposition.action}}
         />
       {{/each}}
       <br>
