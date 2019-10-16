@@ -13,9 +13,9 @@
     </div>
     <div class="cell medium-4 large-3 xlarge-2">
       <p class="text-center medium-margin-right medium-margin-left">
-        {{#if (eq project.upcomingMilestonePlannedStartDate)}}
+        {{#if project.upcomingMilestonePlannedStartDate}}
           <span class="display-block tiny-margin-bottom">
-            Borough President<br>
+            {{participant-type-label project.dcpLupteammemberrole}}<br>
             Review Begins
           </span>
           <span class="display-block lead small-margin-bottom">

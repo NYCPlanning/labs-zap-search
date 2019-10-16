@@ -57,8 +57,6 @@ module('Integration | Component | waive-hearings-popup', function(hooks) {
     // mimics each project's array of dispositions
     const dispositions = [disp1, disp2, disp3, disp4];
 
-    console.log('dispositions', dispositions);
-
     // run the updateEachObjectInArray function, which...
     updateEachObjectInArray(dispositions, 'dcpPublichearinglocation', 'waived');
 

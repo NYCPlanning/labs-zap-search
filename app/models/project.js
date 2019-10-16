@@ -73,7 +73,7 @@ export default class ProjectModel extends Model {
   @computed('tab', 'dcpLupteammemberrole', 'milestones')
   get upcomingMilestonePlannedStartDate() {
     if (this.tab === 'upcoming') {
-      if (this.dcpPublicstatusSimp !== 'filed') {
+      if (this.dcpPublicstatusSimp !== 'Filed') {
         const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
         const participantReviewMilestone = this.milestones.find(milestone => milestone.dcpMilestone === participantMilestoneId);
         return participantReviewMilestone ? participantReviewMilestone.dcpPlannedstartdate : null;
