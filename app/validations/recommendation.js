@@ -4,7 +4,6 @@ import {
 } from 'ember-changeset-validations/validators';
 import validatePresenceUnlessValue from '../validators/presence-unless-value';
 
-const commentPresenceMessage = 'Please enter a comment';
 const dateMessage = 'Please enter a valid date';
 const numberMessage = 'Please enter a valid non-negative number';
 const recommendationPresenceMessage = 'Please select a recommendation';
@@ -22,11 +21,6 @@ export const dispositionForAllActionsValidations = {
   recommendation: validatePresence({
     presence: true,
     message: recommendationPresenceMessage,
-  }),
-
-  dcpConsideration: validatePresence({
-    presence: true,
-    message: commentPresenceMessage,
   }),
 };
 
@@ -106,10 +100,6 @@ export const cbBbDispositionForAllActionsValidations = {
 
 /* Validations for Dispositions by Action */
 export const dispositionValidations = {
-  dcpConsideration: validatePresence({
-    presence: true,
-    message: commentPresenceMessage,
-  }),
 };
 
 export const communityBoardDispositionValidations = {
