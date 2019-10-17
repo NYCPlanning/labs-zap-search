@@ -10,8 +10,6 @@ export default Factory.extend({
   }),
 
   afterCreate(assignment, server) {
-    const dispositions = server.createList('disposition', 10);
-
-    this.update({ dispositions });
+    server.createList('disposition', 10, { assignment });
   },
 });

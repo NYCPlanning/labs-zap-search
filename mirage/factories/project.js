@@ -190,6 +190,12 @@ export default Factory.extend({
     },
   }),
 
+  withAssignments: trait({
+    afterCreate(project, server) {
+      server.createList('assignment', 2, { project, tab: 'to-review' })
+    },
+  }),
+
   withActionsAndDispositions: trait({
     afterCreate(project, server) {
       // server

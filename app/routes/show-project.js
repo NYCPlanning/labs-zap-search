@@ -9,7 +9,7 @@ export default class ShowProjectRoute extends Route {
   async model({ id }) {
     const project = await this.store.findRecord('project', id, {
       reload: true,
-      include: 'actions,milestones,dispositions,users',
+      include: 'actions,milestones,dispositions,users,assignments',
     });
     return project;
   }
@@ -17,8 +17,10 @@ export default class ShowProjectRoute extends Route {
   async setupController(controller, model) {
     super.setupController(controller, model);
     const userFromCurrentUser = await this.currentUser.get('user');
+    const currentTabs = model.assignments.getEach('tab');
+
     controller.set('user', userFromCurrentUser);
-    controller.set('currentProjectTab', model.tab);
+    controller.set('currentProjectTab', currentTabs);
   }
 
   @action

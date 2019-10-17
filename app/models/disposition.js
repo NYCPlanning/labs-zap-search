@@ -16,6 +16,8 @@ export default class DispositionModel extends Model {
   // ONE disposition has ONE action
   @belongsTo('action', { async: true }) action;
 
+  @belongsTo('assignment', { async: true }) assignment;
+
   // sourced from dcp_dcpPublichearinglocation
   @attr('string', { defaultValue: '' }) dcpPublichearinglocation;
 

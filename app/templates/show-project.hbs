@@ -161,7 +161,8 @@
             <h3 class="small-margin-bottom">
               {{participant-type-label model.dcpLupteammemberrole}} Review
             </h3>
-            {{#if (eq this.currentProjectTab 'to-review')}}
+
+            {{#if (contains 'to-review' this.currentProjectTab)}}
               <div class="grid-x grid-x-small-gutters align-bottom">
                 <div class="cell medium-auto">
                   <p class="lead">
@@ -173,6 +174,7 @@
                   <p class="text-small dark-gray"><strong>Ends 09/02/19</strong></p>
                 </div>
               </div>
+
               {{#if model.hearingsSubmittedOrWaived}}
                 {{#link-to "my-projects.project.recommendations.add" model.id class="button expanded"}}
                 <span data-test-button-to-rec-form>
@@ -182,6 +184,7 @@
                 {{/link-to}}
               {{/if}}
             {{/if}}
+
             {{#if model.hearingsSubmitted}}
               {{#deduped-hearings-list dispositions=model.dispositions as |dedupedHearings|}}
                 <h5 class="column-header">Hearing Information</h5>

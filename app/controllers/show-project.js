@@ -44,14 +44,15 @@ export default class ShowProjectController extends Controller {
     if (this.session.isAuthenticated) {
       const user = this.get('user');
       const currentProject = this.get('model');
-
       const userProjectIds = user.projects.map(proj => proj.dcpName);
 
       // check that current project is in userProjectIds array
       const isUserAssigned = userProjectIds.includes(currentProject.dcpName);
 
       return isUserAssigned;
-    } return false;
+    }
+
+    return false;
   }
 
   @action

@@ -90,25 +90,25 @@ module('Acceptance | authenticated user sees authenticated features', function(h
       id: 1,
       dcp_name: 'N2018Q077',
       tab: 'upcoming',
-    });
+    }, 'withAssignments');
 
     const userProject2 = server.create('project', {
       id: 2,
       dcp_name: 'P2012M046',
       tab: 'to-review',
-    });
+    }, 'withAssignments');
 
-    this.server.create('project', {
-      id: 1,
-      dcp_name: 'N2018Q077',
-      tab: 'upcoming',
-    });
+    // this.server.create('project', {
+    //   id: 1,
+    //   dcp_name: 'N2018Q077',
+    //   tab: 'upcoming',
+    // });
 
-    this.server.create('project', {
-      id: 2,
-      dcp_name: 'P2012M046',
-      tab: 'to-review',
-    });
+    // this.server.create('project', {
+    //   id: 2,
+    //   dcp_name: 'P2012M046',
+    //   tab: 'to-review',
+    // });
 
     this.server.create('user', {
       emailaddress1: 'testuser@planning.nyc.gov',
@@ -127,7 +127,7 @@ module('Acceptance | authenticated user sees authenticated features', function(h
 
     // project under 'to-review' tab should have recommendation button
     await visit('/projects/2');
-
+    await this.pauseTest();
     assert.ok(find('[data-test-button-to-rec-form]'));
   });
 });
