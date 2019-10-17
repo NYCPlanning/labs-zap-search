@@ -101,7 +101,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
     assert.equal(dispositionsArray[3].dcpWasaquorumpresent, false);
   });
 
-  test('setDispositionRec sets an "All Actions" changeset recommendation property', async function(assert) {
+  test('setDispositionChangesetRec sets an "All Actions" changeset recommendation property', async function(assert) {
     const controller = this.owner.lookup('controller:my-projects/project/recommendations/add');
     assert.ok(controller);
 
@@ -109,12 +109,12 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     controller.set('model', { dcpLupteammemberrole: 'CB' });
 
-    controller.send('setDispositionRec', controller.dispositionForAllActionsChangeset, 'Disapproved');
+    controller.send('setDispositionChangesetRec', controller.dispositionForAllActionsChangeset, 'Disapproved');
 
     assert.equal(controller.dispositionForAllActionsChangeset.get('recommendation'), 'Disapproved');
   });
 
-  test('setDispositionRec sets disposition-specific changeset recommendation property based on participantType', async function(assert) {
+  test('setDispositionChangesetRec sets disposition-specific changeset recommendation property based on participantType', async function(assert) {
     const controller = this.owner.lookup('controller:my-projects/project/recommendations/add');
     assert.ok(controller);
 
@@ -123,7 +123,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
     controller.set('model', { dcpLupteammemberrole: 'CB' });
 
     controller.set('dispositions', server.createList('disposition', 3));
-    controller.send('setDispositionRec', controller.dispositionsChangesets[0], 'Disapproved');
+    controller.send('setDispositionChangesetRec', controller.dispositionsChangesets[0], 'Disapproved');
 
     assert.equal(controller.dispositionsChangesets[0].get('dcpCommunityboardrecommendation'), 'Disapproved');
     assert.equal(controller.dispositionsChangesets[0].get('dcpBoroughboardrecommendation'), undefined);
@@ -131,7 +131,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     controller.set('model', { dcpLupteammemberrole: 'BB' });
 
-    controller.send('setDispositionRec', controller.dispositionsChangesets[1], 'Approved');
+    controller.send('setDispositionChangesetRec', controller.dispositionsChangesets[1], 'Approved');
 
     assert.equal(controller.dispositionsChangesets[1].get('dcpCommunityboardrecommendation'), undefined);
     assert.equal(controller.dispositionsChangesets[1].get('dcpBoroughboardrecommendation'), 'Approved');
@@ -139,7 +139,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     controller.set('model', { dcpLupteammemberrole: 'BP' });
 
-    controller.send('setDispositionRec', controller.dispositionsChangesets[2], 'Waived');
+    controller.send('setDispositionChangesetRec', controller.dispositionsChangesets[2], 'Waived');
 
     assert.equal(controller.dispositionsChangesets[2].get('dcpCommunityboardrecommendation'), undefined);
     assert.equal(controller.dispositionsChangesets[2].get('dcpBoroughboardrecommendation'), undefined);
@@ -165,7 +165,7 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
       return true;
     };
 
-    controller.send('setDispositionRec', controller.dispositionForAllActionsChangeset, 'Disapproved');
+    controller.send('setDispositionChangesetRec', controller.dispositionForAllActionsChangeset, 'Disapproved');
     controller.dispositionForAllActionsChangeset.set('dcpVotinginfavorrecommendation', 1);
     controller.dispositionForAllActionsChangeset.set('dcpVotingagainstrecommendation', 2);
     controller.dispositionForAllActionsChangeset.set('dcpVotingabstainingonrecommendation', 3);
@@ -176,21 +176,21 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     controller.submitRecommendations();
 
-    assert.equal(controller.dispositions[0].dcpVotinginfavorrecommendation, 1, 'setDispositionRec saved to dcpVotinginfavorrecommendation field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpVotingagainstrecommendation, 2, 'setDispositionRec saved to dcpVotingagainstrecommendation field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpVotingabstainingonrecommendation, 3, 'setDispositionRec saved to dcpVotingabstainingonrecommendation field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpTotalmembersappointedtotheboard, 4, 'setDispositionRec saved to dcpTotalmembersappointedtotheboard field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpVotelocation, 'Atlantic Ave', 'setDispositionRec saved to dcpVotelocation field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpDateofvote, '11/11/2019', 'setDispositionRec saved to dcpDateofvote field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpConsideration, 'My All Actions Consideration', 'setDispositionRec saved to dcpConsideration field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpVotinginfavorrecommendation, 1, 'submitRecommendations saved to dcpVotinginfavorrecommendation field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpVotingagainstrecommendation, 2, 'submitRecommendations saved to dcpVotingagainstrecommendation field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpVotingabstainingonrecommendation, 3, 'submitRecommendations saved to dcpVotingabstainingonrecommendation field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpTotalmembersappointedtotheboard, 4, 'submitRecommendations saved to dcpTotalmembersappointedtotheboard field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpVotelocation, 'Atlantic Ave', 'submitRecommendations saved to dcpVotelocation field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpDateofvote, '11/11/2019', 'submitRecommendations saved to dcpDateofvote field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpConsideration, 'My All Actions Consideration', 'submitRecommendations saved to dcpConsideration field for dispo 1');
 
-    assert.equal(controller.dispositions[1].dcpVotinginfavorrecommendation, 1, 'setDispositionRec saved to dcpVotinginfavorrecommendation field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpVotingagainstrecommendation, 2, 'setDispositionRec saved to dcpVotingagainstrecommendation field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpVotingabstainingonrecommendation, 3, 'setDispositionRec saved to dcpVotingabstainingonrecommendation field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpTotalmembersappointedtotheboard, 4, 'setDispositionRec saved to dcpTotalmembersappointedtotheboard field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpVotelocation, 'Atlantic Ave', 'setDispositionRec saved to dcpVotelocation field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpDateofvote, '11/11/2019', 'setDispositionRec saved to dcpDateofvote field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpConsideration, 'My All Actions Consideration', 'setDispositionRec saved to dcpConsideration field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpVotinginfavorrecommendation, 1, 'submitRecommendations saved to dcpVotinginfavorrecommendation field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpVotingagainstrecommendation, 2, 'submitRecommendations saved to dcpVotingagainstrecommendation field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpVotingabstainingonrecommendation, 3, 'submitRecommendations saved to dcpVotingabstainingonrecommendation field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpTotalmembersappointedtotheboard, 4, 'submitRecommendations saved to dcpTotalmembersappointedtotheboard field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpVotelocation, 'Atlantic Ave', 'submitRecommendations saved to dcpVotelocation field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpDateofvote, '11/11/2019', 'submitRecommendations saved to dcpDateofvote field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpConsideration, 'My All Actions Consideration', 'submitRecommendations saved to dcpConsideration field for dispo 2');
   });
 
   test('if not allActions, submitRecommendations persists dispositionsChangesets[i] properties to dispositions[i]', async function(assert) {
@@ -229,20 +229,20 @@ module('Unit | Controller | my-projects/project/recommendations/add', function(h
 
     controller.submitRecommendations();
 
-    assert.equal(controller.dispositions[0].dcpVotinginfavorrecommendation, 1, 'setDispositionRec saved to dcpVotinginfavorrecommendation field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpVotingagainstrecommendation, 2, 'setDispositionRec saved to dcpVotingagainstrecommendation field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpVotingabstainingonrecommendation, 3, 'setDispositionRec saved to dcpVotingabstainingonrecommendation field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpTotalmembersappointedtotheboard, 4, 'setDispositionRec saved to dcpTotalmembersappointedtotheboard field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpVotelocation, 'Atlantic Ave', 'setDispositionRec saved to dcpVotelocation field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpDateofvote, '11/11/2019', 'setDispositionRec saved to dcpDateofvote field for dispo 1');
-    assert.equal(controller.dispositions[0].dcpConsideration, 'My dispositionChangeset 0 Consideration', 'setDispositionRec saved to dcpConsideration field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpVotinginfavorrecommendation, 1, 'submitRecommendations saved to dcpVotinginfavorrecommendation field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpVotingagainstrecommendation, 2, 'submitRecommendations saved to dcpVotingagainstrecommendation field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpVotingabstainingonrecommendation, 3, 'submitRecommendations saved to dcpVotingabstainingonrecommendation field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpTotalmembersappointedtotheboard, 4, 'submitRecommendations saved to dcpTotalmembersappointedtotheboard field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpVotelocation, 'Atlantic Ave', 'submitRecommendations saved to dcpVotelocation field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpDateofvote, '11/11/2019', 'submitRecommendations saved to dcpDateofvote field for dispo 1');
+    assert.equal(controller.dispositions[0].dcpConsideration, 'My dispositionChangeset 0 Consideration', 'submitRecommendations saved to dcpConsideration field for dispo 1');
 
-    assert.equal(controller.dispositions[1].dcpVotinginfavorrecommendation, 4, 'setDispositionRec saved to dcpVotinginfavorrecommendation field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpVotingagainstrecommendation, 3, 'setDispositionRec saved to dcpVotingagainstrecommendation field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpVotingabstainingonrecommendation, 2, 'setDispositionRec saved to dcpVotingabstainingonrecommendation field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpTotalmembersappointedtotheboard, 1, 'setDispositionRec saved to dcpTotalmembersappointedtotheboard field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpVotelocation, 'Atlantic Ave', 'setDispositionRec saved to dcpVotelocation field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpDateofvote, '11/11/2019', 'setDispositionRec saved to dcpDateofvote field for dispo 2');
-    assert.equal(controller.dispositions[1].dcpConsideration, 'My dispositionChangeset 1 Consideration', 'setDispositionRec saved to dcpConsideration field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpVotinginfavorrecommendation, 4, 'submitRecommendations saved to dcpVotinginfavorrecommendation field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpVotingagainstrecommendation, 3, 'submitRecommendations saved to dcpVotingagainstrecommendation field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpVotingabstainingonrecommendation, 2, 'submitRecommendations saved to dcpVotingabstainingonrecommendation field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpTotalmembersappointedtotheboard, 1, 'submitRecommendations saved to dcpTotalmembersappointedtotheboard field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpVotelocation, 'Atlantic Ave', 'submitRecommendations saved to dcpVotelocation field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpDateofvote, '11/11/2019', 'submitRecommendations saved to dcpDateofvote field for dispo 2');
+    assert.equal(controller.dispositions[1].dcpConsideration, 'My dispositionChangeset 1 Consideration', 'submitRecommendations saved to dcpConsideration field for dispo 2');
   });
 });
