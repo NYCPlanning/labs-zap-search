@@ -53,9 +53,9 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   @alias('model.dcpLupteammemberrole')
   participantType;
 
-  // the project is available through the model.
+  // the assignment is available through the model.
   @alias('model')
-  project;
+  assignment;
 
   // `True` if user wishes to apply the same recommendation values to all dispositions.
   // `False` if user wishes to assign different recommendation values to each disposition.
@@ -223,7 +223,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   }
 
   /**
-   * Saves all dispositions on the loaded project with user-inputted recommendation values.
+   * Saves all dispositions on the loaded assignment with user-inputted recommendation values.
    * If 'allActions" is `True`, will copy values in dispositionForAllActions into each
    * disposition before saving those dispositions.
    */

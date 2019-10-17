@@ -2,19 +2,14 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
+// This route must receive an Assignment model from the origin route.
+// e.g. pass an Assignment model in the LinkTo helper.
 export default class MyProjectsProjectRecommendationsAddRoute extends Route {
-  // Depends on the my-project/project route already loading a project
-  // with side-loaded actions
-
   @service
   store;
 
   @service
   currentUser;
-
-  model() {
-    return this.modelFor('my-projects.project');
-  }
 
   async setupController(controller, model) {
     super.setupController(controller, model);

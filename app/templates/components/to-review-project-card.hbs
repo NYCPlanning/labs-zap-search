@@ -22,7 +22,7 @@
     <div class="cell medium-8 large-auto">
       {{#if assignment.project.hearingsSubmittedOrWaived}}
         <LinkTo @route="my-projects.project.recommendations.add"
-          @model={{assignment.project.id}}
+          @model={{assignment}}
           class="button expanded"
           data-test-button="submitRecommendation"
         >
