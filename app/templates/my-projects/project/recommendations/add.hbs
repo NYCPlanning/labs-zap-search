@@ -152,7 +152,7 @@
                       @options={{this.recOptions}}
                       @placeholder="Select a recommendation"
                       @selected={{this.dispositionForAllActionsChangeset.recommendation}}
-                      @onchange={{action "setDispositionRec" this.dispositionForAllActionsChangeset}}
+                      @onchange={{action "setDispositionChangesetRec" this.dispositionForAllActionsChangeset}}
                       as |recOption|
                     >
                       {{recOption}}
@@ -283,7 +283,7 @@
                       @options={{this.recOptions}}
                       @placeholder="Select a recommendation"
                       @selected={{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}
-                      @onchange={{action "setDispositionRec" dispositionChangesetPair.changeset}}
+                      @onchange={{action "setDispositionChangesetRec" dispositionChangesetPair.changeset}}
                       as |recOption|
                     >
                       {{recOption}}
