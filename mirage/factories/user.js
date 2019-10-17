@@ -32,6 +32,6 @@ export default Factory.extend({
   withUserProjectParticipantTypes: trait({
     afterCreate(user, server) {
       server.createList('user-project-participant-type', 10);
-    }
+    },
   }),
 });

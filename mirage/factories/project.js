@@ -181,7 +181,7 @@ export default Factory.extend({
   cycleTabs: trait({
     tab(i) {
       return faker.list.cycle('archive', 'reviewed', 'to-review', 'upcoming')(i);
-    }
+    },
   }),
 
   withMilestones: trait({
@@ -192,7 +192,7 @@ export default Factory.extend({
 
   withAssignments: trait({
     afterCreate(project, server) {
-      server.createList('assignment', 2, { project, tab: 'to-review' })
+      server.createList('assignment', 2, { project, tab: 'to-review' });
     },
   }),
 
@@ -207,6 +207,6 @@ export default Factory.extend({
       // server.db.actions.update({
       //   dispositions: server.schema.dispositions.all(),
       // });
-    }
+    },
   }),
 });

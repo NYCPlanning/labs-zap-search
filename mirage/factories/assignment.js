@@ -6,7 +6,7 @@ export default Factory.extend({
       server.create('project', {
         assignments: [assignment],
       }, 'withActionsAndDispositions', 'withMilestones');
-    }
+    },
   }),
 
   afterCreate(assignment, server) {

@@ -3,7 +3,7 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 const {
-  Model, attr, hasMany, belongsTo
+  Model, attr, hasMany, belongsTo,
 } = DS;
 
 const EmptyFeatureCollection = {

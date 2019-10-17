@@ -103,5 +103,5 @@ export default Factory.extend({
     afterCreate(disposition, server) {
       server.createList('action', 7, { dispositions: [disposition] });
     },
-  })
+  }),
 });

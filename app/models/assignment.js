@@ -2,7 +2,9 @@ import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-const { Model, belongsTo, hasMany, attr } = DS;
+const {
+  Model, belongsTo, hasMany, attr,
+} = DS;
 const MILESTONE_ID_LOOKUP = {
   CB: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
   BP: BOROUGH_PRESIDENT_REFERRAL_MILESTONE_ID,
