@@ -1,6 +1,6 @@
 <h5>Projects that you have reviewed which are still in the public review process</h5>
 
-{{#each this.model as |project|}}
+{{#each sortedProjects as |project|}}
   <ReviewedProjectCard @project={{project}} />
 {{/each}}
 

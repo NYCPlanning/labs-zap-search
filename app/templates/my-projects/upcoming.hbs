@@ -1,6 +1,6 @@
 <h5>Recently filed projects that you'll soon need to review</h5>
 
-{{#each this.model as |project|}}
+{{#each sortedProjects as |project|}}
   {{upcoming-project-card project=project}}
 {{/each}}
 
