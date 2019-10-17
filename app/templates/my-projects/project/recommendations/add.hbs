@@ -47,18 +47,21 @@
             {{#deduped-hearings-list project=project as |dedupedHearings|}}
               {{#each dedupedHearings as |hearing idx|}}
                 {{#if hearing.dcpDateofpublichearing}}
-                  <div class="grid-x align-middle">
+                  <div class="grid-x">
                     <p class="cell auto small-order-2">
-                      <strong class="display-block">
-                        {{moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"}}
+                      <span class="display-block">
+                        <strong>{{moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"}}</strong>
                         <span class="light-gray">|</span>
-                        {{hearing.dcpPublichearinglocation}}
-                      </strong>
-                      <span data-test-hearing-actions-list="{{hearing.id}}" class="display-block text-tiny">
-                        {{#each hearing.hearingActions as |action index|}}
-                          {{if (gt index 0) ", "}}{{action.dcpUlurpnumber}}
-                        {{/each}}
+                        <strong>{{hearing.dcpPublichearinglocation}}</strong>
                       </span>
+                      <small data-test-hearing-actions-list="{{hearing.id}}">
+                        {{#each hearing.hearingActions as |action index| ~}}
+                          <span class="label light-gray tiny-margin-bottom tiny-margin-right">
+                            {{action.dcpName}}
+                            <small>{{action.dcpUlurpnumber}}</small>
+                          </span>
+                        {{~/each}}
+                      </small>
                     </p>
                     <fieldset class="cell shrink medium-margin-bottom small-margin-right recommendation-quorum-fieldiset">
                       <input type="radio"
@@ -516,23 +519,26 @@
               </h5>
               {{#deduped-hearings-list project=project as |dedupedHearings|}}
                 {{#each dedupedHearings as |hearing idx|}}
-                  <p class="grid-x align-middle">
+                  <p class="grid-x">
                     <strong class="cell small-1"
                       data-test-quorum-answer={{idx}}
                     >
                       {{if hearing.dcpWasaquorumpresent "Yes" "No"}}
                     </strong>
                     <span class="cell auto">
-                      <strong class="display-block">
-                        {{moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"}}
+                      <span class="display-block">
+                        <strong>{{moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"}}</strong>
                         <span class="light-gray">|</span>
-                        {{hearing.dcpPublichearinglocation}}
-                      </strong>
-                      <span data-test-hearing-actions-list="{{hearing.id}}" class="display-block text-tiny">
-                        {{#each hearing.hearingActions as |action index|}}
-                          {{if (gt index 0) ", "}}{{action.dcpUlurpnumber}}
-                        {{/each}}
+                        <strong>{{hearing.dcpPublichearinglocation}}</strong>
                       </span>
+                      <small data-test-hearing-actions-list="{{hearing.id}}">
+                        {{#each hearing.hearingActions as |action index| ~}}
+                          <span class="label light-gray tiny-margin-bottom tiny-margin-right">
+                            {{action.dcpName}}
+                            <small>{{action.dcpUlurpnumber}}</small>
+                          </span>
+                        {{~/each}}
+                      </small>
                     </span>
                   </p>
                 {{/each}}
