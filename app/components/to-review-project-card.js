@@ -13,7 +13,7 @@ export default class ToReviewProjectCardComponent extends Component {
 
   @computed('project.toReviewMilestoneActualEndDate')
   get timeRemaining() {
-    return moment(this.project.toReviewMilestoneActualEndDate).diff(moment().endOf('day'), 'days');
+    return moment(this.project.toReviewMilestoneActualEndDate).diff(moment(), 'days');
   }
 
   @computed('project.{toReviewMilestoneActualStartDate,toReviewMilestoneActualEndDate}')

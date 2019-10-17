@@ -12,14 +12,12 @@
         <p>{{this.project.dcpProjectbrief}}</p>
       </div>
       <div class="cell medium-4 large-3 xlarge-2">
-        {{#each this.timeDisplays as |timeDisplay|}}
-          <div class="lup-countdown medium-margin-right medium-margin-left">
-            <p class="cert-date">{{timeDisplay.displayName}}</p>
-            <p class="days">{{timeDisplay.timeRemaining}}</p>
-            <p class="total">of {{timeDisplay.timeDuration}} days remain</p>
-            <p class="end-date">Ends {{moment-format timeDisplay.dcpActualenddate "M/D/YYYY"}}</p>
-          </div>
-        {{/each}}
+        <div class="lup-countdown medium-margin-right medium-margin-left">
+          <p class="cert-date">{{timeDisplayLabel}}</p>
+          <p class="days">{{timeDisplay.timeRemaining}}</p>
+          <p class="total">of {{timeDisplay.timeDuration}} days remain</p>
+          <p class="end-date">Ends {{moment-format timeDisplay.dcpActualenddate "M/D/YYYY"}}</p>
+        </div>
       </div>
       <div class="cell medium-auto">
         <ul class="no-bullet no-margin">
