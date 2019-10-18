@@ -22,7 +22,7 @@ module('Integration | Component | waive-hearings-popup', function(hooks) {
 
     const waiveHearingsMessageOnPopup = this.element.textContent.trim();
 
-    const messageVisible = waiveHearingsMessageOnPopup.includes('Are you sure you want to opt out of submitting hearings?');
+    const messageVisible = waiveHearingsMessageOnPopup.includes('Are you sure you want to opt out of noticing a public hearing?');
 
     assert.ok(messageVisible);
   });

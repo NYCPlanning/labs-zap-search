@@ -93,7 +93,7 @@ module('Integration | Component | upcoming-project-card', function(hooks) {
     const card = this.element.textContent.trim();
 
     assert.ok(card.includes('Review Begins'));
-    assert.ok(card.includes('Opt out of hearings'));
+    assert.ok(card.includes('Opt Out'));
   });
 
   test('check that card renders and opt out of hearing MESSAGE appears when hearing locations are waived', async function(assert) {
@@ -136,7 +136,7 @@ module('Integration | Component | upcoming-project-card', function(hooks) {
     const card = this.element.textContent.trim();
 
     assert.ok(card.includes('Review Begins'));
-    assert.ok(card.includes('You have opted out of submitting hearings'));
-    assert.notOk(card.includes('Opt out of hearings'));
+    assert.ok(card.includes("You've opted out of noticing a public hearing."));
+    assert.notOk(card.includes('Opt Out'));
   });
 });
