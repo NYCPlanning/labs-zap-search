@@ -37,7 +37,9 @@ export default class DedupedHearingsListComponent extends Component {
     // During the reduce, if there is a duplicate in the array of dispositions,
     // the actions model for that duplicate disposition is pushed into this array
     this.dispositions.forEach(function(disposition) {
-      disposition.set('hearingActions', [disposition.action]);
+      if (!Object.keys(disposition).includes('hearingActions')) {
+        disposition.set('hearingActions', [disposition.action]);
+      }
     });
 
     // setting a new property--each disposition in the deduped list will have an array of its duplicate dispositions
