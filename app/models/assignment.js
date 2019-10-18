@@ -52,10 +52,10 @@ export default class AssignmentModel extends Model {
   // If `tab` is `upcoming`...
   // if the project is in public review, this field is used to display the participant's review planned start date.
   // else this field returns null
-  @computed('tab', 'dcpLupteammemberrole', 'project.{milestones,dcpPublicstatusSimp}')
+  @computed('tab', 'dcpLupteammemberrole', 'project.{milestones,dcpPublicstatus}')
   get upcomingMilestonePlannedStartDate() {
     if (this.tab === 'upcoming') {
-      if (this.project.dcpPublicstatusSimp !== 'Filed') {
+      if (this.project.dcpPublicstatus !== 'Filed') {
         const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
         const participantReviewMilestone = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId);
         return participantReviewMilestone ? participantReviewMilestone.dcpPlannedstartdate : null;

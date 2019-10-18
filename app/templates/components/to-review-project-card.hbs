@@ -12,11 +12,13 @@
       <p>{{assignment.project.dcpProjectbrief}}</p>
     </div>
     <div class="cell medium-4 large-3 xlarge-2">
-      <div class="lup-countdown medium-margin-right medium-margin-left">
-        <p class="cert-date">{{participant-type-label assignment.dcpLupteammemberrole}} Review</p>
-        <p class="days">{{timeRemaining}}</p>
-        <p class="total">of {{timeDuration}} days remain</p>
-        <p class="end-date">Ends {{moment-format project.toReviewMilestoneActualEndDate "M/D/YYYY"}}</p>
+      <div class="text-center medium-margin-right medium-margin-left">
+        <p class="tiny-margin-bottom">{{participant-type-label assignment.dcpLupteammemberrole}} Review</p>
+        <p>
+          <strong class="stat">{{timeRemaining}}</strong>
+          <strong class="display-block">of {{timeDuration}} days remain</strong>
+        </p>
+        <p class="text-tiny">Ends {{moment-format assignment.toReviewMilestoneActualEndDate "M/D/YYYY"}}</p>
       </div>
     </div>
     <div class="cell medium-8 large-auto">
