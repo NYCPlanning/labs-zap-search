@@ -95,8 +95,8 @@ module('Integration | Component | to-review-project-card', function(hooks) {
 
     const card = this.element.textContent.trim();
 
-    assert.ok(card.includes('Submit Community Board Hearing Info'));
-    assert.ok(card.includes('Opt out of hearings'));
+    assert.ok(card.includes('Notice Community Board Hearing'));
+    assert.ok(card.includes('Opt Out'));
   });
 
   test('check that opt out of hearings MESSAGE appears when hearing locations are waived', async function(assert) {
@@ -139,8 +139,8 @@ module('Integration | Component | to-review-project-card', function(hooks) {
 
     const card = this.element.textContent.trim();
 
-    assert.ok(card.includes('You have opted out of submitting hearings'));
-    assert.notOk(card.includes('Opt out of hearings'));
-    assert.notOk(card.includes('Submit Community Board Hearing Info'));
+    assert.ok(card.includes("You've opted out of noticing a public hearing."));
+    assert.notOk(card.includes('Opt out'));
+    assert.notOk(card.includes('Notice Community Board Hearing'));
   });
 });

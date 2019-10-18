@@ -225,27 +225,30 @@
               {{/deduped-hearings-list}}
             {{/if}}
             {{#if model.hearingsWaived}}
-              <span data-test-hearings-waived-message>You have opted out of submitting hearings</span>
+              <span data-test-hearings-waived-message>You've opted out of noticing a public hearing.</span>
             {{/if}}
             {{#if model.hearingsNotSubmittedNotWaived}}
-              {{#link-to "my-projects.project.hearing.add" model.id class="button expanded"}}
-                <span data-test-button-hearing-form>
-                  {{fa-icon 'calendar-alt' prefix='far' fixedWidth=true size="lg"}}
-                  Submit {{participant-type-label model.dcpLupteammemberrole}} Hearing Info
-                </span>
-              {{/link-to}}
-              <p class="text-small text-right">
-                <span class="display-inline-block">
+              <div class="grid-x">
+                <div class="cell medium-auto">
+                  {{#link-to "my-projects.project.hearing.add" model.id class="button expanded"}}
+                    <span data-test-button-hearing-form>
+                      {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
+                      Notice {{participant-type-label project.dcpLupteammemberrole}} Hearing
+                    </span>
+                  {{/link-to}}
+                </div>
+                <div class="cell medium-shrink">
                   <button
-                    class="button tiny clear no-margin"
+                    class="button expanded gray"
                     onClick={{action "openOptOutHearingPopup"}}
                     data-test-button="optOutHearingOpenPopup"
                   >
-                    Opt out of hearings
+                    {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
+                    <small>Opt Out</small>
                   </button>
                   {{waive-hearings-popup project=model showPopup=showPopup}}
-                </span>
-              </p>
+                </div>
+              </div>
             {{/if}}
           </div>
         {{/if}}

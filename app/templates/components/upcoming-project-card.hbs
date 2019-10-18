@@ -38,27 +38,30 @@
     </div>
     <div class="cell medium-auto">
       {{#if project.hearingsNotSubmittedNotWaived}}
-        <LinkTo
-          @route="my-projects.project.hearing.add"
-          @model={{project.id}}
-          class="button expanded tiny-margin-bottom"
-          data-test-button="submitHearing"
-        >
-          {{fa-icon 'calendar-alt' prefix='far' fixedWidth=true size="lg"}}
-          Submit {{participant-type-label project.dcpLupteammemberrole}} Hearing Info
-        </LinkTo>
-        <p class="text-small text-right">
-          <span class="display-inline-block">
+        <div class="grid-x">
+          <div class="cell medium-auto">
+            <LinkTo
+              @route="my-projects.project.hearing.add"
+              @model={{project.id}}
+              class="button expanded"
+              data-test-button="submitHearing"
+            >
+              {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
+              Notice {{participant-type-label project.dcpLupteammemberrole}} Hearing
+            </LinkTo>
+          </div>
+          <div class="cell medium-shrink">
             <button
-              class="button tiny clear no-margin"
+              class="button expanded gray"
               onClick={{action "openOptOutHearingPopup"}}
               data-test-button="optOutHearingOpenPopup"
             >
-              Opt out of hearings
+              {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
+              <small>Opt Out</small>
             </button>
             {{waive-hearings-popup project=project showPopup=showPopup}}
-          </span>
-        </p>
+          </div>
+        </div>
       {{/if}}
       <ul class="no-bullet no-margin">
         {{#each project.tabSpecificMilestones as |milestone|}}
@@ -89,7 +92,7 @@
         {{/each}}
       </ul>
       {{#if project.hearingsWaived}}
-        <span data-test-hearings-waived-message="{{project.id}}">You have opted out of submitting hearings</span>
+        <span data-test-hearings-waived-message="{{project.id}}">You've opted out of noticing a public hearing.</span>
       {{/if}}
       {{#if project.hearingsSubmitted}}
         {{#deduped-hearings-list project=project as |dedupedHearings|}}
