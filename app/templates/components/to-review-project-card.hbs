@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="cell medium-8 large-auto">
-      {{#if assignment.project.hearingsSubmittedOrWaived}}
+      {{#if assignment.hearingsSubmittedOrWaived}}
         <LinkTo @route="my-projects.assignment.recommendations.add"
           @model={{assignment}}
           class="button expanded"
@@ -46,39 +46,39 @@
           Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
         </LinkTo>
       {{/if}}
-      {{#if assignment.project.hearingsWaived}}
+      {{#if assignment.hearingsWaived}}
         <span data-test-hearings-waived-message="{{assignment.project.id}}">You've opted out of noticing a public hearing.</span>
       {{/if}}
 
-      {{#if assignment.project.hearingsSubmitted}}
+      {{#if assignment.hearingsSubmitted}}
         {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}
           <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}
                 <li class="grid-x small-margin-bottom">
                   <div class="cell shrink small-margin-right">
-                    {{#if (is-before hearing.dcpDateofpublichearing)}}
+                    {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
                       {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
                     {{else}}
                       {{fa-icon "check" class="blue" fixedWidth=true}}
                     {{/if}}
                   </div>
                   <div class="cell auto">
-                    <strong data-test-hearing-location="{{hearing.id}}" class="display-inline-block">
-                      {{~hearing.dcpPublichearinglocation~}}
+                    <strong data-test-hearing-location="{{hearing.disposition.id}}" class="display-inline-block">
+                      {{~hearing.disposition.dcpPublichearinglocation~}}
                     </strong>
 
                     <span class="display-inline-block">
-                      <span data-test-hearing-date="{{hearing.id}}">
-                        {{~moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"~}}
+                      <span data-test-hearing-date="{{hearing.disposition.id}}">
+                        {{~moment-format hearing.disposition.dcpDateofpublichearing "MM/D/YYYY"~}}
                       </span>
                       <span class="light-gray">|</span>
-                      <span data-test-hearing-time="{{hearing.id}}">
-                        {{~moment-format hearing.dcpDateofpublichearing "h:mm A"~}}
+                      <span data-test-hearing-time="{{hearing.disposition.id}}">
+                        {{~moment-format hearing.disposition.dcpDateofpublichearing "h:mm A"~}}
                       </span>
                     </span>
 
-                    <small data-test-hearing-actions-list="{{hearing.id}}">
+                    <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
                       {{#each hearing.hearingActions as |action index| ~}}
                         <span class="label light-gray tiny-margin-bottom tiny-margin-right">
                           {{action.dcpName}}
@@ -93,7 +93,7 @@
         {{/deduped-hearings-list}}
       {{/if}}
 
-      {{#if assignment.project.hearingsNotSubmittedNotWaived}}
+      {{#if assignment.hearingsNotSubmittedNotWaived}}
         <div class="grid-x">
           <div class="cell medium-auto">
             <LinkTo
@@ -115,7 +115,7 @@
               {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
               <small>Opt Out</small>
             </button>
-            {{waive-hearings-popup project=assignment.project showPopup=showPopup}}
+            {{waive-hearings-popup assignment=assignment showPopup=showPopup}}
           </div>
         </div>
       {{/if}}

@@ -129,13 +129,15 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
 
     // Disposition 22 ############## DUPLICATE WITH 23 & 26
     const disp22 = ourDisps.create({
-      id: 22,
-      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-      dcpDateofpublichearing: date_A,
-      action: {
-        dcpName: 'Zoning Special Permit',
-        dcpUlurpnumber: 'C780076TLK',
-      },
+      disposition: ourDisps.create({
+        id: 22,
+        dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+        dcpDateofpublichearing: date_A,
+        action: {
+          dcpName: 'Zoning Special Permit',
+          dcpUlurpnumber: 'C780076TLK',
+        },
+      }),
       hearingActions: [
         {
           dcpName: 'Zoning Special Permit',
@@ -157,13 +159,15 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
 
     // Disposition 23 ############## DUPLICATE WITH 22 & 26
     const disp23 = ourDisps.create({
-      id: 23,
-      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-      dcpDateofpublichearing: date_A,
-      action: {
-        dcpName: 'Zoning Text Amendment',
-        dcpUlurpnumber: 'N860877TCM',
-      },
+      disposition: ourDisps.create({
+        id: 23,
+        dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+        dcpDateofpublichearing: date_A,
+        action: {
+          dcpName: 'Zoning Text Amendment',
+          dcpUlurpnumber: 'N860877TCM',
+        },
+      }),
       hearingActions: [
         {
           dcpName: 'Zoning Text Amendment',
@@ -185,13 +189,15 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
 
     // Disposition 24 ##########################################################
     const disp24 = ourDisps.create({
-      id: 24,
-      dcpPublichearinglocation: '186 Alligators Ave, Staten Island, NY',
-      dcpDateofpublichearing: date_B,
-      action: {
-        dcpName: 'Business Improvement District',
-        dcpUlurpnumber: 'I030148MMQ',
-      },
+      disposition: ourDisps.create({
+        id: 24,
+        dcpPublichearinglocation: '186 Alligators Ave, Staten Island, NY',
+        dcpDateofpublichearing: date_B,
+        action: {
+          dcpName: 'Business Improvement District',
+          dcpUlurpnumber: 'I030148MMQ',
+        },
+      }),
       hearingActions: [
         {
           dcpName: 'Business Improvement District',
@@ -213,13 +219,15 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
 
     // Disposition 25 ##########################################################
     const disp25 = ourDisps.create({
-      id: 25,
-      dcpPublichearinglocation: '144 Piranha Ave, Manhattan, NY',
-      dcpDateofpublichearing: date_B,
-      action: {
-        dcpName: 'Change in City Map',
-        dcpUlurpnumber: '200088ZMX',
-      },
+      disposition: ourDisps.create({
+        id: 25,
+        dcpPublichearinglocation: '144 Piranha Ave, Manhattan, NY',
+        dcpDateofpublichearing: date_B,
+        action: {
+          dcpName: 'Change in City Map',
+          dcpUlurpnumber: '200088ZMX',
+        },
+      }),
       hearingActions: [
         {
           dcpName: 'Change in City Map',
@@ -241,13 +249,15 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
 
     // Disposition 26 ############## DUPLICATE WITH 22 & 23
     const disp26 = ourDisps.create({
-      id: 26,
-      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-      dcpDateofpublichearing: date_A,
-      action: {
-        dcpName: 'Enclosed Sidewalk Cafe',
-        dcpUlurpnumber: '190172ZMK',
-      },
+      disposition: ourDisps.create({
+        id: 26,
+        dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+        dcpDateofpublichearing: date_A,
+        action: {
+          dcpName: 'Enclosed Sidewalk Cafe',
+          dcpUlurpnumber: '190172ZMK',
+        },
+      }),
       hearingActions: [
         {
           dcpName: 'Enclosed Sidewalk Cafe',
@@ -269,13 +279,15 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
 
     // Disposition 27 ##########################################################
     const disp27 = ourDisps.create({
-      id: 27,
-      dcpPublichearinglocation: '456 Crocodiles Ave, Bronx, NY',
-      dcpDateofpublichearing: date_B,
-      action: {
-        dcpName: 'Large Scale Special Permit',
-        dcpUlurpnumber: 'N190257ZRK',
-      },
+      disposition: ourDisps.create({
+        id: 27,
+        dcpPublichearinglocation: '456 Crocodiles Ave, Bronx, NY',
+        dcpDateofpublichearing: date_B,
+        action: {
+          dcpName: 'Large Scale Special Permit',
+          dcpUlurpnumber: 'N190257ZRK',
+        },
+      }),
       hearingActions: [
         {
           dcpName: 'Large Scale Special Permit',
@@ -298,13 +310,15 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
 
     // Disposition 28 ##########################################################
     const disp28 = ourDisps.create({
-      id: 28,
-      dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-      dcpDateofpublichearing: date_C,
-      action: {
-        dcpName: 'Zoning Certification',
-        dcpUlurpnumber: '190256ZMK',
-      },
+      disposition: ourDisps.create({
+        id: 28,
+        dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+        dcpDateofpublichearing: date_C,
+        action: {
+          dcpName: 'Zoning Certification',
+          dcpUlurpnumber: '190256ZMK',
+        },
+      }),
       hearingActions: [
         {
           dcpName: 'Zoning Certification',
@@ -340,11 +354,11 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
     assert.equal(deduped[4].duplicateDisps.map(d => d.id).join(','), '28'); // disp 28
 
     // check that duplicate disposition properties are removed (a duplicate will have the same hearing location and hearing date)
-    assert.equal(deduped[0].dcpPublichearinglocation, '121 Bananas Ave, Queens, NY'); // disp 22, 23, 26
-    assert.equal(deduped[1].dcpPublichearinglocation, '186 Alligators Ave, Staten Island, NY'); // disp 24
-    assert.equal(deduped[2].dcpPublichearinglocation, '144 Piranha Ave, Manhattan, NY'); // disp 25
-    assert.equal(deduped[3].dcpPublichearinglocation, '456 Crocodiles Ave, Bronx, NY'); // disp 27
-    assert.equal(deduped[4].dcpPublichearinglocation, '121 Bananas Ave, Queens, NY'); // disp 28
+    assert.equal(deduped[0].disposition.dcpPublichearinglocation, '121 Bananas Ave, Queens, NY'); // disp 22, 23, 26
+    assert.equal(deduped[1].disposition.dcpPublichearinglocation, '186 Alligators Ave, Staten Island, NY'); // disp 24
+    assert.equal(deduped[2].disposition.dcpPublichearinglocation, '144 Piranha Ave, Manhattan, NY'); // disp 25
+    assert.equal(deduped[3].disposition.dcpPublichearinglocation, '456 Crocodiles Ave, Bronx, NY'); // disp 27
+    assert.equal(deduped[4].disposition.dcpPublichearinglocation, '121 Bananas Ave, Queens, NY'); // disp 28
 
     // check that hearingActions array has all actions associated with duplicate disposition
     assert.equal(deduped[0].hearingActions.map(d => d.dcpUlurpnumber).join(','), 'C780076TLK,N860877TCM,190172ZMK'); // disp 22, 23, 26

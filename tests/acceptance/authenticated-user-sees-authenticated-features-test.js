@@ -33,7 +33,7 @@ module('Acceptance | authenticated user sees authenticated features', function(h
     assert.notOk(find('[data-test-hearing-rec-shortcuts]'));
   });
 
-  test('User sees hearing and recommendation buttons on show-project if logged in and project assigned to them', async function(assert) {
+  test('User sees shortcut box on show-project if logged in and project assigned to them', async function(assert) {
     // user has to be signed in and assigned to that project (dcp_name matches)
     this.server.create('user', 'withAssignments');
 
@@ -42,7 +42,7 @@ module('Acceptance | authenticated user sees authenticated features', function(h
     assert.ok(find('[data-test-hearing-rec-shortcuts]'));
   });
 
-  test('User does not see hearing and recommendation buttons on show-project if project is not assigned to them', async function(assert) {
+  test('User does not see shortcut box on show-project if project is not assigned to them', async function(assert) {
     // user has to be signed in and assigned to that project (dcp_name matches)
     const userProject = server.create('project', {
       id: 2,
@@ -67,34 +67,5 @@ module('Acceptance | authenticated user sees authenticated features', function(h
     await visit('/projects/1');
 
     assert.notOk(find('[data-test-hearing-rec-shortcuts]'));
-  });
-
-  test('User does not see recommendation button unless project is under to-review tab', async function(assert) {
-    // user has to be signed in and assigned to that project (dcp_name matches)
-    this.server.create('user', {
-      assignments: [
-        this.server.create('assignment', {
-          tab: 'upcoming',
-        }, 'withProject'),
-        this.server.create('assignment', {
-          tab: 'to-review',
-        }, 'withProject'),
-      ],
-    });
-
-    // simulate presence of location hash after OAUTH redirect
-    window.location.hash = '#access_token=test';
-
-    await visit('/login');
-
-    // project under 'upcoming' tab should NOT have recommendation button
-    await visit('/projects/1');
-
-    assert.notOk(find('[data-test-button-to-rec-form]'));
-
-    // project under 'to-review' tab should have recommendation button
-    await visit('/projects/2');
-
-    assert.ok(find('[data-test-button-to-rec-form]'));
   });
 });

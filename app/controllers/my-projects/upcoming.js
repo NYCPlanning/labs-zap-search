@@ -9,7 +9,7 @@ export default class MyProjectsUpcomingController extends Controller {
   // sort projects based on `publicReviewPlannedStartDate` ascending
   @computed('model')
   get sortedProjects() {
-    const projects = this.get('model');
-    return projects.sortBy('publicReviewPlannedStartDate');
+    const assignments = this.get('model');
+    return assignments.sortBy('publicReviewPlannedStartDate');
   }
 }

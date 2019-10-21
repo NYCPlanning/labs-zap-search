@@ -39,9 +39,14 @@
         <ul class="no-bullet no-margin">
           {{#each assignment.tabSpecificMilestones as |milestone|}}
             <ReviewedProjectMilestoneListItem
-              @project={{assignment.project}}
+              @project={{this.assignment.project}}
               @milestone={{milestone}}
             />
+            {{#if (or (not milestone.dcpActualenddate) (is-before milestone.dcpActualenddate))}}
+              <HearingsListForMilestonesList
+                @milestone={{milestone}}
+              />
+            {{/if}}
           {{/each}}
         </ul>
       </div>
