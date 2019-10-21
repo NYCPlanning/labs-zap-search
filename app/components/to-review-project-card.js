@@ -18,7 +18,7 @@ export default class ToReviewProjectCardComponent extends Component {
 
   @computed('assignment.{toReviewMilestoneActualStartDate,toReviewMilestoneActualEndDate}')
   get timeDuration() {
-    return moment(this.assignment.get('toReviewMilestoneActualEndDate')).diff(moment(this.assignment.get('toReviewMilestoneActualStartDate')), 'days');
+    return moment(this.assignment.toReviewMilestoneActualEndDate).diff(moment(this.assignment.toReviewMilestoneActualStartDate), 'days');
   }
 
   @action
