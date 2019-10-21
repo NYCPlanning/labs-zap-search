@@ -41,7 +41,7 @@ export default class ShowProjectController extends Controller {
   get isUserAssignedToProject() {
     // user is from currentUser Service
     // currentUser Service injected in show-project route on setUpController
-    if (this.session.isAuthenticated) {
+    if (this.user && this.session.isAuthenticated) {
       const userProjectIds = this.user.assignments.map(({ project }) => project.id);
 
       return userProjectIds.includes(this.model.id);

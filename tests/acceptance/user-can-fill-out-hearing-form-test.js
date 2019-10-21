@@ -13,7 +13,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { selectChoose } from 'ember-power-select/test-support';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 
-module('Acceptance | user can save hearing form', function(hooks) {
+module('Acceptance | user can fill out hearing form', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
