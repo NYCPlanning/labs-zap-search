@@ -12,29 +12,30 @@
       <p>{{assignment.project.dcpProjectbrief}}</p>
     </div>
     <div class="cell medium-4 large-3 xlarge-2">
-      <p class="text-center medium-margin-right medium-margin-left">
+      <div class="text-center medium-margin-right medium-margin-left">
         {{#if assignment.upcomingMilestonePlannedStartDate}}
-          <span class="display-block tiny-margin-bottom">
-            {{participant-type-label project.dcpLupteammemberrole}}<br>
-            Review Begins
-          </span>
-          <span class="display-block lead small-margin-bottom">
+          <p class="tiny-margin-bottom">
+            {{participant-type-label assignment.dcpLupteammemberrole}} Review Begins
+          </p>
+          <p class="lead">
             <strong>
               {{moment-format assignment.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
             </strong>
-          </span>
+          </p>
         {{else}}
-          <span class="display-block tiny-margin-bottom">
+          <p class="tiny-margin-bottom">
             Public Review Begins
-          </span>
-          <span class="display-block lead small-margin-bottom">
+          </p>
+          <p class="lead">
             <strong>
-              {{moment-format assignment.publicReviewPlannedStartDate "M/D/YYYY"}}
+              {{timeRemainingTillPublicReview}}
             </strong>
-          </span>
+          </p>
         {{/if}}
-        <span class="display-block text-tiny">(Estimated Start Date)</span>
-      </p>
+        <p class="text-center text-tiny">
+          (Estimated Start Date)
+        </p>
+      </div>
     </div>
     <div class="cell medium-auto">
       {{#if assignment.project.hearingsNotSubmittedNotWaived}}

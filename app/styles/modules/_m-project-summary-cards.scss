@@ -17,30 +17,6 @@
   }
 }
 
-// LUP countdown
-.lup-countdown {
-  text-align: center;
-
-  .cert-date {
-    font-size: rem-calc(10);
-  }
-
-  .days {
-    font-size: rem-calc(40);
-    font-weight: $global-weight-bold;
-    line-height: 1;
-    margin: 0;
-  }
-
-  .total {
-    font-weight: $global-weight-bold;
-  }
-
-  .end-date {
-    font-size: rem-calc(10);
-  }
-}
-
 // Hearing Info
 .hearing-info {
   text-align: center;
