@@ -3,7 +3,7 @@
 >
   <div class="cell shrink small-margin-right">
     {{#if (eq this.milestone.statuscode "Completed")}}
-      <span data-test={{if (string-includes this.milestone.milestonename "Referral") "reviewed-indicator"}}>
+      <span data-test={{if (string-includes this.milestone.displayName "Review") "reviewed-indicator"}}>
         {{fa-icon 'check' class='blue' fixedWidth=true}}
       </span>
     {{else if (eq this.milestone.statuscode "In Progress")}}
@@ -17,7 +17,7 @@
   <div class="cell auto {{if (eq this.milestone.statuscode "Not Started") 'gray'}}">
     <p class="small-margin-bottom">
       <strong>
-        {{this.milestone.milestonename}}
+        {{this.milestone.displayName}}
       </strong>
       {{#if (eq this.milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
         {{#each this.communityBoardDispositions as |disposition|}}
@@ -54,12 +54,14 @@
         </small>
       {{else}}
         <br>
-        <small class="display-block">
-          {{#if (eq this.milestone.statuscode "Not Started")}}
-            Estimated
-          {{/if}}
-          {{~moment-format this.milestone.displayDate "MM/D/YYYY"~}}
-        </small>
+        {{#if this.milestone.displayDate}}
+          <small class="display-block">
+            {{#if (eq this.milestone.statuscode "Not Started")}}
+              Estimated
+            {{/if}}
+            {{~moment-format this.milestone.displayDate "MM/D/YYYY"~}}
+          </small>
+        {{/if}}
       {{/if}}
     </p>
   </div>

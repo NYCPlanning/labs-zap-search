@@ -8,7 +8,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
 
-module('Acceptance | to review project cards renders', function(hooks) {
+module('Acceptance | reviewed project cards renders', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -24,16 +24,16 @@ module('Acceptance | to review project cards renders', function(hooks) {
     await invalidateSession();
   });
 
-  test('to-review project card renders due date if milestone dates are valid', async function(assert) {
+  test('reviewed project card renders due date if milestone dates are valid', async function(assert) {
     this.server.create('user', {
       id: 1,
       email: 'qncb5@planning.nyc.gov',
-      landUseParticipant: 'QNBP',
+      landUseParticipant: 'QNCB',
       assignments: [
         this.server.create('assignment', {
           id: 1,
-          tab: 'to-review',
-          dcpLupteammemberrole: 'BP',
+          tab: 'reviewed',
+          dcpLupteammemberrole: 'CB',
           dispositions: [],
           project: this.server.create('project', {
             milestones: [this.server.create('milestone', 'boroughPresidentReview', {
@@ -52,22 +52,23 @@ module('Acceptance | to review project cards renders', function(hooks) {
       id: 1,
     });
 
-    await visit('/my-projects/to-review');
+    await visit('/my-projects/reviewed');
 
     const timeRemainingValue = find('[data-test-time-remaining]').textContent.trim();
     assert.equal(timeRemainingValue, '20', 'Time remaining displays 20');
+    assert.notOk(find('[data-test-estimated-time-remaining]'));
   });
 
-  test('to-review project card renders a "contact DCP" message if milestone dates are invalid', async function(assert) {
+  test('reviewed project card renders an estimated time remaining is actual end date is invalid', async function(assert) {
     this.server.create('user', {
       id: 1,
       email: 'qncb5@planning.nyc.gov',
-      landUseParticipant: 'QNBP',
+      landUseParticipant: 'QNCB',
       assignments: [
         this.server.create('assignment', {
           id: 1,
-          tab: 'to-review',
-          dcpLupteammemberrole: 'BP',
+          tab: 'reviewed',
+          dcpLupteammemberrole: 'CB',
           dispositions: [],
           project: this.server.create('project', {
             milestones: [this.server.create('milestone', 'boroughPresidentReview', {
@@ -76,7 +77,7 @@ module('Acceptance | to review project cards renders', function(hooks) {
               displayDate: moment().subtract(9, 'days'),
               dcpActualenddate: null,
               displayDate2: null,
-              dcpPlannedcompletiondate: moment().subtract(21, 'days'),
+              dcpPlannedcompletiondate: moment().add(15, 'days'),
             })],
           }),
         }),
@@ -87,10 +88,11 @@ module('Acceptance | to review project cards renders', function(hooks) {
       id: 1,
     });
 
-    await visit('/my-projects/to-review');
+    await visit('/my-projects/reviewed');
 
     assert.notOk(find('[data-test-time-remaining]'));
 
-    assert.ok(find('[data-test-invalid-milestone-end-date]'));
+    const timeRemainingValue = find('[data-test-estimated-time-remaining]').textContent.trim();
+    assert.equal(timeRemainingValue, '14', 'Estimated time remaining displays 14');
   });
 });
