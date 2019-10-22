@@ -5,5 +5,5 @@ export default class ReviewedProjectCardComponent extends Component {
   @service
   milestoneConstants;
 
-  project = {};
+  assignment = {};
 }
