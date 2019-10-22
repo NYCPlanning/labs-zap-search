@@ -12,11 +12,11 @@ export default class UpcomingProjectCardComponent extends Component {
   showPopup = false;
 
   @computed('assignment.publicReviewPlannedStartDate')
-  get timeRemainingTillPublicReview() {
-    if (moment(this.assignment.publicReviewPlannedStartDate).diff(moment(), 'days') > 30) {
-      return 'over 30 days';
+  get isMoreThanThirtyDaysBeforePublicReview() {
+    if (this.assignment.publicReviewPlannedStartDate) {
+      return (moment(this.assignment.publicReviewPlannedStartDate).diff(moment(), 'days') > 30);
     }
-    return '< 30 days';
+    return null;
   }
 
   @action
