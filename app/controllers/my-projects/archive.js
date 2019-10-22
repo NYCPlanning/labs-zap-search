@@ -8,7 +8,7 @@ export default class MyProjectsReviewedController extends Controller {
 
   // sort projects by `dcpProjectCompleted` descending
   @computed('model')
-  get sortedProjects() {
+  get sortedAssignments() {
     return this.model.sortBy('project.dcpProjectcompleted').reverseObjects();
   }
 }

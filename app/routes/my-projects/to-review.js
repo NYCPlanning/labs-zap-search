@@ -7,13 +7,4 @@ export default class MyProjectsToReviewRoute extends Route {
 
   @service
   store;
-
-  async model() {
-    return this.store.query('assignment', {
-      tab: 'to-review',
-      include: 'project.milestones,project.dispositions,project.actions',
-    }, {
-      reload: true,
-    });
-  }
 }
