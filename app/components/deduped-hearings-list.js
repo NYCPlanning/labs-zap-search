@@ -9,17 +9,17 @@ import { computed } from '@ember/object';
 export function dedupeAndExtract(records = [], uniqueField1, uniqueField2, propToConcat, arrayOfConcatProps, arrayOfDuplicateObjects) {
   return records.reduce((accumulator, current) => {
     // object that represents a match between accumulator and current based on two similar fields
-    const duplicateObject = accumulator.find(item => item.get(uniqueField1).toString() === current.get(uniqueField1).toString() && item.get(uniqueField2).toString() === current.get(uniqueField2).toString());
+    const duplicateObject = accumulator.find(item => item.disposition.get(uniqueField1).toString() === current.disposition.get(uniqueField1).toString() && item.disposition.get(uniqueField2).toString() === current.disposition.get(uniqueField2).toString());
 
     // if an object exists in accumulator that matches the current object
     if (duplicateObject) {
       // grab the property that is to be concatenated across duplicates
       // e.g. an array of actions associated with duplicate objects
-      const concatProp = current.get(propToConcat);
+      const concatProp = current.disposition.get(propToConcat);
       // push this concatProp into the concatenated property array on the matched object in the accumulator
-      duplicateObject.get(arrayOfConcatProps).push(concatProp);
+      duplicateObject[arrayOfConcatProps].push(concatProp);
       // push the current duplicate object into the array of duplicate objects on the accumulator
-      duplicateObject.get(arrayOfDuplicateObjects).push(current);
+      duplicateObject[arrayOfDuplicateObjects].push(current.disposition);
 
       return accumulator;
     } // if the properties DO NOT match, concatenate current object to accumulator array
@@ -32,28 +32,32 @@ export default class DedupedHearingsListComponent extends Component {
 
   @computed('dispositions')
   get dedupedHearings() {
+    const newDispositionsArray = [];
+
     // setting a new property on each disposition called hearingActions which is an array of objects
     // property hearingActions is initally set to an array of the current disposition's action model.
     // During the reduce, if there is a duplicate in the array of dispositions,
     // the actions model for that duplicate disposition is pushed into this array
-    this.dispositions.forEach(function(disposition) {
-      if (!Object.keys(disposition).includes('hearingActions')) {
-        disposition.set('hearingActions', [disposition.action]);
-      }
-    });
 
     // setting a new property--each disposition in the deduped list will have an array of its duplicate dispositions
     // property duplicateDisps is initally set to an array of the current disposition model (itself)
     // During the reduce, if there is a duplicate in the array of dispositions,
     // that duplicate disposition is pushed into this array
-    this.dispositions.forEach(function(disposition) {
-      disposition.set('duplicateDisps', [disposition]);
+
+    this.dispositions.forEach(function(currentDisp) {
+      newDispositionsArray.push(
+        {
+          disposition: currentDisp,
+          hearingActions: [currentDisp.action],
+          duplicateDisps: [currentDisp],
+        },
+      );
     });
 
     // function to deduplicate dispositions based on dcpPublichearinglocation & dcpDateofpublichearing
     // each disposition object in the new deduped array will have a property hearingActions and duplicateDisps, both arrays of objects
     // hearingActions is an array of action model objects that are concatenated across all duplicate objects
     // duplicateDisps is an array of disposition model objects that are concatenated across all duplicate objects
-    return dedupeAndExtract(this.dispositions, 'dcpPublichearinglocation', 'dcpDateofpublichearing', 'action', 'hearingActions', 'duplicateDisps');
+    return dedupeAndExtract(newDispositionsArray, 'dcpPublichearinglocation', 'dcpDateofpublichearing', 'action', 'hearingActions', 'duplicateDisps');
   }
 }

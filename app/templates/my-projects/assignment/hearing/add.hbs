@@ -49,7 +49,7 @@
         allActions=allActions
         checkIfMissing=checkIfMissing}}
     {{else if (eq allActions false)}}
-      {{#each model.project.dispositions as |disposition|}}
+      {{#each model.dispositions as |disposition|}}
         <h4>{{disposition.action.dcpName}}  <small class="dark-gray">{{disposition.action.dcpUlurpnumber}}</small></h4>
         {{hearing-form
           disposition=disposition
@@ -107,34 +107,34 @@
                 </div>
               </li>
             {{else}}
-              {{#deduped-hearings-list dispositions=model.project.dispositions as |dedupedHearings|}}
+              {{#deduped-hearings-list dispositions=model.dispositions as |dedupedHearings|}}
                 <h5 class="column-header">Hearing Information</h5>
                     <ul class="no-bullet">
                     {{#each dedupedHearings as |hearing|}}
                       <li class="grid-x small-margin-bottom">
                         <div class="cell shrink small-margin-right">
-                          {{#if (is-before hearing.dcpDateofpublichearing)}}
+                          {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
                             {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
                           {{else}}
                             {{fa-icon "check" class="blue" fixedWidth=true}}
                           {{/if}}
                         </div>
                         <div class="cell auto">
-                          <strong data-test-hearing-location="{{hearing.id}}" class="display-inline-block">
-                            {{~hearing.dcpPublichearinglocation~}}
+                          <strong data-test-hearing-location="{{hearing.disposition.id}}" class="display-inline-block">
+                            {{~hearing.disposition.dcpPublichearinglocation~}}
                           </strong>
 
                           <span class="display-inline-block">
-                            <span data-test-hearing-date="{{hearing.id}}">
-                              {{~moment-format hearing.dcpDateofpublichearing "MM/D/YYYY"~}}
+                            <span data-test-hearing-date="{{hearing.disposition.id}}">
+                              {{~moment-format hearing.disposition.dcpDateofpublichearing "MM/D/YYYY"~}}
                             </span>
                             <span class="light-gray">|</span>
-                            <span data-test-hearing-time="{{hearing.id}}">
-                              {{~moment-format hearing.dcpDateofpublichearing "h:mm A"~}}
+                            <span data-test-hearing-time="{{hearing.disposition.id}}">
+                              {{~moment-format hearing.disposition.dcpDateofpublichearing "h:mm A"~}}
                             </span>
                           </span>
 
-                          <small data-test-hearing-actions-list="{{hearing.id}}">
+                          <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
                             {{#each hearing.hearingActions as |action index| ~}}
                               <span class="label light-gray tiny-margin-bottom tiny-margin-right">
                                 {{action.dcpName}}

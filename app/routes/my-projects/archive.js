@@ -12,7 +12,7 @@ export default class MyProjectsArchiveRoute extends Route {
     // Use this endpoint for now. This will need to be updated when the backend is finalized.
     return this.store.query('assignment', {
       tab: 'archive',
-      include: 'project.milestones,project.dispositions,project.actions',
+      include: 'project.milestones,project.dispositions,project.actions,dispositions,dispositions.action',
     }, {
       reload: true,
     });

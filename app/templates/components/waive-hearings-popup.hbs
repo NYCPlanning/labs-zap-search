@@ -2,16 +2,16 @@
   {{#confirmation-modal open=showPopup}}
     <h3>
       <small class="display-inline-block">Opt out of noticing a public hearing for:</small>
-      <span class="display-inline-block">{{project.dcpProjectname}}</span>
+      <span class="display-inline-block">{{assignment.project.dcpProjectname}}</span>
     </h3>
-    <p>Without proper notice of a public hearing, the {{participant-type-label project.assignments.firstObject.dcpLupteammemberrole}}'s recommendation does not comply with City Charter requirements.
+    <p>Without proper notice of a public hearing, the {{participant-type-label assignment.dcpLupteammemberrole}}'s recommendation does not comply with City Charter requirements.
     NYC Planning will still accept a recommendation, but a disapproval will not trigger an automatic City Council call up.</p>
     <p><strong>Are you sure you want to opt out of noticing a public hearing?</strong></p>
     <button
       class="button small"
       data-test-button="onConfirmOptOutHearing"
       type="button"
-      onClick={{action "onConfirmOptOutHearing" project.dispositions}}
+      onClick={{action "onConfirmOptOutHearing" assignment.dispositions}}
     >
       Opt Out
     </button>

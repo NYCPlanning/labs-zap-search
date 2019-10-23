@@ -48,7 +48,7 @@ export default class MyProjectsProjectHearingAddController extends Controller {
     // passed down to date-time-picker and location-input components
     this.set('checkIfMissing', true);
 
-    const { dispositions } = this.model.project;
+    const { dispositions } = this.model;
     const dispositionForAllActions = this.get('dispositionForAllActions');
 
     let fieldsFilled;
@@ -82,7 +82,7 @@ export default class MyProjectsProjectHearingAddController extends Controller {
   // saves date and location to the disposition model
   @action
   async onConfirm() {
-    const { dispositions } = this.model.project;
+    const { dispositions } = this.model;
     const allActions = this.get('allActions');
 
     // if user is submitting ONE hearing for ALL actions

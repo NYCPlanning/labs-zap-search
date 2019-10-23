@@ -114,6 +114,37 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
   test('user cannot submit hearing form until all inputs are filled for ONE action per hearing', async function(assert) {
     this.server.create('assignment', {
       id: 5,
+      tab: 'to-review',
+      dispositions: [
+        server.create('disposition', {
+          id: 17,
+          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        }),
+        server.create('disposition', {
+          id: 18,
+          action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        }),
+        server.create('disposition', {
+          id: 19,
+          action: server.create('action', { dcpName: 'Business Improvement District', dcpUlurpnumber: 'I030148MMQ' }),
+        }),
+        server.create('disposition', {
+          id: 20,
+          action: server.create('action', { dcpName: 'Change in City Map', dcpUlurpnumber: '200088ZMX' }),
+        }),
+        server.create('disposition', {
+          id: 21,
+          action: server.create('action', { dcpName: 'Enclosed Sidewalk Cafe', dcpUlurpnumber: '190172ZMK' }),
+        }),
+        server.create('disposition', {
+          id: 22,
+          action: server.create('action', { dcpName: 'Large Scale Special Permit', dcpUlurpnumber: 'N190257ZRK' }),
+        }),
+        server.create('disposition', {
+          id: 23,
+          action: server.create('action', { dcpName: 'Zoning Certification', dcpUlurpnumber: '190256ZMK' }),
+        }),
+      ],
       project: this.server.create('project', {
         dispositions: [
           server.create('disposition', {
@@ -148,6 +179,24 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       }),
     });
 
+    this.server.create('assignment', {
+      id: 6,
+      dispositions: [
+        server.create('disposition', {
+          id: 24,
+          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
+        }),
+      ],
+      project: this.server.create('project', {
+        dispositions: [
+          server.create('disposition', {
+            id: 24,
+            action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
+          }),
+        ],
+      }),
+    });
+
     await visit('/my-projects/5/hearing/add');
 
     // make sure that the submit button is not showing up until a user selects a radio button
@@ -159,7 +208,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     // now that a user has selected radio button, checkHearing button should show up
     assert.ok(find('[data-test-button="checkHearing"]'));
 
-    // ## DISPOSITION 1 #######################################################
+    // ## DISPOSITION 1 ################### duplicate with Disposition 2 & 5
     await fillIn('[data-test-location-input="17"]', '121 Bananas Ave, Queens, NY');
     await triggerEvent('[data-test-location-input="17"]', 'keyup');
     // user clicks on date input box
@@ -174,7 +223,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     assert.notOk(find('[data-test-button="confirmHearing"]'));
 
-    // ## DISPOSITION 2 #######################################################
+    // ## DISPOSITION 2 ################### duplicate with Disposition 1 & 5
     await fillIn('[data-test-location-input="18"]', '121 Bananas Ave, Queens, NY');
     await triggerEvent('[data-test-location-input="18"]', 'keyup');
     await click('[data-test-date-input="18"]');
@@ -191,7 +240,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     await fillIn('[data-test-location-input="19"]', '186 Alligators Ave, Staten Island, NY');
     await triggerEvent('[data-test-location-input="19"]', 'keyup');
     await click('[data-test-date-input="19"]');
-    await Pikaday.selectDate(new Date('2020-11-12T00:00:00'));
+    await Pikaday.selectDate(new Date('2021-11-12T00:00:00'));
     await fillIn('[data-test-hour-input="19"]', 5);
     await fillIn('[data-test-minute-input="19"]', 45);
     await selectChoose('[data-test-timeofday-dropdown="19"] .timeofday-dropdown', 'PM');
@@ -215,7 +264,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     await click('[data-test-button="checkHearing"]');
     assert.notOk(find('[data-test-button="confirmHearing"]'));
 
-    // ## DISPOSITION 5 #######################################################
+    // ## DISPOSITION 5 ################### duplicate with Disposition 1 & 2
     await fillIn('[data-test-location-input="21"]', '121 Bananas Ave, Queens, NY');
     await triggerEvent('[data-test-location-input="21"]', 'keyup');
     await click('[data-test-date-input="21"]');
@@ -287,7 +336,6 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     // ##################################################################################################################
 
-
     // officially saves the hearing info to the model
     await click('[data-test-button="confirmHearing"]');
 
@@ -296,6 +344,20 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     // clicking back to to-review
     await click('[data-test-button="back-to-review"]');
 
+    // check that the hearing text content is correct
+    assert.equal(location17, '121 Bananas Ave, Queens, NY', "correct text for data-test-hearing-location='17'");
+    assert.equal(time17, '6:30 PM', "correct text for data-test-hearing-time='17'");
+    assert.equal(date17, '10/21/2020', "correct text for data-test-hearing-date='17'");
+    assert.equal(location23, '121 Bananas Ave, Queens, NY', "correct text for data-test-hearing-location='23'");
+    assert.equal(time23, '1:25 AM', "correct text for data-test-hearing-time='23'");
+    assert.equal(date23, '10/21/2020', "correct text for data-test-hearing-date='23'");
+    // sometimes the ulurp number is displayed, whereas sometimes the action name is displayed
+    assert.ok(action17.includes('C780076TLK') || action17.includes('Zoning Special Permit'), 'action17 includes correct ulurp info');
+    assert.ok(action18.includes('N860877TCM') || action17.includes('Zoning Text Amendment'), 'action17 includes correct ulurp info');
+    assert.ok(action21.includes('190172ZMK') || action17.includes('Enclosed Sidewalk Cafe'), 'action17 includes correct ulurp info');
+
+    assert.ok(action23.includes('190256ZMK') || action23.includes('Zoning Certification'), 'action23 includes correct ulurp info');
+
     // make sure that project 6 does not have a hearings list
     assert.notOk(find('[data-test-hearing-location="24"]'));
   });
@@ -303,9 +365,11 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
   test('user cannot submit hearing form if hour or minute contain invalid values', async function(assert) {
     this.server.create('assignment', {
       id: 4,
+      tab: 'to-review',
       project: this.server.create('project', {
         id: 4,
-        dispositions: this.server.createList('dispositions', 2, { tab: 'to-review' }),
+        tab: 'to-review',
+        dispositions: this.server.createList('dispositions', 2),
       }),
     });
 
@@ -386,6 +450,10 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
   test('if there is a server error when running .save(), user will see error message', async function(assert) {
     this.server.create('assignment', {
       id: 4,
+      dispositions: this.server.createList('dispositions', 1, {
+        dcpPublichearinglocation: '',
+        dcpDateofpublichearing: null,
+      }),
       project: this.server.create('project', {
         id: 4,
         dispositions: this.server.createList('dispositions', 1, {
