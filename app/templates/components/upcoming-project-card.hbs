@@ -5,23 +5,23 @@
   <div class="grid-x grid-x-small-gutters">
     <div class="cell large-4 xlarge-5">
       <h3 class="tiny-margin-bottom">
-        {{#link-to 'show-project' assignment.project.id}}<span data-test-project-profile-button="{{assignment.project.id}}">{{assignment.project.dcpProjectname}}</span>{{/link-to}}
-        <small class="dark-gray">{{assignment.project.dcpUlurpNonulurp}}</small>
+        {{#link-to 'show-project' this.assignment.project.id}}<span data-test-project-profile-button="{{this.assignment.project.id}}">{{this.assignment.project.dcpProjectname}}</span>{{/link-to}}
+        <small class="dark-gray">{{this.assignment.project.dcpUlurpNonulurp}}</small>
       </h3>
-      <h5 class="applicant">{{assignment.project.applicants}}</h5>
-      <p>{{assignment.project.dcpProjectbrief}}</p>
+      <h5 class="applicant">{{this.assignment.project.applicants}}</h5>
+      <p>{{this.assignment.project.dcpProjectbrief}}</p>
     </div>
     <div class="cell medium-4 large-3 xlarge-2">
       <div class="text-center medium-margin-right medium-margin-left">
-        {{#if assignment.upcomingMilestonePlannedStartDate}}
+        {{#if (eq this.assignment.project.dcpPublicstatusSimp 'In Public Review')}}
           <p class="tiny-margin-bottom">
-            {{participant-type-label assignment.dcpLupteammemberrole}} Review Begins
+            {{participant-type-label this.assignment.dcpLupteammemberrole}} Review Begins
           </p>
           <p class="lead">
             <strong
               data-test-time-remaining
             >
-              {{moment-format assignment.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
+              {{moment-format this.assignment.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
             </strong>
           </p>
         {{else}}
@@ -33,7 +33,7 @@
               data-test-fuzzy-time-remaining
             >
               {{#if (not (eq isMoreThanThirtyDaysBeforePublicReview null))}}
-                {{if isMoreThanThirtyDaysBeforePublicReview 'over 30 days' '< 30 days'}}
+                {{if isMoreThanThirtyDaysBeforePublicReview 'over 30 days' 'under 30 days'}}
               {{/if}}
             </strong>
           </p>
@@ -44,17 +44,17 @@
       </div>
     </div>
     <div class="cell medium-auto">
-      {{#if assignment.hearingsNotSubmittedNotWaived}}
+      {{#if this.assignment.hearingsNotSubmittedNotWaived}}
         <div class="grid-x">
           <div class="cell medium-auto">
             <LinkTo
               @route="my-projects.assignment.hearing.add"
-              @model={{assignment}}
+              @model={{this.assignment}}
               class="button expanded"
               data-test-button="submitHearing"
             >
               {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
-              Post {{participant-type-label assignment.dcpLupteammemberrole}} Hearing Notice
+              Post {{participant-type-label this.assignment.dcpLupteammemberrole}} Hearing Notice
             </LinkTo>
           </div>
           <div class="cell medium-shrink">
@@ -67,12 +67,12 @@
               <small>Opt Out</small>
             </button>
 
-            {{waive-hearings-popup assignment=assignment showPopup=showPopup}}
+            {{waive-hearings-popup assignment=this.assignment showPopup=showPopup}}
           </div>
         </div>
       {{/if}}
       <ul class="no-bullet no-margin">
-        {{#each assignment.tabSpecificMilestones as |milestone|}}
+        {{#each this.assignment.tabSpecificMilestones as |milestone|}}
           <li class="grid-x small-margin-bottom">
             <div class="cell shrink small-margin-right">
               {{#if (eq milestone.statuscode "Completed")}}
