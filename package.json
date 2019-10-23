@@ -60,6 +60,7 @@
     "ember-decorators-polyfill": "1.0.6",
     "ember-export-application-global": "^2.0.0",
     "ember-fetch": "6.5.0",
+    "ember-file-upload": "^2.7.1",
     "ember-g-recaptcha": "^0.9.0",
     "ember-load-initializers": "^2.0.0",
     "ember-mapbox-gl": "0.13.0",

@@ -471,39 +471,31 @@
               </fieldset>
             {{/if}}
             {{#if (eq this.allActions true)}}
-              <label
-                for="all-actions-dcpConsideration"
-                class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-label"}}
-              >
-                Recommendation Comment for all actions.
-              </label>
-              <Textarea
-                @id="all-actions-dcpConsideration"
-                @value={{this.dispositionForAllActionsChangeset.dcpConsideration}}
-                @placeholder="Add Recommendation comment for all actions here."
-                @rows="4"
-                @class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-input"}}
-                data-test-all-actions-dcpConsideration
-              />
-              <span class="form-error is-visible" role="alert">
-                {{this.dispositionForAllActionsChangeset.error.dcpConsideration.validation}}
-              </span>
+              <fieldset class="medium-margin-bottom">
+                <label
+                  for="all-actions-dcpConsideration"
+                  class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-label"}}
+                >
+                  Recommendation Comment for all actions.
+                </label>
+                <Textarea
+                  @id="all-actions-dcpConsideration"
+                  @value={{this.dispositionForAllActionsChangeset.dcpConsideration}}
+                  @placeholder="Add Recommendation comment for all actions here."
+                  @rows="4"
+                  @class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-input"}}
+                  data-test-all-actions-dcpConsideration
+                />
+                <span class="form-error is-visible" role="alert">
+                  {{this.dispositionForAllActionsChangeset.error.dcpConsideration.validation}}
+                </span>
+              </fieldset>
             {{/if}}
-            <div class="callout">
-              <label>Uploaded recommendation files:</label>
-              <ul>
-                <li><a>Important File <small>(PDF)</small></a></li>
-                <li><a>Important File <small>(PDF)</small></a></li>
-                <li><a>Important File <small>(PDF)</small></a></li>
-              </ul>
-              <label for="exampleFileUpload_2" class="button gray no-margin">
-                {{fa-icon 'upload'}} Upload Files
-              </label>
-              <input type="file" id="exampleFileUpload_2" class="show-for-sr">
-            </div>
+            <RecommendationUploadFile/>
+            <hr>
             <fieldset class="medium-margin-bottom">
               <button
-                class="button large-margin-top"
+                class="button"
                 type="button"
                 onClick={{this.onContinue}}
                 data-test-continue
@@ -644,9 +636,11 @@
                 {{/if}}
                 <p>Attached files:</p>
                 <ul>
-                  <li><a>Important File <small>(PDF)</small></a></li>
-                  <li><a>Important File <small>(PDF)</small></a></li>
-                  <li><a>Important File <small>(PDF)</small></a></li>
+                  {{#with (file-queue name="files") as |queue|}}
+                    {{#each queue.files as |file|}}
+                      <li><a>{{file.name}}<small> ({{file.type}})</small></a></li>
+                    {{/each}}
+                  {{/with}}
                 </ul>
               {{/if}}
               <p class="callout warning text-small">
