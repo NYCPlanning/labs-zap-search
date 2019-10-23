@@ -469,28 +469,31 @@
               </fieldset>
             {{/if}}
             {{#if (eq this.allActions true)}}
-              <label
-                for="all-actions-dcpConsideration"
-                class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-label"}}
-              >
-                Recommendation Comment for all actions.
-              </label>
-              <Textarea
-                @id="all-actions-dcpConsideration"
-                @value={{this.dispositionForAllActionsChangeset.dcpConsideration}}
-                @placeholder="Add Recommendation comment for all actions here."
-                @rows="4"
-                @class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-input"}}
-                data-test-all-actions-dcpConsideration
-              />
-              <span class="form-error is-visible" role="alert">
-                {{this.dispositionForAllActionsChangeset.error.dcpConsideration.validation}}
-              </span>
+              <fieldset class="medium-margin-bottom">
+                <label
+                  for="all-actions-dcpConsideration"
+                  class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-label"}}
+                >
+                  Recommendation Comment for all actions.
+                </label>
+                <Textarea
+                  @id="all-actions-dcpConsideration"
+                  @value={{this.dispositionForAllActionsChangeset.dcpConsideration}}
+                  @placeholder="Add Recommendation comment for all actions here."
+                  @rows="4"
+                  @class={{if this.dispositionForAllActionsChangeset.error.dcpConsideration "is-invalid-input"}}
+                  data-test-all-actions-dcpConsideration
+                />
+                <span class="form-error is-visible" role="alert">
+                  {{this.dispositionForAllActionsChangeset.error.dcpConsideration.validation}}
+                </span>
+              </fieldset>
             {{/if}}
             <RecommendationUploadFile/>
+            <hr>
             <fieldset class="medium-margin-bottom">
               <button
-                class="button large-margin-top"
+                class="button"
                 type="button"
                 onClick={{this.onContinue}}
                 data-test-continue
