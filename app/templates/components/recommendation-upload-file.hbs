@@ -13,6 +13,7 @@
         <FileUpload
           @name='files'
           @accept='*/*'
+          @multiple=true
           @onfileadd={{action 'uploadFile'}}
         >
           {{fa-icon 'upload'}} Choose Files
