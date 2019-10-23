@@ -10,6 +10,17 @@ export default Factory.extend({
   //   return faker.random.uuid();
   // },
 
+  // dcpPublicStatus and dcpPublicstatusSimp should not receive random mock data
+  // because their values are critical to expressing project state.
+
+  // Domain is ['Filed', 'Certified', 'Approved', 'Withdrawn']
+  dcpPublicstatus: 'Filed',
+
+  // Domain is ['Filed', 'In Public Review', 'Completed', 'Unknown']
+  // This field is derived from dcpPublicstatus.
+  // See https://github.com/NYCPlanning/zap-api/blob/develop/queries/projects/show.sql#L28
+  dcpPublicstatusSimp: 'Filed',
+
   dcpName() {
     return faker.random.number();
   },
@@ -99,14 +110,6 @@ export default Factory.extend({
       ${faker.random.arrayElement([faker.address.streetName(), faker.company.companyName()])}
       ${faker.random.arrayElement(['Rezoning', faker.address.streetSuffix()])}
     `;
-  },
-
-  publicStatus() {
-    return faker.random.arrayElement(['Active', 'Approved', 'Withdrawn']);
-  },
-
-  dcpPublicstatusSimp() {
-    return faker.random.arrayElement(['Filed', 'In Public Review', 'Completed']);
   },
 
   projectCompleted() {
