@@ -18,7 +18,9 @@
             {{participant-type-label assignment.dcpLupteammemberrole}} Review Begins
           </p>
           <p class="lead">
-            <strong>
+            <strong
+              data-test-time-remaining
+            >
               {{moment-format assignment.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
             </strong>
           </p>
@@ -27,8 +29,12 @@
             Public Review Begins
           </p>
           <p class="lead">
-            <strong>
-              {{timeRemainingTillPublicReview}}
+            <strong
+              data-test-fuzzy-time-remaining
+            >
+              {{#if (not (eq isMoreThanThirtyDaysBeforePublicReview null))}}
+                {{if isMoreThanThirtyDaysBeforePublicReview 'over 30 days' '< 30 days'}}
+              {{/if}}
             </strong>
           </p>
         {{/if}}
