@@ -6,6 +6,7 @@ import {
   find,
   fillIn,
   triggerEvent,
+  pauseTest,
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { Interactor as Pikaday } from 'ember-pikaday/test-support';
@@ -288,6 +289,8 @@ module('Acceptance | user can save hearing form', function(hooks) {
 
     // clicking back to to-review
     await click('[data-test-button="back-to-review"]');
+
+    await pauseTest();
 
 
     // make sure that project 6 does not have a hearings list

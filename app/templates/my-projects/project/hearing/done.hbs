@@ -4,13 +4,7 @@
     <p>Hearings submitted for:</p>
     <div class="project-summary-card callout large-margin-bottom">
       <h3 class="tiny-margin-bottom">
-        <LinkTo
-          @route="show-project"
-          @model={{project}}
-          data-test-button="back-to-project-profile"
-        >
-          {{model.dcpProjectname}}
-        </LinkTo>
+        {{#link-to 'show-project' model.id}}<span data-test-project-profile-button="{{model.id}}">{{model.dcpProjectname}}</span>{{/link-to}}
         <small class="dark-gray">{{model.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{model.applicants}}</h5>

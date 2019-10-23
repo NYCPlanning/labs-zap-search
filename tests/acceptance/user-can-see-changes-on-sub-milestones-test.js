@@ -1,14 +1,19 @@
 import { module, test } from 'qunit';
 import {
   visit,
+  pauseTest,
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { invalidateSession } from 'ember-simple-auth/test-support';
+import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 
 module('Acceptance | user can see changes on sub-milestones', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+
+  hooks.beforeEach(async function() {
+    await authenticateSession();
+  });
 
   hooks.beforeEach(async function() {
     window.location.hash = '';
@@ -41,11 +46,11 @@ module('Acceptance | user can see changes on sub-milestones', function(hooks) {
           emailaddress1: 'testuser1@planning.nyc.gov',
           landUseParticipant: 'QNCB5',
         }),
-        server.create('user', {
-          id: 2,
-          emailaddress1: 'testuser2@planning.nyc.gov',
-          landUseParticipant: 'QNBP',
-        }),
+        // server.create('user', {
+        //   id: 2,
+        //   emailaddress1: 'testuser2@planning.nyc.gov',
+        //   landUseParticipant: 'QNBP',
+        // }),
       ],
       actions: [
         server.create('action', {
@@ -66,12 +71,12 @@ module('Acceptance | user can see changes on sub-milestones', function(hooks) {
           displayName: 'Community Board Review',
           displayDate: '2019-04-11T22:35:09.161Z',
         }),
-        server.create('milestone', {
-          id: 2,
-          dcpMilestonesequence: 49,
-          displayName: 'Borough President Review',
-          displayDate: '2019-06-11T22:35:09.161Z',
-        }),
+        // server.create('milestone', {
+        //   id: 2,
+        //   dcpMilestonesequence: 49,
+        //   displayName: 'Borough President Review',
+        //   displayDate: '2019-06-11T22:35:09.161Z',
+        // }),
       ],
       dispositions: [
         server.create('disposition', {
@@ -146,6 +151,8 @@ module('Acceptance | user can see changes on sub-milestones', function(hooks) {
     });
 
     await visit('/projects/1');
+
+    await pauseTest();
 
     assert.ok(this.element.textContent.includes('VOTE'));
   });
