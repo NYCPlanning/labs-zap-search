@@ -60,10 +60,13 @@
                   </div>
                   <div class="cell auto">
                     <strong>{{disposition.dcpPublichearinglocation}}</strong>
-                    <small class="datetime">{{~moment-format hearing.dcpDateofpublichearing "LLL"~}}</small>
+                    <small class="datetime">{{~moment-format disposition.dcpDateofpublichearing "LLLL"~}}</small>
                     <span class="display-block text-tiny">
                       {{#each disposition.milestoneHearingActions as |action index|}}
-                        {{if (gt index 0) ", "}}{{action.dcpName}}
+                        <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{index}}">
+                          {{action.dcpName}}
+                          <small>{{action.dcpUlurpnumber}}</small>
+                        </span>
                       {{/each}}
                     </span>
                   </div>
@@ -100,7 +103,10 @@
                     <small class="datetime">{{~moment-format disposition.dcpDateofvote "LL"~}}</small>
                     <span class="display-block text-tiny">
                       {{#each disposition.voteActions as |action index|}}
-                        {{if (gt index 0) ", "}}{{action.dcpName}}
+                        <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{index}}">
+                          {{action.dcpName}}
+                          <small>{{action.dcpUlurpnumber}}</small>
+                        </span>
                       {{/each}}
                     </span>
                   </div>

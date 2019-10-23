@@ -622,7 +622,7 @@
                   <p
                     data-test-confirmation-all-actions-dcpDateofvote
                   >
-                    Vote Date: {{this.dispositionForAllActionsChangeset.dcpDateofvote}}
+                    Vote Date: {{~moment-format this.dispositionForAllActionsChangeset.dcpDateofvote "LLLL"~}}
                   </p>
                 {{/if}}
                 {{#if (eq this.allActions true)}}
