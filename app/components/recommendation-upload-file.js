@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 
 export default class RecommendationUploadFile extends Component {
   @action
-  uploadImage() {
+  uploadFile() {
     // TODO: handle uploaded file!
   }
 }
