@@ -487,18 +487,7 @@
                 {{this.dispositionForAllActionsChangeset.error.dcpConsideration.validation}}
               </span>
             {{/if}}
-            <div class="callout">
-              <label>Uploaded recommendation files:</label>
-              <ul>
-                <li><a>Important File <small>(PDF)</small></a></li>
-                <li><a>Important File <small>(PDF)</small></a></li>
-                <li><a>Important File <small>(PDF)</small></a></li>
-              </ul>
-              <label for="exampleFileUpload_2" class="button gray no-margin">
-                {{fa-icon 'upload'}} Upload Files
-              </label>
-              <input type="file" id="exampleFileUpload_2" class="show-for-sr">
-            </div>
+            <RecommendationUploadFile/>
             <fieldset class="medium-margin-bottom">
               <button
                 class="button large-margin-top"
@@ -640,9 +629,11 @@
                 {{/if}}
                 <p>Attached files:</p>
                 <ul>
-                  <li><a>Important File <small>(PDF)</small></a></li>
-                  <li><a>Important File <small>(PDF)</small></a></li>
-                  <li><a>Important File <small>(PDF)</small></a></li>
+                  {{#with (file-queue name="files") as |queue|}}
+                    {{#each queue.files as |file|}}
+                      <li><a>{{file.name}}<small> ({{file.type}})</small></a></li>
+                    {{/each}}
+                  {{/with}}
                 </ul>
               {{/if}}
               <p class="callout warning text-small">
