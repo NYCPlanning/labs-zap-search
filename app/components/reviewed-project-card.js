@@ -25,26 +25,6 @@ export default class ReviewedProjectCardComponent extends Component {
   }
 
   @computed('assignment.reviewedMilestoneDates')
-  // used when dcpActualenddate exists
-  get actualTimeDisplay() {
-    const firstInProgressMilestoneDates = this.assignment.reviewedMilestoneDates[0] || {};
-    if (firstInProgressMilestoneDates.displayName && firstInProgressMilestoneDates.dcpActualstartdate && firstInProgressMilestoneDates.dcpActualenddate) {
-      return {
-        displayName: firstInProgressMilestoneDates.displayName,
-        timeRemaining: moment(firstInProgressMilestoneDates.dcpActualenddate).diff(moment(), 'days'),
-        timeDuration: moment(firstInProgressMilestoneDates.dcpActualenddate).diff(moment(firstInProgressMilestoneDates.dcpActualstartdate), 'days'),
-        dcpActualenddate: firstInProgressMilestoneDates.dcpActualenddate,
-      };
-    }
-    return {
-      displayName: null,
-      timeRemaining: null,
-      timeDuration: null,
-      dcpActualenddate: null,
-    };
-  }
-
-  @computed('assignment.reviewedMilestoneDates')
   // used when dcpActualenddate doesn't exist but dcpPlannedcompletiondate does
   get plannedTimeDisplay() {
     const firstInProgressMilestoneDates = this.assignment.reviewedMilestoneDates[0] || {};

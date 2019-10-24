@@ -22,32 +22,32 @@ module('Unit | Controller | my-projects/to-review', function(hooks) {
     await this.owner.lookup('service:store').createRecord('project', {
       id: 1,
       tab: 'to-review',
-      toReviewMilestoneActualEndDate: dateB,
+      toReviewMilestonePlannedCompletionDate: dateB,
     });
 
     await this.owner.lookup('service:store').createRecord('project', {
       id: 2,
       tab: 'to-review',
-      toReviewMilestoneActualEndDate: dateC,
+      toReviewMilestonePlannedCompletionDate: dateC,
     });
 
     await this.owner.lookup('service:store').createRecord('project', {
       id: 3,
       tab: 'to-review',
-      toReviewMilestoneActualEndDate: dateA,
+      toReviewMilestonePlannedCompletionDate: dateA,
     });
 
     const projectModel = await this.owner.lookup('service:store').findAll('project');
 
     controller.model = projectModel;
 
-    const projectDates = controller.model.map(p => p.toReviewMilestoneActualEndDate.getMonth());
+    const projectDates = controller.model.map(p => p.toReviewMilestonePlannedCompletionDate.getMonth());
 
     assert.equal(projectDates[0], 10);
     assert.equal(projectDates[1], 11);
     assert.equal(projectDates[2], 9);
 
-    const sortedProjectsDates = controller.sortedProjects.map(p => p.toReviewMilestoneActualEndDate.getMonth());
+    const sortedProjectsDates = controller.sortedProjects.map(p => p.toReviewMilestonePlannedCompletionDate.getMonth());
 
     assert.equal(sortedProjectsDates[0], 9);
     assert.equal(sortedProjectsDates[1], 10);

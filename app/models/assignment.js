@@ -108,13 +108,13 @@ export default class AssignmentModel extends Model {
   }
 
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
-  get toReviewMilestoneActualEndDate() {
+  get toReviewMilestonePlannedCompletionDate() {
     if (this.tab !== 'to-review') {
       return null;
     }
     const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
-    const { dcpActualenddate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
-    return dcpActualenddate;
+    const { dcpPlannedcompletiondate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    return dcpPlannedcompletiondate;
   }
 
   // If `tab` is 'reviewed'...
@@ -130,7 +130,6 @@ export default class AssignmentModel extends Model {
       milestone: milestone.dcpMilestone,
       displayName: milestone.displayName,
       dcpActualstartdate: milestone.dcpActualstartdate,
-      dcpActualenddate: milestone.dcpActualenddate,
       dcpPlannedcompletiondate: milestone.dcpPlannedcompletiondate,
     }));
   }

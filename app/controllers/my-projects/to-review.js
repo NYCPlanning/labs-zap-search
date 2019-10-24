@@ -6,10 +6,10 @@ export default class MyProjectsToReviewController extends Controller {
   @service
   currentUser;
 
-  // sort assignments based on `toReviewMilestoneActualEndDate` ascending
+  // sort assignments based on `toReviewMilestonePlannedCompletionDate` ascending
   @computed('model')
   get sortedProjects() {
     const assignments = this.get('model');
-    return assignments.sortBy('toReviewMilestoneActualEndDate');
+    return assignments.sortBy('toReviewMilestonePlannedCompletionDate');
   }
 }
