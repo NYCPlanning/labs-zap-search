@@ -32,27 +32,19 @@ export default class DedupedHearingsListComponent extends Component {
 
   @computed('dispositions')
   get dedupedHearings() {
-    const newDispositionsArray = [];
-
-    // setting a new property on each disposition called hearingActions which is an array of objects
-    // property hearingActions is initally set to an array of the current disposition's action model.
+    // ** Setting a new property on each object called hearingActions which is an array of objects.
+    // The new property hearingActions is initally set to an array of the current disposition's action model.
     // During the reduce, if there is a duplicate in the array of dispositions,
-    // the actions model for that duplicate disposition is pushed into this array
-
-    // setting a new property--each disposition in the deduped list will have an array of its duplicate dispositions
-    // property duplicateDisps is initally set to an array of the current disposition model (itself)
+    // the actions model for that duplicate disposition is pushed into this array.
+    // ** Setting a new property--each object in the deduped list will have an array of that disposition's duplicate dispositions.
+    // The new property duplicateDisps is initally set to an array of the current disposition model (itself).
     // During the reduce, if there is a duplicate in the array of dispositions,
-    // that duplicate disposition is pushed into this array
-
-    this.dispositions.forEach(function(currentDisp) {
-      newDispositionsArray.push(
-        {
-          disposition: currentDisp,
-          hearingActions: [currentDisp.action],
-          duplicateDisps: [currentDisp],
-        },
-      );
-    });
+    // that duplicate disposition is pushed into this array.
+    const newDispositionsArray = this.dispositions.map(disp => ({
+      disposition: disp,
+      hearingActions: [disp.action],
+      duplicateDisps: [disp],
+    }));
 
     // function to deduplicate dispositions based on dcpPublichearinglocation & dcpDateofpublichearing
     // each disposition object in the new deduped array will have a property hearingActions and duplicateDisps, both arrays of objects

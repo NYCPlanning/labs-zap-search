@@ -14,6 +14,8 @@ export default class UserModel extends Model {
 
   @hasMany('assignment', { async: false }) assignments;
 
+  @hasMany('user', { async: false }) dispositions;
+
   // ONE User has Many User Project Participant Types
   @hasMany('userProjectParticipantType', { async: false }) userProjectParticipantTypes;
 

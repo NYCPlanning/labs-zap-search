@@ -63,9 +63,7 @@ export default class AssignmentModel extends Model {
 
   @computed('hearingsSubmitted', 'hearingsWaived')
   get hearingsSubmittedOrWaived() {
-    const hearingsSubmitted = this.get('hearingsSubmitted');
-    const hearingsWaived = this.get('hearingsWaived');
-    return !!hearingsSubmitted || !!hearingsWaived;
+    return this.get('hearingsSubmitted') || this.get('hearingsWaived');
   }
 
   @computed('hearingsSubmitted', 'hearingsWaived')

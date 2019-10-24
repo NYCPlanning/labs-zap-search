@@ -32,6 +32,10 @@ export default Factory.extend({
     return faker.list.random('Active', 'Inactive')(i);
   },
 
+  dcpRecommendationsubmittedbyname(i) {
+    return faker.list.random('QNBB', 'MNBP', 'QNCB5')(i);
+  },
+
   statuscode(i) {
     return faker.list.random('Draft', 'Saved', 'Submitted', 'Deactivated', 'Not Submitted')(i);
   },
