@@ -69,7 +69,14 @@
                 <span style="color:#ff0000">{{fa-icon 'youtube' prefix='fab' size='2x' pull='left'}}</span>
                 <span class="text-small">
                   <strong>{{link.hearing_type}}</strong>
-                  <span class="display-block dark-gray"><small>{{moment-format link.date "MMMM D, YYYY" }}</small></span>
+                  <span class="display-block dark-gray">
+                    <small>
+                      <DateDisplay
+                        @date={{link.date}}
+                        @outputFormat="MMMM D, YYYY"
+                      />
+                    </small>
+                  </span>
                 </span>
               </a>
             {{/each}}

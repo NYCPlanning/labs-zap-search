@@ -21,7 +21,10 @@
             <strong
               data-test-time-remaining
             >
-              {{moment-format this.assignment.upcomingMilestonePlannedStartDate "M/D/YYYY"}}
+              <DateDisplay
+                @date={{this.assignment.upcomingMilestonePlannedStartDate}}
+                @outputFormat="M/D/YYYY"
+              />
             </strong>
           </p>
         {{else}}
@@ -91,7 +94,9 @@
               <strong>{{milestone.displayName}}</strong>
               {{#if milestone.dcpActualenddate}}
                 <small class="display-inline-block">
-                  {{~moment-format milestone.dcpActualenddate "MM/D/YYYY"~}}
+                  <DateDisplay
+                    @date={{milestone.dcpActualenddate}}
+                  />
                 </small>
               {{#if (or (not milestone.dcpActualenddate) (is-before milestone.dcpActualenddate))}}
                   {{hearings-list-for-milestones-list milestone=milestone}}

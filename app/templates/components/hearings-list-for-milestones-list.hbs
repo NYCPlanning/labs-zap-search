@@ -14,7 +14,12 @@
               <div class="cell auto">
                 <strong data-test-hearing-title>{{currentMilestoneUserType}} Public Hearing</strong>
                 <span data-test-hearing-location="{{hearing.disposition.id}}">{{hearing.disposition.dcpPublichearinglocation}}</span>
-                <small class="display-inline-block" data-test-hearing-date="{{hearing.disposition.id}}">{{~moment-format hearing.disposition.dcpDateofpublichearing "LLL"~}}</small>
+                <small class="display-inline-block" data-test-hearing-date="{{hearing.disposition.id}}">
+                  <DateDisplay
+                    @date={{hearing.disposition.dcpDateofpublichearing}} 
+                    @outputFormat="LLL"
+                  />
+                </small>
                 <span class="display-inline-block text-tiny">
                   {{#each hearing.hearingActions as |action index|}}
                     <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{index}}">

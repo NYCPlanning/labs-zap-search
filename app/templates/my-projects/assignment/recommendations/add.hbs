@@ -50,7 +50,11 @@
                   <div class="grid-x">
                     <p class="cell auto small-order-2">
                       <span class="display-block">
-                        <strong>{{moment-format hearing.disposition.dcpDateofpublichearing "MM/D/YYYY"}}</strong>
+                        <strong>
+                          <DateDisplay
+                            @date={{hearing.disposition.dcpDateofpublichearing}}
+                          />
+                        </strong>
                         <span class="light-gray">|</span>
                         <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
                       </span>
@@ -521,7 +525,11 @@
                     </strong>
                     <span class="cell auto">
                       <span class="display-block">
-                        <strong>{{moment-format hearing.disposition.dcpDateofpublichearing "MM/D/YYYY"}}</strong>
+                        <strong>
+                          <DateDisplay
+                            @date={{hearing.disposition.dcpDateofpublichearing}}
+                          />
+                        </strong>
                         <span class="light-gray">|</span>
                         <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
                       </span>

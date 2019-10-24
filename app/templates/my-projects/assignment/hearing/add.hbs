@@ -97,13 +97,18 @@
                   <strong class="display-block hearing-location">
                     {{~dispositionForAllActions.dcpPublichearinglocation~}}
                   </strong>
-                  <span class="hearing-date">
-                    {{~moment-format dispositionForAllActions.dcpDateofpublichearing "MM/D/YYYY"~}}
-                  </span>
+                  <span class="hearing-date">{{!--
+                --}}<DateDisplay
+                      @date={{dispositionForAllActions.dcpDateofpublichearing}}
+                    />{{!--
+              --}}</span>
                   <span class="light-gray">|</span>
-                  <span class="hearing-time">
-                    {{~moment-format dispositionForAllActions.dcpDateofpublichearing "h:mm A"~}}
-                  </span>
+                  <span class="hearing-time">{{!--
+                --}}<DateDisplay
+                      @date={{dispositionForAllActions.dcpDateofpublichearing}}
+                      @outputFormat="h:mm A"
+                    />{{!--
+              --}}</span>
                 </div>
               </li>
             {{else}}
@@ -125,13 +130,19 @@
                           </strong>
 
                           <span class="display-inline-block">
-                            <span data-test-hearing-date="{{hearing.disposition.id}}">
-                              {{~moment-format hearing.disposition.dcpDateofpublichearing "MM/D/YYYY"~}}
-                            </span>
+                            <span data-test-hearing-date="{{hearing.disposition.id}}"
+                            >{{!--
+                          --}}<DateDisplay
+                                @date={{hearing.disposition.dcpDateofpublichearing}}
+                              />{{!--
+                        --}}</span>
                             <span class="light-gray">|</span>
-                            <span data-test-hearing-time="{{hearing.disposition.id}}">
-                              {{~moment-format hearing.disposition.dcpDateofpublichearing "h:mm A"~}}
-                            </span>
+                            <span data-test-hearing-time="{{hearing.disposition.id}}">{{!--
+                            --}}<DateDisplay
+                                @date={{hearing.disposition.dcpDateofpublichearing}}
+                                @outputFormat="h:mm A"
+                              />{{!--
+                        --}}</span>
                           </span>
 
                           <small data-test-hearing-actions-list="{{hearing.disposition.id}}">

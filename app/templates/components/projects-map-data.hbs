@@ -12,7 +12,7 @@
 
   {{#if highlightedFeature}}
     <div class='map-tooltip' style="top:{{tooltipPoint.y}}px;left:{{tooltipPoint.x}}px;">
-      {{highlightedFeature.properties.dcp_projectname}} ({{moment-format highlightedFeature.properties.lastmilestonedate "MMMM, YYYY"}})
+      {{highlightedFeature.properties.dcp_projectname}} (<DateDisplay @date={{highlightedFeature.properties.lastmilestonedate}} @outputFormat="MMMM, YYYY" />)
     </div>
   {{/if}}
 

@@ -14,7 +14,10 @@
     {{#if project.lastmilestonedate}}
       <span class="date dark-gray projects-list-result--date">
         {{icon-tooltip icon='calendar' tip='Latest Milestone'}}
-        {{moment-format project.lastmilestonedate "MMMM D, YYYY"}}
+        <DateDisplay
+          @date={{project.lastmilestonedate}}
+          @outputFormat="MMMM D, YYYY"
+        />
       </span>
     {{/if}}
     <h3 class="projects-list-result--header header-medium">

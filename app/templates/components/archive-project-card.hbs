@@ -16,7 +16,10 @@
         <p class="lead small-margin-bottom">
           <strong>
             {{this.assignment.project.dcpPublicstatusSimp}}
-            {{moment-format this.assignment.project.dcpProjectcompleted "M/D/YYYY"}}
+            <DateDisplay
+              @date={{this.assignment.project.dcpProjectcompleted}}
+              @outputFormat="M/D/YYYY"
+            />
           </strong>
         </p>
       </div>

@@ -28,7 +28,7 @@
         {{/each}}
         <br>
         <small class="display-block">
-          Recommendation submitted&nbsp;{{~moment-format this.anyCommunityBoardDispositionDateReceived "MM/D/YYYY"~}}
+          Recommendation submitted&nbsp;<DateDisplay @date={{this.anyCommunityBoardDispositionDateReceived}} />
         </small>
       {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_BOARD_REFERRAL)}}
         {{#each this.boroughBoardDispositions as |disposition|}}
@@ -39,7 +39,7 @@
         {{/each}}
         <br>
         <small class="display-block">
-          Recommendation submitted&nbsp;{{~moment-format this.anyBoroughBoardDispositionDateReceived "MM/D/YYYY"~}}
+          Recommendation submitted&nbsp;<DateDisplay @date={{this.anyBoroughBoardDispositionDateReceived}} />
         </small>
       {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_PRESIDENT_REFERRAL)}}
         {{#each this.boroughPresidentDispositions as |disposition|}}
@@ -50,13 +50,13 @@
         {{/each}}
         <br>
         <small class="display-block">
-          Recommendation submitted&nbsp;{{~moment-format this.anyBoroughPresidentDispositionDateReceived "MM/D/YYYY"~}}
+          Recommendation submitted&nbsp;<DateDisplay @date={{this.anyBoroughPresidentDispositionDateReceived}} />
         </small>
       {{else}}
         <br>
         {{#if this.milestone.dcpActualenddate}}
           <small class="display-block">
-            {{~moment-format this.milestone.dcpActualenddate "MM/D/YYYY"~}}
+            <DateDisplay @date={{this.milestone.dcpActualenddate}} />
           </small>
         {{/if}}
       {{/if}}
