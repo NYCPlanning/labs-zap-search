@@ -54,10 +54,7 @@
     {{else}}
       <br>
       <small class="display-block">
-        {{#if (eq this.milestone.statuscode "Not Started")}}
-          Estimated
-        {{/if}}
-        {{~moment-format this.milestone.displayDate "MM/D/YYYY"~}}
+        {{~moment-format this.milestone.dcpActualenddate "MM/D/YYYY"~}}
       </small>
     {{/if}}
   </div>
