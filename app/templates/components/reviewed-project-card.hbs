@@ -21,7 +21,9 @@
             >{{plannedTimeDisplay.estTimeRemaining}}</strong>
             <strong class="display-block">of {{plannedTimeDisplay.estTimeDuration}} estimated days remain</strong>
           </p>
-          <p class="text-tiny">Estimated End {{moment-format plannedTimeDisplay.dcpPlannedcompletiondate "M/D/YYYY"}}</p>
+          <p class="text-tiny">
+            Estimated End <DateDisplay @date={{plannedTimeDisplay.dcpPlannedcompletiondate}} outputFormat="M/D/YYYY" />
+          </p>
         </div>
       </div>
       <div class="cell medium-auto">

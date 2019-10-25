@@ -209,7 +209,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   }
 
   @action
-  async onContinue() {
+  onContinue() {
     this.dispositionForAllActionsChangeset.validate();
     this.dispositionsChangesets.forEach(changeset => changeset.validate());
     if (this.isFormValid) {

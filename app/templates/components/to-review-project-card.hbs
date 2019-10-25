@@ -23,7 +23,9 @@
             </strong>
             <strong class="display-block">of {{timeDuration}} days remain</strong>
           </p>
-          <p class="text-tiny">Ends {{moment-format assignment.toReviewMilestonePlannedCompletionDate "M/D/YYYY"}}</p>
+          <p class="text-tiny">
+            Ends <DateDisplay @date={{assignment.toReviewMilestonePlannedCompletionDate}} @outputFormat="M/D/YYYY" />
+          </p>
         {{else}}
           <br>
           <p
@@ -70,11 +72,11 @@
 
                     <span class="display-inline-block">
                       <span data-test-hearing-date="{{hearing.disposition.id}}">
-                        {{~moment-format hearing.disposition.dcpDateofpublichearing "MM/D/YYYY"~}}
+                        <DateDisplay @date={{hearing.disposition.dcpDateofpublichearing}} />
                       </span>
                       <span class="light-gray">|</span>
                       <span data-test-hearing-time="{{hearing.disposition.id}}">
-                        {{~moment-format hearing.disposition.dcpDateofpublichearing "h:mm A"~}}
+                        <DateDisplay @date={{hearing.disposition.dcpDateofpublichearing}} @outputFormat="h:mm A" />
                       </span>
                     </span>
 
