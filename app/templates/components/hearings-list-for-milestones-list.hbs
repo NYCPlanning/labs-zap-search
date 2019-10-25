@@ -1,6 +1,9 @@
-{{#if currentMilestoneDispositions}}
-  {{#if hearingsSubmitted}}
-    {{#deduped-hearings-list dispositions=currentMilestoneDispositions as |dedupedHearings|}}
+{{#each milestoneParticipants as |milestoneParticipant|}}
+  {{#if milestoneParticipant.hearingsSubmitted}}
+    <strong data-test-hearing-title="{{milestoneParticipant.landUseParticipantFullName}}">
+      {{milestoneParticipant.landUseParticipantFullName}} Public Hearing
+    </strong>
+    {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
       {{#each dedupedHearings as |hearing|}}
           <ul class="sub-milestones no-bullet">
             <li class="grid-x">
@@ -12,17 +15,16 @@
                 {{/if}}
               </div>
               <div class="cell auto">
-                <strong data-test-hearing-title>{{currentMilestoneUserType}} Public Hearing</strong>
                 <span data-test-hearing-location="{{hearing.disposition.id}}">{{hearing.disposition.dcpPublichearinglocation}}</span>
                 <small class="display-inline-block" data-test-hearing-date="{{hearing.disposition.id}}">
                   <DateDisplay
-                    @date={{hearing.disposition.dcpDateofpublichearing}} 
+                    @date={{hearing.disposition.dcpDateofpublichearing}}
                     @outputFormat="LLL"
                   />
                 </small>
                 <span class="display-inline-block text-tiny">
                   {{#each hearing.hearingActions as |action index|}}
-                    <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{index}}">
+                    <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
                       {{action.dcpName}}
                       <small>{{action.dcpUlurpnumber}}</small>
                     </span>
@@ -34,4 +36,10 @@
         {{/each}}
       {{/deduped-hearings-list}}
     {{/if}}
-  {{/if}}
+    {{#if milestoneParticipant.hearingsWaived}}
+      {{fa-icon 'calendar-times' fixedWidth=true class='light-gray'}}
+      <strong data-test-hearing-title="{{milestoneParticipant.landUseParticipantFullName}}">
+        No {{milestoneParticipant.landUseParticipantFullName}} Hearings Posted
+      </strong>
+    {{/if}}
+  {{/each}}

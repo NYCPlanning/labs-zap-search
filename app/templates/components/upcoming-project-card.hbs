@@ -98,10 +98,10 @@
                     @date={{milestone.dcpActualenddate}}
                   />
                 </small>
-              {{#if (or (not milestone.dcpActualenddate) (is-before milestone.dcpActualenddate))}}
-                  {{hearings-list-for-milestones-list milestone=milestone}}
               {{/if}}
-              {{/if}}
+              <HearingsListForMilestonesList
+                @milestone={{milestone}}
+              />
             </div>
           </li>
         {{/each}}

@@ -11,7 +11,7 @@ export default class MyProjectsUpcomingRoute extends Route {
   async model() {
     return this.store.query('assignment', {
       tab: 'upcoming',
-      include: 'project.milestones,project.dispositions,project.actions,dispositions,dispositions.action',
+      include: 'project.milestones,project.dispositions,project.actions,project.dispositions.action,dispositions,dispositions.action',
     }, {
       reload: true,
     });
