@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
 const {
   Model, attr, belongsTo,
@@ -23,6 +24,10 @@ export default class DispositionModel extends Model {
 
   // sourced from dcp_dcpDateofpublichearing
   @attr('date', { defaultValue: null }) dcpDateofpublichearing;
+
+  // sourced from dcp_recommendationsubmittedbyname
+  // e.g. 'QNCB6', 'BXBP', 'MNBB'
+  @attr('string', { defaultValue: '' }) dcpRecommendationsubmittedbyname;
 
   // Not needed
   // @attr('string', { defaultValue: '' }) formCompleterName;
@@ -92,4 +97,40 @@ export default class DispositionModel extends Model {
   // NOTE: when this is defined as boolean, it automatically changes to false from null
   // we want this to be null until a user selects yes or no
   @attr({ defaultValue: null }) dcpWasaquorumpresent;
+
+  // dcpRecommendationsubmittedbyname = e.g. 'QNCB5'
+  // recommendationSubmittedByFullName = e.g. `Queens Community Board 5`
+  @computed('dcpRecommendationsubmittedbyname')
+  get recommendationSubmittedByFullName() {
+    const boroughLookup = {
+      MN: 'Manhattan',
+      BX: 'Bronx',
+      QN: 'Queens',
+      BK: 'Brooklyn',
+      SI: 'Staten Island',
+    };
+
+    const participantLookup = {
+      BP: 'Borough President',
+      BB: 'Borough Board',
+      CB: 'Community Board',
+    };
+
+    // shortName = e.g. 'QNCB5'
+    const shortName = this.get('dcpRecommendationsubmittedbyname');
+    // borough = e.g. 'Queens'
+    const borough = boroughLookup[shortName.substring(0, 2)];
+    // participantTypeAbbr = e.g. 'CB'
+    const participantTypeAbbr = shortName.substring(2, 4);
+    // participantType = e.g. "Community Board"
+    const participantType = participantLookup[participantTypeAbbr];
+    // cbNumber = e.g. QNCB5 --> 5
+    const cbNumber = shortName.substring(4);
+    // concat together
+    // CBs have numbers whereas BPs and BBs do not
+    if (participantTypeAbbr === 'CB') {
+      return borough.concat(' ', participantType, ' ', cbNumber);
+    }
+    return borough.concat(' ', participantType);
+  }
 }
