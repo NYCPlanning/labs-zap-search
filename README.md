@@ -25,6 +25,13 @@ You will need the following things properly installed on your computer.
 * `ember serve --environment=devlocal` - Sends api calls to `localhost:3000`, assumes you are running [labs-zap-api](https://github.com/NYCPlanning/labs-zap-api) locally.
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
+### Create test scenarios
+
+* Create a new scenario file under mirage/scenarios/
+  * Make sure its default export is a function
+* Run your local development server with the environment variable:
+  `MIRAGE_SCENARIO=your-scenario-file ember s`
+
 ### Running Tests
 
 * `ember test`
