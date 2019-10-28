@@ -53,11 +53,13 @@
       </small>
     {{else}}
       <br>
-      <small class="display-block">
-        <DateDisplay
-          @date={{this.milestone.dcpActualenddate}}
-        />
-      </small>
+      {{#if this.milestone.dcpActualenddate}}
+        <small class="display-block">
+          <DateDisplay
+            @date={{this.milestone.dcpActualenddate}}
+          />
+        </small>
+      {{/if}}
     {{/if}}
   </div>
 </li>

@@ -6,7 +6,7 @@
     <div class="cell large-4 xlarge-5">
       <h3 class="tiny-margin-bottom">
         {{#link-to 'show-project' this.assignment.project.id}}<span data-test-project-profile-button="{{this.assignment.project.id}}">{{this.assignment.project.dcpProjectname}}</span>{{/link-to}}
-        <small class="dark-gray">{{this.assignment.project.dcpUlurpNonulurp}}</small>
+        <small class="dark-gray display-inline-block">{{this.assignment.project.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{this.assignment.project.applicants}}</h5>
       <p>{{this.assignment.project.dcpProjectbrief}}</p>
@@ -36,7 +36,7 @@
               data-test-fuzzy-time-remaining
             >
               {{#if (not (eq isMoreThanThirtyDaysBeforePublicReview null))}}
-                {{if isMoreThanThirtyDaysBeforePublicReview 'over 30 days' 'under 30 days'}}
+                {{if isMoreThanThirtyDaysBeforePublicReview 'in more than 30 days' 'in fewer than 30 days'}}
               {{/if}}
             </strong>
           </p>

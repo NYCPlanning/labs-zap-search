@@ -45,12 +45,10 @@ export default class AssignmentModel extends Model {
   @computed('dispositions.@each.dcpPublichearinglocation')
   get hearingsWaived() {
     const dispositions = this.get('dispositions');
-
     // array of hearing locations
     const dispositionHearingLocations = dispositions.map(disp => disp.dcpPublichearinglocation);
     // each location field equal to 'waived'
-
-    return dispositionHearingLocations.every(location => location === 'waived');
+    return dispositionHearingLocations.every(location => location === 'waived') && dispositionHearingLocations.length > 0;
   }
 
   @computed('hearingsSubmitted', 'hearingsWaived')
