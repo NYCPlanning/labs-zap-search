@@ -4,7 +4,7 @@
       {{milestoneParticipant.landUseParticipantFullName}} Public Hearing
     </strong>
     {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
-      {{#each dedupedHearings as |hearing|}}
+      {{#each dedupedHearings as |hearing index|}}
           <ul class="sub-milestones no-bullet">
             <li class="grid-x">
               <div class="cell shrink small-margin-right">

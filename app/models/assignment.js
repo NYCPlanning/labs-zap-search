@@ -6,15 +6,6 @@ const {
   Model, belongsTo, hasMany, attr,
 } = DS;
 
-const COMMUNITY_BOARD_REFERRAL_MILESTONE_ID = '923beec4-dad0-e711-8116-1458d04e2fb8';
-const BOROUGH_PRESIDENT_REFERRAL_MILESTONE_ID = '943beec4-dad0-e711-8116-1458d04e2fb8';
-const BOROUGH_BOARD_REFERRAL_MILESTONE_ID = '963beec4-dad0-e711-8116-1458d04e2fb8';
-const MILESTONE_ID_LOOKUP = {
-  CB: COMMUNITY_BOARD_REFERRAL_MILESTONE_ID,
-  BP: BOROUGH_PRESIDENT_REFERRAL_MILESTONE_ID,
-  BB: BOROUGH_BOARD_REFERRAL_MILESTONE_ID,
-};
-
 export default class AssignmentModel extends Model {
   @service
   milestoneConstants;
@@ -76,7 +67,7 @@ export default class AssignmentModel extends Model {
 
   @computed('project.milestones')
   get publicReviewPlannedStartDate() {
-    const { dcpPlannedstartdate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === COMMUNITY_BOARD_REFERRAL_MILESTONE_ID) || {};
+    const { dcpPlannedstartdate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === this.milestoneConstants.COMMUNITY_BOARD_REFERRAL) || {};
     return dcpPlannedstartdate || null;
   }
 
@@ -85,12 +76,57 @@ export default class AssignmentModel extends Model {
     return this.project.get('milestones').filter(milestone => this.milestoneConstants.milestoneListByTabLookup[this.tab].includes(milestone.dcpMilestone));
   }
 
+  @computed('project.milestones')
+  get assigneeMilestoneIdentifier() {
+    return this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
+  }
+
+  @computed('project.milestones')
+  get lastCompletedMilestone() {
+    const completedMilestones = this.project.get('milestones').filterBy('statuscode', 'Completed');
+
+    return completedMilestones[completedMilestones.length - 1] || null;
+  }
+
+  // abridged view of milestones typically used in upcoming tab
+  @computed('tab', 'project.milestones')
+  get abridgedMilestonesList() {
+    const milestones = this.tabSpecificMilestones
+      .sortBy('dcpMilestonesequence')
+      .sortBy('dcpPlannedcompletiondate');
+    const { assigneeMilestoneIdentifier, lastCompletedMilestone } = this;
+
+    // return milestones as normal if no assignee milestone ID or completed milestones are found
+    if (!assigneeMilestoneIdentifier || !lastCompletedMilestone) return milestones;
+
+    const [firstMilestone] = milestones;
+
+    // all milestones after last completed and up to and including the LUP's relevant milestone
+    const lastCompletedPosition = milestones.findIndex(milestone => milestone.id === lastCompletedMilestone.id);
+    const assigneeRelevantMilestonePosition = milestones.findIndex(milestone => milestone.dcpMilestone === assigneeMilestoneIdentifier);
+    const remainingMilestones = milestones.slice(lastCompletedPosition + 1, assigneeRelevantMilestonePosition + 1);
+
+    return [firstMilestone, lastCompletedMilestone, ...remainingMilestones];
+  }
+
+  // generic computed property for displaying milestones in general
+  @computed('tabSpecificMilestones')
+  get assigneeDisplayMilestones() {
+    switch (this.tab) {
+      case 'upcoming':
+        return this.abridgedMilestonesList;
+      default:
+        return this.milestones;
+    }
+  }
+
   // This field is used to display the participant's review planned start date.
   // If not found, returns null
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
   get upcomingMilestonePlannedStartDate() {
-    const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
+    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
     const participantReviewMilestone = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId);
+
     return participantReviewMilestone ? participantReviewMilestone.dcpPlannedstartdate : null;
   }
 
@@ -101,7 +137,7 @@ export default class AssignmentModel extends Model {
     if (this.tab !== 'to-review') {
       return null;
     }
-    const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
+    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
     const { dcpActualstartdate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return dcpActualstartdate;
   }
@@ -111,7 +147,8 @@ export default class AssignmentModel extends Model {
     if (this.tab !== 'to-review') {
       return null;
     }
-    const participantMilestoneId = MILESTONE_ID_LOOKUP[this.dcpLupteammemberrole];
+
+    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
     const { dcpPlannedcompletiondate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return dcpPlannedcompletiondate;
   }
