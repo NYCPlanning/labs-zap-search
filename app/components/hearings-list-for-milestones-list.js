@@ -34,18 +34,18 @@ export function checkHearingsWaived(records = []) {
   return dispositionHearingsLocations.every(item => item === 'waived');
 }
 
-export function checkVotesSubmitted(records = [], field1, field2, field3, field4, field5) {
-  const dispositionHearingField1Array = records.map(disp => disp.get(field1));
-  const dispositionHearingField2Array = records.map(disp => disp.get(field2));
-  const dispositionHearingField3Array = records.map(disp => disp.get(field3));
-  const dispositionHearingField4Array = records.map(disp => disp.get(field4));
-  const dispositionHearingField5Array = records.map(disp => disp.get(field5));
+export function checkVotesSubmitted(records = [], recommendationType) {
+  const dispositionDateofVote = records.map(disp => disp.get('dcpDateofvote'));
+  const dispositionVotingInFavor = records.map(disp => disp.get('dcpVotinginfavorrecommendation'));
+  const dispositionVotingAgainst = records.map(disp => disp.get('dcpVotingagainstrecommendation'));
+  const dispositionAbstaining = records.map(disp => disp.get('dcpVotingabstainingonrecommendation'));
+  const dispositionRecommendationType = records.map(disp => disp.get(recommendationType));
   // checks whether each item in array is truthy
-  return dispositionHearingField1Array.every(item => !!item)
-  && dispositionHearingField2Array.every(item => !!item)
-  && dispositionHearingField3Array.every(item => !!item)
-  && dispositionHearingField4Array.every(item => !!item)
-  && dispositionHearingField5Array.every(item => !!item);
+  return dispositionDateofVote.every(vote => !!vote)
+  && dispositionVotingInFavor.every(vote => !!vote)
+  && dispositionVotingAgainst.every(vote => !!vote)
+  && dispositionAbstaining.every(vote => !!vote)
+  && dispositionRecommendationType.every(recType => !!recType);
 }
 
 export default class HearingsListForMilestonesListComponent extends Component {
@@ -93,8 +93,7 @@ export default class HearingsListForMilestonesListComponent extends Component {
     const participantType = milestoneParticipantReviewLookup[this.get('milestone.displayName')];
     const participantRecommendationType = participantRecommendationLookup[participantType];
 
-    const currentMilestoneDispositions = this.get('currentMilestoneDispositions');
-
+    const currentMilestoneDispositions = this.get('currentMilestoneDispositions')
 
     // Map new object where recommendationSubmittedByFullName property on disposition
     // is easily accessible as landUseParticipantFullName.
@@ -103,16 +102,19 @@ export default class HearingsListForMilestonesListComponent extends Component {
     const milestoneParticipants = currentMilestoneDispositions.map(disp => ({
       landUseParticipantFullName: disp.recommendationSubmittedByFullName,
       participantRecommendationType: participantRecommendationType,
-      participantRecommendation: disp[participantRecommendationType],
+      landUseParticipantType: disp.dcpRecommendationsubmittedbyname.substring(2, 4),
       disposition: disp,
       userDispositions: [disp],
       hearingsSubmitted: false,
       hearingsWaived: false,
     }));
 
+
     // deduplicate based on landUseParticipantFullName property
     // concatenate all dispositions associated with that participant in userDispositions
     const milestoneParticipantsDeduped = dedupeByParticipant(milestoneParticipants);
+
+    console.log('deduped', milestoneParticipantsDeduped.map(d => d.userDispositions));
 
     // In order to check whether dispositions for each participant has hearingsSubmitted or hearingsWaived
     // iterate through a single participant's userDispositions and check that
@@ -122,7 +124,7 @@ export default class HearingsListForMilestonesListComponent extends Component {
     milestoneParticipantsDeduped.forEach(function(participant) {
       participant.hearingsSubmitted = checkHearingsSubmitted(participant.userDispositions);
       participant.hearingsWaived = checkHearingsWaived(participant.userDispositions);
-            participant.votesSubmitted = checkVotesSubmitted(participant.userDispositions, 'dcpDateofvote', 'dcpVotinginfavorrecommendation', 'dcpVotingagainstrecommendation', 'dcpVotingabstainingonrecommendation', participant.participantRecommendationType);
+      participant.votesSubmitted = checkVotesSubmitted(participant.userDispositions, participant.participantRecommendationType);
     });
 
     return milestoneParticipantsDeduped;

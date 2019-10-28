@@ -1,0 +1,15 @@
+<div class="cell shrink small-margin-right">
+  {{#if (or (eq participantRecommendation 'Approved') (eq participantRecommendation 'Approved with Modifications/Conditions'))}}
+    <span data-test-vote-approved>
+      {{fa-icon 'thumbs-up' fixedWidth=true class='green-muted'}}
+    </span>
+  {{else if (or (eq participantRecommendation 'Disapproved') (eq participantRecommendation 'Disapproved with Modifications/Conditions'))}}
+    <span data-test-vote-disapproved>
+      {{fa-icon 'thumbs-down' fixedWidth=true class='red-muted'}}
+    </span>
+  {{else if (eq participantRecommendation 'Waived')}}
+    <span data-test-vote-waived>
+      {{fa-icon 'comment-slash' fixedWidth=true class='light-gray'}}
+    </span>
+  {{/if}}
+</div>

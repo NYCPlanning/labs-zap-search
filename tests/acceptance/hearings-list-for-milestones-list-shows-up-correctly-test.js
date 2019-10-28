@@ -16,16 +16,15 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     window.location.hash = '';
 
     await invalidateSession();
+    await authenticateSession({
+      id: 1,
+    });
   });
 
   hooks.afterEach(async function() {
     window.location.hash = '';
 
     await invalidateSession();
-  });
-
-  hooks.beforeEach(async function() {
-    await authenticateSession();
   });
 
   skip('hearings-list-for-milestones-list shows up on upcoming tab in complicated scenario', async function(assert) {
@@ -222,14 +221,8 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
 
   test('hearings-list-for-VOTES-list shows up', async function(assert) {
     // ########## UPCOMING #################################################################
-    this.server.create('assignment', {
-      id: 5,
-      tab: 'upcoming',
-      user: server.create('user', {
-        name: 'Peter Pan',
-        landUseParticipant: 'QNBB',
-      }),
-      project: this.server.create('project', {
+      this.server.create('project', {
+        id: 5,
         dispositions: [
           server.create('disposition', {
             id: 17,
@@ -275,11 +268,11 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
             dcpDateofpublichearing: new Date('2019-04-14T20:30:00'),
             dcpRecommendationsubmittedbyname: 'QNCB4',
             action: server.create('action', { id: 1, dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
-            dcpDateofvote: new Date('2020-10-21T01:30:00'),
-            dcpCommunityboardrecommendation: 'Approved',
-            dcpVotingagainstrecommendation: 1,
-            dcpVotinginfavorrecommendation: 2,
-            dcpVotingabstainingonrecommendation: 3,
+            dcpDateofvote: new Date('2020-04-21T01:30:00'),
+            dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
+            dcpVotingagainstrecommendation: 4,
+            dcpVotinginfavorrecommendation: 5,
+            dcpVotingabstainingonrecommendation: 6,
           }),
           // #### duplicate of 22 for hearings############################################################
           server.create('disposition', {
@@ -288,11 +281,11 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
             dcpDateofpublichearing: new Date('2021-06-21T14:30:00'),
             dcpRecommendationsubmittedbyname: 'QNCB5',
             action: server.create('action', { id: 3, dcpName: 'Change to City Map', dcpUlurpnumber: 'N19983dLUP' }),
-            dcpDateofvote: new Date('2020-12-03T01:30:00'),
-            dcpCommunityboardrecommendation: 'Disapproved',
-            dcpVotingagainstrecommendation: 4,
-            dcpVotinginfavorrecommendation: 5,
-            dcpVotingabstainingonrecommendation: 6,
+            dcpDateofvote: new Date('2020-05-03T01:30:00'),
+            dcpCommunityboardrecommendation: 'Disapproved with Modifications/Conditions',
+            dcpVotingagainstrecommendation: 7,
+            dcpVotinginfavorrecommendation: 8,
+            dcpVotingabstainingonrecommendation: 9,
           }),
           // #### duplicate of 21 for hearings ############################################################
           server.create('disposition', {
@@ -301,11 +294,11 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
             dcpDateofpublichearing: new Date('2021-06-21T14:30:00'),
             dcpRecommendationsubmittedbyname: 'QNCB5',
             action: server.create('action', { id: 4, dcpName: 'Business Improvement District', dcpUlurpnumber: 'C780076TLK' }),
-            dcpDateofvote: new Date('2020-11-29T01:30:00'),
-            dcpCommunityboardrecommendation: 'Approved',
-            dcpVotingagainstrecommendation: 1,
-            dcpVotinginfavorrecommendation: 2,
-            dcpVotingabstainingonrecommendation: 3,
+            dcpDateofvote: new Date('2020-06-29T01:30:00'),
+            dcpCommunityboardrecommendation: 'Waived',
+            dcpVotingagainstrecommendation: 10,
+            dcpVotinginfavorrecommendation: 11,
+            dcpVotingabstainingonrecommendation: 12,
           }),
           // #### shouldn't show up ############################################################
           server.create('disposition', {
@@ -327,7 +320,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
             dcpDateofpublichearing: null,
             dcpRecommendationsubmittedbyname: 'BKCB3',
             action: server.create('action', { id: 4, dcpName: 'Business Improvement District', dcpUlurpnumber: 'C780076TLK' }),
-            dcpDateofvote: new Date('2020-10-21T01:30:00'),
+            dcpDateofvote: new Date('2020-07-21T01:30:00'),
             dcpCommunityboardrecommendation: 'Disapproved',
             dcpVotingagainstrecommendation: 4,
             dcpVotinginfavorrecommendation: 12,
@@ -399,11 +392,134 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
             id: '38',
           }),
         ],
-      }),
-    });
+      });
 
-    await visit('/my-projects/upcoming');
+    await visit('/projects/5');
 
+    await pauseTest();
+
+    // #### HEARING TITLE ############################################################
+    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Borough Board"]').textContent.includes('Queens Borough Board Public Hearing'), 'QNBB');
+    assert.ok(this.element.querySelector('[data-test-hearing-title="Manhattan Borough Board"]').textContent.includes('Manhattan Borough Board Public Hearing'), 'MNBB');
+    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Community Board 5"]').textContent.includes('Queens Community Board 5 Public Hearing'), 'QNCB5');
+    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Community Board 4"]').textContent.includes('Queens Community Board 4 Public Hearing'), 'QNCB4');
+    assert.notOk(find('[data-test-hearing-title="Brooklyn Community Board 3"]'), 'BKCB3');
+    assert.notOk(find('[data-test-hearing-title="Bronx Community Board 2"]'), 'BXCB2');
+
+    // #### HEARING LOCATION ############################################################
+    assert.ok(this.element.querySelector('[data-test-hearing-location="17"]').textContent.includes('121 Bananas Avenue, Queens'), 'location 17');
+    assert.ok(this.element.querySelector('[data-test-hearing-location="18"]').textContent.includes('345 Purple Street, Manhattan'), 'location 18');
+    assert.ok(this.element.querySelector('[data-test-hearing-location="19"]').textContent.includes('567 Grapefruit Boulevard, Manhattan'), 'location 19');
+    assert.ok(this.element.querySelector('[data-test-hearing-location="20"]').textContent.includes('908 Cherries Road, Queens'), 'location 20');
+    assert.ok(this.element.querySelector('[data-test-hearing-location="21"]').textContent.includes('239 Spaghetti Street, Queens'), 'location 21');
+    // duplicate
+    assert.notOk(find('[data-test-hearing-location="22"]'), 'location 22');
+    // not submitted yet
+    assert.notOk(find('[data-test-hearing-location="23"]'), 'location 23');
+    // waived
+    assert.notOk(find('[data-test-hearing-location="24"]'), 'location 24');
+
+    // #### HEARING DATE ############################################################
+    assert.ok(this.element.querySelector('[data-test-hearing-date="17"]').textContent.includes('October 21'), 'date 17');
+    assert.ok(this.element.querySelector('[data-test-hearing-date="18"]').textContent.includes('October 21'), 'date 18');
+    assert.ok(this.element.querySelector('[data-test-hearing-date="19"]').textContent.includes('April 14'), 'date 19');
+    assert.ok(this.element.querySelector('[data-test-hearing-date="20"]').textContent.includes('April 14'), 'date 20');
+    assert.ok(this.element.querySelector('[data-test-hearing-date="21"]').textContent.includes('June 21'), 'date 21');
+    // duplicate
+    assert.notOk(find('[data-test-hearing-date="22"]'), 'date 22');
+    // not submitted yet
+    assert.notOk(find('[data-test-hearing-date="23"]'), 'date 23');
+    // waived
+    assert.notOk(find('[data-test-hearing-date="24"]'), 'date 24');
+
+    // #### HEARING ACTIONS ############################################################
+    assert.ok(this.element.querySelector('[data-test-hearing-actions-list="170"]').textContent.includes('Zoning Special Permit'), 'action 170');
+    assert.ok(this.element.querySelector('[data-test-hearing-actions-list="180"]').textContent.includes('Zoning Special Permit'), 'action 180');
+    assert.ok(this.element.querySelector('[data-test-hearing-actions-list="190"]').textContent.includes('Change to City Map'), 'action 190');
+    assert.ok(this.element.querySelector('[data-test-hearing-actions-list="200"]').textContent.includes('Zoning Special Permit'), 'action 200');
+    assert.ok(this.element.querySelector('[data-test-hearing-actions-list="210"]').textContent.includes('Change to City Map'), 'action 210');
+    assert.ok(this.element.querySelector('[data-test-hearing-actions-list="211"]').textContent.includes('Business Improvement District'), 'action 211 duplicate');
+    // duplicate
+    assert.notOk(find('[data-test-hearing-actions-list="220"]'), 'action 220');
+    // not submitted yet
+    assert.notOk(find('[data-test-hearing-actions-list="230"]'), 'action 230');
+    // waived
+    assert.notOk(find('[data-test-hearing-actions-list="240"]'), 'action 240');
+
+    // #### VOTE IN FAVOR ############################################################
+    assert.ok(this.element.querySelector('[data-test-voting-favor="17"]').textContent.includes('2 In Favor,'), 'favor 17');
+    assert.ok(this.element.querySelector('[data-test-voting-favor="18"]').textContent.includes('3 In Favor,'), 'favor 18');
+    // duplicate
+    assert.notOk(find('[data-test-voting-favor="19"]'), 'favor 19');
+    assert.ok(this.element.querySelector('[data-test-voting-favor="20"]').textContent.includes('5 In Favor,'), 'favor 20');
+    assert.ok(this.element.querySelector('[data-test-voting-favor="21"]').textContent.includes('8 In Favor,'), 'favor 21');
+    assert.ok(this.element.querySelector('[data-test-voting-favor="22"]').textContent.includes('11 In Favor,'), 'favor 22');
+    // not submitted yet
+    assert.notOk(find('[data-test-voting-favor="23"]'), 'favor 23');
+    // waived hearing but still submitted recommendation
+    assert.ok(this.element.querySelector('[data-test-voting-favor="24"]').textContent.includes('12 In Favor,'), 'favor 24');
+
+    // #### VOTE AGAINST ############################################################
+    assert.ok(this.element.querySelector('[data-test-voting-against="17"]').textContent.includes('1 Against,'), 'against 17');
+    assert.ok(this.element.querySelector('[data-test-voting-against="18"]').textContent.includes('2 Against,'), 'against 18');
+    // duplicate
+    assert.notOk(find('[data-test-voting-favor="19"]'), 'favor 19');
+    assert.ok(this.element.querySelector('[data-test-voting-against="20"]').textContent.includes('4 Against,'), 'against 20');
+    assert.ok(this.element.querySelector('[data-test-voting-against="21"]').textContent.includes('7 Against,'), 'against 21');
+    assert.ok(this.element.querySelector('[data-test-voting-against="22"]').textContent.includes('10 Against,'), 'against 22');
+    // not submitted yet
+    assert.notOk(find('[data-test-voting-against="23"]'), 'against 23');
+    // waived hearing but still submitted recommendation
+    assert.ok(this.element.querySelector('[data-test-voting-against="24"]').textContent.includes('4 Against,'), 'against 24');
+
+    // #### VOTE Abstain ############################################################
+    assert.ok(this.element.querySelector('[data-test-voting-abstain="17"]').textContent.includes('3 Abstain'), 'abstain 17');
+    assert.ok(this.element.querySelector('[data-test-voting-abstain="18"]').textContent.includes('4 Abstain'), 'abstain 18');
+    // duplicate
+    assert.notOk(find('[data-test-voting-favor="19"]'), 'favor 19');
+    assert.ok(this.element.querySelector('[data-test-voting-abstain="20"]').textContent.includes('6 Abstain'), 'abstain 20');
+    assert.ok(this.element.querySelector('[data-test-voting-abstain="21"]').textContent.includes('9 Abstain'), 'abstain 21');
+    assert.ok(this.element.querySelector('[data-test-voting-abstain="22"]').textContent.includes('12 Abstain'), 'abstain 22');
+    // not submitted yet
+    assert.notOk(find('[data-test-voting-abstain="23"]'), 'abstain 23');
+    // waived hearing but still submitted recommendation
+    assert.ok(this.element.querySelector('[data-test-voting-abstain="24"]').textContent.includes('1 Abstain'), 'abstain 24');
+
+    // // #### VOTE DATE ############################################################
+    assert.ok(this.element.querySelector('[data-test-vote-date="17"]').textContent.includes('October 21'), 'date 17');
+    assert.ok(this.element.querySelector('[data-test-vote-date="18"]').textContent.includes('November 12'), 'date 18');
+    // duplicate
+    assert.notOk(find('[data-test-vote-favor="19"]'), 'favor 19');
+    assert.ok(this.element.querySelector('[data-test-vote-date="20"]').textContent.includes('April 21'), 'date 20');
+    assert.ok(this.element.querySelector('[data-test-vote-date="21"]').textContent.includes('May 3'), 'date 21');
+    assert.ok(this.element.querySelector('[data-test-vote-date="22"]').textContent.includes('June 29'), 'date 22');
+    // not submitted yet
+    assert.notOk(find('[data-test-vote-date="23"]'), 'date 23');
+    // waived hearing but still submitted recommendation
+    assert.ok(this.element.querySelector('[data-test-vote-date="24"]').textContent.includes('July 21'), 'date 24');
+    //
+    // // #### VOTE RECOMMENDATION ############################################################
+    // index = number in a list of similar participant types (e.g. borough board)
+    assert.ok(find('[data-test-vote-disapproved="Queens Borough Board 0"]'), 'QNBB thumb');
+    assert.ok(find('[data-test-vote-approved="Manhattan Borough Board 1"]'), 'MNBB thumb');
+    assert.ok(find('[data-test-vote-approved="Queens Community Board 4 0"]'), 'QNCB4 thumb');
+    assert.ok(find('[data-test-vote-disapproved="Queens Community Board 5 1"]'), 'QNCB5 thumb');
+    assert.ok(find('[data-test-vote-waived="Queens Community Board 5 2"]'), 'QNCB5 thumb');
+    assert.ok(find('[data-test-vote-disapproved="Brooklyn Community Board 3 3"]'), 'BKCB3 thumb');
+    assert.notOk(find('[data-test-vote-disapproved="Bronx Community Board 2 0"]'), 'BXCB2 thumb');
+
+    // #### VOTE ACTIONS ############################################################
+    assert.ok(this.element.querySelector('[data-test-vote-actions-list="170"]').textContent.includes('Zoning Special Permit'), 'action 170');
+    assert.ok(this.element.querySelector('[data-test-vote-actions-list="180"]').textContent.includes('Zoning Special Permit'), 'action 180');
+    assert.ok(this.element.querySelector('[data-test-vote-actions-list="181"]').textContent.includes('Change to City Map'), 'action 181 (duplicate)');
+    assert.ok(this.element.querySelector('[data-test-vote-actions-list="200"]').textContent.includes('Zoning Special Permit'), 'action 200');
+    assert.ok(this.element.querySelector('[data-test-vote-actions-list="210"]').textContent.includes('Change to City Map'), 'action 210');
+    assert.ok(this.element.querySelector('[data-test-vote-actions-list="220"]').textContent.includes('Business Improvement District'), 'action 220');
+    // not submitted yet
+    assert.notOk(find('[data-test-vote-actions-list="230"]'), 'action 230');
+    // hearings waived but recommendation still submitted
+    assert.ok(this.element.querySelector('[data-test-vote-actions-list="220"]').textContent.includes('Business Improvement District'), 'action 220');
+  //
   });
 
   skip('hearings-list-for-milestones-list shows up on reviewed tab', async function(assert) {

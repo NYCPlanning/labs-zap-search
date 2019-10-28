@@ -64,7 +64,7 @@
     </ul>
   {{/if}}
   {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
-    {{#each milestoneParticipants as |milestoneParticipant|}}
+    {{#each milestoneParticipants as |milestoneParticipant index|}}
       {{#if milestoneParticipant.hearingsSubmitted}}
         <h6 data-test-hearing-title="{{milestoneParticipant.landUseParticipantFullName}}">
           {{milestoneParticipant.landUseParticipantFullName}} Public Hearing
@@ -81,11 +81,15 @@
                   {{/if}}
                 </div>
                 <div class="cell auto">
-                  <small>{{hearing.disposition.dcpPublichearinglocation}}</small>
-                  <small class="datetime">{{~moment-format hearing.disposition.dcpDateofpublichearing "LLLL"~}}</small>
+                  <small data-test-hearing-location="{{hearing.disposition.id}}">
+                    {{hearing.disposition.dcpPublichearinglocation}}
+                  </small>
+                  <small class="datetime" data-test-hearing-date="{{hearing.disposition.id}}">
+                    {{~moment-format hearing.disposition.dcpDateofpublichearing "LLLL"~}}
+                  </small>
                   <span class="display-block text-tiny">
                     {{#each hearing.hearingActions as |action index|}}
-                      <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{index}}">
+                      <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
                         {{action.dcpName}}
                         <small>{{action.dcpUlurpnumber}}</small>
                       </span>
@@ -97,37 +101,37 @@
           {{/each}}
         {{/deduped-hearings-list}}
       {{/if}}
-        {{#if milestoneParticipant.hearingsWaived}}
-          {{fa-icon 'calendar-times' fixedWidth=true class='light-gray'}}
-          <small data-test-hearing-title="{{milestoneParticipant.landUseParticipantFullName}}">
-            No {{milestoneParticipant.landUseParticipantFullName}} Hearings Posted
-          </small>
-        {{/if}}
         {{#if milestoneParticipant.votesSubmitted}}
-          <h6>{{milestoneParticipant.landUseParticipantFullName}} Vote:</h6>
+          <h6 data-test-vote-title>{{milestoneParticipant.landUseParticipantFullName}} Vote:</h6>
               <ul class="sub-milestones no-bullet">
                 <li class="grid-x">
-                  <div class="cell shrink small-margin-right">
-                    {{#if (or (eq milestoneParticipant.participantRecommendation 'Approved') (eq milestoneParticipant.participantRecommendation 'Approved with Modifications/Conditions'))}}
-                      {{fa-icon 'thumbs-up' fixedWidth=true class='green-muted'}}
-                    {{else if (or (eq milestoneParticipant.participantRecommendation 'Disapproved') (eq milestoneParticipant.participantRecommendation 'Disapproved with Modifications/Conditions'))}}
-                      {{fa-icon 'thumbs-down' fixedWidth=true class='red-muted'}}
-                    {{else if (eq milestoneParticipant.participantRecommendation 'Waived')}}
-                      {{fa-icon 'comment-slash' fixedWidth=true class='light-gray'}}
-                    {{/if}}
-                  </div>
               {{#deduped-votes-list dispositions=milestoneParticipant.userDispositions participantRecommendationType=milestoneParticipant.participantRecommendationType as |dedupedVotes|}}
                 {{#each dedupedVotes as |vote|}}
+                  {{#if (eq milestoneParticipant.landUseParticipantType "CB")}}
+                    {{recommendation-symbol participantRecommendation=vote.disposition.dcpCommunityboardrecommendation}}
+                  {{else if (eq milestoneParticipant.landUseParticipantType "BB")}}
+                    {{recommendation-symbol participantRecommendation=vote.disposition.dcpBoroughboardrecommendation}}
+                  {{else if (eq milestoneParticipant.landUseParticipantType "BP")}}
+                    {{recommendation-symbol participantRecommendation=vote.disposition.dcpBoroughpresidentrecommendation}}
+                  {{/if}}
                   <div class="cell auto">
                     <small>
-                      <span class="display-inline-block">{{vote.disposition.dcpVotinginfavorrecommendation}} In Favor,</span>
-                      <span class="display-inline-block">{{vote.disposition.dcpVotingagainstrecommendation}} Against,</span>
-                      <span class="display-inline-block">{{vote.disposition.dcpVotingabstainingonrecommendation}} Abstain</span>
+                      <span class="display-inline-block" data-test-voting-favor="{{vote.disposition.id}}">
+                        {{vote.disposition.dcpVotinginfavorrecommendation}} In Favor,
+                      </span>
+                      <span class="display-inline-block" data-test-voting-against="{{vote.disposition.id}}">
+                        {{vote.disposition.dcpVotingagainstrecommendation}} Against,
+                      </span>
+                      <span class="display-inline-block" data-test-voting-abstain="{{vote.disposition.id}}">
+                        {{vote.disposition.dcpVotingabstainingonrecommendation}} Abstain
+                      </span>
                     </small>
-                    <small class="display-inline-block">{{~moment-format vote.disposition.dcpDateofvote "LL"~}}</small>
+                    <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
+                      {{~moment-format vote.disposition.dcpDateofvote "LL"~}}
+                    </small>
                     <span class="display-block text-tiny">
                       {{#each vote.voteActions as |action index|}}
-                        <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{index}}">
+                        <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
                           {{action.dcpName}}
                           <small>{{action.dcpUlurpnumber}}</small>
                         </span>
