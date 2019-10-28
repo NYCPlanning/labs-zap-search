@@ -89,4 +89,10 @@ export default class MilestoneConstantsService extends Service {
     reviewed: this.reviewed,
     archive: this.archive,
   }
+
+  referralIdentifierByAcronymLookup = {
+    CB: this.COMMUNITY_BOARD_REFERRAL,
+    BP: this.BOROUGH_PRESIDENT_REFERRAL,
+    BB: this.BOROUGH_BOARD_REFERRAL,
+  };
 }

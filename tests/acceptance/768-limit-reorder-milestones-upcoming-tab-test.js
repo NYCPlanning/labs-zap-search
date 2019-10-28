@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, find } from '@ember/test-helpers';
+import { visit, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import moment from 'moment';
 
 module('Acceptance | 768 limit reorder milestones upcoming tab', function(hooks) {
   setupApplicationTest(hooks);
@@ -53,13 +52,24 @@ module('Acceptance | 768 limit reorder milestones upcoming tab', function(hooks)
 
     await visit('/my-projects/upcoming');
 
-    const firstMilestone = find('[data-test-milestone-id="1"]');
-    assert.equal(firstMilestone.getAttribute('data-test-display-order'), 0);
+    assert.equal(
+      find('[data-test-milestone-id="1"]').getAttribute('data-test-display-order'), 0,
+      'first milestone is correct',
+    );
 
-    const firstCompleted = find('[data-test-milestone-id="4"]');
-    assert.equal(firstCompleted.getAttribute('data-test-display-order'), 1);
+    assert.equal(
+      find('[data-test-milestone-id="4"]').getAttribute('data-test-display-order'), 1,
+      'last completed is correct',
+    );
 
-    const firstLUPMilestone = find('[data-test-milestone-id="13"]');
-    assert.equal(firstLUPMilestone.getAttribute('data-test-display-order'), 10);
+    assert.equal(
+      find('[data-test-milestone-id="13"]').getAttribute('data-test-display-order'), 10,
+      'LUP milestones are correct',
+    );
+
+    assert.notOk(
+      find('[data-test-milestone-id="14"]'),
+      'Irrelevant user milestone is NOT visible',
+    );
   });
 });
