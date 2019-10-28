@@ -5,6 +5,7 @@ const ENVIRONMENTAL_HOST_API = process.env.HOST_API;
 let { LUPP_ENABLED = true } = process.env;
 
 LUPP_ENABLED = JSON.parse(LUPP_ENABLED);
+const MIRAGE_SCENARIO = process.env.MIRAGE_SCENARIO;
 
 module.exports = function(environment) {
   const ENV = {
@@ -20,6 +21,7 @@ module.exports = function(environment) {
     host: ENVIRONMENTAL_HOST_API || '',
     OAUTH_ENDPOINT: 'https://accounts-nonprd.nyc.gov/account/api/oauth/authorize.htm?response_type=token&client_id=zap_staging',
     LUPP_ENABLED,
+    MIRAGE_SCENARIO,
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
