@@ -5,12 +5,9 @@ const {
 } = DS;
 
 export default class ActionModel extends Model {
-// DB table: dcp_projectaction
-
-  // One Project has Many Actions
+  // DB table: dcp_projectaction
   @belongsTo('project', { async: true }) project;
 
-  // ONE disposition has many action
   @hasMany('disposition') dispositions;
 
   // id sourced from dcp_action, unique action IDs--e.g. '566ede3a-dad0-e711-8125-1458d04e2f18'

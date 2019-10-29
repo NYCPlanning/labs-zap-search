@@ -78,6 +78,7 @@
     "ember-source": "~3.11.1",
     "ember-test-selectors": "^2.1.0",
     "ember-truth-helpers": "2.0.0",
+    "ember-unused-components": "^1.1.0",
     "ember-welcome-page": "^4.0.0",
     "ember-wormhole": "^0.5.5",
     "eslint": "^4.19.1",

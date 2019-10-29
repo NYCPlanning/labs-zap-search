@@ -6,15 +6,10 @@ const {
 } = DS;
 
 export default class DispositionModel extends Model {
-// DB table: dcp_communityboarddisposition
+  // DB table: dcp_communityboarddisposition
 
-  // One Project to Many Dispositions
   @belongsTo('project') project;
 
-  // ONE User has Many Dispositions
-  @belongsTo('user') user;
-
-  // ONE disposition has ONE action
   @belongsTo('action', { async: true }) action;
 
   @belongsTo('assignment', { async: true }) assignment;

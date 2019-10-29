@@ -24,10 +24,4 @@ export default Factory.extend({
       server.createList('assignment', 2, { user }, 'withProject');
     },
   }),
-
-  withUserProjectParticipantTypes: trait({
-    afterCreate(user, server) {
-      server.createList('user-project-participant-type', 10);
-    },
-  }),
 });
