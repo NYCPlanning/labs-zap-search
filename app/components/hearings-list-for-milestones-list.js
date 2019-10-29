@@ -21,6 +21,7 @@ export function dedupeByParticipant(records = []) {
   }, []);
 }
 
+// Check that two fields are truthy
 export function checkHearingsSubmitted(records = []) {
   const dispositionHearingsLocations = records.map(disp => `${disp.dcpPublichearinglocation}`);
   const dispositionHearingsDates = records.map(disp => disp.dcpDateofpublichearing);
@@ -28,10 +29,19 @@ export function checkHearingsSubmitted(records = []) {
   return dispositionHearingsLocations.every(item => !!item) && dispositionHearingsDates.every(item => !!item);
 }
 
-export function checkHearingsWaived(records = []) {
-  const dispositionHearingsLocations = records.map(disp => `${disp.dcpPublichearinglocation}`);
-  // checks whether each item in array === 'waived'
-  return dispositionHearingsLocations.every(item => item === 'waived');
+// Check that five fields are truthy
+export function checkVotesSubmitted(records = [], recommendationType) {
+  const dispositionDateofVote = records.map(disp => disp.get('dcpDateofvote'));
+  const dispositionVotingInFavor = records.map(disp => disp.get('dcpVotinginfavorrecommendation'));
+  const dispositionVotingAgainst = records.map(disp => disp.get('dcpVotingagainstrecommendation'));
+  const dispositionAbstaining = records.map(disp => disp.get('dcpVotingabstainingonrecommendation'));
+  const dispositionRecommendationType = records.map(disp => disp.get(recommendationType));
+  // checks whether each item in array is truthy
+  return dispositionDateofVote.every(vote => !!vote)
+  && dispositionVotingInFavor.every(vote => !!vote)
+  && dispositionVotingAgainst.every(vote => !!vote)
+  && dispositionAbstaining.every(vote => !!vote)
+  && dispositionRecommendationType.every(recType => !!recType);
 }
 
 export default class HearingsListForMilestonesListComponent extends Component {
@@ -39,9 +49,15 @@ export default class HearingsListForMilestonesListComponent extends Component {
   milestone;
 
   milestoneParticipantReviewLookup = {
-    BP: 'Borough President Review',
-    BB: 'Borough Board Review',
-    CB: 'Community Board Review',
+    'Borough President Review': 'BP',
+    'Borough Board Review': 'BB',
+    'Community Board Review': 'CB',
+  }
+
+  participantRecommendationLookup = {
+    BP: 'dcpBoroughpresidentrecommendation',
+    BB: 'dcpBoroughboardrecommendation',
+    CB: 'dcpCommunityboardrecommendation',
   }
 
   // An array of disposition models that match the current milestone that is passed in
@@ -52,44 +68,58 @@ export default class HearingsListForMilestonesListComponent extends Component {
     const dispositions = milestone.get('project.dispositions');
     const milestoneParticipantReviewLookup = this.get('milestoneParticipantReviewLookup');
 
-
     // Iterate through ALL of the current project's dispositions.
     // Filter by IF a single disposition's dcpRecommendationsubmittedbyname matches the
     // current milestone's displayName based on the milestoneParticipantReviewLookup.
     // disposition.dcpRecommendationsubmittedbyname = e.g. 'QNBP'
     // disposition.dcpRecommendationsubmittedbyname.substring(2,4) = e.g. 'BP'
     // matching e.g. 'BP' with the milestoneParticipantReviewLookup provides 'Borough President Review'
-    return dispositions.filter(disposition => milestone.displayName === milestoneParticipantReviewLookup[disposition.dcpRecommendationsubmittedbyname.substring(2, 4)]);
+    return dispositions.filter(disposition => milestoneParticipantReviewLookup[milestone.displayName] === disposition.dcpRecommendationsubmittedbyname.substring(2, 4));
   }
 
   // An array of objects that contain the `landUseParticipantFullName` value and an array of dispositions that match that landUseParticipantFullName
   @computed('currentMilestoneDispositions')
   get milestoneParticipants() {
+    // LOOKUPS
+    const milestoneParticipantReviewLookup = this.get('milestoneParticipantReviewLookup');
+    const participantRecommendationLookup = this.get('participantRecommendationLookup');
+
+    // participant types
+    // participantType = e.g. "CB"
+    const participantType = milestoneParticipantReviewLookup[this.get('milestone.displayName')];
+    // partRecType = e.g. 'dcpCommunityboardrecommendation'
+    const partRecType = participantRecommendationLookup[participantType];
+
     const currentMilestoneDispositions = this.get('currentMilestoneDispositions');
+
     // Map new object where recommendationSubmittedByFullName property on disposition
     // is easily accessible as landUseParticipantFullName.
     // When deduplicated, userDispositions will be an array of ALL dispositions
-    // associated with ONE landUseParticipantFullName
+    // associated with ONE landUseParticipantFullName.
+    // Because dispositions have 3 types of recommendation fields based on the user that submitted them,
+    // participantRecommendationType is important for displaying the correct recommendation (e.g. "Approved").
+    // This participantRecommendationType is passed into `deduped-votes-list` to assure that we are deduplicating
+    // by the correct recommenation field.
     const milestoneParticipants = currentMilestoneDispositions.map(disp => ({
       landUseParticipantFullName: disp.recommendationSubmittedByFullName,
+      participantRecommendationType: partRecType, // e.g. 'dcpCommunityboardrecommendation'
+      landUseParticipantType: disp.dcpRecommendationsubmittedbyname.substring(2, 4), // e.g. 'CB'
       disposition: disp,
       userDispositions: [disp],
       hearingsSubmitted: false,
       hearingsWaived: false,
     }));
 
+
     // deduplicate based on landUseParticipantFullName property
     // concatenate all dispositions associated with that participant in userDispositions
     const milestoneParticipantsDeduped = dedupeByParticipant(milestoneParticipants);
 
-    // In order to check whether dispositions for each participant has hearingsSubmitted or hearingsWaived
-    // iterate through a single participant's userDispositions and check that
-    // dcpPublichearinglocation and dcpDateofpublichearing are truthy (for hearingsSubmitted) OR
-    // dcpPublichearinglocation === 'waived' (for hearingsWaived)
-    // checking hearingsSubmitted/hearingsWavied is necessary for when we pass userDispositions into deduped-hearings-list
+    // checking hearingsSubmitted/votesSubmitted is necessary for when
+    // we pass userDispositions into deduped-hearings-list/deduped-votes-list
     milestoneParticipantsDeduped.forEach(function(participant) {
       participant.hearingsSubmitted = checkHearingsSubmitted(participant.userDispositions);
-      participant.hearingsWaived = checkHearingsWaived(participant.userDispositions);
+      participant.votesSubmitted = checkVotesSubmitted(participant.userDispositions, participant.participantRecommendationType);
     });
 
     return milestoneParticipantsDeduped;

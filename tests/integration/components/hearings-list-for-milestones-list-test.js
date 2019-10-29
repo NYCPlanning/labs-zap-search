@@ -165,7 +165,7 @@ module('Integration | Component | hearings-list-for-milestones-list', function(h
     assert.ok(list.includes('Queens Community Board 4 Public Hearing'));
     assert.ok(list.includes('Queens Community Board 5 Public Hearing'));
     // hearings waived
-    assert.ok(list.includes('No Brooklyn Community Board 3 Hearings Posted'));
+    assert.notOk(list.includes('Brooklyn Community Board 3 Public Hearing'));
     // hearings not submitted yet
     assert.notOk(list.includes('Bronx Community Board 2 Public Hearing'));
   });
