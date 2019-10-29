@@ -19,11 +19,12 @@ export default class AssignmentModel extends Model {
   @service
   milestoneConstants;
 
-  @belongsTo('project', { async: false }) project;
-
   @belongsTo('user', { async: false }) user;
 
+  @belongsTo('project', { async: false }) project;
+
   // ZAP-API will filter this to the set of lupteammember role's dispos
+  // this could be computed through the project dispositions: project_dispositions
   @hasMany('disposition', { async: false }) dispositions;
 
   @attr('string') dcpLupteammemberrole;

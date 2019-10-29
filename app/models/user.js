@@ -8,16 +8,7 @@ const {
 export default class UserModel extends Model {
   // DB table: dcp_projectlupteam
   // user's internal id should be their email
-
-  // Many Projects to Many Users
-  @hasMany('project', { async: false }) projects;
-
   @hasMany('assignment', { async: false }) assignments;
-
-  @hasMany('user', { async: false }) dispositions;
-
-  // ONE User has Many User Project Participant Types
-  @hasMany('userProjectParticipantType', { async: false }) userProjectParticipantTypes;
 
   @attr('string', { defaultValue: '' }) landUseParticipant;
 

@@ -21,19 +21,11 @@ export default class ProjectModel extends Model {
   @service
   milestoneConstants;
 
-  // Many Users to Many Projects
-  @hasMany('user') users;
-
-  // Many Actions to One Project
   @hasMany('action', { async: false }) actions;
 
-  // Many Dispositions to One Project
-  @hasMany('disposition', { async: false }) dispositions;
-
-  // ONE Project Has Many User Project Participant Types
-  @hasMany('userProjectParticipantType') userProjectParticipantTypes;
-
   @hasMany('milestone', { async: false }) milestones;
+
+  @hasMany('disposition', { async: false }) dispositions;
 
   @hasMany('assignment', { async: false }) assignments;
 
