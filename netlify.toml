@@ -1,8 +1,8 @@
-[build]
-command = "LUPP_ENABLED=false HOST_API=https://zap-api-staging.herokuapp.com yarn build --environment=production"
-
 [context.master]
 command = "HOST_API=https://zap-api.planninglabs.nyc yarn build --environment=production"
 
+[build]
+command = "LUPP_ENABLED=false HOST_API=https://zap-api-staging.herokuapp.com yarn build --environment=production"
+
 [context.develop-future]
-command = "LUPP_ENABLED=true HOST_API=https://zap-api-lupp.herokuapp.com yarn build --environment=production"
+command = "LUPP_ENABLED=true HOST_API=https://zap-api-staging.herokuapp.com yarn build --environment=production"
