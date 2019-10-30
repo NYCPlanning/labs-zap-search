@@ -33,5 +33,39 @@
       Go to My Projects
     </LinkTo>
 
+    {{#if model.dispositions}}
+      {{#deduped-hearings-list dispositions=model.dispositions as |dedupedHearings|}}
+        {{#each dedupedHearings as |hearing idx|}}
+          {{#if hearing.disposition.dcpDateofpublichearing}}
+            <div class="grid-x">
+              <p class="cell auto small-order-2">
+                <span class="display-block">
+                  <strong>
+                    <DateDisplay
+                      @date={{hearing.disposition.dcpDateofpublichearing}}
+                    />
+                  </strong>
+                  <span class="light-gray">|</span>
+                  <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
+                </span>
+                <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
+                  {{#each hearing.hearingActions as |action index| ~}}
+                    {{#if action.dcpName}}
+                      <span class="label light-gray tiny-margin-bottom tiny-margin-right">
+                        {{action.dcpName}}
+                        <small>{{action.dcpUlurpnumber}}</small>
+                      </span>
+                    {{/if}}
+                  {{~/each}}
+                </small>
+              </p>
+            </div>
+          {{/if}}
+          {{city-record-form
+          hearing=hearing}}
+        {{/each}}
+      {{/deduped-hearings-list}}
+    {{/if}}
+
   </div>
 </div>

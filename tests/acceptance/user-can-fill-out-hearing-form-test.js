@@ -196,12 +196,15 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
         server.create('disposition', {
           id: 24,
           action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
+          dcpRecommendationsubmittedbyname: 'QNCB2',
         }),
       ],
       project: this.server.create('project', {
         dispositions: [
           server.create('disposition', {
             id: 24,
+            dcpProjectname: 'Our Project',
+            dcpProjectbrief: 'blah blah blah blah blah',
             action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
           }),
         ],

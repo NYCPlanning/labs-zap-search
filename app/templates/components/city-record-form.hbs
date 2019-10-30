@@ -1,0 +1,372 @@
+<button
+  class="button"
+  type="button"
+  onClick={{action "openModal"}}
+  data-test-city-record-button="{{hearing.disposition.id}}"
+>
+  {{fa-icon "envelope" prefix="far" transform='grow-4'}} Send to City Record
+</button>
+
+{{#ember-wormhole to="reveal-modal-container"}}
+  {{#confirmation-modal open=modalOpen}}
+    <h3 class="large-margin-right">Send Hearing Info to City Record Online</h3>
+    <p>
+      <span class="display-block">
+        <strong>
+          <DateDisplay
+            @date={{hearing.disposition.dcpDateofpublichearing}}
+          />
+        </strong>
+        <span class="light-gray">|</span>
+        <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
+      </span>
+      <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
+        {{#each hearing.hearingActions as |action index| ~}}
+          {{#if action.dcpName}}
+            <span class="label light-gray tiny-margin-bottom tiny-margin-right">
+              {{action.dcpName}}
+              <small>{{action.dcpUlurpnumber}}</small>
+            </span>
+          {{/if}}
+        {{~/each}}
+      </small>
+    </p>
+    <fieldset class="medium-margin-bottom">
+      <label><strong>Will you have accessibility options at your hearing?</strong></label>
+      <input
+        type="radio"
+        name="accessibility-yes"
+        id="accessibility-yes"
+        data-test-radio="accessibility-yes"
+        checked={{if (eq hasAccessibilityOptions true) "checked"}}
+        onClick={{action "setProp" "hasAccessibilityOptions" true}}
+      />
+      <label for="accessibility-yes">
+        Yes
+      </label>
+      <input
+        type="radio"
+        name="accessibility-no"
+        id="accessibility-no"
+        data-test-radio="accessibility-no"
+        checked={{if (eq hasAccessibilityOptions false) "checked"}}
+        onClick={{action "setProp" "hasAccessibilityOptions" false}}
+      />
+      <label for="accessibility-no">
+        No, I will not have accessibility options.
+      </label>
+      {{#if (and (eq hasAccessibilityOptions null) checkIfMissing)}}
+        <span class="form-error is-visible" role="alert">Please select an accessibility option</span>
+      {{/if}}
+    </fieldset>
+
+    {{#if (eq hasAccessibilityOptions true)}}
+      <fieldset>
+        <legend><strong>Which accessibility options will you provide?</strong></legend>
+        <ul class="no-bullet">
+          <li>
+            <input
+              type="checkbox" id="wheelchair-accessible"
+              checked={{if (eq wheelchairAccessible "yes") "checked"}}
+              onClick={{action "setProp" "wheelchairAccessible" "yes"}}>
+            <label for="wheelchair-accessible">Wheelchair Accessible</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="assistive-listening-ear"
+              checked={{if (eq assistiveListeningEar "yes") "checked"}}
+              onClick={{action "setProp" "assistiveListeningEar" "yes"}}>
+            <label for="assistive-listening-ear">Assistive Listening (ear)</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="blind-or-low-vision-accessible"
+              checked={{if (eq blindOrLowVisionAccessible "yes") "checked"}}
+              onClick={{action "setProp" "blindOrLowVisionAccessible" "yes"}}>
+            <label for="blind-or-low-vision-accessible">Blind or Low Vision Accessible</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="large-print"
+              checked={{if (eq largePrint "yes") "checked"}}
+              onClick={{action "setProp" "largePrint" "yes"}}>
+            <label for="large-print">Large Print</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="audio-description-for-tv-film"
+              checked={{if (eq audioDescriptionForTvFilm "yes") "checked"}}
+              onClick={{action "setProp" "audioDescriptionForTvFilm" "yes"}}>
+            <label for="audio-description-for-tv-film">Audio Description for TV, film</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="universal-information"
+              checked={{if (eq universalInformation "yes") "checked"}}
+              onClick={{action "setProp" "universalInformation" "yes"}}>
+            <label for="universal-information">Universal Information</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="telephone-typewriter"
+              checked={{if (eq telephoneTypewriter "yes") "checked"}}
+              onClick={{action "setProp" "telephoneTypewriter" "yes"}}>
+            <label for="telephone-typewriter">Telephone Typewriter</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="hearing-with-t-coil"
+              checked={{if (eq hearingWithTCoil "yes") "checked"}}
+              onClick={{action "setProp" "hearingWithTCoil" "yes"}}>
+            <label for="hearing-with-t-coil">Hearing with T-Coil</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="assistive-listening-telephone"
+              checked={{if (eq assistiveListeningTelephone "yes") "checked"}}
+              onClick={{action "setProp" "assistiveListeningTelephone" "yes"}}>
+            <label for="assistive-listening-telephone">Assistive Listening (Telephone)</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="close-captioning"
+              checked={{if (eq closeCaptioning "yes") "checked"}}
+              onClick={{action "setProp" "closeCaptioning" "yes"}}>
+            <label for="close-captioning">Close Captioning</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="sign-language-interpretation"
+              checked={{if (eq signLanguageInterpretation "yes") "checked"}}
+              onClick={{action "setProp" "signLanguageInterpretation" "yes"}}>
+            <label for="sign-language-interpretation">Sign Language Interpretation</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="braille"
+              checked={{if (eq braille "yes") "checked"}}
+              onClick={{action "setProp" "braille" "yes"}}>
+            <label for="braille">Braille</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="open-captioning"
+              checked={{if (eq openCaptioning "yes") "checked"}}
+              onClick={{action "setProp" "openCaptioning" "yes"}}>
+            <label for="open-captioning">Open Captioning</label>
+          </li>
+
+          <li>
+            <input
+              type="checkbox" id="communication-access-real-time-translation"
+              checked={{if (eq communicationAccessRealTimeTranslation "yes") "checked"}}
+              onClick={{action "setProp" "communicationAccessRealTimeTranslation" "yes"}}>
+            <label for="communication-access-real-time-translation">Communication Access Real-Time Translation</label>
+          </li>
+        </ul>
+      </fieldset>
+    {{/if}}
+
+    <fieldset class="medium-margin-bottom">
+      <legend><strong>Who is requesting this notice?</strong></legend>
+      <label class="{{if (and requesterFullNameMissing checkIfMissing) 'is-invalid-label'}}">Requester Full Name
+        {{input
+          class=(if (and requesterFullNameMissing checkIfMissing) "is-invalid-input")
+          type="text"
+          data-test-input="requester-full-name"
+          placeholder="Add your full name"
+          autocomplete="off"
+          value=this.requesterFullName
+          key-down=(action (mut this.requesterFullName))
+        }}
+        {{#if (and requesterFullNameMissing checkIfMissing)}}
+          <span class="form-error is-visible" role="alert">Please enter the full name of your requester</span>
+        {{/if}}
+      </label>
+      <label class="{{if (and requesterPhoneNumberMissing checkIfMissing) 'is-invalid-label'}}">Requester Phone Number
+        {{input
+          class=(if (and requesterPhoneNumberMissing checkIfMissing) "is-invalid-input")
+          data-test-input="requester-phone-number"
+          type="text"
+          placeholder="Add your phone number"
+          autocomplete="off"
+          value=this.requesterPhoneNumber
+          key-down=(action (mut this.requesterPhoneNumber))
+        }}
+        {{#if (and requesterPhoneNumberMissing checkIfMissing)}}
+          <span class="form-error is-visible" role="alert">Please enter the phone number of your requester</span>
+        {{/if}}
+      </label>
+      <label class="{{if (and requesterEmailMissing checkIfMissing) 'is-invalid-label'}}">Requester Email
+        {{input
+          class=(if (and requesterEmailMissing checkIfMissing) "is-invalid-input")
+          data-test-input="requester-email"
+          type="text"
+          placeholder="Add your email address"
+          autocomplete="off"
+          value=this.requesterEmail
+          key-down=(action (mut this.requesterEmail))
+        }}
+        {{#if (and requesterEmailMissing checkIfMissing)}}
+          <span class="form-error is-visible" role="alert">Please enter the email address of your requester</span>
+        {{/if}}
+      </label>
+    </fieldset>
+
+    <fieldset class="medium-margin-bottom">
+      <legend><strong>Who should be contacted for accessibility concerns?</strong></legend>
+      <label class="{{if (and accessibilityContactFullNameMissing checkIfMissing) 'is-invalid-label'}}">Accessibility Contact Full Name
+        {{input
+          class=(if (and accessibilityContactFullNameMissing checkIfMissing) "is-invalid-input")
+          data-test-input="accessibility-contact-full-name"
+          type="text"
+          placeholder="Add a name"
+          autocomplete="off"
+          value=this.accessibilityContactFullName
+          key-down=(action (mut this.accessibilityContactFullName))
+        }}
+        {{#if (and accessibilityContactFullNameMissing checkIfMissing)}}
+          <span class="form-error is-visible" role="alert">Please enter a the full name of your Accessibility Contact</span>
+        {{/if}}
+      </label>
+      <label class="{{if (and accessibilityContactPhoneNumberMissing checkIfMissing) 'is-invalid-label'}}">Accessibility Contact Phone Number
+        {{input
+          class=(if (and accessibilityContactPhoneNumberMissing checkIfMissing) "is-invalid-input")
+          data-test-input="accessibility-contact-phone-number"
+          type="text"
+          placeholder="Add a phone number"
+          autocomplete="off"
+          value=this.accessibilityContactPhoneNumber
+          key-down=(action (mut this.accessibilityContactPhoneNumber))
+        }}
+        {{#if (and accessibilityContactPhoneNumberMissing checkIfMissing)}}
+          <span class="form-error is-visible" role="alert">Please enter the phone number of your Accessibility Contact</span>
+        {{/if}}
+      </label>
+      <label class="{{if (and accessibilityContactEmailMissing checkIfMissing) 'is-invalid-label'}}">Accessibility Contact Email Address
+        {{input
+          class=(if (and accessibilityContactEmailMissing checkIfMissing) "is-invalid-input")
+          data-test-input="accessibility-contact-email"
+          type="text"
+          placeholder="Add an email address"
+          autocomplete="off"
+          value=this.accessibilityContactEmail
+          key-down=(action (mut this.accessibilityContactEmail))
+        }}
+        {{#if (and accessibilityContactEmailMissing checkIfMissing)}}
+          <span class="form-error is-visible" role="alert">Please enter the email address of your Accessibility Contact</span>
+        {{/if}}
+      </label>
+      <label class="{{if (and accessibilityContactDeadlineMissing checkIfMissing) 'is-invalid-label'}}">Accessibility Contact Deadline
+        {{pikaday-input
+          data-test-input="accessibility-contact-deadline"
+          class="no-margin"
+          placeholder='Select a date'
+          value=this.accessibilityContactDeadline
+          minDate=currentDate
+          format='MM/DD/YYYY'
+          onSelection=(action (mut this.accessibilityContactDeadline))
+          class=(if (and accessibilityContactDeadlineMissing checkIfMissing) 'is-invalid-input')
+        }}
+        {{#if (and accessibilityContactDeadlineMissing checkIfMissing)}}
+          <span class="form-error is-visible" role="alert">Please enter the deadline for contacting the Accessibility Contact</span>
+        {{/if}}
+      </label>
+      <span class="help-text"> date and time when the public can contact the Accessibility Contact</span>
+    </fieldset>
+
+    {{#if fieldsMissing}}
+      <button
+        class="button"
+        type="button"
+        onClick={{action "onClickSendButton"}}
+      >
+        {{fa-icon "envelope" prefix="far" transform='grow-4'}} Send to City Record
+      </button>
+    {{else if (and (not fieldsMissing) (eq hasAccessibilityOptions true))}}
+      <a class="button"
+      target="_blank"
+      onClick={{action "closeModal"}}
+      data-test-button="modal-send-to-city-record"
+      href="mailto:bananas@banana.com?subject={{hearing.disposition.recommendationSubmittedByFullName}}%20City%20Record%20Submission&body=
+      {{hearing.disposition.recommendationSubmittedByFullName}}%20Event%20Information%0D%0A%0D%0A
+      Date%20of%20First%20Publication:%20{{moment-format now 'MM-DD-YYYY'}}%0D%0A
+      Number%20of%20Consecutive%20Days:%201%0D%0A
+      Agency:%0D%0A
+      Division%20Name:%0D%0A
+      Type%20of%20Notice:%20Public%20Hearing%0D%0A
+      Short%20Title:%20{{recommendationSubmittedByFullName}}%20Public%20Hearing%20for%20{{hearing.disposition.project.dcpProjectname}}%0D%0A
+      Additional%20Description:%20{{hearing.disposition.project.dcpProjectbrief}}%0D%0A
+      Event%20Date:%20{{moment-format disposition.dcpDateofpublichearing 'MM-DD-YYYY'}}%0D%0A
+      Event%20Time:%20{{moment-format disposition.dcpDateofpublichearing 'h:mm A'}}%0D%0A
+      Event%20Address:%20{{disposition.dcpPublichearinglocation}}%0D%0A
+      Requester%20Information:%20{{requesterFullName}},%20{{requesterPhoneNumber}},%20{{requesterEmail}}%0D%0A%0D%0A
+
+      Accessibility%20Options%0D%0A%0D%0A
+      Wheelchair%20Accessible:%20{{wheelchairAccessible}}%0D%0A
+      Assistive%20Listening%20(Ear):%20{{assistiveListeningEar}}%0D%0A
+      Blind%20or%20Low%20Vision%20Accessible:%20{{blindOrLowVisionAccessible}}%0D%0A
+      Large%20Print:%20{{largePrint}}%0D%0A
+      Audio%20Description%20for%20Tv,%20Film:%20{{audioDescriptionForTvFilm}}%0D%0A
+      Universal%20Information:%20{{universalInformation}}%0D%0A
+      Telephone%20Typewriter:%20{{telephoneTypewriter}}%0D%0A
+      Hearing%20with%20T-Coil:%20{{hearingWithTCoil}}%0D%0A
+      Assistive%20Listening%20(Telephone):%20{{assistiveListeningTelephone}}%0D%0A
+      Close%20Captioning:%20{{closeCaptioning}}%0D%0A
+      Sign%20Language%20Interpretation:%20{{signLanguageInterpretation}}%0D%0A
+      Braille:%20{{braille}}%0D%0A
+      Open%20Captioning:%20{{openCaptioning}}%0D%0A
+      Communication%20Access%20Real-Time%20Translation:%20{{communicationAccessRealTimeTranslation}}%0D%0A%0D%0A
+
+      Accessibility%20Contact%20Information%0D%0A%0D%0A
+      Accessibility%20Contact%20Full%20Name:%20{{accessibilityContactFullName}}%0D%0A
+      Accessibility%20Contact%20Phone%20Number:%20{{accessibilityContactPhoneNumber}}%0D%0A
+      Accessibility%20Contact%20Email%20Address:%20{{accessibilityContactEmail}}%0D%0A
+      Accessibility%20Contact%20Deadline:%20{{moment-format accessibilityContactDeadline 'MM-DD-YYYY'}}%0D%0A%0D%0A
+      "
+
+      >{{fa-icon "envelope" prefix="far" transform='grow-4'}} Send to City Record</a>
+    {{else if (and (not fieldsMissing) (eq hasAccessibilityOptions false))}}
+      <a class="button"
+      target="_blank"
+      onClick={{action "closeModal"}}
+      data-test-button="modal-send-to-city-record"
+      href="mailto:bananas@banana.com?subject={{hearing.disposition.recommendationSubmittedByFullName}}%20City%20Record%20Submission&body=
+      {{hearing.disposition.recommendationSubmittedByFullName}}%20Event%20Information%0D%0A%0D%0A
+      Date%20of%20First%20Publication:%20{{moment-format now 'MM-DD-YYYY'}}%0D%0A
+      Number%20of%20Consecutive%20Days:%201%0D%0A
+      Agency:%0D%0A
+      Division%20Name:%0D%0A
+      Type%20of%20Notice:%20Public%20Hearing%0D%0A
+      Short%20Title:%20{{recommendationSubmittedByFullName}}%20Public%20Hearing%20for%20{{hearing.disposition.project.dcpProjectname}}%0D%0A
+      Additional%20Description:%20{{hearing.disposition.project.dcpProjectbrief}}%0D%0A
+      Event%20Date:%20{{moment-format disposition.dcpDateofpublichearing 'MM-DD-YYYY'}}%0D%0A
+      Event%20Time:%20{{moment-format disposition.dcpDateofpublichearing 'h:mm A'}}%0D%0A
+      Event%20Address:%20{{disposition.dcpPublichearinglocation}}%0D%0A
+      Requester%20Information:%20{{requesterFullName}},%20{{requesterPhoneNumber}},%20{{requesterEmail}}%0D%0A%0D%0A
+
+      This%20Event%20has%20No%20Accessibility%20Options%0D%0A%0D%0A
+
+      Accessibility%20Contact%20Information%0D%0A%0D%0A
+      Accessibility%20Contact%20Full%20Name:%20{{accessibilityContactFullName}}%0D%0A
+      Accessibility%20Contact%20Phone%20Number:%20{{accessibilityContactPhoneNumber}}%0D%0A
+      Accessibility%20Contact%20Email%20Address:%20{{accessibilityContactEmail}}%0D%0A
+      Accessibility%20Contact%20Deadline:%20{{moment-format accessibilityContactDeadline 'MM-DD-YYYY'}}%0D%0A%0D%0A
+      "
+
+      >{{fa-icon "envelope" prefix="far" transform='grow-4'}} Send to City Record</a>
+    {{/if}}
+  {{/confirmation-modal}}
+{{/ember-wormhole}}
