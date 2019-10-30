@@ -17,6 +17,8 @@ export default class DispositionModel extends Model {
   // sourced from dcp_dcpPublichearinglocation
   @attr('string', { defaultValue: '' }) dcpPublichearinglocation;
 
+  @attr('string', { defaultValue: '' }) dcpIspublichearingrequired;
+
   // sourced from dcp_dcpDateofpublichearing
   @attr('date', { defaultValue: null }) dcpDateofpublichearing;
 

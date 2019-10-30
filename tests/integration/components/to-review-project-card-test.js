@@ -18,18 +18,21 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       id: 1,
       dcpPublichearinglocation: '341 Yellow Avenue',
       dcpDateofpublichearing: hearingDate,
+      dcpIspublichearingrequired: '',
     });
 
     const disp2 = store.createRecord('disposition', {
       id: 2,
       dcpPublichearinglocation: '890 Purple Street',
       dcpDateofpublichearing: hearingDate,
+      dcpIspublichearingrequired: '',
     });
 
     const disp3 = store.createRecord('disposition', {
       id: 3,
       dcpPublichearinglocation: '124 Green Boulevard',
       dcpDateofpublichearing: hearingDate,
+      dcpIspublichearingrequired: '',
     });
 
     const assignment = store.createRecord('assignment', {
@@ -37,7 +40,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dispositions: [disp1, disp2, disp3],
       dcpLupteammemberrole: 'CB',
       project: store.createRecord('project', {
-        dispositions: [disp1, disp2, disp3],
+        id: 2,
       }),
     });
 
@@ -56,7 +59,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     assert.ok(card.includes('124 Green Boulevard'));
   });
 
-  test('check that opt out of hearings BUTTON appears when hearing locations are empty strings', async function(assert) {
+  test('check that opt out of hearings BUTTON appears when dcpIspublichearinglocation is empty string', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
@@ -66,18 +69,21 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       id: 1,
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
+      dcpIspublichearingrequired: '',
     });
 
     const disp2 = store.createRecord('disposition', {
       id: 2,
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
+      dcpIspublichearingrequired: '',
     });
 
     const disp3 = store.createRecord('disposition', {
       id: 3,
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
+      dcpIspublichearingrequired: '',
     });
 
 
@@ -86,7 +92,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dispositions: [disp1, disp2, disp3],
       dcpLupteammemberrole: 'CB',
       project: store.createRecord('project', {
-        dispositions: [disp1, disp2, disp3],
+        id: 2,
       }),
     });
 
@@ -105,7 +111,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     assert.ok(card.includes('Opt Out'));
   });
 
-  test('check that opt out of hearings MESSAGE appears when hearing locations are waived', async function(assert) {
+  test('check that opt out of hearings MESSAGE appears when dcpIspublichearingrequired is No', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
@@ -113,28 +119,32 @@ module('Integration | Component | to-review-project-card', function(hooks) {
 
     const disp1 = store.createRecord('disposition', {
       id: 1,
-      dcpPublichearinglocation: 'waived',
+      dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
+      dcpIspublichearingrequired: 'No',
     });
 
     const disp2 = store.createRecord('disposition', {
       id: 2,
-      dcpPublichearinglocation: 'waived',
+      dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
+      dcpIspublichearingrequired: 'No',
     });
 
     const disp3 = store.createRecord('disposition', {
       id: 3,
-      dcpPublichearinglocation: 'waived',
+      dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
+      dcpIspublichearingrequired: 'No',
     });
 
     const assignment = store.createRecord('assignment', {
       id: 1,
       dispositions: [disp1, disp2, disp3],
+      tab: 'to-review',
       dcpLupteammemberrole: 'CB',
       project: store.createRecord('project', {
-        dispositions: [disp1, disp2, disp3],
+        id: 2,
       }),
     });
 

@@ -155,6 +155,7 @@ module('Integration | Component | hearings-list-for-milestones-list', function(h
     await render(hbs`
       {{#upcoming-project-card assignment=assignment}}
       {{/upcoming-project-card}}
+      <div id="reveal-modal-container"></div>
     `);
 
     const list = this.element.textContent.trim();
