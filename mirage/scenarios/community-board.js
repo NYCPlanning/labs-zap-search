@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export default function(server) {
   // Array of dispositions for To Review Project 1
-  const dispositionsArray = [
+  const dispositionsArrayForToReview = [
     server.create('disposition', 'withAction', {
       dcpRecommendationsubmittedbyname: 'QNCB4',
       dcpCommunityboardrecommendation: null,
@@ -30,7 +30,7 @@ export default function(server) {
   ];
 
   // Array of dispositions for To Review Project 2
-  const dispositionsArray2 = [
+  const dispositionsArrayForToReview2 = [
     server.create('disposition', 'withAction', {
       dcpRecommendationsubmittedbyname: 'QNCB4',
       dcpCommunityboardrecommendation: null,
@@ -67,7 +67,6 @@ export default function(server) {
       server.create('assignment', {
         tab: 'upcoming',
         dcpLupteammemberrole: 'CB',
-        dcpPublicstatusSimp: 'Filed',
         publicReviewPlannedStartDate: moment().add(42, 'days'),
         project: server.create('project', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
@@ -95,11 +94,10 @@ export default function(server) {
       server.create('assignment', {
         tab: 'upcoming',
         dcpLupteammemberrole: 'CB',
-        dcpPublicstatusSimp: 'Filed',
         publicReviewPlannedStartDate: moment().add(12, 'days'),
         project: server.create('project', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
-          dcpPublicstatus: 'Filed',
+          dcpPublicstatusSimp: 'Filed',
           milestones: [
             server.create('milestone', 'prepareFiledLandUseApplication', {
               statuscode: 'Completed',
@@ -127,11 +125,11 @@ export default function(server) {
       server.create('assignment', {
         tab: 'to-review',
         dcpLupteammemberrole: 'CB',
-        dispositions: dispositionsArray,
+        dispositions: dispositionsArrayForToReview,
         project: server.create('project', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
-          dispositions: dispositionsArray,
+          dispositions: dispositionsArrayForToReview,
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'In Progress',
@@ -148,11 +146,11 @@ export default function(server) {
       server.create('assignment', {
         tab: 'to-review',
         dcpLupteammemberrole: 'CB',
-        dispositions: dispositionsArray2,
+        dispositions: dispositionsArrayForToReview2,
         project: server.create('project', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
-          dispositions: dispositionsArray2,
+          dispositions: dispositionsArrayForToReview2,
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'In Progress',

@@ -1,8 +1,45 @@
 import moment from 'moment';
 
 export default function(server) {
+  // Project attributes for Upcoming Project 1 which has both BP and BB assignments
+  const projectForUpcoming1 = server.create('project', {
+    dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+    dcpPublicstatusSimp: 'Filed',
+    dispositions: [
+      server.create('disposition', 'withAction', {
+        dcpRecommendationsubmittedbyname: 'QNBP',
+        dcpBoroughpresidentrecommendation: null,
+        dcpDatereceived: null,
+      }),
+    ],
+    milestones: [
+      server.create('milestone', 'prepareFiledLandUseApplication', {
+        statuscode: 'Completed',
+        dcpPlannedstartdate: moment().subtract(60, 'days'),
+        displayDate: moment().subtract(60, 'days'),
+        displayDate2: moment().subtract(60, 'days'),
+        dcpActualenddate: moment().subtract(60, 'days'),
+        dcpMilestoneoutcome: null,
+      }),
+      server.create('milestone', 'certifiedReferred', {
+        statuscode: 'Not Started',
+      }),
+      server.create('milestone', 'communityBoardReview', {
+        statuscode: 'Not Started',
+        dcpPlannedstartdate: moment().add(42, 'days'),
+        displayDate: moment().add(42, 'days'),
+      }),
+      server.create('milestone', 'boroughPresidentReview', {
+        statuscode: 'Not Started',
+      }),
+      server.create('milestone', 'boroughBoardReview', {
+        statuscode: 'Not Started',
+      }),
+    ],
+  });
+
   // Array of dispositions for To Review Project 1
-  const dispositionsArray = [
+  const dispositionsArrayForToReview = [
     server.create('disposition', 'withAction', {
       dcpRecommendationsubmittedbyname: 'QNCB4',
       dcpCommunityboardrecommendation: null,
@@ -30,7 +67,7 @@ export default function(server) {
   ];
 
   // Array of dispositions for To Review Project 2 BP role
-  const dispositionsArray2 = [
+  const dispositionsArrayForToReview2 = [
     server.create('disposition', 'withAction', {
       dcpRecommendationsubmittedbyname: 'QNCB4',
       dcpCommunityboardrecommendation: null,
@@ -58,7 +95,7 @@ export default function(server) {
   ];
 
   // Array of dispositions for To Review Project 2 BB role
-  const dispositionsArray3 = [
+  const dispositionsArrayForToReview3 = [
     server.create('disposition', 'withAction', {
       dcpRecommendationsubmittedbyname: 'QNCB4',
       dcpCommunityboardrecommendation: null,
@@ -91,15 +128,30 @@ export default function(server) {
       // UPCOMING
       //----------------------------------------
 
-      // Upcoming Project 1: pre-cert with BP & BB roles >30
+      // Upcoming Project 1A: BP role for pre-cert with BP & BB roles >30
       server.create('assignment', {
         tab: 'upcoming',
         dcpLupteammemberrole: 'BP',
-        dcpPublicstatusSimp: 'Filed',
         publicReviewPlannedStartDate: moment().add(42, 'days'),
+        project: projectForUpcoming1,
+      }),
+
+      // Upcoming Project 1B: BP role for pre-cert with BP & BB roles >30
+      server.create('assignment', {
+        tab: 'upcoming',
+        dcpLupteammemberrole: 'BB',
+        publicReviewPlannedStartDate: moment().add(42, 'days'),
+        project: projectForUpcoming1,
+      }),
+
+      // Upcoming Project 2: pre-cert with BP role <30
+      server.create('assignment', {
+        tab: 'upcoming',
+        dcpLupteammemberrole: 'BP',
+        publicReviewPlannedStartDate: moment().add(12, 'days'),
         project: server.create('project', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
-          dcpPublicstatus: 'Filed',
+          dcpPublicstatusSimp: 'Filed',
           dispositions: [
             server.create('disposition', 'withAction', {
               dcpRecommendationsubmittedbyname: 'QNBP',
@@ -110,10 +162,10 @@ export default function(server) {
           milestones: [
             server.create('milestone', 'prepareFiledLandUseApplication', {
               statuscode: 'Completed',
-              dcpPlannedstartdate: moment().subtract(60, 'days'),
-              displayDate: moment().subtract(60, 'days'),
-              displayDate2: moment().subtract(60, 'days'),
-              dcpActualenddate: moment().subtract(60, 'days'),
+              dcpPlannedstartdate: moment().subtract(80, 'days'),
+              displayDate: moment().subtract(80, 'days'),
+              displayDate2: moment().subtract(80, 'days'),
+              dcpActualenddate: moment().subtract(80, 'days'),
               dcpMilestoneoutcome: null,
             }),
             server.create('milestone', 'certifiedReferred', {
@@ -121,8 +173,7 @@ export default function(server) {
             }),
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Not Started',
-              dcpPlannedstartdate: moment().add(42, 'days'),
-              displayDate: moment().add(42, 'days'),
+              dcpPlannedstartdate: moment().add(10, 'days'),
             }),
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Not Started',
@@ -130,15 +181,15 @@ export default function(server) {
           ],
         }),
       }),
-      // Upcoming Project 2: pre-cert with BP & BB roles <30
+
+      // Upcoming Project 3: post-cert with BP role
       server.create('assignment', {
         tab: 'upcoming',
         dcpLupteammemberrole: 'BP',
-        dcpPublicstatusSimp: 'In Public Review',
         publicReviewPlannedStartDate: moment().add(12, 'days'),
         project: server.create('project', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
-          dcpPublicstatus: 'Filed',
+          dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
             server.create('disposition', 'withAction', {
               dcpRecommendationsubmittedbyname: 'QNBP',
@@ -157,17 +208,16 @@ export default function(server) {
             }),
             server.create('milestone', 'certifiedReferred', {
               statuscode: 'Completed',
-              dcpActualenddate: moment().subtract(75, 'days'),
+              dcpActualenddate: moment().subtract(55, 'days'),
             }),
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'In Progress',
-              dcpActualenddate: moment().subtract(75, 'days'),
-              dcpPlannedcompletiondate: moment().add(42, 'days'),
-              displayDate: moment().add(42, 'days'),
+              dcpPlannedcompletiondate: moment().add(38, 'days'),
+              displayDate: moment().add(38, 'days'),
             }),
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Not Started',
-              dcpPlannedstartdate: moment().add(42, 'days'),
+              dcpPlannedstartdate: moment().add(38, 'days'),
             }),
           ],
         }),
@@ -180,11 +230,11 @@ export default function(server) {
       server.create('assignment', {
         tab: 'to-review',
         dcpLupteammemberrole: 'BP',
-        dispositions: dispositionsArray,
+        dispositions: dispositionsArrayForToReview,
         project: server.create('project', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
-          dispositions: dispositionsArray,
+          dispositions: dispositionsArrayForToReview,
           milestones: [
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'In Progress',
@@ -201,11 +251,11 @@ export default function(server) {
       server.create('assignment', {
         tab: 'to-review',
         dcpLupteammemberrole: 'BP',
-        dispositions: dispositionsArray2,
+        dispositions: dispositionsArrayForToReview2,
         project: server.create('project', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
-          dispositions: dispositionsArray2,
+          dispositions: dispositionsArrayForToReview2,
           milestones: [
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'In Progress',
@@ -222,13 +272,21 @@ export default function(server) {
       server.create('assignment', {
         tab: 'to-review',
         dcpLupteammemberrole: 'BB',
-        dispositions: dispositionsArray3,
+        dispositions: dispositionsArrayForToReview3,
         project: server.create('project', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
-          dispositions: dispositionsArray3,
+          dispositions: dispositionsArrayForToReview3,
           milestones: [
             server.create('milestone', 'boroughPresidentReview', {
+              statuscode: 'In Progress',
+              dcpActualstartdate: moment().subtract(2, 'days'),
+              displayDate: moment().subtract(2, 'days'),
+              displayDate2: null,
+              dcpPlannedcompletiondate: moment().add(28, 'days'),
+              dcpMilestoneoutcome: null,
+            }),
+            server.create('milestone', 'boroughBoardReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: moment().subtract(2, 'days'),
               displayDate: moment().subtract(2, 'days'),
