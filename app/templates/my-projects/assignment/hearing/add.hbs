@@ -17,33 +17,35 @@
     </div>
   </div>
   <div class="large-7 cell">
-    <fieldset class="medium-margin-bottom">
-      <legend><strong>Would you like to submit a single hearing for all actions?</strong></legend>
-      <input
-        type="radio"
-        name="all-action-yes"
-        id="all-action-yes"
-        data-test-radio="all-action-yes"
-        checked={{if (eq allActions true) "checked"}}
-        onClick={{action "setProp" "allActions" true}}
-      />
-      <label for="all-action-yes">
-        Yes
-      </label>
-      <input
-        type="radio"
-        name="all-action-no"
-        id="all-action-no"
-        data-test-radio="all-action-no"
-        checked={{if (eq allActions false) "checked"}}
-        onClick={{action "setProp" "allActions" false}}
-      />
-      <label for="all-action-no">
-        No, I will submit multiple hearings
-      </label>
-    </fieldset>
+    {{#if (gt model.dispositions.length 1)}}
+      <fieldset class="medium-margin-bottom">
+        <legend><strong>Would you like to submit a single hearing for all actions?</strong></legend>
+        <input
+          type="radio"
+          name="all-action-yes"
+          id="all-action-yes"
+          data-test-radio="all-action-yes"
+          checked={{if (eq allActions true) "checked"}}
+          onClick={{action "setProp" "allActions" true}}
+        />
+        <label for="all-action-yes">
+          Yes
+        </label>
+        <input
+          type="radio"
+          name="all-action-no"
+          id="all-action-no"
+          data-test-radio="all-action-no"
+          checked={{if (eq allActions false) "checked"}}
+          onClick={{action "setProp" "allActions" false}}
+        />
+        <label for="all-action-no">
+          No, I will submit multiple hearings
+        </label>
+      </fieldset>
+    {{/if}}
 
-    {{#if allActions}}
+    {{#if (or allActions (lte model.dispositions.length 1))}}
       {{hearing-form
         disposition=dispositionForAllActions
         allActions=allActions
@@ -58,7 +60,7 @@
       {{/each}}
     {{/if}}
 
-    {{#if (not-eq allActions null)}}
+    {{#if (or (not-eq allActions null) (lte model.dispositions.length 1))}}
         <button
           class="button"
           data-test-button="checkHearing"
