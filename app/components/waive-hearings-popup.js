@@ -13,7 +13,7 @@ export default class WaiveHearingsPopupComponent extends Component {
   // occurs when a user chooses to opt out of hearings for their project
   @action
   onConfirmOptOutHearing(dispositions) {
-    updateEachObjectInArray(dispositions, 'dcpPublichearinglocation', 'waived');
+    updateEachObjectInArray(dispositions, 'dcpIspublichearingrequired', 'No');
     this.set('showPopup', false);
   }
 

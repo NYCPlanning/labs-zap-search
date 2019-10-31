@@ -30,18 +30,29 @@ module('Acceptance | user can waive hearings', function(hooks) {
       id: 4,
       tab: 'to-review',
       user: this.server.create('user'),
-      project: this.server.create('project', {
-        id: 4,
-        dispositions: this.server.createList('disposition', 1, {
+      dispositions: [
+        this.server.create('disposition', {
+          dcpIspublichearingrequired: '',
+          dcpDateofpublichearing: null,
+          dcpPublichearinglocation: '',
           action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
+        this.server.create('disposition', {
+          dcpIspublichearingrequired: '',
+          dcpDateofpublichearing: null,
+          dcpPublichearinglocation: '',
+          action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'C780076TLK' }),
+        }),
+      ],
+      project: this.server.create('project', {
+        id: 4,
       }),
-      dispositions: this.server.schema.dispositions.all(),
     });
 
     await authenticateSession();
 
     await visit('/my-projects/to-review');
+
     assert.ok('[data-test-button="submitHearing"]');
 
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
