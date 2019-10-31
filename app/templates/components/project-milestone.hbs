@@ -27,29 +27,31 @@
     {{/if}}
   </h4>
   {{#if milestone.displayDate}}
-    <div class="milestone-dates">
+    <p class="milestone-dates">
       {{#if milestone.displayDate}}
-        <div>
+        {{#if (and milestone.displayDate2 (is-same milestone.displayDate milestone.displayDate2 precision="year"))}}
+          <DateDisplay
+            @date={{milestone.displayDate}}
+            @outputFormat="MMMM D"
+          />
+        {{else}}
           <DateDisplay
             @date={{milestone.displayDate}}
             @outputFormat="MMMM D, YYYY"
           />
-          {{#if milestone.displayDate2}}<small>Start</small>{{/if}}
-        </div>
+        {{/if}}
       {{/if}}
       {{#if milestone.displayDate2}}
-        <div>
-          <DateDisplay
-            @date={{milestone.displayDate2}}
-            @outputFormat="MMMM D, YYYY"
-          />
-          <small>End</small>
-        </div>
+        &ndash;
+        <DateDisplay
+          @date={{milestone.displayDate2}}
+          @outputFormat="MMMM D, YYYY"
+        />
       {{/if}}
-      {{#if timeRelativeToNow}}
+      {{!-- {{#if timeRelativeToNow}}
         <div class="milestone-offset">{{timeRelativeToNow}}</div>
-      {{/if}}
-    </div>
+      {{/if}} --}}
+    </p>
     {{#if milestone.dcpMilestoneoutcome}} <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.dcpMilestoneoutcome}}</span> {{/if}}
     <ul class="milestone-links">
       {{#if (eq milestone.dcpMilestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
