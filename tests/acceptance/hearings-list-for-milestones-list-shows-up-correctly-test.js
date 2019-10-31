@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import {
   visit,
   find,
+  pauseTest,
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -394,6 +395,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     });
 
     await visit('/projects/5');
+    await pauseTest();
 
     // #### HEARING TITLE ############################################################
     assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Borough Board"]').textContent.includes('Queens Borough Board Public Hearing'), 'QNBB');
