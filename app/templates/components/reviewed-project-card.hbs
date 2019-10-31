@@ -13,17 +13,19 @@
       </div>
       <div class="cell medium-4 large-3 xlarge-2">
         <div class="text-center medium-margin-right medium-margin-left">
-          <p class="tiny-margin-bottom">{{timeDisplayLabel}}</p>
-          <p>
-            <strong
-              class="stat"
-              data-test-estimated-time-remaining
-            >{{plannedTimeDisplay.estTimeRemaining}}</strong>
-            <strong class="display-block">of {{plannedTimeDisplay.estTimeDuration}} estimated days remain</strong>
-          </p>
-          <p class="text-tiny">
-            Estimated End <DateDisplay @date={{plannedTimeDisplay.dcpPlannedcompletiondate}} outputFormat="M/D/YYYY" />
-          </p>
+          {{#if timeDisplayLabel}}
+            <p class="tiny-margin-bottom">{{timeDisplayLabel}}</p>
+            <p>
+              <strong
+                class="stat"
+                data-test-estimated-time-remaining
+              >{{plannedTimeDisplay.estTimeRemaining}}</strong>
+              <strong class="display-block">of {{plannedTimeDisplay.estTimeDuration}} estimated days remain</strong>
+            </p>
+            <p class="text-tiny">
+              Estimated End <DateDisplay @date={{plannedTimeDisplay.dcpPlannedcompletiondate}} outputFormat="M/D/YYYY" />
+            </p>
+          {{/if}}
         </div>
       </div>
       <div class="cell medium-auto">
