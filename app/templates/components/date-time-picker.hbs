@@ -44,7 +44,7 @@
               key-up=(action "setHearingDate")
             }}
             {{#if (and hourMissing checkIfMissing)}}
-              <span class="form-error is-visible" role="alert">Please enter a valid hour (1-12)</span>
+              <span class="form-error is-visible" role="alert">Enter 1-12</span>
             {{/if}}
           </label>
         </div>
@@ -66,7 +66,7 @@
               key-up=(action "setHearingDate")
             }}
             {{#if (and minuteMissing checkIfMissing)}}
-              <span class="form-error is-visible" role="alert">Please enter a valid minute (00-59)</span>
+              <span class="form-error is-visible" role="alert">Enter 00-59</span>
             {{/if}}
           </label>
         </div>
@@ -87,7 +87,7 @@
               {{timeOfDay}}
             {{/power-select}}
             {{#if (and timeOfDayMissing checkIfMissing)}}
-              <span class="form-error is-visible" role="alert">Please enter either "AM" or "PM"</span>
+              <span class="form-error is-visible" role="alert">Choose AM or PM</span>
             {{/if}}
           </label>
         </div>
