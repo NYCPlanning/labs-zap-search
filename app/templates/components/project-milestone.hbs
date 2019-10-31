@@ -17,7 +17,7 @@
   {{/if}}
 </div>
 <div class="cell auto {{if (or (eq tense 'past') (eq tense 'present')) '' 'gray'}}">
-  <h5 class="no-margin">
+  <h4 class="no-margin">
     {{milestone.orderSensitiveName}}
 
     {{#if milestone.displayDescription}}
@@ -25,7 +25,7 @@
         {{icon-tooltip tip=milestone.displayDescription}}
       </sup>
     {{/if}}
-  </h5>
+  </h4>
   {{#if milestone.displayDate}}
     <div class="milestone-dates">
       {{#if milestone.displayDate}}
@@ -65,14 +65,17 @@
   {{/if}}
   {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
     {{#each milestoneParticipants as |milestoneParticipant|}}
+      {{#if (or milestoneParticipant.hearingsSubmitted milestoneParticipant.votesSubmitted)}}
+        <hr>
+        <h5 class="small-margin-bottom" data-test-lup-full-name="{{milestoneParticipant.landUseParticipantFullName}}">
+          {{milestoneParticipant.landUseParticipantFullName}}
+        </h5>
+      {{/if}}
       {{#if milestoneParticipant.hearingsSubmitted}}
-        <h6 data-test-hearing-title="{{milestoneParticipant.landUseParticipantFullName}}">
-          {{milestoneParticipant.landUseParticipantFullName}} Public Hearing
-        </h6>
         {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
           {{#each dedupedHearings as |hearing|}}
             <ul class="sub-milestones no-bullet">
-              <li class="grid-x">
+              <li class="grid-x small-margin-bottom">
                 <div class="cell shrink small-margin-right">
                   {{#if (is-before disposition.dcpDateofpublichearing)}}
                     {{fa-icon 'calendar' fixedWidth=true class='light-gray'}}
@@ -81,20 +84,21 @@
                   {{/if}}
                 </div>
                 <div class="cell auto">
-                  <small data-test-hearing-location="{{hearing.disposition.id}}">
+                  <strong>Public Hearing</strong>
+                  <small class="display-inline-block" data-test-hearing-location="{{hearing.disposition.id}}">
                     {{hearing.disposition.dcpPublichearinglocation}}
                   </small>
-                  <small class="datetime" data-test-hearing-date="{{hearing.disposition.id}}">
+                  <small class="display-inline-block" data-test-hearing-date="{{hearing.disposition.id}}">
                     {{~moment-format hearing.disposition.dcpDateofpublichearing "LLLL"~}}
                   </small>
-                  <span class="display-block text-tiny">
+                  <div class="text-tiny">
                     {{#each hearing.hearingActions as |action index|}}
                       <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
                         {{action.dcpName}}
                         <small>{{action.dcpUlurpnumber}}</small>
                       </span>
                     {{/each}}
-                  </span>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -102,25 +106,27 @@
         {{/deduped-hearings-list}}
       {{/if}}
       {{#if milestoneParticipant.votesSubmitted}}
-        <h6 data-test-vote-title>{{milestoneParticipant.landUseParticipantFullName}} Vote:</h6>
-            <ul class="sub-milestones no-bullet">
-              <li class="grid-x">
-            {{#deduped-votes-list dispositions=milestoneParticipant.userDispositions participantRecommendationType=milestoneParticipant.participantRecommendationType as |dedupedVotes|}}
-              {{#each dedupedVotes as |vote|}}
-                {{#if (eq milestoneParticipant.landUseParticipantType "CB")}}
-                  <span data-test-comm-board-rec="{{vote.disposition.id}}">
-                    {{recommendation-symbol participantRecommendation=vote.disposition.dcpCommunityboardrecommendation}}
-                  </span>
-                {{else if (eq milestoneParticipant.landUseParticipantType "BB")}}
-                  <span data-test-borough-board-rec="{{vote.disposition.id}}">
-                    {{recommendation-symbol participantRecommendation=vote.disposition.dcpBoroughboardrecommendation}}
-                  </span>
-                {{else if (eq milestoneParticipant.landUseParticipantType "BP")}}
-                  <span data-test-borough-pres-rec="{{vote.disposition.id}}">
-                    {{recommendation-symbol participantRecommendation=vote.disposition.dcpBoroughpresidentrecommendation}}
-                  </span>
-                {{/if}}
+        <ul class="sub-milestones no-bullet">
+          {{#deduped-votes-list dispositions=milestoneParticipant.userDispositions participantRecommendationType=milestoneParticipant.participantRecommendationType as |dedupedVotes|}}
+            {{#each dedupedVotes as |vote|}}
+              <li class="grid-x small-margin-bottom">
+                <div class="cell shrink small-margin-right">
+                  {{#if (eq milestoneParticipant.landUseParticipantType "CB")}}
+                    <span data-test-comm-board-rec="{{vote.disposition.id}}">
+                      {{recommendation-symbol participantRecommendation=vote.disposition.dcpCommunityboardrecommendation}}
+                    </span>
+                  {{else if (eq milestoneParticipant.landUseParticipantType "BB")}}
+                    <span data-test-borough-board-rec="{{vote.disposition.id}}">
+                      {{recommendation-symbol participantRecommendation=vote.disposition.dcpBoroughboardrecommendation}}
+                    </span>
+                  {{else if (eq milestoneParticipant.landUseParticipantType "BP")}}
+                    <span data-test-borough-pres-rec="{{vote.disposition.id}}">
+                      {{recommendation-symbol participantRecommendation=vote.disposition.dcpBoroughpresidentrecommendation}}
+                    </span>
+                  {{/if}}
+                </div>
                 <div class="cell auto">
+                  <strong>Vote</strong>
                   <small>
                     <span class="display-inline-block" data-test-voting-favor="{{vote.disposition.id}}">
                       {{vote.disposition.dcpVotinginfavorrecommendation}} In Favor,
@@ -135,18 +141,18 @@
                   <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
                     {{~moment-format vote.disposition.dcpDateofvote "LL"~}}
                   </small>
-                  <span class="display-block text-tiny">
+                  <div class="text-tiny">
                     {{#each vote.voteActions as |action index|}}
                       <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
                         {{action.dcpName}}
                         <small>{{action.dcpUlurpnumber}}</small>
                       </span>
                     {{/each}}
-                  </span>
+                  </div>
                 </div>
-              {{/each}}
-            {{/deduped-votes-list}}
-          </li>
+              </li>
+            {{/each}}
+          {{/deduped-votes-list}}
         </ul>
       {{/if}}
     {{/each}}
