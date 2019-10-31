@@ -169,12 +169,12 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     await visit('/my-projects/upcoming');
 
     // #### HEARING TITLE ############################################################
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Borough Board"]').textContent.includes('Queens Borough Board Public Hearing'), 'QNBB');
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Manhattan Borough Board"]').textContent.includes('Manhattan Borough Board Public Hearing'), 'MNBB');
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Community Board 5"]').textContent.includes('Queens Community Board 5 Public Hearing'), 'QNCB5');
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Community Board 4"]').textContent.includes('Queens Community Board 4 Public Hearing'), 'QNCB4');
-    assert.notOk(find('[data-test-hearing-title="Brooklyn Community Board 3"]'), 'BKCB3');
-    assert.notOk(find('[data-test-hearing-title="Bronx Community Board 2"]'), 'BXCB2');
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Queens Borough Board"]').textContent.includes('Queens Borough Board Public Hearing'), 'QNBB');
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Manhattan Borough Board"]').textContent.includes('Manhattan Borough Board Public Hearing'), 'MNBB');
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Queens Community Board 5"]').textContent.includes('Queens Community Board 5 Public Hearing'), 'QNCB5');
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Queens Community Board 4"]').textContent.includes('Queens Community Board 4 Public Hearing'), 'QNCB4');
+    assert.notOk(find('[data-test-lup-full-name="Brooklyn Community Board 3"]'), 'BKCB3');
+    assert.notOk(find('[data-test-lup-full-name="Bronx Community Board 2"]'), 'BXCB2');
 
     // #### HEARING LOCATION ############################################################
     assert.ok(this.element.querySelector('[data-test-hearing-location="17"]').textContent.includes('121 Bananas Avenue, Queens'), 'location 17');
@@ -395,13 +395,12 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
 
     await visit('/projects/5');
 
-    // #### HEARING TITLE ############################################################
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Borough Board"]').textContent.includes('Queens Borough Board Public Hearing'), 'QNBB');
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Manhattan Borough Board"]').textContent.includes('Manhattan Borough Board Public Hearing'), 'MNBB');
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Community Board 5"]').textContent.includes('Queens Community Board 5 Public Hearing'), 'QNCB5');
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Community Board 4"]').textContent.includes('Queens Community Board 4 Public Hearing'), 'QNCB4');
-    assert.notOk(find('[data-test-hearing-title="Brooklyn Community Board 3"]'), 'BKCB3');
-    assert.notOk(find('[data-test-hearing-title="Bronx Community Board 2"]'), 'BXCB2');
+    // #### LUP TITLE ############################################################
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Queens Borough Board"]').textContent.includes('Queens Borough Board'), 'QNBB');
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Manhattan Borough Board"]').textContent.includes('Manhattan Borough Board'), 'MNBB');
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Queens Community Board 5"]').textContent.includes('Queens Community Board 5'), 'QNCB5');
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Queens Community Board 4"]').textContent.includes('Queens Community Board 4'), 'QNCB4');
+    assert.notOk(find('[data-test-lup-full-name="Bronx Community Board 2"]'), 'BXCB2');
 
     // #### HEARING LOCATION ############################################################
     assert.ok(this.element.querySelector('[data-test-hearing-location="17"]').textContent.includes('121 Bananas Avenue, Queens'), 'location 17');
@@ -612,8 +611,8 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
 
     await visit('/my-projects/reviewed');
 
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Borough Board"]').textContent.includes('Queens Borough Board Public Hearing'));
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Manhattan Borough Board"]').textContent.includes('Manhattan Borough Board Public Hearing'));
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Queens Borough Board"]').textContent.includes('Queens Borough Board Public Hearing'));
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Manhattan Borough Board"]').textContent.includes('Manhattan Borough Board Public Hearing'));
     assert.ok(this.element.querySelector('[data-test-hearing-actions-list="170"]').textContent.includes('Zoning Special Permit'), 'action 170');
     assert.ok(this.element.querySelector('[data-test-hearing-actions-list="180"]').textContent.includes('Zoning Text Amendment'), 'action 180');
     assert.ok(this.element.querySelector('[data-test-hearing-location="17"]').textContent.includes('Purple Street'));
@@ -714,8 +713,8 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
 
     await visit('/my-projects/archive');
 
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Queens Borough Board"]').textContent.includes('Queens Borough Board Public Hearing'));
-    assert.ok(this.element.querySelector('[data-test-hearing-title="Manhattan Borough Board"]').textContent.includes('Manhattan Borough Board Public Hearing'));
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Queens Borough Board"]').textContent.includes('Queens Borough Board Public Hearing'));
+    assert.ok(this.element.querySelector('[data-test-lup-full-name="Manhattan Borough Board"]').textContent.includes('Manhattan Borough Board Public Hearing'));
     assert.ok(this.element.querySelector('[data-test-hearing-actions-list="170"]').textContent.includes('Zoning Special Permit'), 'action 170');
     assert.ok(this.element.querySelector('[data-test-hearing-actions-list="180"]').textContent.includes('Zoning Text Amendment'), 'action 180');
     assert.ok(this.element.querySelector('[data-test-hearing-location="17"]').textContent.includes('Purple Street'));

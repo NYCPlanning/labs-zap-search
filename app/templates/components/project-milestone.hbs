@@ -67,7 +67,7 @@
     {{#each milestoneParticipants as |milestoneParticipant|}}
       {{#if (or milestoneParticipant.hearingsSubmitted milestoneParticipant.votesSubmitted)}}
         <hr>
-        <h5 class="small-margin-bottom" data-test-hearing-title="{{milestoneParticipant.landUseParticipantFullName}}">
+        <h5 class="small-margin-bottom" data-test-lup-full-name="{{milestoneParticipant.landUseParticipantFullName}}">
           {{milestoneParticipant.landUseParticipantFullName}}
         </h5>
       {{/if}}

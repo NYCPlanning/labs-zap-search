@@ -115,7 +115,7 @@
               {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
                 {{#each milestoneParticipants as |milestoneParticipant|}}
                   {{#if milestoneParticipant.hearingsSubmitted}}
-                    <strong data-test-hearing-title="{{milestoneParticipant.landUseParticipantFullName}}">
+                    <strong data-test-lup-full-name="{{milestoneParticipant.landUseParticipantFullName}}">
                       {{milestoneParticipant.landUseParticipantFullName}} Public Hearing
                     </strong>
                     {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
