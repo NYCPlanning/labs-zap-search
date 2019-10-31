@@ -20,6 +20,7 @@
         {{this.milestone.displayName}}
       </strong>
       {{#if (eq this.milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
+
         {{#each this.communityBoardDispositions as |disposition|}}
           <RecommendationResultIcon
             @recommendation={{disposition.dcpCommunityboardrecommendation}}

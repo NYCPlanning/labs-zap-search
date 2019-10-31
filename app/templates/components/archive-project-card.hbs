@@ -15,7 +15,11 @@
       <div class="text-center medium-margin-right medium-margin-left">
         <p class="lead small-margin-bottom">
           <strong>
-            {{this.assignment.project.dcpPublicstatusSimp}}
+            {{#if (eq this.assignment.project.dcpPublicstatus 'Withdrawn/Terminated/Disapproved')}}
+              Withdrawn, Terminated, or Disapproved
+            {{else}}
+              {{this.assignment.project.dcpPublicstatus}}
+            {{/if}}
             <DateDisplay
               @date={{this.assignment.project.dcpProjectcompleted}}
               @outputFormat="M/D/YYYY"

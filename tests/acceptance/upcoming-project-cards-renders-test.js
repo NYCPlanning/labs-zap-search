@@ -54,7 +54,7 @@ module('Acceptance | upcoming project cards renders', function(hooks) {
     await visit('/my-projects/upcoming');
 
     const timeRemainingValue = find('[data-test-fuzzy-time-remaining]').textContent.trim();
-    assert.equal(timeRemainingValue, 'over 30 days', 'Time remaining displays over 30 days');
+    assert.equal(timeRemainingValue, 'in more than 30 days', 'Time remaining displays over 30 days');
     assert.notOk(find('[data-test-time-remaining]'));
   });
 
@@ -86,7 +86,7 @@ module('Acceptance | upcoming project cards renders', function(hooks) {
     await visit('/my-projects/upcoming');
 
     const timeRemainingValue = find('[data-test-fuzzy-time-remaining]').textContent.trim();
-    assert.equal(timeRemainingValue, 'under 30 days', 'Time remaining displays under 30 days');
+    assert.equal(timeRemainingValue, 'in fewer than 30 days', 'Time remaining displays under 30 days');
     assert.notOk(find('[data-test-time-remaining]'));
   });
 
@@ -141,7 +141,7 @@ module('Acceptance | upcoming project cards renders', function(hooks) {
             dcpPublicstatusSimp: '',
             milestones: [this.server.create('milestone', 'communityBoardReview', {
               // note how Community Board Review has already started, but we still display
-              // the fuzzy public review start date ('under 30 days')
+              // the fuzzy public review start date ('in fewer than 30 days')
               dcpPlannedstartdate: moment().subtract(15, 'days'),
             })],
           }),
@@ -156,7 +156,7 @@ module('Acceptance | upcoming project cards renders', function(hooks) {
     await visit('/my-projects/upcoming');
 
     const timeRemainingValue = find('[data-test-fuzzy-time-remaining]').textContent.trim();
-    assert.equal(timeRemainingValue, 'under 30 days', 'Time remaining displays under 30 days');
+    assert.equal(timeRemainingValue, 'in fewer than 30 days', 'Time remaining displays under 30 days');
     assert.notOk(find('[data-test-time-remaining]'));
   });
 });
