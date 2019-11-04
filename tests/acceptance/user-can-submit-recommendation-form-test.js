@@ -423,4 +423,75 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     assert.ok(find('[data-test-confirmation-modal]'));
   });
+
+  test('users not prompted with allActions question if there is only one disposition', async function(assert) {
+    await authenticateSession();
+
+    this.server.create('assignment', {
+      id: 4,
+      tab: 'to-review',
+      dispositions: [
+        server.create('disposition', {
+          id: 1,
+          dcpPublichearinglocation: '121 Bananas Ave',
+          dcpDateofpublichearing: new Date('2020-10-21T00:00:00'),
+          action: server.create('action'),
+          dcpDateofVote: null,
+          dcpVotelocation: '',
+          dcpCommunityboardrecommendation: '',
+          dcpBoroughboardrecommendation: '',
+          dcpBoroughpresidentrecommendation: '',
+          dcpConsideration: '',
+          dcpVotinginfavorrecommendation: null,
+          dcpVotingagainstrecommendation: null,
+          dcpVotingabstainingonrecommendation: null,
+          dcpTotalmembersappointedtotheboard: null,
+          dcpWasaquorumpresent: null,
+        }),
+      ],
+      project: this.server.create('project', {
+        id: 4,
+        tab: 'to-review',
+      }),
+    });
+
+    await visit('/my-projects/4/recommendations/add');
+
+    assert.notOk(find('[data-test-all-actions-yes]'));
+    assert.notOk(find('[data-test-all-actions-no]'));
+
+    await click('[data-test-quorum-no="0"]');
+
+    await find('[data-test-all-actions-recommendation-select]');
+
+    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+
+    await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
+    await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
+    await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
+    await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
+
+    await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
+    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
+
+    await click('[data-test-continue]');
+
+    assert.equal(this.element.querySelector('[data-test-quorum-answer="0').textContent.trim(), 'No', 'Confirmation modal shows answer to first quorum quesiton');
+
+    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Disapproved');
+
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotinginfavorrecommendation]').textContent.trim().includes('1'), 'Confirmation modal shows votes in favor for all actions');
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotingagainstrecommendation]').textContent.trim().includes('2'), 'Confirmation modal shows votes against for all actions');
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotingabstainingonrecommendation]').textContent.trim().includes('3'), 'Confirmation modal shows votes abstain for all actions');
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpTotalmembersappointedtotheboard]').textContent.trim().includes('4'), 'Confirmation modal shows total members appointed for all actions');
+
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotelocation]').textContent.trim().includes('Smith Street'), 'Confirmation modal shows vote location for all actions.');
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpDateofvote]').textContent.includes('Thu Oct 17 2019'), 'Confirmation modal shows date of vote for all actions.');
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpConsideration]').textContent.trim().includes('My All Actions Comment'), 'Confirmation modal shows dcpConsideration for all actions.');
+
+    await click('[data-test-submit]');
+
+    assert.equal(currentURL(), '/my-projects/4/recommendations/done');
+  });
 });

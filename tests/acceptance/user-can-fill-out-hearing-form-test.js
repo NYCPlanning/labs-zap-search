@@ -36,9 +36,20 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
   test('user cannot submit hearing form until all inputs are filled for AllActions', async function(assert) {
     this.server.create('assignment', {
       id: 4,
+      dispositions: [
+        server.create('disposition', {
+          id: 1,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+        }),
+        server.create('disposition', {
+          id: 2,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+        }),
+      ],
       project: this.server.create('project', {
         id: 4,
-        dispositions: this.server.createList('dispositions', 2, { tab: 'to-review' }),
       }),
     });
 
@@ -366,10 +377,19 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     this.server.create('assignment', {
       id: 4,
       tab: 'to-review',
+      dispositions: [
+        server.create('disposition', {
+          dcpPublichearinglocation: null,
+          dcpDateofpublichearing: '',
+        }),
+        server.create('disposition', {
+          dcpPublichearinglocation: null,
+          dcpDateofpublichearing: '',
+        }),
+      ],
       project: this.server.create('project', {
         id: 4,
         tab: 'to-review',
-        dispositions: this.server.createList('dispositions', 2),
       }),
     });
 
@@ -447,19 +467,68 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     assert.equal(currentURL(), '/my-projects/4/hearing/done');
   });
 
+  test('users not prompted with allActions question if there is only one disposition', async function(assert) {
+    this.server.create('assignment', {
+      id: 4,
+      tab: 'to-review',
+      dispositions: [
+        server.create('disposition', {
+          id: 17,
+          dcpPublichearinglocation: null,
+          dcpDateofpublichearing: '',
+        }),
+      ],
+      project: this.server.create('project', {
+        id: 4,
+        tab: 'to-review',
+      }),
+    });
+
+    await visit('/my-projects/4/hearing/add');
+
+    assert.notOk(find('[data-test-radio="all-action-yes"]'));
+    assert.notOk(find('[data-test-radio="all-action-no"]'));
+
+    // user fills in a location input
+    await fillIn('[data-test-allactions-input="location"]', '121 Bananas Ave, Queens, NY');
+
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="location"]', 'keyup', {
+      keyCode: 84, // t
+    });
+
+    // user clicks on date input box
+    await click('[data-test-allactions-input="date"]');
+    // user selects a calendar date
+    const hearingDate = new Date('2020-10-21T00:00:00'); // Wednesday, October 21, 2020
+    await Pikaday.selectDate(hearingDate);
+    await fillIn('[data-test-allactions-input="hour"]', 6);
+    await fillIn('[data-test-allactions-input="minute"]', 30);
+    // user selects an option from the power-select dropdown
+    await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'PM');
+
+    await click('[data-test-button="checkHearing"]');
+
+    await click('[data-test-button="confirmHearing"]');
+
+    assert.equal(currentURL(), '/my-projects/4/hearing/done');
+  });
+
   test('if there is a server error when running .save(), user will see error message', async function(assert) {
     this.server.create('assignment', {
       id: 4,
-      dispositions: this.server.createList('dispositions', 1, {
-        dcpPublichearinglocation: '',
-        dcpDateofpublichearing: null,
-      }),
-      project: this.server.create('project', {
-        id: 4,
-        dispositions: this.server.createList('dispositions', 1, {
+      dispositions: [
+        server.create('disposition', {
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
         }),
+        server.create('disposition', {
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+        }),
+      ],
+      project: this.server.create('project', {
+        id: 4,
       }),
     });
 
