@@ -8,22 +8,26 @@ import { computed } from '@ember/object';
 // All duplicate objects are stored as an array of objects arrayOfDuplicateObjects (property on new array)
 export function dedupeAndExtract(records = [], uniqueField1, uniqueField2, propToConcat, arrayOfConcatProps, arrayOfDuplicateObjects) {
   return records.reduce((accumulator, current) => {
-    // object that represents a match between accumulator and current based on two similar fields
-    const duplicateObject = accumulator.find(item => item.disposition.get(uniqueField1).toString() === current.disposition.get(uniqueField1).toString() && item.disposition.get(uniqueField2).toString() === current.disposition.get(uniqueField2).toString());
+    try {
+      // object that represents a match between accumulator and current based on two similar fields
+      const duplicateObject = accumulator.find(item => item.disposition.get(uniqueField1).toString() === current.disposition.get(uniqueField1).toString() && item.disposition.get(uniqueField2).toString() === current.disposition.get(uniqueField2).toString());
 
-    // if an object exists in accumulator that matches the current object
-    if (duplicateObject) {
-      // grab the property that is to be concatenated across duplicates
-      // e.g. an array of actions associated with duplicate objects
-      const concatProp = current.disposition.get(propToConcat);
-      // push this concatProp into the concatenated property array on the matched object in the accumulator
-      duplicateObject[arrayOfConcatProps].push(concatProp);
-      // push the current duplicate object into the array of duplicate objects on the accumulator
-      duplicateObject[arrayOfDuplicateObjects].push(current.disposition);
+      // if an object exists in accumulator that matches the current object
+      if (duplicateObject) {
+        // grab the property that is to be concatenated across duplicates
+        // e.g. an array of actions associated with duplicate objects
+        const concatProp = current.disposition.get(propToConcat);
+        // push this concatProp into the concatenated property array on the matched object in the accumulator
+        duplicateObject[arrayOfConcatProps].push(concatProp);
+        // push the current duplicate object into the array of duplicate objects on the accumulator
+        duplicateObject[arrayOfDuplicateObjects].push(current.disposition);
 
-      return accumulator;
-    } // if the properties DO NOT match, concatenate current object to accumulator array
-    return accumulator.concat([current]);
+        return accumulator;
+      } // if the properties DO NOT match, concatenate current object to accumulator array
+      return accumulator.concat([current]);
+    } catch (e) {
+      return accumulator.concat([current]);
+    }
   }, []);
 }
 

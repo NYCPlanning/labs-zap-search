@@ -53,7 +53,9 @@ export default class MyProjectsProjectHearingAddController extends Controller {
 
     let fieldsFilled;
 
-    const allActions = this.get('allActions');
+    // the form logic will pass in the fake dispositionForAllActions object
+    // but this also needs to bring in the logic for when there is only 1 dispo
+    const allActions = this.get('allActions') || (dispositions.length <= 1);
 
     // a function to check if each hearing location/date field is truthy
     function infoExists(hearingInfo) {
@@ -69,6 +71,7 @@ export default class MyProjectsProjectHearingAddController extends Controller {
     } else {
       const dispositionHearingLocations = dispositions.map(disp => `${disp.dcpPublichearinglocation}`);
       const dispositionHearingDates = dispositions.map(disp => disp.dcpDateofpublichearing);
+
       // using function infoExists, fieldsFilled checks whether each item in array is truthy
       fieldsFilled = dispositionHearingLocations.every(infoExists) && dispositionHearingDates.every(infoExists);
     }

@@ -562,4 +562,51 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     assert.ok(find('[data-test-error-alert-message]'));
   });
+
+  test('single disposition hearing form with NULL dcpDateofpublichearing works, triggers modal', async function(assert) {
+    this.server.create('assignment', {
+      id: 4,
+      tab: 'to-review',
+      dispositions: [
+        server.create('disposition', {
+          id: 17,
+          dcpPublichearinglocation: null,
+          dcpDateofpublichearing: null, // when this field is null
+        }),
+      ],
+      project: this.server.create('project', {
+        id: 4,
+        tab: 'to-review',
+      }),
+    });
+
+    await visit('/my-projects/4/hearing/add');
+
+    assert.notOk(find('[data-test-radio="all-action-yes"]'));
+    assert.notOk(find('[data-test-radio="all-action-no"]'));
+
+    // user fills in a location input
+    await fillIn('[data-test-allactions-input="location"]', '121 Bananas Ave, Queens, NY');
+
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="location"]', 'keyup', {
+      keyCode: 84, // t
+    });
+
+    // user clicks on date input box
+    await click('[data-test-allactions-input="date"]');
+    // user selects a calendar date
+    const hearingDate = new Date('2020-10-21T00:00:00'); // Wednesday, October 21, 2020
+    await Pikaday.selectDate(hearingDate);
+    await fillIn('[data-test-allactions-input="hour"]', 6);
+    await fillIn('[data-test-allactions-input="minute"]', 30);
+    // user selects an option from the power-select dropdown
+    await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'PM');
+    // await this.pauseTest();
+    await click('[data-test-button="checkHearing"]');
+
+    await click('[data-test-button="confirmHearing"]');
+
+    assert.equal(currentURL(), '/my-projects/4/hearing/done');
+  });
 });
