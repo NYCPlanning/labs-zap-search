@@ -86,7 +86,7 @@ export default class MyProjectsProjectHearingAddController extends Controller {
   @action
   async onConfirm() {
     const { dispositions } = this.model;
-    const allActions = this.get('allActions');
+    const allActions = this.get('allActions') || (dispositions.length <= 1);
 
     // if user is submitting ONE hearing for ALL actions
     if (allActions) {
