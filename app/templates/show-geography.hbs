@@ -245,7 +245,7 @@
       {{/filters.section}}
 
       {{!-- FILTER: ACTION TYPE --}}
-      {{#filters.section
+{{!--       {{#filters.section
         filterNames='action-types'
         as |section|}}
         {{#section.filter-wrapper
@@ -269,7 +269,7 @@
             {{/if}}
           {{/power-select-multiple}}
         {{/section.filter-wrapper}}
-      {{/filters.section}}
+      {{/filters.section}} --}}
 
       {{!-- FILTER: FEMA FLOOD ZONE --}}
       {{#filters.section
@@ -381,7 +381,7 @@
           {{#unless (eq fetchData.lastSuccessful.value.meta.total 0)}}
             listing 1-{{numeral-format cachedProjects.length '0,0'}}
             &nbsp;<span class="light-gray">|</span>&nbsp;
-            <span class="download-container">
+{{!--             <span class="download-container">
               <a>{{fa-icon 'download'}} Download</a>
 
               <span class="download-links">
@@ -390,7 +390,7 @@
                 <a href={{downloadURLs.shp}} class="button expanded" >{{fa-icon 'file'}} <small>Shapefile</small></a>
                 <a href={{downloadURLs.geojson}} class="button expanded" >{{fa-icon 'file'}} <small>GeoJSON</small></a>
               </span>
-            </span>
+            </span> --}}
 
 
           {{/unless}}

@@ -206,13 +206,13 @@
 
         <div class="project-meta">
 
-          {{#if (or model.dcpCeqrtype model.dcpCeqrnumber)}}
+{{!--           {{#if (or model.dcpCeqrtype model.dcpCeqrnumber)}}
             <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
               {{#if model.dcpCeqrtype}}<span class="label light-gray">{{model.dcpCeqrtype}}</span>{{/if~}}
               {{#if model.dcpCeqrnumber}}<span class="label light-gray"><a href="{{build-url "ceqraccess" model.dcpCeqrnumber}}" target="_blank">{{model.dcpCeqrnumber}} {{fa-icon 'external-link-alt'}}</a></span>{{/if~}}
             </p>
-          {{/if}}
+          {{/if}} --}}
 
           <p class="text-small label-group">
             <strong>Keywords:</strong>
