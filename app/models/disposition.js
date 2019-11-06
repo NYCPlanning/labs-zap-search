@@ -45,11 +45,11 @@ export default class DispositionModel extends Model {
   // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
-  @attr('string', { defaultValue: '' }) dcpBoroughpresidentrecommendation;
+  @attr('number') dcpBoroughpresidentrecommendation;
 
-  @attr('string', { defaultValue: '' }) dcpBoroughboardrecommendation;
+  @attr('number') dcpBoroughboardrecommendation;
 
-  @attr('string', { defaultValue: '' }) dcpCommunityboardrecommendation;
+  @attr('number') dcpCommunityboardrecommendation;
 
   // sourced from dcp_dcpConsideration
   // memo, exta information from participant

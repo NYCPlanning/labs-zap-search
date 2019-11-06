@@ -190,7 +190,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await fillIn('[data-test-each-action-votes="total-members-1"]', 1);
     await fillIn('[data-test-each-action-dcpConsideration="1', 'My comment for dcpConsideration 1');
 
-    await selectChoose('[data-test-each-action-recommendation="2"]', 'Waived');
+    await selectChoose('[data-test-each-action-recommendation="2"]', 'Waiver of Recommendation');
     await fillIn('[data-test-each-action-votes="in-favor-2"]', 7);
     await fillIn('[data-test-each-action-votes="against-2"]', 7);
     await fillIn('[data-test-each-action-votes="abstain-2"]', 7);
@@ -216,7 +216,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     assert.ok(this.element.querySelector('[data-test-confirmation-each-action-votes="total-members-1"]').textContent.trim().includes('1'), 'Confirmation modal shows total members appointed for action 1');
     assert.ok(this.element.querySelector('[data-test-confirmation-each-action-dcpConsideration="1"]').textContent.trim().includes('My comment for dcpConsideration 1'), 'Confirmation modal shows dcpConsideration for action 1');
 
-    assert.ok(this.element.querySelector('[data-test-confirmation-each-action-recommendation="2"]').textContent.trim().includes('Waived'), 'Confirmation modal shows recommendation for action 2');
+    assert.ok(this.element.querySelector('[data-test-confirmation-each-action-recommendation="2"]').textContent.trim().includes('Waiver of Recommendation'), 'Confirmation modal shows recommendation for action 2');
     assert.ok(this.element.querySelector('[data-test-confirmation-each-action-votes="in-favor-2"]').textContent.trim().includes('7'), 'Confirmation modal shows votes in favor for action 2');
     assert.ok(this.element.querySelector('[data-test-confirmation-each-action-votes="against-2"]').textContent.trim().includes('7'), 'Confirmation modal shows votes against for action 2');
     assert.ok(this.element.querySelector('[data-test-confirmation-each-action-votes="abstain-2"]').textContent.trim().includes('7'), 'Confirmation modal shows votes abstain for action 2');
@@ -244,12 +244,12 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     await click('[data-test-all-actions-yes]');
 
-    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Unfavorable');
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My comment for all actions');
 
     await click('[data-test-continue]');
 
-    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Disapproved');
+    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Unfavorable');
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpConsideration]').textContent.trim().includes('My comment for all actions'), 'Confirmation modal shows dcpConsideration for all actions.');
 
     await click('[data-test-submit]');
@@ -270,24 +270,24 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     await click('[data-test-all-actions-no]');
 
-    await selectChoose('[data-test-each-action-recommendation="0"]', 'Approved');
+    await selectChoose('[data-test-each-action-recommendation="0"]', 'Favorable');
     await fillIn('[data-test-each-action-dcpConsideration="0', 'My comment for dcpConsideration 0');
 
-    await selectChoose('[data-test-each-action-recommendation="1"]', 'Approved with Modifications/Conditions');
+    await selectChoose('[data-test-each-action-recommendation="1"]', 'Conditional Favorable');
     await fillIn('[data-test-each-action-dcpConsideration="1', 'My comment for dcpConsideration 1');
 
-    await selectChoose('[data-test-each-action-recommendation="2"]', 'Waived');
+    await selectChoose('[data-test-each-action-recommendation="2"]', 'Waiver of Recommendation');
     await fillIn('[data-test-each-action-dcpConsideration="2', 'My comment for dcpConsideration 2');
 
     await click('[data-test-continue]');
 
-    assert.ok(this.element.querySelector('[data-test-confirmation-each-action-recommendation="0"]').textContent.trim().includes('Approved'), 'Confirmation modal shows recommendation for action 0');
+    assert.ok(this.element.querySelector('[data-test-confirmation-each-action-recommendation="0"]').textContent.trim().includes('Favorable'), 'Confirmation modal shows recommendation for action 0');
     assert.ok(this.element.querySelector('[data-test-confirmation-each-action-dcpConsideration="0').textContent.trim().includes('My comment for dcpConsideration 0'), 'Confirmation modal shows dcpConsideration for  action 0');
 
-    assert.ok(this.element.querySelector('[data-test-confirmation-each-action-recommendation="1"]').textContent.trim().includes('Approved with Modifications/Conditions'), 'Confirmation modal shows recommendation for action 1');
+    assert.ok(this.element.querySelector('[data-test-confirmation-each-action-recommendation="1"]').textContent.trim().includes('Conditional Favorable'), 'Confirmation modal shows recommendation for action 1');
     assert.ok(this.element.querySelector('[data-test-confirmation-each-action-dcpConsideration="1"]').textContent.trim().includes('My comment for dcpConsideration 1'), 'Confirmation modal shows dcpConsideration for action 1');
 
-    assert.ok(this.element.querySelector('[data-test-confirmation-each-action-recommendation="2"]').textContent.trim().includes('Waived'), 'Confirmation modal shows recommendation for action 2');
+    assert.ok(this.element.querySelector('[data-test-confirmation-each-action-recommendation="2"]').textContent.trim().includes('Waiver of Recommendation'), 'Confirmation modal shows recommendation for action 2');
     assert.ok(this.element.querySelector('[data-test-confirmation-each-action-dcpConsideration="2"]').textContent.trim().includes('My comment for dcpConsideration 2'), 'Confirmation modal shows dcpConsideration for action 2');
 
     await click('[data-test-submit]');
@@ -345,7 +345,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     await click('[data-test-all-actions-yes]');
 
-    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Unfavorable');
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My comment for all actions');
 
     await click('[data-test-continue]');
@@ -361,13 +361,13 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     await click('[data-test-all-actions-no]');
 
-    await selectChoose('[data-test-each-action-recommendation="0"]', 'Approved');
+    await selectChoose('[data-test-each-action-recommendation="0"]', 'Favorable');
     await fillIn('[data-test-each-action-dcpConsideration="0', 'My comment for dcpConsideration 0');
 
-    await selectChoose('[data-test-each-action-recommendation="1"]', 'Approved with Modifications/Conditions');
+    await selectChoose('[data-test-each-action-recommendation="1"]', 'Conditional Favorable');
     await fillIn('[data-test-each-action-dcpConsideration="1', 'My comment for dcpConsideration 1');
 
-    await selectChoose('[data-test-each-action-recommendation="2"]', 'Waived');
+    await selectChoose('[data-test-each-action-recommendation="2"]', 'Waiver of Recommendation');
     await fillIn('[data-test-each-action-dcpConsideration="2', 'My comment for dcpConsideration 2');
 
     await click('[data-test-continue]');
@@ -417,10 +417,10 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     assert.notOk(find('[data-test-confirmation-modal]'));
 
-    await selectChoose('[data-test-all-actions-recommendation]', 'Waived');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Waiver of Recommendation');
 
     await click('[data-test-continue]');
-
+    await this.pauseTest();
     assert.ok(find('[data-test-confirmation-modal]'));
   });
 
@@ -464,7 +464,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     await find('[data-test-all-actions-recommendation-select]');
 
-    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Unfavorable');
 
     await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
     await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
@@ -479,7 +479,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     assert.equal(this.element.querySelector('[data-test-quorum-answer="0').textContent.trim(), 'No', 'Confirmation modal shows answer to first quorum quesiton');
 
-    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Disapproved');
+    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Unfavorable');
 
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotinginfavorrecommendation]').textContent.trim().includes('1'), 'Confirmation modal shows votes in favor for all actions');
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotingagainstrecommendation]').textContent.trim().includes('2'), 'Confirmation modal shows votes against for all actions');

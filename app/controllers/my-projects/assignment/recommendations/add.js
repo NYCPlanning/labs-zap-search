@@ -6,7 +6,8 @@ import lookupValidator from 'ember-changeset-validations';
 import Changeset from 'ember-changeset';
 import {
   bpDispositionForAllActionsValidations,
-  cbBbDispositionForAllActionsValidations,
+  cbDispositionForAllActionsValidations,
+  bbDispositionForAllActionsValidations,
   communityBoardDispositionValidations,
   boroughBoardDispositionValidations,
   boroughPresidentDispositionValidations,
@@ -18,6 +19,36 @@ const RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP = {
   BB: 'dcpBoroughboardrecommendation',
   BP: 'dcpBoroughpresidentrecommendation',
   CB: 'dcpCommunityboardrecommendation',
+};
+
+// TODO: GRAND UNIFYING METADATA OPTION LOOKUP SYSTEM
+export const RECOMMENDATION_OPTIONSET_BY_PARTICIPANT_TYPE_LOOKUP = {
+  BB: [
+    { code: 717170000, label: 'Favorable' },
+    { code: 717170001, label: 'Unfavorable' },
+    { code: 717170002, label: 'Waiver of Recommendation' },
+    { code: 717170003, label: 'Non-Complying' },
+  ],
+  BP: [
+    { code: 717170000, label: 'Favorable' },
+    { code: 717170001, label: 'Conditional Favorable' },
+    { code: 717170002, label: 'Unfavorable' },
+    { code: 717170003, label: 'Conditional Unfavorable' },
+    { code: 717170004, label: 'Received after Clock Expired' },
+    { code: 717170005, label: 'No Objection' },
+    { code: 717170006, label: 'Waiver of Recommendation' },
+  ],
+  CB: [
+    { code: 717170000, label: 'Approved' },
+    { code: 717170001, label: 'Approved with Modifications/Conditions' },
+    { code: 717170002, label: 'Disapproved' },
+    { code: 717170003, label: 'Disapproved with Modifications/Conditions' },
+    { code: 717170004, label: 'Non-Complying' },
+    { code: 717170005, label: 'Vote Quorum Not Present' },
+    { code: 717170006, label: 'Received after Clock Expired' },
+    { code: 717170007, label: 'No Objection' },
+    { code: 717170008, label: 'Waiver of Recommendation' },
+  ],
 };
 
 // all attributes in this class map to their exact match in the Disposition model
@@ -70,10 +101,10 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     const { participantType } = this;
     let dispositionForAllActionsValidations = null;
     if (participantType === 'CB') {
-      dispositionForAllActionsValidations = cbBbDispositionForAllActionsValidations;
+      dispositionForAllActionsValidations = cbDispositionForAllActionsValidations;
     }
     if (participantType === 'BB') {
-      dispositionForAllActionsValidations = cbBbDispositionForAllActionsValidations;
+      dispositionForAllActionsValidations = bbDispositionForAllActionsValidations;
     }
     if (participantType === 'BP') {
       dispositionForAllActionsValidations = bpDispositionForAllActionsValidations;
@@ -142,13 +173,18 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   // recommendation options for disposition.dcpCommunityboardrecommendation,
   // disposition.dcpBoroughboardrecommendation, disposition.dcpBoroughpresidentrecommendation
-  recOptions = [
-    'Approved',
-    'Approved with Modifications/Conditions',
-    'Disapproved',
-    'Disapproved with Modifications/Conditions',
-    'Waived',
-  ];
+  // recOptions = [
+  //   'Approved',
+  //   'Approved with Modifications/Conditions',
+  //   'Disapproved',
+  //   'Disapproved with Modifications/Conditions',
+  //   'Waived',
+  // ];
+
+  @computed('participantType')
+  get recOptions() {
+    return RECOMMENDATION_OPTIONSET_BY_PARTICIPANT_TYPE_LOOKUP[this.participantType];
+  }
 
   @action
   setProp(property, newVal) {
@@ -187,7 +223,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
  * when it is implemented in the ZAP-API.
  */
   @action
-  setDispositionChangesetRec (dispositionChangeset, recommendation) {
+  setDispositionChangesetRec (dispositionChangeset, { code: recommendation }) {
     const { participantType } = this;
     const targetField = RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
 
@@ -200,7 +236,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       }
       dispositionChangeset.set(targetField, recommendation);
     }
-    if ((recommendation === 'Waived') && (participantType !== 'BP')) {
+    if (([717170002, 717170006, 717170008].includes(recommendation)) && (participantType !== 'BP')) {
       dispositionChangeset.validate('dcpVotinginfavorrecommendation');
       dispositionChangeset.validate('dcpVotingagainstrecommendation');
       dispositionChangeset.validate('dcpVotingabstainingonrecommendation');
