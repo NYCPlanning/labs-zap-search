@@ -160,11 +160,11 @@
                       @searchEnabled={{false}}
                       @options={{this.recOptions}}
                       @placeholder="Select a recommendation"
-                      @selected={{this.dispositionForAllActionsChangeset.recommendation}}
+                      @selected={{recommendation-label-lookup participantType this.dispositionForAllActionsChangeset.recommendation objectMode=true}}
                       @onchange={{action "setDispositionChangesetRec" this.dispositionForAllActionsChangeset}}
                       as |recOption|
                     >
-                      {{recOption}}
+                      {{recOption.label}}
                     </PowerSelect>
                   </label>
                   <span class="form-error is-visible" role="alert">
@@ -295,7 +295,7 @@
                       @onchange={{action "setDispositionChangesetRec" dispositionChangesetPair.changeset}}
                       as |recOption|
                     >
-                      {{recOption}}
+                      {{recOption.label}}
                     </PowerSelect>
                   </label>
                   <span class="form-error is-visible" role="alert">
@@ -555,7 +555,7 @@
                   data-test-confirmation-all-actions-recommendation
                 >
                   <strong>
-                    {{this.dispositionForAllActionsChangeset.recommendation}}
+                    {{recommendation-label-lookup participantType this.dispositionForAllActionsChangeset.recommendation}}
                   </strong>
                 </p>
                 {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}

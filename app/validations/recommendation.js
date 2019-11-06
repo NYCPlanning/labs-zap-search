@@ -28,14 +28,14 @@ export const bpDispositionForAllActionsValidations = {
   ...dispositionForAllActionsValidations,
 };
 
-export const cbBbDispositionForAllActionsValidations = {
+export const cbDispositionForAllActionsValidations = {
   ...dispositionForAllActionsValidations,
 
   dcpVotinginfavorrecommendation: [
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
-      value: 'Waived',
+      value: 717170008,
       message: numberMessage,
     }),
     validateNumber({
@@ -49,7 +49,7 @@ export const cbBbDispositionForAllActionsValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
-      value: 'Waived',
+      value: 717170008,
       message: numberMessage,
     }),
     validateNumber({
@@ -63,7 +63,7 @@ export const cbBbDispositionForAllActionsValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
-      value: 'Waived',
+      value: 717170008,
       message: numberMessage,
     }),
     validateNumber({
@@ -77,7 +77,77 @@ export const cbBbDispositionForAllActionsValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
-      value: 'Waived',
+      value: 717170008,
+      message: numberMessage,
+    }),
+    validateNumber({
+      positive: true,
+      allowBlank: true,
+      message: numberMessage,
+    }),
+  ],
+
+  dcpVotelocation: validatePresence({
+    presence: true,
+    message: dcpVotelocationPresenceMessage,
+  }),
+
+  dcpDateofvote: validatePresence({
+    presence: true,
+    message: dateMessage,
+  }),
+};
+
+export const bbDispositionForAllActionsValidations = {
+  ...dispositionForAllActionsValidations,
+
+  dcpVotinginfavorrecommendation: [
+    validatePresenceUnlessValue({
+      presence: true,
+      unless: 'recommendation',
+      value: 717170002,
+      message: numberMessage,
+    }),
+    validateNumber({
+      positive: true,
+      allowBlank: true,
+      message: numberMessage,
+    }),
+  ],
+
+  dcpVotingagainstrecommendation: [
+    validatePresenceUnlessValue({
+      presence: true,
+      unless: 'recommendation',
+      value: 717170002,
+      message: numberMessage,
+    }),
+    validateNumber({
+      positive: true,
+      allowBlank: true,
+      message: numberMessage,
+    }),
+  ],
+
+  dcpVotingabstainingonrecommendation: [
+    validatePresenceUnlessValue({
+      presence: true,
+      unless: 'recommendation',
+      value: 717170002,
+      message: numberMessage,
+    }),
+    validateNumber({
+      positive: true,
+      allowBlank: true,
+      message: numberMessage,
+    }),
+  ],
+
+  dcpTotalmembersappointedtotheboard: [
+    validatePresenceUnlessValue({
+      presence: true,
+      unless: 'recommendation',
+      value: 717170002,
       message: numberMessage,
     }),
     validateNumber({
@@ -109,7 +179,7 @@ export const communityBoardDispositionValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpCommunityboardrecommendation',
-      value: 'Waived',
+      value: 717170008,
       message: numberMessage,
     }),
     validateNumber({
@@ -123,7 +193,7 @@ export const communityBoardDispositionValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpCommunityboardrecommendation',
-      value: 'Waived',
+      value: 717170008,
       message: numberMessage,
     }),
     validateNumber({
@@ -137,7 +207,7 @@ export const communityBoardDispositionValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpCommunityboardrecommendation',
-      value: 'Waived',
+      value: 717170008,
       message: numberMessage,
     }),
     validateNumber({
@@ -151,7 +221,7 @@ export const communityBoardDispositionValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpCommunityboardrecommendation',
-      value: 'Waived',
+      value: 717170008,
       message: numberMessage,
     }),
     validateNumber({
@@ -184,7 +254,7 @@ export const boroughBoardDispositionValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpBoroughboardrecommendation',
-      value: 'Waived',
+      value: 717170002,
       message: numberMessage,
     }),
     validateNumber({
@@ -198,7 +268,7 @@ export const boroughBoardDispositionValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpBoroughboardrecommendation',
-      value: 'Waived',
+      value: 717170002,
       message: numberMessage,
     }),
     validateNumber({
@@ -212,7 +282,7 @@ export const boroughBoardDispositionValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpBoroughboardrecommendation',
-      value: 'Waived',
+      value: 717170002,
       message: numberMessage,
     }),
     validateNumber({
@@ -226,7 +296,7 @@ export const boroughBoardDispositionValidations = {
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpBoroughboardrecommendation',
-      value: 'Waived',
+      value: 717170002,
       message: numberMessage,
     }),
     validateNumber({
