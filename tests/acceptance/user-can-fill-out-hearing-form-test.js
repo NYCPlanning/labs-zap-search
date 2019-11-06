@@ -474,8 +474,9 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       dispositions: [
         server.create('disposition', {
           id: 17,
-          dcpPublichearinglocation: null,
-          dcpDateofpublichearing: '',
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
         }),
       ],
       project: this.server.create('project', {
@@ -509,9 +510,22 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     await click('[data-test-button="checkHearing"]');
 
+    // make sure that the hearing location in the modal equals the input value
+    assert.equal(this.element.querySelector('.hearing-location').textContent, '121 Bananas Ave, Queens, NY');
+    assert.equal(this.element.querySelector('.hearing-time').textContent, '6:30 PM');
+    assert.equal(this.element.querySelector('.hearing-date').textContent, '10/21/2020');
+
     await click('[data-test-button="confirmHearing"]');
 
     assert.equal(currentURL(), '/my-projects/4/hearing/done');
+
+    // clicking back to to-review
+    await click('[data-test-button="back-to-review"]');
+
+    assert.equal(this.element.querySelector('[data-test-hearing-location="17"]').textContent, '121 Bananas Ave, Queens, NY');
+    assert.ok(this.element.querySelector('[data-test-hearing-date="17"]').textContent.includes('10/21/2020'));
+    assert.ok(this.element.querySelector('[data-test-hearing-time="17"]').textContent.includes('6:30 PM'));
+    assert.ok(this.element.querySelector('[data-test-hearing-actions-list="17"]').textContent.includes('Zoning Special Permit'));
   });
 
   test('if there is a server error when running .save(), user will see error message', async function(assert) {

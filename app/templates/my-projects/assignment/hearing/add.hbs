@@ -90,7 +90,7 @@
         {{else}}
           <h3>Confirm hearing information</h3>
 
-            {{#if allActions}}
+            {{#if (or allActions (lte model.dispositions.length 1))}}
               <li class="grid-x">
                 <div class="cell shrink small-margin-right">
                     {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
