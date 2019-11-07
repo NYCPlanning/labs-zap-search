@@ -171,16 +171,6 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     return false;
   }
 
-  // recommendation options for disposition.dcpCommunityboardrecommendation,
-  // disposition.dcpBoroughboardrecommendation, disposition.dcpBoroughpresidentrecommendation
-  // recOptions = [
-  //   'Approved',
-  //   'Approved with Modifications/Conditions',
-  //   'Disapproved',
-  //   'Disapproved with Modifications/Conditions',
-  //   'Waived',
-  // ];
-
   @computed('participantType')
   get recOptions() {
     return RECOMMENDATION_OPTIONSET_BY_PARTICIPANT_TYPE_LOOKUP[this.participantType];
@@ -236,6 +226,8 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       }
       dispositionChangeset.set(targetField, recommendation);
     }
+
+    // IDs for Waiver of Recommendation
     if (([717170002, 717170006, 717170008].includes(recommendation)) && (participantType !== 'BP')) {
       dispositionChangeset.validate('dcpVotinginfavorrecommendation');
       dispositionChangeset.validate('dcpVotingagainstrecommendation');
