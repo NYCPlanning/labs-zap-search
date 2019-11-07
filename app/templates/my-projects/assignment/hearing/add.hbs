@@ -97,19 +97,23 @@
                     {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
                 </div>
                 <div class="cell auto">
-                  <strong class="display-inline-block">
+                  <strong class="hearing-location display-inline-block">
                     {{~dispositionForAllActions.dcpPublichearinglocation~}}
                   </strong>
 
                   <span class="display-inline-block">{{!--
-                --}}<DateDisplay
-                      @date={{dispositionForAllActions.dcpDateofpublichearing}}
-                    />{{!--
-                --}}<span class="light-gray">|</span>
-                    <DateDisplay
-                      @date={{dispositionForAllActions.dcpDateofpublichearing}}
-                      @outputFormat="h:mm A"
-                    />{{!--
+                --}}<span class="hearing-date">{{!--
+                  --}}<DateDisplay
+                        @date={{dispositionForAllActions.dcpDateofpublichearing}}
+                      />{{!--
+                --}}</span>{{!--
+                --}}<span class="light-gray">|</span>{{!--
+                --}}<span class="hearing-time">{{!--
+                  --}}<DateDisplay
+                        @date={{dispositionForAllActions.dcpDateofpublichearing}}
+                        @outputFormat="h:mm A"
+                      />{{!--
+                --}}</span>{{!--
               --}}</span>
                 </div>
               </li>

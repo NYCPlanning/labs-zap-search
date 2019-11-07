@@ -552,33 +552,28 @@
                 <p
                   data-test-confirmation-all-actions-recommendation
                 >
-                  <strong>Recommendation:</strong>
-                  {{recommendation-label-lookup participantType this.dispositionForAllActionsChangeset.recommendation}}
+                  <strong>Recommendation:</strong> {{recommendation-label-lookup participantType this.dispositionForAllActionsChangeset.recommendation}}
                 </p>
                 {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
                   <p
                     data-test-confirmation-all-actions-dcpVotinginfavorrecommendation
                   >
-                    <strong>Votes in Favor:</strong>
-                    {{this.dispositionForAllActionsChangeset.dcpVotinginfavorrecommendation}}
+                    <strong>Votes in Favor:</strong> {{this.dispositionForAllActionsChangeset.dcpVotinginfavorrecommendation}}
                   </p>
                   <p
                     data-test-confirmation-all-actions-dcpVotingagainstrecommendation
                   >
-                    <strong>Votes Against:</strong>
-                    {{this.dispositionForAllActionsChangeset.dcpVotingagainstrecommendation}}
+                    <strong>Votes Against:</strong> {{this.dispositionForAllActionsChangeset.dcpVotingagainstrecommendation}}
                   </p>
                   <p
                     data-test-confirmation-all-actions-dcpVotingabstainingonrecommendation
                   >
-                    <strong>Abstain:</strong>
-                    {{this.dispositionForAllActionsChangeset.dcpVotingabstainingonrecommendation}}
+                    <strong>Abstain:</strong> {{this.dispositionForAllActionsChangeset.dcpVotingabstainingonrecommendation}}
                   </p>
                   <p
                     data-test-confirmation-all-actions-dcpTotalmembersappointedtotheboard
                   >
-                    <strong>Total Members:</strong>
-                    {{this.dispositionForAllActionsChangeset.dcpTotalmembersappointedtotheboard}}
+                    <strong>Total Members:</strong> {{this.dispositionForAllActionsChangeset.dcpTotalmembersappointedtotheboard}}
                   </p>
                 {{/if}}
               {{else}}
@@ -592,42 +587,34 @@
                   <p
                     data-test-confirmation-each-action-recommendation={{idx}}
                   >
-                    <strong>Recommendation:</strong>
-                    <strong>
-                      {{recommendation-label-lookup participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType))}}
-                    </strong>
+                    <strong>Recommendation:</strong> {{recommendation-label-lookup participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType))}}
                   </p>
                   {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
                     <p
                       data-test-confirmation-each-action-votes={{concat "in-favor-" idx}}
                     >
-                      <strong>Votes in Favor:</strong>
-                      {{dispositionChangesetPair.changeset.dcpVotinginfavorrecommendation}}
+                      <strong>Votes in Favor:</strong> {{dispositionChangesetPair.changeset.dcpVotinginfavorrecommendation}}
                     </p>
                     <p
                       data-test-confirmation-each-action-votes={{concat "against-" idx}}
                     >
-                      <strong>Votes Against:</strong>
-                      {{dispositionChangesetPair.changeset.dcpVotingagainstrecommendation}}
+                      <strong>Votes Against:</strong> {{dispositionChangesetPair.changeset.dcpVotingagainstrecommendation}}
                     </p>
                     <p
                       data-test-confirmation-each-action-votes={{concat "abstain-" idx}}
                     >
-                      <strong>Abstain:</strong>
-                      {{dispositionChangesetPair.changeset.dcpVotingabstainingonrecommendation}}
+                      <strong>Abstain:</strong> {{dispositionChangesetPair.changeset.dcpVotingabstainingonrecommendation}}
                     </p>
                     <p
                       data-test-confirmation-each-action-votes={{concat "total-members-" idx}}
                     >
-                      <strong>Total Members:</strong>
-                      {{dispositionChangesetPair.changeset.dcpTotalmembersappointedtotheboard}}
+                      <strong>Total Members:</strong> {{dispositionChangesetPair.changeset.dcpTotalmembersappointedtotheboard}}
                     </p>
                   {{/if}}
                   <div class="display-block"
                     data-test-confirmation-each-action-dcpConsideration={{idx}}
                   >
-                    <strong>Comment:</strong>
-                    {{dispositionChangesetPair.changeset.dcpConsideration}}
+                    <strong>Comment:</strong> {{dispositionChangesetPair.changeset.dcpConsideration}}
                   </div>
                 {{/each}}
               {{/if}}
@@ -636,22 +623,19 @@
                   <p
                     data-test-confirmation-all-actions-dcpVotelocation
                   >
-                    <strong>Vote Location:</strong>
-                    {{this.dispositionForAllActionsChangeset.dcpVotelocation}}
+                    <strong>Vote Location:</strong> {{this.dispositionForAllActionsChangeset.dcpVotelocation}}
                   </p>
                   <p
                     data-test-confirmation-all-actions-dcpDateofvote
                   >
-                    <strong>Vote Date:</strong>
-                    {{moment-format this.dispositionForAllActionsChangeset.dcpDateofvote 'MM/DD/YYYY'}}
+                    <strong>Vote Date:</strong> {{moment-format this.dispositionForAllActionsChangeset.dcpDateofvote 'MM/DD/YYYY'}}
                   </p>
                 {{/if}}
                 {{#if (eq this.allActions true)}}
                   <p
                     data-test-confirmation-all-actions-dcpConsideration
                   >
-                    <strong>Comment:</strong>
-                    {{this.dispositionForAllActionsChangeset.dcpConsideration}}
+                    <strong>Comment:</strong> {{this.dispositionForAllActionsChangeset.dcpConsideration}}
                   </p>
                 {{/if}}
                 <p><strong>Attached files:</strong></p>
