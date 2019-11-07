@@ -8,6 +8,7 @@ module('Integration | Helper | recommendation-label-lookup', function(hooks) {
 
   // Replace this with your real tests.
   test('it renders', async function(assert) {
+    // https://github.com/emberjs/ember.js/issues/15635
     this.set('code', 717170000);
     await render(hbs`{{recommendation-label-lookup 'CB' code}}`);
 
