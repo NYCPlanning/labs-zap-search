@@ -81,11 +81,10 @@
               <LinkTo
                 @route='show-project'
                 @model={{milestone.project.id}}
-                class='text-tiny'
                 data-test-button='submitHearing'
               >
                 {{fa-icon 'ellipsis-v' fixedWidth=true class="tiny-margin-right"}}
-                view full timeline
+                <span class="text-tiny">VIEW FULL TIMELINE</span>
               </LinkTo>
             </li>
           {{/if}}
