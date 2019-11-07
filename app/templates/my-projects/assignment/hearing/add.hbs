@@ -90,80 +90,80 @@
         {{else}}
           <h3>Confirm hearing information</h3>
 
-            {{#if (or allActions (lte model.dispositions.length 1))}}
-              <li class="grid-x">
+          {{#if (or allActions (lte model.dispositions.length 1))}}
+            <ul class="no-bullet">
+              <li class="grid-x small-margin-bottom">
                 <div class="cell shrink small-margin-right">
                     {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
                 </div>
                 <div class="cell auto">
-                  <strong class="display-block hearing-location">
+                  <strong class="display-inline-block">
                     {{~dispositionForAllActions.dcpPublichearinglocation~}}
                   </strong>
-                  <span class="hearing-date">{{!--
+
+                  <span class="display-inline-block">{{!--
                 --}}<DateDisplay
                       @date={{dispositionForAllActions.dcpDateofpublichearing}}
                     />{{!--
-              --}}</span>
-                  <span class="light-gray">|</span>
-                  <span class="hearing-time">{{!--
-                --}}<DateDisplay
+                --}}<span class="light-gray">|</span>
+                    <DateDisplay
                       @date={{dispositionForAllActions.dcpDateofpublichearing}}
                       @outputFormat="h:mm A"
                     />{{!--
               --}}</span>
                 </div>
               </li>
-            {{else}}
-              {{#deduped-hearings-list dispositions=model.dispositions as |dedupedHearings|}}
-                <h5 class="column-header">Hearing Information</h5>
-                    <ul class="no-bullet">
-                    {{#each dedupedHearings as |hearing|}}
-                      <li class="grid-x small-margin-bottom">
-                        <div class="cell shrink small-margin-right">
-                          {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
-                            {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
-                          {{else}}
-                            {{fa-icon "check" class="blue" fixedWidth=true}}
-                          {{/if}}
-                        </div>
-                        <div class="cell auto">
-                          <strong data-test-hearing-location="{{hearing.disposition.id}}" class="display-inline-block">
-                            {{~hearing.disposition.dcpPublichearinglocation~}}
-                          </strong>
+            </ul>
+          {{else}}
+            {{#deduped-hearings-list dispositions=model.dispositions as |dedupedHearings|}}
+              <ul class="no-bullet">
+                {{#each dedupedHearings as |hearing|}}
+                  <li class="grid-x small-margin-bottom">
+                    <div class="cell shrink small-margin-right">
+                      {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
+                        {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
+                      {{else}}
+                        {{fa-icon "check" class="blue" fixedWidth=true}}
+                      {{/if}}
+                    </div>
+                    <div class="cell auto">
+                      <strong data-test-hearing-location="{{hearing.disposition.id}}" class="display-inline-block">
+                        {{~hearing.disposition.dcpPublichearinglocation~}}
+                      </strong>
 
-                          <span class="display-inline-block">
-                            <span data-test-hearing-date="{{hearing.disposition.id}}"
-                            >{{!--
-                          --}}<DateDisplay
-                                @date={{hearing.disposition.dcpDateofpublichearing}}
-                              />{{!--
-                        --}}</span>
-                            <span class="light-gray">|</span>
-                            <span data-test-hearing-time="{{hearing.disposition.id}}">{{!--
-                            --}}<DateDisplay
-                                @date={{hearing.disposition.dcpDateofpublichearing}}
-                                @outputFormat="h:mm A"
-                              />{{!--
-                        --}}</span>
+                      <span class="display-inline-block">
+                        <span data-test-hearing-date="{{hearing.disposition.id}}"
+                        >{{!--
+                      --}}<DateDisplay
+                            @date={{hearing.disposition.dcpDateofpublichearing}}
+                          />{{!--
+                    --}}</span>
+                        <span class="light-gray">|</span>
+                        <span data-test-hearing-time="{{hearing.disposition.id}}">{{!--
+                        --}}<DateDisplay
+                            @date={{hearing.disposition.dcpDateofpublichearing}}
+                            @outputFormat="h:mm A"
+                          />{{!--
+                    --}}</span>
+                      </span>
+
+                      <div class="text-tiny" data-test-hearing-actions-list="{{hearing.disposition.id}}">
+                        {{#each hearing.hearingActions as |action index| ~}}
+                          <span class="label light-gray tiny-margin-bottom tiny-margin-right">
+                            {{action.dcpName}}
+                            <small>{{action.dcpUlurpnumber}}</small>
                           </span>
-
-                          <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
-                            {{#each hearing.hearingActions as |action index| ~}}
-                              <span class="label light-gray tiny-margin-bottom tiny-margin-right">
-                                {{action.dcpName}}
-                                <small>{{action.dcpUlurpnumber}}</small>
-                              </span>
-                            {{~/each}}
-                          </small>
-                        </div>
-                      </li>
-                    {{/each}}
-                    </ul>
-              {{/deduped-hearings-list}}
-            {{/if}}
+                        {{~/each}}
+                      </div>
+                    </div>
+                  </li>
+                {{/each}}
+              </ul>
+            {{/deduped-hearings-list}}
+          {{/if}}
 
           <p class="callout warning text-small">
-            Once you submit hearing information, you cannot edit it. You'll need to contact NYC Planning to make any changes (ZAP_feedback_DL@planning.nyc.gov or 212-720-3300).
+            Once hearing information is submitted, you cannot edit it. You'll need to contact NYC Planning to make any changes (ZAP_feedback_DL@planning.nyc.gov or 212-720-3300).
           </p>
 
           <p>
