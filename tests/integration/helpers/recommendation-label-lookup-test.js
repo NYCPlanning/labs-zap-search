@@ -8,10 +8,9 @@ module('Integration | Helper | recommendation-label-lookup', function(hooks) {
 
   // Replace this with your real tests.
   test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
+    this.set('code', 717170000);
+    await render(hbs`{{recommendation-label-lookup 'CB' code}}`);
 
-    await render(hbs`{{recommendation-label-lookup inputValue}}`);
-
-    assert.equal(this.element.textContent.trim(), '1234');
+    assert.equal(this.element.textContent.trim(), 'Approved');
   });
 });

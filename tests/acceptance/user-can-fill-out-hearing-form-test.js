@@ -616,7 +616,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     await fillIn('[data-test-allactions-input="minute"]', 30);
     // user selects an option from the power-select dropdown
     await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'PM');
-    // await this.pauseTest();
+
     await click('[data-test-button="checkHearing"]');
 
     await click('[data-test-button="confirmHearing"]');

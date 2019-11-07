@@ -591,7 +591,9 @@
                   <p
                     data-test-confirmation-each-action-recommendation={{idx}}
                   >
-                    <strong>{{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}</strong>
+                    <strong>
+                      {{recommendation-label-lookup participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType))}}
+                    </strong>
                   </p>
                   {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
                     <p
