@@ -512,7 +512,9 @@
             {{#confirmation-modal open=modalOpen}}
               <h3 class="large-margin-right">Please confirm your recommendation information.</h3>
               {{#unless assignment.hearingsWaived}}
-                <h5>
+                <h5
+                  data-test-confirmation-quorum-answer
+                >
                   Was a Quorum Present at your Hearing(s)?
                 </h5>
                 {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}

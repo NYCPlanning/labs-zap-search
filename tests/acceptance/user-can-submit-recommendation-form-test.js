@@ -53,6 +53,7 @@ function setUpProjectAndDispos(server, participantType) {
         dispositions: [
           server.create('disposition', {
             id: 5,
+            dcpIspublichearingrequired: 'No',
             dcpPublichearinglocation: null,
             dcpDateofpublichearing: null,
             action: server.create('action'),
@@ -93,7 +94,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     assert.ok(find('[data-test-hearing-actions-list]'));
   });
 
-  test('CB User does not see quorum question on project 2 if no hearings submitted', async function(assert) {
+  test('CB User does not see quorum question on project 2 if hearings were waived', async function(assert) {
     setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();
@@ -102,6 +103,24 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     assert.notOk(find('[data-test-quorum-question]'));
     assert.notOk(find('[data-test-hearing-actions-list]'));
+
+    await find('[data-test-all-actions-recommendation-select]');
+
+    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+
+    await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
+    await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
+    await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
+    await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
+
+    await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
+    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
+
+    await click('[data-test-continue]');
+
+    assert.notOk(find('[data-test-confirmation-quorum-answer]'), 'Confirmation modal does not show quorum header');
+    assert.notOk(find('[data-test-quorum-answer="0"]'), 'Confirmation modal does not show quorum answers');
   });
 
   test('CB User does not see "All Actions" question if project has only one disposition', async function(assert) {
@@ -143,6 +162,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     await click('[data-test-continue]');
+
+    assert.ok(find('[data-test-confirmation-quorum-answer]'), 'Confirmation modal shows quorum question header');
 
     assert.equal(this.element.querySelector('[data-test-quorum-answer="0').textContent.trim(), 'Yes', 'Confirmation modal shows answer to first quorum quesiton');
     assert.equal(this.element.querySelector('[data-test-quorum-answer="1').textContent.trim(), 'No', 'Confirmation modal shows answer to second quorum quesiton');
