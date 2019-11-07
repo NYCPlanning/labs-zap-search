@@ -5,7 +5,7 @@ import { validate } from 'ember-validators';
   * Validator takes one object with the following properties:
  * @param { bool } presence
  * @param { String } unless
- * @param { String } value (optional)
+ * @param { Any } value (optional)
  * validates a field for presence unless a the `unless` target field has specified `value`
  */
 export default function validatePresenceUnlessValue(options) {
@@ -16,7 +16,7 @@ export default function validatePresenceUnlessValue(options) {
     if (typeof options.unless === 'string') {
       target = options.unless;
     }
-    if (typeof options.value === 'string') {
+    if (options.value || options.value === 0) {
       targetValue = options.value;
     }
 

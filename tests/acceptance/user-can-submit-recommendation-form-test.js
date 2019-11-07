@@ -420,7 +420,6 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await selectChoose('[data-test-all-actions-recommendation]', 'Waiver of Recommendation');
 
     await click('[data-test-continue]');
-    await this.pauseTest();
     assert.ok(find('[data-test-confirmation-modal]'));
   });
 

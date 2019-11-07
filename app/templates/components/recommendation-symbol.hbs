@@ -1,7 +1,1 @@
-{{#if (or (eq participantRecommendation 'Approved') (eq participantRecommendation 'Approved with Modifications/Conditions'))}}
-  {{fa-icon 'thumbs-up' fixedWidth=true class='green-muted'}}
-{{else if (or (eq participantRecommendation 'Disapproved') (eq participantRecommendation 'Disapproved with Modifications/Conditions'))}}
-  {{fa-icon 'thumbs-down' fixedWidth=true class='red-muted'}}
-{{else if (eq participantRecommendation 'Waived')}}
-  {{fa-icon 'comment-slash' fixedWidth=true class='light-gray'}}
-{{/if}}
+{{fa-icon this.icon.style fixedWidth=true class=this.icon.color}}
