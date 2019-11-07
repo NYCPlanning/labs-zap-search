@@ -50,26 +50,11 @@
 // Ember Power Select
 // --------------------------------------------------
 .site-main .ember-power-select-trigger {
-  margin-bottom: $global-margin;
-  padding-top: $input-padding;
-  padding-right: 2rem;
-  min-height: 2.4375rem;
-  min-width: 4.75rem;
-  padding-bottom: $input-padding;
-  padding-left: $input-padding;
   line-height: $input-line-height;
   border-radius: 0;
   border: $input-border;
-
-  .ember-power-select-placeholder,
-  .ember-basic-dropdown-content-placeholder {
-    margin: 0;
-  }
-
-  .ember-power-select-status-icon {
-    right: 1rem;
-  }
 }
+
 .is-invalid-label .ember-power-select-trigger {
   @include form-input-error();
 
@@ -79,5 +64,24 @@
 
   .ember-power-select-status-icon {
     border-top-color: $form-label-color-invalid;
+  }
+}
+
+.site-main:not(.route-show-geography) .ember-power-select-trigger {
+  margin-bottom: $global-margin;
+  padding-top: $input-padding;
+  padding-right: 2rem;
+  min-height: 2.4375rem;
+  min-width: 4.75rem;
+  padding-bottom: $input-padding;
+  padding-left: $input-padding;
+
+  .ember-power-select-status-icon {
+    right: 1rem;
+  }
+
+  .ember-power-select-placeholder,
+  .ember-basic-dropdown-content-placeholder {
+    margin: 0;
   }
 }
