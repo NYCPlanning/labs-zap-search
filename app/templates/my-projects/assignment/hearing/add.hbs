@@ -88,7 +88,7 @@
             Back to hearing form
           </button>
         {{else}}
-          <h3>Confirm hearing information</h3>
+          <h3 class="large-margin-right">Please confirm your hearing information.</h3>
 
           {{#if (or allActions (lte model.dispositions.length 1))}}
             <ul class="no-bullet">
@@ -161,11 +161,10 @@
               </ul>
             {{/deduped-hearings-list}}
           {{/if}}
-
+          <hr>
           <p class="callout warning text-small">
-            Once hearing information is submitted, you cannot edit it. You'll need to contact NYC Planning to make any changes (ZAP_feedback_DL@planning.nyc.gov or 212-720-3300).
+            Once your hearing information is submitted, you cannot edit it. You'll need to contact NYC Planning to make any changes (ZAP_feedback_DL@planning.nyc.gov or 212-720-3300).
           </p>
-
           <p>
             <button
               class="button"
@@ -175,7 +174,6 @@
             >
               Submit Hearing Information
             </button>
-
             <button
               class="button clear"
               data-test-button="closeModal"
