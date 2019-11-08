@@ -9,17 +9,15 @@
   <div class="grid-x grid-margin-x">
     <div class="cell medium-shrink">
 
-      <label for="files" class="button gray no-margin">
-        <FileUpload
-          @name='files'
-          @accept='*/*'
-          @multiple=true
-          @onfileadd={{action 'uploadFile'}}
-        >
-          {{fa-icon 'upload'}} Choose Files
-        </FileUpload>
-      </label>
-      <input type="file" id="files" class="show-for-sr">
+      <FileUpload
+        @name='files'
+        @accept='*/*'
+        @multiple=true
+        @onfileadd={{action 'uploadFile'}}
+        class="button gray no-margin"
+      >
+        {{fa-icon 'upload'}} Choose Files
+      </FileUpload>
 
     </div>
     <div class="cell auto">
