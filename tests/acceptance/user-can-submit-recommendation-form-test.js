@@ -53,6 +53,7 @@ function setUpProjectAndDispos(server, participantType) {
         dispositions: [
           server.create('disposition', {
             id: 5,
+            dcpIspublichearingrequired: 'No',
             dcpPublichearinglocation: null,
             dcpDateofpublichearing: null,
             action: server.create('action'),
@@ -93,7 +94,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     assert.ok(find('[data-test-hearing-actions-list]'));
   });
 
-  test('CB User does not see quorum question on project 2 if no hearings submitted', async function(assert) {
+  test('CB User does not see quorum question on project 2 if hearings were waived', async function(assert) {
     setUpProjectAndDispos(server, 'CB');
 
     await authenticateSession();
@@ -102,6 +103,24 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     assert.notOk(find('[data-test-quorum-question]'));
     assert.notOk(find('[data-test-hearing-actions-list]'));
+
+    await find('[data-test-all-actions-recommendation-select]');
+
+    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+
+    await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
+    await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
+    await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
+    await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
+
+    await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
+    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
+
+    await click('[data-test-continue]');
+
+    assert.notOk(find('[data-test-confirmation-quorum-answer]'), 'Confirmation modal does not show quorum header');
+    assert.notOk(find('[data-test-quorum-answer="0"]'), 'Confirmation modal does not show quorum answers');
   });
 
   test('CB User does not see "All Actions" question if project has only one disposition', async function(assert) {
@@ -144,10 +163,12 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     await click('[data-test-continue]');
 
+    assert.ok(find('[data-test-confirmation-quorum-answer]'), 'Confirmation modal shows quorum question header');
+
     assert.equal(this.element.querySelector('[data-test-quorum-answer="0').textContent.trim(), 'Yes', 'Confirmation modal shows answer to first quorum quesiton');
     assert.equal(this.element.querySelector('[data-test-quorum-answer="1').textContent.trim(), 'No', 'Confirmation modal shows answer to second quorum quesiton');
 
-    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Disapproved');
+    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Recommendation: Disapproved');
 
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotinginfavorrecommendation]').textContent.trim().includes('1'), 'Confirmation modal shows votes in favor for all actions');
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotingagainstrecommendation]').textContent.trim().includes('2'), 'Confirmation modal shows votes against for all actions');
@@ -155,7 +176,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpTotalmembersappointedtotheboard]').textContent.trim().includes('4'), 'Confirmation modal shows total members appointed for all actions');
 
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotelocation]').textContent.trim().includes('Smith Street'), 'Confirmation modal shows vote location for all actions.');
-    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpDateofvote]').textContent.includes('Thu Oct 17 2019'), 'Confirmation modal shows date of vote for all actions.');
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpDateofvote]').textContent.includes('10/17/2019'), 'Confirmation modal shows date of vote for all actions.');
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpConsideration]').textContent.trim().includes('My All Actions Comment'), 'Confirmation modal shows dcpConsideration for all actions.');
 
     await click('[data-test-submit]');
@@ -224,7 +245,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     assert.ok(this.element.querySelector('[data-test-confirmation-each-action-dcpConsideration="2"]').textContent.trim().includes('My comment for dcpConsideration 2'), 'Confirmation modal shows dcpConsideration for action 2');
 
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotelocation]').textContent.trim().includes('Bergen Street'), 'Confirmation modal shows vote location for all actions.');
-    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpDateofvote]').textContent.includes('Wed Dec 11 2019'), 'Confirmation modal shows date of vote for all actions.');
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpDateofvote]').textContent.includes('12/11/2019'), 'Confirmation modal shows date of vote for all actions.');
 
     await click('[data-test-submit]');
 
@@ -249,7 +270,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     await click('[data-test-continue]');
 
-    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Unfavorable');
+    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Recommendation: Unfavorable');
+
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpConsideration]').textContent.trim().includes('My comment for all actions'), 'Confirmation modal shows dcpConsideration for all actions.');
 
     await click('[data-test-submit]');
@@ -478,7 +500,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     assert.equal(this.element.querySelector('[data-test-quorum-answer="0').textContent.trim(), 'No', 'Confirmation modal shows answer to first quorum quesiton');
 
-    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Unfavorable');
+    assert.equal(this.element.querySelector('[data-test-confirmation-all-actions-recommendation]').textContent.trim(), 'Recommendation: Unfavorable');
 
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotinginfavorrecommendation]').textContent.trim().includes('1'), 'Confirmation modal shows votes in favor for all actions');
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotingagainstrecommendation]').textContent.trim().includes('2'), 'Confirmation modal shows votes against for all actions');
@@ -486,7 +508,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpTotalmembersappointedtotheboard]').textContent.trim().includes('4'), 'Confirmation modal shows total members appointed for all actions');
 
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpVotelocation]').textContent.trim().includes('Smith Street'), 'Confirmation modal shows vote location for all actions.');
-    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpDateofvote]').textContent.includes('Thu Oct 17 2019'), 'Confirmation modal shows date of vote for all actions.');
+    assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpDateofvote]').textContent.includes('10/17/2019'), 'Confirmation modal shows date of vote for all actions.');
     assert.ok(this.element.querySelector('[data-test-confirmation-all-actions-dcpConsideration]').textContent.trim().includes('My All Actions Comment'), 'Confirmation modal shows dcpConsideration for all actions.');
 
     await click('[data-test-submit]');
