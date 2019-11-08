@@ -11,11 +11,11 @@ module('Integration | Component | recommendation-upload-file', function(hooks) {
     const file = new File(['Some text'], 'test.txt', { type: 'text/plain' });
 
     await render(hbs`
-      <RecommendationUploadFile/>
+      <RecommendationUploadFile />
     `);
 
-    await upload('#files', file, 'test.txt');
+    await upload('[data-recommendation-upload-file-label] input', file, 'test.txt');
 
-    assert.ok('[data-test-file-name="test.txt"');
+    assert.ok('[data-test-file-name="test.txt"]');
   });
 });
