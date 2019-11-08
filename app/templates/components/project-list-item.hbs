@@ -1,13 +1,14 @@
 <li class="grid-x grid-padding-small projects-list-result">
   <div class="cell results-meta {{if project.dcpPublicstatusSimp (concat 'publicstatus-' (dasherize project.dcpPublicstatusSimp))}}" style="width:5rem;">
-    {{!-- commented out because it was if-gated by .has_centroid which --}}
-    {{!-- no longer exists --}}
-    {{!-- project-list-map-pin project=project --}}
-    <a class="button hollow expanded map-marker-button" style="opacity:1;" disabled>
-      <span class="fa-layers fa-fw" style="font-size: 1.5rem;">
-        <span class="fa-layers-text" style="font-size:0.625rem;color:#000;">Not Mapped</span>
-      </span>
-    </a>
+    {{#if project.hasCentroid}}
+      {{project-list-map-pin project=project}}
+    {{else}}
+      <a class="button hollow expanded map-marker-button" style="opacity:1;" disabled>
+        <span class="fa-layers fa-fw" style="font-size: 1.5rem;">
+          <span class="fa-layers-text" style="font-size:0.625rem;color:#333;">Not Mapped</span>
+        </span>
+      </a>
+    {{/if}}
     <span class="label publicstatus-label">{{unless (eq project.dcpPublicstatusSimp 'Unknown') project.dcpPublicstatusSimp "Unknown Status"}}</span>
   </div>
   <div class="cell auto">
