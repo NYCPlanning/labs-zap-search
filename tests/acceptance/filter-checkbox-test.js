@@ -15,10 +15,31 @@ module('Acceptance | filter checkbox', function(hooks) {
   setupMirage(hooks);
 
   test('User clicks Completed project status and it filters', async function(assert) {
-    server.createList('project', 20);
+    server.create('project', {
+      id: 1,
+      dcpPublicstatusSimp: 'Filed',
+      dcpBorough: 'Manhattan',
+    });
+    server.create('project', {
+      id: 2,
+      dcpPublicstatusSimp: 'In Public Review',
+      dcpBorough: 'Brooklyn',
+    });
+    server.create('project', {
+      id: 3,
+      dcpPublicstatusSimp: 'Completed',
+      dcpBorough: 'Queens',
+    });
+    server.create('project', {
+      id: 4,
+      dcpPublicstatusSimp: 'Unknown',
+      dcpBorough: 'Staten Island',
+    });
+
     await visit('/');
     await click('[data-test-status-checkbox="Completed"]');
 
+    assert.ok(this.element.querySelector('[data-test-public-status-label="1"]').textContent.includes('Completed'), 'public status label');
     assert.equal(currentURL().includes('Completed'), true);
   });
 

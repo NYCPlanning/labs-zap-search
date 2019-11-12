@@ -9,7 +9,7 @@
         </span>
       </a>
     {{/if}}
-    <span class="label publicstatus-label">{{unless (eq project.dcpPublicstatusSimp 'Unknown') project.dcpPublicstatusSimp "Unknown Status"}}</span>
+    <span data-test-public-status-label="{{project.id}}" class="label publicstatus-label">{{unless (eq project.dcpPublicstatusSimp 'Unknown') project.dcpPublicstatusSimp "Unknown Status"}}</span>
   </div>
   <div class="cell auto">
     {{#if project.lastmilestonedate}}
