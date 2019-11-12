@@ -494,7 +494,9 @@
                 </span>
               </fieldset>
             {{/if}}
-            <RecommendationUploadFile/>
+            <DocumentUploadForm
+              @queueName={{this.queueName}}
+            />
             <hr>
             <fieldset class="medium-margin-bottom">
               <button
@@ -641,13 +643,28 @@
                   </p>
                 {{/if}}
                 <p><strong>Attached files:</strong></p>
-                <ul>
-                  {{#with (file-queue name="files") as |queue|}}
-                    {{#each queue.files as |file|}}
-                      <li><a>{{file.name}}<small> ({{file.type}})</small></a></li>
-                    {{/each}}
+                  {{#with (file-queue name=this.queueName) as |queue|}}
+                    {{#if queue.files}}
+                      <ul>
+                        {{#each queue.files as |file|}}
+                          <li>
+                            <a>
+                              {{file.name}}
+                              <small>
+                                ({{file.type}})
+                              </small>
+                            </a>
+                          </li>
+                        {{/each}}
+                      </ul>
+                    {{else}}
+                      <p
+                        data-test-confirmation-no-files
+                      >
+                        No files attached.
+                      </p>
+                    {{/if}}
                   {{/with}}
-                </ul>
               {{/if}}
               <hr>
               <p class="callout warning text-small">
@@ -673,6 +690,12 @@
                   Cancel <small>(continue editing)</small>
                 </button>
               </p>
+              {{#if this.submitError}}
+                <p class="is-invalid-label">
+                  Sorry, there was an error submitting your disposition.<br>
+                  Please reach out to your contact at DCP, and we'll take care of it as soon as possible.
+                </p>
+              {{/if}}
             {{/confirmation-modal}}
           {{/ember-wormhole}}
 

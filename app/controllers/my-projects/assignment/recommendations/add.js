@@ -4,6 +4,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import lookupValidator from 'ember-changeset-validations';
 import Changeset from 'ember-changeset';
+import ENV from 'labs-zap-search/config/environment';
 import {
   bpDispositionForAllActionsValidations,
   cbDispositionForAllActionsValidations,
@@ -81,6 +82,9 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   @service
   currentUser;
 
+  @service
+  fileQueue;
+
   @alias('model.dcpLupteammemberrole')
   participantType;
 
@@ -95,6 +99,15 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   dispositionForAllActions = DispositionForAllActions.create();
 
   minDate = MINIMUM_VOTE_DATE;
+
+  queueName = 'recommendation';
+
+  submitError = false;
+
+  @computed('fileQueue', 'queueName')
+  get recommendationAddQueue() {
+    return this.fileQueue.find(this.queueName);
+  }
 
   @computed('dispositionForAllActions', 'participantType')
   get dispositionForAllActionsChangeset() {
@@ -257,49 +270,83 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
    */
   @action
   async submitRecommendations() {
-    const { participantType } = this;
-    const targetField = RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
-    this.dispositionForAllActionsChangeset.execute();
-    this.dispositionsChangesets.forEach(function(dispositionChangeset) {
-      dispositionChangeset.execute();
-    });
-    // statuscode = "Submitted" signifies in database that user has submitted recommendation
-    this.dispositions.setEach('statuscode', 'Submitted');
-
-    this.dispositions.forEach((disposition) => {
-      if (this.allActions) {
-        disposition.set(targetField, this.dispositionForAllActions.recommendation);
-        disposition.setProperties({
-          dcpVotinginfavorrecommendation: this.dispositionForAllActions.dcpVotinginfavorrecommendation,
-          dcpVotingagainstrecommendation: this.dispositionForAllActions.dcpVotingagainstrecommendation,
-          dcpVotingabstainingonrecommendation: this.dispositionForAllActions.dcpVotingabstainingonrecommendation,
-          dcpTotalmembersappointedtotheboard: this.dispositionForAllActions.dcpTotalmembersappointedtotheboard,
-          dcpConsideration: this.dispositionForAllActions.dcpConsideration,
-        });
-      }
-      disposition.setProperties({
-        dcpVotelocation: this.dispositionForAllActions.dcpVotelocation,
-        dcpDateofvote: this.dispositionForAllActions.dcpDateofvote,
-      });
-    });
+    // array of true/false values each representing succesful upload of files to a disposition
+    const uploadResults = [];
 
     try {
-      await this.dispositions.save();
+      // loop through dispositions, uploading all files to each one
+      for (let i = 0; i < this.dispositions.length; i += 1) {
+        const disposition = this.dispositions.objectAt(i);
 
-      this.dispositionForAllActions.setProperties({
-        recommendation: null,
-        dcpVotinginfavorrecommendation: null,
-        dcpVotingagainstrecommendation: null,
-        dcpVotingabstainingonrecommendation: null,
-        dcpTotalmembersappointedtotheboard: null,
-        dcpVotelocation: null,
-        dcpDateofvote: null,
-        dcpConsideration: null,
-      });
-      this.set('modalOpen', false);
-      this.transitionToRoute('my-projects.assignment.recommendations.done');
+        const fileUploadPromises = this.recommendationAddQueue.files.map(file => file.upload(`${ENV.host}/document`, {
+          fileKey: 'file',
+          data: {
+            instanceId: disposition.id,
+            entityName: 'dcp_communityboarddisposition',
+          },
+        }));
+
+        // await here because ember-file-upload requires a single file's upload() to complete before the
+        // next call of upload() on that file.
+        const fileUploadResponses = await Promise.all(fileUploadPromises); // eslint-disable-line
+
+        const filesUploadedToDispo = fileUploadResponses.every(res => res.status === 200);
+
+        uploadResults.push(filesUploadedToDispo);
+      }
     } catch (e) {
+      this.set('submitError', true);
       console.log(e); // eslint-disable-line
+    }
+
+    // Only proceed if all files were uploaded to all dispositions
+    if (uploadResults.every(res => res === true) && !this.submitError) {
+      const { participantType } = this;
+      const targetField = RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
+      this.dispositionForAllActionsChangeset.execute();
+      this.dispositionsChangesets.forEach(function(dispositionChangeset) {
+        dispositionChangeset.execute();
+      });
+      // statuscode = "Submitted" signifies in database that user has submitted recommendation
+      this.dispositions.setEach('statuscode', 'Submitted');
+
+      this.dispositions.forEach((disposition) => {
+        if (this.allActions) {
+          disposition.set(targetField, this.dispositionForAllActions.recommendation);
+          disposition.setProperties({
+            dcpVotinginfavorrecommendation: this.dispositionForAllActions.dcpVotinginfavorrecommendation,
+            dcpVotingagainstrecommendation: this.dispositionForAllActions.dcpVotingagainstrecommendation,
+            dcpVotingabstainingonrecommendation: this.dispositionForAllActions.dcpVotingabstainingonrecommendation,
+            dcpTotalmembersappointedtotheboard: this.dispositionForAllActions.dcpTotalmembersappointedtotheboard,
+            dcpConsideration: this.dispositionForAllActions.dcpConsideration,
+          });
+        }
+        disposition.setProperties({
+          dcpVotelocation: this.dispositionForAllActions.dcpVotelocation,
+          dcpDateofvote: this.dispositionForAllActions.dcpDateofvote,
+        });
+      });
+
+      try {
+        await this.dispositions.save();
+
+        this.dispositionForAllActions.setProperties({
+          recommendation: null,
+          dcpVotinginfavorrecommendation: null,
+          dcpVotingagainstrecommendation: null,
+          dcpVotingabstainingonrecommendation: null,
+          dcpTotalmembersappointedtotheboard: null,
+          dcpVotelocation: null,
+          dcpDateofvote: null,
+          dcpConsideration: null,
+        });
+        this.set('modalOpen', false);
+        this.set('submitError', false);
+        this.transitionToRoute('my-projects.assignment.recommendations.done');
+      } catch (e) {
+        this.set('submitError', true);
+        console.log(e); // eslint-disable-line
+      }
     }
   }
 }

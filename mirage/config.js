@@ -97,7 +97,9 @@ export default function () {
   // TODO: This may need to be updated when the current-user service
   // no longer hardcodes a user
   this.get('/login', function() {
-    return {};
+    return {
+      ok: true,
+    };
   });
 
   // REST endpoints
@@ -105,6 +107,13 @@ export default function () {
   this.get('/dispositions');
   this.get('/dispositions/:id');
   this.patch('/dispositions/:id');
+
+  this.post('/document', function(schema, request) {
+    // requestBody should be a FormData object
+    const { requestBody } = request;
+    const success = requestBody.get('instanceId') && requestBody.get('entityName') && requestBody.get('file');
+    return success ? new Response(200) : new Response(400, {}, { errors: ['Bad Parameters'] });
+  });
 
   /*
     Config (with defaults).
