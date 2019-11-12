@@ -12,7 +12,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
 
-// First project will have 3 dispos with hearings, second project will have 1 dispo without hearing
+// First assignment will have 3 dispos with hearings, second assignment will have 1 dispo without hearing
 function setUpProjectAndDispos(server, participantType) {
   server.create('user', {
     id: 1,

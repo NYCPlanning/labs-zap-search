@@ -154,6 +154,10 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     controller.transitionToRoute = function() { return true; };
 
+    controller.set('recommendationAddQueue', {
+      files: [],
+    });
+
     controller.set('allActions', true);
 
     controller.set('model', { dcpLupteammemberrole: 'CB' });
@@ -176,7 +180,7 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     controller.dispositionForAllActionsChangeset.set('dcpDateofvote', '11/11/2019');
     controller.dispositionForAllActionsChangeset.set('dcpConsideration', 'My All Actions Consideration');
 
-    controller.submitRecommendations();
+    await controller.submitRecommendations();
 
     assert.equal(controller.dispositions[0].dcpCommunityboardrecommendation, 717170002, 'submitRecommendations saved to dcpCommunityboardrecommendation field for dispo 1');
     assert.equal(controller.dispositions[0].dcpVotinginfavorrecommendation, 1, 'submitRecommendations saved to dcpVotinginfavorrecommendation field for dispo 1');
@@ -202,6 +206,10 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     assert.ok(controller);
 
     controller.transitionToRoute = function() { return true; };
+
+    controller.set('recommendationAddQueue', {
+      files: [],
+    });
 
     controller.set('allActions', false);
 
@@ -233,7 +241,7 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     controller.dispositionsChangesets[1].set('dcpTotalmembersappointedtotheboard', 1);
     controller.dispositionsChangesets[1].set('dcpConsideration', 'My dispositionChangeset 1 Consideration');
 
-    controller.submitRecommendations();
+    await controller.submitRecommendations();
 
     assert.equal(controller.dispositions[0].dcpCommunityboardrecommendation, 717170002, 'submitRecommendations saved to dcpCommunityboardrecommendation field for dispo 1');
     assert.equal(controller.dispositions[0].dcpVotinginfavorrecommendation, 1, 'submitRecommendations saved to dcpVotinginfavorrecommendation field for dispo 1');
@@ -277,6 +285,10 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
       assert.equal(route, 'my-projects/assignment/recommendations/done');
     };
 
+    controller.set('recommendationAddQueue', {
+      files: [],
+    });
+
     controller.dispositions = dispositions;
 
     assert.equal(controller.dispositions[0].statuscode, '');
@@ -284,7 +296,7 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     assert.ok(controller.submitRecommendations);
 
-    controller.submitRecommendations();
+    await controller.submitRecommendations();
     assert.equal(controller.dispositions[0].statuscode, 'Submitted');
     assert.equal(controller.dispositions[1].statuscode, 'Submitted');
   });
