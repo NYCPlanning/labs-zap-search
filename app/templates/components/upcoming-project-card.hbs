@@ -69,10 +69,16 @@
               {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
               <small>Opt Out</small>
             </button>
-
             {{waive-hearings-popup assignment=this.assignment showPopup=showPopup}}
           </div>
         </div>
+      {{else}}
+        {{#if assignment.hearingsWaived}}
+          <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
+            {{fa-icon 'calendar-times' size="lg" transform="left-2"}}
+            You've opted out of posting a hearing
+          </span>
+        {{/if}}
       {{/if}}
       <ul class="no-bullet no-margin">
         {{#each this.assignment.assigneeDisplayMilestones as |milestone idx|}}
