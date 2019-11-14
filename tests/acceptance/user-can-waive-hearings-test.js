@@ -76,4 +76,22 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     assert.ok(find('[data-test-hearings-waived-message]'));
   });
+
+  test('button for hearing submission does not show if there are no dispositions', async function(assert) {
+    this.server.create('assignment', {
+      id: 4,
+      tab: 'upcoming',
+      user: this.server.create('user'),
+      dispositions: [],
+      project: this.server.create('project', {
+        id: 4,
+      }),
+    });
+
+    await authenticateSession();
+
+    await visit('/my-projects/upcoming');
+
+    assert.notOk(find('[data-test-button="submitHearing"]'));
+  });
 });
