@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import lookupValidator from 'ember-changeset-validations';
 import Changeset from 'ember-changeset';
 import ENV from 'labs-zap-search/config/environment';
+import File from 'ember-file-upload/file';
 import {
   bpDispositionForAllActionsValidations,
   cbDispositionForAllActionsValidations,
@@ -100,13 +101,19 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   minDate = MINIMUM_VOTE_DATE;
 
+  // currently only used to name the universal queue
   queueName = 'recommendation';
 
   submitError = false;
 
-  @computed('fileQueue', 'queueName')
-  get recommendationAddQueue() {
-    return this.fileQueue.find(this.queueName);
+  // Returns an object with an entry for each disposition and its corresponding file queue.
+  // Keys are the disposition id, values are the disposition's file queue.
+  @computed('fileQueue', 'dispositions')
+  get queuesByDisposition() {
+    return this.dispositions.reduce((queuesByDisposition, disposition) => {
+      queuesByDisposition[disposition.id] = this.fileQueue.create(disposition.id);
+      return queuesByDisposition;
+    }, {});
   }
 
   @computed('dispositionForAllActions', 'participantType')
@@ -263,6 +270,20 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     this.set('modalOpen', false);
   }
 
+  // adds the uploaded file to each disposition queue
+  @action
+  async addFileToDispositionQueues(file) {
+    const copyCompletionStatuses = this.dispositions.map(async (disposition) => {
+      // use this private/undocument .blob property to duplicate the file
+      const fileCopy = await File.fromBlob(file.blob);
+      this.queuesByDisposition[disposition.id].push(fileCopy);
+      return true;
+    });
+    const resolvedStatuses = await Promise.all(copyCompletionStatuses);
+    // return after all file copying is complete
+    return resolvedStatuses;
+  }
+
   /**
    * Saves all dispositions on the loaded assignment with user-inputted recommendation values.
    * If 'allActions" is `True`, will copy values in dispositionForAllActions into each
@@ -274,11 +295,10 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     const uploadResults = [];
 
     try {
-      // loop through dispositions, uploading all files to each one
       for (let i = 0; i < this.dispositions.length; i += 1) {
         const disposition = this.dispositions.objectAt(i);
 
-        const fileUploadPromises = this.recommendationAddQueue.files.map(file => file.upload(`${ENV.host}/document`, {
+        const fileUploadPromises = this.queuesByDisposition[disposition.id].files.map(file => file.upload(`${ENV.host}/document`, {
           fileKey: 'file',
           data: {
             instanceId: disposition.id,

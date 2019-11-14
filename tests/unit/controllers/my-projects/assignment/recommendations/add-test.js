@@ -17,12 +17,12 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     // DISPOSITIONS THAT REPRESENT THE MODEL'S DISPOSITIONS ARRAY (project.dispositions)
     const disp1 = disp.create({
-      id: 1,
+      id: '1',
       dcpWasaquorumpresent: null,
     });
 
     const disp2 = disp.create({
-      id: 2,
+      id: '2',
       dcpWasaquorumpresent: null,
     });
 
@@ -42,15 +42,15 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     // DISPOSITIONS THAT REPRESENT THE OBJECTS WITHIN THE dedupedHearings ARRAY
     // a dedupedHearing object that has 3 duplicate dispositions
     const dedupedHearing1 = disp.create({
-      id: 1,
+      id: '1',
       dcpWasaquorumpresent: null,
       duplicateDisps: [
         disp.create({
-          id: 1,
+          id: '1',
           dcpWasaquorumpresent: null,
         }),
         disp.create({
-          id: 2,
+          id: '2',
           dcpWasaquorumpresent: null,
         }),
         disp.create({
@@ -154,15 +154,20 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     controller.transitionToRoute = function() { return true; };
 
-    controller.set('recommendationAddQueue', {
-      files: [],
+    controller.set('queuesByDisposition', {
+      1: {
+        files: [],
+      },
+      2: {
+        files: [],
+      },
     });
 
     controller.set('allActions', true);
 
     controller.set('model', { dcpLupteammemberrole: 'CB' });
 
-    controller.set('dispositions', [EmberObject.create(), EmberObject.create()]);
+    controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
 
     controller.dispositions[0].save = function() {
       return true;
@@ -207,15 +212,20 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     controller.transitionToRoute = function() { return true; };
 
-    controller.set('recommendationAddQueue', {
-      files: [],
+    controller.set('queuesByDisposition', {
+      1: {
+        files: [],
+      },
+      2: {
+        files: [],
+      },
     });
 
     controller.set('allActions', false);
 
     controller.set('model', { dcpLupteammemberrole: 'CB' });
 
-    controller.set('dispositions', [EmberObject.create(), EmberObject.create()]);
+    controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
 
     controller.dispositions[0].save = function() {
       return true;
@@ -269,12 +279,12 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     const modelObject = EmberObject.extend({});
 
     const disp1 = modelObject.create({
-      id: 1,
+      id: '1',
       statuscode: '',
     });
 
     const disp2 = modelObject.create({
-      id: 2,
+      id: '2',
       statuscode: '',
     });
 
@@ -285,8 +295,13 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
       assert.equal(route, 'my-projects/assignment/recommendations/done');
     };
 
-    controller.set('recommendationAddQueue', {
-      files: [],
+    controller.set('queuesByDisposition', {
+      1: {
+        files: [],
+      },
+      2: {
+        files: [],
+      },
     });
 
     controller.dispositions = dispositions;
