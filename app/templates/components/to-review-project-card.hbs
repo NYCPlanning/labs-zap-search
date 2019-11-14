@@ -60,7 +60,6 @@
               {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
               <small>Opt Out</small>
             </button>
-            {{waive-hearings-popup assignment=assignment showPopup=showPopup}}
           </div>
         </div>
       {{else}}
@@ -89,6 +88,7 @@
           Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
         </a>
       {{/if}}
+      {{waive-hearings-popup assignment=assignment showPopup=showPopup}}
 
       {{#if assignment.hearingsSubmitted}}
         {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}

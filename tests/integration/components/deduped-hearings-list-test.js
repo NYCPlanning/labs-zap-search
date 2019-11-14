@@ -93,6 +93,7 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
     await render(hbs`
       {{#to-review-project-card assignment=assignment}}
       {{/to-review-project-card}}
+      <div id="reveal-modal-container"></div>
     `);
 
     const list = this.element.textContent.trim();
