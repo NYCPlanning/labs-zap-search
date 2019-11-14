@@ -15,6 +15,7 @@
         @name={{concat this.queueName}}
         @accept='*/*'
         @multiple=true
+        @onfileadd={{this.onFileAdd}}
         class="button gray no-margin"
       >
         {{fa-icon 'upload'}} Choose Files
