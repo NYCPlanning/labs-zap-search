@@ -3,8 +3,19 @@
   <span class="text-weight-normal">Projects that will be subject to ULURP and/or referred out for your review</span>
 </h4>
 
-{{#each sortedProjects as |assignment|}}
-  {{upcoming-project-card assignment=assignment}}
-{{/each}}
+{{#if this.model}}
+  {{#each sortedProjects as |assignment|}}
+    {{upcoming-project-card assignment=assignment}}
+  {{/each}}
+{{else}}
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x grid-padding-y align-middle" style="min-height: 50vh">
+      <div class="cell large-10 large-offset-1 xlarge-8 xlarge-offset-2  text-center">
+        <h2 class="charcoal">You currently have no upcoming&nbsp;projects.</h2>
+        <p class="lead">If something has gone wrong, or you believe projects are missing from this&nbsp;list, please <a href="https://www1.nyc.gov/site/planning/about/contact-us.page">contact the Department of City&nbsp;Planning</a>.</p>
+      </div>
+    </div>
+  </div>
+{{/if}}
 
 {{outlet}}
