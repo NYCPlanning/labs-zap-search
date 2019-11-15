@@ -72,7 +72,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
     assert.ok(find('[data-test-hearings-waived-message]'));
     assert.ok(find('[data-test-button="submitRecommendation"]'));
 
-    assert.equal(this.server.db._collections[2]._records[0].dcpIspublichearingrequired, 'No');
+    assert.equal(this.server.db.dispositions.firstObject.dcpIspublichearingrequired, 'No');
 
     await click('[data-test-button="submitRecommendation"]');
 

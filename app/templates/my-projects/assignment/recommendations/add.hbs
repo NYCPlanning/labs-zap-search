@@ -290,7 +290,7 @@
                       @searchEnabled={{false}}
                       @options={{this.recOptions}}
                       @placeholder="Select a recommendation"
-                      @selected={{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}
+                      @selected={{recommendation-label-lookup this.participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType objectMode=true)) objectMode=true}}
                       @onchange={{action "setDispositionChangesetRec" dispositionChangesetPair.changeset}}
                       as |recOption|
                     >
