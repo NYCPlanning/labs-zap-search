@@ -404,6 +404,7 @@
                     </label>
                     <Textarea
                       @id={{concat "disposition-" (concat idx "-dcpConsideration")}}
+                      @maxlength=2000
                       @value={{dispositionChangesetPair.changeset.dcpConsideration}}
                       @placeholder="Add a Recommendation comment for this action here."
                       @rows="4"
@@ -438,6 +439,7 @@
                     <Input
                       @id="all-actions-vote-location"
                       @type="text"
+                      @maxlength=100
                       @placeholder="Add a location"
                       @autocomplete="off"
                       @value={{this.dispositionForAllActionsChangeset.dcpVotelocation}}
@@ -458,6 +460,7 @@
                     </label>
                     <PikadayInput
                       @id="all-actions-vote-date"
+                      @readonly="readonly"
                       @placeholder='Select a date'
                       @value={{this.dispositionForAllActionsChangeset.dcpDateofvote}}
                       @format='MM/DD/YYYY'
@@ -483,6 +486,7 @@
                 </label>
                 <Textarea
                   @id="all-actions-dcpConsideration"
+                  @maxlength=2000
                   @value={{this.dispositionForAllActionsChangeset.dcpConsideration}}
                   @placeholder="Add Recommendation comment for all actions here."
                   @rows="4"
