@@ -6,6 +6,7 @@
         <label class="date-time-picker--date {{if (and dateMissing checkIfMissing) 'is-invalid-label'}}">
           Hearing Date
           {{pikaday-input
+            readonly="readonly"
             placeholder='Select a date'
             value=this.date
             minDate=currentDate
