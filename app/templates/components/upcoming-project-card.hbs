@@ -146,10 +146,12 @@
                               </small>
                               <span class="display-inline-block text-tiny">
                                 {{#each hearing.hearingActions as |action index|}}
-                                  <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
-                                    {{action.dcpName}}
-                                    <small>{{action.dcpUlurpnumber}}</small>
-                                  </span>
+                                  {{#if action.dcpName}}
+                                    <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
+                                      {{action.dcpName}}
+                                      <small>{{action.dcpUlurpnumber}}</small>
+                                    </span>
+                                  {{/if}}
                                 {{/each}}
                               </span>
                             </div>

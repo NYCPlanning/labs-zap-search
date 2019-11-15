@@ -95,10 +95,12 @@
                   </small>
                   <div class="text-tiny">
                     {{#each hearing.hearingActions as |action index|}}
-                      <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
-                        {{action.dcpName}}
-                        <small>{{action.dcpUlurpnumber}}</small>
-                      </span>
+                      {{#if action.dcpName}}
+                        <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
+                          {{action.dcpName}}
+                          <small>{{action.dcpUlurpnumber}}</small>
+                        </span>
+                      {{/if}}
                     {{/each}}
                   </div>
                 </div>
@@ -145,10 +147,12 @@
                   </small>
                   <div class="text-tiny">
                     {{#each vote.voteActions as |action index|}}
-                      <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
-                        {{action.dcpName}}
-                        <small>{{action.dcpUlurpnumber}}</small>
-                      </span>
+                      {{#if action.dcpName}}
+                        <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
+                          {{action.dcpName}}
+                          <small>{{action.dcpUlurpnumber}}</small>
+                        </span>
+                      {{/if}}
                     {{/each}}
                   </div>
                 </div>
