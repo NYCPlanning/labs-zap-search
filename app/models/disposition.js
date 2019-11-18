@@ -5,6 +5,24 @@ const {
   Model, attr, belongsTo,
 } = DS;
 
+export const STATUSCODES = [
+  { Label: 'Draft', Value: 1 },
+  { Label: 'Saved', Value: 717170000 },
+  { Label: 'Submitted', Value: 2 },
+  { Label: 'Deactivated', Value: 717170001 },
+  { Label: 'Not Submitted', Value: 717170002 },
+];
+
+// mirrors @attr but allows for computed a
+// value for serialization
+export function attrComputed(...keys) {
+  return computed(...keys).meta({
+    type: 'number',
+    isAttribute: true,
+    kind: 'attribute',
+  });
+}
+
 export default class DispositionModel extends Model {
   // DB table: dcp_communityboarddisposition
 
@@ -17,7 +35,7 @@ export default class DispositionModel extends Model {
   // sourced from dcp_dcpPublichearinglocation
   @attr('string', { defaultValue: '' }) dcpPublichearinglocation;
 
-  @attr('string', { defaultValue: '' }) dcpIspublichearingrequired;
+  @attr('string', { defaultValue: null }) dcpIspublichearingrequired;
 
   // sourced from dcp_dcpDateofpublichearing
   @attr('date', { defaultValue: null }) dcpDateofpublichearing;
@@ -72,8 +90,24 @@ export default class DispositionModel extends Model {
   @attr('string') statecode;
 
   // sourced from statuscode
-  // e.g. 'Draft', 'Saved', 'Submitted', 'Deactivated', 'Not Submitted'
-  @attr('string') statuscode;
+  // Label: 'Draft', 'Value': 1
+  // Label: 'Saved', 'Value': 717170000
+  // Label: 'Submitted', 'Value': 2
+  // Label: 'Deactivated', 'Value': 717170001
+  // Label: 'Not Submitted', 'Value': 717170002
+  @attrComputed('dcpDateofvote', 'dcpBoroughpresidentrecommendation', 'dcpBoroughboardrecommendation', 'dcpCommunityboardrecommendation', 'dcpIspublichearingrequired')
+  get statuscode() {
+    if (this.dcpBoroughpresidentrecommendation !== null
+      || this.dcpBoroughboardrecommendation !== null
+      || this.dcpCommunityboardrecommendation !== null
+    ) return STATUSCODES.findBy('Label', 'Submitted').Value;
+
+    if (
+      this.dcpIspublichearingrequired !== null
+    ) return STATUSCODES.findBy('Label', 'Saved').Value;
+
+    return STATUSCODES.findBy('Label', 'Draft').Value;
+  }
 
   // sourced from dcp_docketdescription
   @attr('string') dcpDocketdescription;

@@ -271,48 +271,4 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     assert.equal(controller.dispositions[1].dcpDateofvote, '11/11/2019', 'submitRecommendations saved to dcpDateofvote field for dispo 2');
     assert.equal(controller.dispositions[1].dcpConsideration, 'My dispositionChangeset 1 Consideration', 'submitRecommendations saved to dcpConsideration field for dispo 2');
   });
-
-  test('statuscode is set to Submitted when user submits recommendation', async function(assert) {
-    const controller = this.owner.lookup('controller:my-projects/assignment/recommendations/add');
-    assert.ok(controller);
-
-    const modelObject = EmberObject.extend({});
-
-    const disp1 = modelObject.create({
-      id: '1',
-      statuscode: '',
-    });
-
-    const disp2 = modelObject.create({
-      id: '2',
-      statuscode: '',
-    });
-
-    const dispositions = [disp1, disp2];
-
-    // set the transitionToRoute action
-    controller.transitionToRoute = function(route) {
-      assert.equal(route, 'my-projects/assignment/recommendations/done');
-    };
-
-    controller.set('queuesByDisposition', {
-      1: {
-        files: [],
-      },
-      2: {
-        files: [],
-      },
-    });
-
-    controller.dispositions = dispositions;
-
-    assert.equal(controller.dispositions[0].statuscode, '');
-    assert.equal(controller.dispositions[1].statuscode, '');
-
-    assert.ok(controller.submitRecommendations);
-
-    await controller.submitRecommendations();
-    assert.equal(controller.dispositions[0].statuscode, 'Submitted');
-    assert.equal(controller.dispositions[1].statuscode, 'Submitted');
-  });
 });

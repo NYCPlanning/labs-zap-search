@@ -36,9 +36,7 @@ export default Factory.extend({
     return faker.list.random('QNBB', 'MNBP', 'QNCB5')(i);
   },
 
-  statuscode(i) {
-    return faker.list.random('Draft', 'Saved', 'Submitted', 'Deactivated', 'Not Submitted')(i);
-  },
+  statuscode: null,
 
   submitted: trait({
     dcpConsideration() {
