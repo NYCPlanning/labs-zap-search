@@ -327,8 +327,6 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       this.dispositionsChangesets.forEach(function(dispositionChangeset) {
         dispositionChangeset.execute();
       });
-      // statuscode = "Submitted" signifies in database that user has submitted recommendation
-      this.dispositions.setEach('statuscode', 'Submitted');
 
       this.dispositions.forEach((disposition) => {
         if (this.allActions) {

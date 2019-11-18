@@ -181,6 +181,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     await click('[data-test-submit]');
 
+    console.log(this.server.db.dispositions);
+
     assert.equal(currentURL(), '/my-projects/1/recommendations/done');
   });
 
