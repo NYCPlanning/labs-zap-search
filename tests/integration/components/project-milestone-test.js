@@ -37,7 +37,7 @@ module('Integration | Component | project-milestone', function(hooks) {
             id: 18,
             dcpPublichearinglocation: '345 Purple Street, Manhattan',
             dcpDateofpublichearing: new Date('2020-10-21T01:30:00'),
-            dcpRecommendationsubmittedbyname: 'QNCB2',
+            fullname: 'QN CB2',
             action: ourModel.create({ id: 1, dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
             dcpDateofvote: new Date('2020-11-12T01:30:00'),
             dcpBoroughboardrecommendation: 'Approved',

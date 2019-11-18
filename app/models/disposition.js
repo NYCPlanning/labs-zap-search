@@ -14,6 +14,10 @@ export default class DispositionModel extends Model {
 
   @belongsTo('assignment', { async: true }) assignment;
 
+  // sourced from a left join with contact table
+  // e.g. 'QN CB6', 'BX BP', 'MN BB'
+  @attr('string', { defaultValue: '' }) fullname;
+
   // sourced from dcp_dcpPublichearinglocation
   @attr('string', { defaultValue: '' }) dcpPublichearinglocation;
 
@@ -21,10 +25,6 @@ export default class DispositionModel extends Model {
 
   // sourced from dcp_dcpDateofpublichearing
   @attr('date', { defaultValue: null }) dcpDateofpublichearing;
-
-  // sourced from dcp_recommendationsubmittedbyname
-  // e.g. 'QNCB6', 'BXBP', 'MNBB'
-  @attr('string', { defaultValue: '' }) dcpRecommendationsubmittedbyname;
 
   // Not needed
   // @attr('string', { defaultValue: '' }) formCompleterName;
@@ -95,10 +95,10 @@ export default class DispositionModel extends Model {
   // we want this to be null until a user selects yes or no
   @attr({ defaultValue: null }) dcpWasaquorumpresent;
 
-  // dcpRecommendationsubmittedbyname = e.g. 'QNCB5'
+  // fullname = e.g. 'QN CB5'
   // recommendationSubmittedByFullName = e.g. `Queens Community Board 5`
-  @computed('dcpRecommendationsubmittedbyname')
-  get recommendationSubmittedByFullName() {
+  @computed('fullname')
+  get fullNameLongFormat() {
     const boroughLookup = {
       MN: 'Manhattan',
       BX: 'Bronx',
@@ -114,15 +114,15 @@ export default class DispositionModel extends Model {
     };
 
     // shortName = e.g. 'QNCB5'
-    const shortName = this.get('dcpRecommendationsubmittedbyname');
+    const shortName = this.get('fullname');
     // borough = e.g. 'Queens'
     const borough = boroughLookup[shortName.substring(0, 2)];
     // participantTypeAbbr = e.g. 'CB'
-    const participantTypeAbbr = shortName.substring(2, 4);
+    const participantTypeAbbr = shortName.substring(3, 5);
     // participantType = e.g. "Community Board"
     const participantType = participantLookup[participantTypeAbbr];
     // cbNumber = e.g. QNCB5 --> 5
-    const cbNumber = shortName.substring(4);
+    const cbNumber = shortName.substring(5);
     // concat together
     // CBs have numbers whereas BPs and BBs do not
     if (participantTypeAbbr === 'CB') {

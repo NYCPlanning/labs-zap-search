@@ -4,7 +4,7 @@ export default function(server) {
   // Array of dispositions for To Review Project 1
   const dispositionsArrayForToReview = [
     server.create('disposition', 'withAction', {
-      dcpRecommendationsubmittedbyname: 'QNCB4',
+      fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
       dcpDateofpublichearing: null,
@@ -12,7 +12,7 @@ export default function(server) {
       dcpPublichearinglocation: null,
     }),
     server.create('disposition', 'withAction', {
-      dcpRecommendationsubmittedbyname: 'QNCB4',
+      fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
       dcpDateofpublichearing: null,
@@ -20,7 +20,7 @@ export default function(server) {
       dcpPublichearinglocation: null,
     }),
     server.create('disposition', 'withAction', {
-      dcpRecommendationsubmittedbyname: 'QNCB4',
+      fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
       dcpDateofpublichearing: null,
@@ -32,7 +32,7 @@ export default function(server) {
   // Array of dispositions for To Review Project 2 BP role
   const dispositionsArrayForToReview2 = [
     server.create('disposition', 'withAction', {
-      dcpRecommendationsubmittedbyname: 'QNCB4',
+      fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
       dcpDateofpublichearing: null,
@@ -40,7 +40,7 @@ export default function(server) {
       dcpPublichearinglocation: null,
     }),
     server.create('disposition', 'withAction', {
-      dcpRecommendationsubmittedbyname: 'QNCB4',
+      fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
       dcpDateofpublichearing: null,
@@ -48,7 +48,7 @@ export default function(server) {
       dcpPublichearinglocation: null,
     }),
     server.create('disposition', 'withAction', {
-      dcpRecommendationsubmittedbyname: 'QNCB4',
+      fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
       dcpDateofpublichearing: null,
@@ -60,7 +60,7 @@ export default function(server) {
   // Array of dispositions for To Review Project 2 BB role
   const dispositionsArrayForToReview3 = [
     server.create('disposition', 'withAction', {
-      dcpRecommendationsubmittedbyname: 'QNCB4',
+      fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
       dcpDateofpublichearing: null,
@@ -68,7 +68,7 @@ export default function(server) {
       dcpPublichearinglocation: null,
     }),
     server.create('disposition', 'withAction', {
-      dcpRecommendationsubmittedbyname: 'QNCB4',
+      fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
       dcpDateofpublichearing: null,
@@ -76,7 +76,7 @@ export default function(server) {
       dcpPublichearinglocation: null,
     }),
     server.create('disposition', 'withAction', {
-      dcpRecommendationsubmittedbyname: 'QNCB4',
+      fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
       dcpDateofpublichearing: null,
@@ -91,7 +91,7 @@ export default function(server) {
     dcpPublicstatusSimp: 'Filed',
     dispositions: [
       server.create('disposition', 'withAction', {
-        dcpRecommendationsubmittedbyname: 'QNBP',
+        fullname: 'QN BP',
         dcpBoroughpresidentrecommendation: null,
         dcpDatereceived: null,
       }),
@@ -170,7 +170,7 @@ export default function(server) {
           dcpPublicstatusSimp: 'Filed',
           dispositions: [
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNBP',
+              fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: null,
               dcpDatereceived: null,
             }),
@@ -208,7 +208,7 @@ export default function(server) {
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNBP',
+              fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: null,
               dcpDatereceived: null,
             }),
@@ -273,7 +273,7 @@ export default function(server) {
           dcpPublicstatusSimp: 'Filed',
           dispositions: [
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNBP',
+              fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: null,
               dcpDatereceived: null,
             }),
@@ -324,17 +324,17 @@ export default function(server) {
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNBP',
+              fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(90, 'days'),
             }),
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNCB4',
+              fullname: 'QN CB4',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNCB6',
+              fullname: 'QN CB6',
               dcpCommunityboardrecommendation: 'Disapproved',
               dcpDatereceived: moment().subtract(130, 'days'),
             }),
@@ -400,12 +400,12 @@ export default function(server) {
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNBP',
+              fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(82, 'days'),
             }),
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNCB9',
+              fullname: 'QN CB9',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
               dcpDatereceived: moment().subtract(130, 'days'),
             }),
@@ -489,12 +489,12 @@ export default function(server) {
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNBP',
+              fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNCB12',
+              fullname: 'QN CB12',
               dcpCommunityboardrecommendation: 'Waived',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),
@@ -585,17 +585,17 @@ export default function(server) {
           dcpProjectcompleted: moment().subtract(40, 'days'),
           dispositions: [
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNBP',
+              fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(90, 'days'),
             }),
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNCB4',
+              fullname: 'QN CB4',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNCB6',
+              fullname: 'QN CB6',
               dcpCommunityboardrecommendation: 'Disapproved',
               dcpDatereceived: moment().subtract(130, 'days'),
             }),
@@ -679,12 +679,12 @@ export default function(server) {
           dcpProjectcompleted: moment().subtract(140, 'days'),
           dispositions: [
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNBP',
+              fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(290, 'days'),
             }),
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNCB9',
+              fullname: 'QN CB9',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
               dcpDatereceived: moment().subtract(320, 'days'),
             }),
@@ -768,12 +768,12 @@ export default function(server) {
           dcpProjectcompleted: moment().subtract(120, 'days'),
           dispositions: [
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNBP',
+              fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
-              dcpRecommendationsubmittedbyname: 'QNCB12',
+              fullname: 'QN CB12',
               dcpCommunityboardrecommendation: 'Waived',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),

@@ -68,23 +68,17 @@ export default class HearingsListForMilestonesListComponent extends Component {
     const dispositions = milestone.get('project.dispositions');
     const milestoneParticipantReviewLookup = this.get('milestoneParticipantReviewLookup');
 
-    const filteredDispositionsArray = [];
-
     // Iterate through ALL of the current project's dispositions.
-    // Filter by IF a single disposition's dcpRecommendationsubmittedbyname matches the
+    // Filter by IF a single disposition's fullname matches the
     // current milestone's displayName based on the milestoneParticipantReviewLookup.
-    // disposition.dcpRecommendationsubmittedbyname = e.g. 'QNBP'
-    // disposition.dcpRecommendationsubmittedbyname.substring(2,4) = e.g. 'BP'
+    // disposition.fullname = e.g. 'QN BP'
+    // disposition.fullname.substring(2,4) = e.g. 'BP'
     // matching e.g. 'BP' with the milestoneParticipantReviewLookup provides 'Borough President Review'
-    dispositions.forEach(function(disposition) {
-      // make sure that dcpRecommendationsubmittedbyname is not NULL
-      if (disposition.dcpRecommendationsubmittedbyname) {
-        if (milestoneParticipantReviewLookup[milestone.displayName] === disposition.dcpRecommendationsubmittedbyname.substring(2, 4)) {
-          filteredDispositionsArray.push(disposition);
-        }
-      }
+    return dispositions.filter(function(disposition) {
+      // make sure we aren't grabbing any null values; null values break substring
+      const participantType = disposition.fullname != null ? disposition.fullname.substring(3, 5) : '';
+      return milestoneParticipantReviewLookup[milestone.displayName] === participantType;
     });
-    return filteredDispositionsArray;
   }
 
   // An array of objects that contain the `landUseParticipantFullName` value and an array of dispositions that match that landUseParticipantFullName
@@ -102,7 +96,7 @@ export default class HearingsListForMilestonesListComponent extends Component {
 
     const currentMilestoneDispositions = this.get('currentMilestoneDispositions');
 
-    // Map new object where recommendationSubmittedByFullName property on disposition
+    // Map new object where fullname property on disposition
     // is easily accessible as landUseParticipantFullName.
     // When deduplicated, userDispositions will be an array of ALL dispositions
     // associated with ONE landUseParticipantFullName.
@@ -111,15 +105,16 @@ export default class HearingsListForMilestonesListComponent extends Component {
     // This participantRecommendationType is passed into `deduped-votes-list` to assure that we are deduplicating
     // by the correct recommenation field.
     const milestoneParticipants = currentMilestoneDispositions.map(disp => ({
-      landUseParticipantFullName: disp.recommendationSubmittedByFullName,
+      landUseParticipantFullName: disp.fullNameLongFormat,
+      // field used for making sure we're grabbing the correct recommendation field
       participantRecommendationType: partRecType, // e.g. 'dcpCommunityboardrecommendation'
-      landUseParticipantType: disp.dcpRecommendationsubmittedbyname.substring(2, 4), // e.g. 'CB'
+      // field for knowing the "type" of the current participant
+      landUseParticipantType: disp.fullname.substring(3, 5), // e.g. 'CB'
       disposition: disp,
       userDispositions: [disp],
       hearingsSubmitted: false,
       hearingsWaived: false,
     }));
-
 
     // deduplicate based on landUseParticipantFullName property
     // concatenate all dispositions associated with that participant in userDispositions
