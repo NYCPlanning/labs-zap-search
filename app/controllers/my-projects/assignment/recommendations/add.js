@@ -104,6 +104,8 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   // currently only used to name the universal queue
   queueName = 'recommendation';
 
+  isSubmitting = false;
+
   submitError = false;
 
   // Returns an object with an entry for each disposition and its corresponding file queue.
@@ -291,6 +293,8 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
    */
   @action
   async submitRecommendations() {
+    this.set('isSubmitting', true);
+
     // array of true/false values each representing succesful upload of files to a disposition
     const uploadResults = [];
 
@@ -316,6 +320,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       }
     } catch (e) {
       this.set('submitError', true);
+      this.set('isSubmitting', false);
       console.log(e); // eslint-disable-line
     }
 
@@ -362,9 +367,11 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
         });
         this.set('modalOpen', false);
         this.set('submitError', false);
+        this.set('isSubmitting', false);
         this.transitionToRoute('my-projects.assignment.recommendations.done');
       } catch (e) {
         this.set('submitError', true);
+        this.set('isSubmitting', false);
         console.log(e); // eslint-disable-line
       }
     }
