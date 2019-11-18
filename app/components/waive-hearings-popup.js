@@ -15,7 +15,7 @@ export default class WaiveHearingsPopupComponent extends Component {
       await dispositions.save();
       this.set('showPopup', false);
     } catch (e) {
-      dispositions.setEach('dcpIspublichearingrequired', '');
+      dispositions.setEach('dcpIspublichearingrequired', null);
       this.set('error', e);
     }
   }

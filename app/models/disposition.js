@@ -13,6 +13,11 @@ export const STATUSCODES = [
   { Label: 'Not Submitted', Value: 717170002 },
 ];
 
+export const STATECODES = [
+  { Label: 'Active', Value: 0 },
+  { Label: 'Inactive', Value: 1 },
+];
+
 // mirrors @attr but allows for computed a
 // value for serialization
 export function attrComputed(...keys) {
@@ -63,11 +68,11 @@ export default class DispositionModel extends Model {
   // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
-  @attr('number') dcpBoroughpresidentrecommendation;
+  @attr('number', { defaultValue: null }) dcpBoroughpresidentrecommendation;
 
-  @attr('number') dcpBoroughboardrecommendation;
+  @attr('number', { defaultValue: null }) dcpBoroughboardrecommendation;
 
-  @attr('number') dcpCommunityboardrecommendation;
+  @attr('number', { defaultValue: null }) dcpCommunityboardrecommendation;
 
   // sourced from dcp_dcpConsideration
   // memo, exta information from participant
@@ -84,10 +89,6 @@ export default class DispositionModel extends Model {
   // potentially switch back to "Date" attribute type, if compatible with
   // backend
   @attr('date', { defaultValue: null }) dcpDateofvote;
-
-  // sourced from statecode
-  // "Active" vs "Inactive"
-  @attr('string') statecode;
 
   // sourced from statuscode
   // Label: 'Draft', 'Value': 1
@@ -107,6 +108,16 @@ export default class DispositionModel extends Model {
     ) return STATUSCODES.findBy('Label', 'Saved').Value;
 
     return STATUSCODES.findBy('Label', 'Draft').Value;
+  }
+
+  @attrComputed('statuscode')
+  get statecode() {
+    if (
+      STATUSCODES.findBy('Value', this.statuscode).Label === 'Saved'
+      || STATUSCODES.findBy('Value', this.statuscode).Label === 'Draft'
+    ) return STATECODES.findBy('Label', 'Active').Value;
+
+    return STATECODES.findBy('Label', 'Inactive').Value;
   }
 
   // sourced from dcp_docketdescription
