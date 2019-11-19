@@ -28,12 +28,12 @@ export default Factory.extend({
 
   dcpCommunityboardrecommendation: null,
 
-  statecode(i) {
-    return faker.list.random('Active', 'Inactive')(i);
+  fullname(i) {
+    return faker.list.random('QN BB', 'MN BP', 'BK CB14')(i);
   },
 
-  dcpRecommendationsubmittedbyname(i) {
-    return faker.list.random('QNBB', 'MNBP', 'QNCB5')(i);
+  statecode(i) {
+    return faker.list.random('Active', 'Inactive')(i);
   },
 
   statuscode: null,
