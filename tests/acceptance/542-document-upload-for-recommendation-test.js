@@ -128,4 +128,36 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
 
     assert.equal(currentURL(), '/my-projects/1/recommendations/done');
   });
+
+  test('Assert credentials in request body', async function (assert) {
+    setUpProjectAndDispos(server, 'CB');
+
+    await authenticateSession();
+
+    // Fill in all form fields except for documents
+    await visit('/my-projects/1/recommendations/add');
+    await click('[data-test-quorum-yes="0"]');
+    await click('[data-test-quorum-no="1"]');
+    await click('[data-test-all-actions-yes]');
+    await find('[data-test-all-actions-recommendation-select]');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
+    await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
+    await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
+    await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
+    await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
+    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
+
+    const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });
+
+    // https://github.com/adopted-ember-addons/ember-file-upload/blob/master/addon-test-support/index.js
+    await upload('#recommendationFileUpload > input', file);
+
+    await click('[data-test-continue]');
+
+    await click('[data-test-submit]');
+
+    assert.ok(this.server.pretender.handledRequests.every(req => req.withCredentials));
+  });
 });

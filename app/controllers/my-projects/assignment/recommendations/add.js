@@ -300,6 +300,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
         const fileUploadPromises = this.queuesByDisposition[disposition.id].files.map(file => file.upload(`${ENV.host}/document`, {
           fileKey: 'file',
+          withCredentials: true,
           data: {
             instanceId: disposition.id,
             entityName: 'dcp_communityboarddisposition',
