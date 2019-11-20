@@ -55,7 +55,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     await visit('/my-projects/to-review');
 
-    assert.ok('[data-test-button="submitHearing"]');
+    assert.ok('[data-test-button-post-hearing="4"]');
 
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
     assert.notOk(find('[data-test-button="closeOptOutHearingPopup"]'));
@@ -69,7 +69,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
 
-    assert.ok(find('[data-test-hearings-waived-message]'));
+    assert.ok(find('[data-test-hearings-waived-message="4"]'));
     assert.ok(find('[data-test-button="submitRecommendation"]'));
 
     assert.equal(this.server.db.dispositions.firstObject.dcpIspublichearingrequired, 'No');
@@ -79,24 +79,6 @@ module('Acceptance | user can waive hearings', function(hooks) {
     assert.equal(currentURL(), '/my-projects/4/recommendations/add');
 
     assert.ok(find('[data-test-hearings-waived-message]'));
-  });
-
-  test('button for hearing submission does not show if there are no dispositions', async function(assert) {
-    this.server.create('assignment', {
-      id: 4,
-      tab: 'upcoming',
-      user: this.server.create('user'),
-      dispositions: [],
-      project: this.server.create('project', {
-        id: 4,
-      }),
-    });
-
-    await authenticateSession();
-
-    await visit('/my-projects/upcoming');
-
-    assert.notOk(find('[data-test-button="submitHearing"]'));
   });
 
   test('user can waive hearings on upcoming page', async function(assert) {
@@ -125,7 +107,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     await visit('/my-projects/upcoming');
 
-    assert.ok('[data-test-button="submitHearing"]');
+    assert.ok('[data-test-button-post-hearing="4"]');
 
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
     assert.notOk(find('[data-test-button="closeOptOutHearingPopup"]'));
@@ -140,6 +122,8 @@ module('Acceptance | user can waive hearings', function(hooks) {
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
 
     assert.notOk(find('[data-test-button="optOutHearingOpenPopup"]'));
+
+    assert.ok(find('[data-test-hearings-waived-message="4"]'));
 
     assert.equal(this.server.db._collections[2]._records[0].dcpIspublichearingrequired, 'No');
   });

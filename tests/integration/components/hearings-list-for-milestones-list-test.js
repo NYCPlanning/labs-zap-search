@@ -8,7 +8,7 @@ import EmberObject from '@ember/object';
 module('Integration | Component | hearings-list-for-milestones-list', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('check that hearings list renders when user has submitted hearings on upcoming tab', async function(assert) {
+  test('check that hearings list renders when user has submitted hearings on archive tab', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
@@ -16,7 +16,7 @@ module('Integration | Component | hearings-list-for-milestones-list', function(h
 
     const assignment = store.createRecord('assignment', {
       id: 5,
-      tab: 'upcoming',
+      tab: 'archive',
       publicReviewPlannedStartDate: new Date('2020-10-21T01:30:00'),
       user: store.createRecord('user', {
         name: 'Peter Pan',
@@ -149,12 +149,11 @@ module('Integration | Component | hearings-list-for-milestones-list', function(h
       }),
     });
 
-
     this.set('assignment', assignment);
 
     await render(hbs`
-      {{#upcoming-project-card assignment=assignment}}
-      {{/upcoming-project-card}}
+      {{#archive-project-card assignment=assignment}}
+      {{/archive-project-card}}
       <div id="reveal-modal-container"></div>
     `);
 
