@@ -2,7 +2,7 @@
 command = "HOST_API=https://zap-api.herokuapp.com yarn build --environment=production"
 
 [build]
-command = "LUPP_ENABLED=true HOST_API=https://zap-api-preview.herokuapp.com yarn build --environment=production"
+command = "LUPP_ENABLED=true HOST_API=https://zap-api-preview.herokuapp.com NYCID_CLIENT_ID=zap_preview yarn build --environment=production"
 
 [context.develop-future]
 command = "LUPP_ENABLED=true HOST_API=https://zap-api-staging.herokuapp.com yarn build --environment=production"
