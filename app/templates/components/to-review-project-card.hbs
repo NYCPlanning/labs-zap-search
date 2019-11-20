@@ -45,7 +45,7 @@
               @route="my-projects.assignment.hearing.add"
               @model={{assignment}}
               class="button expanded tiny-margin-bottom"
-              data-test-button="submitHearing"
+              data-test-button-post-hearing="{{assignment.id}}"
             >
               {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
               Post {{participant-type-label assignment.dcpLupteammemberrole}} Hearing Notice

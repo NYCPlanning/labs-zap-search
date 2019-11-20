@@ -32,6 +32,7 @@
       <ul class="no-bullet no-margin">
         {{#each assignment.tabSpecificMilestones as |milestone|}}
           <ArchiveProjectMilestoneListItem
+            data-test-milestone-id="{{milestone.id}}"
             @project={{this.assignment.project}}
             @milestone={{milestone}}
           />
