@@ -9,3 +9,6 @@ command = "LUPP_ENABLED=true HOST_API=https://zap-api-staging.herokuapp.com yarn
 
 [context.uat-testers]
 command = "MIRAGE_SCENARIO=borough-president yarn build --environment=development"
+
+[context.deploy-preview]
+command = "MIRAGE_SCENARIO=borough-president yarn build --environment=development"
