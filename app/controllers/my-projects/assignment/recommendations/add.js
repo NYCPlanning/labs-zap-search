@@ -346,6 +346,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
           });
         }
         disposition.setProperties({
+          dcpDatereceived: new Date(), // time when user submits recommendation
           dcpVotelocation: this.dispositionForAllActions.dcpVotelocation,
           dcpDateofvote: this.dispositionForAllActions.dcpDateofvote,
         });
@@ -363,6 +364,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
           dcpVotelocation: null,
           dcpDateofvote: null,
           dcpConsideration: null,
+          dcpDatereceived: null,
         });
         this.set('modalOpen', false);
         this.set('submitError', false);
