@@ -158,7 +158,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
 
     const card = this.element.textContent.trim();
 
-    assert.ok(card.includes("You've opted out of noticing a public hearing."));
+    assert.ok(card.includes("You've opted out of posting a hearing"));
     assert.notOk(card.includes('Opt out'));
     assert.notOk(card.includes('Post Community Board Hearing Notice'));
   });

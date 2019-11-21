@@ -1,37 +1,39 @@
+{{!--
+  Docs for ember-file-upload is here:
+  https://adopted-ember-addons.github.io/ember-file-upload/docs
+--}}
 <fieldset class="medium-margin-bottom">
-
   <legend>
     <strong>
       Upload supporting documents
     </strong>
   </legend>
-
   <div class="grid-x grid-margin-x">
     <div class="cell medium-shrink">
-
       <FileUpload
-        @name='files'
+        id={{concat this.queueName "FileUpload"}}
+        @name={{concat this.queueName}}
         @accept='*/*'
-        @multiple=true
-        @onfileadd={{action 'uploadFile'}}
+        @multiple={{true}}
+        @onfileadd={{this.onFileAdd}}
         class="button gray no-margin"
-        data-recommendation-upload-file-label
       >
         {{fa-icon 'upload'}} Choose Files
       </FileUpload>
-
     </div>
     <div class="cell auto">
-
       <ul>
-        {{#with (file-queue name="files") as |queue|}}
+        {{#with (file-queue name=this.queueName) as |queue|}}
           {{#each queue.files as |file|}}
-            <li data-test-file-name={{file.name}}>{{file.name}} <small>({{file.type}})</small></li>
+            <li data-test-file-name={{file.name}}>
+              {{file.name}}
+              <small>
+                ({{file.type}})
+              </small>
+            </li>
           {{/each}}
         {{/with}}
       </ul>
-
     </div>
   </div>
-
 </fieldset>

@@ -17,12 +17,12 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     // DISPOSITIONS THAT REPRESENT THE MODEL'S DISPOSITIONS ARRAY (project.dispositions)
     const disp1 = disp.create({
-      id: 1,
+      id: '1',
       dcpWasaquorumpresent: null,
     });
 
     const disp2 = disp.create({
-      id: 2,
+      id: '2',
       dcpWasaquorumpresent: null,
     });
 
@@ -42,15 +42,15 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     // DISPOSITIONS THAT REPRESENT THE OBJECTS WITHIN THE dedupedHearings ARRAY
     // a dedupedHearing object that has 3 duplicate dispositions
     const dedupedHearing1 = disp.create({
-      id: 1,
+      id: '1',
       dcpWasaquorumpresent: null,
       duplicateDisps: [
         disp.create({
-          id: 1,
+          id: '1',
           dcpWasaquorumpresent: null,
         }),
         disp.create({
-          id: 2,
+          id: '2',
           dcpWasaquorumpresent: null,
         }),
         disp.create({
@@ -154,11 +154,20 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     controller.transitionToRoute = function() { return true; };
 
+    controller.set('queuesByDisposition', {
+      1: {
+        files: [],
+      },
+      2: {
+        files: [],
+      },
+    });
+
     controller.set('allActions', true);
 
     controller.set('model', { dcpLupteammemberrole: 'CB' });
 
-    controller.set('dispositions', [EmberObject.create(), EmberObject.create()]);
+    controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
 
     controller.dispositions[0].save = function() {
       return true;
@@ -176,7 +185,7 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     controller.dispositionForAllActionsChangeset.set('dcpDateofvote', '11/11/2019');
     controller.dispositionForAllActionsChangeset.set('dcpConsideration', 'My All Actions Consideration');
 
-    controller.submitRecommendations();
+    await controller.submitRecommendations();
 
     assert.equal(controller.dispositions[0].dcpCommunityboardrecommendation, 717170002, 'submitRecommendations saved to dcpCommunityboardrecommendation field for dispo 1');
     assert.equal(controller.dispositions[0].dcpVotinginfavorrecommendation, 1, 'submitRecommendations saved to dcpVotinginfavorrecommendation field for dispo 1');
@@ -203,11 +212,20 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     controller.transitionToRoute = function() { return true; };
 
+    controller.set('queuesByDisposition', {
+      1: {
+        files: [],
+      },
+      2: {
+        files: [],
+      },
+    });
+
     controller.set('allActions', false);
 
     controller.set('model', { dcpLupteammemberrole: 'CB' });
 
-    controller.set('dispositions', [EmberObject.create(), EmberObject.create()]);
+    controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
 
     controller.dispositions[0].save = function() {
       return true;
@@ -233,7 +251,7 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     controller.dispositionsChangesets[1].set('dcpTotalmembersappointedtotheboard', 1);
     controller.dispositionsChangesets[1].set('dcpConsideration', 'My dispositionChangeset 1 Consideration');
 
-    controller.submitRecommendations();
+    await controller.submitRecommendations();
 
     assert.equal(controller.dispositions[0].dcpCommunityboardrecommendation, 717170002, 'submitRecommendations saved to dcpCommunityboardrecommendation field for dispo 1');
     assert.equal(controller.dispositions[0].dcpVotinginfavorrecommendation, 1, 'submitRecommendations saved to dcpVotinginfavorrecommendation field for dispo 1');
@@ -252,40 +270,5 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
     assert.equal(controller.dispositions[1].dcpVotelocation, 'Atlantic Ave', 'submitRecommendations saved to dcpVotelocation field for dispo 2');
     assert.equal(controller.dispositions[1].dcpDateofvote, '11/11/2019', 'submitRecommendations saved to dcpDateofvote field for dispo 2');
     assert.equal(controller.dispositions[1].dcpConsideration, 'My dispositionChangeset 1 Consideration', 'submitRecommendations saved to dcpConsideration field for dispo 2');
-  });
-
-  test('statuscode is set to Submitted when user submits recommendation', async function(assert) {
-    const controller = this.owner.lookup('controller:my-projects/assignment/recommendations/add');
-    assert.ok(controller);
-
-    const modelObject = EmberObject.extend({});
-
-    const disp1 = modelObject.create({
-      id: 1,
-      statuscode: '',
-    });
-
-    const disp2 = modelObject.create({
-      id: 2,
-      statuscode: '',
-    });
-
-    const dispositions = [disp1, disp2];
-
-    // set the transitionToRoute action
-    controller.transitionToRoute = function(route) {
-      assert.equal(route, 'my-projects/assignment/recommendations/done');
-    };
-
-    controller.dispositions = dispositions;
-
-    assert.equal(controller.dispositions[0].statuscode, '');
-    assert.equal(controller.dispositions[1].statuscode, '');
-
-    assert.ok(controller.submitRecommendations);
-
-    controller.submitRecommendations();
-    assert.equal(controller.dispositions[0].statuscode, 'Submitted');
-    assert.equal(controller.dispositions[1].statuscode, 'Submitted');
   });
 });

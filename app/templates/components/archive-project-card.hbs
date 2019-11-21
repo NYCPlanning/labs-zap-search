@@ -32,6 +32,7 @@
       <ul class="no-bullet no-margin">
         {{#each assignment.tabSpecificMilestones as |milestone|}}
           <ArchiveProjectMilestoneListItem
+            data-test-milestone-id="{{milestone.id}}"
             @project={{this.assignment.project}}
             @milestone={{milestone}}
           />
@@ -62,10 +63,12 @@
                           </small>
                           <span class="display-inline-block text-tiny">
                             {{#each hearing.hearingActions as |action index|}}
-                              <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
-                                {{action.dcpName}}
-                                <small>{{action.dcpUlurpnumber}}</small>
-                              </span>
+                              {{#if action.dcpName}}
+                                <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
+                                  {{action.dcpName}}
+                                  <small>{{action.dcpUlurpnumber}}</small>
+                                </span>
+                              {{/if}}
                             {{/each}}
                           </span>
                         </div>

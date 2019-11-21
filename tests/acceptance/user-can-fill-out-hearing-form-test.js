@@ -584,7 +584,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       dispositions: [
         server.create('disposition', {
           id: 17,
-          dcpPublichearinglocation: null,
+          dcpPublichearinglocation: '',
           dcpDateofpublichearing: null, // when this field is null
         }),
       ],
@@ -622,5 +622,87 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     await click('[data-test-button="confirmHearing"]');
 
     assert.equal(currentURL(), '/my-projects/4/hearing/done');
+  });
+
+  test('user can submit hearing on upcoming tab', async function(assert) {
+    this.server.create('assignment', {
+      id: 4,
+      tab: 'upcoming',
+      dispositions: [
+        server.create('disposition', {
+          id: 1,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
+        }),
+        server.create('disposition', {
+          id: 2,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+          action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        }),
+      ],
+      project: this.server.create('project', {
+        id: 4,
+      }),
+    });
+
+    await visit('/my-projects/upcoming');
+
+    await click('[data-test-button-post-hearing="4"]');
+
+    // user selects radio button for a SINGLE hearing for ALL actions
+    await click('[data-test-radio="all-action-yes"]');
+
+    await fillIn('[data-test-allactions-input="location"]', '121 Bananas Ave, Queens, NY');
+
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="location"]', 'keyup');
+
+    await click('[data-test-allactions-input="date"]');
+
+    const hearingDate = new Date('2020-10-21T00:00:00'); // Wednesday, October 21, 2020
+    await Pikaday.selectDate(hearingDate);
+
+    await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'AM');
+    await fillIn('[data-test-allactions-input="hour"]', 5);
+    await fillIn('[data-test-allactions-input="minute"]', 35);
+
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    await click('[data-test-button="checkHearing"]');
+
+    await click('[data-test-button="confirmHearing"]');
+
+    assert.equal(currentURL(), '/my-projects/4/hearing/done');
+
+    await click('[data-test-button="back-to-review"]');
+
+    await click('[data-test-tab-button="upcoming"]');
+
+    assert.equal(currentURL(), '/my-projects/upcoming');
+
+    assert.equal(this.element.querySelector('[data-test-hearing-location="1"]').textContent, '121 Bananas Ave, Queens, NY');
+    assert.ok(this.element.querySelector('[data-test-hearing-date="1"]').textContent.includes('10/21/2020'));
+    assert.ok(this.element.querySelector('[data-test-hearing-time="1"]').textContent.includes('5:35 AM'));
+    assert.ok(this.element.querySelector('[data-test-hearing-actions-list="1"]').textContent.includes('Zoning Special Permit'));
+    assert.ok(this.element.querySelector('[data-test-hearing-actions-list="1"]').textContent.includes('Zoning Text Amendment'));
+  });
+
+  test('button for hearing submission does not show if there are no dispositions', async function(assert) {
+    this.server.create('assignment', {
+      id: 4,
+      tab: 'upcoming',
+      user: this.server.create('user'),
+      dispositions: [],
+      project: this.server.create('project', {
+        id: 4,
+      }),
+    });
+
+    await visit('/my-projects/upcoming');
+
+    assert.notOk(find('[data-test-button-post-hearing="4"]'));
   });
 });

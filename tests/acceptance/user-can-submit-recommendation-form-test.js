@@ -12,7 +12,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import moment from 'moment';
 
-// First project will have 3 dispos with hearings, second project will have 1 dispo without hearing
+// First assignment will have 3 dispos with hearings, second assignment will have 1 dispo without hearing
 function setUpProjectAndDispos(server, participantType) {
   server.create('user', {
     id: 1,
@@ -514,5 +514,82 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await click('[data-test-submit]');
 
     assert.equal(currentURL(), '/my-projects/4/recommendations/done');
+  });
+
+  test('dcpDatereceived value is calculated as current date when user submits a recommendation for allActions', async function(assert) {
+    setUpProjectAndDispos(server, 'BP');
+
+    await authenticateSession();
+
+    await visit('/my-projects/1/recommendations/add');
+
+    await click('[data-test-quorum-yes="0"]');
+
+    await click('[data-test-quorum-no="1"]');
+
+    await click('[data-test-all-actions-yes]');
+
+    await find('[data-test-all-actions-recommendation-select]');
+
+    await selectChoose('[data-test-all-actions-recommendation]', 'Favorable');
+
+    await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
+
+    await click('[data-test-continue]');
+
+    await click('[data-test-submit]');
+
+    assert.equal(currentURL(), '/my-projects/1/recommendations/done');
+
+    const currentDate = new Date();
+    const dateFormatted = moment(currentDate).format('mm-dd-yyyy');
+
+    const dcpDatereceivedFormatted_1 = moment(this.server.db.dispositions[0].dcpDatereceived).format('mm-dd-yyyy');
+    const dcpDatereceivedFormatted_2 = moment(this.server.db.dispositions[1].dcpDatereceived).format('mm-dd-yyyy');
+    const dcpDatereceivedFormatted_3 = moment(this.server.db.dispositions[2].dcpDatereceived).format('mm-dd-yyyy');
+
+    assert.equal(dcpDatereceivedFormatted_1, dateFormatted);
+    assert.equal(dcpDatereceivedFormatted_2, dateFormatted);
+    assert.equal(dcpDatereceivedFormatted_3, dateFormatted);
+  });
+
+  test('dcpDatereceived value is calculated as current date when user submits one recommendation for each action', async function(assert) {
+    setUpProjectAndDispos(server, 'BP');
+
+    await authenticateSession();
+
+    await visit('/my-projects/1/recommendations/add');
+
+    await click('[data-test-quorum-no="0"]');
+
+    await click('[data-test-quorum-yes="1"]');
+
+    await click('[data-test-all-actions-no]');
+
+    await selectChoose('[data-test-each-action-recommendation="0"]', 'Favorable');
+    await fillIn('[data-test-each-action-dcpConsideration="0', 'My comment for dcpConsideration 0');
+
+    await selectChoose('[data-test-each-action-recommendation="1"]', 'Conditional Favorable');
+    await fillIn('[data-test-each-action-dcpConsideration="1', 'My comment for dcpConsideration 1');
+
+    await selectChoose('[data-test-each-action-recommendation="2"]', 'Waiver of Recommendation');
+    await fillIn('[data-test-each-action-dcpConsideration="2', 'My comment for dcpConsideration 2');
+
+    await click('[data-test-continue]');
+
+    await click('[data-test-submit]');
+
+    assert.equal(currentURL(), '/my-projects/1/recommendations/done');
+
+    const currentDate = new Date();
+    const dateFormatted = moment(currentDate).format('mm-dd-yyyy');
+
+    const dcpDatereceivedFormatted_1 = moment(this.server.db.dispositions[0].dcpDatereceived).format('mm-dd-yyyy');
+    const dcpDatereceivedFormatted_2 = moment(this.server.db.dispositions[1].dcpDatereceived).format('mm-dd-yyyy');
+    const dcpDatereceivedFormatted_3 = moment(this.server.db.dispositions[2].dcpDatereceived).format('mm-dd-yyyy');
+
+    assert.equal(dcpDatereceivedFormatted_1, dateFormatted);
+    assert.equal(dcpDatereceivedFormatted_2, dateFormatted);
+    assert.equal(dcpDatereceivedFormatted_3, dateFormatted);
   });
 });

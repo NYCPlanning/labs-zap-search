@@ -1,5 +1,4 @@
 import { helper } from '@ember/component/helper';
-import ENV from 'labs-zap-search/config/environment';
 
 function pad(string, size) {
   while (string.length < (size || 2)) { string = `0${string}`; }
@@ -57,10 +56,6 @@ function acris(bbl) {
   return `http://a836-acris.nyc.gov/bblsearch/bblsearch.asp?borough=${boro}&block=${block}&lot=${lot}`;
 }
 
-function ceqraccess(ceqrnumber) {
-  return `${ENV.host}/ceqr/${ceqrnumber}`;
-}
-
 function LowerCaseBorough(borough) {
   const boroText = borough.replace(/\s/g, '-');
   return boroText.toLowerCase();
@@ -77,7 +72,6 @@ export function buildUrl([type, value, option]) {
   if (type === 'bisweb') return bisweb(value);
   if (type === 'cpcReport') return cpcReport(value);
   if (type === 'acris') return acris(value);
-  if (type === 'ceqraccess') return ceqraccess(value);
   if (type === 'CommProfiles') return CommProfiles(value, option);
 
 

@@ -37,6 +37,40 @@
       </div>
     </div>
     <div class="cell medium-8 large-auto">
+
+      {{#if assignment.hearingsNotSubmittedNotWaived}}
+        <div class="grid-x">
+          <div class="cell medium-auto">
+            <LinkTo
+              @route="my-projects.assignment.hearing.add"
+              @model={{assignment}}
+              class="button expanded tiny-margin-bottom"
+              data-test-button-post-hearing="{{assignment.id}}"
+            >
+              {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
+              Post {{participant-type-label assignment.dcpLupteammemberrole}} Hearing Notice
+            </LinkTo>
+          </div>
+          <div class="cell medium-shrink">
+            <button
+              class="button expanded gray"
+              onClick={{action "openOptOutHearingPopup"}}
+              data-test-button="optOutHearingOpenPopup"
+            >
+              {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
+              <small>Opt Out</small>
+            </button>
+          </div>
+        </div>
+      {{else}}
+        {{#if assignment.hearingsWaived}}
+          <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
+            {{fa-icon 'calendar-times' size="lg" transform="left-2"}}
+            You've opted out of posting a hearing
+          </span>
+        {{/if}}
+      {{/if}}
+
       {{#if assignment.hearingsSubmittedOrWaived}}
         <LinkTo @route="my-projects.assignment.recommendations.add"
           @model={{assignment}}
@@ -47,10 +81,14 @@
           {{fa-icon 'thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
           Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
         </LinkTo>
+      {{else}}
+        <a class="button expanded" disabled>
+          {{fa-icon 'thumbs-up' fixedWidth=true size="lg"}}
+          {{fa-icon 'thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
+          Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
+        </a>
       {{/if}}
-      {{#if assignment.hearingsWaived}}
-        <span data-test-hearings-waived-message="{{assignment.project.id}}">You've opted out of noticing a public hearing.</span>
-      {{/if}}
+      {{waive-hearings-popup assignment=assignment showPopup=showPopup}}
 
       {{#if assignment.hearingsSubmitted}}
         {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}
@@ -82,10 +120,12 @@
 
                     <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
                       {{#each hearing.hearingActions as |action index| ~}}
-                        <span class="label light-gray tiny-margin-bottom tiny-margin-right">
-                          {{action.dcpName}}
-                          <small>{{action.dcpUlurpnumber}}</small>
-                        </span>
+                        {{#if action.dcpName}}
+                          <span class="label light-gray tiny-margin-bottom tiny-margin-right">
+                            {{action.dcpName}}
+                            <small>{{action.dcpUlurpnumber}}</small>
+                          </span>
+                        {{/if}}
                       {{~/each}}
                     </small>
                   </div>
@@ -95,32 +135,6 @@
         {{/deduped-hearings-list}}
       {{/if}}
 
-      {{#if assignment.hearingsNotSubmittedNotWaived}}
-        <div class="grid-x">
-          <div class="cell medium-auto">
-            <LinkTo
-              @route="my-projects.assignment.hearing.add"
-              @model={{assignment}}
-              class="button expanded tiny-margin-bottom"
-              data-test-button="submitHearing"
-            >
-              {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
-              Post {{participant-type-label assignment.dcpLupteammemberrole}} Hearing Notice
-            </LinkTo>
-          </div>
-          <div class="cell medium-shrink">
-            <button
-              class="button expanded gray"
-              onClick={{action "openOptOutHearingPopup"}}
-              data-test-button="optOutHearingOpenPopup"
-            >
-              {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
-              <small>Opt Out</small>
-            </button>
-            {{waive-hearings-popup assignment=assignment showPopup=showPopup}}
-          </div>
-        </div>
-      {{/if}}
     </div>
   </div>
 </div>

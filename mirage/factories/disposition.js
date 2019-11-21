@@ -28,17 +28,15 @@ export default Factory.extend({
 
   dcpCommunityboardrecommendation: null,
 
+  fullname(i) {
+    return faker.list.random('QN BB', 'MN BP', 'BK CB14')(i);
+  },
+
   statecode(i) {
     return faker.list.random('Active', 'Inactive')(i);
   },
 
-  dcpRecommendationsubmittedbyname(i) {
-    return faker.list.random('QNBB', 'MNBP', 'QNCB5')(i);
-  },
-
-  statuscode(i) {
-    return faker.list.random('Draft', 'Saved', 'Submitted', 'Deactivated', 'Not Submitted')(i);
-  },
+  statuscode: null,
 
   submitted: trait({
     dcpConsideration() {

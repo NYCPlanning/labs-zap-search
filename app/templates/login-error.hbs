@@ -8,6 +8,13 @@
 
         {{#each model.errors as |error idx|}}
           <p data-test-error-message={{idx}}>{{error.detail}}</p>
+          {{#if (not error.detail)}}
+            {{#each-in error as |key value|}}
+              <p>
+                {{key}}: {{value}}
+              </p>
+            {{/each-in}}
+          {{/if}}
         {{/each}}
 
         {{auth/do-logout}}

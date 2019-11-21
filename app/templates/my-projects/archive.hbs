@@ -1,7 +1,24 @@
-<h4>Archive of projects that you have reviewed which are no longer in the public review process</h4>
+<h4>
+  Archive:
+  <span class="text-weight-normal">Projects that you have reviewed which are no longer in the public review process</span>
+</h4>
 
-{{#each sortedAssignments as |assignment|}}
-  <ArchiveProjectCard @assignment={{assignment}} />
-{{/each}}
+{{#if this.model}}
+  {{#each sortedAssignments as |assignment|}}
+    <ArchiveProjectCard @assignment={{assignment}} />
+  {{/each}}
+{{else}}
+  <div class="grid-x grid-padding-x grid-padding-y align-bottom" style="min-height: 20vh">
+    <div class="cell large-10 large-offset-1 xlarge-8 xlarge-offset-2  text-center">
+      <h2 class="charcoal">You currently have no archived&nbsp;projects.</h2>
+    </div>
+  </div>
+{{/if}}
+
+<div class="grid-x grid-padding-x grid-padding-y">
+  <div class="cell large-10 large-offset-1 xlarge-8 xlarge-offset-2  text-center">
+    <p class="">If something has gone wrong, or you believe projects are missing from this&nbsp;list, please contact City Planning at <a href="mailto:ZAP_feedback_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a> or 212-720-3300.</p>
+  </div>
+</div>
 
 {{outlet}}

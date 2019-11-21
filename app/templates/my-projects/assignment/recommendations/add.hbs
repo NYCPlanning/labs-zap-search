@@ -156,7 +156,7 @@
                     data-test-all-actions-recommendation
                   >
                     <PowerSelect
-                      @searchEnabled={{false}}
+                      @searchField='label'
                       @options={{this.recOptions}}
                       @placeholder="Select a recommendation"
                       @selected={{recommendation-label-lookup participantType this.dispositionForAllActionsChangeset.recommendation objectMode=true}}
@@ -287,10 +287,10 @@
                     data-test-each-action-recommendation={{idx}}
                   >
                     <PowerSelect
-                      @searchEnabled={{false}}
+                      @searchField='label'
                       @options={{this.recOptions}}
                       @placeholder="Select a recommendation"
-                      @selected={{get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType)}}
+                      @selected={{recommendation-label-lookup this.participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType objectMode=true)) objectMode=true}}
                       @onchange={{action "setDispositionChangesetRec" dispositionChangesetPair.changeset}}
                       as |recOption|
                     >
@@ -404,6 +404,7 @@
                     </label>
                     <Textarea
                       @id={{concat "disposition-" (concat idx "-dcpConsideration")}}
+                      @maxlength=2000
                       @value={{dispositionChangesetPair.changeset.dcpConsideration}}
                       @placeholder="Add a Recommendation comment for this action here."
                       @rows="4"
@@ -438,6 +439,7 @@
                     <Input
                       @id="all-actions-vote-location"
                       @type="text"
+                      @maxlength=100
                       @placeholder="Add a location"
                       @autocomplete="off"
                       @value={{this.dispositionForAllActionsChangeset.dcpVotelocation}}
@@ -458,6 +460,7 @@
                     </label>
                     <PikadayInput
                       @id="all-actions-vote-date"
+                      @readonly="readonly"
                       @placeholder='Select a date'
                       @value={{this.dispositionForAllActionsChangeset.dcpDateofvote}}
                       @format='MM/DD/YYYY'
@@ -483,6 +486,7 @@
                 </label>
                 <Textarea
                   @id="all-actions-dcpConsideration"
+                  @maxlength=2000
                   @value={{this.dispositionForAllActionsChangeset.dcpConsideration}}
                   @placeholder="Add Recommendation comment for all actions here."
                   @rows="4"
@@ -494,7 +498,10 @@
                 </span>
               </fieldset>
             {{/if}}
-            <RecommendationUploadFile/>
+            <DocumentUploadForm
+              @queueName={{this.queueName}}
+              @onFileAdd={{this.addFileToDispositionQueues}}
+            />
             <hr>
             <fieldset class="medium-margin-bottom">
               <button
@@ -510,169 +517,204 @@
 
           {{#ember-wormhole to="reveal-modal-container"}}
             {{#confirmation-modal open=modalOpen}}
-              <h3 class="large-margin-right">Please confirm your recommendation information.</h3>
-              {{#unless assignment.hearingsWaived}}
-                <h5
-                  data-test-confirmation-quorum-answer
+              {{#if this.isSubmitting}}
+                <div
+                  class="text-center large-margin-top large-padding-top" style="padding:3rem 0;"
                 >
-                  Was a Quorum Present at your Hearing(s)?
-                </h5>
-                {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}
-                  {{#each dedupedHearings as |hearing idx|}}
-                    <p class="grid-x">
-                      <strong class="cell small-1"
-                        data-test-quorum-answer={{idx}}
-                      >
-                        {{if hearing.disposition.dcpWasaquorumpresent "Yes" "No"}}
-                      </strong>
-                      <span class="cell auto">
-                        <span class="display-block">
-                          <strong>
-                            <DateDisplay
-                              @date={{hearing.disposition.dcpDateofpublichearing}}
-                            />
-                          </strong>
-                          <span class="light-gray">|</span>
-                          <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
-                        </span>
-                        <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
-                          {{#each hearing.hearingActions as |action index| ~}}
-                            {{#if action.dcpName}}
-                              <span class="label light-gray tiny-margin-bottom tiny-margin-right">
-                                {{action.dcpName}}
-                                <small>{{action.dcpUlurpnumber}}</small>
-                              </span>
-                            {{/if}}
-                          {{~/each}}
-                        </small>
-                      </span>
-                    </p>
-                  {{/each}}
-                {{/deduped-hearings-list}}
-              {{/unless}}
-              {{#if this.allActions}}
-                <p
-                  data-test-confirmation-all-actions-recommendation
+                  {{fa-icon 'spinner' spin="true" size="5x" class="light-gray"}}
+                </div>
+                <div class="text-center large-margin-top large-padding-top" style="padding:3rem 0;"
                 >
-                  <strong>Recommendation:</strong> {{recommendation-label-lookup participantType this.dispositionForAllActionsChangeset.recommendation}}
-                </p>
-                {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                  <p
-                    data-test-confirmation-all-actions-dcpVotinginfavorrecommendation
-                  >
-                    <strong>Votes in Favor:</strong> {{this.dispositionForAllActionsChangeset.dcpVotinginfavorrecommendation}}
-                  </p>
-                  <p
-                    data-test-confirmation-all-actions-dcpVotingagainstrecommendation
-                  >
-                    <strong>Votes Against:</strong> {{this.dispositionForAllActionsChangeset.dcpVotingagainstrecommendation}}
-                  </p>
-                  <p
-                    data-test-confirmation-all-actions-dcpVotingabstainingonrecommendation
-                  >
-                    <strong>Abstain:</strong> {{this.dispositionForAllActionsChangeset.dcpVotingabstainingonrecommendation}}
-                  </p>
-                  <p
-                    data-test-confirmation-all-actions-dcpTotalmembersappointedtotheboard
-                  >
-                    <strong>Total Members:</strong> {{this.dispositionForAllActionsChangeset.dcpTotalmembersappointedtotheboard}}
-                  </p>
-                {{/if}}
+                  Please wait...
+                </div>
               {{else}}
-                {{#each this.dispositionAndChangesetPairs as |dispositionChangesetPair idx|}}
-                  <h5 class="large-margin-top">
-                    {{dispositionChangesetPair.disposition.action.dcpName}}
-                    <small class="dark-gray">
-                      ({{dispositionChangesetPair.disposition.action.dcpUlurpnumber}})
-                    </small>
-                  </h5>
-                  <p
-                    data-test-confirmation-each-action-recommendation={{idx}}
+                <h3 class="large-margin-right">Please confirm your recommendation information.</h3>
+                {{#unless assignment.hearingsWaived}}
+                  <h5
+                    data-test-confirmation-quorum-answer
                   >
-                    <strong>Recommendation:</strong> {{recommendation-label-lookup participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType))}}
+                    Was a Quorum Present at your Hearing(s)?
+                  </h5>
+                  {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}
+                    {{#each dedupedHearings as |hearing idx|}}
+                      <p class="grid-x">
+                        <strong class="cell small-1"
+                          data-test-quorum-answer={{idx}}
+                        >
+                          {{if hearing.disposition.dcpWasaquorumpresent "Yes" "No"}}
+                        </strong>
+                        <span class="cell auto">
+                          <span class="display-block">
+                            <strong>
+                              <DateDisplay
+                                @date={{hearing.disposition.dcpDateofpublichearing}}
+                              />
+                            </strong>
+                            <span class="light-gray">|</span>
+                            <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
+                          </span>
+                          <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
+                            {{#each hearing.hearingActions as |action index| ~}}
+                              {{#if action.dcpName}}
+                                <span class="label light-gray tiny-margin-bottom tiny-margin-right">
+                                  {{action.dcpName}}
+                                  <small>{{action.dcpUlurpnumber}}</small>
+                                </span>
+                              {{/if}}
+                            {{~/each}}
+                          </small>
+                        </span>
+                      </p>
+                    {{/each}}
+                  {{/deduped-hearings-list}}
+                {{/unless}}
+                {{#if this.allActions}}
+                  <p
+                    data-test-confirmation-all-actions-recommendation
+                  >
+                    <strong>Recommendation:</strong> {{recommendation-label-lookup participantType this.dispositionForAllActionsChangeset.recommendation}}
                   </p>
                   {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
                     <p
-                      data-test-confirmation-each-action-votes={{concat "in-favor-" idx}}
+                      data-test-confirmation-all-actions-dcpVotinginfavorrecommendation
                     >
-                      <strong>Votes in Favor:</strong> {{dispositionChangesetPair.changeset.dcpVotinginfavorrecommendation}}
+                      <strong>Votes in Favor:</strong> {{this.dispositionForAllActionsChangeset.dcpVotinginfavorrecommendation}}
                     </p>
                     <p
-                      data-test-confirmation-each-action-votes={{concat "against-" idx}}
+                      data-test-confirmation-all-actions-dcpVotingagainstrecommendation
                     >
-                      <strong>Votes Against:</strong> {{dispositionChangesetPair.changeset.dcpVotingagainstrecommendation}}
+                      <strong>Votes Against:</strong> {{this.dispositionForAllActionsChangeset.dcpVotingagainstrecommendation}}
                     </p>
                     <p
-                      data-test-confirmation-each-action-votes={{concat "abstain-" idx}}
+                      data-test-confirmation-all-actions-dcpVotingabstainingonrecommendation
                     >
-                      <strong>Abstain:</strong> {{dispositionChangesetPair.changeset.dcpVotingabstainingonrecommendation}}
+                      <strong>Abstain:</strong> {{this.dispositionForAllActionsChangeset.dcpVotingabstainingonrecommendation}}
                     </p>
                     <p
-                      data-test-confirmation-each-action-votes={{concat "total-members-" idx}}
+                      data-test-confirmation-all-actions-dcpTotalmembersappointedtotheboard
                     >
-                      <strong>Total Members:</strong> {{dispositionChangesetPair.changeset.dcpTotalmembersappointedtotheboard}}
+                      <strong>Total Members:</strong> {{this.dispositionForAllActionsChangeset.dcpTotalmembersappointedtotheboard}}
                     </p>
                   {{/if}}
-                  <div class="display-block"
-                    data-test-confirmation-each-action-dcpConsideration={{idx}}
+                {{else}}
+                  {{#each this.dispositionAndChangesetPairs as |dispositionChangesetPair idx|}}
+                    <h5 class="large-margin-top">
+                      {{dispositionChangesetPair.disposition.action.dcpName}}
+                      <small class="dark-gray">
+                        ({{dispositionChangesetPair.disposition.action.dcpUlurpnumber}})
+                      </small>
+                    </h5>
+                    <p
+                      data-test-confirmation-each-action-recommendation={{idx}}
+                    >
+                      <strong>Recommendation:</strong> {{recommendation-label-lookup participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType))}}
+                    </p>
+                    {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                      <p
+                        data-test-confirmation-each-action-votes={{concat "in-favor-" idx}}
+                      >
+                        <strong>Votes in Favor:</strong> {{dispositionChangesetPair.changeset.dcpVotinginfavorrecommendation}}
+                      </p>
+                      <p
+                        data-test-confirmation-each-action-votes={{concat "against-" idx}}
+                      >
+                        <strong>Votes Against:</strong> {{dispositionChangesetPair.changeset.dcpVotingagainstrecommendation}}
+                      </p>
+                      <p
+                        data-test-confirmation-each-action-votes={{concat "abstain-" idx}}
+                      >
+                        <strong>Abstain:</strong> {{dispositionChangesetPair.changeset.dcpVotingabstainingonrecommendation}}
+                      </p>
+                      <p
+                        data-test-confirmation-each-action-votes={{concat "total-members-" idx}}
+                      >
+                        <strong>Total Members:</strong> {{dispositionChangesetPair.changeset.dcpTotalmembersappointedtotheboard}}
+                      </p>
+                    {{/if}}
+                    <div class="display-block"
+                      data-test-confirmation-each-action-dcpConsideration={{idx}}
+                    >
+                      <strong>Comment:</strong> {{dispositionChangesetPair.changeset.dcpConsideration}}
+                    </div>
+                  {{/each}}
+                {{/if}}
+                {{#if (or (eq this.allActions true) (eq this.allActions false))}}
+                  {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                    <p
+                      data-test-confirmation-all-actions-dcpVotelocation
+                    >
+                      <strong>Vote Location:</strong> {{this.dispositionForAllActionsChangeset.dcpVotelocation}}
+                    </p>
+                    <p
+                      data-test-confirmation-all-actions-dcpDateofvote
+                    >
+                      <strong>Vote Date:</strong> {{moment-format this.dispositionForAllActionsChangeset.dcpDateofvote 'MM/DD/YYYY'}}
+                    </p>
+                  {{/if}}
+                  {{#if (eq this.allActions true)}}
+                    <p
+                      data-test-confirmation-all-actions-dcpConsideration
+                    >
+                      <strong>Comment:</strong> {{this.dispositionForAllActionsChangeset.dcpConsideration}}
+                    </p>
+                  {{/if}}
+                  <p><strong>Attached files:</strong></p>
+                    {{#with (file-queue name=this.queueName) as |queue|}}
+                      {{#if queue.files}}
+                        <ul>
+                          {{#each queue.files as |file|}}
+                            <li>
+                              <a>
+                                {{file.name}}
+                                <small>
+                                  ({{file.type}})
+                                </small>
+                              </a>
+                            </li>
+                          {{/each}}
+                        </ul>
+                      {{else}}
+                        <p
+                          data-test-confirmation-no-files
+                        >
+                          No files attached.
+                        </p>
+                      {{/if}}
+                    {{/with}}
+                {{/if}}
+                <hr>
+                <p class="callout warning text-small">
+                  Once your recommendation is submitted, you can not edit it. You'll need to contact NYC Planning to make any changes (ZAP_feedback_DL@planning.nyc.gov or 212-720-3300).
+                </p>
+                <p>
+                  <button
+                    class="button"
+                    data-test-button="confirmRecommendation"
+                    type="button"
+                    onClick={{action this.submitRecommendations}}
+                    disabled={{isSubmitting}}
+                    data-test-submit
                   >
-                    <strong>Comment:</strong> {{dispositionChangesetPair.changeset.dcpConsideration}}
-                  </div>
-                {{/each}}
-              {{/if}}
-              {{#if (or (eq this.allActions true) (eq this.allActions false))}}
-                {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
-                  <p
-                    data-test-confirmation-all-actions-dcpVotelocation
+                    Submit Recommendation Information
+                  </button>
+                  <button
+                    class="button clear"
+                    data-test-button="closeModal"
+                    type="button"
+                    onClick={{action this.closeModal}}
+                    disabled={{isSubmitting}}
+                    data-test-cancel
                   >
-                    <strong>Vote Location:</strong> {{this.dispositionForAllActionsChangeset.dcpVotelocation}}
-                  </p>
-                  <p
-                    data-test-confirmation-all-actions-dcpDateofvote
-                  >
-                    <strong>Vote Date:</strong> {{moment-format this.dispositionForAllActionsChangeset.dcpDateofvote 'MM/DD/YYYY'}}
+                    Cancel <small>(continue editing)</small>
+                  </button>
+                </p>
+                {{#if this.submitError}}
+                  <p class="is-invalid-label">
+                    Sorry, there was an error submitting your disposition.<br>
+                    Please reach out to your contact at DCP, and we'll take care of it as soon as possible.
                   </p>
                 {{/if}}
-                {{#if (eq this.allActions true)}}
-                  <p
-                    data-test-confirmation-all-actions-dcpConsideration
-                  >
-                    <strong>Comment:</strong> {{this.dispositionForAllActionsChangeset.dcpConsideration}}
-                  </p>
-                {{/if}}
-                <p><strong>Attached files:</strong></p>
-                <ul>
-                  {{#with (file-queue name="files") as |queue|}}
-                    {{#each queue.files as |file|}}
-                      <li><a>{{file.name}}<small> ({{file.type}})</small></a></li>
-                    {{/each}}
-                  {{/with}}
-                </ul>
-              {{/if}}
-              <hr>
-              <p class="callout warning text-small">
-                Once your recommendation is submitted, you can not edit it. You'll need to contact NYC Planning to make any changes (ZAP_feedback_DL@planning.nyc.gov or 212-720-3300).
-              </p>
-              <p>
-                <button
-                  class="button"
-                  data-test-button="confirmRecommendation"
-                  type="button"
-                  onClick={{action this.submitRecommendations}}
-                  data-test-submit
-                >
-                  Submit Recommendation Information
-                </button>
-                <button
-                  class="button clear"
-                  data-test-button="closeModal"
-                  type="button"
-                  onClick={{action this.closeModal}}
-                  data-test-cancel
-                >
-                  Cancel <small>(continue editing)</small>
-                </button>
-              </p>
+              {{/if}} {{!-- end if submitting --}}
             {{/confirmation-modal}}
           {{/ember-wormhole}}
 

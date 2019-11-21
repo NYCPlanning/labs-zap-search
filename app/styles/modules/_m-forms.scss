@@ -85,3 +85,16 @@
     margin: 0;
   }
 }
+
+
+//
+// Hearing opt-out notice
+// --------------------------------------------------
+.opt-out-notice {
+  @include button(true, $off-white, $off-white, $black, solid);
+  cursor: default;
+
+  svg {
+    color: $gray;
+  }
+}

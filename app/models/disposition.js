@@ -5,6 +5,29 @@ const {
   Model, attr, belongsTo,
 } = DS;
 
+export const STATUSCODES = [
+  { Label: 'Draft', Value: 1 },
+  { Label: 'Saved', Value: 717170000 },
+  { Label: 'Submitted', Value: 2 },
+  { Label: 'Deactivated', Value: 717170001 },
+  { Label: 'Not Submitted', Value: 717170002 },
+];
+
+export const STATECODES = [
+  { Label: 'Active', Value: 0 },
+  { Label: 'Inactive', Value: 1 },
+];
+
+// mirrors @attr but allows for computed a
+// value for serialization
+export function attrComputed(...keys) {
+  return computed(...keys).meta({
+    type: 'number',
+    isAttribute: true,
+    kind: 'attribute',
+  });
+}
+
 export default class DispositionModel extends Model {
   // DB table: dcp_communityboarddisposition
 
@@ -14,17 +37,17 @@ export default class DispositionModel extends Model {
 
   @belongsTo('assignment', { async: true }) assignment;
 
-  // sourced from dcp_dcpPublichearinglocation
-  @attr('string', { defaultValue: '' }) dcpPublichearinglocation;
+  // sourced from a left join with contact table
+  // e.g. 'QN CB6', 'BX BP', 'MN BB'
+  @attr('string', { defaultValue: '' }) fullname;
 
-  @attr('string', { defaultValue: '' }) dcpIspublichearingrequired;
+  // sourced from dcp_dcpPublichearinglocation
+  @attr('string', { defaultValue: null }) dcpPublichearinglocation;
+
+  @attr('string', { defaultValue: null }) dcpIspublichearingrequired;
 
   // sourced from dcp_dcpDateofpublichearing
   @attr('date', { defaultValue: null }) dcpDateofpublichearing;
-
-  // sourced from dcp_recommendationsubmittedbyname
-  // e.g. 'QNCB6', 'BXBP', 'MNBB'
-  @attr('string', { defaultValue: '' }) dcpRecommendationsubmittedbyname;
 
   // Not needed
   // @attr('string', { defaultValue: '' }) formCompleterName;
@@ -45,11 +68,11 @@ export default class DispositionModel extends Model {
   // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
-  @attr('number') dcpBoroughpresidentrecommendation;
+  @attr('number', { defaultValue: null }) dcpBoroughpresidentrecommendation;
 
-  @attr('number') dcpBoroughboardrecommendation;
+  @attr('number', { defaultValue: null }) dcpBoroughboardrecommendation;
 
-  @attr('number') dcpCommunityboardrecommendation;
+  @attr('number', { defaultValue: null }) dcpCommunityboardrecommendation;
 
   // sourced from dcp_dcpConsideration
   // memo, exta information from participant
@@ -67,13 +90,50 @@ export default class DispositionModel extends Model {
   // backend
   @attr('date', { defaultValue: null }) dcpDateofvote;
 
-  // sourced from statecode
-  // "Active" vs "Inactive"
-  @attr('string') statecode;
-
   // sourced from statuscode
-  // e.g. 'Draft', 'Saved', 'Submitted', 'Deactivated', 'Not Submitted'
-  @attr('string') statuscode;
+  // Label: 'Draft', 'Value': 1
+  // Label: 'Saved', 'Value': 717170000
+  // Label: 'Submitted', 'Value': 2
+  // Label: 'Deactivated', 'Value': 717170001
+  // Label: 'Not Submitted', 'Value': 717170002
+  @attrComputed(
+    // recommendations
+    'dcpDateofvote',
+    'dcpBoroughpresidentrecommendation',
+    'dcpBoroughboardrecommendation',
+    'dcpCommunityboardrecommendation',
+    'dcpIspublichearingrequired',
+
+    // hearings
+    'dcpPublichearinglocation',
+    'dcpDateofpublichearing',
+  )
+  get statuscode() {
+    if (this.dcpBoroughpresidentrecommendation !== null
+      || this.dcpBoroughboardrecommendation !== null
+      || this.dcpCommunityboardrecommendation !== null
+    ) return STATUSCODES.findBy('Label', 'Submitted').Value;
+
+    if (
+      this.dcpIspublichearingrequired !== null
+    ) return STATUSCODES.findBy('Label', 'Saved').Value;
+
+    if (this.dcpPublichearinglocation
+      || this.dcpDateofpublichearing
+    ) return STATUSCODES.findBy('Label', 'Saved').Value;
+
+    return STATUSCODES.findBy('Label', 'Draft').Value;
+  }
+
+  @attrComputed('statuscode')
+  get statecode() {
+    if (
+      STATUSCODES.findBy('Value', this.statuscode).Label === 'Saved'
+      || STATUSCODES.findBy('Value', this.statuscode).Label === 'Draft'
+    ) return STATECODES.findBy('Label', 'Active').Value;
+
+    return STATECODES.findBy('Label', 'Inactive').Value;
+  }
 
   // sourced from dcp_docketdescription
   @attr('string') dcpDocketdescription;
@@ -95,10 +155,10 @@ export default class DispositionModel extends Model {
   // we want this to be null until a user selects yes or no
   @attr({ defaultValue: null }) dcpWasaquorumpresent;
 
-  // dcpRecommendationsubmittedbyname = e.g. 'QNCB5'
+  // fullname = e.g. 'QN CB5'
   // recommendationSubmittedByFullName = e.g. `Queens Community Board 5`
-  @computed('dcpRecommendationsubmittedbyname')
-  get recommendationSubmittedByFullName() {
+  @computed('fullname')
+  get fullNameLongFormat() {
     const boroughLookup = {
       MN: 'Manhattan',
       BX: 'Bronx',
@@ -114,15 +174,15 @@ export default class DispositionModel extends Model {
     };
 
     // shortName = e.g. 'QNCB5'
-    const shortName = this.get('dcpRecommendationsubmittedbyname');
+    const shortName = this.get('fullname');
     // borough = e.g. 'Queens'
     const borough = boroughLookup[shortName.substring(0, 2)];
     // participantTypeAbbr = e.g. 'CB'
-    const participantTypeAbbr = shortName.substring(2, 4);
+    const participantTypeAbbr = shortName.substring(3, 5);
     // participantType = e.g. "Community Board"
     const participantType = participantLookup[participantTypeAbbr];
     // cbNumber = e.g. QNCB5 --> 5
-    const cbNumber = shortName.substring(4);
+    const cbNumber = shortName.substring(5);
     // concat together
     // CBs have numbers whereas BPs and BBs do not
     if (participantTypeAbbr === 'CB') {

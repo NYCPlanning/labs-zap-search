@@ -22,7 +22,7 @@ module('Integration | Component | deduped-votes-list', function(hooks) {
       // Disposition 22 ############## DUPLICATE WITH 23 & 26
       ourModel.create({
         id: 22,
-        dcpRecommendationsubmittedbyname: 'QNCB2',
+        fullname: 'QN CB2',
         dcpDateofvote: date_A,
         dcpCommunityboardrecommendation: 'Approved',
         dcpVotingagainstrecommendation: 1,
@@ -36,7 +36,7 @@ module('Integration | Component | deduped-votes-list', function(hooks) {
       // Disposition 23 ############## DUPLICATE WITH 22 & 26
       ourModel.create({
         id: 23,
-        dcpRecommendationsubmittedbyname: 'QNCB2',
+        fullname: 'QN CB2',
         dcpDateofvote: date_A,
         dcpCommunityboardrecommendation: 'Approved',
         dcpVotingagainstrecommendation: 1,
@@ -50,7 +50,7 @@ module('Integration | Component | deduped-votes-list', function(hooks) {
       // Disposition 24 ############################ DIFFERENT DATE
       ourModel.create({
         id: 24,
-        dcpRecommendationsubmittedbyname: 'QNCB2',
+        fullname: 'QN CB2',
         dcpDateofvote: date_B,
         dcpCommunityboardrecommendation: 'Approved',
         dcpVotingagainstrecommendation: 1,
@@ -64,7 +64,7 @@ module('Integration | Component | deduped-votes-list', function(hooks) {
       // Disposition 25 ############################ DIFFERENT REC
       ourModel.create({
         id: 25,
-        dcpRecommendationsubmittedbyname: 'QNCB2',
+        fullname: 'QN CB2',
         dcpDateofvote: date_A,
         dcpCommunityboardrecommendation: 'Disapproved',
         dcpVotingagainstrecommendation: 1,
@@ -78,7 +78,7 @@ module('Integration | Component | deduped-votes-list', function(hooks) {
       // Disposition 26 ############## DUPLICATE WITH 22 & 23
       ourModel.create({
         id: 26,
-        dcpRecommendationsubmittedbyname: 'QNCB2',
+        fullname: 'QN CB2',
         dcpDateofvote: date_A,
         dcpCommunityboardrecommendation: 'Approved',
         dcpVotingagainstrecommendation: 1,
@@ -92,7 +92,7 @@ module('Integration | Component | deduped-votes-list', function(hooks) {
       // Disposition 27 ############################ DIFFERENT VotingAgainst
       ourModel.create({
         id: 27,
-        dcpRecommendationsubmittedbyname: 'QNCB2',
+        fullname: 'QN CB2',
         dcpDateofvote: date_A,
         dcpCommunityboardrecommendation: 'Approved',
         dcpVotingagainstrecommendation: 5,
@@ -106,7 +106,7 @@ module('Integration | Component | deduped-votes-list', function(hooks) {
       // Disposition 28 ############################ DIFFERENT VotingInFavor
       ourModel.create({
         id: 28,
-        dcpRecommendationsubmittedbyname: 'QNCB2',
+        fullname: 'QN CB2',
         dcpDateofvote: date_A,
         dcpCommunityboardrecommendation: 'Approved',
         dcpVotingagainstrecommendation: 1,
@@ -120,7 +120,7 @@ module('Integration | Component | deduped-votes-list', function(hooks) {
       // Disposition 29 ############################ DIFFERENT VotingAbstaining
       ourModel.create({
         id: 29,
-        dcpRecommendationsubmittedbyname: 'QNCB2',
+        fullname: 'QN CB2',
         dcpDateofvote: date_A,
         dcpCommunityboardrecommendation: 'Approved',
         dcpVotingagainstrecommendation: 1,
@@ -134,7 +134,7 @@ module('Integration | Component | deduped-votes-list', function(hooks) {
       // Disposition 30 ####################################
       ourModel.create({
         id: 30,
-        dcpRecommendationsubmittedbyname: 'QNCB2',
+        fullname: 'QN CB2',
         dcpDateofvote: date_A,
         dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
         dcpVotingagainstrecommendation: 1,

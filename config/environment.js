@@ -6,6 +6,7 @@ let { LUPP_ENABLED = true } = process.env;
 
 LUPP_ENABLED = JSON.parse(LUPP_ENABLED);
 const MIRAGE_SCENARIO = process.env.MIRAGE_SCENARIO;
+const NYCID_CLIENT_ID =  process.env.NYCID_CLIENT_ID || 'zap_staging';
 
 module.exports = function(environment) {
   const ENV = {
@@ -19,7 +20,7 @@ module.exports = function(environment) {
     },
     NYC_ID_HOST: 'https://accounts-nonprd.nyc.gov',
     host: ENVIRONMENTAL_HOST_API || '',
-    OAUTH_ENDPOINT: 'https://accounts-nonprd.nyc.gov/account/api/oauth/authorize.htm?response_type=token&client_id=zap_staging',
+    OAUTH_ENDPOINT: `https://accounts-nonprd.nyc.gov/account/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
     LUPP_ENABLED,
     MIRAGE_SCENARIO,
     EmberENV: {
@@ -128,6 +129,10 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
+
+    ENV['ember-cli-mirage'] = {
+      trackRequests: true
+    };
   }
 
   if (environment === 'production') {
