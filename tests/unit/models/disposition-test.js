@@ -42,6 +42,9 @@ module('Unit | Model | disposition', function(hooks) {
   test('when statuscode is draft or saved, statecode is "active"', async function(assert) {
     const store = this.owner.lookup('service:store');
     const model = store.createRecord('disposition', {
+      dcpPublichearinglocation: 'foo',
+      dcpDateofpublichearing: 'bar',
+
       dcpBoroughpresidentrecommendation: null,
       dcpBoroughboardrecommendation: null,
       dcpCommunityboardrecommendation: null,
@@ -49,5 +52,21 @@ module('Unit | Model | disposition', function(hooks) {
     });
 
     assert.equal(model.statecode, STATECODES.findBy('Label', 'Active').Value);
+  });
+
+  test('when hearing info is submitted, but nothing else, statecode is "active"', async function(assert) {
+    const store = this.owner.lookup('service:store');
+    const model = store.createRecord('disposition', {
+      dcpDateofvote: null,
+      dcpBoroughpresidentrecommendation: null,
+      dcpBoroughboardrecommendation: null,
+      dcpCommunityboardrecommendation: null,
+      dcpIspublichearingrequired: null,
+
+      dcpPublichearinglocation: 'foo',
+      dcpDateofpublichearing: 'bar',
+    });
+
+    assert.equal(model.statuscode, STATUSCODES.findBy('Label', 'Saved').Value);
   });
 });
