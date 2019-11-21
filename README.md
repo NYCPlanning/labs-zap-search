@@ -22,7 +22,8 @@ You will need the following things properly installed on your computer.
 ## Running / Development
 
 * `ember serve` - Uses dummy API responses provided by mirage
-* `HOST_API=http://localhost:3000 ember serve --environment=devlocal` - Sends api calls to `localhost:3000`, assumes you are running [labs-zap-api](https://github.com/NYCPlanning/labs-zap-api) locally.
+* `HOST_API=http://localhost:3000 ember serve --environment=devlocal` - Sends api calls to `localhost:3000`, assumes you are running [labs-zap-api](https://github.com/NYCPlanning/labs-zap-api) locally. Make sure you have `SKIP_AUTH=true` in your development.env file. 
+Sign in by going to `localhost:4200/login#access_token=test`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
 ### Create test scenarios
