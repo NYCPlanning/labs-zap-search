@@ -42,7 +42,7 @@ export default class DispositionModel extends Model {
   @attr('string', { defaultValue: '' }) fullname;
 
   // sourced from dcp_dcpPublichearinglocation
-  @attr('string', { defaultValue: '' }) dcpPublichearinglocation;
+  @attr('string', { defaultValue: null }) dcpPublichearinglocation;
 
   @attr('string', { defaultValue: null }) dcpIspublichearingrequired;
 
@@ -96,7 +96,18 @@ export default class DispositionModel extends Model {
   // Label: 'Submitted', 'Value': 2
   // Label: 'Deactivated', 'Value': 717170001
   // Label: 'Not Submitted', 'Value': 717170002
-  @attrComputed('dcpDateofvote', 'dcpBoroughpresidentrecommendation', 'dcpBoroughboardrecommendation', 'dcpCommunityboardrecommendation', 'dcpIspublichearingrequired')
+  @attrComputed(
+    // recommendations
+    'dcpDateofvote',
+    'dcpBoroughpresidentrecommendation',
+    'dcpBoroughboardrecommendation',
+    'dcpCommunityboardrecommendation',
+    'dcpIspublichearingrequired',
+
+    // hearings
+    'dcpPublichearinglocation',
+    'dcpDateofpublichearing',
+  )
   get statuscode() {
     if (this.dcpBoroughpresidentrecommendation !== null
       || this.dcpBoroughboardrecommendation !== null
@@ -105,6 +116,10 @@ export default class DispositionModel extends Model {
 
     if (
       this.dcpIspublichearingrequired !== null
+    ) return STATUSCODES.findBy('Label', 'Saved').Value;
+
+    if (this.dcpPublichearinglocation
+      || this.dcpDateofpublichearing
     ) return STATUSCODES.findBy('Label', 'Saved').Value;
 
     return STATUSCODES.findBy('Label', 'Draft').Value;
