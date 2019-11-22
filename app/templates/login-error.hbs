@@ -4,11 +4,12 @@
       <div class="cell large-6 large-offset-3 text-center">
         <h2>Oops!</h2>
 
-        <p>Something went wrong</p>
+        <p>Something went wrong.</p>
 
         {{#each model.errors as |error idx|}}
-          <code class="callout display-block text-left red-muted" data-test-error-message={{idx}}>{{error.detail}}</code>
-          {{#if (not error.detail)}}
+          {{#if error.detail}}
+            <code class="callout display-block text-left red-muted" data-test-error-message={{idx}}>{{error.detail}}</code>
+          {{else}}
             {{#each-in error as |key value|}}
               <code class="callout display-block text-left red-muted">{{key}}: {{value}}</code>
             {{/each-in}}
