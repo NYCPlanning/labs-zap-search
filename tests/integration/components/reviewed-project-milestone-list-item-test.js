@@ -12,7 +12,7 @@ module('Integration | Component | reviewed-project-milestone-list-item', functio
 
     this.set('milestone', {});
 
-    await render(hbs`<ArchiveProjectMilestoneListItem @project={{this.project}} @milestone={{this.milestone}}/>`);
+    await render(hbs`<ReviewedProjectMilestoneListItem @project={{this.project}} @milestone={{this.milestone}}/>`);
 
     assert.notOk(find('[data-test-cb-disposition-date-received]'));
   });
@@ -33,7 +33,7 @@ module('Integration | Component | reviewed-project-milestone-list-item', functio
 
     this.set('milestone', {});
 
-    await render(hbs`<ArchiveProjectMilestoneListItem @project={{this.project}} @milestone={{this.milestone}}/>`);
+    await render(hbs`<ReviewedProjectMilestoneListItem @project={{this.project}} @milestone={{this.milestone}}/>`);
 
     assert.notOk(find('[data-test-cb-disposition-date-received]'));
   });
@@ -54,7 +54,7 @@ module('Integration | Component | reviewed-project-milestone-list-item', functio
 
     this.set('milestone', {});
 
-    await render(hbs`<ArchiveProjectMilestoneListItem @project={{this.project}} @milestone={{this.milestone}}/>`);
+    await render(hbs`<ReviewedProjectMilestoneListItem @project={{this.project}} @milestone={{this.milestone}}/>`);
 
     assert.notOk(find('[data-test-cb-disposition-date-received]'));
   });
@@ -90,7 +90,7 @@ module('Integration | Component | reviewed-project-milestone-list-item', functio
       }),
     );
 
-    await render(hbs`<ArchiveProjectMilestoneListItem @project={{this.project}} @milestone={{this.milestone}}/>`);
+    await render(hbs`<ReviewedProjectMilestoneListItem @project={{this.project}} @milestone={{this.milestone}}/>`);
 
     assert.ok(find('[data-test-cb-disposition-date-received]'));
   });
