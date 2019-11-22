@@ -33,7 +33,11 @@ export default class DispositionModel extends Model {
 
   @belongsTo('project') project;
 
-  @belongsTo('action', { async: true }) action;
+  // @belongsTo('action', { async: true }) action;
+  @computed('project')
+  get action() {
+    return this.project.get('actions').findBy('id', this.dcpProjectaction);
+  }
 
   @belongsTo('assignment', { async: true }) assignment;
 
@@ -51,6 +55,9 @@ export default class DispositionModel extends Model {
 
   @attr('string', { defaultValue: 'DCP' }) dcpNameofpersoncompletingthisform;
 
+  // sourced from dcp_projectactionid in dcp_projectaction table
+  // e.g. 9bbfbec7-2407-ea11-a9aa-001dd8308025
+  @attr('string', { defaultValue: '' }) dcpProjectaction;
   // Not needed
   // @attr('string', { defaultValue: '' }) formCompleterName;
 

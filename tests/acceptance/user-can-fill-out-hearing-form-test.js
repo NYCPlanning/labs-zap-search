@@ -36,20 +36,45 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
   test('user cannot submit hearing form until all inputs are filled for AllActions', async function(assert) {
     this.server.create('assignment', {
       id: 4,
+      tab: 'to-review',
       dispositions: [
         server.create('disposition', {
           id: 1,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
         server.create('disposition', {
           id: 2,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
+          dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '9bbfbec7-2407-ea11-a9aa-001dd8308025', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+        ],
       }),
     });
 
@@ -129,62 +154,85 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       dispositions: [
         server.create('disposition', {
           id: 17,
-          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          dcpProjectaction: '1',
         }),
         server.create('disposition', {
           id: 18,
-          action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          dcpProjectaction: '2',
         }),
         server.create('disposition', {
           id: 19,
-          action: server.create('action', { dcpName: 'Business Improvement District', dcpUlurpnumber: 'I030148MMQ' }),
+          // action: server.create('action', { dcpName: 'Business Improvement District', dcpUlurpnumber: 'I030148MMQ' }),
+          dcpProjectaction: '3',
         }),
         server.create('disposition', {
           id: 20,
-          action: server.create('action', { dcpName: 'Change in City Map', dcpUlurpnumber: '200088ZMX' }),
+          // action: server.create('action', { dcpName: 'Change in City Map', dcpUlurpnumber: '200088ZMX' }),
+          dcpProjectaction: '4',
         }),
         server.create('disposition', {
           id: 21,
-          action: server.create('action', { dcpName: 'Enclosed Sidewalk Cafe', dcpUlurpnumber: '190172ZMK' }),
+          // action: server.create('action', { dcpName: 'Enclosed Sidewalk Cafe', dcpUlurpnumber: '190172ZMK' }),
+          dcpProjectaction: '5',
         }),
         server.create('disposition', {
           id: 22,
-          action: server.create('action', { dcpName: 'Large Scale Special Permit', dcpUlurpnumber: 'N190257ZRK' }),
+          // action: server.create('action', { dcpName: 'Large Scale Special Permit', dcpUlurpnumber: 'N190257ZRK' }),
+          dcpProjectaction: '6',
         }),
         server.create('disposition', {
           id: 23,
-          action: server.create('action', { dcpName: 'Zoning Certification', dcpUlurpnumber: '190256ZMK' }),
+          // action: server.create('action', { dcpName: 'Zoning Certification', dcpUlurpnumber: '190256ZMK' }),
+          dcpProjectaction: '7',
         }),
       ],
       project: this.server.create('project', {
+        actions: [
+          server.create('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '2', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          server.create('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'I030148MMQ' }),
+          server.create('action', { id: '4', dcpName: 'Change in City Map', dcpUlurpnumber: '200088ZMX' }),
+          server.create('action', { id: '5', dcpName: 'Enclosed Sidewalk Cafe', dcpUlurpnumber: '190172ZMK' }),
+          server.create('action', { id: '6', dcpName: 'Large Scale Special Permit', dcpUlurpnumber: 'N190257ZRK' }),
+          server.create('action', { id: '7', dcpName: 'Zoning Certification', dcpUlurpnumber: '190256ZMK' }),
+        ],
         dispositions: [
           server.create('disposition', {
             id: 17,
-            action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+            dcpProjectaction: '1',
           }),
           server.create('disposition', {
             id: 18,
-            action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+            dcpProjectaction: '2',
           }),
           server.create('disposition', {
             id: 19,
-            action: server.create('action', { dcpName: 'Business Improvement District', dcpUlurpnumber: 'I030148MMQ' }),
+            // action: server.create('action', { dcpName: 'Business Improvement District', dcpUlurpnumber: 'I030148MMQ' }),
+            dcpProjectaction: '3',
           }),
           server.create('disposition', {
             id: 20,
-            action: server.create('action', { dcpName: 'Change in City Map', dcpUlurpnumber: '200088ZMX' }),
+            // action: server.create('action', { dcpName: 'Change in City Map', dcpUlurpnumber: '200088ZMX' }),
+            dcpProjectaction: '4',
           }),
           server.create('disposition', {
             id: 21,
-            action: server.create('action', { dcpName: 'Enclosed Sidewalk Cafe', dcpUlurpnumber: '190172ZMK' }),
+            // action: server.create('action', { dcpName: 'Enclosed Sidewalk Cafe', dcpUlurpnumber: '190172ZMK' }),
+            dcpProjectaction: '5',
           }),
           server.create('disposition', {
             id: 22,
-            action: server.create('action', { dcpName: 'Large Scale Special Permit', dcpUlurpnumber: 'N190257ZRK' }),
+            // action: server.create('action', { dcpName: 'Large Scale Special Permit', dcpUlurpnumber: 'N190257ZRK' }),
+            dcpProjectaction: '6',
           }),
           server.create('disposition', {
             id: 23,
-            action: server.create('action', { dcpName: 'Zoning Certification', dcpUlurpnumber: '190256ZMK' }),
+            // action: server.create('action', { dcpName: 'Zoning Certification', dcpUlurpnumber: '190256ZMK' }),
+            dcpProjectaction: '7',
           }),
         ],
       }),
@@ -195,14 +243,19 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       dispositions: [
         server.create('disposition', {
           id: 24,
-          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
+          dcpProjectaction: '1',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
         }),
       ],
       project: this.server.create('project', {
+        actions: [
+          server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
+        ],
         dispositions: [
           server.create('disposition', {
             id: 24,
-            action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
+            dcpProjectaction: '1',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
           }),
         ],
       }),
@@ -379,17 +432,42 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       tab: 'to-review',
       dispositions: [
         server.create('disposition', {
-          dcpPublichearinglocation: null,
-          dcpDateofpublichearing: '',
+          id: 1,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
         server.create('disposition', {
-          dcpPublichearinglocation: null,
-          dcpDateofpublichearing: '',
+          id: 2,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
-        tab: 'to-review',
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '9bbfbec7-2407-ea11-a9aa-001dd8308025', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+        ],
       }),
     });
 
@@ -476,12 +554,24 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
           id: 17,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
-          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
-        tab: 'to-review',
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 17,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+        ],
       }),
     });
 
@@ -531,18 +621,45 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
   test('if there is a server error when running .save(), user will see error message', async function(assert) {
     this.server.create('assignment', {
       id: 4,
+      tab: 'to-review',
       dispositions: [
         server.create('disposition', {
+          id: 1,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
         server.create('disposition', {
+          id: 2,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
+          dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '9bbfbec7-2407-ea11-a9aa-001dd8308025', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+        ],
       }),
     });
 
@@ -583,14 +700,27 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       tab: 'to-review',
       dispositions: [
         server.create('disposition', {
-          id: 17,
+          id: 1,
           dcpPublichearinglocation: '',
-          dcpDateofpublichearing: null, // when this field is null
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
-        tab: 'to-review',
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+        ],
       }),
     });
 
@@ -633,17 +763,39 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
           id: 1,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
-          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C1009383' }),
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
         server.create('disposition', {
           id: 2,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
-          action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '9bbfbec7-2407-ea11-a9aa-001dd8308025', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+        ],
       }),
     });
 
@@ -693,11 +845,14 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
   test('button for hearing submission does not show if there are no dispositions', async function(assert) {
     this.server.create('assignment', {
       id: 4,
-      tab: 'upcoming',
-      user: this.server.create('user'),
+      tab: 'to-review',
       dispositions: [],
       project: this.server.create('project', {
         id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        ],
+        dispositions: [],
       }),
     });
 

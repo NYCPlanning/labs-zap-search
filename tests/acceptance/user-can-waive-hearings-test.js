@@ -33,23 +33,44 @@ module('Acceptance | user can waive hearings', function(hooks) {
     this.server.create('assignment', {
       id: 4,
       tab: 'to-review',
-      user: this.server.create('user'),
       dispositions: [
-        this.server.create('disposition', {
-          dcpIspublichearingrequired: '',
-          dcpDateofpublichearing: null,
+        server.create('disposition', {
+          id: 1,
           dcpPublichearinglocation: '',
-          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
-        this.server.create('disposition', {
-          dcpIspublichearingrequired: '',
-          dcpDateofpublichearing: null,
+        server.create('disposition', {
+          id: 2,
           dcpPublichearinglocation: '',
-          action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'C780076TLK' }),
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '9bbfbec7-2407-ea11-a9aa-001dd8308025', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+        ],
       }),
     });
 
@@ -85,23 +106,44 @@ module('Acceptance | user can waive hearings', function(hooks) {
     this.server.create('assignment', {
       id: 4,
       tab: 'upcoming',
-      user: this.server.create('user'),
       dispositions: [
-        this.server.create('disposition', {
-          dcpIspublichearingrequired: '',
-          dcpDateofpublichearing: null,
+        server.create('disposition', {
+          id: 1,
           dcpPublichearinglocation: '',
-          action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
-        this.server.create('disposition', {
-          dcpIspublichearingrequired: '',
-          dcpDateofpublichearing: null,
+        server.create('disposition', {
+          id: 2,
           dcpPublichearinglocation: '',
-          action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'C780076TLK' }),
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '9bbfbec7-2407-ea11-a9aa-001dd8308025', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+        ],
       }),
     });
 
@@ -125,7 +167,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     assert.ok(find('[data-test-hearings-waived-message="4"]'));
 
-    assert.equal(this.server.db._collections[2]._records[0].dcpIspublichearingrequired, 'No');
+    assert.equal(this.server.db.dispositions.firstObject.dcpIspublichearingrequired, 'No');
   });
 
   test('if there is a server error when running .save(), user will see error message on to-review tab', async function(assert) {
@@ -134,18 +176,42 @@ module('Acceptance | user can waive hearings', function(hooks) {
       tab: 'to-review',
       dispositions: [
         server.create('disposition', {
+          id: 1,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
-          dcpIspublichearingrequired: '',
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
         server.create('disposition', {
+          id: 2,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
-          dcpIspublichearingrequired: '',
+          dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '9bbfbec7-2407-ea11-a9aa-001dd8308025', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+        ],
       }),
     });
 
@@ -161,8 +227,6 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     await click('[data-test-button="onConfirmOptOutHearing"]');
 
-    assert.equal(this.server.db._collections[2]._records[0].dcpIspublichearingrequired, '');
-
     assert.ok(find('[data-test-error-alert-message]'));
 
     await click('[data-test-button="backToMyProjectsAfterError"]');
@@ -176,18 +240,42 @@ module('Acceptance | user can waive hearings', function(hooks) {
       tab: 'upcoming',
       dispositions: [
         server.create('disposition', {
+          id: 1,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
-          dcpIspublichearingrequired: '',
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         }),
         server.create('disposition', {
+          id: 2,
           dcpPublichearinglocation: '',
           dcpDateofpublichearing: null,
-          dcpIspublichearingrequired: '',
+          dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
         }),
       ],
       project: this.server.create('project', {
         id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '9bbfbec7-2407-ea11-a9aa-001dd8308025', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+        ],
       }),
     });
 
@@ -202,8 +290,6 @@ module('Acceptance | user can waive hearings', function(hooks) {
     assert.ok(find('[data-test-button="onConfirmOptOutHearing"]'));
 
     await click('[data-test-button="onConfirmOptOutHearing"]');
-
-    assert.equal(this.server.db._collections[2]._records[0].dcpIspublichearingrequired, '');
 
     assert.ok(find('[data-test-error-alert-message]'));
 
