@@ -26,24 +26,56 @@ function setUpProjectAndDispos(server, participantType) {
         dcpLupteammemberrole: participantType,
         dispositions: [
           server.create('disposition', {
+            id: 1,
             dcpPublichearinglocation: 'Canal street',
             dcpDateofpublichearing: moment().subtract(22, 'days'),
-            action: server.create('action'),
+            dcpProjectaction: '1',
+            // action: server.create('action', { id: 1, dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
           }),
           server.create('disposition', {
+            id: 2,
             dcpPublichearinglocation: 'Canal street',
             dcpDateofpublichearing: moment().subtract(22, 'days'),
-            action: server.create('action'),
+            dcpProjectaction: '2',
+            // action: server.create('action', { id: 3, dcpName: 'Change to City Map', dcpUlurpnumber: 'N19983dLUP' }),
           }),
           server.create('disposition', {
+            id: 3,
             dcpPublichearinglocation: 'Hudson Yards',
             dcpDateofpublichearing: moment().subtract(28, 'days'),
-            action: server.create('action'),
+            dcpProjectaction: '3',
+            // action: server.create('action', { id: 4, dcpName: 'Business Improvement District', dcpUlurpnumber: 'C780076TLK' }),
           }),
         ],
         project: server.create('project', {
-          actions: server.schema.actions.all(),
-          dispositions: server.schema.dispositions.all(),
+          actions: [
+            server.create('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+            server.create('action', { id: '2', dcpName: 'Change to City Map', dcpUlurpnumber: 'N19983dLUP' }),
+            server.create('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'C780076TLK' }),
+          ],
+          dispositions: [
+            server.create('disposition', {
+              id: 1,
+              dcpPublichearinglocation: 'Canal street',
+              dcpDateofpublichearing: moment().subtract(22, 'days'),
+              dcpProjectaction: '1',
+              // action: server.create('action', { id: 1, dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+            }),
+            server.create('disposition', {
+              id: 2,
+              dcpPublichearinglocation: 'Canal street',
+              dcpDateofpublichearing: moment().subtract(22, 'days'),
+              dcpProjectaction: '2',
+              // action: server.create('action', { id: 3, dcpName: 'Change to City Map', dcpUlurpnumber: 'N19983dLUP' }),
+            }),
+            server.create('disposition', {
+              id: 3,
+              dcpPublichearinglocation: 'Hudson Yards',
+              dcpDateofpublichearing: moment().subtract(28, 'days'),
+              dcpProjectaction: '3',
+              // action: server.create('action', { id: 4, dcpName: 'Business Improvement District', dcpUlurpnumber: 'C780076TLK' }),
+            }),
+          ],
         }),
       }),
       server.create('assignment', {
@@ -56,12 +88,23 @@ function setUpProjectAndDispos(server, participantType) {
             dcpIspublichearingrequired: 'No',
             dcpPublichearinglocation: null,
             dcpDateofpublichearing: null,
-            action: server.create('action'),
+            dcpProjectaction: '1',
+            // action: server.create('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
           }),
         ],
         project: server.create('project', {
-          actions: server.schema.actions.all(),
-          dispositions: [server.schema.dispositions.find(5)],
+          actions: [
+            server.create('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          ],
+          dispositions: [
+            server.create('disposition', {
+              id: 5,
+              dcpIspublichearingrequired: 'No',
+              dcpPublichearinglocation: null,
+              dcpDateofpublichearing: null,
+              dcpProjectaction: '1',
+            }),
+          ],
         }),
       }),
     ],
@@ -453,7 +496,6 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
       tab: 'to-review',
       dispositions: [
         server.create('disposition', {
-          id: 1,
           dcpPublichearinglocation: '121 Bananas Ave',
           dcpDateofpublichearing: new Date('2020-10-21T00:00:00'),
           action: server.create('action'),
@@ -468,11 +510,35 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
           dcpVotingabstainingonrecommendation: null,
           dcpTotalmembersappointedtotheboard: null,
           dcpWasaquorumpresent: null,
+          dcpProjectaction: '1',
         }),
       ],
       project: this.server.create('project', {
         id: 4,
         tab: 'to-review',
+        actions: [
+          server.create('action', { id: '1', dcpName: 'Change to City Map', dcpUlurpnumber: 'N19983dLUP' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '121 Bananas Ave',
+            dcpDateofpublichearing: new Date('2020-10-21T00:00:00'),
+            action: server.create('action'),
+            dcpDateofVote: null,
+            dcpVotelocation: '',
+            dcpCommunityboardrecommendation: '',
+            dcpBoroughboardrecommendation: '',
+            dcpBoroughpresidentrecommendation: '',
+            dcpConsideration: '',
+            dcpVotinginfavorrecommendation: null,
+            dcpVotingagainstrecommendation: null,
+            dcpVotingabstainingonrecommendation: null,
+            dcpTotalmembersappointedtotheboard: null,
+            dcpWasaquorumpresent: null,
+            dcpProjectaction: '1',
+          }),
+        ],
       }),
     });
 

@@ -19,6 +19,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpPublichearinglocation: '341 Yellow Avenue',
       dcpDateofpublichearing: hearingDate,
       dcpIspublichearingrequired: '',
+      dcpProjectaction: '1',
     });
 
     const disp2 = store.createRecord('disposition', {
@@ -26,6 +27,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpPublichearinglocation: '890 Purple Street',
       dcpDateofpublichearing: hearingDate,
       dcpIspublichearingrequired: '',
+      dcpProjectaction: '2',
     });
 
     const disp3 = store.createRecord('disposition', {
@@ -33,6 +35,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpPublichearinglocation: '124 Green Boulevard',
       dcpDateofpublichearing: hearingDate,
       dcpIspublichearingrequired: '',
+      dcpProjectaction: '3',
     });
 
     const assignment = store.createRecord('assignment', {
@@ -41,6 +44,12 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpLupteammemberrole: 'CB',
       project: store.createRecord('project', {
         id: 2,
+        dispositions: [disp1, disp2, disp3],
+        actions: [
+          store.createRecord('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          store.createRecord('action', { id: '2', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          store.createRecord('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'N905588TLM' }),
+        ],
       }),
     });
 
@@ -70,6 +79,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: '',
+      dcpProjectaction: '1',
     });
 
     const disp2 = store.createRecord('disposition', {
@@ -77,6 +87,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: '',
+      dcpProjectaction: '2',
     });
 
     const disp3 = store.createRecord('disposition', {
@@ -84,6 +95,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: '',
+      dcpProjectaction: '3',
     });
 
 
@@ -93,6 +105,12 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpLupteammemberrole: 'CB',
       project: store.createRecord('project', {
         id: 2,
+        dispositions: [disp1, disp2, disp3],
+        action: [
+          store.createRecord('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          store.createRecord('action', { id: '2', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          store.createRecord('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'N905588TLM' }),
+        ],
       }),
     });
 
@@ -122,6 +140,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: 'No',
+      dcpProjeaction: '1',
     });
 
     const disp2 = store.createRecord('disposition', {
@@ -129,6 +148,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: 'No',
+      dcpProjeaction: '2',
     });
 
     const disp3 = store.createRecord('disposition', {
@@ -136,6 +156,7 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: 'No',
+      dcpProjeaction: '3',
     });
 
     const assignment = store.createRecord('assignment', {
@@ -145,6 +166,12 @@ module('Integration | Component | to-review-project-card', function(hooks) {
       dcpLupteammemberrole: 'CB',
       project: store.createRecord('project', {
         id: 2,
+        dispositions: [disp1, disp2, disp3],
+        actions: [
+          store.createRecord('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          store.createRecord('action', { id: '2', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          store.createRecord('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'N905588TLM' }),
+        ],
       }),
     });
 
