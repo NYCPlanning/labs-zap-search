@@ -26,11 +26,10 @@
         />
       {{/each}}
       <br>
-      {{#if this.anyCommunityBoardDispositionDateReceived}}
-        <small class="display-block">
-          Recommendation submitted&nbsp;<DateDisplay @date={{this.anyCommunityBoardDispositionDateReceived}} />
-        </small>
-      {{/if}}
+      <small class="display-block">
+        {{#if this.anyCommunityBoardDispositionDateReceived}}<span data-test-cb-disposition-date-received>Recommendation submitted</span>&nbsp;{{/if~}}
+        <DateDisplay @date={{this.anyCommunityBoardDispositionDateReceived}} data-test-cb-disposition-date-received="true" />
+      </small>
     {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_BOARD_REFERRAL)}}
       {{#each this.boroughBoardDispositions as |disposition|}}
         <RecommendationResultIcon
@@ -39,11 +38,10 @@
         />
       {{/each}}
       <br>
-      {{#if this.anyBoroughBoardDispositionDateReceived}}
-        <small class="display-block">
-          Recommendation submitted&nbsp;<DateDisplay @date={{this.anyBoroughBoardDispositionDateReceived}} />
-        </small>
-      {{/if}}
+      <small class="display-block">
+        {{#if this.anyBoroughBoardDispositionDateReceived}}<span data-test-bb-disposition-date-received>Recommendation submitted</span>&nbsp;{{/if~}}
+        <DateDisplay @date={{this.anyBoroughBoardDispositionDateReceived}} />
+      </small>
     {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_PRESIDENT_REFERRAL)}}
       {{#each this.boroughPresidentDispositions as |disposition|}}
         <RecommendationResultIcon
@@ -52,11 +50,10 @@
         />
       {{/each}}
       <br>
-      {{#if this.anyBoroughPresidentDispositionDateReceived}}
-        <small class="display-block">
-          Recommendation submitted&nbsp;<DateDisplay @date={{this.anyBoroughPresidentDispositionDateReceived}} />
-        </small>
-      {{/if}}
+      <small class="display-block">
+        {{#if this.anyBoroughPresidentDispositionDateReceived}}<span data-test-bp-disposition-date-received>Recommendation submitted</span>&nbsp;{{/if~}}
+        <DateDisplay @date={{this.anyBoroughPresidentDispositionDateReceived}} />
+      </small>
     {{else}}
       <br>
       {{#if this.milestone.dcpActualenddate}}
