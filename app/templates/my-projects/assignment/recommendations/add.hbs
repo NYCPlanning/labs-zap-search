@@ -499,8 +499,7 @@
               </fieldset>
             {{/if}}
             <DocumentUploadForm
-              @queueName={{this.queueName}}
-              @onFileAdd={{this.addFileToDispositionQueues}}
+              @queue={{this.assignmentQueue}}
             />
             <hr>
             <fieldset class="medium-margin-bottom">
@@ -659,28 +658,26 @@
                     </p>
                   {{/if}}
                   <p><strong>Attached files:</strong></p>
-                    {{#with (file-queue name=this.queueName) as |queue|}}
-                      {{#if queue.files}}
-                        <ul>
-                          {{#each queue.files as |file|}}
-                            <li>
-                              <a>
-                                {{file.name}}
-                                <small>
-                                  ({{file.type}})
-                                </small>
-                              </a>
-                            </li>
-                          {{/each}}
-                        </ul>
-                      {{else}}
-                        <p
-                          data-test-confirmation-no-files
-                        >
-                          No files attached.
-                        </p>
-                      {{/if}}
-                    {{/with}}
+                    {{#if this.assignmentQueue.files}}
+                      <ul>
+                        {{#each this.assignmentQueue.files as |file|}}
+                          <li>
+                            <a data-test-confirmation-file-name={{file.name}}>
+                              {{file.name}}
+                              <small>
+                                ({{file.type}})
+                              </small>
+                            </a>
+                          </li>
+                        {{/each}}
+                      </ul>
+                    {{else}}
+                      <p
+                        data-test-confirmation-no-files
+                      >
+                        No files attached.
+                      </p>
+                    {{/if}}
                 {{/if}}
                 <hr>
                 <p class="callout warning text-small">

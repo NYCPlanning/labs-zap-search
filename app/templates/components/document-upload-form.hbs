@@ -11,8 +11,8 @@
   <div class="grid-x grid-margin-x">
     <div class="cell medium-shrink">
       <FileUpload
-        id={{concat this.queueName "FileUpload"}}
-        @name={{concat this.queueName}}
+        id={{concat this.queue.name "FileUpload"}}
+        @name={{this.queue.name}}
         @accept='*/*'
         @multiple={{true}}
         @onfileadd={{this.onFileAdd}}
@@ -23,16 +23,14 @@
     </div>
     <div class="cell auto">
       <ul>
-        {{#with (file-queue name=this.queueName) as |queue|}}
-          {{#each queue.files as |file|}}
-            <li data-test-file-name={{file.name}}>
-              {{file.name}}
-              <small>
-                ({{file.type}})
-              </small>
-            </li>
-          {{/each}}
-        {{/with}}
+        {{#each this.queue.files as |file|}}
+          <li data-test-file-name={{file.name}}>
+            {{file.name}}
+            <small>
+              ({{file.type}})
+            </small>
+          </li>
+        {{/each}}
       </ul>
     </div>
   </div>
