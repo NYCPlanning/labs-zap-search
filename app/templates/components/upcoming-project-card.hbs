@@ -43,9 +43,11 @@
             </strong>
           </p>
         {{/if}}
-        <p class="text-center text-tiny">
-          (Estimated Start Date)
-        </p>
+        {{#if (eq isMoreThanThirtyDaysBeforePublicReview null)}}
+          <p class="text-center text-tiny">
+            (Estimated Start Date)
+          </p>
+        {{/if}}
       </div>
     </div>
     <div class="cell medium-auto">
@@ -131,7 +133,11 @@
       {{/if}}
 
       {{waive-hearings-popup assignment=this.assignment showPopup=showPopup}}
-      <p class="text-center">
+
+      {{!-- TODO: Bring back the collapsed milestone timeline --}}
+
+      {{!-- Disabling this feature until we bring back the timeline --}}
+      {{!-- <p class="text-center">
         <LinkTo
           @route='show-project'
           @model={{milestone.project.id}}
@@ -140,7 +146,8 @@
           {{fa-icon 'calendar-day' fixedWidth=true class="tiny-margin-right"}}
           <span class="tiny-margin-bottom">VIEW FULL PROJECT TIMELINE</span>
         </LinkTo>
-      </p>
+      </p> --}}
+
     </div>
   </div>
 </div>
