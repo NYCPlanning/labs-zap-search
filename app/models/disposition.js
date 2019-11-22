@@ -49,6 +49,8 @@ export default class DispositionModel extends Model {
   // sourced from dcp_dcpDateofpublichearing
   @attr('date', { defaultValue: null }) dcpDateofpublichearing;
 
+  @attr('string', { defaultValue: 'DCP' }) dcpNameofpersoncompletingthisform;
+
   // Not needed
   // @attr('string', { defaultValue: '' }) formCompleterName;
 
