@@ -28,7 +28,7 @@
       <br>
       <small class="display-block">
         {{#if this.anyCommunityBoardDispositionDateReceived}}<span data-test-cb-disposition-date-received>Recommendation submitted</span>&nbsp;{{/if~}}
-        <DateDisplay @date={{this.anyCommunityBoardDispositionDateReceived}} data-test-cb-disposition-date-received="true" />
+        <DateDisplay @date={{this.anyCommunityBoardDispositionDateReceived}} />
       </small>
     {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_BOARD_REFERRAL)}}
       {{#each this.boroughBoardDispositions as |disposition|}}
