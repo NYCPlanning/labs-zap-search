@@ -36,49 +36,6 @@
             @project={{this.assignment.project}}
             @milestone={{milestone}}
           />
-          {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
-            {{#each milestoneParticipants as |milestoneParticipant|}}
-              {{#if milestoneParticipant.hearingsSubmitted}}
-                <strong data-test-lup-full-name="{{milestoneParticipant.landUseParticipantFullName}}">
-                  {{milestoneParticipant.landUseParticipantFullName}} Public Hearing
-                </strong>
-                {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
-                  {{#each dedupedHearings as |hearing|}}
-                    <ul class="sub-milestones no-bullet">
-                      <li class="grid-x">
-                        <div class="cell shrink small-margin-right">
-                          {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
-                            {{fa-icon 'calendar' fixedWidth=true class='light-gray'}}
-                          {{else}}
-                            {{fa-icon 'check' fixedWidth=true class='blue-muted'}}
-                          {{/if}}
-                        </div>
-                        <div class="cell auto">
-                          <span data-test-hearing-location="{{hearing.disposition.id}}">{{hearing.disposition.dcpPublichearinglocation}}</span>
-                          <small class="display-inline-block" data-test-hearing-date="{{hearing.disposition.id}}">
-                            <DateDisplay
-                              @date={{hearing.disposition.dcpDateofpublichearing}}
-                              @outputFormat="LLL"
-                            />
-                          </small>
-                          <span class="display-inline-block text-tiny">
-                            {{#each hearing.hearingActions as |action index|}}
-                              {{#if action.dcpName}}
-                                <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
-                                  {{action.dcpName}}
-                                  <small>{{action.dcpUlurpnumber}}</small>
-                                </span>
-                              {{/if}}
-                            {{/each}}
-                          </span>
-                        </div>
-                      </li>
-                    </ul>
-                  {{/each}}
-                {{/deduped-hearings-list}}
-              {{/if}}
-            {{/each}}
-          {{/hearings-list-for-milestones-list}}
         {{/each}}
       </ul>
     </div>
