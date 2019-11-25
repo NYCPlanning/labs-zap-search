@@ -12,5 +12,7 @@ export default class MyProjectsAssignmentRoute extends Route {
   @action
   error(error) {
     console.log(error);
+
+    this.transitionTo('my-projects');
   }
 }
