@@ -18,7 +18,7 @@
 </div>
 <div class="cell auto {{if (or (eq tense 'past') (eq tense 'present')) '' 'gray'}}">
   <h4 class="no-margin">
-    {{milestone.orderSensitiveName}}
+    <span data-test-milestone-name="{{milestone.id}}">{{milestone.orderSensitiveName}}</span>
 
     {{#if milestone.displayDescription}}
       <sup class="gray">
@@ -27,7 +27,7 @@
     {{/if}}
   </h4>
   {{#if milestone.displayDate}}
-    <p class="milestone-dates">
+    <p class="milestone-dates" data-test-milestone-dates="{{milestone.id}}">
       {{#if milestone.displayDate}}
         {{#if (and milestone.displayDate2 (is-same milestone.displayDate milestone.displayDate2 precision="year"))}}
           <DateDisplay
