@@ -4,22 +4,23 @@
       <div class="cell large-6 large-offset-3 text-center">
         <h2>Oops!</h2>
 
-        <p>Something went wrong</p>
+        <p>Something went wrong.</p>
 
         {{#each model.errors as |error idx|}}
-          <p data-test-error-message={{idx}}>{{error.detail}}</p>
-          {{#if (not error.detail)}}
+          {{#if error.detail}}
+            <code class="callout display-block text-left red-muted" data-test-error-message={{idx}}>{{error.detail}}</code>
+          {{else}}
             {{#each-in error as |key value|}}
-              <p>
-                {{key}}: {{value}}
-              </p>
+              <code class="callout display-block text-left red-muted">{{key}}: {{value}}</code>
             {{/each-in}}
           {{/if}}
         {{/each}}
 
         {{auth/do-logout}}
 
-        <p>Please reach out to your contact at DCP, and we'll take care of it as soon as possible.</p>
+      </div>
+      <div class="cell large-10 large-offset-1 xlarge-8 xlarge-offset-2  text-center">
+        <p class="">Please contact City Planning at <a href="mailto:ZAP_feedback_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a> or 212-720-3300.</p>
       </div>
     </div>
   </div>

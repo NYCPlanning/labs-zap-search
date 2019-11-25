@@ -7,6 +7,7 @@ let { LUPP_ENABLED = true } = process.env;
 LUPP_ENABLED = JSON.parse(LUPP_ENABLED);
 const MIRAGE_SCENARIO = process.env.MIRAGE_SCENARIO;
 const NYCID_CLIENT_ID =  process.env.NYCID_CLIENT_ID || 'zap_staging';
+const NYC_ID_HOST =  process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
 
 module.exports = function(environment) {
   const ENV = {
@@ -18,9 +19,9 @@ module.exports = function(environment) {
     routerScroll: {
       scrollElement: '#scrolling-result-content',
     },
-    NYC_ID_HOST: 'https://accounts-nonprd.nyc.gov',
+    NYC_ID_HOST,
     host: ENVIRONMENTAL_HOST_API || '',
-    OAUTH_ENDPOINT: `https://accounts-nonprd.nyc.gov/account/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
+    OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
     LUPP_ENABLED,
     MIRAGE_SCENARIO,
     EmberENV: {

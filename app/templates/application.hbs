@@ -38,7 +38,19 @@
 {{/labs-ui/site-header}}
 
 <div class="site-main grid-x grid-padding-x route-{{currentRouteName}}">
-  {{outlet}}
+  {{#if
+    (and
+      (user-agent "browser.isIE")
+      (lte (user-agent "browser.info.major") 10)
+    )
+  }}
+    <div class="cell large-6 large-offset-3 text-center" style="padding:2rem 0;">
+      {{fa-icon 'exclamation-triangle' size='2x' class='yellow-muted'}}
+      <p>It looks like you're using Internet Explorer.  This site works best in a modern browser. Please try a current version of Edge, Chrome, or Firefox.</p>
+    </div>
+  {{else}}
+    {{outlet}}
+  {{/if}}
 </div>
 
 <div id="reveal-modal-container">

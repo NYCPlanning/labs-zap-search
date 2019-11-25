@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 export default class MyProjectsAssignmentRoute extends Route {
   async model({ assignment_id }) {
     return this.store.findRecord('assignment', assignment_id, {
-      include: 'dispositions,project,project.dispositions,project.dispositions.action',
+      include: 'dispositions,project,project.dispositions,project.dispositions.action,project.actions',
       reload: true,
     });
   }
@@ -12,5 +12,7 @@ export default class MyProjectsAssignmentRoute extends Route {
   @action
   error(error) {
     console.log(error);
+
+    this.transitionTo('my-projects');
   }
 }
