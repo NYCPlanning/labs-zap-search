@@ -153,6 +153,20 @@ export default class AssignmentModel extends Model {
     return dcpPlannedcompletiondate;
   }
 
+  @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
+  get toReviewMilestoneTimeRemaining() {
+    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
+    const { dcpRemainingplanneddayscalculated } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    return dcpRemainingplanneddayscalculated;
+  }
+
+  @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
+  get toReviewMilestoneTimeDuration() {
+    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
+    const { dcpActualdurationasoftoday } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    return dcpActualdurationasoftoday;
+  }
+
   // If `tab` is 'reviewed'...
   //   - these start/end dates come from the current In Progress milestone
   //   - an array of milestone dates is returned
@@ -167,6 +181,8 @@ export default class AssignmentModel extends Model {
       displayName: milestone.displayName,
       dcpActualstartdate: milestone.dcpActualstartdate,
       dcpPlannedcompletiondate: milestone.dcpPlannedcompletiondate,
+      dcpRemainingplanneddayscalculated: milestone.dcpRemainingplanneddayscalculated,
+      dcpActualdurationasoftoday: milestone.dcpActualdurationasoftoday,
     }));
   }
 }

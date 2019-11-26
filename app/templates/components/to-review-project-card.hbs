@@ -13,16 +13,22 @@
     </div>
     <div class="cell medium-4 large-3 xlarge-2">
       <div class="text-center medium-margin-right medium-margin-left">
-        <p class="tiny-margin-bottom">{{participant-type-label assignment.dcpLupteammemberrole}} Review</p>
+        <p class="tiny-margin-bottom" data-test-milestone-label="{{assignment.id}}">{{participant-type-label assignment.dcpLupteammemberrole}} Review</p>
         {{#if assignment.toReviewMilestonePlannedCompletionDate}}
-          <p>
-            <strong class="stat"
-              data-test-time-remaining
-            >
-              {{timeRemaining}}
-            </strong>
-            <strong class="display-block">of {{timeDuration}} days remain</strong>
-          </p>
+          {{#if assignment.toReviewMilestoneTimeRemaining}}
+            <p>
+              <strong class="stat"
+                data-test-time-remaining="{{assignment.id}}"
+              >
+                {{assignment.toReviewMilestoneTimeRemaining}}
+              </strong>
+              {{#if assignment.toReviewMilestoneTimeDuration}}
+                <strong class="display-block" data-test-time-duration="{{assignment.id}}">of {{assignment.toReviewMilestoneTimeDuration}} days remain</strong>
+              {{else}}
+                <strong class="display-block" data-test-no-time-duration-message="{{assignment.id}}">days remain</strong>
+              {{/if}}
+            </p>
+          {{/if}}
           <p class="text-tiny">
             Ends <DateDisplay @date={{assignment.toReviewMilestonePlannedCompletionDate}} @outputFormat="M/D/YYYY" />
           </p>
