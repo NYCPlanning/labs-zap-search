@@ -43,6 +43,8 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
                 displayDate: moment().subtract(9, 'days'),
                 dcpPlannedcompletiondate: moment().add(15, 'days'),
                 displayDate2: null,
+                dcpRemainingplanneddayscalculated: 14,
+                dcpActualdurationasoftoday: 29,
               }),
             ],
           }),
@@ -56,8 +58,90 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
 
     await visit('/my-projects/reviewed');
 
-    const timeRemainingValue = find('[data-test-estimated-time-remaining]').textContent.trim();
+    const timeRemainingValue = find('[data-test-estimated-time-remaining="1"]').textContent.trim();
+    const timeDurationValue = find('[data-test-estimated-time-duration="1"]').textContent.trim();
     assert.equal(timeRemainingValue, '14', 'Estimated time remaining displays 14');
+    assert.equal(timeDurationValue, 'of 29 estimated days remain', 'Estimated time duration displays 29');
+  });
+
+  test('reviewed project card does not show "of" if dcpActualdurationasoftoday is null', async function(assert) {
+    this.server.create('user', {
+      id: 1,
+      email: 'qncb5@planning.nyc.gov',
+      landUseParticipant: 'QNCB',
+      assignments: [
+        this.server.create('assignment', {
+          id: 1,
+          tab: 'reviewed',
+          dcpLupteammemberrole: 'CB',
+          dispositions: [],
+          project: this.server.create('project', {
+            milestones: [
+              this.server.create('milestone', 'boroughPresidentReview', {
+                statuscode: 'In Progress',
+                dcpActualstartdate: moment().subtract(9, 'days'),
+                displayDate: moment().subtract(9, 'days'),
+                dcpPlannedcompletiondate: moment().add(15, 'days'),
+                displayDate2: null,
+                dcpRemainingplanneddayscalculated: 14,
+                dcpActualdurationasoftoday: null,
+              }),
+            ],
+          }),
+        }),
+      ],
+    });
+
+    await authenticateSession({
+      id: 1,
+    });
+
+    await visit('/my-projects/reviewed');
+
+    const timeRemainingValue = find('[data-test-estimated-time-remaining="1"]').textContent.trim();
+    const noTimeDurationMessage = find('[data-test-estimated-no-time-duration-message="1"]').textContent.trim();
+    assert.equal(timeRemainingValue, '14', 'Estimated time remaining displays 14');
+    assert.equal(noTimeDurationMessage, 'estimated days remain', 'no estimated duration time');
+  });
+
+  test('reviewed project card does not date information if dcpRemainingplanneddayscalculated is null', async function(assert) {
+    this.server.create('user', {
+      id: 1,
+      email: 'qncb5@planning.nyc.gov',
+      landUseParticipant: 'QNCB',
+      assignments: [
+        this.server.create('assignment', {
+          id: 1,
+          tab: 'reviewed',
+          dcpLupteammemberrole: 'CB',
+          dispositions: [],
+          project: this.server.create('project', {
+            milestones: [
+              this.server.create('milestone', 'boroughPresidentReview', {
+                statuscode: 'In Progress',
+                dcpActualstartdate: moment().subtract(9, 'days'),
+                displayDate: moment().subtract(9, 'days'),
+                dcpPlannedcompletiondate: moment().add(15, 'days'),
+                displayDate2: null,
+                dcpRemainingplanneddayscalculated: null,
+                dcpActualdurationasoftoday: 29,
+              }),
+            ],
+          }),
+        }),
+      ],
+    });
+
+    await authenticateSession({
+      id: 1,
+    });
+
+    await visit('/my-projects/reviewed');
+
+    assert.ok(find('[data-test-time-display-label="1"]'));
+    assert.notOk(find('[data-test-estimated-time-remaining="1"]'));
+    assert.notOk(find('[data-test-estimated-time-duration="1"]'));
+    assert.notOk(find('[data-test-estimated-no-time-duration-message="1"]'));
   });
 
   test('reviewed project card displays recommendation dcpActualenddate', async function(assert) {

@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import moment from 'moment';
 
 export default class ReviewedProjectCardComponent extends Component {
   @service
@@ -31,8 +30,8 @@ export default class ReviewedProjectCardComponent extends Component {
     if (firstInProgressMilestoneDates.displayName && firstInProgressMilestoneDates.dcpActualstartdate && firstInProgressMilestoneDates.dcpPlannedcompletiondate) {
       return {
         displayName: firstInProgressMilestoneDates.displayName,
-        estTimeRemaining: moment(firstInProgressMilestoneDates.dcpPlannedcompletiondate).diff(moment(), 'days'),
-        estTimeDuration: moment(firstInProgressMilestoneDates.dcpPlannedcompletiondate).diff(moment(firstInProgressMilestoneDates.dcpActualstartdate), 'days'),
+        estTimeRemaining: firstInProgressMilestoneDates.dcpRemainingplanneddayscalculated,
+        estTimeDuration: firstInProgressMilestoneDates.dcpActualdurationasoftoday,
         dcpPlannedcompletiondate: firstInProgressMilestoneDates.dcpPlannedcompletiondate,
       };
     }
