@@ -314,17 +314,26 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     assert.notOk(find('[data-test-vote-date="23"]'), 'date 23');
     // waived hearing but still submitted recommendation
     assert.ok(this.element.querySelector('[data-test-vote-date="24"]').textContent.includes('July 21'), 'date 24');
-    //
+
     // // #### VOTE RECOMMENDATION ############################################################
-    // index = number in a list of similar participant types (e.g. borough board)
-    assert.ok(find('[data-test-borough-board-rec="17"]'), 'QNBB thumb');
-    assert.ok(find('[data-test-borough-board-rec="18"]'), 'MNBB thumb');
-    assert.notOk(find('[data-test-borough-board-rec="19"]'), 'MNBB duplicate thumb'); // duplicate
-    assert.ok(find('[data-test-comm-board-rec="20"]'), 'QNCB4 thumb');
-    assert.ok(find('[data-test-comm-board-rec="21"]'), 'QNCB5 thumb');
-    assert.ok(find('[data-test-comm-board-rec="22"]'), 'QNCB5 thumb');
-    assert.ok(find('[data-test-comm-board-rec="24"]'), 'BKCB3 thumb'); // hearings waived but rec submitted
-    assert.notOk(find('[data-test-comm-board-rec="23"]'), 'BXCB2 thumb'); // not submitted yet
+    assert.ok(this.element.querySelector('[data-test-rec-label="17"]').textContent.includes('Waiver of Recommendation'), 'QNBB rec');
+    assert.ok(this.element.querySelector('[data-test-rec-label="18"]').textContent.includes('Favorable'), 'MNBB rec');
+    assert.notOk(find('[data-test-rec-label="19"]'), 'MNBB duplicate rec'); // duplicate
+    assert.ok(this.element.querySelector('[data-test-rec-label="20"]').textContent.includes('Approved with Modifications/Conditions'), 'QNCB4 rec');
+    assert.ok(this.element.querySelector('[data-test-rec-label="21"]').textContent.includes('Disapproved with Modifications/Conditions'), 'QNCB5 rec');
+    assert.ok(this.element.querySelector('[data-test-rec-label="22"]').textContent.includes('Waiver of Recommendation'), 'QNCB5 rec');
+    assert.ok(this.element.querySelector('[data-test-rec-label="24"]').textContent.includes('Disapproved'), 'BKCB3 rec'); // hearings waived but rec submitted
+    assert.notOk(find('[data-test-rec-label="23"]'), 'BXCB2 rec'); // not submitted yet
+
+    // // #### VOTE RECOMMENDATION SYMBOL ############################################################
+    assert.ok(find('[data-test-rec-symbol="17"]'), 'QNBB thumb');
+    assert.ok(find('[data-test-rec-symbol="18"]'), 'MNBB thumb');
+    assert.notOk(find('[data-test-rec-symbol="19"]'), 'MNBB duplicate thumb'); // duplicate
+    assert.ok(find('[data-test-rec-symbol="20"]'), 'QNCB4 thumb');
+    assert.ok(find('[data-test-rec-symbol="21"]'), 'QNCB5 thumb');
+    assert.ok(find('[data-test-rec-symbol="22"]'), 'QNCB5 thumb');
+    assert.ok(find('[data-test-rec-symbol="24"]'), 'BKCB3 thumb'); // hearings waived but rec submitted
+    assert.notOk(find('[data-test-rec-symbol="23"]'), 'BXCB2 thumb'); // not submitted yet
 
     // #### VOTE ACTIONS ############################################################
     assert.ok(this.element.querySelector('[data-test-vote-actions-list="170"]').textContent.includes('Zoning Special Permit'), 'action 170');

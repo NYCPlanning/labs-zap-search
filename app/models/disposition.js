@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+import { RECOMMENDATION_OPTIONSET_BY_PARTICIPANT_TYPE_LOOKUP } from 'labs-zap-search/controllers/my-projects/assignment/recommendations/add';
 
 const {
   Model, attr, belongsTo,
@@ -17,6 +18,12 @@ export const STATECODES = [
   { Label: 'Active', Value: 0 },
   { Label: 'Inactive', Value: 1 },
 ];
+
+export const PARTICIPANT_TYPE_RECOMMENDATION_TYPE_LOOKUP = {
+  BP: 'dcpBoroughpresidentrecommendation',
+  BB: 'dcpBoroughboardrecommendation',
+  CB: 'dcpCommunityboardrecommendation',
+};
 
 // mirrors @attr but allows for computed a
 // value for serialization
@@ -198,5 +205,21 @@ export default class DispositionModel extends Model {
       return borough.concat(' ', participantType, ' ', cbNumber);
     }
     return borough.concat(' ', participantType);
+  }
+
+  // the recommendationLabel associated with the recommendation code
+  // e.g. for code `717170000` the recommendationLabel for BB would be `Favorable`
+  @computed('fullname', 'dcpCommunityboardrecommendation', 'dcpBoroughboardrecommendation', 'dcpBoroughpresidentrecommendation')
+  get recommendationLabel() {
+    // participantType e.g. `BB`
+    const participantType = this.fullname.substring(3, 5);
+    // recommendationCode e.g. `717170000`
+    const recommendationCode = this.get(PARTICIPANT_TYPE_RECOMMENDATION_TYPE_LOOKUP[participantType]);
+    // partTypeRecs e.g. array of objects with code and label values for a type of participant
+    const partTypeRecs = RECOMMENDATION_OPTIONSET_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
+    // filter the partTypeRecs array of objects to match the `participantRecommendation`
+    const recLabels = partTypeRecs.filter(rec => rec.code === recommendationCode);
+
+    return recLabels.firstObject.label;
   }
 }
