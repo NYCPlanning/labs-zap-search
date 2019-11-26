@@ -115,22 +115,12 @@
             {{#each dedupedVotes as |vote|}}
               <li class="grid-x small-margin-bottom">
                 <div class="cell shrink small-margin-right">
-                  {{#if (eq milestoneParticipant.landUseParticipantType "CB")}}
-                    <span data-test-comm-board-rec="{{vote.disposition.id}}">
-                      {{recommendation-symbol participantRecommendation=vote.disposition.dcpCommunityboardrecommendation}}
-                    </span>
-                  {{else if (eq milestoneParticipant.landUseParticipantType "BB")}}
-                    <span data-test-borough-board-rec="{{vote.disposition.id}}">
-                      {{recommendation-symbol participantRecommendation=vote.disposition.dcpBoroughboardrecommendation}}
-                    </span>
-                  {{else if (eq milestoneParticipant.landUseParticipantType "BP")}}
-                    <span data-test-borough-pres-rec="{{vote.disposition.id}}">
-                      {{recommendation-symbol participantRecommendation=vote.disposition.dcpBoroughpresidentrecommendation}}
-                    </span>
-                  {{/if}}
+                  <span data-test-rec-symbol="{{vote.disposition.id}}">
+                    {{recommendation-symbol participantRecommendation=vote.disposition.recommendationLabel}}
+                  </span>
                 </div>
                 <div class="cell auto">
-                  <strong>Vote</strong>
+                  <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
                   <small>
                     <span class="display-inline-block" data-test-voting-favor="{{vote.disposition.id}}">
                       {{vote.disposition.dcpVotinginfavorrecommendation}} In Favor,
@@ -143,7 +133,7 @@
                     </span>
                   </small>
                   <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
-                    {{~moment-format vote.disposition.dcpDateofvote "LL"~}}
+                    Vote:&nbsp;{{~moment-format vote.disposition.dcpDateofvote "LL"~}}
                   </small>
                   <div class="text-tiny">
                     {{#each vote.voteActions as |action index|}}

@@ -8,11 +8,11 @@ export default class RecommendationSymbol extends Component {
   @computed('participantRecommendation')
   get icon() {
     let icon = { style: '', color: 'light-gray' };
-    if ([717170000, 717170001].includes(this.participantRecommendation)) {
+    if (['Favorable', 'Conditional Favorable', 'Approved', 'Approved with Modifications/Conditions', 'No Objection'].includes(this.participantRecommendation)) {
       icon = { style: 'thumbs-up', color: 'green-muted' };
-    } else if ([717170002, 717170003].includes(this.participantRecommendation)) {
+    } else if (['Unfavorable', 'Conditional Unfavorable', 'Disapproved', 'Disapproved with Modifications/Conditions'].includes(this.participantRecommendation)) {
       icon = { style: 'thumbs-down', color: 'red-muted' };
-    } else if ([717170002, 717170006, 717170008].includes(this.participantRecommendation)) {
+    } else if (['Waiver of Recommendation', 'Received after Clock Expried', 'Vote Quorum Not Present', 'Non-Complying'].includes(this.participantRecommendation)) {
       icon = { style: 'comment-slash', color: 'light-gray' };
     }
     return icon;
