@@ -55,14 +55,21 @@ export default class MilestoneModel extends Model {
   // --> ZAP-API:milestoneLinks
   @attr() milestoneLinks;
 
-  // --> ZAP-API generated boolean determined whether milestone is a "revision" type
-  // usually occurs when it's a duplicate type in a sequence
-  @attr('boolean') isRevised;
+  // In list of milestones with same displayName,
+  // each milestone AFTER the first will have `Revised` before the name (isRevised === true)
+  // milestones are already sorted in the backend by date
+  @computed('project.milestones', 'id', 'displayName')
+  get isRevised() {
+    const projectMilestones = this.get('project.milestones');
+    const currentMilestoneList = projectMilestones.filter(m => m.displayName === this.displayName);
+    // check if the current milestone id matches the first in the list
+    return this.id !== currentMilestoneList.firstObject.id;
+  }
 
-  @computed('displayName')
-  get orderSensitiveName () {
+  // New milestone name based on isRevised
+  @computed('isRevised', 'displayName')
+  get orderSensitiveName() {
     if (this.isRevised) return `Revised ${this.displayName}`;
-
     return this.displayName;
   }
 }

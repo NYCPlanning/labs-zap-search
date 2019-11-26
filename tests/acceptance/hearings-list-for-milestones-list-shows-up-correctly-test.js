@@ -27,7 +27,6 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
   });
 
   test('hearings-list-for-milestones-list shows up correctly on show-project', async function(assert) {
-    // ########## UPCOMING #################################################################
     this.server.create('project', {
       id: 5,
       dispositions: [
@@ -338,7 +337,6 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     assert.notOk(find('[data-test-vote-actions-list="230"]'), 'action 230');
     // hearings waived but recommendation still submitted
     assert.ok(this.element.querySelector('[data-test-vote-actions-list="220"]').textContent.includes('Business Improvement District'), 'action 220');
-  //
   });
 
   test('milestones list is not broken by a NULL fullname value on show-project page', async function(assert) {
