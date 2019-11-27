@@ -8,6 +8,7 @@ const dateMessage = 'Please enter a valid date';
 const numberMessage = 'Please enter a valid non-negative number';
 const recommendationPresenceMessage = 'Please select a recommendation';
 const dcpVotelocationPresenceMessage = 'Please enter a vote location';
+const maxLengthMessage = 'Total may not exceed 99';
 
 // The following exports are Validation Maps to support ember-changesets
 // used in forms like the recommendation form.
@@ -74,6 +75,11 @@ export const cbDispositionForAllActionsValidations = {
   ],
 
   dcpTotalmembersappointedtotheboard: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -144,6 +150,10 @@ export const bbDispositionForAllActionsValidations = {
   ],
 
   dcpTotalmembersappointedtotheboard: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -218,6 +228,10 @@ export const communityBoardDispositionValidations = {
   ],
 
   dcpTotalmembersappointedtotheboard: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpCommunityboardrecommendation',
@@ -293,6 +307,10 @@ export const boroughBoardDispositionValidations = {
   ],
 
   dcpTotalmembersappointedtotheboard: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpBoroughboardrecommendation',
