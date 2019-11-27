@@ -3,7 +3,7 @@ import moment from 'moment';
 export default function(server) {
   // Array of dispositions for To Review Project 1
   const dispositionsArrayForToReview = [
-    server.create('disposition', 'withAction', {
+    server.create('disposition', {
       fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
@@ -11,7 +11,7 @@ export default function(server) {
       dcpDatereceived: null,
       dcpPublichearinglocation: null,
     }),
-    server.create('disposition', 'withAction', {
+    server.create('disposition', {
       fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
@@ -19,7 +19,7 @@ export default function(server) {
       dcpDatereceived: null,
       dcpPublichearinglocation: null,
     }),
-    server.create('disposition', 'withAction', {
+    server.create('disposition', {
       fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
@@ -31,7 +31,7 @@ export default function(server) {
 
   // Array of dispositions for To Review Project 2 BP role
   const dispositionsArrayForToReview2 = [
-    server.create('disposition', 'withAction', {
+    server.create('disposition', {
       fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
@@ -39,7 +39,7 @@ export default function(server) {
       dcpDatereceived: null,
       dcpPublichearinglocation: null,
     }),
-    server.create('disposition', 'withAction', {
+    server.create('disposition', {
       fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
@@ -47,7 +47,7 @@ export default function(server) {
       dcpDatereceived: null,
       dcpPublichearinglocation: null,
     }),
-    server.create('disposition', 'withAction', {
+    server.create('disposition', {
       fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
@@ -59,7 +59,7 @@ export default function(server) {
 
   // Array of dispositions for To Review Project 2 BB role
   const dispositionsArrayForToReview3 = [
-    server.create('disposition', 'withAction', {
+    server.create('disposition', {
       fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
@@ -67,7 +67,7 @@ export default function(server) {
       dcpDatereceived: null,
       dcpPublichearinglocation: null,
     }),
-    server.create('disposition', 'withAction', {
+    server.create('disposition', {
       fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
@@ -75,7 +75,7 @@ export default function(server) {
       dcpDatereceived: null,
       dcpPublichearinglocation: null,
     }),
-    server.create('disposition', 'withAction', {
+    server.create('disposition', {
       fullname: 'QN CB4',
       dcpCommunityboardrecommendation: null,
       dcpIspublichearingrequired: null,
@@ -86,11 +86,11 @@ export default function(server) {
   ];
 
   // Project attributes for Upcoming Project 1 which has both BP and BB assignments
-  const projectForUpcoming1 = server.create('project', {
+  const projectForUpcoming1 = server.create('project', 'withActions', {
     dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
     dcpPublicstatusSimp: 'Filed',
     dispositions: [
-      server.create('disposition', 'withAction', {
+      server.create('disposition', {
         fullname: 'QN BP',
         dcpBoroughpresidentrecommendation: null,
         dcpDatereceived: null,
@@ -122,7 +122,7 @@ export default function(server) {
     ],
   });
 
-  const projectForToReview2 = server.create('project', {
+  const projectForToReview2 = server.create('project', 'withActions', {
     dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
     dcpPublicstatusSimp: 'In Public Review',
     dispositions: dispositionsArrayForToReview2,
@@ -165,11 +165,11 @@ export default function(server) {
         tab: 'upcoming',
         dcpLupteammemberrole: 'BP',
         publicReviewPlannedStartDate: moment().add(12, 'days'),
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'Filed',
           dispositions: [
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: null,
               dcpDatereceived: null,
@@ -203,11 +203,11 @@ export default function(server) {
         tab: 'upcoming',
         dcpLupteammemberrole: 'BP',
         publicReviewPlannedStartDate: moment().add(12, 'days'),
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: null,
               dcpDatereceived: null,
@@ -247,7 +247,7 @@ export default function(server) {
         tab: 'to-review',
         dcpLupteammemberrole: 'BP',
         dispositions: dispositionsArrayForToReview,
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: dispositionsArrayForToReview,
@@ -268,11 +268,11 @@ export default function(server) {
         tab: 'to-review',
         dcpLupteammemberrole: 'BP',
         dispositions: dispositionsArrayForToReview2,
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'Filed',
           dispositions: [
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: null,
               dcpDatereceived: null,
@@ -319,21 +319,21 @@ export default function(server) {
       server.create('assignment', {
         tab: 'reviewed',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(90, 'days'),
             }),
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN CB4',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN CB6',
               dcpCommunityboardrecommendation: 'Disapproved',
               dcpDatereceived: moment().subtract(130, 'days'),
@@ -395,16 +395,16 @@ export default function(server) {
       server.create('assignment', {
         tab: 'reviewed',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(82, 'days'),
             }),
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN CB9',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
               dcpDatereceived: moment().subtract(130, 'days'),
@@ -484,16 +484,16 @@ export default function(server) {
       server.create('assignment', {
         tab: 'reviewed',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN CB12',
               dcpCommunityboardrecommendation: 'Waived',
               dcpDatereceived: moment().subtract(120, 'days'),
@@ -578,23 +578,23 @@ export default function(server) {
       server.create('assignment', {
         tab: 'archive',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatus: 'Approved',
           dcpPublicstatusSimp: 'Completed',
           dcpProjectcompleted: moment().subtract(40, 'days'),
           dispositions: [
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(90, 'days'),
             }),
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN CB4',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN CB6',
               dcpCommunityboardrecommendation: 'Disapproved',
               dcpDatereceived: moment().subtract(130, 'days'),
@@ -672,18 +672,18 @@ export default function(server) {
       server.create('assignment', {
         tab: 'archive',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatus: 'Approved',
           dcpPublicstatusSimp: 'Completed',
           dcpProjectcompleted: moment().subtract(140, 'days'),
           dispositions: [
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(290, 'days'),
             }),
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN CB9',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
               dcpDatereceived: moment().subtract(320, 'days'),
@@ -761,18 +761,18 @@ export default function(server) {
       server.create('assignment', {
         tab: 'archive',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
+        project: server.create('project', 'withActions', {
           dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
           dcpPublicstatus: 'Withdrawn/Terminated/Disapproved',
           dcpPublicstatusSimp: 'Completed',
           dcpProjectcompleted: moment().subtract(120, 'days'),
           dispositions: [
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
               dcpDatereceived: moment().subtract(120, 'days'),
             }),
-            server.create('disposition', 'withAction', {
+            server.create('disposition', {
               fullname: 'QN CB12',
               dcpCommunityboardrecommendation: 'Waived',
               dcpDatereceived: moment().subtract(120, 'days'),
