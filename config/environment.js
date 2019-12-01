@@ -7,7 +7,7 @@ let { LUPP_ENABLED = true } = process.env;
 LUPP_ENABLED = JSON.parse(LUPP_ENABLED);
 const MIRAGE_SCENARIO = process.env.MIRAGE_SCENARIO;
 const NYCID_CLIENT_ID =  process.env.NYCID_CLIENT_ID || 'zap_staging';
-const NYC_ID_HOST =  process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account/console';
+const NYC_ID_HOST =  process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
 
 module.exports = function(environment) {
   const ENV = {

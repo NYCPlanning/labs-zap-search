@@ -22,9 +22,12 @@
       </FileUpload>
     </div>
     <div class="cell auto">
-      <ul>
+      <ul class="no-bullet">
         {{#each this.queue.files as |file|}}
           <li data-test-file-name={{file.name}}>
+            <a {{action "removeFile" this.queue file}}>
+              {{fa-icon 'times' class='red-muted' fixedWidth=true}}
+            </a>
             {{file.name}}
             <small>
               ({{file.type}})

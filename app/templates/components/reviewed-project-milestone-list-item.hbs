@@ -20,17 +20,12 @@
         {{this.milestone.displayName}}
       </strong>
       {{#if (eq this.milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
-
         {{#each this.communityBoardDispositions as |disposition|}}
           <RecommendationResultIcon
             @recommendation={{disposition.dcpCommunityboardrecommendation}}
             @action={{disposition.action}}
           />
         {{/each}}
-        <br>
-        <small data-test-cb-recommendation-submitted-date="{{this.milestone.id}}" class="display-block">
-          Recommendation submitted&nbsp;<DateDisplay @date={{this.anyCommunityBoardDispositionDateReceived}} />
-        </small>
       {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_BOARD_REFERRAL)}}
         {{#each this.boroughBoardDispositions as |disposition|}}
           <RecommendationResultIcon
@@ -38,10 +33,6 @@
             @action={{disposition.action}}
           />
         {{/each}}
-        <br>
-        <small data-test-bb-recommendation-submitted-date="{{this.milestone.id}}" class="display-block">
-          Recommendation submitted&nbsp;<DateDisplay @date={{this.anyBoroughBoardDispositionDateReceived}} />
-        </small>
       {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_PRESIDENT_REFERRAL)}}
         {{#each this.boroughPresidentDispositions as |disposition|}}
           <RecommendationResultIcon
@@ -49,17 +40,12 @@
             @action={{disposition.action}}
           />
         {{/each}}
+      {{/if}}
+      {{#if this.milestone.dcpActualenddate}}
         <br>
-        <small class="display-block">
-          Recommendation submitted&nbsp;<DateDisplay @date={{this.anyBoroughPresidentDispositionDateReceived}} />
+        <small class="display-block" data-test-actual-end-date="{{milestone.id}}">
+          <DateDisplay @date={{this.milestone.dcpActualenddate}} />
         </small>
-      {{else}}
-        <br>
-        {{#if this.milestone.dcpActualenddate}}
-          <small class="display-block">
-            <DateDisplay @date={{this.milestone.dcpActualenddate}} />
-          </small>
-        {{/if}}
       {{/if}}
     </p>
   </div>

@@ -53,7 +53,7 @@ export default class DispositionModel extends Model {
   // sourced from dcp_dcpDateofpublichearing
   @attr('date', { defaultValue: null }) dcpDateofpublichearing;
 
-  @attr('string', { defaultValue: 'DCP' }) dcpNameofpersoncompletingthisform;
+  @attr('string', { defaultValue: 'ZAP LUP Portal' }) dcpNameofpersoncompletingthisform;
 
   // sourced from dcp_projectactionid in dcp_projectaction table
   // e.g. 9bbfbec7-2407-ea11-a9aa-001dd8308025
