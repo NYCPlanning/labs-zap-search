@@ -28,6 +28,9 @@ export default Factory.extend({
 
   dcpCommunityboardrecommendation: null,
 
+  // see afterCreate
+  dcpRepresenting: 'Borough Board',
+
   fullname(i) {
     return faker.list.random('QN BB', 'MN BP', 'BK CB14')(i);
   },

@@ -11,12 +11,16 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { RECOMMENDATION_OPTIONSET_BY_PARTICIPANT_TYPE_LOOKUP } from 'labs-zap-search/controllers/my-projects/assignment/recommendations/add';
 import moment from 'moment';
+import { participantRoles } from 'labs-zap-search/models/assignment';
 
 module('Acceptance | 930 recommendation action dropdown bug', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   test('Participant can submit a different recommendation for each action', async function(assert) {
+    const participantType = 'BP';
+    const { label } = participantRoles.findBy('abbreviation', participantType);
+
     server.create('user', {
       id: 1,
       // These two fields don't matter to these tests
@@ -26,19 +30,22 @@ module('Acceptance | 930 recommendation action dropdown bug', function(hooks) {
         server.create('assignment', {
           id: 1,
           tab: 'to-review',
-          dcpLupteammemberrole: 'BP',
+          dcpLupteammemberrole: participantType,
           dispositions: [
             server.create('disposition', {
+              dcpRepresenting: label,
               dcpPublichearinglocation: 'Canal street',
               dcpDateofpublichearing: moment().subtract(22, 'days'),
               action: server.create('action'),
             }),
             server.create('disposition', {
+              dcpRepresenting: label,
               dcpPublichearinglocation: 'Canal street',
               dcpDateofpublichearing: moment().subtract(22, 'days'),
               action: server.create('action'),
             }),
             server.create('disposition', {
+              dcpRepresenting: label,
               dcpPublichearinglocation: 'Hudson Yards',
               dcpDateofpublichearing: moment().subtract(28, 'days'),
               action: server.create('action'),
@@ -52,10 +59,11 @@ module('Acceptance | 930 recommendation action dropdown bug', function(hooks) {
         server.create('assignment', {
           id: 2,
           tab: 'to-review',
-          dcpLupteammemberrole: 'BP',
+          dcpLupteammemberrole: participantType,
           dispositions: [
             server.create('disposition', {
               id: 5,
+              dcpRepresenting: label,
               dcpIspublichearingrequired: 'No',
               dcpPublichearinglocation: null,
               dcpDateofpublichearing: null,

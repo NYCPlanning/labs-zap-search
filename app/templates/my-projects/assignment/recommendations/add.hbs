@@ -44,7 +44,7 @@
             <p class="help-text">
               A quorum requires the presence of 20% of appointed board members, and not fewer than seven members.
             </p>
-            {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}
+            {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
               {{#each dedupedHearings as |hearing idx|}}
                 {{#if hearing.disposition.dcpDateofpublichearing}}
                   <div class="grid-x">
@@ -74,12 +74,12 @@
                         name={{concat idx '-quorum'}}
                         id={{concat idx '-quorum-yes'}}
                         checked={{if hearing.disposition.dcpWasaquorumpresent "checked"}}
-                        onClick={{action 'updateDispositionAttr' hearing assignment.dispositions 'dcpWasaquorumpresent' true}}
+                        onClick={{action 'updateDispositionAttr' hearing assignment.dispositionsByRole 'dcpWasaquorumpresent' true}}
                         data-test-quorum-yes="{{idx}}"
                       />
                       <label
                         for="{{concat idx '-quorum-yes'}}"
-                        {{action 'updateDispositionAttr' hearing assignment.dispositions 'dcpWasaquorumpresent' true}}
+                        {{action 'updateDispositionAttr' hearing assignment.dispositionsByRole 'dcpWasaquorumpresent' true}}
                       >
                         Yes
                       </label>
@@ -87,12 +87,12 @@
                         name={{concat idx '-quorum'}}
                         id={{concat idx '-quorum-no'}}
                         checked={{if (eq hearing.disposition.dcpWasaquorumpresent false) "checked"}}
-                        onClick={{action 'updateDispositionAttr' hearing assignment.dispositions 'dcpWasaquorumpresent' false}}
+                        onClick={{action 'updateDispositionAttr' hearing assignment.dispositionsByRole 'dcpWasaquorumpresent' false}}
                         data-test-quorum-no="{{idx}}"
                       />
                       <label
                         for="{{concat idx '-quorum-no'}}"
-                        {{action 'updateDispositionAttr' hearing assignment.dispositions 'dcpWasaquorumpresent' false}}
+                        {{action 'updateDispositionAttr' hearing assignment.dispositionsByRole 'dcpWasaquorumpresent' false}}
                       >
                         No
                       </label>
@@ -534,7 +534,7 @@
                   >
                     Was a Quorum Present at your Hearing(s)?
                   </h5>
-                  {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}
+                  {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
                     {{#each dedupedHearings as |hearing idx|}}
                       <p class="grid-x">
                         <strong class="cell small-1"

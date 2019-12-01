@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="large-7 cell">
-    {{#if (gt model.dispositions.length 1)}}
+    {{#if (gt model.dispositionsByRole.length 1)}}
       <fieldset class="medium-margin-bottom">
         <legend><strong>Would you like to submit a single hearing for all actions?</strong></legend>
         <input
@@ -45,13 +45,13 @@
       </fieldset>
     {{/if}}
 
-    {{#if (or allActions (lte model.dispositions.length 1))}}
+    {{#if (or allActions (lte model.dispositionsByRole.length 1))}}
       {{hearing-form
         disposition=dispositionForAllActions
         allActions=allActions
         checkIfMissing=checkIfMissing}}
     {{else if (eq allActions false)}}
-      {{#each model.dispositions as |disposition|}}
+      {{#each model.dispositionsByRole as |disposition|}}
         <h4>{{disposition.action.dcpName}}  <small class="dark-gray">{{disposition.action.dcpUlurpnumber}}</small></h4>
         {{hearing-form
           disposition=disposition
@@ -60,7 +60,7 @@
       {{/each}}
     {{/if}}
 
-    {{#if (or (not-eq allActions null) (lte model.dispositions.length 1))}}
+    {{#if (or (not-eq allActions null) (lte model.dispositionsByRole.length 1))}}
         <button
           class="button"
           data-test-button="checkHearing"
@@ -90,7 +90,7 @@
         {{else}}
           <h3 class="large-margin-right">Please confirm your hearing information.</h3>
 
-          {{#if (or allActions (lte model.dispositions.length 1))}}
+          {{#if (or allActions (lte model.dispositionsByRole.length 1))}}
             <ul class="no-bullet">
               <li class="grid-x small-margin-bottom">
                 <div class="cell shrink small-margin-right">
@@ -119,7 +119,7 @@
               </li>
             </ul>
           {{else}}
-            {{#deduped-hearings-list dispositions=model.dispositions as |dedupedHearings|}}
+            {{#deduped-hearings-list dispositions=model.dispositionsByRole as |dedupedHearings|}}
               <ul class="no-bullet">
                 {{#each dedupedHearings as |hearing|}}
                   <li class="grid-x small-margin-bottom">

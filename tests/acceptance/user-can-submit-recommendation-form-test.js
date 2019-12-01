@@ -10,10 +10,13 @@ import { selectChoose } from 'ember-power-select/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
+import { participantRoles } from 'labs-zap-search/models/assignment';
 import moment from 'moment';
 
 // First assignment will have 3 dispos with hearings, second assignment will have 1 dispo without hearing
 function setUpProjectAndDispos(server, participantType) {
+  const { label: dcpRepresenting } = participantRoles.findBy('abbreviation', participantType);
+
   server.create('user', {
     id: 1,
     // These two fields don't matter to these tests
@@ -27,6 +30,7 @@ function setUpProjectAndDispos(server, participantType) {
         dispositions: [
           server.create('disposition', {
             id: 1,
+            dcpRepresenting,
             dcpPublichearinglocation: 'Canal street',
             dcpDateofpublichearing: moment().subtract(22, 'days'),
             dcpProjectaction: '1',
@@ -34,6 +38,7 @@ function setUpProjectAndDispos(server, participantType) {
           }),
           server.create('disposition', {
             id: 2,
+            dcpRepresenting,
             dcpPublichearinglocation: 'Canal street',
             dcpDateofpublichearing: moment().subtract(22, 'days'),
             dcpProjectaction: '2',
@@ -41,6 +46,7 @@ function setUpProjectAndDispos(server, participantType) {
           }),
           server.create('disposition', {
             id: 3,
+            dcpRepresenting,
             dcpPublichearinglocation: 'Hudson Yards',
             dcpDateofpublichearing: moment().subtract(28, 'days'),
             dcpProjectaction: '3',
@@ -56,6 +62,7 @@ function setUpProjectAndDispos(server, participantType) {
           dispositions: [
             server.create('disposition', {
               id: 1,
+              dcpRepresenting,
               dcpPublichearinglocation: 'Canal street',
               dcpDateofpublichearing: moment().subtract(22, 'days'),
               dcpProjectaction: '1',
@@ -63,6 +70,7 @@ function setUpProjectAndDispos(server, participantType) {
             }),
             server.create('disposition', {
               id: 2,
+              dcpRepresenting,
               dcpPublichearinglocation: 'Canal street',
               dcpDateofpublichearing: moment().subtract(22, 'days'),
               dcpProjectaction: '2',
@@ -70,6 +78,7 @@ function setUpProjectAndDispos(server, participantType) {
             }),
             server.create('disposition', {
               id: 3,
+              dcpRepresenting,
               dcpPublichearinglocation: 'Hudson Yards',
               dcpDateofpublichearing: moment().subtract(28, 'days'),
               dcpProjectaction: '3',
@@ -85,6 +94,7 @@ function setUpProjectAndDispos(server, participantType) {
         dispositions: [
           server.create('disposition', {
             id: 5,
+            dcpRepresenting,
             dcpIspublichearingrequired: 'No',
             dcpPublichearinglocation: null,
             dcpDateofpublichearing: null,
@@ -99,6 +109,7 @@ function setUpProjectAndDispos(server, participantType) {
           dispositions: [
             server.create('disposition', {
               id: 5,
+              dcpRepresenting,
               dcpIspublichearingrequired: 'No',
               dcpPublichearinglocation: null,
               dcpDateofpublichearing: null,

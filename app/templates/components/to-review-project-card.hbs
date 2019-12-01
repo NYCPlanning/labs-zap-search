@@ -97,7 +97,7 @@
       {{waive-hearings-popup assignment=assignment showPopup=showPopup}}
 
       {{#if assignment.hearingsSubmitted}}
-        {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}
+        {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
           <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}

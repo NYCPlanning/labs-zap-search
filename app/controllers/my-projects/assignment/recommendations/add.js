@@ -388,7 +388,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       });
 
       try {
-        await this.dispositions.save();
+        await Promise.all(this.dispositions.map(disposition => disposition.save()));
 
         this.dispositionForAllActions.setProperties({
           recommendation: null,

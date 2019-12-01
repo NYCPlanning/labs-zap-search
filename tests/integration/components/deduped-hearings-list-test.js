@@ -4,10 +4,13 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { dedupeAndExtract } from 'labs-zap-search/components/deduped-hearings-list';
 import EmberObject from '@ember/object';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Integration | Component | deduped-hearings-list', function(hooks) {
   setupRenderingTest(hooks);
+  setupMirage(hooks);
 
+  // I would definitely use ember mirage for this because we want the factory feature
   test('check that hearings list renders when user has submitted hearings', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
@@ -18,77 +21,92 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
     const date_C = new Date('2020-10-21T09:25:00');
 
     const store = this.owner.lookup('service:store');
-    const assignment = store.createRecord('assignment', {
+
+    this.server.create('assignment', {
       id: 1,
-      project: store.createRecord('project'),
-      dispositions: [
-        store.createRecord('disposition', {
-          id: 22,
-          dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-          dcpDateofpublichearing: date_A,
-          action: store.createRecord('action', {
+      tab: 'to-review',
+      project: this.server.create('project', 'withMilestones', {
+        dispositions: [
+          this.server.create('disposition', {
+            id: 22,
+            dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+            dcpDateofpublichearing: date_A,
+            dcpProjectaction: 1,
+          }),
+          this.server.create('disposition', {
+            id: 23,
+            dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+            dcpDateofpublichearing: date_A,
+            dcpProjectaction: 2,
+          }),
+          this.server.create('disposition', {
+            id: 24,
+            dcpPublichearinglocation: '186 Alligators Ave, Staten Island, NY',
+            dcpDateofpublichearing: date_B,
+            dcpProjectaction: 3,
+          }),
+          this.server.create('disposition', {
+            id: 25,
+            dcpPublichearinglocation: '144 Piranha Ave, Manhattan, NY',
+            dcpDateofpublichearing: date_B,
+            dcpProjectaction: 4,
+          }),
+          this.server.create('disposition', {
+            id: 26,
+            dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+            dcpDateofpublichearing: date_A,
+            dcpProjectaction: 5,
+          }),
+          this.server.create('disposition', {
+            id: 27,
+            dcpPublichearinglocation: '456 Crocodiles Ave, Bronx, NY',
+            dcpDateofpublichearing: date_B,
+            dcpProjectaction: 6,
+          }),
+          this.server.create('disposition', {
+            id: 28,
+            dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
+            dcpDateofpublichearing: date_C,
+            dcpProjectaction: 7,
+          }),
+        ],
+        actions: [
+          this.server.create('action', {
             dcpName: 'Zoning Special Permit',
             dcpUlurpnumber: 'C780076TLK',
           }),
-        }),
-        store.createRecord('disposition', {
-          id: 23,
-          dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-          dcpDateofpublichearing: date_A,
-          action: store.createRecord('action', {
+          this.server.create('action', {
             dcpName: 'Zoning Text Amendment',
             dcpUlurpnumber: 'N860877TCM',
           }),
-        }),
-        store.createRecord('disposition', {
-          id: 24,
-          dcpPublichearinglocation: '186 Alligators Ave, Staten Island, NY',
-          dcpDateofpublichearing: date_B,
-          action: store.createRecord('action', {
+          this.server.create('action', {
             dcpName: 'Business Improvement District',
             dcpUlurpnumber: 'I030148MMQ',
           }),
-        }),
-        store.createRecord('disposition', {
-          id: 25,
-          dcpPublichearinglocation: '144 Piranha Ave, Manhattan, NY',
-          dcpDateofpublichearing: date_B,
-          action: store.createRecord('action', {
+          this.server.create('action', {
             dcpName: 'Change in City Map',
             dcpUlurpnumber: '200088ZMX',
           }),
-        }),
-        store.createRecord('disposition', {
-          id: 26,
-          dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-          dcpDateofpublichearing: date_A,
-          action: store.createRecord('action', {
+          this.server.create('action', {
             dcpName: 'Enclosed Sidewalk Cafe',
             dcpUlurpnumber: '190172ZMK',
           }),
-        }),
-        store.createRecord('disposition', {
-          id: 27,
-          dcpPublichearinglocation: '456 Crocodiles Ave, Bronx, NY',
-          dcpDateofpublichearing: date_B,
-          action: store.createRecord('action', {
+          this.server.create('action', {
             dcpName: 'Large Scale Special Permit',
             dcpUlurpnumber: 'N190257ZRK',
           }),
-        }),
-        store.createRecord('disposition', {
-          id: 28,
-          dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
-          dcpDateofpublichearing: date_C,
-          action: store.createRecord('action', {
+          this.server.create('action', {
             dcpName: 'Zoning Certification',
             dcpUlurpnumber: '190256ZMK',
           }),
-        }),
-      ],
+        ],
+      }),
+      dispositions: this.server.schema.dispositions.all(),
     });
 
-    this.set('assignment', assignment);
+    const assignments = await store.query('assignment', { tab: 'to-review', include: 'project,project.milestones,project.dispositions,project.actions,dispositions,dispositions.project' });
+
+    this.set('assignment', assignments.firstObject);
 
     await render(hbs`
       {{#to-review-project-card assignment=assignment}}
@@ -98,25 +116,25 @@ module('Integration | Component | deduped-hearings-list', function(hooks) {
 
     const list = this.element.textContent.trim();
 
-    assert.ok(list.includes('121 Bananas Ave'));
-    assert.ok(list.includes('186 Alligators Ave'));
-    assert.ok(list.includes('144 Piranha Ave'));
-    assert.ok(list.includes('456 Crocodiles Ave'));
+    assert.ok(list.includes('121 Bananas Ave'), 'saw 121 Bananas Ave');
+    assert.ok(list.includes('186 Alligators Ave'), 'saw 186 Alligators Ave');
+    assert.ok(list.includes('144 Piranha Ave'), 'saw 144 Piranha Ave');
+    assert.ok(list.includes('456 Crocodiles Ave'), 'saw 456 Crocodiles Ave');
 
-    assert.ok(list.includes('10/21/2020'));
-    assert.ok(list.includes('11/12/2020'));
+    assert.ok(list.includes('10/21/2020'), 'saw 10/21/2020');
+    assert.ok(list.includes('11/12/2020'), 'saw 11/12/2020');
 
-    assert.ok(list.includes('6:30 PM'));
-    assert.ok(list.includes('9:25 AM'));
-    assert.ok(list.includes('5:45 PM'));
+    assert.ok(list.includes('6:30 PM'), 'saw 6:30 PM');
+    assert.ok(list.includes('9:25 AM'), 'saw 9:25 AM');
+    assert.ok(list.includes('5:45 PM'), 'saw 5:45 PM');
 
-    assert.ok(list.includes('C780076TLK'));
-    assert.ok(list.includes('N860877TCM'));
-    assert.ok(list.includes('190172ZMK'));
-    assert.ok(list.includes('I030148MMQ'));
-    assert.ok(list.includes('200088ZMX'));
-    assert.ok(list.includes('N190257ZRK'));
-    assert.ok(list.includes('190256ZMK'));
+    assert.ok(list.includes('C780076TLK'), 'saw C780076TLK');
+    assert.ok(list.includes('N860877TCM'), 'saw N860877TCM');
+    assert.ok(list.includes('190172ZMK'), 'saw 190172ZMK');
+    assert.ok(list.includes('I030148MMQ'), 'saw I030148MMQ');
+    assert.ok(list.includes('200088ZMX'), 'saw 200088ZMX');
+    assert.ok(list.includes('N190257ZRK'), 'saw N190257ZRK');
+    assert.ok(list.includes('190256ZMK'), 'saw 190256ZMK');
   });
 
   test('dedupeAndExtract function works', async function(assert) {
