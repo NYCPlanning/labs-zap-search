@@ -101,19 +101,38 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   minDate = MINIMUM_VOTE_DATE;
 
-  // currently only used to name the universal queue
-  queueName = 'recommendation';
-
   isSubmitting = false;
 
   submitError = false;
 
+  @computed('assignment')
+  get assignmentQueueName() {
+    const parsedAssignmentId = this.assignment.id.replace(/-/g, '');
+    return `assign${parsedAssignmentId}`;
+  }
+
+  // This is the assignment-specific file queue.
+  // It holds all files related to this assignment, across all disposition queues.
+  // This queue is also different from the universal queue (global to app).
+  // Files are first uploaded to this queue. Then, upon submit, copied over to
+  // disposition queues.
+  // This queue is also used to list files next to the "upload" button.
+  // TODOS:
+  //    - Feature to remove files from this queue.
+  //    - When implementing "by action" file upload, only copy files from this queue
+  //      to dispositions queues if allActions === true.
+  @computed('fileQueue', 'assignmentQueueName')
+  get assignmentQueue() {
+    return this.fileQueue.find(this.assignmentQueueName) || this.fileQueue.create(this.assignmentQueueName);
+  }
+
   // Returns an object with an entry for each disposition and its corresponding file queue.
   // Keys are the disposition id, values are the disposition's file queue.
+  // A disposition file queue contains files that will be uploaded to that disposition.
   @computed('fileQueue', 'dispositions')
   get queuesByDisposition() {
     return this.dispositions.reduce((queuesByDisposition, disposition) => {
-      queuesByDisposition[disposition.id] = this.fileQueue.create(disposition.id);
+      queuesByDisposition[disposition.id] = this.fileQueue.find(disposition.id) || this.fileQueue.create(disposition.id);
       return queuesByDisposition;
     }, {});
   }
@@ -295,10 +314,24 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   async submitRecommendations() {
     this.set('isSubmitting', true);
 
-    // array of true/false values each representing succesful upload of files to a disposition
+    // array of true/false values each representing whether a disposition
+    // had files successfully uploaded to it
     const uploadResults = [];
 
+    const assignmentQueueOriginalLength = this.assignmentQueue.files.length;
+
     try {
+      // copy files from assignmentQueue to each disposition queue
+      for (let i = 0; i < this.assignmentQueue.files.length; i += 1) {
+        await this.addFileToDispositionQueues(this.assignmentQueue.files[i]); // eslint-disable-line
+      }
+
+      // flush assignment queue after copying is complete
+      while (this.assignmentQueue.files.length > 0) {
+        this.assignmentQueue.remove(this.assignmentQueue.files[0]);
+      }
+
+      // upload files across dispositions queues
       for (let i = 0; i < this.dispositions.length; i += 1) {
         const disposition = this.dispositions.objectAt(i);
 
@@ -315,7 +348,8 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
         // next call of upload() on that file.
         const fileUploadResponses = await Promise.all(fileUploadPromises); // eslint-disable-line
 
-        const filesUploadedToDispo = fileUploadResponses.every(res => res.status === 200);
+        // The check for matching fileUploadResponse length and assignmentQueueOriginalLength supports acceptance tests
+        const filesUploadedToDispo = fileUploadResponses.every(res => res.status === 200) && fileUploadResponses.length === assignmentQueueOriginalLength;
 
         uploadResults.push(filesUploadedToDispo);
       }
@@ -326,7 +360,8 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     }
 
     // Only proceed if all files were uploaded to all dispositions
-    if (uploadResults.every(res => res === true) && !this.submitError) {
+    // The check for matching uploadResults and dispositions length supports acceptance tests
+    if (uploadResults.every(res => res === true) && (uploadResults.length === this.dispositions.length) && !this.submitError) {
       const { participantType } = this;
       const targetField = RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
       this.dispositionForAllActionsChangeset.execute();

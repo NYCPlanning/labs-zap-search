@@ -165,7 +165,7 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     controller.set('allActions', true);
 
-    controller.set('model', { dcpLupteammemberrole: 'CB' });
+    controller.set('model', { dcpLupteammemberrole: 'CB', id: '1' });
 
     controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
 
@@ -223,7 +223,7 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     controller.set('allActions', false);
 
-    controller.set('model', { dcpLupteammemberrole: 'CB' });
+    controller.set('model', { dcpLupteammemberrole: 'CB', id: '1' });
 
     controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
 

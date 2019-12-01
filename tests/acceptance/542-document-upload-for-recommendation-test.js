@@ -89,11 +89,11 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });
 
     // https://github.com/adopted-ember-addons/ember-file-upload/blob/master/addon-test-support/index.js
-    await upload('#recommendationFileUpload > input', file);
+    await upload('#assign1FileUpload > input', file);
 
     await click('[data-test-continue]');
 
-    assert.equal(find('[data-test-file-name="foo.txt"]').textContent.replace(/\s/g, ''), 'foo.txt(text/plain)');
+    assert.equal(find('[data-test-confirmation-file-name="foo.txt"]').textContent.replace(/\s/g, ''), 'foo.txt(text/plain)');
 
     await click('[data-test-submit]');
 
@@ -152,12 +152,78 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });
 
     // https://github.com/adopted-ember-addons/ember-file-upload/blob/master/addon-test-support/index.js
-    await upload('#recommendationFileUpload > input', file);
+    await upload('#assign1FileUpload > input', file);
 
     await click('[data-test-continue]');
 
     await click('[data-test-submit]');
 
     assert.ok(this.server.pretender.handledRequests.every(req => req.withCredentials));
+  });
+
+  test('Selected docs are only put into assignment-specific queus', async function (assert) {
+    // set up a user with two assignments
+    server.create('user', {
+      id: 1,
+      // These two fields don't matter to these tests
+      email: 'qncb5@planning.nyc.gov',
+      landUseParticipant: 'QNCB5',
+      assignments: [
+        server.create('assignment', {
+          id: '461be0bc-970b-ea11-x9aa-001d10308025',
+          tab: 'to-review',
+          dcpLupteammemberrole: 'CB',
+          dispositions: [
+            server.create('disposition', {
+              dcpPublichearinglocation: 'Canal street',
+              dcpDateofpublichearing: moment().subtract(22, 'days'),
+              action: server.create('action'),
+            }),
+          ],
+          project: server.create('project', {
+            actions: server.schema.actions.all(),
+            dispositions: server.schema.dispositions.all(),
+          }),
+        }),
+        server.create('assignment', {
+          id: '261be0bc-9zzb-ea11-a9aa-001dd8308025',
+          tab: 'to-review',
+          dcpLupteammemberrole: 'CB',
+          dispositions: [
+            server.create('disposition', {
+              dcpPublichearinglocation: 'Portland street',
+              dcpDateofpublichearing: moment().subtract(22, 'days'),
+              action: server.create('action'),
+            }),
+          ],
+          project: server.create('project', {
+            // Not reflective of real life, but project.actions and
+            // project.dispositions here are just fillers
+            actions: server.schema.actions.all(),
+            dispositions: server.schema.dispositions.all(),
+          }),
+        }),
+      ],
+    });
+
+    await authenticateSession();
+
+    await visit('/my-projects/461be0bc-970b-ea11-x9aa-001d10308025/recommendations/add');
+
+    const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });
+    const file2 = new File(['foo'], 'foo2.txt', { type: 'text/plain' });
+
+    // https://github.com/adopted-ember-addons/ember-file-upload/blob/master/addon-test-support/index.js
+    await upload('#assign461be0bc970bea11x9aa001d10308025FileUpload > input', file);
+    await upload('#assign461be0bc970bea11x9aa001d10308025FileUpload > input', file2);
+
+    assert.equal(find('[data-test-file-name="foo.txt"]').textContent.replace(/\s/g, ''), 'foo.txt(text/plain)');
+    assert.equal(find('[data-test-file-name="foo2.txt"]').textContent.replace(/\s/g, ''), 'foo2.txt(text/plain)');
+
+    // visit a different assignment
+    await visit('/my-projects/261be0bc-9zzb-ea11-a9aa-001dd8308025/recommendations/add');
+
+    assert.notOk(find('[data-test-file-name="foo.txt"]'));
+    assert.notOk(find('[data-test-file-name="foo2.txt"]'));
   });
 });

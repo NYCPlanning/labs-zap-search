@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 
 export default class DocumentUploadForm extends Component {
   // name of the queue
-  queueName = 'application'
+  queue = {};
 
   onFileAdd = () => {};
 
