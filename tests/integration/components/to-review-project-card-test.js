@@ -2,9 +2,11 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Integration | Component | to-review-project-card', function(hooks) {
   setupRenderingTest(hooks);
+  setupMirage(hooks);
 
   test('check that hearings list appears when user has submitted hearings', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
@@ -14,46 +16,48 @@ module('Integration | Component | to-review-project-card', function(hooks) {
 
     const hearingDate = new Date('2020-10-21T18:30:00');
 
-    const disp1 = store.createRecord('disposition', {
+    this.server.create('assignment', {
       id: 1,
-      dcpPublichearinglocation: '341 Yellow Avenue',
-      dcpDateofpublichearing: hearingDate,
-      dcpIspublichearingrequired: '',
-      dcpProjectaction: '1',
-    });
-
-    const disp2 = store.createRecord('disposition', {
-      id: 2,
-      dcpPublichearinglocation: '890 Purple Street',
-      dcpDateofpublichearing: hearingDate,
-      dcpIspublichearingrequired: '',
-      dcpProjectaction: '2',
-    });
-
-    const disp3 = store.createRecord('disposition', {
-      id: 3,
-      dcpPublichearinglocation: '124 Green Boulevard',
-      dcpDateofpublichearing: hearingDate,
-      dcpIspublichearingrequired: '',
-      dcpProjectaction: '3',
-    });
-
-    const assignment = store.createRecord('assignment', {
-      id: 1,
-      dispositions: [disp1, disp2, disp3],
-      dcpLupteammemberrole: 'CB',
-      project: store.createRecord('project', {
-        id: 2,
-        dispositions: [disp1, disp2, disp3],
+      tab: 'to-review',
+      project: this.server.create('project', 'withMilestones', {
+        dispositions: [
+          this.server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '341 Yellow Avenue',
+            dcpDateofpublichearing: hearingDate,
+            dcpIspublichearingrequired: '',
+            dcpProjectaction: 1,
+          }),
+          this.server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '890 Purple Street',
+            dcpDateofpublichearing: hearingDate,
+            dcpIspublichearingrequired: '',
+            dcpProjectaction: 2,
+          }),
+          this.server.create('disposition', {
+            id: 3,
+            dcpPublichearinglocation: '124 Green Boulevard',
+            dcpDateofpublichearing: hearingDate,
+            dcpIspublichearingrequired: '',
+            dcpProjectaction: 3,
+          }),
+        ],
         actions: [
-          store.createRecord('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
-          store.createRecord('action', { id: '2', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
-          store.createRecord('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'N905588TLM' }),
+          this.server.create('action', { id: 1, dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          this.server.create('action', { id: 2, dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          this.server.create('action', { id: 3, dcpName: 'Business Improvement District', dcpUlurpnumber: 'N905588TLM' }),
         ],
       }),
+      dispositions: this.server.schema.dispositions.all(),
     });
 
-    this.set('assignment', assignment);
+    const assignments = await store.query('assignment', {
+      tab: 'to-review',
+      include: 'project,project.milestones,project.dispositions,project.actions,dispositions,dispositions.project',
+    });
+
+    this.set('assignment', assignments.firstObject);
 
     await render(hbs`
       {{#to-review-project-card assignment=assignment}}
@@ -63,9 +67,9 @@ module('Integration | Component | to-review-project-card', function(hooks) {
 
     const card = this.element.textContent.trim();
 
-    assert.ok(card.includes('341 Yellow Avenue'));
-    assert.ok(card.includes('890 Purple Street'));
-    assert.ok(card.includes('124 Green Boulevard'));
+    assert.ok(card.includes('341 Yellow Avenue'), 'saw 341 Yellow Avenue');
+    assert.ok(card.includes('890 Purple Street'), 'saw 890 Purple Street');
+    assert.ok(card.includes('124 Green Boulevard'), 'saw 124 Green Boulevard');
   });
 
   test('check that opt out of hearings BUTTON appears when dcpIspublichearinglocation is empty string', async function(assert) {

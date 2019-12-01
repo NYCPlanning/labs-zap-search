@@ -6,6 +6,12 @@ const {
   Model, belongsTo, hasMany, attr,
 } = DS;
 
+export const participantRoles = [
+  { abbreviation: 'BP', label: 'Borough President' },
+  { abbreviation: 'BB', label: 'Borough Board' },
+  { abbreviation: 'CB', label: 'Community Board' },
+];
+
 export default class AssignmentModel extends Model {
   @service
   milestoneConstants;
@@ -17,6 +23,13 @@ export default class AssignmentModel extends Model {
   // ZAP-API will filter this to the set of lupteammember role's dispos
   // this could be computed through the project dispositions: project_dispositions
   @hasMany('disposition', { async: false }) dispositions;
+
+  @computed('dispositions')
+  get dispositionsByRole() {
+    const { label } = participantRoles.findBy('abbreviation', this.dcpLupteammemberrole);
+
+    return this.dispositions.filterBy('dcpRepresenting', label);
+  }
 
   @attr('string') dcpLupteammemberrole;
 

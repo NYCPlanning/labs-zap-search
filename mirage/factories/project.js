@@ -199,6 +199,13 @@ export default Factory.extend({
     },
   }),
 
+  withActions: trait({
+    afterCreate(project, server) {
+      server
+        .createList('action', 2, { project });
+    },
+  }),
+
   withActionsAndDispositions: trait({
     afterCreate(project, server) {
       // server

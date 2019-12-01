@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="cell medium-auto">
-      {{#if this.assignment.dispositions}}
+      {{#if this.assignment.dispositionsByRole}}
         {{#if this.assignment.hearingsNotSubmittedNotWaived}}
           <div class="grid-x">
             <div class="cell medium-auto">
@@ -87,7 +87,7 @@
       {{/if}}
 
       {{#if assignment.hearingsSubmitted}}
-        {{#deduped-hearings-list dispositions=assignment.dispositions as |dedupedHearings|}}
+        {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
           <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}

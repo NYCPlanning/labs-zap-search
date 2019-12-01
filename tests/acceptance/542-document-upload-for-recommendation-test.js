@@ -11,10 +11,13 @@ import { upload } from 'ember-file-upload/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
+import { participantRoles } from 'labs-zap-search/models/assignment';
 import moment from 'moment';
 
 // Sets up assignment will have 3 dispos with hearings
 function setUpProjectAndDispos(server, participantType) {
+  const { label } = participantRoles.findBy('abbreviation', participantType);
+
   server.create('user', {
     id: 1,
     // These two fields don't matter to these tests
@@ -27,16 +30,19 @@ function setUpProjectAndDispos(server, participantType) {
         dcpLupteammemberrole: participantType,
         dispositions: [
           server.create('disposition', {
+            dcpRepresenting: label,
             dcpPublichearinglocation: 'Canal street',
             dcpDateofpublichearing: moment().subtract(22, 'days'),
             action: server.create('action'),
           }),
           server.create('disposition', {
+            dcpRepresenting: label,
             dcpPublichearinglocation: 'Canal street',
             dcpDateofpublichearing: moment().subtract(22, 'days'),
             action: server.create('action'),
           }),
           server.create('disposition', {
+            dcpRepresenting: label,
             dcpPublichearinglocation: 'Hudson Yards',
             dcpDateofpublichearing: moment().subtract(28, 'days'),
             action: server.create('action'),
