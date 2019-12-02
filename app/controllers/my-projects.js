@@ -5,6 +5,8 @@ import { inject as service } from '@ember/service';
 export default class MyProjectsController extends Controller {
   @service router;
 
+  queryParams = ['email'];
+
   @computed('router.currentRouteName')
   get activeTab() {
     const route = this.get('router.currentRouteName').split('.')[1];
