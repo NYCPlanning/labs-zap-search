@@ -119,14 +119,19 @@ export default class DateTimePickerComponent extends Component {
   setHearingDate() {
     const { hearingDateTime } = this;
 
-    // if the timeOfDay argument is 'PM' we add 12 to the hour input (integer)
     const timeValid = this.hour && this.minute && this.timeOfDay && this.hourWithinRange && this.minuteWithinRange;
+    const fullDateTimeValid = this.date && timeValid;
 
     // set includeTimeInput when form renders
     const includeTimeInput = this.get('includeTimeInput');
 
-    if (includeTimeInput && this.date && timeValid) {
+    if (includeTimeInput && fullDateTimeValid) {
       this.set('targetField', hearingDateTime);
+    } else if (includeTimeInput && !fullDateTimeValid) {
+      // if a user has not input one of the 4 inputs required for time & date,
+      // or if a user has deleted one of these input values,
+      // the full date value should be set back to NULL
+      this.set('targetField', null);
     } else if (!includeTimeInput && this.date) {
       // only include this.date
       const hearingDate = this.date;

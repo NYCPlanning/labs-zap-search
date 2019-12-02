@@ -115,6 +115,8 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     assert.notOk(find('[data-test-button="confirmHearing"]'));
 
     await fillIn('[data-test-allactions-input="hour"]', 6);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
 
     // make sure that clicking the checkHearing button does not open the modal
     // not all inputs are present
@@ -122,6 +124,8 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     assert.notOk(find('[data-test-button="confirmHearing"]'));
 
     await fillIn('[data-test-allactions-input="minute"]', 30);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
 
     // make sure that clicking the checkHearing button does not open the modal
     // not all inputs are present
@@ -491,9 +495,12 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     // #### both HOUR and MINUTE are invalid
     await fillIn('[data-test-allactions-input="hour"]', 23);
-    await fillIn('[data-test-allactions-input="minute"]', 102);
     // user triggers a keyup event (necessary for acceptance test)
     await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    await fillIn('[data-test-allactions-input="minute"]', 102);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
 
     // user selects an option from the power-select dropdown
     await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'AM');
@@ -504,9 +511,12 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     // #### MINUTE is invalid
     await fillIn('[data-test-allactions-input="hour"]', 5);
-    await fillIn('[data-test-allactions-input="minute"]', 102);
     // user triggers a keyup event (necessary for acceptance test)
     await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    await fillIn('[data-test-allactions-input="minute"]', 102);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
 
     // assert that user cannot submit hearing form yet
     await click('[data-test-button="checkHearing"]');
@@ -514,9 +524,12 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     // #### HOUR is invalid
     await fillIn('[data-test-allactions-input="hour"]', 23);
-    await fillIn('[data-test-allactions-input="minute"]', 35);
     // user triggers a keyup event (necessary for acceptance test)
     await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    await fillIn('[data-test-allactions-input="minute"]', 35);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
 
     // assert that user cannot submit hearing form yet
     await click('[data-test-button="checkHearing"]');
@@ -524,10 +537,12 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     // #### both are valid
     await fillIn('[data-test-allactions-input="hour"]', 5);
-    await fillIn('[data-test-allactions-input="minute"]', 35);
-
     // user triggers a keyup event (necessary for acceptance test)
     await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    await fillIn('[data-test-allactions-input="minute"]', 35);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
 
     // clicking on checkHearing button should open modal
     await click('[data-test-button="checkHearing"]');
@@ -593,8 +608,15 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     // user selects a calendar date
     const hearingDate = new Date('2020-10-21T00:00:00'); // Wednesday, October 21, 2020
     await Pikaday.selectDate(hearingDate);
+
     await fillIn('[data-test-allactions-input="hour"]', 6);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
     await fillIn('[data-test-allactions-input="minute"]', 30);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
+
     // user selects an option from the power-select dropdown
     await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'PM');
 
@@ -681,11 +703,14 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     await Pikaday.selectDate(hearingDate);
 
     await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'AM');
-    await fillIn('[data-test-allactions-input="hour"]', 5);
-    await fillIn('[data-test-allactions-input="minute"]', 35);
 
+    await fillIn('[data-test-allactions-input="hour"]', 5);
     // user triggers a keyup event (necessary for acceptance test)
     await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    await fillIn('[data-test-allactions-input="minute"]', 35);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
 
     await click('[data-test-button="checkHearing"]');
 
@@ -742,8 +767,15 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     // user selects a calendar date
     const hearingDate = new Date('2020-10-21T00:00:00'); // Wednesday, October 21, 2020
     await Pikaday.selectDate(hearingDate);
+
     await fillIn('[data-test-allactions-input="hour"]', 6);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
     await fillIn('[data-test-allactions-input="minute"]', 30);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
+
     // user selects an option from the power-select dropdown
     await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'PM');
 
@@ -817,11 +849,14 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     await Pikaday.selectDate(hearingDate);
 
     await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'AM');
-    await fillIn('[data-test-allactions-input="hour"]', 5);
-    await fillIn('[data-test-allactions-input="minute"]', 35);
 
+    await fillIn('[data-test-allactions-input="hour"]', 5);
     // user triggers a keyup event (necessary for acceptance test)
     await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    await fillIn('[data-test-allactions-input="minute"]', 35);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
 
     await click('[data-test-button="checkHearing"]');
 
@@ -859,5 +894,127 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     await visit('/my-projects/upcoming');
 
     assert.notOk(find('[data-test-button-post-hearing="4"]'));
+  });
+
+  test('modal does not open if user deletes hour or minute input', async function(assert) {
+    this.server.create('assignment', {
+      id: 4,
+      tab: 'to-review',
+      dispositions: [
+        server.create('disposition', {
+          id: 1,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        }),
+        server.create('disposition', {
+          id: 2,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+          // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        }),
+      ],
+      project: this.server.create('project', {
+        id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          server.create('action', { id: '9bbfbec7-2407-ea11-a9aa-001dd8308025', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+          server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '9bbfbec7-2407-ea11-a9aa-001dd8308025',
+            // action: server.create('action', { dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          }),
+        ],
+      }),
+    });
+
+    await visit('/my-projects/4/hearing/add');
+
+    // user selects radio button for a SINGLE hearing for ALL actions
+    await click('[data-test-radio="all-action-yes"]');
+
+    // user fills in a location input
+    await fillIn('[data-test-allactions-input="location"]', '121 Bananas Ave, Queens, NY');
+
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="location"]', 'keyup', {
+      keyCode: 84, // t
+    });
+
+    // user clicks on date input box
+    await click('[data-test-allactions-input="date"]');
+
+    // user selects a calendar date
+    const hearingDate = new Date('2020-10-21T00:00:00'); // Wednesday, October 21, 2020
+    await Pikaday.selectDate(hearingDate);
+
+    await fillIn('[data-test-allactions-input="hour"]', 6);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    await fillIn('[data-test-allactions-input="minute"]', 30);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
+
+    // user selects an option from the power-select dropdown
+    await selectChoose('[data-test-allactions-dropdown="timeOfDay"]', 'PM');
+
+    // mock the user deleting the hour input
+    await fillIn('[data-test-allactions-input="hour"]', '');
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    // clicking on checkHearing button should NOT open modal because user deleted hour input
+    await click('[data-test-button="checkHearing"]');
+    // assure that Confirm button in modal is not displayed
+    assert.notOk(find('[data-test-button="confirmHearing"]'));
+
+    // fill in the hour input again
+    await fillIn('[data-test-allactions-input="hour"]', 7);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="hour"]', 'keyup');
+
+    // mock the user deleting the minute input
+    await fillIn('[data-test-allactions-input="minute"]', '');
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
+
+    // clicking on checkHearing button should NOT open modal because user deleted minute input
+    await click('[data-test-button="checkHearing"]');
+    // assure that Confirm button in modal is not displayed
+    assert.notOk(find('[data-test-button="confirmHearing"]'));
+
+    // fill in the minute input again
+    await fillIn('[data-test-allactions-input="minute"]', 45);
+    // user triggers a keyup event (necessary for acceptance test)
+    await triggerEvent('[data-test-allactions-input="minute"]', 'keyup');
+
+    // clicking on checkHearing button SHOULD open modal
+    await click('[data-test-button="checkHearing"]');
+
+    // check that confirmHearing button in modal is present
+    assert.ok(find('[data-test-button="confirmHearing"]'));
+
+    // make sure that the hearing location in the modal equals the input value
+    assert.equal(this.element.querySelector('.hearing-location').textContent, '121 Bananas Ave, Queens, NY');
+    assert.equal(this.element.querySelector('.hearing-time').textContent, '7:45 PM');
+    assert.equal(this.element.querySelector('.hearing-date').textContent, '10/21/2020');
+
+    await click('[data-test-button="confirmHearing"]');
+
+    assert.equal(currentURL(), '/my-projects/4/hearing/done');
   });
 });
