@@ -78,47 +78,53 @@ module('Integration | Component | to-review-project-card', function(hooks) {
 
     const store = this.owner.lookup('service:store');
 
-    const disp1 = store.createRecord('disposition', {
+    this.server.create('assignment', {
       id: 1,
-      dcpPublichearinglocation: '',
-      dcpDateofpublichearing: null,
-      dcpIspublichearingrequired: '',
-      dcpProjectaction: '1',
-    });
-
-    const disp2 = store.createRecord('disposition', {
-      id: 2,
-      dcpPublichearinglocation: '',
-      dcpDateofpublichearing: null,
-      dcpIspublichearingrequired: '',
-      dcpProjectaction: '2',
-    });
-
-    const disp3 = store.createRecord('disposition', {
-      id: 3,
-      dcpPublichearinglocation: '',
-      dcpDateofpublichearing: null,
-      dcpIspublichearingrequired: '',
-      dcpProjectaction: '3',
-    });
-
-
-    const assignment = store.createRecord('assignment', {
-      id: 1,
-      dispositions: [disp1, disp2, disp3],
+      tab: 'to-review',
       dcpLupteammemberrole: 'CB',
-      project: store.createRecord('project', {
+      project: this.server.create('project', {
         id: 2,
-        dispositions: [disp1, disp2, disp3],
-        action: [
-          store.createRecord('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
-          store.createRecord('action', { id: '2', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
-          store.createRecord('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'N905588TLM' }),
+        dispositions: [
+          this.server.create('disposition', {
+            id: 1,
+            dcpRepresenting: 'Community Board',
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpIspublichearingrequired: '',
+            dcpProjectaction: '1',
+          }),
+          this.server.create('disposition', {
+            id: 2,
+            dcpRepresenting: 'Community Board',
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpIspublichearingrequired: '',
+            dcpProjectaction: '2',
+          }),
+          this.server.create('disposition', {
+            id: 3,
+            dcpRepresenting: 'Community Board',
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpIspublichearingrequired: '',
+            dcpProjectaction: '3',
+          }),
+        ],
+        actions: [
+          this.server.create('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          this.server.create('action', { id: '2', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          this.server.create('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'N905588TLM' }),
         ],
       }),
+      dispositions: this.server.schema.dispositions.all(),
     });
 
-    this.set('assignment', assignment);
+    const assignments = await store.query('assignment', {
+      tab: 'to-review',
+      include: 'project,project.milestones,project.dispositions,project.actions,dispositions,dispositions.project',
+    });
+
+    this.set('assignment', assignments.firstObject);
 
     // Template block usage:
     await render(hbs`
@@ -137,49 +143,51 @@ module('Integration | Component | to-review-project-card', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    const store = this.owner.lookup('service:store');
-
-    const disp1 = store.createRecord('disposition', {
+    this.server.create('assignment', {
       id: 1,
-      dcpPublichearinglocation: '',
-      dcpDateofpublichearing: null,
-      dcpIspublichearingrequired: 'No',
-      dcpProjeaction: '1',
-    });
-
-    const disp2 = store.createRecord('disposition', {
-      id: 2,
-      dcpPublichearinglocation: '',
-      dcpDateofpublichearing: null,
-      dcpIspublichearingrequired: 'No',
-      dcpProjeaction: '2',
-    });
-
-    const disp3 = store.createRecord('disposition', {
-      id: 3,
-      dcpPublichearinglocation: '',
-      dcpDateofpublichearing: null,
-      dcpIspublichearingrequired: 'No',
-      dcpProjeaction: '3',
-    });
-
-    const assignment = store.createRecord('assignment', {
-      id: 1,
-      dispositions: [disp1, disp2, disp3],
       tab: 'to-review',
-      dcpLupteammemberrole: 'CB',
-      project: store.createRecord('project', {
+      project: this.server.create('project', {
         id: 2,
-        dispositions: [disp1, disp2, disp3],
+        dispositions: [
+          this.server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpIspublichearingrequired: 'No',
+            dcpProjeaction: '1',
+          }),
+          this.server.create('disposition', {
+            id: 2,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpIspublichearingrequired: 'No',
+            dcpProjeaction: '2',
+          }),
+          this.server.create('disposition', {
+            id: 3,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpIspublichearingrequired: 'No',
+            dcpProjeaction: '3',
+          }),
+        ],
         actions: [
-          store.createRecord('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
-          store.createRecord('action', { id: '2', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
-          store.createRecord('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'N905588TLM' }),
+          this.server.create('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          this.server.create('action', { id: '2', dcpName: 'Zoning Text Amendment', dcpUlurpnumber: 'N860877TCM' }),
+          this.server.create('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'N905588TLM' }),
         ],
       }),
+      dispositions: this.server.schema.dispositions.all(),
     });
 
-    this.set('assignment', assignment);
+    const store = this.owner.lookup('service:store');
+
+    const assignments = await store.query('assignment', {
+      tab: 'to-review',
+      include: 'project,project.milestones,project.dispositions,project.actions,dispositions,dispositions.project',
+    });
+
+    this.set('assignment', assignments.firstObject);
 
     await render(hbs`
       {{#to-review-project-card assignment=assignment}}

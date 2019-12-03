@@ -41,9 +41,9 @@ export default class AssignmentModel extends Model {
 
   // if the each dcpPublichearinglocation and dcpDateofpublichearing properties are filled in dispositions array,
   // then hearings have been submitted for that project
-  @computed('dispositions.@each.{dcpPublichearinglocation,dcpDateofpublichearing}')
+  @computed('dispositionsByRole.@each.{dcpPublichearinglocation,dcpDateofpublichearing}')
   get hearingsSubmitted() {
-    const dispositions = this.get('dispositions');
+    const dispositions = this.get('dispositionsByRole');
     // array of hearing locations
     const dispositionHearingLocations = dispositions.map(disp => `${disp.dcpPublichearinglocation}`);
     // array of hearing dates
@@ -57,9 +57,9 @@ export default class AssignmentModel extends Model {
 
   // if all dcpIspublichearingrequired in dispositions array equal "No",
   // then hearings have been waived
-  @computed('dispositions.@each.dcpIspublichearingrequired')
+  @computed('dispositionsByRole.@each.dcpIspublichearingrequired')
   get hearingsWaived() {
-    const dispositions = this.get('dispositions');
+    const dispositions = this.get('dispositionsByRole');
     // array of dcpIspublichearingrequired values
     const publicHearingRequiredArray = dispositions.map(disp => disp.dcpIspublichearingrequired);
     // check that each item in array equals 'No'
