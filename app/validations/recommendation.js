@@ -33,6 +33,11 @@ export const cbDispositionForAllActionsValidations = {
   ...dispositionForAllActionsValidations,
 
   dcpVotinginfavorrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -47,6 +52,11 @@ export const cbDispositionForAllActionsValidations = {
   ],
 
   dcpVotingagainstrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -61,6 +71,11 @@ export const cbDispositionForAllActionsValidations = {
   ],
 
   dcpVotingabstainingonrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -108,6 +123,11 @@ export const bbDispositionForAllActionsValidations = {
   ...dispositionForAllActionsValidations,
 
   dcpVotinginfavorrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -122,6 +142,11 @@ export const bbDispositionForAllActionsValidations = {
   ],
 
   dcpVotingagainstrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -136,6 +161,11 @@ export const bbDispositionForAllActionsValidations = {
   ],
 
   dcpVotingabstainingonrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'recommendation',
@@ -186,6 +216,11 @@ export const communityBoardDispositionValidations = {
   ...dispositionValidations,
 
   dcpVotinginfavorrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpCommunityboardrecommendation',
@@ -200,6 +235,11 @@ export const communityBoardDispositionValidations = {
   ],
 
   dcpVotingagainstrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpCommunityboardrecommendation',
@@ -214,6 +254,11 @@ export const communityBoardDispositionValidations = {
   ],
 
   dcpVotingabstainingonrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpCommunityboardrecommendation',
@@ -265,6 +310,11 @@ export const boroughBoardDispositionValidations = {
   ...dispositionValidations,
 
   dcpVotinginfavorrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpBoroughboardrecommendation',
@@ -279,6 +329,11 @@ export const boroughBoardDispositionValidations = {
   ],
 
   dcpVotingagainstrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpBoroughboardrecommendation',
@@ -293,6 +348,11 @@ export const boroughBoardDispositionValidations = {
   ],
 
   dcpVotingabstainingonrecommendation: [
+    validateNumber({
+      lte: 99,
+      allowBlank: true,
+      message: maxLengthMessage,
+    }),
     validatePresenceUnlessValue({
       presence: true,
       unless: 'dcpBoroughboardrecommendation',
