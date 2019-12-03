@@ -41,7 +41,9 @@
               {{#if (not (eq isMoreThanThirtyDaysBeforePublicReview null))}}
                 {{if isMoreThanThirtyDaysBeforePublicReview 'in more than 30 days' 'in fewer than 30 days'}}
               {{else}}
-                Date Unknown
+                <span class="light-gray">
+                  Date Unknown
+                </span>
               {{/if}}
             </strong>
           </p>
