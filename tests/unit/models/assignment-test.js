@@ -38,6 +38,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp1 = store.createRecord('disposition', {
       id: 1,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
       dcpDateofpublichearing: hearingDate,
       dcpIspublichearingrequired: '',
@@ -45,6 +46,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp2 = store.createRecord('disposition', {
       id: 2,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '144 Piranha Ave, Manhattan, NY',
       dcpDateofpublichearing: hearingDate,
       dcpIspublichearingrequired: '',
@@ -52,12 +54,14 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp3 = store.createRecord('disposition', {
       id: 3,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '186 Alligators Ave, Staten Island, NY',
       dcpDateofpublichearing: hearingDate,
       dcpIspublichearingrequired: '',
     });
 
     const model = run(() => store.createRecord('assignment', {
+      dcpLupteammemberrole: 'CB',
       dispositions: [disp1, disp2, disp3],
     }));
 
@@ -73,6 +77,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp1 = store.createRecord('disposition', {
       id: 1,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: 'No',
@@ -80,6 +85,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp2 = store.createRecord('disposition', {
       id: 2,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: 'No',
@@ -87,12 +93,14 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp3 = store.createRecord('disposition', {
       id: 3,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: 'No',
     });
 
     const model = run(() => store.createRecord('assignment', {
+      dcpLupteammemberrole: 'CB',
       dispositions: [disp1, disp2, disp3],
     }));
 
@@ -108,6 +116,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp1 = store.createRecord('disposition', {
       id: 1,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: '',
@@ -115,6 +124,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp2 = store.createRecord('disposition', {
       id: 2,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: '',
@@ -122,12 +132,14 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp3 = store.createRecord('disposition', {
       id: 3,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: '',
     });
 
     const model = run(() => store.createRecord('assignment', {
+      dcpLupteammemberrole: 'CB',
       dispositions: [disp1, disp2, disp3],
     }));
 

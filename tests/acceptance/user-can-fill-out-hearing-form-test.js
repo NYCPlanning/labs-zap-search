@@ -877,7 +877,26 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     assert.ok(this.element.querySelector('[data-test-hearing-actions-list="1"]').textContent.includes('Zoning Text Amendment'));
   });
 
-  test('button for hearing submission does not show if there are no dispositions', async function(assert) {
+  test('button for UPCOMING hearing submission does not show if there are no dispositions', async function(assert) {
+    this.server.create('assignment', {
+      id: 4,
+      tab: 'upcoming',
+      dispositions: [],
+      project: this.server.create('project', {
+        id: 4,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        ],
+        dispositions: [],
+      }),
+    });
+
+    await visit('/my-projects/upcoming');
+
+    assert.notOk(find('[data-test-button-post-hearing="4"]'));
+  });
+
+  test('button for TO-REVIEW hearing submission does not show if there are no dispositions', async function(assert) {
     this.server.create('assignment', {
       id: 4,
       tab: 'to-review',
@@ -891,7 +910,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       }),
     });
 
-    await visit('/my-projects/upcoming');
+    await visit('/my-projects/to-review');
 
     assert.notOk(find('[data-test-button-post-hearing="4"]'));
   });
