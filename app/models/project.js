@@ -101,7 +101,7 @@ export default class ProjectModel extends Model {
 
   @attr() center;
 
-  @attr() lastmilestonedate;
+  @attr() dcpLastmilestonedate;
 
   @attr() videoLinks;
 
