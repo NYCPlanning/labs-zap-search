@@ -49,6 +49,8 @@ export default class AssignmentModel extends Model {
     // array of hearing dates
     const dispositionHearingDates = dispositions.map(disp => disp.dcpDateofpublichearing);
     // hearingsSubmittedForProject checks whether each item in array is truthy
+    console.log(dispositionHearingLocations, dispositionHearingDates);
+
     return dispositionHearingLocations.length > 0
     && dispositionHearingLocations.every(location => !!location)
     && dispositionHearingDates.length > 0
