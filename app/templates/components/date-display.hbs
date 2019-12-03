@@ -1,7 +1,7 @@
 {{#if this.date}}
   {{~moment-format this.date this.outputFormat this.inputFormat~}}
 {{else}}
-  <small class="light-gray">
+  <span class="light-gray">
     {{this.errorMessage}}
-  </small>
+  </span>
 {{/if}}
