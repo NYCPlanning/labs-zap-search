@@ -89,37 +89,25 @@ export default class AssignmentModel extends Model {
     return this.project.get('milestones').filter(milestone => this.milestoneConstants.milestoneListByTabLookup[this.tab].includes(milestone.dcpMilestone));
   }
 
-  @computed('project.milestones')
-  get assigneeMilestoneIdentifier() {
-    return this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
-  }
-
-  @computed('project.milestones')
-  get lastCompletedMilestone() {
-    const completedMilestones = this.project.get('milestones').filterBy('statuscode', 'Completed');
-
-    return completedMilestones[completedMilestones.length - 1] || null;
-  }
-
   // abridged view of milestones typically used in upcoming tab
-  @computed('tab', 'project.milestones')
+  @computed('tab', 'tabSpecificMilestones', 'project.milestones')
   get abridgedMilestonesList() {
     const milestones = this.tabSpecificMilestones
       .sortBy('dcpMilestonesequence')
       .sortBy('dcpPlannedcompletiondate');
-    const { assigneeMilestoneIdentifier, lastCompletedMilestone } = this;
 
-    // return milestones as normal if no assignee milestone ID or completed milestones are found
-    if (!assigneeMilestoneIdentifier || !lastCompletedMilestone) return milestones;
-
+    // first milestone in the list
     const [firstMilestone] = milestones;
 
-    // all milestones after last completed and up to and including the LUP's relevant milestone
-    const lastCompletedPosition = milestones.findIndex(milestone => milestone.id === lastCompletedMilestone.id);
-    const assigneeRelevantMilestonePosition = milestones.findIndex(milestone => milestone.dcpMilestone === assigneeMilestoneIdentifier);
-    const remainingMilestones = milestones.slice(lastCompletedPosition + 1, assigneeRelevantMilestonePosition + 1);
+    // review milestones refer to four milestones: App Reviewed at CPC Review Session, CB Review, BP Review, and BB Review
+    const { reviewMilestoneIds } = this.milestoneConstants;
+    const reviewMilestones = milestones.filter(milestone => reviewMilestoneIds.includes(milestone.dcpMilestone));
 
-    return [firstMilestone, lastCompletedMilestone, ...remainingMilestones];
+    // the order of milestones on the upcoming tab should be:
+    // (1) the first milestone in the milestone list for that project
+    // (2) the "view full timeline" link
+    // (3) the four milestones associated with a review
+    return [firstMilestone, ...reviewMilestones];
   }
 
   // generic computed property for displaying milestones in general

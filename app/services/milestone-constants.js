@@ -39,6 +39,13 @@ export default class MilestoneConstantsService extends Service {
 
   FINAL_LETTER_SENT = 'aa3beec4-dad0-e711-8116-1458d04e2fb8';
 
+  reviewMilestoneIds = [
+    this.REVIEW_SESSION_CERTIFIED_REFERRED,
+    this.COMMUNITY_BOARD_REFERRAL,
+    this.BOROUGH_PRESIDENT_REFERRAL,
+    this.BOROUGH_BOARD_REFERRAL,
+  ];
+
   upcoming = [
     this.LAND_USE_FEE_PAYMENT,
     this.PREPARE_FILED_LAND_USE_APPLICATION,
