@@ -38,6 +38,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp1 = store.createRecord('disposition', {
       id: 1,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '121 Bananas Ave, Queens, NY',
       dcpDateofpublichearing: hearingDate,
       dcpIspublichearingrequired: '',
@@ -45,6 +46,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp2 = store.createRecord('disposition', {
       id: 2,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '144 Piranha Ave, Manhattan, NY',
       dcpDateofpublichearing: hearingDate,
       dcpIspublichearingrequired: '',
@@ -52,12 +54,14 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp3 = store.createRecord('disposition', {
       id: 3,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '186 Alligators Ave, Staten Island, NY',
       dcpDateofpublichearing: hearingDate,
       dcpIspublichearingrequired: '',
     });
 
     const model = run(() => store.createRecord('assignment', {
+      dcpLupteammemberrole: 'CB',
       dispositions: [disp1, disp2, disp3],
     }));
 
@@ -73,6 +77,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp1 = store.createRecord('disposition', {
       id: 1,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: 'No',
@@ -80,6 +85,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp2 = store.createRecord('disposition', {
       id: 2,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: 'No',
@@ -87,12 +93,14 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp3 = store.createRecord('disposition', {
       id: 3,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: 'No',
     });
 
     const model = run(() => store.createRecord('assignment', {
+      dcpLupteammemberrole: 'CB',
       dispositions: [disp1, disp2, disp3],
     }));
 
@@ -108,6 +116,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp1 = store.createRecord('disposition', {
       id: 1,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: '',
@@ -115,6 +124,7 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp2 = store.createRecord('disposition', {
       id: 2,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: '',
@@ -122,12 +132,14 @@ module('Unit | Model | assignment', function(hooks) {
 
     const disp3 = store.createRecord('disposition', {
       id: 3,
+      dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
       dcpIspublichearingrequired: '',
     });
 
     const model = run(() => store.createRecord('assignment', {
+      dcpLupteammemberrole: 'CB',
       dispositions: [disp1, disp2, disp3],
     }));
 
@@ -135,5 +147,179 @@ module('Unit | Model | assignment', function(hooks) {
     assert.equal(model.hearingsWaived, false);
     assert.equal(model.hearingsSubmittedOrWaived, false);
     assert.equal(model.hearingsNotSubmittedNotWaived, true);
+  });
+
+  test('Data scenario: disposition subset', function(assert) {
+    const store = this.owner.lookup('service:store');
+
+    const model = run(() => store.createRecord('assignment', {
+      dcpLupteammemberrole: 'CB',
+      project: '2020K0305',
+      tab: 'to-review',
+      // user: null,
+      dispositions: [
+        store.createRecord('disposition', {
+          fullname: 'Matt Gardner',
+          dcpPublichearinglocation: null,
+          dcpIspublichearingrequired: null,
+          dcpRepresenting: 'Borough Board',
+          dcpDateofpublichearing: null,
+          dcpNameofpersoncompletingthisform: 'ZAP LUP Portal',
+          dcpProjectaction: 'be5e1917-e10e-ea11-a9a9-001dd83080ab',
+          dcpBoroughpresidentrecommendation: null,
+          dcpBoroughboardrecommendation: null,
+          dcpCommunityboardrecommendation: null,
+          dcpConsideration: null,
+          dcpVotelocation: null,
+          dcpDatereceived: null,
+          dcpDateofvote: null,
+          statuscode: 1,
+          statecode: 0,
+          dcpDocketdescription: null,
+          dcpVotinginfavorrecommendation: null,
+          dcpVotingagainstrecommendation: null,
+          dcpVotingabstainingonrecommendation: null,
+          dcpTotalmembersappointedtotheboard: null,
+          dcpWasaquorumpresent: false,
+          project: '2020K0305',
+          assignment: 'CB-aaf191e5-e00e-ea11-a9a9-001dd83080ab',
+        }),
+        store.createRecord('disposition', {
+          fullname: 'Matt Gardner',
+          dcpPublichearinglocation: null,
+          dcpIspublichearingrequired: null,
+          dcpRepresenting: 'Borough Board',
+          dcpDateofpublichearing: null,
+          dcpNameofpersoncompletingthisform: 'ZAP LUP Portal',
+          dcpProjectaction: '474109a0-ef0e-ea11-a9a9-001dd83080ab',
+          dcpBoroughpresidentrecommendation: null,
+          dcpBoroughboardrecommendation: null,
+          dcpCommunityboardrecommendation: null,
+          dcpConsideration: null,
+          dcpVotelocation: null,
+          dcpDatereceived: null,
+          dcpDateofvote: null,
+          statuscode: 1,
+          statecode: 0,
+          dcpDocketdescription: null,
+          dcpVotinginfavorrecommendation: null,
+          dcpVotingagainstrecommendation: null,
+          dcpVotingabstainingonrecommendation: null,
+          dcpTotalmembersappointedtotheboard: null,
+          dcpWasaquorumpresent: false,
+          project: '2020K0305',
+          assignment: 'CB-aaf191e5-e00e-ea11-a9a9-001dd83080ab',
+        }),
+        store.createRecord('disposition', {
+          fullname: 'Matt Gardner',
+          dcpPublichearinglocation: null,
+          dcpIspublichearingrequired: null,
+          dcpRepresenting: 'Borough Board',
+          dcpDateofpublichearing: null,
+          dcpNameofpersoncompletingthisform: 'ZAP LUP Portal',
+          dcpProjectaction: 'd13156cb-200f-ea11-a9a9-001dd83080ab',
+          dcpBoroughpresidentrecommendation: null,
+          dcpBoroughboardrecommendation: null,
+          dcpCommunityboardrecommendation: null,
+          dcpConsideration: null,
+          dcpVotelocation: null,
+          dcpDatereceived: null,
+          dcpDateofvote: null,
+          statuscode: 1,
+          statecode: 0,
+          dcpDocketdescription: null,
+          dcpVotinginfavorrecommendation: null,
+          dcpVotingagainstrecommendation: null,
+          dcpVotingabstainingonrecommendation: null,
+          dcpTotalmembersappointedtotheboard: null,
+          dcpWasaquorumpresent: false,
+          project: '2020K0305',
+          assignment: 'CB-aaf191e5-e00e-ea11-a9a9-001dd83080ab',
+        }),
+        store.createRecord('disposition', {
+          fullname: 'Matt Gardner',
+          dcpPublichearinglocation: 'asdf',
+          dcpIspublichearingrequired: null,
+          dcpRepresenting: 'Community Board',
+          dcpDateofpublichearing: '2019-12-27T18:01:00.000Z',
+          dcpNameofpersoncompletingthisform: 'ZAP LUP Portal',
+          dcpProjectaction: 'be5e1917-e10e-ea11-a9a9-001dd83080ab',
+          dcpBoroughpresidentrecommendation: null,
+          dcpBoroughboardrecommendation: null,
+          dcpCommunityboardrecommendation: null,
+          dcpConsideration: null,
+          dcpVotelocation: null,
+          dcpDatereceived: null,
+          dcpDateofvote: null,
+          statuscode: 717170000,
+          statecode: 0,
+          dcpDocketdescription: null,
+          dcpVotinginfavorrecommendation: null,
+          dcpVotingagainstrecommendation: null,
+          dcpVotingabstainingonrecommendation: null,
+          dcpTotalmembersappointedtotheboard: null,
+          dcpWasaquorumpresent: false,
+          project: '2020K0305',
+          assignment: 'CB-aaf191e5-e00e-ea11-a9a9-001dd83080ab',
+        }),
+        store.createRecord('disposition', {
+          fullname: 'Matt Gardner',
+          dcpPublichearinglocation: 'asdf',
+          dcpIspublichearingrequired: null,
+          dcpRepresenting: 'Community Board',
+          dcpDateofpublichearing: '2019-12-27T18:01:00.000Z',
+          dcpNameofpersoncompletingthisform: 'ZAP LUP Portal',
+          dcpProjectaction: '474109a0-ef0e-ea11-a9a9-001dd83080ab',
+          dcpBoroughpresidentrecommendation: null,
+          dcpBoroughboardrecommendation: null,
+          dcpCommunityboardrecommendation: null,
+          dcpConsideration: null,
+          dcpVotelocation: null,
+          dcpDatereceived: null,
+          dcpDateofvote: null,
+          statuscode: 717170000,
+          statecode: 0,
+          dcpDocketdescription: null,
+          dcpVotinginfavorrecommendation: null,
+          dcpVotingagainstrecommendation: null,
+          dcpVotingabstainingonrecommendation: null,
+          dcpTotalmembersappointedtotheboard: null,
+          dcpWasaquorumpresent: false,
+          project: '2020K0305',
+          assignment: 'CB-aaf191e5-e00e-ea11-a9a9-001dd83080ab',
+        }),
+        store.createRecord('disposition', {
+          fullname: 'Matt Gardner',
+          dcpPublichearinglocation: 'asdf',
+          dcpIspublichearingrequired: null,
+          dcpRepresenting: 'Community Board',
+          dcpDateofpublichearing: '2019-12-27T18:01:00.000Z',
+          dcpNameofpersoncompletingthisform: 'ZAP LUP Portal',
+          dcpProjectaction: 'd13156cb-200f-ea11-a9a9-001dd83080ab',
+          dcpBoroughpresidentrecommendation: null,
+          dcpBoroughboardrecommendation: null,
+          dcpCommunityboardrecommendation: null,
+          dcpConsideration: null,
+          dcpVotelocation: null,
+          dcpDatereceived: null,
+          dcpDateofvote: null,
+          statuscode: 717170000,
+          statecode: 0,
+          dcpDocketdescription: null,
+          dcpVotinginfavorrecommendation: null,
+          dcpVotingagainstrecommendation: null,
+          dcpVotingabstainingonrecommendation: null,
+          dcpTotalmembersappointedtotheboard: null,
+          dcpWasaquorumpresent: false,
+          project: '2020K0305',
+          assignment: 'CB-aaf191e5-e00e-ea11-a9a9-001dd83080ab',
+        }),
+      ],
+    }));
+
+    assert.equal(model.hearingsSubmitted, true);
+    assert.equal(model.hearingsWaived, false);
+    assert.equal(model.hearingsSubmittedOrWaived, true);
+    assert.equal(model.hearingsNotSubmittedNotWaived, false);
   });
 });

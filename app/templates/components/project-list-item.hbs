@@ -12,11 +12,11 @@
     <span class="label publicstatus-label">{{unless (eq project.dcpPublicstatusSimp 'Unknown') project.dcpPublicstatusSimp "Unknown Status"}}</span>
   </div>
   <div class="cell auto">
-    {{#if project.lastmilestonedate}}
+    {{#if project.dcpLastmilestonedate}}
       <span class="date dark-gray projects-list-result--date">
         {{icon-tooltip icon='calendar' tip='Latest Milestone'}}
         <DateDisplay
-          @date={{project.lastmilestonedate}}
+          @date={{project.dcpLastmilestonedate}}
           @outputFormat="MMMM D, YYYY"
         />
       </span>
