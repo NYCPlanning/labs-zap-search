@@ -490,7 +490,7 @@ export default function(server) {
     displayDate: moment().subtract(70, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Certified',
+    outcome: 'Certified',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -504,7 +504,7 @@ export default function(server) {
     displayDate: moment().subtract(70, 'days'),
     dcpActualenddate: moment().subtract(10, 'days'),
     displayDate2: moment().subtract(10, 'days'),
-    dcpMilestoneoutcome: 'Disapproved',
+    outcome: 'Disapproved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -588,7 +588,7 @@ export default function(server) {
     displayDate: moment().subtract(70, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Certified',
+    outcome: 'Certified',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -602,7 +602,7 @@ export default function(server) {
     displayDate: moment().subtract(180, 'days'),
     dcpActualenddate: moment().subtract(120, 'days'),
     displayDate2: moment().subtract(120, 'days'),
-    dcpMilestoneoutcome: 'Approved',
+    outcome: 'Approved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -616,7 +616,7 @@ export default function(server) {
     displayDate: moment().subtract(120, 'days'),
     dcpActualenddate: moment().subtract(90, 'days'),
     displayDate2: moment().subtract(90, 'days'),
-    dcpMilestoneoutcome: 'Approved',
+    outcome: 'Approved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -630,7 +630,7 @@ export default function(server) {
     displayDate: moment().subtract(90, 'days'),
     dcpActualenddate: moment().subtract(60, 'days'),
     displayDate2: moment().subtract(60, 'days'),
-    dcpMilestoneoutcome: 'Hearing Closed',
+    outcome: 'Hearing Closed',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -644,7 +644,7 @@ export default function(server) {
     displayDate: moment().subtract(60, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Approval',
+    outcome: 'Approval',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -658,7 +658,7 @@ export default function(server) {
     displayDate: moment().subtract(60, 'days'),
     dcpActualenddate: moment().subtract(30, 'days'),
     displayDate2: moment().subtract(30, 'days'),
-    dcpMilestoneoutcome: 'Approval',
+    outcome: 'Approval',
   });
 
   server.create('milestone', 'mayoralReview', {
@@ -693,7 +693,7 @@ export default function(server) {
     displayDate: moment().subtract(70, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Certified',
+    outcome: 'Certified',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -707,7 +707,7 @@ export default function(server) {
     displayDate: moment().subtract(180, 'days'),
     dcpActualenddate: moment().subtract(120, 'days'),
     displayDate2: moment().subtract(120, 'days'),
-    dcpMilestoneoutcome: 'Disapproved',
+    outcome: 'Disapproved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -721,7 +721,7 @@ export default function(server) {
     displayDate: moment().subtract(120, 'days'),
     dcpActualenddate: moment().subtract(90, 'days'),
     displayDate2: moment().subtract(90, 'days'),
-    dcpMilestoneoutcome: 'Approved',
+    outcome: 'Approved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -735,7 +735,7 @@ export default function(server) {
     displayDate: moment().subtract(120, 'days'),
     dcpActualenddate: moment().subtract(90, 'days'),
     displayDate2: moment().subtract(90, 'days'),
-    dcpMilestoneoutcome: 'Disapproved',
+    outcome: 'Disapproved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -749,7 +749,7 @@ export default function(server) {
     displayDate: moment().subtract(90, 'days'),
     dcpActualenddate: moment().subtract(60, 'days'),
     displayDate2: moment().subtract(60, 'days'),
-    dcpMilestoneoutcome: 'Hearing Closed',
+    outcome: 'Hearing Closed',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -763,7 +763,7 @@ export default function(server) {
     displayDate: moment().subtract(60, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Approval',
+    outcome: 'Approval',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -777,7 +777,7 @@ export default function(server) {
     displayDate: moment().subtract(60, 'days'),
     dcpActualenddate: moment().subtract(30, 'days'),
     displayDate2: moment().subtract(30, 'days'),
-    dcpMilestoneoutcome: 'Approval',
+    outcome: 'Approval',
   });
 
   server.create('milestone', 'mayoralReview', {
@@ -787,7 +787,7 @@ export default function(server) {
     displayDate: moment().subtract(30, 'days'),
     dcpActualenddate: moment().subtract(20, 'days'),
     displayDate2: moment().subtract(20, 'days'),
-    dcpMilestoneoutcome: 'No Veto',
+    outcome: 'No Veto',
   });
 
   server.create('milestone', 'finalLetterSent', {
@@ -1306,7 +1306,7 @@ export default function(server) {
     displayDate: moment().subtract(70, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Certified',
+    outcome: 'Certified',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1320,7 +1320,7 @@ export default function(server) {
     displayDate: moment().subtract(70, 'days'),
     dcpActualenddate: moment().subtract(30, 'days'),
     displayDate2: moment().subtract(30, 'days'),
-    dcpMilestoneoutcome: 'Disapproved',
+    outcome: 'Disapproved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1408,7 +1408,7 @@ export default function(server) {
     displayDate: moment().subtract(70, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Certified',
+    outcome: 'Certified',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1422,7 +1422,7 @@ export default function(server) {
     displayDate: moment().subtract(180, 'days'),
     dcpActualenddate: moment().subtract(120, 'days'),
     displayDate2: moment().subtract(120, 'days'),
-    dcpMilestoneoutcome: 'Approved',
+    outcome: 'Approved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1436,7 +1436,7 @@ export default function(server) {
     displayDate: moment().subtract(120, 'days'),
     dcpActualenddate: moment().subtract(90, 'days'),
     displayDate2: moment().subtract(90, 'days'),
-    dcpMilestoneoutcome: 'Approved',
+    outcome: 'Approved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1450,7 +1450,7 @@ export default function(server) {
     displayDate: moment().subtract(90, 'days'),
     dcpActualenddate: moment().subtract(60, 'days'),
     displayDate2: moment().subtract(60, 'days'),
-    dcpMilestoneoutcome: 'Hearing Closed',
+    outcome: 'Hearing Closed',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1464,7 +1464,7 @@ export default function(server) {
     displayDate: moment().subtract(60, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Approval',
+    outcome: 'Approval',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1478,7 +1478,7 @@ export default function(server) {
     displayDate: moment().subtract(60, 'days'),
     dcpActualenddate: moment().subtract(30, 'days'),
     displayDate2: moment().subtract(30, 'days'),
-    dcpMilestoneoutcome: 'Approval',
+    outcome: 'Approval',
   });
 
   server.create('milestone', 'mayoralReview', {
@@ -1513,7 +1513,7 @@ export default function(server) {
     displayDate: moment().subtract(70, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Certified',
+    outcome: 'Certified',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1527,7 +1527,7 @@ export default function(server) {
     displayDate: moment().subtract(180, 'days'),
     dcpActualenddate: moment().subtract(120, 'days'),
     displayDate2: moment().subtract(120, 'days'),
-    dcpMilestoneoutcome: 'Disapproved',
+    outcome: 'Disapproved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1541,7 +1541,7 @@ export default function(server) {
     displayDate: moment().subtract(120, 'days'),
     dcpActualenddate: moment().subtract(90, 'days'),
     displayDate2: moment().subtract(90, 'days'),
-    dcpMilestoneoutcome: 'Approved',
+    outcome: 'Approved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1555,7 +1555,7 @@ export default function(server) {
     displayDate: moment().subtract(120, 'days'),
     dcpActualenddate: moment().subtract(90, 'days'),
     displayDate2: moment().subtract(90, 'days'),
-    dcpMilestoneoutcome: 'Disapproved',
+    outcome: 'Disapproved',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1569,7 +1569,7 @@ export default function(server) {
     displayDate: moment().subtract(90, 'days'),
     dcpActualenddate: moment().subtract(60, 'days'),
     displayDate2: moment().subtract(60, 'days'),
-    dcpMilestoneoutcome: 'Hearing Closed',
+    outcome: 'Hearing Closed',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1583,7 +1583,7 @@ export default function(server) {
     displayDate: moment().subtract(60, 'days'),
     dcpActualenddate: null,
     displayDate2: null,
-    dcpMilestoneoutcome: 'Approval',
+    outcome: 'Approval',
     milestoneLinks: [{
       filename: '2020_QB.pdf',
       url: 'https://www1.nyc.gov/site/planning/index.page',
@@ -1597,7 +1597,7 @@ export default function(server) {
     displayDate: moment().subtract(60, 'days'),
     dcpActualenddate: moment().subtract(30, 'days'),
     displayDate2: moment().subtract(30, 'days'),
-    dcpMilestoneoutcome: 'Approval',
+    outcome: 'Approval',
   });
 
   server.create('milestone', 'mayoralReview', {
@@ -1607,7 +1607,7 @@ export default function(server) {
     displayDate: moment().subtract(30, 'days'),
     dcpActualenddate: moment().subtract(20, 'days'),
     displayDate2: moment().subtract(20, 'days'),
-    dcpMilestoneoutcome: 'No Veto',
+    outcome: 'No Veto',
   });
 
   // The null dcpActualenddate for the Final Letter Sent milestone

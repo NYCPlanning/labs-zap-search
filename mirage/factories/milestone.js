@@ -10,7 +10,7 @@ export default Factory.extend({
   statuscode: null,
   displayDate: null,
   displayDate2: null,
-  dcpMilestoneoutcome: null,
+  outcome: null,
   milestoneLinks: [],
 
   isCompleted: trait({
