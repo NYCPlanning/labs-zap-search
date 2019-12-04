@@ -20,7 +20,7 @@ module('Integration | Component | project-milestone', function(hooks) {
       milestonename: 'Community Board Review',
       dcpMilestone: '923beec4-dad0-e711-8116-1458d04e2fb8',
       milestoneLinks: [],
-      dcpMilestoneoutcome: null,
+      outcome: null,
       displayDate2: null,
       displayDate: '2019-10-05T20:31:57.956Z',
       statuscode: 'Completed',
