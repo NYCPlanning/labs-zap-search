@@ -1,4 +1,5 @@
 import { camelize } from '@ember/string';
+import rawData from '../db-data/default';
 import ENV from '../../config/environment';
 
 export default function(server) {
@@ -7,5 +8,7 @@ export default function(server) {
 
   if (scenario) {
     scenario(server);
+  } else {
+    server.db.loadData(rawData);
   }
 }
