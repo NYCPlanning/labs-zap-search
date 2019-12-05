@@ -21,27 +21,24 @@ export function dedupeByParticipant(records = []) {
   }, []);
 }
 
-// Check that two fields are truthy
+// Check that at least ONE disposition has a truthy date & location field
+// this is used to conditionally display the entire sub-milestone, including the title.
 export function checkHearingsSubmitted(records = []) {
-  const dispositionHearingsLocations = records.map(disp => `${disp.dcpPublichearinglocation}`);
-  const dispositionHearingsDates = records.map(disp => disp.dcpDateofpublichearing);
-  // checks whether each item in array is truthy
-  return dispositionHearingsLocations.every(item => !!item) && dispositionHearingsDates.every(item => !!item);
+  const projectsWithHearings = records.filter(disp => disp.dcpPublichearinglocation && disp.dcpDateofpublichearing);
+
+  return projectsWithHearings.length > 0;
 }
 
-// Check that five fields are truthy
+// Check that at least ONE disposition has truthy values for five fields
+// this is used to conditionally display the entire sub-milestone, including the title.
 export function checkVotesSubmitted(records = [], recommendationType) {
-  const dispositionDateofVote = records.map(disp => disp.get('dcpDateofvote'));
-  const dispositionVotingInFavor = records.map(disp => disp.get('dcpVotinginfavorrecommendation'));
-  const dispositionVotingAgainst = records.map(disp => disp.get('dcpVotingagainstrecommendation'));
-  const dispositionAbstaining = records.map(disp => disp.get('dcpVotingabstainingonrecommendation'));
-  const dispositionRecommendationType = records.map(disp => disp.get(recommendationType));
-  // checks whether each item in array is truthy
-  return dispositionDateofVote.every(vote => !!vote)
-  && dispositionVotingInFavor.every(vote => !!vote)
-  && dispositionVotingAgainst.every(vote => !!vote)
-  && dispositionAbstaining.every(vote => !!vote)
-  && dispositionRecommendationType.every(recType => !!recType);
+  const projectsWithVotes = records.filter(disp => disp.dcpDateofvote
+    && disp.dcpVotinginfavorrecommendation
+    && disp.dcpVotingagainstrecommendation
+    && disp.dcpVotingabstainingonrecommendation
+    && disp.get(recommendationType));
+
+  return projectsWithVotes.length > 0;
 }
 
 export default class HearingsListForMilestonesListComponent extends Component {

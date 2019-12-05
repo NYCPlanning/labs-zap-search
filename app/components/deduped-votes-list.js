@@ -9,11 +9,22 @@ import { computed } from '@ember/object';
 export function dedupeAndExtract(records = [], participantRecommendationType, propToConcat, arrayOfConcatProps, arrayOfDuplicateObjects) {
   return records.reduce((accumulator, current) => {
     // object that represents a match between accumulator and current based on two similar fields
-    const duplicateObject = accumulator.find(item => item.disposition.get('dcpDateofvote').toString() === current.disposition.get('dcpDateofvote').toString()
-     && item.disposition.get('dcpVotinginfavorrecommendation').toString() === current.disposition.get('dcpVotinginfavorrecommendation').toString()
-     && item.disposition.get('dcpVotingagainstrecommendation').toString() === current.disposition.get('dcpVotingagainstrecommendation').toString()
-     && item.disposition.get('dcpVotingabstainingonrecommendation').toString() === current.disposition.get('dcpVotingabstainingonrecommendation').toString()
-     && item.disposition.get(participantRecommendationType).toString() === current.disposition.get(participantRecommendationType).toString());
+    const duplicateObject = accumulator.find(function(item) {
+      // datesExist checks that the date fields are truthy before checking for duplicate objects
+      // this is necessary because in order to compare dates, they must be converted to strings
+      // running `toString` on a null value can cause an error
+      const datesExist = item.disposition.get('dcpDateofvote') !== null && current.disposition.get('dcpDateofvote') !== null;
+
+      if (datesExist) {
+        return item.disposition.get('dcpDateofvote').toString() === current.disposition.get('dcpDateofvote').toString()
+         && item.disposition.get('dcpVotinginfavorrecommendation') === current.disposition.get('dcpVotinginfavorrecommendation')
+         && item.disposition.get('dcpVotingagainstrecommendation') === current.disposition.get('dcpVotingagainstrecommendation')
+         && item.disposition.get('dcpVotingabstainingonrecommendation') === current.disposition.get('dcpVotingabstainingonrecommendation')
+         && item.disposition.get(participantRecommendationType) === current.disposition.get(participantRecommendationType);
+      }
+
+      return null;
+    });
 
     // if an object exists in accumulator that matches the current object
     if (duplicateObject) {
@@ -42,6 +53,17 @@ export default class DedupedVotesListComponent extends Component {
     // participantRecommendationType is passed in when `deduped-votes-list` is rendered
     const participantRecommendationType = this.get('participantRecommendationType');
 
+    // function for checking that all 5 required fields are truthy
+    function checkAllFields(date, against, abstain, favor, recType) {
+      if (date !== null) {
+        // invalid date objects may still return truthy so in order to check that
+        // the date object here is truthy, we must convert to string.
+        // toString() will not run on a null value, so we must first assure
+        // that the date field is not null
+        return date.toString() && against && abstain && favor && recType;
+      } return false;
+    }
+
     // ** Setting a new property on each disposition called voteActions which is an array of objects.
     // The new property voteActions is initally set to an array of the current disposition's action model.
     // During the reduce, if there is a duplicate in the array of dispositions,
@@ -50,8 +72,12 @@ export default class DedupedVotesListComponent extends Component {
     // The new property duplicateDisps is initally set to an array of the current disposition model (itself).
     // During the reduce, if there is a duplicate in the array of dispositions,
     // that duplicate disposition is pushed into this array.
+    // ** dispHasAllFields checks whether the 5 required fields to show a vote are truthy
+    // If dispHasAllFields is false, we do not display the vote information at all
     const newDispositionsArray = this.dispositions.map(disp => ({
       disposition: disp,
+      // check that disposition has all 5 required fields
+      dispHasAllFields: checkAllFields(disp.dcpDateofvote, disp.dcpVotingagainstrecommendation, disp.dcpVotingabstainingonrecommendation, disp.dcpVotinginfavorrecommendation, disp[participantRecommendationType]),
       voteActions: [disp.action],
       duplicateDisps: [disp],
     }));
