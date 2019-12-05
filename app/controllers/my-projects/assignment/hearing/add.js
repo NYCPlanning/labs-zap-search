@@ -47,6 +47,7 @@ export default class MyProjectsProjectHearingAddController extends Controller {
     // set to true for a visual display of which inputs are invalid
     // passed down to date-time-picker and location-input components
     this.set('checkIfMissing', true);
+    this.set('error', null);
 
     const { dispositionsByRole: dispositions } = this.model;
     const dispositionForAllActions = this.get('dispositionForAllActions');
@@ -86,6 +87,8 @@ export default class MyProjectsProjectHearingAddController extends Controller {
   @action
   async onConfirm() {
     const { dispositionsByRole: dispositions } = this.model;
+    this.set('error', null);
+
     const allActions = this.get('allActions') || (dispositions.length <= 1);
 
     // if user is submitting ONE hearing for ALL actions
@@ -108,6 +111,7 @@ export default class MyProjectsProjectHearingAddController extends Controller {
       this.set('modalOpen', false);
       this.transitionToRoute('my-projects.assignment.hearing.done');
     }, (e) => {
+      console.log('is true error state');
       this.set('error', e);
       console.log('server error', e);
     });

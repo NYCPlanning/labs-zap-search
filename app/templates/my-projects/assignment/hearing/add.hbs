@@ -79,6 +79,13 @@
               Oops something went wrong, can you try again?
             </span>
           </div>
+          <div class="cell auto">
+            {{#each error.errors as |errorObject idx|}}
+              {{#each-in errorObject as |key value|}}
+                <span>{{idx}}: {{key}}: {{value}}</span>
+              {{/each-in}}
+            {{/each}}
+          </div>
           <button
             class="button clear"
             data-test-button="backToHearingFormAfterError"
