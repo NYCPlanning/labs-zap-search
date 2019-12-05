@@ -51,38 +51,38 @@
       </div>
     </div>
     <div class="cell medium-auto">
-      {{#if this.assignment.dispositionsByRole}}
-        {{#if this.assignment.hearingsNotSubmittedNotWaived}}
-          <div class="grid-x">
-            <div class="cell medium-auto">
-              <LinkTo
-                @route="my-projects.assignment.hearing.add"
-                @model={{this.assignment}}
-                class="button expanded"
-                data-test-button-post-hearing="{{this.assignment.id}}"
-              >
-                {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
-                Post {{participant-type-label this.assignment.dcpLupteammemberrole}} Hearing Notice
-              </LinkTo>
-            </div>
-            <div class="cell medium-shrink">
-              <button
-                class="button expanded gray"
-                onClick={{action "openOptOutHearingPopup"}}
-                data-test-button="optOutHearingOpenPopup"
-              >
-                {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
-                <small>Opt Out</small>
-              </button>
-            </div>
+      {{#if this.assignment.hearingsNotSubmittedNotWaived}}
+        <div class="grid-x">
+          <div class="cell medium-auto">
+            <LinkTo
+              @route={{if this.assignment.dispositionsByRole "my-projects.assignment.hearing.add"}}
+              @model={{if this.assignment.dispositionsByRole this.assignment}}
+              class="button expanded"
+              disabled={{not this.assignment.dispositionsByRole}}
+              data-test-button-post-hearing="{{this.assignment.id}}"
+            >
+              {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
+              Post {{participant-type-label this.assignment.dcpLupteammemberrole}} Hearing Notice
+            </LinkTo>
           </div>
-        {{else}}
-          {{#if assignment.hearingsWaived}}
-            <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
-              {{fa-icon 'calendar-times' size="lg" transform="left-2"}}
-              You've opted out of posting a hearing
-            </span>
-          {{/if}}
+          <div class="cell medium-shrink">
+            <button
+              class="button expanded gray"
+              onClick={{action "openOptOutHearingPopup"}}
+              disabled={{not this.assignment.dispositionsByRole}}
+              data-test-button-opt-out-hearing-popup="{{this.assignment.id}}"
+            >
+              {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
+              <small>Opt Out</small>
+            </button>
+          </div>
+        </div>
+      {{else}}
+        {{#if assignment.hearingsWaived}}
+          <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
+            {{fa-icon 'calendar-times' size="lg" transform="left-2"}}
+            You've opted out of posting a hearing
+          </span>
         {{/if}}
       {{/if}}
 
