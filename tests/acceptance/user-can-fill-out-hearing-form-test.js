@@ -883,7 +883,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       tab: 'upcoming',
       dispositions: [],
       project: this.server.create('project', {
-        id: 4,
+        id: 31,
         actions: [
           server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         ],
@@ -891,9 +891,71 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       }),
     });
 
+    this.server.create('assignment', {
+      id: 5,
+      tab: 'upcoming',
+      dispositions: [
+        server.create('disposition', {
+          id: 1,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        }),
+      ],
+      project: this.server.create('project', {
+        id: 30,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+        ],
+      }),
+    });
+
     await visit('/my-projects/upcoming');
 
-    assert.notOk(find('[data-test-button-post-hearing="4"]'));
+    // ############ ASSIGNMENT 4 ################################################
+    // Assignment 4 DOES NOT have dispositions, so hearing buttons should be disabled
+
+    // button should display, but should be disabled
+    assert.ok(find('[data-test-button-post-hearing="4"]'));
+
+    // clicking on the post hearing button should NOT change the route
+    await click('[data-test-button-post-hearing="4"]');
+
+    assert.equal(currentURL(), '/my-projects/upcoming');
+
+    // clicking on the opt out of hearings button should NOT open the modal
+    await click('[data-test-button-opt-out-hearing-popup="4"]');
+
+    // check that button on the "opt out of hearings" modal is not displaying
+    assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
+
+    // ############ ASSIGNMENT 5 ################################################
+    // Assignment 5 DOES have a disposition, so hearing buttons should be clickable
+
+    // clicking the post hearings button should change the route
+    await click('[data-test-button-post-hearing="5"]');
+
+    assert.equal(currentURL(), '/my-projects/5/hearing/add');
+
+    // return to the UPCOMING tab
+    await click('[data-test-my-projects-button]');
+    await click('[data-test-tab-button="upcoming"]');
+
+    // clicking on the "opt out of hearings" button should open the modal
+    await click('[data-test-button-opt-out-hearing-popup="5"]');
+
+    // check that the button on the modal is displaying
+    assert.ok(find('[data-test-button="onConfirmOptOutHearing"]'));
   });
 
   test('button for TO-REVIEW hearing submission does not show if there are no dispositions', async function(assert) {
@@ -902,7 +964,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       tab: 'to-review',
       dispositions: [],
       project: this.server.create('project', {
-        id: 4,
+        id: 31,
         actions: [
           server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
         ],
@@ -910,9 +972,71 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       }),
     });
 
+    this.server.create('assignment', {
+      id: 5,
+      tab: 'to-review',
+      dispositions: [
+        server.create('disposition', {
+          id: 1,
+          dcpPublichearinglocation: '',
+          dcpDateofpublichearing: null,
+          dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+          // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        }),
+      ],
+      project: this.server.create('project', {
+        id: 30,
+        actions: [
+          server.create('action', { id: '32a6b44c-8c0c-ea11-a9a8-001dd830804f', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+        ],
+        dispositions: [
+          server.create('disposition', {
+            id: 1,
+            dcpPublichearinglocation: '',
+            dcpDateofpublichearing: null,
+            dcpProjectaction: '32a6b44c-8c0c-ea11-a9a8-001dd830804f',
+            // action: server.create('action', { dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+          }),
+        ],
+      }),
+    });
+
     await visit('/my-projects/to-review');
 
-    assert.notOk(find('[data-test-button-post-hearing="4"]'));
+    // ############ ASSIGNMENT 4 ################################################
+    // Assignment 4 DOES NOT have dispositions, so hearing buttons should be disabled
+
+    // button should display, but should be disabled
+    assert.ok(find('[data-test-button-post-hearing="4"]'));
+
+    // clicking on the post hearing button should NOT change the route
+    await click('[data-test-button-post-hearing="4"]');
+
+    assert.equal(currentURL(), '/my-projects/to-review');
+
+    // clicking on the opt out of hearings button should open NOT the modal
+    await click('[data-test-button-opt-out-hearing-popup="4"]');
+
+    // check that button on the "opt out of hearings" modal is not displaying
+    assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
+
+    // ############ ASSIGNMENT 5 ################################################
+    // Assignment 5 DOES have a disposition, so hearing buttons should be clickable
+
+    // clicking the post hearings button should change the route
+    await click('[data-test-button-post-hearing="5"]');
+
+    assert.equal(currentURL(), '/my-projects/5/hearing/add');
+
+    // return to the to-review tab
+    await click('[data-test-my-projects-button]');
+    await click('[data-test-tab-button="to-review"]');
+
+    // clicking on the "opt out of hearings" button should open the modal
+    await click('[data-test-button-opt-out-hearing-popup="5"]');
+
+    // check that the button on the modal is displaying
+    assert.ok(find('[data-test-button="onConfirmOptOutHearing"]'));
   });
 
   test('modal does not open if user deletes hour or minute input', async function(assert) {

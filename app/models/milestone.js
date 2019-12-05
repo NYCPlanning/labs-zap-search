@@ -57,8 +57,8 @@ export default class MilestoneModel extends Model {
   // represents number of days e.g. `29`
   @attr('string') dcpActualdurationasoftoday;
 
-  // --> CRM:dcp_milestoneoutcome
-  @attr('string') dcpMilestoneoutcome;
+  // --> CRM:dcp_milestoneoutcome.dcp_name
+  @attr('string') outcome;
 
   // --> ZAP-API:milestoneLinks
   @attr() milestoneLinks;

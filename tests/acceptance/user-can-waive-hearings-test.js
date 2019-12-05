@@ -81,7 +81,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
     assert.notOk(find('[data-test-button="closeOptOutHearingPopup"]'));
 
-    await click('[data-test-button="optOutHearingOpenPopup"]');
+    await click('[data-test-button-opt-out-hearing-popup="4"]');
 
     assert.ok(find('[data-test-button="onConfirmOptOutHearing"]'));
     assert.ok(find('[data-test-button="closeOptOutHearingPopup"]'));
@@ -154,7 +154,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
     assert.notOk(find('[data-test-button="closeOptOutHearingPopup"]'));
 
-    await click('[data-test-button="optOutHearingOpenPopup"]');
+    await click('[data-test-button-opt-out-hearing-popup="4"]');
 
     assert.ok(find('[data-test-button="onConfirmOptOutHearing"]'));
     assert.ok(find('[data-test-button="closeOptOutHearingPopup"]'));
@@ -163,7 +163,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
 
-    assert.notOk(find('[data-test-button="optOutHearingOpenPopup"]'));
+    assert.notOk(find('[data-test-button-opt-out-hearing-popup="4"]'));
 
     assert.ok(find('[data-test-hearings-waived-message="4"]'));
 
@@ -219,9 +219,9 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     await visit('/my-projects/to-review');
 
-    assert.ok(find('[data-test-button="optOutHearingOpenPopup"]'));
+    assert.ok(find('[data-test-button-opt-out-hearing-popup="4"]'));
 
-    await click('[data-test-button="optOutHearingOpenPopup"]');
+    await click('[data-test-button-opt-out-hearing-popup="4"]');
 
     assert.ok(find('[data-test-button="onConfirmOptOutHearing"]'));
 
@@ -231,7 +231,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     await click('[data-test-button="backToMyProjectsAfterError"]');
 
-    assert.ok(find('[data-test-button="optOutHearingOpenPopup"]'));
+    assert.ok(find('[data-test-button-opt-out-hearing-popup="4"]'));
   });
 
   test('if there is a server error when running .save(), user will see error message on upcoming tab', async function(assert) {
@@ -283,9 +283,9 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     await visit('/my-projects/upcoming');
 
-    assert.ok(find('[data-test-button="optOutHearingOpenPopup"]'));
+    assert.ok(find('[data-test-button-opt-out-hearing-popup="4"]'));
 
-    await click('[data-test-button="optOutHearingOpenPopup"]');
+    await click('[data-test-button-opt-out-hearing-popup="4"]');
 
     assert.ok(find('[data-test-button="onConfirmOptOutHearing"]'));
 
@@ -295,6 +295,6 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     await click('[data-test-button="backToMyProjectsAfterError"]');
 
-    assert.ok(find('[data-test-button="optOutHearingOpenPopup"]'));
+    assert.ok(find('[data-test-button-opt-out-hearing-popup="4"]'));
   });
 });

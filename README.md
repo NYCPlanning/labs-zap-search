@@ -21,17 +21,43 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* `ember serve` - Uses dummy API responses provided by mirage
-* `HOST_API=http://localhost:3000 ember serve --environment=devlocal` - Sends api calls to `localhost:3000`, assumes you are running [labs-zap-api](https://github.com/NYCPlanning/labs-zap-api) locally. Make sure you have `SKIP_AUTH=true` in your development.env file. 
+### Standalone using Mirage data
+The app can be served on your machine standalone by stubbing [the backend (zap-api)](https://github.com/NYCPlanning/zap-api) using Mirage. The app has been configured with a few [Mirage Scenarios](https://github.com/NYCPlanning/labs-zap-search/tree/develop/mirage/scenarios), which represent different sets of data for different user types. You can select the scenario when serving the app:
+
+```
+MIRAGE_SCENARIO=<scenario> ember s
+```
+
+Where `<scenario>` can be replaced with one of the following
+- community-board
+- borough-president
+
+`<scenario>` can also be a path to your own scenario file.
+
+If the app is loaded without specifying the `MIRAGE_SCENARIO` parameter, it will load a stale scenario.
+See [mirage/README.md](./mirage/README.md) for details on what data the scenario contains and how it is generated.
+
+### Connecting to a local backend
+The app can also be served locally and connected to a locally run [zap-api backend](https://github.com/NYCPlanning/zap-api).
+
+```
+HOST_API=http://localhost:3000 ember serve --environment=devlocal
+```
+
+The frontend will then send api calls to `localhost:3000`, assuming you are running the zap-api locally. (Remember to set `SKIP_AUTH=true` in your development.env file in the zap-api project folder)
+
 Sign in by going to `localhost:4200/login#access_token=test`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+
+### Connecting to staging or production
+
+```
+HOST_API=https://zap-api-staging.herokuapp.com ember s -e devlocal
+```
 
 ### Create test scenarios
 
 * Create a new scenario file under mirage/scenarios/
   * Make sure its default export is a function
-* Run your local development server with the environment variable:
-  `MIRAGE_SCENARIO=your-scenario-file ember s`
 
 ### Running Tests
 
