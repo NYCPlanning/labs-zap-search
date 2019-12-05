@@ -11,19 +11,11 @@ module('Integration | Component | recommendation-result-icon', function(hooks) {
 
     assert.ok(find('[data-icon="thumbs-up"]'));
 
-    await render(hbs`<RecommendationResultIcon @recommendation="Approved with Modifications/Conditions"/>`);
-
-    assert.ok(find('[data-icon="thumbs-up"]'));
-
     await render(hbs`<RecommendationResultIcon @recommendation="Disapproved"/>`);
 
     assert.ok(find('[data-icon="thumbs-down"]'));
 
-    await render(hbs`<RecommendationResultIcon @recommendation="Disapproved with Modifications/Conditions"/>`);
-
-    assert.ok(find('[data-icon="thumbs-down"]'));
-
-    await render(hbs`<RecommendationResultIcon @recommendation="Waived"/>`);
+    await render(hbs`<RecommendationResultIcon @recommendation="Waiver of Recommendation"/>`);
 
     assert.ok(find('[data-icon="comment-slash"]'));
   });

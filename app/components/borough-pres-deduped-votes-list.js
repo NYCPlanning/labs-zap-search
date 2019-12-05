@@ -1,8 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 
-// #### THIS COMPONENT IS A DEDUPLICATED VOTES LIST FOR COMMUNITY BOARDS AND BOROUGH BOARDS
-// BOROUGH PRESIDENT HAS ITS OWN `borough-pres-deduped-votes-list`
+// #### THIS COMPONENT IS A DEDUPLICATED VOTES LIST FOR BOROUGH PRESIDENTS
 // BOROUGH PRESIDENTS DO NOT HAVE VOTE COUNTS OR A dcpDateofvote FIELD
 
 // reduce function to remove duplicates from an array of objects based on five fields
@@ -10,21 +9,18 @@ import { computed } from '@ember/object';
 // then their information is concatenated into new properties on that object
 // One property is concatenated across all duplicates and stored as arrayOfConcatProps (property on new array)
 // All duplicate objects are stored as an array of objects arrayOfDuplicateObjects (property on new array)
-export function dedupeAndExtract(records = [], participantRecommendationType, propToConcat, arrayOfConcatProps, arrayOfDuplicateObjects) {
+export function dedupeAndExtract(records = [], propToConcat, arrayOfConcatProps, arrayOfDuplicateObjects) {
   return records.reduce((accumulator, current) => {
     // object that represents a match between accumulator and current based on two similar fields
     const duplicateObject = accumulator.find(function(item) {
       // datesExist checks that the date fields are truthy before checking for duplicate objects
       // this is necessary because in order to compare dates, they must be converted to strings
       // running `toString` on a null value can cause an error
-      const datesExist = item.disposition.get('dcpDateofvote') !== null && current.disposition.get('dcpDateofvote') !== null;
+      const datesExist = item.disposition.get('dcpDatereceived') !== null && current.disposition.get('dcpDatereceived') !== null;
 
       if (datesExist) {
-        return item.disposition.get('dcpDateofvote').toString() === current.disposition.get('dcpDateofvote').toString()
-         && item.disposition.get('dcpVotinginfavorrecommendation') === current.disposition.get('dcpVotinginfavorrecommendation')
-         && item.disposition.get('dcpVotingagainstrecommendation') === current.disposition.get('dcpVotingagainstrecommendation')
-         && item.disposition.get('dcpVotingabstainingonrecommendation') === current.disposition.get('dcpVotingabstainingonrecommendation')
-         && item.disposition.get(participantRecommendationType) === current.disposition.get(participantRecommendationType);
+        return item.disposition.get('dcpDatereceived').toString() === current.disposition.get('dcpDatereceived').toString()
+         && item.disposition.get('dcpBoroughpresidentrecommendation') === current.disposition.get('dcpBoroughpresidentrecommendation');
       }
 
       return null;
@@ -49,16 +45,10 @@ export function dedupeAndExtract(records = [], participantRecommendationType, pr
 export default class DedupedVotesListComponent extends Component {
   dispositions = [];
 
-  @computed('dispositions', 'participantRecommendationType')
+  @computed('dispositions')
   get dedupedVotes() {
-    // Each disposition has three recommendation fields for each type of user.
-    // These include: 'dcpCommunityboardrecommendation', 'dcpBoroughpresidentrecommendation', and 'dcpBoroughboardrecommendation'.
-    // In order to assure that we are checking the correct recommendation field,
-    // participantRecommendationType is passed in when `deduped-votes-list` is rendered
-    const participantRecommendationType = this.get('participantRecommendationType');
-
-    // function for checking that required recommendation field is truthy
-    function checkAllFields(recType) {
+    // function for checking that 2 required fields are truthy
+    function checkRequiredField(recType) {
       return recType;
     }
 
@@ -70,30 +60,25 @@ export default class DedupedVotesListComponent extends Component {
     // The new property duplicateDisps is initally set to an array of the current disposition model (itself).
     // During the reduce, if there is a duplicate in the array of dispositions,
     // that duplicate disposition is pushed into this array.
-    // ** dispHasAllFields checks whether the 5 required fields to show a vote are truthy
+    // ** dispHasAllFields checks whether the 2 required fields to show a vote are truthy
     // If dispHasAllFields is false, we do not display the vote information at all
     const newDispositionsArray = this.dispositions.map(disp => ({
       disposition: disp,
-      // check that disposition has required recommendation field
-      dispHasRequiredField: checkAllFields(disp[participantRecommendationType]),
+      // check that disposition has all 5 required fields
+      dispHasRequiredField: checkRequiredField(disp.dcpBoroughpresidentrecommendation),
       voteActions: [disp.action],
       duplicateDisps: [disp],
     }));
 
-    // function to deduplicate dispositions based on dcpDateofVote, dcpVotinginfavorrecommendation, dcpVotingagainstrecommendation,
-    // dcpVotingabstainingonrecommendation, and a property that is set later `participantRecommendation` (e.g. 'dcpCommunityboardrecommendation')
+    // function to deduplicate dispositions based on dcpDateofVote and dcpBoroughpresidentrecommendation
     // each disposition object in the new deduped array will have a property voteActions and duplicateDisps, both arrays of objects
     // voteActions is an array of action model objects that are concatenated across all duplicate objects
     // duplicateDisps is an array of disposition model objects that are concatenated across all duplicate objects
-    // THIS DEDUPED LIST IS ONLY FOR COMMUNITY BOARDS AND BOROUGH BOARDS
-    if (participantRecommendationType === 'dcpBoroughboardrecommendation' || participantRecommendationType === 'dcpCommunityboardrecommendation') {
-      return dedupeAndExtract(
-        newDispositionsArray,
-        participantRecommendationType,
-        'action',
-        'voteActions',
-        'duplicateDisps',
-      );
-    } return null;
+    return dedupeAndExtract(
+      newDispositionsArray,
+      'action',
+      'voteActions',
+      'duplicateDisps',
+    );
   }
 }

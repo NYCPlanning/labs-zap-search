@@ -21,27 +21,27 @@ export function dedupeByParticipant(records = []) {
   }, []);
 }
 
-// Check that two fields are truthy
+// Check that at least ONE disposition has a truthy date & location field
+// this is used to conditionally display the entire sub-milestone, including the title.
 export function checkHearingsSubmitted(records = []) {
-  const dispositionHearingsLocations = records.map(disp => `${disp.dcpPublichearinglocation}`);
-  const dispositionHearingsDates = records.map(disp => disp.dcpDateofpublichearing);
-  // checks whether each item in array is truthy
-  return dispositionHearingsLocations.every(item => !!item) && dispositionHearingsDates.every(item => !!item);
+  const projectsWithHearings = records.filter(function(disp) {
+    if (disp.dcpDateofpublichearing !== null) {
+      return disp.dcpPublichearinglocation && disp.dcpDateofpublichearing.toString();
+    } return null;
+  });
+
+  return projectsWithHearings.length > 0;
 }
 
-// Check that five fields are truthy
+// Check that at least ONE disposition has truthy values for recommendation field
+// this is used to conditionally display the entire sub-milestone, including the title.
 export function checkVotesSubmitted(records = [], recommendationType) {
-  const dispositionDateofVote = records.map(disp => disp.get('dcpDateofvote'));
-  const dispositionVotingInFavor = records.map(disp => disp.get('dcpVotinginfavorrecommendation'));
-  const dispositionVotingAgainst = records.map(disp => disp.get('dcpVotingagainstrecommendation'));
-  const dispositionAbstaining = records.map(disp => disp.get('dcpVotingabstainingonrecommendation'));
-  const dispositionRecommendationType = records.map(disp => disp.get(recommendationType));
-  // checks whether each item in array is truthy
-  return dispositionDateofVote.every(vote => !!vote)
-  && dispositionVotingInFavor.every(vote => !!vote)
-  && dispositionVotingAgainst.every(vote => !!vote)
-  && dispositionAbstaining.every(vote => !!vote)
-  && dispositionRecommendationType.every(recType => !!recType);
+  const projectsWithVotes = records.filter(function(disp) {
+    // null values and empty strings will NOT be returned
+    return disp.get(recommendationType);
+  });
+
+  return projectsWithVotes.length > 0;
 }
 
 export default class HearingsListForMilestonesListComponent extends Component {
@@ -49,15 +49,15 @@ export default class HearingsListForMilestonesListComponent extends Component {
   milestone;
 
   milestoneParticipantReviewLookup = {
-    'Borough President Review': 'BP',
-    'Borough Board Review': 'BB',
-    'Community Board Review': 'CB',
+    'Borough President Review': 'Borough President',
+    'Borough Board Review': 'Borough Board',
+    'Community Board Review': 'Community Board',
   }
 
   participantRecommendationLookup = {
-    BP: 'dcpBoroughpresidentrecommendation',
-    BB: 'dcpBoroughboardrecommendation',
-    CB: 'dcpCommunityboardrecommendation',
+    'Borough President': 'dcpBoroughpresidentrecommendation',
+    'Borough Board': 'dcpBoroughboardrecommendation',
+    'Community Board': 'dcpCommunityboardrecommendation',
   }
 
   // An array of disposition models that match the current milestone that is passed in
@@ -66,17 +66,21 @@ export default class HearingsListForMilestonesListComponent extends Component {
     const milestone = this.get('milestone');
     // ALL dispositions associated with a milestone's project
     const dispositions = milestone.get('project.dispositions');
+
     const milestoneParticipantReviewLookup = this.get('milestoneParticipantReviewLookup');
 
     // Iterate through ALL of the current project's dispositions.
-    // Filter by IF a single disposition's fullname matches the
+    // Filter by IF a single disposition's fullname AND dcpRepresenting matches the
     // current milestone's displayName based on the milestoneParticipantReviewLookup.
     // disposition.fullname = e.g. 'QN BP'
+    // ^^ borough boards have a fullname that is equal to the borough president name e.g. `BK BP`,
+    // so disposition.dcpRepresenting is used in order to correctly match borough board dispositions to the BB milestone
+    // disposition.dcpRepresenting = e.g. 'Community Board'
     // disposition.fullname.substring(2,4) = e.g. 'BP'
     // matching e.g. 'BP' with the milestoneParticipantReviewLookup provides 'Borough President Review'
     return dispositions.filter(function(disposition) {
       // make sure we aren't grabbing any null values; null values break substring
-      const participantType = disposition.fullname != null ? disposition.fullname.substring(3, 5) : '';
+      const participantType = disposition.dcpRepresenting;
       return milestoneParticipantReviewLookup[milestone.displayName] === participantType;
     });
   }
@@ -89,7 +93,7 @@ export default class HearingsListForMilestonesListComponent extends Component {
     const participantRecommendationLookup = this.get('participantRecommendationLookup');
 
     // participant types
-    // participantType = e.g. "CB"
+    // participantType = e.g. "Community Board"
     const participantType = milestoneParticipantReviewLookup[this.get('milestone.displayName')];
     // partRecType = e.g. 'dcpCommunityboardrecommendation'
     const partRecType = participantRecommendationLookup[participantType];
@@ -108,8 +112,6 @@ export default class HearingsListForMilestonesListComponent extends Component {
       landUseParticipantFullName: disp.fullNameLongFormat,
       // field used for making sure we're grabbing the correct recommendation field
       participantRecommendationType: partRecType, // e.g. 'dcpCommunityboardrecommendation'
-      // field for knowing the "type" of the current participant
-      landUseParticipantType: disp.fullname.substring(3, 5), // e.g. 'CB'
       disposition: disp,
       userDispositions: [disp],
       hearingsSubmitted: false,
