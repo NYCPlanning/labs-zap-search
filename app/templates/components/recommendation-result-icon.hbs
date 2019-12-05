@@ -1,15 +1,34 @@
-{{#if (or (eq this.recommendation "Approved") (eq this.recommendation "Approved with Modifications/Conditions"))}}
-  {{fa-icon 'thumbs-up' class='green-muted' fixedWidth=true}}
+{{!Approval options}}
+{{#if (or (eq this.recommendation "Favorable") (eq this.recommendation "Approved"))}}
+  {{fa-icon 'thumbs-up' class='green-dark'}}
 {{/if}}
-{{#if (or (eq this.recommendation "Disapproved") (eq this.recommendation "Disapproved with Modifications/Conditions"))}}
-  {{fa-icon 'thumbs-down' class='red-muted' fixedWidth=true}}
+{{!Conditional approval options}}
+{{#if (or (eq this.recommendation "Conditional Favorable") (eq this.recommendation "Approved with Modifications/Conditions"))}}
+<span class="fa-layers">
+  {{fa-icon 'thumbs-up' class='green-dark'}}
+  {{fa-icon 'question' class='white' transform="shrink-9 right-2 down-2"}}
+</span>
 {{/if}}
-{{#if (eq this.recommendation "Waived")}}
-  {{fa-icon 'comment-slash' class='gray' fixedWidth=true}}
+{{!Disapproval options}}
+{{#if (or (eq this.recommendation "Unfavorable") (eq this.recommendation "Disapproved"))}}
+  {{fa-icon 'thumbs-down' class='red-dark'}}
+{{/if}}
+{{!Conditional disapproval options}}
+{{#if (or (eq this.recommendation "Conditional Unfavorable") (eq this.recommendation "Disapproved with Modifications/Conditions"))}}
+<span class="fa-layers">
+  {{fa-icon 'thumbs-down' class='red-dark' }}
+  {{fa-icon 'question' class='white' transform="shrink-9 right-2 up-2"}}
+</span>
+{{/if}}
+{{!No opinion options}}
+{{#if (or (eq this.recommendation "Waiver of Recommendation") (eq this.recommendation "No Objection"))}}
+  {{fa-icon 'comment-slash' class='gray'}}
 {{/if}}
 
-{{#ember-tooltip}}
-  <strong class="display-block tiny-margin-bottom">{{this.recommendation}}</strong>
-  <span class="display-inline-block">{{this.action.dcpName}}</span>
-  <small class="display-inline-block">{{this.action.dcpUlurpnumber}}</small>
-{{/ember-tooltip}}
+{{#if this.action.dcpName}}
+  {{#ember-tooltip}}
+    <strong class="display-block tiny-margin-bottom">{{this.recommendation}}</strong>
+    <span class="display-inline-block">{{this.action.dcpName}}</span>
+    <small class="display-inline-block">{{this.action.dcpUlurpnumber}}</small>
+  {{/ember-tooltip}}
+{{/if}}
