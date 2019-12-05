@@ -1,7 +1,9 @@
 
 ## Mock Data with Mirage
 
-The app now loads with a stale default scenario (`mirage/scenarios/default.js`). It's considered "stale" because it loads a static JSON representation of the mock data, which should be infrequently changed.
+If the app is loaded without a `MIRAGE_SCENARIO` environment variable specified, it loads with a stale default scenario (`mirage/scenarios/default.js`). It's considered "stale" because it loads a static JSON representation of the mock data, which should be infrequently changed.
+
+*NOTE:* This default scenario is also not updated to use assignments. Thus no assignments load in the `/my-projects` view.
 
 We no longer want to set up and frequently update mock data for all edge cases at once in one file, i.e. have one "universal" scenario. 
 
