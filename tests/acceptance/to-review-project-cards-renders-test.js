@@ -43,7 +43,7 @@ module('Acceptance | to review project cards renders', function(hooks) {
               dcpPlannedcompletiondate: moment().add(21, 'days'),
               displayDate2: moment().add(21, 'days'),
               dcpRemainingplanneddayscalculated: '20',
-              dcpActualdurationasoftoday: '59',
+              dcpGoalduration: '59',
             })],
           }),
         }),
@@ -62,7 +62,7 @@ module('Acceptance | to review project cards renders', function(hooks) {
     assert.equal(timeRemainingValue, '20', 'Time remaining displays 20');
   });
 
-  test('to-review project card does not show "of" if dcpActualdurationasoftoday is null', async function(assert) {
+  test('to-review project card does not show "of" if dcpGoalduration is null', async function(assert) {
     this.server.create('user', {
       id: 1,
       email: 'qncb5@planning.nyc.gov',
@@ -81,7 +81,7 @@ module('Acceptance | to review project cards renders', function(hooks) {
               dcpPlannedcompletiondate: moment().add(21, 'days'),
               displayDate2: moment().add(21, 'days'),
               dcpRemainingplanneddayscalculated: '20',
-              dcpActualdurationasoftoday: null,
+              dcpGoalduration: null,
             })],
           }),
         }),
@@ -119,7 +119,7 @@ module('Acceptance | to review project cards renders', function(hooks) {
               dcpPlannedcompletiondate: moment().add(21, 'days'),
               displayDate2: moment().add(21, 'days'),
               dcpRemainingplanneddayscalculated: null,
-              dcpActualdurationasoftoday: '59',
+              dcpGoalduration: '59',
             })],
           }),
         }),

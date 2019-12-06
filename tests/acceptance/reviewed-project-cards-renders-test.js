@@ -44,7 +44,7 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
                 dcpPlannedcompletiondate: moment().add(15, 'days'),
                 displayDate2: null,
                 dcpRemainingplanneddayscalculated: 14,
-                dcpActualdurationasoftoday: 29,
+                dcpGoalduration: 29,
               }),
             ],
           }),
@@ -64,7 +64,7 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
     assert.equal(timeDurationValue, 'of 29 estimated days remain', 'Estimated time duration displays 29');
   });
 
-  test('reviewed project card does not show "of" if dcpActualdurationasoftoday is null', async function(assert) {
+  test('reviewed project card does not show "of" if dcpGoalduration is null', async function(assert) {
     this.server.create('user', {
       id: 1,
       email: 'qncb5@planning.nyc.gov',
@@ -84,7 +84,7 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
                 dcpPlannedcompletiondate: moment().add(15, 'days'),
                 displayDate2: null,
                 dcpRemainingplanneddayscalculated: 14,
-                dcpActualdurationasoftoday: null,
+                dcpGoalduration: null,
               }),
             ],
           }),
@@ -124,7 +124,7 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
                 dcpPlannedcompletiondate: moment().add(15, 'days'),
                 displayDate2: null,
                 dcpRemainingplanneddayscalculated: null,
-                dcpActualdurationasoftoday: 29,
+                dcpGoalduration: 29,
               }),
             ],
           }),
