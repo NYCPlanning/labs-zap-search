@@ -105,6 +105,8 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   submitError = false;
 
+  errorBody = null;
+
   @computed('assignment')
   get assignmentQueueName() {
     const parsedAssignmentId = this.assignment.id.replace(/-/g, '');
@@ -313,6 +315,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   @action
   async submitRecommendations() {
     this.set('isSubmitting', true);
+    this.set('submitError', false);
 
     // array of true/false values each representing whether a disposition
     // had files successfully uploaded to it
