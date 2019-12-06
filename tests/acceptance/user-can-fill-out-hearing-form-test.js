@@ -685,7 +685,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
       }),
     });
 
-    this.server.patch('/dispositions/:id', { errors: ['server problem'] }, 500); // force mirage to error
+    this.server.patch('/dispositions/:id', { errors: [{ message: 'server problem' }] }, 500); // force mirage to error
 
     await visit('/my-projects/4/hearing/add');
 
@@ -716,7 +716,17 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     await click('[data-test-button="confirmHearing"]');
 
+    this.server.patch('/dispositions/:id');
+
     assert.ok(find('[data-test-error-alert-message]'));
+
+    await click('[data-test-button="backToHearingFormAfterError"]');
+
+    await click('[data-test-button="checkHearing"]');
+
+    await click('[data-test-button="confirmHearing"]');
+
+    assert.equal(currentURL(), '/my-projects/4/hearing/done');
   });
 
   test('single disposition hearing form with NULL dcpDateofpublichearing works, triggers modal', async function(assert) {

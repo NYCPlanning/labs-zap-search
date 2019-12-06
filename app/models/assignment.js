@@ -166,8 +166,8 @@ export default class AssignmentModel extends Model {
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
   get toReviewMilestoneTimeDuration() {
     const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
-    const { dcpActualdurationasoftoday } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
-    return dcpActualdurationasoftoday;
+    const { dcpGoalduration } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    return dcpGoalduration;
   }
 
   // If `tab` is 'reviewed'...
@@ -185,7 +185,7 @@ export default class AssignmentModel extends Model {
       dcpActualstartdate: milestone.dcpActualstartdate,
       dcpPlannedcompletiondate: milestone.dcpPlannedcompletiondate,
       dcpRemainingplanneddayscalculated: milestone.dcpRemainingplanneddayscalculated,
-      dcpActualdurationasoftoday: milestone.dcpActualdurationasoftoday,
+      dcpGoalduration: milestone.dcpGoalduration,
     }));
   }
 }

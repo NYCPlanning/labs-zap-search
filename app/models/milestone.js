@@ -53,9 +53,9 @@ export default class MilestoneModel extends Model {
   // represents number of days e.g. `8`
   @attr('string') dcpRemainingplanneddayscalculated;
 
-  // field `dcp_actualdurationasoftoday` from table dcp_projectmilestone
+  // field `dcp_goalduration` from table dcp_projectmilestone
   // represents number of days e.g. `29`
-  @attr('string') dcpActualdurationasoftoday;
+  @attr('string') dcpGoalduration;
 
   // --> CRM:dcp_milestoneoutcome.dcp_name
   @attr('string') outcome;

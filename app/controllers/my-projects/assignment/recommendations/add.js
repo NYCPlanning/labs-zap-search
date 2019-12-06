@@ -105,6 +105,8 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   submitError = false;
 
+  errorBody = null;
+
   @computed('assignment')
   get assignmentQueueName() {
     const parsedAssignmentId = this.assignment.id.replace(/-/g, '');
@@ -313,22 +315,16 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
   @action
   async submitRecommendations() {
     this.set('isSubmitting', true);
+    this.set('submitError', false);
 
     // array of true/false values each representing whether a disposition
     // had files successfully uploaded to it
     const uploadResults = [];
 
-    const assignmentQueueOriginalLength = this.assignmentQueue.files.length;
-
     try {
       // copy files from assignmentQueue to each disposition queue
       for (let i = 0; i < this.assignmentQueue.files.length; i += 1) {
         await this.addFileToDispositionQueues(this.assignmentQueue.files[i]); // eslint-disable-line
-      }
-
-      // flush assignment queue after copying is complete
-      while (this.assignmentQueue.files.length > 0) {
-        this.assignmentQueue.remove(this.assignmentQueue.files[0]);
       }
 
       // upload files across dispositions queues
@@ -349,7 +345,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
         const fileUploadResponses = await Promise.all(fileUploadPromises); // eslint-disable-line
 
         // The check for matching fileUploadResponse length and assignmentQueueOriginalLength supports acceptance tests
-        const filesUploadedToDispo = fileUploadResponses.every(res => res.status === 200) && fileUploadResponses.length === assignmentQueueOriginalLength;
+        const filesUploadedToDispo = fileUploadResponses.every(res => res.status === 200);
 
         uploadResults.push(filesUploadedToDispo);
       }
@@ -362,6 +358,11 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
     // Only proceed if all files were uploaded to all dispositions
     // The check for matching uploadResults and dispositions length supports acceptance tests
     if (uploadResults.every(res => res === true) && (uploadResults.length === this.dispositions.length) && !this.submitError) {
+      // flush assignment queue after copying is complete
+      while (this.assignmentQueue.files.length > 0) {
+        this.assignmentQueue.remove(this.assignmentQueue.files[0]);
+      }
+
       const { participantType } = this;
       const targetField = RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
       this.dispositionForAllActionsChangeset.execute();

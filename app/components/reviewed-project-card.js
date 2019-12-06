@@ -31,7 +31,7 @@ export default class ReviewedProjectCardComponent extends Component {
       return {
         displayName: firstInProgressMilestoneDates.displayName,
         estTimeRemaining: firstInProgressMilestoneDates.dcpRemainingplanneddayscalculated,
-        estTimeDuration: firstInProgressMilestoneDates.dcpActualdurationasoftoday,
+        estTimeDuration: firstInProgressMilestoneDates.dcpGoalduration,
         dcpPlannedcompletiondate: firstInProgressMilestoneDates.dcpPlannedcompletiondate,
       };
     }

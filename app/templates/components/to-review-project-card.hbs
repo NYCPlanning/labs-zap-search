@@ -23,7 +23,10 @@
                 {{assignment.toReviewMilestoneTimeRemaining}}
               </strong>
               {{#if assignment.toReviewMilestoneTimeDuration}}
-                <strong class="display-block" data-test-time-duration="{{assignment.id}}">of {{assignment.toReviewMilestoneTimeDuration}} days remain</strong>
+                <strong class="display-block" data-test-time-duration="{{assignment.id}}">
+                  of {{assignment.toReviewMilestoneTimeDuration}} days remain
+                  <sup class="dark-gray">{{icon-tooltip icon='info-circle' tip='Review periods ending on a weekend or public holiday are extended to the next business day.'}}</sup>
+                </strong>
               {{else}}
                 <strong class="display-block" data-test-no-time-duration-message="{{assignment.id}}">days remain</strong>
               {{/if}}
