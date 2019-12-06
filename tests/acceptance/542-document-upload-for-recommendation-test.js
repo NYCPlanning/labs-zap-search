@@ -12,6 +12,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import { participantRoles } from 'labs-zap-search/models/assignment';
+import { Response } from 'ember-cli-mirage';
 import moment from 'moment';
 
 // Sets up assignment will have 3 dispos with hearings
@@ -265,13 +266,65 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
 
     assert.equal(find('[data-test-confirmation-file-name="foo.txt"]').textContent.replace(/\s/g, ''), 'foo.txt(text/plain)');
 
-    this.server.patch('/dispositions/:id', { errors: [{ default: 'server problem' }] }, 500);
+    this.server.patch('/dispositions/:id', { errors: [{ detail: 'server problem' }] }, 500);
 
     await click('[data-test-submit]');
 
     const requestCount1 = this.server.pretender.handledRequests.length;
 
     await this.server.patch('/dispositions/:id');
+
+    await click('[data-test-submit]');
+
+    const requestCount2 = this.server.pretender.handledRequests.length;
+
+    assert.ok(requestCount2 > requestCount1);
+
+    assert.equal(currentURL(), '/my-projects/1/recommendations/done');
+  });
+
+  test('User can upload, receive failure from doc upload, and retry', async function (assert) {
+    setUpProjectAndDispos(server, 'CB');
+
+    await authenticateSession();
+
+    // Fill in all form fields except for documents
+    await visit('/my-projects/1/recommendations/add');
+    await click('[data-test-quorum-yes="0"]');
+    await click('[data-test-quorum-no="1"]');
+    await click('[data-test-all-actions-yes]');
+    await find('[data-test-all-actions-recommendation-select]');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
+    await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
+    await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
+    await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
+    await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
+    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
+
+    const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });
+
+    // https://github.com/adopted-ember-addons/ember-file-upload/blob/master/addon-test-support/index.js
+    await upload('#assign1FileUpload > input', file);
+
+    await click('[data-test-continue]');
+
+    assert.equal(find('[data-test-confirmation-file-name="foo.txt"]').textContent.replace(/\s/g, ''), 'foo.txt(text/plain)');
+
+    this.server.post('/document', { errors: [{ detail: 'server problem' }] }, 500);
+
+    await click('[data-test-submit]');
+
+    const requestCount1 = this.server.pretender.handledRequests.length;
+
+    // copied from mirage/config
+    this.server.post('/document', function(schema, request) {
+      // requestBody should be a FormData object
+      const { requestBody } = request;
+      const success = requestBody.get('instanceId') && requestBody.get('entityName') && requestBody.get('file');
+      return success ? new Response(200) : new Response(400, {}, { errors: ['Bad Parameters'] });
+    });
 
     await click('[data-test-submit]');
 
