@@ -108,6 +108,12 @@ export default class DispositionModel extends Model {
   // backend
   @attr('date', { defaultValue: null }) dcpDateofvote;
 
+  @attr('string', { defaultValue: '' }) dcpBoroughBoardrecommendation;
+
+  @attr('string', { defaultValue: '' }) dcpCommunityboardrecommendation;
+
+  @attr('string', { defaultValue: '' }) dcpBoroughpresidentrecommendation;
+
   // sourced from statuscode
   // Label: 'Draft', 'Value': 1
   // Label: 'Saved', 'Value': 717170000
@@ -209,19 +215,13 @@ export default class DispositionModel extends Model {
     return borough.concat(' ', participantType);
   }
 
-  // the recommendationLabel associated with the recommendation code
-  // e.g. for code `717170000` the recommendationLabel for BB would be `Favorable`
+  // the recommendation based on the user type
+  // e.g. a Community Board will have a dcpCommunityboardrecommendation `Approved`
   @computed('fullname', 'dcpCommunityboardrecommendation', 'dcpBoroughboardrecommendation', 'dcpBoroughpresidentrecommendation')
   get recommendationLabel() {
     // participantType e.g. `BB`
     const participantType = this.fullname.substring(3, 5);
-    // recommendationCode e.g. `717170000`
-    const recommendationCode = this.get(PARTICIPANT_TYPE_RECOMMENDATION_TYPE_LOOKUP[participantType]);
-    // partTypeRecs e.g. array of objects with code and label values for a type of participant
-    const partTypeRecs = RECOMMENDATION_OPTIONSET_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
-    // filter the partTypeRecs array of objects to match the `participantRecommendation`
-    const recLabels = partTypeRecs.filter(rec => rec.code === recommendationCode);
-
-    return recLabels.firstObject.label;
+    // e.g. `conditional favorable`
+    return this.get(PARTICIPANT_TYPE_RECOMMENDATION_TYPE_LOOKUP[participantType]);
   }
 }

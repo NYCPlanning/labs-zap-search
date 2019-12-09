@@ -29,14 +29,25 @@ export function checkHearingsSubmitted(records = []) {
   return projectsWithHearings.length > 0;
 }
 
+// for Community Boards and Borough  Boards
 // Check that at least ONE disposition has truthy values for five fields
 // this is used to conditionally display the entire sub-milestone, including the title.
-export function checkVotesSubmitted(records = [], recommendationType) {
+export function boardsCheckVotesSubmitted(records = [], recommendationType) {
   const projectsWithVotes = records.filter(disp => disp.dcpDateofvote
     && disp.dcpVotinginfavorrecommendation
     && disp.dcpVotingagainstrecommendation
     && disp.dcpVotingabstainingonrecommendation
     && disp.get(recommendationType));
+
+  return projectsWithVotes.length > 0;
+}
+
+// for Borough Presidents
+// Check that at least ONE disposition has truthy values for 2 fields
+// this is used to conditionally display the entire sub-milestone, including the title.
+export function boroughPresidentCheckVotesSubmitted(records = []) {
+  const projectsWithVotes = records.filter(disp => disp.dcpDatereceived
+    && disp.get('dcpBoroughpresidentrecommendation'));
 
   return projectsWithVotes.length > 0;
 }
@@ -63,6 +74,7 @@ export default class HearingsListForMilestonesListComponent extends Component {
     const milestone = this.get('milestone');
     // ALL dispositions associated with a milestone's project
     const dispositions = milestone.get('project.dispositions');
+
     const milestoneParticipantReviewLookup = this.get('milestoneParticipantReviewLookup');
 
     // Iterate through ALL of the current project's dispositions.
@@ -121,7 +133,9 @@ export default class HearingsListForMilestonesListComponent extends Component {
     // we pass userDispositions into deduped-hearings-list/deduped-votes-list
     milestoneParticipantsDeduped.forEach(function(participant) {
       participant.hearingsSubmitted = checkHearingsSubmitted(participant.userDispositions);
-      participant.votesSubmitted = checkVotesSubmitted(participant.userDispositions, participant.participantRecommendationType);
+      participant.votesSubmitted = participant.participantRecommendationType === 'dcpBoroughpresidentrecommendation'
+        ? boroughPresidentCheckVotesSubmitted(participant.userDispositions)
+        : boardsCheckVotesSubmitted(participant.userDispositions, participant.participantRecommendationType);
     });
 
     return milestoneParticipantsDeduped;

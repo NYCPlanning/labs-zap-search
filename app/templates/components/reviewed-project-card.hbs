@@ -1,3 +1,8 @@
+{{#each assignment.dispositions as |disp|}}
+  {{log "beep cb" disp.dcpCommunityboardrecommendation}}
+  {{log "beep bb" disp.dcpBoroughboardrecommendation}}
+  {{log "beep bp" disp.dcpBoroughpresidentrecommendation}}
+{{/each}}
 <div
     class="project-summary-card callout"
     data-test-project-card
