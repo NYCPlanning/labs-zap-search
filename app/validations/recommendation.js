@@ -183,6 +183,7 @@ export const bbDispositionForAllActionsValidations = {
     validateNumber({
       lte: 99,
       allowBlank: true,
+      message: maxLengthMessage,
     }),
     validatePresenceUnlessValue({
       presence: true,
@@ -276,6 +277,7 @@ export const communityBoardDispositionValidations = {
     validateNumber({
       lte: 99,
       allowBlank: true,
+      message: maxLengthMessage,
     }),
     validatePresenceUnlessValue({
       presence: true,
@@ -370,6 +372,7 @@ export const boroughBoardDispositionValidations = {
     validateNumber({
       lte: 99,
       allowBlank: true,
+      message: maxLengthMessage,
     }),
     validatePresenceUnlessValue({
       presence: true,
