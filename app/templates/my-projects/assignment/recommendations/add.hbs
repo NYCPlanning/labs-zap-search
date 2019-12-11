@@ -420,7 +420,8 @@
               {{/each}}
             </fieldset>
           {{/if}}
-          {{#if (or (eq this.allActions true) (eq this.allActions false))}}
+          {{!-- Not null --}}
+          {{#if (not (eq this.allActions null))}}
             {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
               <fieldset class="medium-margin-bottom recommendation-by-action-fieldset">
                 <legend>

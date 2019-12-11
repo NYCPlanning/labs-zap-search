@@ -34,7 +34,8 @@ function setUpProjectAndDispos(server, participantType) {
             dcpPublichearinglocation: 'Canal street',
             dcpDateofpublichearing: moment().subtract(22, 'days'),
             dcpProjectaction: '1',
-            // action: server.create('action', { id: 1, dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+            dcpVotelocation: '',
+            dcpDateofvote: '',
           }),
           server.create('disposition', {
             id: 2,
@@ -42,7 +43,8 @@ function setUpProjectAndDispos(server, participantType) {
             dcpPublichearinglocation: 'Canal street',
             dcpDateofpublichearing: moment().subtract(22, 'days'),
             dcpProjectaction: '2',
-            // action: server.create('action', { id: 3, dcpName: 'Change to City Map', dcpUlurpnumber: 'N19983dLUP' }),
+            dcpVotelocation: '',
+            dcpDateofvote: '',
           }),
           server.create('disposition', {
             id: 3,
@@ -50,7 +52,8 @@ function setUpProjectAndDispos(server, participantType) {
             dcpPublichearinglocation: 'Hudson Yards',
             dcpDateofpublichearing: moment().subtract(28, 'days'),
             dcpProjectaction: '3',
-            // action: server.create('action', { id: 4, dcpName: 'Business Improvement District', dcpUlurpnumber: 'C780076TLK' }),
+            dcpVotelocation: '',
+            dcpDateofvote: '',
           }),
         ],
         project: server.create('project', {
@@ -66,7 +69,8 @@ function setUpProjectAndDispos(server, participantType) {
               dcpPublichearinglocation: 'Canal street',
               dcpDateofpublichearing: moment().subtract(22, 'days'),
               dcpProjectaction: '1',
-              // action: server.create('action', { id: 1, dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+              dcpVotelocation: '',
+              dcpDateofvote: '',
             }),
             server.create('disposition', {
               id: 2,
@@ -74,7 +78,8 @@ function setUpProjectAndDispos(server, participantType) {
               dcpPublichearinglocation: 'Canal street',
               dcpDateofpublichearing: moment().subtract(22, 'days'),
               dcpProjectaction: '2',
-              // action: server.create('action', { id: 3, dcpName: 'Change to City Map', dcpUlurpnumber: 'N19983dLUP' }),
+              dcpVotelocation: '',
+              dcpDateofvote: '',
             }),
             server.create('disposition', {
               id: 3,
@@ -82,7 +87,8 @@ function setUpProjectAndDispos(server, participantType) {
               dcpPublichearinglocation: 'Hudson Yards',
               dcpDateofpublichearing: moment().subtract(28, 'days'),
               dcpProjectaction: '3',
-              // action: server.create('action', { id: 4, dcpName: 'Business Improvement District', dcpUlurpnumber: 'C780076TLK' }),
+              dcpVotelocation: '',
+              dcpDateofvote: '',
             }),
           ],
         }),
@@ -668,5 +674,95 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     assert.equal(dcpDatereceivedFormatted_1, dateFormatted);
     assert.equal(dcpDatereceivedFormatted_2, dateFormatted);
     assert.equal(dcpDatereceivedFormatted_3, dateFormatted);
+  });
+
+  test('It sends vote location and date of vote for BB', async function(assert) {
+    server.create('user', {
+      id: 1,
+      // These two fields don't matter to these tests
+      email: 'qncb5@planning.nyc.gov',
+      landUseParticipant: 'QNCB5',
+      assignments: [
+        server.create('assignment', {
+          id: 1,
+          tab: 'to-review',
+          dcpLupteammemberrole: 'BB',
+          dispositions: [
+            server.create('disposition', {
+              id: 1,
+              dcpRepresenting: 'Borough Board',
+              dcpPublichearinglocation: 'Canal street',
+              dcpDateofpublichearing: moment().subtract(22, 'days'),
+              dcpProjectaction: '1',
+              dcpVotelocation: '',
+              dcpDateofvote: '',
+            }),
+            server.create('disposition', {
+              id: 2,
+              dcpRepresenting: 'Borough Board',
+              dcpPublichearinglocation: 'Canal street',
+              dcpDateofpublichearing: moment().subtract(22, 'days'),
+              dcpProjectaction: '2',
+              dcpVotelocation: '',
+              dcpDateofvote: '',
+            }),
+            server.create('disposition', {
+              id: 3,
+              dcpRepresenting: 'Borough Board',
+              dcpPublichearinglocation: 'Hudson Yards',
+              dcpDateofpublichearing: moment().subtract(28, 'days'),
+              dcpProjectaction: '3',
+              dcpVotelocation: '',
+              dcpDateofvote: '',
+            }),
+          ],
+          project: server.create('project', {
+            actions: [
+              server.create('action', { id: '1', dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
+              server.create('action', { id: '2', dcpName: 'Change to City Map', dcpUlurpnumber: 'N19983dLUP' }),
+              server.create('action', { id: '3', dcpName: 'Business Improvement District', dcpUlurpnumber: 'C780076TLK' }),
+            ],
+            dispositions: this.server.schema.dispositions.all(),
+          }),
+        }),
+      ],
+    });
+
+    await authenticateSession();
+
+    await visit('/my-projects/1/recommendations/add');
+
+    await click('[data-test-quorum-yes="0"]');
+
+    await click('[data-test-quorum-no="1"]');
+
+    await click('[data-test-all-actions-no]');
+
+    await selectChoose('[data-test-each-action-recommendation="0"]', 'Waiver of Recommendation');
+    await fillIn('[data-test-each-action-dcpConsideration="0', 'My comment for dcpConsideration 0');
+
+    await selectChoose('[data-test-each-action-recommendation="1"]', 'Waiver of Recommendation');
+    await fillIn('[data-test-each-action-dcpConsideration="1', 'My comment for dcpConsideration 1');
+
+    await selectChoose('[data-test-each-action-recommendation="2"]', 'Waiver of Recommendation');
+    await fillIn('[data-test-each-action-dcpConsideration="2', 'My comment for dcpConsideration 2');
+
+    await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
+    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+
+    await click('[data-test-continue]');
+
+    await click('[data-test-submit]');
+
+    assert.equal(currentURL(), '/my-projects/1/recommendations/done');
+
+    const serverDispositions = this.server.db.dispositions.where({ dcpRepresenting: 'Borough Board' });
+
+    // assert that these values which are stored on the "all-dispotions" container object
+    // are indeed sent to the server despite the choice of "each action"
+    serverDispositions.forEach(({ dcpVotelocation, dcpDateofvote }) => {
+      assert.equal(dcpVotelocation, 'Smith Street');
+      assert.equal(moment(dcpDateofvote).format('MM/DD/YYYY'), '10/17/2019');
+    });
   });
 });
