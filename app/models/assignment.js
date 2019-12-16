@@ -33,6 +33,12 @@ export default class AssignmentModel extends Model {
 
   @attr('string') dcpLupteammemberrole;
 
+  @computed('dcpLupteammemberrole')
+  get dcpLupteammemberroleUnabbreviated() {
+    const { label } = participantRoles.findBy('abbreviation', this.dcpLupteammemberrole);
+    return label;
+  }
+
   @attr('string') tab;
 
   // temp variable for sorting assignments by project

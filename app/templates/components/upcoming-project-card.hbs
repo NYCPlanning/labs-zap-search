@@ -86,52 +86,6 @@
         {{/if}}
       {{/if}}
 
-      {{#if assignment.hearingsSubmitted}}
-        {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
-          <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
-              <ul class="no-bullet">
-              {{#each dedupedHearings as |hearing|}}
-                <li class="grid-x small-margin-bottom">
-                  <div class="cell shrink small-margin-right">
-                    {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
-                      {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
-                    {{else}}
-                      {{fa-icon "check" class="blue" fixedWidth=true}}
-                    {{/if}}
-                  </div>
-                  <div class="cell auto">
-                    {{log "id" hearing.disposition.id}}
-                    <strong data-test-hearing-location="{{hearing.disposition.id}}" class="display-inline-block">
-                      {{~hearing.disposition.dcpPublichearinglocation~}}
-                    </strong>
-
-                    <span class="display-inline-block">
-                      <span data-test-hearing-date="{{hearing.disposition.id}}">
-                        <DateDisplay @date={{hearing.disposition.dcpDateofpublichearing}} />
-                      </span>
-                      <span class="light-gray">|</span>
-                      <span data-test-hearing-time="{{hearing.disposition.id}}">
-                        <DateDisplay @date={{hearing.disposition.dcpDateofpublichearing}} @outputFormat="h:mm A" />
-                      </span>
-                    </span>
-
-                    <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
-                      {{#each hearing.hearingActions as |action index| ~}}
-                        {{#if action.dcpName}}
-                          <span class="label light-gray tiny-margin-bottom tiny-margin-right">
-                            {{action.dcpName}}
-                            <small>{{action.dcpUlurpnumber}}</small>
-                          </span>
-                        {{/if}}
-                      {{~/each}}
-                    </small>
-                  </div>
-                </li>
-              {{/each}}
-              </ul>
-        {{/deduped-hearings-list}}
-      {{/if}}
-
       {{waive-hearings-popup assignment=this.assignment showPopup=showPopup}}
       <ul class="no-bullet no-margin">
         {{#each this.assignment.assigneeDisplayMilestones as |milestone idx|}}
@@ -169,6 +123,50 @@
                     @date={{milestone.dcpActualenddate}}
                   />
                 </small>
+              {{/if}}
+              {{#if (and (eq milestone.displayName (concat assignment.dcpLupteammemberroleUnabbreviated " Review")) assignment.hearingsSubmitted)}}
+                {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
+                  <ul class="no-bullet small-margin-top">
+                  {{#each dedupedHearings as |hearing|}}
+                    <li class="grid-x small-margin-bottom">
+                      <div class="cell shrink small-margin-right">
+                        {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
+                          {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
+                        {{else}}
+                          {{fa-icon "check" class="blue" fixedWidth=true}}
+                        {{/if}}
+                      </div>
+                      <div class="cell auto">
+                        {{log "id" hearing.disposition.id}}
+                        <strong data-test-hearing-location="{{hearing.disposition.id}}" class="display-inline-block">
+                          {{~hearing.disposition.dcpPublichearinglocation~}}
+                        </strong>
+
+                        <span class="display-inline-block">
+                          <span data-test-hearing-date="{{hearing.disposition.id}}">
+                            <DateDisplay @date={{hearing.disposition.dcpDateofpublichearing}} />
+                          </span>
+                          <span class="light-gray">|</span>
+                          <span data-test-hearing-time="{{hearing.disposition.id}}">
+                            <DateDisplay @date={{hearing.disposition.dcpDateofpublichearing}} @outputFormat="h:mm A" />
+                          </span>
+                        </span>
+
+                        <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
+                          {{#each hearing.hearingActions as |action index| ~}}
+                            {{#if action.dcpName}}
+                              <span class="label light-gray tiny-margin-bottom tiny-margin-right">
+                                {{action.dcpName}}
+                                <small>{{action.dcpUlurpnumber}}</small>
+                              </span>
+                            {{/if}}
+                          {{~/each}}
+                        </small>
+                      </div>
+                    </li>
+                  {{/each}}
+                  </ul>
+                {{/deduped-hearings-list}}
               {{/if}}
             </div>
           </li>
