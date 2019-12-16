@@ -111,7 +111,6 @@ export default class MyProjectsProjectHearingAddController extends Controller {
       this.set('modalOpen', false);
       this.transitionToRoute('my-projects.assignment.hearing.done');
     }, (e) => {
-      console.log('is true error state');
       this.set('error', e);
       console.log('server error', e);
     });

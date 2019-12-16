@@ -16,7 +16,7 @@ export default class MyProjectsReviewedController extends Controller {
     assignments.forEach(function(assignment) {
       assignmentsWithSortingProperty.push(assignment);
     });
-    console.log(assignmentsWithSortingProperty);
+
     // set a new property on each project item called `sortingActualEndDate`
     // based on the user's `dcpLupteammemberrole`, this new property
     // will be set to the user's review milestone `dcpActualenddate`

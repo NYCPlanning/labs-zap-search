@@ -1,61 +1,15 @@
 import moment from 'moment';
 
+const createDateInPast = function(count, timeUnit = 'days') {
+  return moment().subtract(count, timeUnit);
+};
+
+const createDateFromNow = function(count, timeUnit = 'days') {
+  return moment().add(count, timeUnit);
+};
+
 export default function(server) {
   // Array of dispositions for To Review Project 1
-  const dispositionsArrayForToReview = [
-    server.create('disposition', 'withAction', {
-      fullname: 'QN CB4',
-      dcpCommunityboardrecommendation: null,
-      dcpIspublichearingrequired: null,
-      dcpDateofpublichearing: null,
-      dcpDatereceived: null,
-      dcpPublichearinglocation: null,
-    }),
-    server.create('disposition', 'withAction', {
-      fullname: 'QN CB4',
-      dcpCommunityboardrecommendation: null,
-      dcpIspublichearingrequired: null,
-      dcpDateofpublichearing: null,
-      dcpDatereceived: null,
-      dcpPublichearinglocation: null,
-    }),
-    server.create('disposition', 'withAction', {
-      fullname: 'QN CB4',
-      dcpCommunityboardrecommendation: null,
-      dcpIspublichearingrequired: null,
-      dcpDateofpublichearing: null,
-      dcpDatereceived: null,
-      dcpPublichearinglocation: null,
-    }),
-  ];
-
-  // Array of dispositions for To Review Project 2
-  const dispositionsArrayForToReview2 = [
-    server.create('disposition', 'withAction', {
-      fullname: 'QN CB4',
-      dcpCommunityboardrecommendation: null,
-      dcpIspublichearingrequired: null,
-      dcpDateofpublichearing: null,
-      dcpDatereceived: null,
-      dcpPublichearinglocation: null,
-    }),
-    server.create('disposition', 'withAction', {
-      fullname: 'QN CB4',
-      dcpCommunityboardrecommendation: null,
-      dcpIspublichearingrequired: null,
-      dcpDateofpublichearing: null,
-      dcpDatereceived: null,
-      dcpPublichearinglocation: null,
-    }),
-    server.create('disposition', 'withAction', {
-      fullname: 'QN CB4',
-      dcpCommunityboardrecommendation: null,
-      dcpIspublichearingrequired: null,
-      dcpDateofpublichearing: null,
-      dcpDatereceived: null,
-      dcpPublichearinglocation: null,
-    }),
-  ];
 
   server.create('user', {
     assignments: [
@@ -67,17 +21,16 @@ export default function(server) {
       server.create('assignment', {
         tab: 'upcoming',
         dcpLupteammemberrole: 'CB',
-        publicReviewPlannedStartDate: moment().add(42, 'days'),
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+        publicReviewPlannedStartDate: createDateFromNow(42, 'days'),
+        project: server.create('project', 'withActions', {
           dcpPublicstatusSimp: 'Filed',
           milestones: [
             server.create('milestone', 'prepareFiledLandUseApplication', {
               statuscode: 'Completed',
-              dcpPlannedstartdate: moment().subtract(60, 'days'),
-              displayDate: moment().subtract(60, 'days'),
-              displayDate2: moment().subtract(60, 'days'),
-              dcpActualenddate: moment().subtract(60, 'days'),
+              dcpPlannedstartdate: createDateInPast(60, 'days'),
+              displayDate: createDateInPast(60, 'days'),
+              displayDate2: createDateInPast(60, 'days'),
+              dcpActualenddate: createDateInPast(60, 'days'),
               outcome: null,
             }),
             server.create('milestone', 'certifiedReferred', {
@@ -85,7 +38,7 @@ export default function(server) {
             }),
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Not Started',
-              dcpPlannedstartdate: moment().add(42, 'days'),
+              dcpPlannedstartdate: createDateFromNow(42, 'days'),
             }),
           ],
         }),
@@ -94,17 +47,16 @@ export default function(server) {
       server.create('assignment', {
         tab: 'upcoming',
         dcpLupteammemberrole: 'CB',
-        publicReviewPlannedStartDate: moment().add(12, 'days'),
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+        publicReviewPlannedStartDate: createDateFromNow(12, 'days'),
+        project: server.create('project', 'withActions', {
           dcpPublicstatusSimp: 'Filed',
           milestones: [
             server.create('milestone', 'prepareFiledLandUseApplication', {
               statuscode: 'Completed',
-              dcpPlannedstartdate: moment().subtract(75, 'days'),
-              displayDate: moment().subtract(75, 'days'),
-              displayDate2: moment().subtract(75, 'days'),
-              dcpActualenddate: moment().subtract(75, 'days'),
+              dcpPlannedstartdate: createDateInPast(75, 'days'),
+              displayDate: createDateInPast(75, 'days'),
+              displayDate2: createDateInPast(75, 'days'),
+              dcpActualenddate: createDateInPast(75, 'days'),
               outcome: null,
             }),
             server.create('milestone', 'certifiedReferred', {
@@ -112,7 +64,7 @@ export default function(server) {
             }),
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Not Started',
-              dcpPlannedstartdate: moment().add(12, 'days'),
+              dcpPlannedstartdate: createDateFromNow(12, 'days'),
             }),
           ],
         }),
@@ -125,43 +77,44 @@ export default function(server) {
       server.create('assignment', {
         tab: 'to-review',
         dcpLupteammemberrole: 'CB',
-        dispositions: dispositionsArrayForToReview,
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+        project: server.create('project', 'withActions', {
+          id: 3,
           dcpPublicstatusSimp: 'In Public Review',
-          dispositions: dispositionsArrayForToReview,
+          dispositions: server.createList('disposition', 4, 'forCommunityBoard'),
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'In Progress',
-              dcpActualstartdate: moment().subtract(2, 'days'),
-              displayDate: moment().subtract(2, 'days'),
+              dcpActualstartdate: createDateInPast(2, 'days'),
+              displayDate: createDateInPast(2, 'days'),
               displayDate2: null,
-              dcpPlannedcompletiondate: moment().add(58, 'days'),
+              dcpPlannedcompletiondate: createDateFromNow(58, 'days'),
               outcome: null,
             }),
           ],
         }),
+        dispositions: server.schema.dispositions.where({ projectId: 3 }),
       }),
       // To Review Project 2: CB
       server.create('assignment', {
         tab: 'to-review',
         dcpLupteammemberrole: 'CB',
-        dispositions: dispositionsArrayForToReview2,
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+
+        project: server.create('project', 'withActions', {
+          id: 4,
           dcpPublicstatusSimp: 'In Public Review',
-          dispositions: dispositionsArrayForToReview2,
+          dispositions: server.createList('disposition', 4, 'forCommunityBoard'),
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'In Progress',
-              dcpActualstartdate: moment().subtract(35, 'days'),
-              displayDate: moment().subtract(35, 'days'),
+              dcpActualstartdate: createDateInPast(35, 'days'),
+              displayDate: createDateInPast(35, 'days'),
               displayDate2: null,
-              dcpPlannedcompletiondate: moment().add(25, 'days'),
+              dcpPlannedcompletiondate: createDateFromNow(25, 'days'),
               outcome: null,
             }),
           ],
         }),
+        dispositions: server.schema.dispositions.where({ projectId: 4 }),
       }),
 
       // REVIEWED
@@ -171,33 +124,32 @@ export default function(server) {
       server.create('assignment', {
         tab: 'reviewed',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+        project: server.create('project', 'withActions', {
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
-              dcpDatereceived: moment().subtract(90, 'days'),
+              dcpDatereceived: createDateInPast(90, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB4',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
-              dcpDatereceived: moment().subtract(120, 'days'),
+              dcpDatereceived: createDateInPast(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB6',
               dcpCommunityboardrecommendation: 'Disapproved',
-              dcpDatereceived: moment().subtract(130, 'days'),
+              dcpDatereceived: createDateInPast(130, 'days'),
             }),
           ],
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(180, 'days'),
-              displayDate: moment().subtract(180, 'days'),
-              dcpActualenddate: moment().subtract(120, 'days'),
-              displayDate2: moment().subtract(120, 'days'),
+              dcpActualstartdate: createDateInPast(180, 'days'),
+              displayDate: createDateInPast(180, 'days'),
+              dcpActualenddate: createDateInPast(120, 'days'),
+              displayDate2: createDateInPast(120, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -206,10 +158,10 @@ export default function(server) {
             }),
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(120, 'days'),
-              displayDate: moment().subtract(120, 'days'),
-              dcpActualenddate: moment().subtract(90, 'days'),
-              displayDate2: moment().subtract(90, 'days'),
+              dcpActualstartdate: createDateInPast(120, 'days'),
+              displayDate: createDateInPast(120, 'days'),
+              dcpActualenddate: createDateInPast(90, 'days'),
+              displayDate2: createDateInPast(90, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -219,10 +171,10 @@ export default function(server) {
 
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'In Progress',
-              dcpActualstartdate: moment().subtract(10, 'days'),
-              displayDate: moment().subtract(10, 'days'),
-              dcpPlannedcompletiondate: moment().add(10, 'days'),
-              displayDate2: moment().add(10, 'days'),
+              dcpActualstartdate: createDateInPast(10, 'days'),
+              displayDate: createDateInPast(10, 'days'),
+              dcpPlannedcompletiondate: createDateFromNow(10, 'days'),
+              displayDate2: createDateFromNow(10, 'days'),
             }),
 
             server.create('milestone', 'cityPlanningCommissionVote', {
@@ -247,28 +199,27 @@ export default function(server) {
       server.create('assignment', {
         tab: 'reviewed',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+        project: server.create('project', 'withActions', {
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
-              dcpDatereceived: moment().subtract(82, 'days'),
+              dcpDatereceived: createDateInPast(82, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB9',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
-              dcpDatereceived: moment().subtract(130, 'days'),
+              dcpDatereceived: createDateInPast(130, 'days'),
             }),
           ],
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(160, 'days'),
-              displayDate: moment().subtract(160, 'days'),
-              dcpActualenddate: moment().subtract(130, 'days'),
-              displayDate2: moment().subtract(130, 'days'),
+              dcpActualstartdate: createDateInPast(160, 'days'),
+              displayDate: createDateInPast(160, 'days'),
+              dcpActualenddate: createDateInPast(130, 'days'),
+              displayDate2: createDateInPast(130, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -277,10 +228,10 @@ export default function(server) {
             }),
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(130, 'days'),
-              displayDate: moment().subtract(130, 'days'),
-              dcpActualenddate: moment().subtract(82, 'days'),
-              displayDate2: moment().subtract(82, 'days'),
+              dcpActualstartdate: createDateInPast(130, 'days'),
+              displayDate: createDateInPast(130, 'days'),
+              dcpActualenddate: createDateInPast(82, 'days'),
+              displayDate2: createDateInPast(82, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -290,10 +241,10 @@ export default function(server) {
 
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(82, 'days'),
-              displayDate: moment().subtract(82, 'days'),
-              dcpActualenddate: moment().subtract(47, 'days'),
-              displayDate2: moment().subtract(47, 'days'),
+              dcpActualstartdate: createDateInPast(82, 'days'),
+              displayDate: createDateInPast(82, 'days'),
+              dcpActualenddate: createDateInPast(47, 'days'),
+              displayDate2: createDateInPast(47, 'days'),
               outcome: 'Hearing Closed',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -303,10 +254,10 @@ export default function(server) {
 
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(46, 'days'),
-              displayDate: moment().subtract(46, 'days'),
-              dcpActualenddate: moment().subtract(16, 'days'),
-              displayDate2: moment().subtract(16, 'days'),
+              dcpActualstartdate: createDateInPast(46, 'days'),
+              displayDate: createDateInPast(46, 'days'),
+              dcpActualenddate: createDateInPast(16, 'days'),
+              displayDate2: createDateInPast(16, 'days'),
               outcome: 'Approval',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -316,10 +267,10 @@ export default function(server) {
 
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'In Progress',
-              dcpActualstartdate: moment().subtract(15, 'days'),
-              displayDate: moment().subtract(15, 'days'),
-              dcpPlannedcompletiondate: moment().add(15, 'days'),
-              displayDate2: moment().add(15, 'days'),
+              dcpActualstartdate: createDateInPast(15, 'days'),
+              displayDate: createDateInPast(15, 'days'),
+              dcpPlannedcompletiondate: createDateFromNow(15, 'days'),
+              displayDate2: createDateFromNow(15, 'days'),
             }),
 
             server.create('milestone', 'mayoralReview', {
@@ -336,28 +287,27 @@ export default function(server) {
       server.create('assignment', {
         tab: 'reviewed',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+        project: server.create('project', 'withActions', {
           dcpPublicstatusSimp: 'In Public Review',
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
-              dcpDatereceived: moment().subtract(120, 'days'),
+              dcpDatereceived: createDateInPast(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB12',
               dcpCommunityboardrecommendation: 'Waived',
-              dcpDatereceived: moment().subtract(120, 'days'),
+              dcpDatereceived: createDateInPast(120, 'days'),
             }),
           ],
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(180, 'days'),
-              displayDate: moment().subtract(180, 'days'),
-              dcpActualenddate: moment().subtract(120, 'days'),
-              displayDate2: moment().subtract(120, 'days'),
+              dcpActualstartdate: createDateInPast(180, 'days'),
+              displayDate: createDateInPast(180, 'days'),
+              dcpActualenddate: createDateInPast(120, 'days'),
+              displayDate2: createDateInPast(120, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -366,10 +316,10 @@ export default function(server) {
             }),
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(120, 'days'),
-              displayDate: moment().subtract(120, 'days'),
-              dcpActualenddate: moment().subtract(90, 'days'),
-              displayDate2: moment().subtract(90, 'days'),
+              dcpActualstartdate: createDateInPast(120, 'days'),
+              displayDate: createDateInPast(120, 'days'),
+              dcpActualenddate: createDateInPast(90, 'days'),
+              displayDate2: createDateInPast(90, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -379,10 +329,10 @@ export default function(server) {
 
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(90, 'days'),
-              displayDate: moment().subtract(90, 'days'),
-              dcpActualenddate: moment().subtract(71, 'days'),
-              displayDate2: moment().subtract(71, 'days'),
+              dcpActualstartdate: createDateInPast(90, 'days'),
+              displayDate: createDateInPast(90, 'days'),
+              dcpActualenddate: createDateInPast(71, 'days'),
+              displayDate2: createDateInPast(71, 'days'),
               outcome: 'Hearing Closed',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -392,28 +342,28 @@ export default function(server) {
 
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(70, 'days'),
-              displayDate: moment().subtract(70, 'days'),
-              dcpActualenddate: moment().subtract(61, 'days'),
-              displayDate2: moment().subtract(61, 'days'),
+              dcpActualstartdate: createDateInPast(70, 'days'),
+              displayDate: createDateInPast(70, 'days'),
+              dcpActualenddate: createDateInPast(61, 'days'),
+              displayDate2: createDateInPast(61, 'days'),
               outcome: 'Approval',
             }),
 
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(60, 'days'),
-              displayDate: moment().subtract(60, 'days'),
-              dcpActualenddate: moment().subtract(30, 'days'),
-              displayDate2: moment().subtract(30, 'days'),
+              dcpActualstartdate: createDateInPast(60, 'days'),
+              displayDate: createDateInPast(60, 'days'),
+              dcpActualenddate: createDateInPast(30, 'days'),
+              displayDate2: createDateInPast(30, 'days'),
               outcome: 'Approval',
             }),
 
             server.create('milestone', 'mayoralReview', {
               statuscode: 'In Progress',
-              dcpActualstartdate: moment().subtract(30, 'days'),
-              displayDate: moment().subtract(30, 'days'),
-              dcpPlannedcompletiondate: moment().add(8, 'days'),
-              displayDate2: moment().add(8, 'days'),
+              dcpActualstartdate: createDateInPast(30, 'days'),
+              displayDate: createDateInPast(30, 'days'),
+              dcpPlannedcompletiondate: createDateFromNow(8, 'days'),
+              displayDate2: createDateFromNow(8, 'days'),
             }),
 
             server.create('milestone', 'finalLetterSent', {
@@ -430,35 +380,34 @@ export default function(server) {
       server.create('assignment', {
         tab: 'archive',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+        project: server.create('project', 'withActions', {
           dcpPublicstatus: 'Approved',
           dcpPublicstatusSimp: 'Completed',
-          dcpProjectcompleted: moment().subtract(40, 'days'),
+          dcpProjectcompleted: createDateInPast(40, 'days'),
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
-              dcpDatereceived: moment().subtract(90, 'days'),
+              dcpDatereceived: createDateInPast(90, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB4',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
-              dcpDatereceived: moment().subtract(120, 'days'),
+              dcpDatereceived: createDateInPast(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB6',
               dcpCommunityboardrecommendation: 'Disapproved',
-              dcpDatereceived: moment().subtract(130, 'days'),
+              dcpDatereceived: createDateInPast(130, 'days'),
             }),
           ],
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(180, 'days'),
-              displayDate: moment().subtract(180, 'days'),
-              dcpActualenddate: moment().subtract(120, 'days'),
-              displayDate2: moment().subtract(120, 'days'),
+              dcpActualstartdate: createDateInPast(180, 'days'),
+              displayDate: createDateInPast(180, 'days'),
+              dcpActualenddate: createDateInPast(120, 'days'),
+              displayDate2: createDateInPast(120, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -467,10 +416,10 @@ export default function(server) {
             }),
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(120, 'days'),
-              displayDate: moment().subtract(120, 'days'),
-              dcpActualenddate: moment().subtract(110, 'days'),
-              displayDate2: moment().subtract(110, 'days'),
+              dcpActualstartdate: createDateInPast(120, 'days'),
+              displayDate: createDateInPast(120, 'days'),
+              dcpActualenddate: createDateInPast(110, 'days'),
+              displayDate2: createDateInPast(110, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -480,42 +429,42 @@ export default function(server) {
 
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(110, 'days'),
-              displayDate: moment().subtract(110, 'days'),
-              dcpActualenddate: moment().subtract(90, 'days'),
-              displayDate2: moment().subtract(90, 'days'),
+              dcpActualstartdate: createDateInPast(110, 'days'),
+              displayDate: createDateInPast(110, 'days'),
+              dcpActualenddate: createDateInPast(90, 'days'),
+              displayDate2: createDateInPast(90, 'days'),
             }),
 
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(110, 'days'),
-              displayDate: moment().subtract(110, 'days'),
-              dcpActualenddate: moment().subtract(90, 'days'),
-              displayDate2: moment().subtract(90, 'days'),
+              dcpActualstartdate: createDateInPast(110, 'days'),
+              displayDate: createDateInPast(110, 'days'),
+              dcpActualenddate: createDateInPast(90, 'days'),
+              displayDate2: createDateInPast(90, 'days'),
             }),
 
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(90, 'days'),
-              displayDate: moment().subtract(90, 'days'),
-              dcpActualenddate: moment().subtract(60, 'days'),
-              displayDate2: moment().subtract(60, 'days'),
+              dcpActualstartdate: createDateInPast(90, 'days'),
+              displayDate: createDateInPast(90, 'days'),
+              dcpActualenddate: createDateInPast(60, 'days'),
+              displayDate2: createDateInPast(60, 'days'),
             }),
 
             server.create('milestone', 'mayoralReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(60, 'days'),
-              displayDate: moment().subtract(60, 'days'),
-              dcpActualenddate: moment().subtract(50, 'days'),
-              displayDate2: moment().subtract(50, 'days'),
+              dcpActualstartdate: createDateInPast(60, 'days'),
+              displayDate: createDateInPast(60, 'days'),
+              dcpActualenddate: createDateInPast(50, 'days'),
+              displayDate2: createDateInPast(50, 'days'),
             }),
 
             server.create('milestone', 'finalLetterSent', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(40, 'days'),
-              displayDate: moment().subtract(40, 'days'),
-              dcpActualenddate: moment().subtract(40, 'days'),
-              displayDate2: moment().subtract(40, 'days'),
+              dcpActualstartdate: createDateInPast(40, 'days'),
+              displayDate: createDateInPast(40, 'days'),
+              dcpActualenddate: createDateInPast(40, 'days'),
+              displayDate2: createDateInPast(40, 'days'),
             }),
           ],
         }),
@@ -524,30 +473,29 @@ export default function(server) {
       server.create('assignment', {
         tab: 'archive',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+        project: server.create('project', 'withActions', {
           dcpPublicstatus: 'Approved',
           dcpPublicstatusSimp: 'Completed',
-          dcpProjectcompleted: moment().subtract(140, 'days'),
+          dcpProjectcompleted: createDateInPast(140, 'days'),
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
-              dcpDatereceived: moment().subtract(290, 'days'),
+              dcpDatereceived: createDateInPast(290, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB9',
               dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
-              dcpDatereceived: moment().subtract(320, 'days'),
+              dcpDatereceived: createDateInPast(320, 'days'),
             }),
           ],
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(380, 'days'),
-              displayDate: moment().subtract(380, 'days'),
-              dcpActualenddate: moment().subtract(320, 'days'),
-              displayDate2: moment().subtract(320, 'days'),
+              dcpActualstartdate: createDateInPast(380, 'days'),
+              displayDate: createDateInPast(380, 'days'),
+              dcpActualenddate: createDateInPast(320, 'days'),
+              displayDate2: createDateInPast(320, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -556,10 +504,10 @@ export default function(server) {
             }),
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(320, 'days'),
-              displayDate: moment().subtract(320, 'days'),
-              dcpActualenddate: moment().subtract(290, 'days'),
-              displayDate2: moment().subtract(290, 'days'),
+              dcpActualstartdate: createDateInPast(320, 'days'),
+              displayDate: createDateInPast(320, 'days'),
+              dcpActualenddate: createDateInPast(290, 'days'),
+              displayDate2: createDateInPast(290, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -569,42 +517,42 @@ export default function(server) {
 
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(290, 'days'),
-              displayDate: moment().subtract(290, 'days'),
-              dcpActualenddate: moment().subtract(210, 'days'),
-              displayDate2: moment().subtract(210, 'days'),
+              dcpActualstartdate: createDateInPast(290, 'days'),
+              displayDate: createDateInPast(290, 'days'),
+              dcpActualenddate: createDateInPast(210, 'days'),
+              displayDate2: createDateInPast(210, 'days'),
             }),
 
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(210, 'days'),
-              displayDate: moment().subtract(210, 'days'),
-              dcpActualenddate: moment().subtract(190, 'days'),
-              displayDate2: moment().subtract(190, 'days'),
+              dcpActualstartdate: createDateInPast(210, 'days'),
+              displayDate: createDateInPast(210, 'days'),
+              dcpActualenddate: createDateInPast(190, 'days'),
+              displayDate2: createDateInPast(190, 'days'),
             }),
 
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(190, 'days'),
-              displayDate: moment().subtract(190, 'days'),
-              dcpActualenddate: moment().subtract(160, 'days'),
-              displayDate2: moment().subtract(160, 'days'),
+              dcpActualstartdate: createDateInPast(190, 'days'),
+              displayDate: createDateInPast(190, 'days'),
+              dcpActualenddate: createDateInPast(160, 'days'),
+              displayDate2: createDateInPast(160, 'days'),
             }),
 
             server.create('milestone', 'mayoralReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(160, 'days'),
-              displayDate: moment().subtract(160, 'days'),
-              dcpActualenddate: moment().subtract(150, 'days'),
-              displayDate2: moment().subtract(150, 'days'),
+              dcpActualstartdate: createDateInPast(160, 'days'),
+              displayDate: createDateInPast(160, 'days'),
+              dcpActualenddate: createDateInPast(150, 'days'),
+              displayDate2: createDateInPast(150, 'days'),
             }),
 
             server.create('milestone', 'finalLetterSent', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(140, 'days'),
-              displayDate: moment().subtract(140, 'days'),
-              dcpActualenddate: moment().subtract(140, 'days'),
-              displayDate2: moment().subtract(140, 'days'),
+              dcpActualstartdate: createDateInPast(140, 'days'),
+              displayDate: createDateInPast(140, 'days'),
+              dcpActualenddate: createDateInPast(140, 'days'),
+              displayDate2: createDateInPast(140, 'days'),
             }),
           ],
         }),
@@ -613,30 +561,29 @@ export default function(server) {
       server.create('assignment', {
         tab: 'archive',
         dcpLupteammemberrole: 'CB',
-        project: server.create('project', {
-          dcpProjectbrief: 'This is a private application requesting a zoning map amendment (ZM) from R5 and R5/C2-2 to C4-4A, and a zoning text amendment (ZR) to the zoning resolution to facilitate a new 6-story, 15,924 zsf, commercial development at 580 16th Ave...',
+        project: server.create('project', 'withActions', {
           dcpPublicstatus: 'Withdrawn/Terminated/Disapproved',
           dcpPublicstatusSimp: 'Completed',
-          dcpProjectcompleted: moment().subtract(120, 'days'),
+          dcpProjectcompleted: createDateInPast(120, 'days'),
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
               dcpBoroughpresidentrecommendation: 'Approved',
-              dcpDatereceived: moment().subtract(120, 'days'),
+              dcpDatereceived: createDateInPast(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB12',
               dcpCommunityboardrecommendation: 'Waived',
-              dcpDatereceived: moment().subtract(120, 'days'),
+              dcpDatereceived: createDateInPast(120, 'days'),
             }),
           ],
           milestones: [
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(180, 'days'),
-              displayDate: moment().subtract(180, 'days'),
-              dcpActualenddate: moment().subtract(120, 'days'),
-              displayDate2: moment().subtract(120, 'days'),
+              dcpActualstartdate: createDateInPast(180, 'days'),
+              displayDate: createDateInPast(180, 'days'),
+              dcpActualenddate: createDateInPast(120, 'days'),
+              displayDate2: createDateInPast(120, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -645,10 +592,10 @@ export default function(server) {
             }),
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(120, 'days'),
-              displayDate: moment().subtract(120, 'days'),
-              dcpActualenddate: moment().subtract(90, 'days'),
-              displayDate2: moment().subtract(90, 'days'),
+              dcpActualstartdate: createDateInPast(120, 'days'),
+              displayDate: createDateInPast(120, 'days'),
+              dcpActualenddate: createDateInPast(90, 'days'),
+              displayDate2: createDateInPast(90, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -658,10 +605,10 @@ export default function(server) {
 
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(90, 'days'),
-              displayDate: moment().subtract(90, 'days'),
-              dcpActualenddate: moment().subtract(71, 'days'),
-              displayDate2: moment().subtract(71, 'days'),
+              dcpActualstartdate: createDateInPast(90, 'days'),
+              displayDate: createDateInPast(90, 'days'),
+              dcpActualenddate: createDateInPast(71, 'days'),
+              displayDate2: createDateInPast(71, 'days'),
               outcome: 'Hearing Closed',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -671,18 +618,18 @@ export default function(server) {
 
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(70, 'days'),
-              displayDate: moment().subtract(70, 'days'),
-              dcpActualenddate: moment().subtract(61, 'days'),
+              dcpActualstartdate: createDateInPast(70, 'days'),
+              displayDate: createDateInPast(70, 'days'),
+              dcpActualenddate: createDateInPast(61, 'days'),
               outcome: 'Approval',
             }),
 
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'Completed',
-              dcpActualstartdate: moment().subtract(160, 'days'),
-              displayDate: moment().subtract(160, 'days'),
-              dcpActualenddate: moment().subtract(130, 'days'),
-              displayDate2: moment().subtract(130, 'days'),
+              dcpActualstartdate: createDateInPast(160, 'days'),
+              displayDate: createDateInPast(160, 'days'),
+              dcpActualenddate: createDateInPast(130, 'days'),
+              displayDate2: createDateInPast(130, 'days'),
               outcome: 'Disapproved',
             }),
 

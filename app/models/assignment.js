@@ -24,6 +24,12 @@ export default class AssignmentModel extends Model {
   // this could be computed through the project dispositions: project_dispositions
   @hasMany('disposition', { async: false }) dispositions;
 
+  /**
+   * Explicitly filter dispositions for a given assignment role.
+   * The dispositions property itself does this implicitly.
+   *
+   * @type       {Array of Disposition models}
+   */
   @computed('dispositions')
   get dispositionsByRole() {
     const { label } = participantRoles.findBy('abbreviation', this.dcpLupteammemberrole);
