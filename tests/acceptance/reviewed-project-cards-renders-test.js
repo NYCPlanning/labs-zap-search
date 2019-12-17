@@ -43,7 +43,7 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
                 displayDate: moment().subtract(9, 'days'),
                 dcpPlannedcompletiondate: moment().add(15, 'days'),
                 displayDate2: null,
-                dcpRemainingplanneddayscalculated: 14,
+                dcpRemainingplanneddays: 14,
                 dcpGoalduration: 29,
               }),
             ],
@@ -83,7 +83,7 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
                 displayDate: moment().subtract(9, 'days'),
                 dcpPlannedcompletiondate: moment().add(15, 'days'),
                 displayDate2: null,
-                dcpRemainingplanneddayscalculated: 14,
+                dcpRemainingplanneddays: 14,
                 dcpGoalduration: null,
               }),
             ],
@@ -104,7 +104,7 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
     assert.equal(noTimeDurationMessage, 'estimated days remain', 'no estimated duration time');
   });
 
-  test('reviewed project card does not date information if dcpRemainingplanneddayscalculated is null', async function(assert) {
+  test('reviewed project card does not date information if dcpRemainingplanneddays is null', async function(assert) {
     this.server.create('user', {
       id: 1,
       email: 'qncb5@planning.nyc.gov',
@@ -123,7 +123,7 @@ module('Acceptance | reviewed project cards renders', function(hooks) {
                 displayDate: moment().subtract(9, 'days'),
                 dcpPlannedcompletiondate: moment().add(15, 'days'),
                 displayDate2: null,
-                dcpRemainingplanneddayscalculated: null,
+                dcpRemainingplanneddays: null,
                 dcpGoalduration: 29,
               }),
             ],

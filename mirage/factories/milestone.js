@@ -12,6 +12,7 @@ export default Factory.extend({
   displayDate2: null,
   outcome: null,
   milestoneLinks: [],
+  dcpRemainingplanneddays: 12,
 
   isCompleted: trait({
     statuscode: 'Completed',

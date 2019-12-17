@@ -24,6 +24,12 @@ export default class AssignmentModel extends Model {
   // this could be computed through the project dispositions: project_dispositions
   @hasMany('disposition', { async: false }) dispositions;
 
+  /**
+   * Explicitly filter dispositions for a given assignment role.
+   * The dispositions property itself does this implicitly.
+   *
+   * @type       {Array of Disposition models}
+   */
   @computed('dispositions')
   get dispositionsByRole() {
     const { label } = participantRoles.findBy('abbreviation', this.dcpLupteammemberrole);
@@ -48,8 +54,6 @@ export default class AssignmentModel extends Model {
     const dispositionHearingLocations = dispositions.map(disp => `${disp.dcpPublichearinglocation}`);
     // array of hearing dates
     const dispositionHearingDates = dispositions.map(disp => disp.dcpDateofpublichearing);
-    // hearingsSubmittedForProject checks whether each item in array is truthy
-    console.log(dispositionHearingLocations, dispositionHearingDates);
 
     return dispositionHearingLocations.length > 0
     && dispositionHearingLocations.every(location => !!location)
@@ -159,8 +163,8 @@ export default class AssignmentModel extends Model {
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
   get toReviewMilestoneTimeRemaining() {
     const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
-    const { dcpRemainingplanneddayscalculated } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
-    return dcpRemainingplanneddayscalculated;
+    const { dcpRemainingplanneddays } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    return dcpRemainingplanneddays;
   }
 
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
@@ -184,7 +188,7 @@ export default class AssignmentModel extends Model {
       displayName: milestone.displayName,
       dcpActualstartdate: milestone.dcpActualstartdate,
       dcpPlannedcompletiondate: milestone.dcpPlannedcompletiondate,
-      dcpRemainingplanneddayscalculated: milestone.dcpRemainingplanneddayscalculated,
+      dcpRemainingplanneddays: milestone.dcpRemainingplanneddays,
       dcpGoalduration: milestone.dcpGoalduration,
     }));
   }

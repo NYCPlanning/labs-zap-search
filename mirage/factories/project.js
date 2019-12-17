@@ -201,22 +201,9 @@ export default Factory.extend({
 
   withActions: trait({
     afterCreate(project, server) {
-      server
-        .createList('action', 2, { project });
-    },
-  }),
-
-  withActionsAndDispositions: trait({
-    afterCreate(project, server) {
-      server
-        .createList('action', 2, { project });
-
-      server
-        .createList('disposition', 2, { project });
-
-      // server.db.actions.update({
-      //   dispositions: server.schema.dispositions.all(),
-      // });
+      project.update({
+        actions: server.createList('action', 2, { project }),
+      });
     },
   }),
 });

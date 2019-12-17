@@ -51,7 +51,7 @@ export default class MilestoneModel extends Model {
 
   // field `dcp_remainingplanneddayscalculated` from table dcp_projectmilestone
   // represents number of days e.g. `8`
-  @attr('string') dcpRemainingplanneddayscalculated;
+  @attr('string') dcpRemainingplanneddays;
 
   // field `dcp_goalduration` from table dcp_projectmilestone
   // represents number of days e.g. `29`

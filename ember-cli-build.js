@@ -2,10 +2,14 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
+const environment = EmberApp.env();
+const IS_PROD = environment === 'production';
+const IS_TEST = environment === 'test';
+
 module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     'ember-cli-babel': {
-      includePolyfill: true,
+      includePolyfill: IS_PROD,
     },
     'ember-math-helpers': {
       only: ['add'],
@@ -15,6 +19,17 @@ module.exports = function(defaults) {
     },
     'ember-cli-foundation-6-sass': {
       foundationJs: 'all',
+    },
+
+    hinting: IS_TEST, // Disable linting for all builds but test
+    // tests: IS_TEST, // Don't even generate test files unless a test build
+
+    autoprefixer: {
+      sourcemap: false // Was never helpful
+    },
+
+    sourcemaps: {
+      enabled: IS_PROD // CMD ALT F in chrome is *almost* as fast as CMD P
     },
   });
 

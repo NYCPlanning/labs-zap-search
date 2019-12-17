@@ -365,10 +365,17 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
       const { participantType } = this;
       const targetField = RECOMMENDATION_FIELD_BY_PARTICIPANT_TYPE_LOOKUP[participantType];
-      this.dispositionForAllActionsChangeset.execute();
+
+      await this.dispositionForAllActionsChangeset.execute();
+
       this.dispositionsChangesets.forEach(function(dispositionChangeset) {
         dispositionChangeset.execute();
       });
+
+      // we need to manually extract the unvalidated changesets because the full dispositionForAllActions
+      // is not validated and therefore won't be applied to individual dispositions in the loop sequence
+      const dcpVotelocation = this.dispositionForAllActionsChangeset.get('dcpVotelocation');
+      const dcpDateofvote = this.dispositionForAllActionsChangeset.get('dcpDateofvote');
 
       this.dispositions.forEach((disposition) => {
         if (this.allActions) {
@@ -381,24 +388,26 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
             dcpConsideration: this.dispositionForAllActions.dcpConsideration,
           });
         }
+
         disposition.setProperties({
           dcpDatereceived: new Date(), // time when user submits recommendation
-          dcpVotelocation: this.dispositionForAllActions.dcpVotelocation,
-          dcpDateofvote: this.dispositionForAllActions.dcpDateofvote,
+          dcpVotelocation,
+          dcpDateofvote,
         });
       });
 
       try {
         await Promise.all(this.dispositions.map(disposition => disposition.save()));
 
+        // seems like this is a reset operation should the promise resolve
         this.dispositionForAllActions.setProperties({
           recommendation: null,
           dcpVotinginfavorrecommendation: null,
           dcpVotingagainstrecommendation: null,
           dcpVotingabstainingonrecommendation: null,
           dcpTotalmembersappointedtotheboard: null,
-          dcpVotelocation: null,
-          dcpDateofvote: null,
+          // dcpVotelocation: null,
+          // dcpDateofvote: null,
           dcpConsideration: null,
           dcpDatereceived: null,
         });

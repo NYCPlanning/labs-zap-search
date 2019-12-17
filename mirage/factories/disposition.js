@@ -109,4 +109,14 @@ export default Factory.extend({
       disposition.update({ action: server.create('action') });
     },
   }),
+
+  forCommunityBoard: trait({
+      fullname: 'QN CB4',
+      dcpRepresenting: 'Community Board',
+      dcpCommunityboardrecommendation: null,
+      dcpIspublichearingrequired: null,
+      dcpDateofpublichearing: null,
+      dcpDatereceived: null,
+      dcpPublichearinglocation: null,
+  }),
 });

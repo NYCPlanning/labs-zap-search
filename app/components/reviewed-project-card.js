@@ -30,7 +30,7 @@ export default class ReviewedProjectCardComponent extends Component {
     if (firstInProgressMilestoneDates.displayName && firstInProgressMilestoneDates.dcpActualstartdate && firstInProgressMilestoneDates.dcpPlannedcompletiondate) {
       return {
         displayName: firstInProgressMilestoneDates.displayName,
-        estTimeRemaining: firstInProgressMilestoneDates.dcpRemainingplanneddayscalculated,
+        estTimeRemaining: firstInProgressMilestoneDates.dcpRemainingplanneddays,
         estTimeDuration: firstInProgressMilestoneDates.dcpGoalduration,
         dcpPlannedcompletiondate: firstInProgressMilestoneDates.dcpPlannedcompletiondate,
       };
