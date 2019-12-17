@@ -111,12 +111,12 @@ export default Factory.extend({
   }),
 
   forCommunityBoard: trait({
-      fullname: 'QN CB4',
-      dcpRepresenting: 'Community Board',
-      dcpCommunityboardrecommendation: null,
-      dcpIspublichearingrequired: null,
-      dcpDateofpublichearing: null,
-      dcpDatereceived: null,
-      dcpPublichearinglocation: null,
+    fullname: 'QN CB4',
+    dcpRepresenting: 'Community Board',
+    dcpCommunityboardrecommendation: null,
+    dcpIspublichearingrequired: null,
+    dcpDateofpublichearing: null,
+    dcpDatereceived: null,
+    dcpPublichearinglocation: null,
   }),
 });
