@@ -19,10 +19,14 @@
   </div>
   <div class="large-7 cell">
 
-    <h3>Your hearings have been submitted.</h3>
+    <p class="lead"><strong>Your hearings have been submitted to the Zoning&nbsp;Application Portal.</strong></p>
 
     {{!-- TODO: Update this message if/when hearings are noticed directly to the City Record --}}
-    <p class="large-margin-bottom">Please be sure to visit <a href="https://a856-cityrecord.nyc.gov/">The City Record Online</a> to submit your hearing information.</p>
+
+    <div class="callout secondary">
+      <p>{{fa-icon 'exclamation-triangle' class='orange-muted'}} Automated submission to the City Record is currently under development.</p>
+    </div>
+    <p class="large-margin-bottom">Please visit <a href="https://a856-cityrecord.nyc.gov/">The City Record Online</a> to submit your hearing information.</p>
 
     <LinkTo
       @route="my-projects.to-review"
