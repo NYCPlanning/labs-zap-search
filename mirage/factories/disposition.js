@@ -104,6 +104,12 @@ export default Factory.extend({
     dcpCommunityboardrecommendation: null,
   }),
 
+  withAction: trait({
+    afterCreate(disposition, server) {
+      disposition.update({ action: server.create('action') });
+    },
+  }),
+
   forCommunityBoard: trait({
       fullname: 'QN CB4',
       dcpRepresenting: 'Community Board',

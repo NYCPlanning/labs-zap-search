@@ -163,8 +163,8 @@ export default class AssignmentModel extends Model {
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
   get toReviewMilestoneTimeRemaining() {
     const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
-    const { dcpRemainingplanneddayscalculated } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
-    return dcpRemainingplanneddayscalculated;
+    const { dcpRemainingplanneddays } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    return dcpRemainingplanneddays;
   }
 
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
@@ -188,7 +188,7 @@ export default class AssignmentModel extends Model {
       displayName: milestone.displayName,
       dcpActualstartdate: milestone.dcpActualstartdate,
       dcpPlannedcompletiondate: milestone.dcpPlannedcompletiondate,
-      dcpRemainingplanneddayscalculated: milestone.dcpRemainingplanneddayscalculated,
+      dcpRemainingplanneddays: milestone.dcpRemainingplanneddays,
       dcpGoalduration: milestone.dcpGoalduration,
     }));
   }
