@@ -6,17 +6,17 @@ const {
 } = DS;
 
 const getTimeDiffText = function (diffMillis) {
-    let sign = 1;
+  let sign = 1;
 
-    if (diffMillis < 0) {
-        diffMillis = Math.abs(diffMillis);
-        sign = -1;
-    }
+  if (diffMillis < 0) {
+    diffMillis = Math.abs(diffMillis);
+    sign = -1;
+  }
 
-    const diffMins = diffMillis / 1000 / 60;
-    const d = Math.floor(diffMins / 1440);
-    return (sign < 0 ? "-" : "") + d;
-}
+  const diffMins = diffMillis / 1000 / 60;
+  const d = Math.floor(diffMins / 1440);
+  return (sign < 0 ? '-' : '') + d;
+};
 
 // --> <CRM/ZAP-API>:<field> indicates which CRM or ZAP-API field the Model attribute maps to.
 export default class MilestoneModel extends Model {
