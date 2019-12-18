@@ -163,8 +163,8 @@ export default class AssignmentModel extends Model {
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
   get toReviewMilestoneTimeRemaining() {
     const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
-    const { dcpRemainingplanneddays } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
-    return dcpRemainingplanneddays;
+    const { remainingDays } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
+    return remainingDays;
   }
 
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
@@ -182,14 +182,17 @@ export default class AssignmentModel extends Model {
     if (this.tab !== 'reviewed') {
       return null;
     }
-    const inProgressMilestones = this.project.get('milestones').filter(milestone => milestone.statuscode === 'In Progress');
-    return inProgressMilestones.map(milestone => ({
-      milestone: milestone.dcpMilestone,
-      displayName: milestone.displayName,
-      dcpActualstartdate: milestone.dcpActualstartdate,
-      dcpPlannedcompletiondate: milestone.dcpPlannedcompletiondate,
-      dcpRemainingplanneddays: milestone.dcpRemainingplanneddays,
-      dcpGoalduration: milestone.dcpGoalduration,
-    }));
+
+    return this.project
+      .get('milestones')
+      .filter(milestone => milestone.statuscode === 'In Progress')
+      .map(milestone => ({
+        milestone: milestone.dcpMilestone,
+        displayName: milestone.displayName,
+        dcpActualstartdate: milestone.dcpActualstartdate,
+        dcpPlannedcompletiondate: milestone.dcpPlannedcompletiondate,
+        remainingDays: milestone.remainingDays,
+        dcpGoalduration: milestone.dcpGoalduration,
+      }));
   }
 }

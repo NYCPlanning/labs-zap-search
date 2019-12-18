@@ -27,10 +27,13 @@ export default class ReviewedProjectCardComponent extends Component {
   // used when dcpActualenddate doesn't exist but dcpPlannedcompletiondate does
   get plannedTimeDisplay() {
     const firstInProgressMilestoneDates = this.assignment.reviewedMilestoneDates[0] || {};
-    if (firstInProgressMilestoneDates.displayName && firstInProgressMilestoneDates.dcpActualstartdate && firstInProgressMilestoneDates.dcpPlannedcompletiondate) {
+    console.log(firstInProgressMilestoneDates);
+    if (firstInProgressMilestoneDates.displayName
+      && firstInProgressMilestoneDates.dcpActualstartdate
+      && firstInProgressMilestoneDates.dcpPlannedcompletiondate) {
       return {
         displayName: firstInProgressMilestoneDates.displayName,
-        estTimeRemaining: firstInProgressMilestoneDates.dcpRemainingplanneddays,
+        estTimeRemaining: firstInProgressMilestoneDates.remainingDays,
         estTimeDuration: firstInProgressMilestoneDates.dcpGoalduration,
         dcpPlannedcompletiondate: firstInProgressMilestoneDates.dcpPlannedcompletiondate,
       };
