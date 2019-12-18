@@ -5,6 +5,19 @@ const {
   Model, attr, belongsTo,
 } = DS;
 
+const getTimeDiffText = function (diffMillis) {
+    let sign = 1;
+
+    if (diffMillis < 0) {
+        diffMillis = Math.abs(diffMillis);
+        sign = -1;
+    }
+
+    const diffMins = diffMillis / 1000 / 60;
+    const d = Math.floor(diffMins / 1440);
+    return (sign < 0 ? "-" : "") + d;
+}
+
 // --> <CRM/ZAP-API>:<field> indicates which CRM or ZAP-API field the Model attribute maps to.
 export default class MilestoneModel extends Model {
   @belongsTo('project') project;
@@ -23,7 +36,7 @@ export default class MilestoneModel extends Model {
   @attr('string') dcpPlannedstartdate;
 
   // --> CRM:dcp_plannedcompletiondate | e.g. '2018-11-02T01:21:46'
-  @attr('string') dcpPlannedcompletiondate;
+  @attr('date') dcpPlannedcompletiondate;
 
   // --> CRM:dcp_actualstartdate | e.g. '2018-05-11T04:00:00'
   @attr('string') dcpActualstartdate;
@@ -79,5 +92,19 @@ export default class MilestoneModel extends Model {
   get orderSensitiveName() {
     if (this.isRevised) return `Revised ${this.displayName}`;
     return this.displayName;
+  }
+
+  @computed('dcpPlannedcompletiondate')
+  get remainingDays() {
+    const MILLISECONDS_MULTIPLIER = 60000;
+    const dateStart = new Date();
+    const { dcpPlannedcompletiondate } = this;
+
+    const dateEnd = new Date(dcpPlannedcompletiondate);
+    const remainingTimeInterval = dateEnd.getTime() - dateStart.getTime()
+      - ((dateEnd.getTimezoneOffset() - dateStart.getTimezoneOffset()) * MILLISECONDS_MULTIPLIER);
+
+    // get date diff by accounting for DST
+    return getTimeDiffText(remainingTimeInterval);
   }
 }
