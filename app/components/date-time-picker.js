@@ -5,9 +5,6 @@ import moment from 'moment';
 export default class DateTimePickerComponent extends Component {
   // arguments to check if the user has input date, hour, minute, and timeOfDay (AM/PM)
 
-  // minimum date for calendar
-  currentDate = new Date();
-
   // targetField is set on the form render
   // represents the attribute that is to be set to the new value
   // e.g. disposition.dcpDateofpublichearing
