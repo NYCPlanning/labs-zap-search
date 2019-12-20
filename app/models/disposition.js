@@ -193,7 +193,7 @@ export default class DispositionModel extends Model {
     // shortName = e.g. 'QNCB5'
     const shortName = this.get('fullname');
     // borough = e.g. 'Queens'
-    const borough = shortName !== null ? boroughLookup[shortName.substring(0, 2)] : '';
+    const borough = shortName !== null ? (boroughLookup[shortName.substring(0, 2)] || '') : '';
     // participantType = e.g. "Community Board"
     const participantType = this.get('dcpRepresenting');
     // cbNumber = e.g. QNCB5 --> 5
