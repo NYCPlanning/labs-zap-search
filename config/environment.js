@@ -61,7 +61,7 @@ module.exports = function(environment) {
     'mapbox-gl': {
       accessToken: '',
       map: {
-        style: '//layers-api-staging.planninglabs.nyc/v1/base/style.json',
+        style: '//labs-layers-api-staging.herokuapp.com/v1/base/style.json',
         zoom: 12.25,
         center: [-73.9868, 40.724],
       },
@@ -142,7 +142,7 @@ module.exports = function(environment) {
     };
 
     ENV.host = ENVIRONMENTAL_HOST_API || 'https://zap-api.planninglabs.nyc';
-    ENV['mapbox-gl'].map.style = 'https://layers-api.planninglabs.nyc/v1/base/style.json';
+    ENV['mapbox-gl'].map.style = 'https://labs-layers-api.herokuapp.com/v1/base/style.json';
   }
 
   return ENV;
