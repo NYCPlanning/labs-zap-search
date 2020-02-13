@@ -13,10 +13,10 @@ export default Factory.extend({
   // dcpPublicStatus and dcpPublicstatusSimp should not receive random mock data
   // because their values are critical to expressing project state.
 
-  // Domain is ['Filed', 'Certified', 'Approved', 'Withdrawn']
+  // Domain is ['Prefiled', Filed', 'In Public Review', 'Completed']
   dcpPublicstatus: 'Filed',
 
-  // Domain is ['Filed', 'In Public Review', 'Completed', 'Unknown']
+  // Domain is ['Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown']
   // This field is derived from dcpPublicstatus.
   // See https://github.com/NYCPlanning/zap-api/blob/develop/queries/projects/show.sql#L28
   dcpPublicstatusSimp: 'Filed',
