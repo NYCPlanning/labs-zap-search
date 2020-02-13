@@ -12,7 +12,7 @@ module('Integration | Component | map-info-box', function(hooks) {
 
     await render(hbs`{{map-info-box}}`);
 
-    assert.equal(this.element.textContent.trim().replace(/\s/g, ''), 'FiledInPublicReviewCompletedDisclaimer');
+    assert.equal(this.element.textContent.trim().replace(/\s/g, ''), 'PrefiledFiledInPublicReviewCompletedDisclaimer');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | map-info-box', function(hooks) {
       {{/map-info-box}}
     `);
 
-    assert.equal(this.element.textContent.trim().replace(/\s/g, ''), 'FiledInPublicReviewCompletedDisclaimertemplateblocktext');
+    assert.equal(this.element.textContent.trim().replace(/\s/g, ''), 'PrefiledFiledInPublicReviewCompletedDisclaimertemplateblocktext');
   });
 });
