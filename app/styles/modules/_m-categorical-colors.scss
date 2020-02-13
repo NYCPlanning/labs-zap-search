@@ -3,6 +3,10 @@
 // --------------------------------------------------
 
 .label {
+  .publicstatus-prefiled & {
+    background: $prefiled-color;
+    color: $black;
+  }
   .publicstatus-filed & {
     background: $filed-color;
     color: $black;
@@ -22,6 +26,9 @@
 }
 
 .fa-map-marker-alt {
+  .publicstatus-prefiled & {
+    color: $prefiled-color;
+  }
   .publicstatus-filed & {
     color: $filed-color;
   }
@@ -35,6 +42,7 @@
     color: $dark-gray;
   }
 
+  .publicstatus-prefiled .button:hover &,
   .publicstatus-filed .button:hover &,
   .publicstatus-in-public-review .button:hover &,
   .publicstatus-completed .button:hover &,
