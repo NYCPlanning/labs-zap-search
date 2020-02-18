@@ -48,6 +48,10 @@ The frontend will then send api calls to `localhost:3000`, assuming you are runn
 
 Sign in by going to `localhost:4200/login#access_token=test`
 
+After running the backend you will see a message in your terminal saying `SKIP_AUTH is true! The cookie token is token=<your-token>; Path=/; HttpOnly. Add this to your request headers.`
+
+Visit `localhost:4200/login#access_token=<your-token>` to sign in
+
 ### Connecting to staging or production
 
 ```
