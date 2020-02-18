@@ -40,6 +40,19 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_publicstatus&community-districts=BK02');
   });
 
+  test('User clicks action box, fills in action name, selects action type', async function(assert) {
+    server.createList('project', 20);
+    await visit('/');
+    await click('[data-test-filter-section="filter-section-action-type"] .switch-paddle');
+    await click('[data-test-filter-control="filter-section-action-type"] .ember-power-select-multiple-options');
+    // Choose the second option in the select options, which is "BF - Business Franchise".
+    // Due to how we format the "action-type" options text, ember-power-select has difficulty selecting the text,
+    // so we use an index number instead.
+    await selectChoose('[data-test-filter-control="filter-section-action-type"]', '.ember-power-select-option', 1);
+
+    assert.equal(currentURL(), '/projects?action-types=BF&applied-filters=action-types%2Cdcp_publicstatus');
+  });
+
   test('User clicks ULURP checkbox and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');
