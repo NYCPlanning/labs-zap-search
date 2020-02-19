@@ -1,10 +1,5 @@
 import { helper } from '@ember/component/helper';
 
-function pad(string, size) {
-  while (string.length < (size || 2)) { string = `0${string}`; }
-  return string;
-}
-
 function bblDemux(bbl) {
   const boro = bbl.substring(0, 1);
   const block = parseInt(bbl.substring(1, 6), 10);
@@ -13,18 +8,31 @@ function bblDemux(bbl) {
   return { boro, block, lot };
 }
 
+
+// TODO:  Find more elegant way than hardcoding these URLs,
+// and a better way to link the user to the Zoning Resolution Online portal (rather than directing them to search).
 function zoningResolution(value) {
-  // get everything before the hyphen
-  const articleChapter = value.split('-')[0];
+  // Appendix searches come up blank, so better to bring the user directly to these URLs
+  const appendixUrls = {
+    AppendixA: 'https://zr.planning.nyc.gov/appendix-index-uses',
+    AppendixB: 'https://zr.planning.nyc.gov/appendix-b-index-special-purpose-districts',
+    AppendixC: 'https://zr.planning.nyc.gov/appendix-c-table-1-city-environmental-quality-review-ceqr-environmental-requirements-e-designations',
+    AppendixD: 'https://zr.planning.nyc.gov/appendix-d-zoning-map-amendment-d-restrictive-declarations',
+    AppendixE: 'https://zr.planning.nyc.gov/appendix-e-design-requirements-plazas-residential-plazas-and-urban-plazas-developed-prior-october',
+    AppendixF: 'https://zr.planning.nyc.gov/appendix-f-inclusionary-housing-designated-areas-and-mandatory-inclusionary-housing-areas',
+    AppendixG: 'https://zr.planning.nyc.gov/appendix-g-radioactive-materials',
+    AppendixH: 'https://zr.planning.nyc.gov/appendix-h-arterial-highways',
+    AppendixI: 'https://zr.planning.nyc.gov/appendix-i-transit-zone',
+    AppendixJ: 'https://zr.planning.nyc.gov/appendix-j-designated-areas-within-manufacturing-districts',
+  };
 
-  // to get article, drop the last character
-  const article = pad(articleChapter.slice(0, -1), 2);
-  // to get chapter, get the last character
-  const chapter = pad(articleChapter.substr(-1), 2);
+  // Return the hardcoded URL if "value" is one of the appendices (searching "AppendixA" returns no results)
+  if (appendixUrls[value]) {
+    return appendixUrls[value];
+  }
 
-  // TODO handle values that don't match this hyphenated format (AppendixD, AppendixF, E37-04f1, E37-04g6)
-
-  return `https://www1.nyc.gov/assets/planning/download/pdf/zoning/zoning-text/art${article}c${chapter}.pdf`;
+  // Else bring the user to the ZR search page
+  return `https://zr.planning.nyc.gov/search?search_term=${value}`;
 }
 
 function zola(bbl) {
