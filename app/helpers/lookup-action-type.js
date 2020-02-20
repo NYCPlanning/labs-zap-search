@@ -31,7 +31,7 @@ export const actions = [
   ['HS', 'Special District/Mall Plan/REMIC NPA', ''],
   ['HU', 'Urban Renewal Plan and Amendments', ''],
   ['HZ', 'Preliminary Site Approval Application', ''],
-  ['LD', 'Legal Document (NOC, NOR, RD)', 'Notice of Certification (NOC), Notice of Restriction (NOR), Restrictive Declaration (RD)'],
+  ['LD', 'Legal Document (NOC, NOR, RD)', 'An LD action indicates that a project has one or more additional actions related to associated legal documents (such as a "Restrictive Declaration" RD, "Notice of Restriction" NOR, or "Notices of Certification" NOC) that impose additional property controls beyond zoning regulations. Such additional actions could be, for example, that a legal document is being created or modified, or that there is a follow-up approval pursuant to an existing legal document being processed.'],
   ['MA', 'Assignment/Acquisition', ''],
   ['MC', 'Major Concessions', '(ULURP) A major concession is a grant made by an agency for the private use of city-owned property, and which has significant land use impacts and implications or which requires the preparation of an environmental impact statement. The City Planning Commission has established rules for determining if a concession is major and requires ULURP review.'],
   ['MD', 'Drainage Plan', ''],
