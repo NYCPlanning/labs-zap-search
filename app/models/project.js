@@ -105,6 +105,8 @@ export default class ProjectModel extends Model {
 
   @attr() videoLinks;
 
+  @attr() dcp_certificationtargetdate;
+
   @computed('bblFeaturecollection')
   get bblFeatureCollectionSource() {
     const data = this.bblFeaturecollection;

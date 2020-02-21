@@ -6,10 +6,10 @@ export default class MyProjectsUpcomingController extends Controller {
   @service
   currentUser;
 
-  // sort projects based on `publicReviewPlannedStartDate` ascending
+  // sort assignments based on`project.dcp_certificationtargetdate`, ascending
   @computed('model')
   get sortedProjects() {
     const assignments = this.get('model');
-    return assignments.sortBy('publicReviewPlannedStartDate');
+    return assignments.sortBy('project.dcp_certificationtargetdate');
   }
 }

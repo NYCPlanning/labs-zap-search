@@ -181,6 +181,10 @@ export default Factory.extend({
     ];
   },
 
+  dcp_certificationtargetdate() {
+    return faker.date.past();
+  },
+
   cycleTabs: trait({
     tab(i) {
       return faker.list.cycle('archive', 'reviewed', 'to-review', 'upcoming')(i);
