@@ -56,8 +56,14 @@
 <div id="reveal-modal-container">
 </div>
 
+{{!--
+  Display a site-wide nothification with the site-message component:
+  @message - string: conditionally displays component
+  @warning - boolean: adds an exclamation-triangle icon
+  @dismissible - boolean: allows user to close message
+--}}
 {{site-message
-  message="We are currently experiencing platform stability problems. Engineers are working on a resolution. Please try again later."
+  message=false
   warning=true
   dismissible=true
 }}
