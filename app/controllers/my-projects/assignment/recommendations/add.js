@@ -270,8 +270,13 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       dispositionChangeset.set(targetField, recommendation);
     }
 
-    // IDs for Waiver of Recommendation
-    if (([717170002, 717170006, 717170008].includes(recommendation)) && (participantType !== 'BP')) {
+    // For Borough Board, 71717002 = 'Waiver of Recommendation', For Community Board, 71717008 = 'Waiver of Recommendation'
+    const boroughBoardWaiverOfRecommendation = ([717170002].includes(recommendation)) && (participantType === 'BB');
+    const communityBoardWaiverOfRecommendation = ([717170008].includes(recommendation)) && (participantType === 'CB');
+
+    // A selection of 'Waiver of Recommendation' makes these four vote & member fields irrelevant
+    // Borough Presidents (BP) do not have these vote & member fields at all
+    if (boroughBoardWaiverOfRecommendation || communityBoardWaiverOfRecommendation) {
       dispositionChangeset.validate('dcpVotinginfavorrecommendation');
       dispositionChangeset.validate('dcpVotingagainstrecommendation');
       dispositionChangeset.validate('dcpVotingabstainingonrecommendation');

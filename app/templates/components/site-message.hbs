@@ -1,0 +1,31 @@
+{{#if (and message open)}}
+
+  <div class="site-message {{if warning 'warning'}}">
+
+    {{#if warning}}
+      <div class="grid-x grid-margin-x align-middle">
+        <div class="cell text-center medium-text-left medium-shrink">
+          {{fa-icon 'exclamation-triangle' size='2x' class='yellow-dark'}}
+        </div>
+        <div class="cell auto">
+          {{message}}
+        </div>
+      </div>
+    {{else}}
+      {{message}}
+    {{/if}}
+
+    {{#if dismissible}}
+      <button
+        class="close-button"
+        aria-label="Dismiss message"
+        type="button" data-close
+        onclick={{action handleSiteMessageToggle}}
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    {{/if}}
+
+  </div>
+
+{{/if}}
