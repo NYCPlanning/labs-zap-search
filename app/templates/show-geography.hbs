@@ -54,6 +54,10 @@
       {{#structural/project-list-map
         tiles=tiles as |map|}}
 
+        <div class="disable-map gray">
+          <h4>Map temporarily disabled</h4>
+        </div>
+
         {{!-- FILTER: DISTANCE FROM POINT (ADDRESS MODE) --}}
         {{map.address-search
           onSelectSearchResult=(action section.delegate-mutation
