@@ -87,7 +87,7 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await click('[data-test-quorum-no="1"]');
     await click('[data-test-all-actions-yes]');
     await find('[data-test-all-actions-recommendation-select]');
-    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Unfavorable');
     await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
     await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
@@ -121,7 +121,7 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await click('[data-test-quorum-no="1"]');
     await click('[data-test-all-actions-yes]');
     await find('[data-test-all-actions-recommendation-select]');
-    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Unfavorable');
     await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
     await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
@@ -150,7 +150,7 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await click('[data-test-quorum-no="1"]');
     await click('[data-test-all-actions-yes]');
     await find('[data-test-all-actions-recommendation-select]');
-    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Unfavorable');
     await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
     await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
@@ -248,7 +248,7 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await click('[data-test-quorum-no="1"]');
     await click('[data-test-all-actions-yes]');
     await find('[data-test-all-actions-recommendation-select]');
-    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Unfavorable');
     await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
     await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
@@ -294,7 +294,7 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await click('[data-test-quorum-no="1"]');
     await click('[data-test-all-actions-yes]');
     await find('[data-test-all-actions-recommendation-select]');
-    await selectChoose('[data-test-all-actions-recommendation]', 'Disapproved');
+    await selectChoose('[data-test-all-actions-recommendation]', 'Unfavorable');
     await fillIn('[data-test-all-actions-dcpVotinginfavorrecommendation]', 1);
     await fillIn('[data-test-all-actions-dcpVotingagainstrecommendation]', 2);
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);

@@ -28,26 +28,24 @@ export const RECOMMENDATION_OPTIONSET_BY_PARTICIPANT_TYPE_LOOKUP = {
   BB: [
     { code: 717170000, label: 'Favorable' },
     { code: 717170001, label: 'Unfavorable' },
+    { code: 717170003, label: 'Conditional Favorable' },
+    { code: 717170004, label: 'Conditional Unfavorable' },
+    { code: 717170005, label: 'No Objection' },
     { code: 717170002, label: 'Waiver of Recommendation' },
-    { code: 717170003, label: 'Non-Complying' },
   ],
   BP: [
     { code: 717170000, label: 'Favorable' },
     { code: 717170001, label: 'Conditional Favorable' },
     { code: 717170002, label: 'Unfavorable' },
     { code: 717170003, label: 'Conditional Unfavorable' },
-    { code: 717170004, label: 'Received after Clock Expired' },
     { code: 717170005, label: 'No Objection' },
     { code: 717170006, label: 'Waiver of Recommendation' },
   ],
   CB: [
-    { code: 717170000, label: 'Approved' },
-    { code: 717170001, label: 'Approved with Modifications/Conditions' },
-    { code: 717170002, label: 'Disapproved' },
-    { code: 717170003, label: 'Disapproved with Modifications/Conditions' },
-    { code: 717170004, label: 'Non-Complying' },
-    { code: 717170005, label: 'Vote Quorum Not Present' },
-    { code: 717170006, label: 'Received after Clock Expired' },
+    { code: 717170000, label: 'Favorable' },
+    { code: 717170001, label: 'Conditional Favorable' },
+    { code: 717170002, label: 'Unfavorable' },
+    { code: 717170003, label: 'Conditional Unfavorable' },
     { code: 717170007, label: 'No Objection' },
     { code: 717170008, label: 'Waiver of Recommendation' },
   ],
@@ -245,12 +243,12 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
   /**
  * @param { Changeset } dispositionChangeset
- * @param { String } recommendation -- string recommendation value. i.e. 'Approved', 'Disapproved w/ Modifications'...
+ * @param { String } recommendation -- string recommendation value. i.e. 'Favorable', 'Unfavorable'...
  * If this.allActions === true, sets the 'recommendation' field
  * for the passed disposition.
  * Otherwise, assigns the `recommendation` argument to the
  * field corresponding to the current participantType.
- * If the value of `recommendation` is 'Waived', this action executes dispositionChangeset.validate()
+ * If the value of `recommendation` is 'Waiver of Recommendation', this action executes dispositionChangeset.validate()
  * in order to remove "invalid ui" styles on vote inputs.
  * TODO: Update this to rely on the disposition.participantType field
  * when it is implemented in the ZAP-API.
@@ -270,7 +268,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
       dispositionChangeset.set(targetField, recommendation);
     }
 
-    // For Borough Board, 71717002 = 'Waiver of Recommendation', For Community Board, 71717008 = 'Waiver of Recommendation'
+    // For Borough Board, 717170002 = 'Waiver of Recommendation', For Community Board, 717170008 = 'Waiver of Recommendation'
     const boroughBoardWaiverOfRecommendation = ([717170002].includes(recommendation)) && (participantType === 'BB');
     const communityBoardWaiverOfRecommendation = ([717170008].includes(recommendation)) && (participantType === 'CB');
 

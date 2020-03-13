@@ -75,15 +75,15 @@ export default class DispositionModel extends Model {
   // #### Recommendation Type per Each of the 3 Participants ####
   // sourced from dcp_dcpBoroughpresidentrecommendation
   // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
-  // 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation', N/A is defualt
+  // 'No Objection', 'Waiver of Recommendation', N/A is defualt
 
   // sourced from dcp_dcpBoroughboardrecommendation
-  // e.g. 'Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying', N/A as default
+  // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
+  // 'No Objection', 'Waiver of Recommendation', N/A is defualt
 
   // sourced from dcp_dcpCommunityboardrecommendation
-  // 'Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions',
-  // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
-  // N/A as default
+  // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
+  // 'No Objection', 'Waiver of Recommendation', N/A is defualt
 
   @attr('number', { defaultValue: null }) dcpBoroughpresidentrecommendation;
 
@@ -207,7 +207,7 @@ export default class DispositionModel extends Model {
   }
 
   // the recommendation based on the user type
-  // e.g. a Community Board will have a dcpCommunityboardrecommendation `Approved`
+  // e.g. a Community Board will have a dcpCommunityboardrecommendation `Favorable`
   @computed('dcpRepresenting', 'dcpCommunityboardrecommendation', 'dcpBoroughboardrecommendation', 'dcpBoroughpresidentrecommendation')
   get recommendationLabel() {
     // participantType e.g. `Borough Board`

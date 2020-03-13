@@ -12,6 +12,6 @@ module('Integration | Helper | recommendation-label-lookup', function(hooks) {
     this.set('code', 717170000);
     await render(hbs`{{recommendation-label-lookup 'CB' code}}`);
 
-    assert.equal(this.element.textContent.trim(), 'Approved');
+    assert.equal(this.element.textContent.trim(), 'Favorable');
   });
 });
