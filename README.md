@@ -37,6 +37,10 @@ Where `<scenario>` can be replaced with one of the following
 If the app is loaded without specifying the `MIRAGE_SCENARIO` parameter, it will load a stale scenario.
 See [mirage/README.md](./mirage/README.md) for details on what data the scenario contains and how it is generated.
 
+#### Logging in
+
+Sign in by going to `localhost:4200/login#access_token=test`
+
 ### Connecting to a local backend
 The app can also be served locally and connected to a locally run [zap-api backend](https://github.com/NYCPlanning/zap-api).
 
@@ -46,9 +50,8 @@ HOST_API=http://localhost:3000 ember serve --environment=devlocal
 
 The frontend will then send api calls to `localhost:3000`, assuming you are running the zap-api locally. (Remember to set `SKIP_AUTH=true` in your development.env file in the zap-api project folder)
 
-Sign in by going to `localhost:4200/login#access_token=test`
-
-After running the backend you will see a message in your terminal saying `SKIP_AUTH is true! The cookie token is token=<your-token>; Path=/; HttpOnly. Add this to your request headers.`
+#### Logging in
+After running the backend you will see a message in your backend terminal saying `SKIP_AUTH is true! The cookie token is token=<your-token>; Path=/; HttpOnly. Add this to your request headers.`
 
 Visit `localhost:4200/login#access_token=<your-token>` to sign in
 
