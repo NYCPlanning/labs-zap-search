@@ -12,3 +12,6 @@ command = "MIRAGE_SCENARIO=borough-president yarn build --environment=developmen
 
 [context.deploy-preview]
 command = "MIRAGE_SCENARIO=community-board yarn build --environment=development"
+
+[context.api-only-experiment]
+command = "HOST_API=https://zap-api-beta.herokuapp.com yarn build --environment=production"

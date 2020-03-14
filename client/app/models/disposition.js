@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 const {
   Model, attr, belongsTo,
@@ -47,9 +48,11 @@ export default class DispositionModel extends Model {
 
   @belongsTo('assignment', { async: true }) assignment;
 
+  @attr('string', { defaultValue: '' }) dcpRecommendationsubmittedbyValue;
+
   // sourced from a left join with contact table
   // e.g. 'QN CB6', 'BX BP', 'MN BB'
-  @attr('string', { defaultValue: '' }) fullname;
+  @alias('dcpRecommendationsubmittedbyValue') fullname;
 
   // sourced from dcp_dcpPublichearinglocation
   @attr('string', { defaultValue: null }) dcpPublichearinglocation;
@@ -65,7 +68,10 @@ export default class DispositionModel extends Model {
 
   // sourced from dcp_projectactionid in dcp_projectaction table
   // e.g. 9bbfbec7-2407-ea11-a9aa-001dd8308025
-  @attr('string', { defaultValue: '' }) dcpProjectaction;
+
+  @attr('string', { defaultValue: '' }) dcpProjectactionValue;
+
+  @alias('dcpProjectactionValue') dcpProjectaction;
   // Not needed
   // @attr('string', { defaultValue: '' }) formCompleterName;
 

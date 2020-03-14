@@ -139,44 +139,6 @@
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
-      {{!-- FILTER: DISTANCE FROM POINT --}}
-      {{#filters.section
-        filterNames=(array 'distance_from_point' 'radius_from_point')
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.distance_from_point')
-          tooltip='Click on the map to set filter first then drag to adjust radius'}}
-          {{#if queryParamsState.distance_from_point.changed}}
-            <div class="grid-x">
-              <div class="cell large-auto">
-                {{integer-slider-filter
-                  start=radius_from_point
-                  min=20
-                  max=1000
-                  step=5
-                  behaviour="drag"
-                  on-change=(action section.delegate-mutation (action (mut radius_from_point)))}}
-              </div>
-              <div class="cell large-shrink">
-                <div class="input-group">
-                  <input
-                    class="filter-text-input"
-                    type="number"
-                    value={{radius_from_point}}
-                    placeholder="Distance in feet (e.g. '50')"
-                    oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'radius_from_point')}}
-                    step="5"
-                    style="width:5.1em;">
-                  <span class="input-group-label" style="padding:0 0.4rem">ft</span>
-                </div>
-              </div>
-            </div>
-          {{else}}
-            Click the map to add a point
-          {{/if}}
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
-
       {{!-- FILTER: DATE CERTIFIED / REFERRED --}}
       {{#filters.section
         filterNames='dcp_certifiedreferred'

@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 
 const {
@@ -64,7 +65,9 @@ export default class ProjectModel extends Model {
 
   @attr('string', { defaultValue: '' }) dcpPublicstatus;
 
-  @attr('string', { defaultValue: '' }) dcpPublicstatusSimp;
+  // @attr('string', { defaultValue: '' }) dcpPublicstatusSimp;
+  @alias('dcpPublicstatus')
+  dcpPublicstatusSimp;
 
   @attr('string') dcpProjectcompleted;
 
