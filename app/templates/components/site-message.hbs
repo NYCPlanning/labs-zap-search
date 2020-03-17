@@ -1,4 +1,4 @@
-{{#if (and message open)}}
+{{#if (and hasBlock open)}}
 
   <div class="site-message {{if warning 'warning'}}">
 
@@ -8,11 +8,11 @@
           {{fa-icon 'exclamation-triangle' size='2x' class='yellow-dark'}}
         </div>
         <div class="cell auto">
-          {{message}}
+          {{yield}}
         </div>
       </div>
     {{else}}
-      {{message}}
+      {{yield}}
     {{/if}}
 
     {{#if dismissible}}

@@ -3,9 +3,6 @@ import { action } from '@ember/object';
 
 export default class SiteMessage extends Component {
   // @argument
-  message = false;
-
-  // @argument
   warning = false;
 
   // @argument
