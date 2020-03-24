@@ -114,7 +114,7 @@ module('Unit | Model | disposition', function(hooks) {
       dcpProjectaction: '53f9d731-add3-e811-8144-1458d04d2538',
       dcpBoroughpresidentrecommendation: null,
       dcpBoroughboardrecommendation: null,
-      dcpCommunityboardrecommendation: 'Approved',
+      dcpCommunityboardrecommendation: 'Favorable',
       dcpConsideration: null,
       dcpVotelocation: 'Scholastic Building, 130 Mercer St., Auditorium',
       dcpDatereceived: '2019-12-20T19:27:18.000Z',

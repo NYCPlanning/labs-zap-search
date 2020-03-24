@@ -7,11 +7,11 @@ module('Integration | Component | recommendation-result-icon', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders correct icon for a recommendation', async function(assert) {
-    await render(hbs`<RecommendationResultIcon @recommendation="Approved"/>`);
+    await render(hbs`<RecommendationResultIcon @recommendation="Favorable"/>`);
 
     assert.ok(find('[data-icon="thumbs-up"]'));
 
-    await render(hbs`<RecommendationResultIcon @recommendation="Disapproved"/>`);
+    await render(hbs`<RecommendationResultIcon @recommendation="Unfavorable"/>`);
 
     assert.ok(find('[data-icon="thumbs-down"]'));
 
