@@ -40,7 +40,7 @@ module('Integration | Component | project-milestone', function(hooks) {
             fullname: 'QN CB2',
             action: ourModel.create({ id: 1, dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
             dcpDateofvote: new Date('2020-11-12T01:30:00'),
-            dcpBoroughboardrecommendation: 'Approved',
+            dcpBoroughboardrecommendation: 'Favorable',
             dcpVotingagainstrecommendation: 2,
             dcpVotinginfavorrecommendation: 3,
             dcpVotingabstainingonrecommendation: 4,

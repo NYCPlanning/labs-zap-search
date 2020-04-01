@@ -120,7 +120,7 @@ export default function(server) {
       // REVIEWED
       //----------------------------------------
 
-      // Reviewed Project 1: CB Approved w/ Mod, CB Disapproved, BP Approved, CPC Review
+      // Reviewed Project 1: CB Conditional Favorable, CB Unfavorable, BP Favorable, CPC Review
       server.create('assignment', {
         tab: 'reviewed',
         dcpLupteammemberrole: 'CB',
@@ -129,17 +129,17 @@ export default function(server) {
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
-              dcpBoroughpresidentrecommendation: 'Approved',
+              dcpBoroughpresidentrecommendation: 'Favorable',
               dcpDatereceived: createDateInPast(90, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB4',
-              dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
+              dcpCommunityboardrecommendation: 'Conditional Favorable',
               dcpDatereceived: createDateInPast(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB6',
-              dcpCommunityboardrecommendation: 'Disapproved',
+              dcpCommunityboardrecommendation: 'Unfavorable',
               dcpDatereceived: createDateInPast(130, 'days'),
             }),
           ],
@@ -195,7 +195,7 @@ export default function(server) {
           ],
         }),
       }),
-      // Reviewed Project 2: CB Approved w/ Mod, BP Approved, City Council Review
+      // Reviewed Project 2: CB Conditional Favorable, BP Favorable, City Council Review
       server.create('assignment', {
         tab: 'reviewed',
         dcpLupteammemberrole: 'CB',
@@ -204,12 +204,12 @@ export default function(server) {
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
-              dcpBoroughpresidentrecommendation: 'Approved',
+              dcpBoroughpresidentrecommendation: 'Favorable',
               dcpDatereceived: createDateInPast(82, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB9',
-              dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
+              dcpCommunityboardrecommendation: 'Conditional Favorable',
               dcpDatereceived: createDateInPast(130, 'days'),
             }),
           ],
@@ -283,7 +283,7 @@ export default function(server) {
           ],
         }),
       }),
-      // Reviewed Project 3: CB Waived, BP Approved, Mayoral Review
+      // Reviewed Project 3: CB Waived, BP Favorable, Mayoral Review
       server.create('assignment', {
         tab: 'reviewed',
         dcpLupteammemberrole: 'CB',
@@ -292,12 +292,12 @@ export default function(server) {
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
-              dcpBoroughpresidentrecommendation: 'Approved',
+              dcpBoroughpresidentrecommendation: 'Favorable',
               dcpDatereceived: createDateInPast(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB12',
-              dcpCommunityboardrecommendation: 'Waived',
+              dcpCommunityboardrecommendation: 'Waiver of Recommendation',
               dcpDatereceived: createDateInPast(120, 'days'),
             }),
           ],
@@ -387,17 +387,17 @@ export default function(server) {
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
-              dcpBoroughpresidentrecommendation: 'Approved',
+              dcpBoroughpresidentrecommendation: 'Favorable',
               dcpDatereceived: createDateInPast(90, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB4',
-              dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
+              dcpCommunityboardrecommendation: 'Conditional Favorable',
               dcpDatereceived: createDateInPast(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB6',
-              dcpCommunityboardrecommendation: 'Disapproved',
+              dcpCommunityboardrecommendation: 'Unfavorable',
               dcpDatereceived: createDateInPast(130, 'days'),
             }),
           ],
@@ -480,12 +480,12 @@ export default function(server) {
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
-              dcpBoroughpresidentrecommendation: 'Approved',
+              dcpBoroughpresidentrecommendation: 'Favorable',
               dcpDatereceived: createDateInPast(290, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB9',
-              dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
+              dcpCommunityboardrecommendation: 'Conditional Favorable',
               dcpDatereceived: createDateInPast(320, 'days'),
             }),
           ],
@@ -568,12 +568,12 @@ export default function(server) {
           dispositions: [
             server.create('disposition', 'withAction', {
               fullname: 'QN BP',
-              dcpBoroughpresidentrecommendation: 'Approved',
+              dcpBoroughpresidentrecommendation: 'Favorable',
               dcpDatereceived: createDateInPast(120, 'days'),
             }),
             server.create('disposition', 'withAction', {
               fullname: 'QN CB12',
-              dcpCommunityboardrecommendation: 'Waived',
+              dcpCommunityboardrecommendation: 'Waiver of Recommendation',
               dcpDatereceived: createDateInPast(120, 'days'),
             }),
           ],

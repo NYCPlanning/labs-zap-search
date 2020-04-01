@@ -1,20 +1,20 @@
 {{!Approval options}}
-{{#if (or (eq this.recommendation "Favorable") (eq this.recommendation "Approved"))}}
+{{#if (eq this.recommendation "Favorable")}}
   {{fa-icon 'thumbs-up' class='green-dark'}}
 {{/if}}
 {{!Conditional approval options}}
-{{#if (or (eq this.recommendation "Conditional Favorable") (eq this.recommendation "Approved with Modifications/Conditions"))}}
+{{#if (eq this.recommendation "Conditional Favorable")}}
 <span class="fa-layers">
   {{fa-icon 'thumbs-up' class='green-dark'}}
   {{fa-icon 'question' class='white' transform="shrink-9 right-2 down-2"}}
 </span>
 {{/if}}
 {{!Disapproval options}}
-{{#if (or (eq this.recommendation "Unfavorable") (eq this.recommendation "Disapproved"))}}
+{{#if (eq this.recommendation "Unfavorable")}}
   {{fa-icon 'thumbs-down' class='red-dark'}}
 {{/if}}
 {{!Conditional disapproval options}}
-{{#if (or (eq this.recommendation "Conditional Unfavorable") (eq this.recommendation "Disapproved with Modifications/Conditions"))}}
+{{#if (eq this.recommendation "Conditional Unfavorable")}}
 <span class="fa-layers">
   {{fa-icon 'thumbs-down' class='red-dark' }}
   {{fa-icon 'question' class='white' transform="shrink-9 right-2 up-2"}}

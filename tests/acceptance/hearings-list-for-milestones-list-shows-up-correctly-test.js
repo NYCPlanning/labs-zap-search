@@ -83,7 +83,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           dcpProjectaction: '1',
           // action: server.create('action', { id: 1, dcpName: 'Zoning Special Permit', dcpUlurpnumber: 'C780076TLK' }),
           dcpDateofvote: new Date('2020-04-21T01:30:00'),
-          dcpCommunityboardrecommendation: 'Approved with Modifications/Conditions',
+          dcpCommunityboardrecommendation: 'Conditional Favorable',
           dcpVotingagainstrecommendation: 4,
           dcpVotinginfavorrecommendation: 5,
           dcpVotingabstainingonrecommendation: 6,
@@ -98,7 +98,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           dcpProjectaction: '2',
           // action: server.create('action', { id: 3, dcpName: 'Change to City Map', dcpUlurpnumber: 'N19983dLUP' }),
           dcpDateofvote: new Date('2020-05-03T01:30:00'),
-          dcpCommunityboardrecommendation: 'Disapproved with Modifications/Conditions',
+          dcpCommunityboardrecommendation: 'Conditional Unfavorable',
           dcpVotingagainstrecommendation: 7,
           dcpVotinginfavorrecommendation: 8,
           dcpVotingabstainingonrecommendation: 9,
@@ -144,7 +144,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           dcpProjectaction: '3',
           // action: server.create('action', { id: 4, dcpName: 'Business Improvement District', dcpUlurpnumber: 'C780076TLK' }),
           dcpDateofvote: new Date('2020-07-21T01:30:00'),
-          dcpCommunityboardrecommendation: 'Disapproved',
+          dcpCommunityboardrecommendation: 'Unfavorable',
           dcpVotingagainstrecommendation: 4,
           dcpVotinginfavorrecommendation: 12,
           dcpVotingabstainingonrecommendation: 1,
@@ -365,10 +365,10 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     assert.ok(this.element.querySelector('[data-test-rec-label="17"]').textContent.includes('Waiver of Recommendation'), 'QNBB rec');
     assert.ok(this.element.querySelector('[data-test-rec-label="18"]').textContent.includes('Favorable'), 'MNBB rec');
     assert.notOk(find('[data-test-rec-label="19"]'), 'MNBB duplicate rec'); // duplicate
-    assert.ok(this.element.querySelector('[data-test-rec-label="20"]').textContent.includes('Approved with Modifications/Conditions'), 'QNCB4 rec');
-    assert.ok(this.element.querySelector('[data-test-rec-label="21"]').textContent.includes('Disapproved with Modifications/Conditions'), 'QNCB5 rec');
+    assert.ok(this.element.querySelector('[data-test-rec-label="20"]').textContent.includes('Conditional Favorable'), 'QNCB4 rec');
+    assert.ok(this.element.querySelector('[data-test-rec-label="21"]').textContent.includes('Conditional Unfavorable'), 'QNCB5 rec');
     assert.ok(this.element.querySelector('[data-test-rec-label="22"]').textContent.includes('Waiver of Recommendation'), 'QNCB5 rec');
-    assert.ok(this.element.querySelector('[data-test-rec-label="24"]').textContent.includes('Disapproved'), 'BKCB3 rec'); // hearings waived but rec submitted
+    assert.ok(this.element.querySelector('[data-test-rec-label="24"]').textContent.includes('Unfavorable'), 'BKCB3 rec'); // hearings waived but rec submitted
     assert.notOk(find('[data-test-rec-label="23"]'), 'BXCB2 rec'); // not submitted yet
     // borough president
     assert.ok(this.element.querySelector('[data-test-rec-label="25"]').textContent.includes('Unfavorable'), 'BXBP rec');

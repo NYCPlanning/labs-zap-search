@@ -105,7 +105,7 @@ export default class HearingsListForMilestonesListComponent extends Component {
     // When deduplicated, userDispositions will be an array of ALL dispositions
     // associated with ONE landUseParticipantFullName.
     // Because dispositions have 3 types of recommendation fields based on the user that submitted them,
-    // participantRecommendationType is important for displaying the correct recommendation (e.g. "Approved").
+    // participantRecommendationType is important for displaying the correct recommendation (e.g. "Favorable").
     // This participantRecommendationType is passed into `deduped-votes-list` to assure that we are deduplicating
     // by the correct recommenation field.
     const milestoneParticipants = currentMilestoneDispositions.map(disp => ({

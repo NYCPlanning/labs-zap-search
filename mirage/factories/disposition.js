@@ -4,14 +4,15 @@ export default Factory.extend({
   // #### Recommendation Type per Each of the 3 Participants ####
   // sourced from dcp_dcpBoroughpresidentrecommendation
   // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
-  // 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation', N/A is defualt
+  // 'No Objection', 'Waiver of Recommendation', N/A is defualt
 
   // sourced from dcp_dcpBoroughboardrecommendation
-  // e.g. 'Favorable', 'Unfavorable', 'Waiver of Recommendation', 'Non-Complying', N/A as default
+  // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
+  // 'No Objection', 'Waiver of Recommendation', N/A is defualt
 
   // sourced from dcp_dcpCommunityboardrecommendation
-  // 'Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions',
-  // 'Non-Complying', 'Vote Quorum Not Present', 'Received after Clock Expired', 'No Objection', 'Waiver of Recommendation',
+  // 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
+  // 'No Objection', 'Waiver of Recommendation',
   // N/A as default
 
   dcpDatereceived: null,
@@ -80,7 +81,7 @@ export default Factory.extend({
     dcpBoroughboardrecommendation: null,
 
     dcpCommunityboardrecommendation() {
-      return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
+      return faker.random.arrayElement(['Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable', 'No Objection', 'Waiver of Recommendation']);
     },
   }),
 
@@ -88,7 +89,7 @@ export default Factory.extend({
     dcpBoroughpresidentrecommendation: null,
 
     dcpBoroughboardrecommendation() {
-      return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
+      return faker.random.arrayElement(['Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable', 'No Objection', 'Waiver of Recommendation']);
     },
 
     dcpCommunityboardrecommendation: null,
@@ -96,7 +97,7 @@ export default Factory.extend({
 
   submittedBoroughPresidentDisposition: trait({
     dcpBoroughpresidentrecommendation() {
-      return faker.random.arrayElement(['Approved', 'Approved with Modifications/Conditions', 'Disapproved', 'Disapproved with Modifications/Conditions', 'Waived']);
+      return faker.random.arrayElement(['Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable', 'No Objection', 'Waiver of Recommendation']);
     },
 
     dcpBoroughboardrecommendation: null,
