@@ -1,13 +1,8 @@
 'use strict';
 
-// if this exists in the environment, use it instead of others
-const ENVIRONMENTAL_HOST_API = process.env.HOST_API;
-let { LUPP_ENABLED = true } = process.env;
-
-LUPP_ENABLED = JSON.parse(LUPP_ENABLED);
-const MIRAGE_SCENARIO = process.env.MIRAGE_SCENARIO;
-const NYCID_CLIENT_ID =  process.env.NYCID_CLIENT_ID || 'zap_staging';
-const NYC_ID_HOST =  process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
+const { MIRAGE_SCENARIO } = process.env;
+const NYCID_CLIENT_ID = process.env.NYCID_CLIENT_ID || 'zap_staging';
+const NYC_ID_HOST = process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
 
 module.exports = function(environment) {
   const ENV = {
@@ -20,9 +15,9 @@ module.exports = function(environment) {
       scrollElement: '#scrolling-result-content',
     },
     NYC_ID_HOST,
-    host: ENVIRONMENTAL_HOST_API || '',
+    host: getHost(environment),
     OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
-    LUPP_ENABLED,
+    LUPP_ENABLED: true,
     MIRAGE_SCENARIO,
     EmberENV: {
       FEATURES: {
@@ -132,7 +127,7 @@ module.exports = function(environment) {
     ENV.APP.autoboot = false;
 
     ENV['ember-cli-mirage'] = {
-      trackRequests: true
+      trackRequests: true,
     };
   }
 
@@ -141,9 +136,24 @@ module.exports = function(environment) {
       enabled: false,
     };
 
-    ENV.host = ENVIRONMENTAL_HOST_API || 'https://zap-api.planninglabs.nyc';
     ENV['mapbox-gl'].map.style = 'https://labs-layers-api.herokuapp.com/v1/base/style.json';
   }
 
   return ENV;
 };
+
+function getHost(environment) {
+  if (process.env.HOST) {
+    return process.env.HOST;
+  }
+
+  if (environment === 'review') {
+    return process.env.HOST_PR_REVIEW;
+  }
+
+  if (environment === 'production') {
+    return 'https://zap-api.planninglabs.nyc';
+  }
+
+  return '';
+}

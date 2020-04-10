@@ -30,6 +30,7 @@ module.exports = {
     'lines-around-directive': 0,
     'func-names': 0,
     'space-before-function-paren': 0,
+    'no-use-before-define': 0,
     'prefer-arrow-callback': 0,
     'no-underscore-dangle': 0,
     camelcase: 0,

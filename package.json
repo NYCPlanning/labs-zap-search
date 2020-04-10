@@ -1,0 +1,9 @@
+{
+  "name": "labs-zap-search",
+  "version": "1.0.0",
+  "repository": "git@github.com:NYCPlanning/labs-zap-search.git",
+  "license": "MIT",
+  "scripts": {
+    "start": "(cd server && yarn run start:dev) & (cd client && yarn run start:ssl)"
+  }
+}

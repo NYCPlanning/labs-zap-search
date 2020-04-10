@@ -1,17 +1,33 @@
 import { NestFactory } from '@nestjs/core';
+import * as fs from 'fs';
 import { AppModule } from './app.module';
 
 declare const module: any;
 
-// TODO: this isn't used!
-const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:4200', 'http://localhost:3000'];
+// Attempt to insert SSL certs, if they exist
+function generateSSLConfiguration() {
+  try {
+    return {
+      httpsOptions: {
+        key: fs.readFileSync(__dirname + '/../ssl/server.key'),
+        cert: fs.readFileSync(__dirname + '/../ssl/server.crt'),
+      }
+    };
+  } catch (e) {
+    console.log('Skipping local SSL certs: ', e);
+
+    return {};
+  }
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
-      origin: [/\.planninglabs\.nyc$/, /\.planning\.nyc\.gov$/,'http://localhost:4200','http://localhost:3000', /\.netlify\.com/],
+      origin: [/\.planninglabs\.nyc$/, /\.planning\.nyc\.gov$/, 'http://localhost:4200', 'https://localhost:4200', /\.netlify\.com/, 'https://local.planninglabs.nyc:4200'],
       credentials: true,
     },
+
+    ...generateSSLConfiguration(),
   });
 
   await app.listen(process.env.PORT || 3000);

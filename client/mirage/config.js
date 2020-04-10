@@ -1,8 +1,13 @@
 import { Response } from 'ember-cli-mirage';
 import patchXMLHTTPRequest from './helpers/mirage-mapbox-gl-monkeypatch';
+import ENV from '../config/environment';
 
 export default function () {
   patchXMLHTTPRequest();
+
+  if (ENV.host) {
+    this.passthrough(`${ENV.host}/**`);
+  }
 
   this.passthrough('https://search-api.planninglabs.nyc/**');
   this.passthrough('https://planninglabs.carto.com/**');
