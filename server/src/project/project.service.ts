@@ -132,7 +132,7 @@ const QUERY_TEMPLATES = {
   dcp_femafloodzoneshadedx: (queryParamValue) =>
     comparisonOperator('dcp_femafloodzoneshadedx', 'eq', queryParamValue),
 
-  dcp_publicstatus: (queryParamValue) =>
+  dcp_publicstatus: (queryParamValue: []) =>
     equalsAnyOf('dcp_publicstatus', coerceToNumber(mapInLookup(queryParamValue, PROJECT_STATUS_LOOKUP))),
 
   dcp_certifiedreferred: (queryParamValue) =>

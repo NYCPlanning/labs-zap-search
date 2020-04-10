@@ -85,7 +85,7 @@ export class OdataService {
       '@odata.nextLink': nextPage = '',
       '@odata.count': count,
     } = response;
-    console.log(query);
+
     return {
       count,
       skipTokenParams: nextPage.split('?')[1],

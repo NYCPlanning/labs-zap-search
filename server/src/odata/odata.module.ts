@@ -18,14 +18,23 @@ export function extractMeta(projects = []) {
 }
 
 export function coerceToNumber(numericStrings) {
-  return numericStrings.map(stringish => {
-    // smelly; but let's prefer actual null
-    // coercing 'null' turns to 0, which we don't
-    // want in the API query
-    if (stringish === null) return stringish;
+  return numericStrings
+    // filter out blank strings and undefined, which aren't meaningfully
+    // coercible in CRM
+    .filter(stringish => stringish !== '' && stringish !== undefined)
+    .map(stringish => {
+      // smelly; but let's prefer actual null
+      // coercing 'null' turns to 0, which we don't
+      // want in the API query
+      if (stringish === null) return stringish;
 
-    return Number(stringish);
-  });
+      // Coercing an empty string into a number returns
+      // NaN, which, although a number, is a Double in CRM
+      // which typically expects an Int
+      if (stringish === '') return stringish;
+
+      return Number(stringish);
+    });
 }
 
 export function coerceToDateString(epoch) {
@@ -75,7 +84,8 @@ export function equalsAnyOf(propertyName, strings = []) {
     .map(string => comparisonOperator(propertyName, 'eq', string))
     .join(' or ');
 
-  return `(${querySegment})`;
+  // Empty parenthases are invalid
+  return querySegment ? `(${querySegment})` : '';
 }
 
 export function containsAnyOf(propertyName, strings = [], options?) {
