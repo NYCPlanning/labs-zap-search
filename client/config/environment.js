@@ -1,7 +1,7 @@
 'use strict';
 
 const { MIRAGE_SCENARIO } = process.env;
-const NYCID_CLIENT_ID = process.env.NYCID_CLIENT_ID || 'zap_staging';
+const NYCID_CLIENT_ID = process.env.NYCID_CLIENT_ID || 'lup-portal-local';
 const NYC_ID_HOST = process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
 
 module.exports = function(environment) {

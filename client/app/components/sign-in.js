@@ -25,11 +25,6 @@ export default class SignInComponent extends Component {
 
   @action
   toggleAuthModal() {
-    if (ENV.environment === 'development') {
-      window.location.hash = 'access_token=asdf';
-      this.router.transitionTo('/login');
-    } else {
-      this.set('showAuthModal', !this.get('showAuthModal'));
-    }
+    this.set('showAuthModal', !this.get('showAuthModal'));
   }
 }
