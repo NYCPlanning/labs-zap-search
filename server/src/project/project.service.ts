@@ -243,6 +243,43 @@ function generateQueryObject(query, overrides?) {
   };
 }
 
+export function transformProjectAttributes(project): any {
+  // this must happen before value-mapping because some of the constants
+  // refer to certain identifiers that are replaced after value-mapping
+  project.milestones = transformMilestones(project.dcp_dcp_project_dcp_projectmilestone_project, project);
+  project.dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project;
+
+  const [valueMappedProject] = overwriteCodesWithLabels([project], FIELD_LABEL_REPLACEMENT_WHITELIST);
+
+  project.actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
+
+  // perform after value-mapping
+  const {
+    dcp_dcp_project_dcp_projectkeywords_project,
+    dcp_dcp_project_dcp_projectbbl_project,
+  } = valueMappedProject;
+
+  if (dcp_dcp_project_dcp_projectkeywords_project) {
+    project.keywords = dcp_dcp_project_dcp_projectkeywords_project
+      .map(({ _dcp_keyword_value }) => _dcp_keyword_value);
+  }
+
+  if (dcp_dcp_project_dcp_projectbbl_project) {
+    project.bbls = dcp_dcp_project_dcp_projectbbl_project
+      .map(({ dcp_bblnumber }) => dcp_bblnumber);
+  }
+
+  project.applicantteam = [{
+      name: valueMappedProject._dcp_applicant_customer_value,
+      role: 'Primary Applicant',
+    }, {
+      name: valueMappedProject._dcp_applicantadministrator_customer_value,
+      role: 'Primary Contact',
+    }];
+
+  return project;
+}
+
 @Injectable()
 export class ProjectService {
   constructor(
@@ -313,31 +350,7 @@ export class ProjectService {
       }, 1);
     const [firstProject] = projects;
 
-    // this must happen before value-mapping because some of the constants
-    // refer to certain identifiers that are replaced after value-mapping
-    firstProject.milestones = transformMilestones(firstProject.dcp_dcp_project_dcp_projectmilestone_project, firstProject);
-    firstProject.dispositions = firstProject.dcp_dcp_project_dcp_communityboarddisposition_project;
-    firstProject.video_links = await getVideoLinks(this.config.get('AIRTABLE_API_KEY'), firstProject.dcp_name);
-
-    const [valueMappedFirstProject] = overwriteCodesWithLabels([firstProject], FIELD_LABEL_REPLACEMENT_WHITELIST);
-
-    firstProject.actions = transformActions(firstProject.dcp_dcp_project_dcp_projectaction_project);
-
-    // perform after value-mapping
-    firstProject.keywords = valueMappedFirstProject.dcp_dcp_project_dcp_projectkeywords_project
-      .map(({ _dcp_keyword_value }) => _dcp_keyword_value);
-
-    firstProject.bbls = valueMappedFirstProject.dcp_dcp_project_dcp_projectbbl_project
-      .map(({ dcp_bblnumber }) => dcp_bblnumber);
-
-    firstProject.applicantteam = [{
-        name: valueMappedFirstProject._dcp_applicant_customer_value,
-        role: 'Primary Applicant',
-      }, {
-        name: valueMappedFirstProject._dcp_applicantadministrator_customer_value,
-        role: 'Primary Contact',
-      }];
-
+    const transformedProject = await transformProjectAttributes(firstProject);
     // TODO: This could possibly be a carto lookup based on 
     // projectbbl
     // project.bbl_featurecollection = {
@@ -348,9 +361,11 @@ export class ProjectService {
     //   }],
     // };
 
-    await injectSupportDocumentURLs(valueMappedFirstProject);
+    transformedProject.video_links = await getVideoLinks(this.config.get('AIRTABLE_API_KEY'), firstProject.dcp_name);
 
-    return this.serialize(valueMappedFirstProject);
+    await injectSupportDocumentURLs(transformedProject);
+
+    return this.serialize(transformedProject);
   }
 
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
