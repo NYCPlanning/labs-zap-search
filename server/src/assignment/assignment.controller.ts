@@ -2,6 +2,7 @@ import * as pgp from 'pg-promise';
 import { Controller, Get, Query, Session, HttpException, HttpStatus } from '@nestjs/common';
 import { getConnection } from 'typeorm';
 import { Serializer } from 'jsonapi-serializer';
+import { AssignmentService } from '../assignment/assignment.service';
 import { ContactService } from '../contact/contact.service';
 import { getQueryFile } from '../_utils/get-query-file';
 import { KEYS as ASSIGNMENT_KEYS } from './assignment.entity';
@@ -9,6 +10,7 @@ import { KEYS as DISPOSITION_KEYS } from '../disposition/disposition.entity';
 import { KEYS as PROJECT_KEYS } from '../project/project.entity';
 import { MILESTONE_KEYS } from '../project/project.entity';
 import { ACTION_KEYS } from '../project/project.entity';
+import { dasherize } from 'inflected';
 
 const userAssignmentsQuery = getQueryFile('/assignments/index.sql');
 const projectQuery = getQueryFile('/projects/project.sql');
@@ -16,6 +18,7 @@ const projectQuery = getQueryFile('/projects/project.sql');
 @Controller('assignments')
 export class AssignmentController {
   constructor(
+    private readonly assignmentService: AssignmentService,
     private readonly contactService: ContactService,
   ) {}
 
@@ -36,17 +39,13 @@ export class AssignmentController {
         throw new Error('Must be one of archive, reviewed, to-review, upcoming');
       }
 
+      // todo: turn into CRM API
       if (email) {
         ({ contactid } = await this.contactService.findByEmail(email));
       }
 
-      const SQL = pgp.as.format(userAssignmentsQuery, {
-        id: contactid,
-        status: tab,
-      });
-
-      const records = await getConnection().query(SQL);
-
+      const records = await this.assignmentService.getAssignments(contactid, tab);
+      // return records;
       return this.serialize(records);
     }
   }
@@ -62,36 +61,42 @@ export class AssignmentController {
 
     const AssignmentSerializer = new Serializer('assignments', {
       attributes: ASSIGNMENT_KEYS,
+      id: 'dcp_projectlupteamid',
       project: {
         ref: 'dcp_name',
         attributes: PROJECT_KEYS,
         actions: {
-          ref: 'id',
+          ref: 'dcp_projectactionid',
           attributes: ACTION_KEYS,
         },
         milestones: {
-          ref(project, milestone) {
-            return `${project.dcp_name}-${milestone.dcp_milestone}`;
-          },
+          ref: 'dcp_projectmilestoneid',
           attributes: MILESTONE_KEYS,
         },
         dispositions: {
-          ref: 'id',
+          ref: 'dcp_communityboarddispositionid',
           attributes: DISPOSITION_KEYS,
         },
       },
       milestones: {
-        ref(assignment, milestone) {
-          return `${assignment.project.dcp_name}-${milestone.dcp_milestone}`;
-        },
+        ref: 'dcp_projectmilestoneid',
         attributes: MILESTONE_KEYS,
       },
 
       dispositions: {
-        ref: 'id',
+        ref: 'dcp_communityboarddispositionid',
         attributes: DISPOSITION_KEYS,
       },
       meta: { ...opts },
+      keyForAttribute(key) {
+        let dasherized = dasherize(key);
+
+        if (dasherized[0] === '-') {
+          dasherized = dasherized.substring(1);
+        }
+
+        return dasherized;
+      },
     });
 
     return AssignmentSerializer.serialize(sanitizedRecords);

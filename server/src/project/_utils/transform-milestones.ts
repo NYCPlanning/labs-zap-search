@@ -187,7 +187,8 @@ function transformDisplaySequence(milestone, project) {
 }
 
 function transformAliases(milestone, project) {
-  milestone.milestonename = milestone.dcp_name;
+  // Use the raw labeled formatted value
+  milestone.milestonename = milestone['_dcp_milestone_value@OData.Community.Display.V1.FormattedValue'];
 
   // TODO: This may need to be the _formatted version of the field
   // Please check which one it is. It needs to be the labeled version.

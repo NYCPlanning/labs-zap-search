@@ -7,28 +7,36 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike } from '../_utils/postgres-typeorm-case-insensitive-like';
 import { ConfigService } from '../config/config.service';
+import { OdataService } from '../odata/odata.service';
+import { all, comparisonOperator } from '../odata/odata.module';
 import { Contact } from './contact.entity';
 
 @Injectable()
 export class ContactService {
   constructor(
-    @InjectRepository(Contact)
-    private readonly contactRepository: Repository<Contact>,
+    private readonly dynamicsWebApi: OdataService,
     private readonly config: ConfigService,
   ) {}
 
-  activeContacts() {
-    return this.contactRepository.createQueryBuilder('active_contacts')
-      .where('active_contacts.statuscode = :statuscode', { statuscode: 'Active' });
+  async findOne(contactid: any): Promise<any> {
+    const { records: [contact] } = await this.dynamicsWebApi.queryFromObject('contacts', {
+      $filter: all(
+        comparisonOperator('statuscode', 'eq', 1),
+        comparisonOperator('contactid', 'eq', contactid)
+      ),
+    });
+
+    return contact;
   }
 
-  async findOne(opts: any): Promise<Contact> {
-    return this.contactRepository.findOneOrFail(opts);
-  }
+  async findByEmail(email): Promise<any> {
+    const { records: [contact] } = await this.dynamicsWebApi.queryFromObject('contacts', {
+      $filter: all(
+        comparisonOperator('statuscode', 'eq', 1),
+        `startswith(emailaddress1, '${email}')`,
+      ),
+    });
 
-  async findByEmail(email): Promise<Contact> {
-    return this.activeContacts()
-      .andWhere('emailaddress1 ILIKE :email', { email })
-      .getOne();
+    return contact;
   }
 }

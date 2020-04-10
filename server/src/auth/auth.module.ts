@@ -46,10 +46,14 @@ export class AuthModule {
     setTimeout(async () => {
       console.log('generating cookie...');
 
-      const response = await superagent.get(`http://localhost:3000/login?accessToken=${mockJWT}`);
-      const { header: { 'set-cookie': [, token] } } = response;
+      const response = await superagent.get(`https://local.planninglabs.nyc/login?accessToken=${mockJWT}`);
+      const { header: { 'set-cookie': tokens } } = response;
 
-      console.log(`SKIP_AUTH is true! The cookie token is ${token}. Add this to your request headers.`);
+      console.log(`
+        SKIP_AUTH is true!
+        To mock logging in through the client, here is accessToken: ${mockJWT}.
+        For API requests, the API cookie token is ${tokens}. Add this to your request headers.
+      `);
     }, 3000);
   }
 }
