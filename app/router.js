@@ -13,11 +13,13 @@ const Router = EmberRouter.extend(RouterScroll, {
   },
 
   _trackPage() {
-    scheduleOnce('afterRender', this, () => {
-      const page = this.url;
+    function trackPage() {
+      const page = this.get('url');
       const title = this.getWithDefault('currentRouteName', 'unknown');
+
       this.metrics.trackPage({ page, title });
-    });
+    }
+    scheduleOnce('afterRender', this, trackPage);
   },
 
   location: config.locationType,

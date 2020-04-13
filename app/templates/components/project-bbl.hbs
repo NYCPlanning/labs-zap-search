@@ -1,10 +1,10 @@
-{{#tool-tipster
-  content=tooltip
-  interactive=true
-  contentAsHTML=true
+<ToolTipster
+  @content={{this.tooltip}}
+  interactive={{true}}
+  contentAsHTML={{true}}
   triggerEvent='click'
   tagName='span'
   classNames='label'
-}}
-  {{bbl}}
-{{/tool-tipster}}
+>
+  {{this.bbl}}
+</ToolTipster>

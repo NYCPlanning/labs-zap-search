@@ -1,4 +1,4 @@
-<h2>Add {{participant-type-label model.dcpLupteammemberrole}} Hearing</h2>
+<h2>Add {{participant-type-label this.model.dcpLupteammemberrole}} Hearing</h2>
 <div class="grid-x grid-margin-x">
   <div class="large-5 cell large-order-2">
     <p>Hearings to be submitted for:</p>
@@ -6,18 +6,18 @@
       <h3 class="tiny-margin-bottom">
         <LinkTo
           @route="show-project"
-          @model={{model.project}}
+          @model={{this.model.project}}
         >
-          {{model.project.dcpProjectname}}
+          {{this.model.project.dcpProjectname}}
         </LinkTo>
-        <small class="dark-gray">{{model.project.dcpUlurpNonulurp}}</small>
+        <small class="dark-gray">{{this.model.project.dcpUlurpNonulurp}}</small>
       </h3>
-      <h5 class="applicant">{{model.project.applicants}}</h5>
-      <p>{{model.project.dcpProjectbrief}}</p>
+      <h5 class="applicant">{{this.model.project.applicants}}</h5>
+      <p>{{this.model.project.dcpProjectbrief}}</p>
     </div>
   </div>
   <div class="large-7 cell">
-    {{#if (gt model.dispositionsByRole.length 1)}}
+    {{#if (gt this.model.dispositionsByRole.length 1)}}
       <fieldset class="medium-margin-bottom">
         <legend><strong>Would you like to submit a single hearing for all actions?</strong></legend>
         <input
@@ -25,8 +25,8 @@
           name="all-action-yes"
           id="all-action-yes"
           data-test-radio="all-action-yes"
-          checked={{if (eq allActions true) "checked"}}
-          onClick={{action "setProp" "allActions" true}}
+          checked={{if (eq this.allActions true) "checked"}}
+          onClick={{fn this.setProp "allActions" true}}
         />
         <label for="all-action-yes">
           Yes
@@ -36,8 +36,8 @@
           name="all-action-no"
           id="all-action-no"
           data-test-radio="all-action-no"
-          checked={{if (eq allActions false) "checked"}}
-          onClick={{action "setProp" "allActions" false}}
+          checked={{if (eq this.allActions false) "checked"}}
+          onClick={{fn this.setProp "allActions" false}}
         />
         <label for="all-action-no">
           No, I will submit multiple hearings
@@ -45,42 +45,43 @@
       </fieldset>
     {{/if}}
 
-    {{#if (or allActions (lte model.dispositionsByRole.length 1))}}
-      {{hearing-form
-        disposition=dispositionForAllActions
-        allActions=allActions
-        checkIfMissing=checkIfMissing}}
-    {{else if (eq allActions false)}}
-      {{#each model.dispositionsByRole as |disposition|}}
+    {{#if (or this.allActions (lte this.model.dispositionsByRole.length 1))}}
+      <HearingForm
+        @disposition={{this.dispositionForAllActions}}
+        @allActions={{this.allActions}}
+        @checkIfMissing={{this.checkIfMissing}}/>
+      }
+    {{else if (eq this.allActions false)}}
+      {{#each this.model.dispositionsByRole as |disposition|}}
         <h4>{{disposition.action.dcpName}}  <small class="dark-gray">{{disposition.action.dcpUlurpnumber}}</small></h4>
-        {{hearing-form
-          disposition=disposition
-          allActions=allActions
-          checkIfMissing=checkIfMissing}}
+        <HearingForm
+          @disposition={{disposition}}
+          @allActions={{this.allActions}}
+          @checkIfMissing={{this.checkIfMissing}}/>
       {{/each}}
     {{/if}}
 
-    {{#if (or (not-eq allActions null) (lte model.dispositionsByRole.length 1))}}
+    {{#if (or (not-eq this.allActions null) (lte this.model.dispositionsByRole.length 1))}}
         <button
           class="button"
           data-test-button="checkHearing"
           type="button"
-          onClick={{action "onSubmit"}}
+          onClick={{fn this.onSubmit}}
         >
           Continue
         </button>
     {{/if}}
 
-    {{#ember-wormhole to="reveal-modal-container"}}
-      {{#confirmation-modal open=modalOpen}}
-        {{#if error}}
+    <EmberWormhole @to="reveal-modal-container">
+      <ConfirmationModal @open={{this.modalOpen}}>
+        {{#if this.error}}
           <div class="cell auto">
             <span data-test-error-alert-message>
               Oops something went wrong, can you try again?
             </span>
           </div>
           <div class="cell auto">
-            {{#each error.errors as |errorObject idx|}}
+            {{#each this.error.errors as |errorObject idx|}}
               {{#each-in errorObject as |key value|}}
                 <span>{{idx}}: {{key}}: {{value}}</span>
               {{/each-in}}
@@ -90,14 +91,14 @@
             class="button clear"
             data-test-button="backToHearingFormAfterError"
             type="button"
-            onClick={{action "closeModal"}}
+            onClick={{fn this.closeModal}}
           >
             Back to hearing form
           </button>
         {{else}}
           <h3 class="large-margin-right">Please confirm your hearing information.</h3>
 
-          {{#if (or allActions (lte model.dispositionsByRole.length 1))}}
+          {{#if (or this.allActions (lte this.model.dispositionsByRole.length 1))}}
             <ul class="no-bullet">
               <li class="grid-x small-margin-bottom">
                 <div class="cell shrink small-margin-right">
@@ -105,19 +106,19 @@
                 </div>
                 <div class="cell auto">
                   <strong class="hearing-location display-inline-block">
-                    {{~dispositionForAllActions.dcpPublichearinglocation~}}
+                    {{~this.dispositionForAllActions.dcpPublichearinglocation~}}
                   </strong>
 
                   <span class="display-inline-block">{{!--
                 --}}<span class="hearing-date">{{!--
                   --}}<DateDisplay
-                        @date={{dispositionForAllActions.dcpDateofpublichearing}}
+                        @date={{this.dispositionForAllActions.dcpDateofpublichearing}}
                       />{{!--
                 --}}</span>{{!--
                 --}}<span class="light-gray">|</span>{{!--
                 --}}<span class="hearing-time">{{!--
                   --}}<DateDisplay
-                        @date={{dispositionForAllActions.dcpDateofpublichearing}}
+                        @date={{this.dispositionForAllActions.dcpDateofpublichearing}}
                         @outputFormat="h:mm A"
                       />{{!--
                 --}}</span>{{!--
@@ -126,7 +127,7 @@
               </li>
             </ul>
           {{else}}
-            {{#deduped-hearings-list dispositions=model.dispositionsByRole as |dedupedHearings|}}
+            <DedupedHearingsList @dispositions={{this.model.dispositionsByRole}} as |dedupedHearings|>
               <ul class="no-bullet">
                 {{#each dedupedHearings as |hearing|}}
                   <li class="grid-x small-margin-bottom">
@@ -159,7 +160,7 @@
                       </span>
 
                       <div class="text-tiny" data-test-hearing-actions-list="{{hearing.disposition.id}}">
-                        {{#each hearing.hearingActions as |action index| ~}}
+                        {{#each hearing.hearingActions as |action| ~}}
                           {{#if action.dcpName}}
                             <span class="label light-gray tiny-margin-bottom tiny-margin-right">
                               {{action.dcpName}}
@@ -172,7 +173,7 @@
                   </li>
                 {{/each}}
               </ul>
-            {{/deduped-hearings-list}}
+            </DedupedHearingsList>
           {{/if}}
           <hr>
           <p class="callout warning text-small">
@@ -183,7 +184,7 @@
               class="button"
               data-test-button="confirmHearing"
               type="button"
-              onClick={{action "onConfirm"}}
+              onClick={{fn this.onConfirm}}
             >
               Submit Hearing Information
             </button>
@@ -191,14 +192,14 @@
               class="button clear"
               data-test-button="closeModal"
               type="button"
-              onClick={{action "closeModal"}}
+              onClick={{fn this.closeModal}}
             >
               Cancel <small>(continue editing)</small>
             </button>
           </p>
         {{/if}}
-      {{/confirmation-modal}}
-    {{/ember-wormhole}}
+      </ConfirmationModal>
+    </EmberWormhole>
   </div>
 </div>
 

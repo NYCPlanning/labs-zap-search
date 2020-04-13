@@ -1,7 +1,7 @@
-{{#tool-tipster
-  content=tip
+<ToolTipster
+  @content={{this.tip}}
   tagName="span"
-}}
-  {{~fa-icon icon~}}
-{{/tool-tipster}}
+>
+  {{~fa-icon this.icon~}}
+</ToolTipster>
 {{yield}}

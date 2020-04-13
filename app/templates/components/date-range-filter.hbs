@@ -1,10 +1,10 @@
-{{range-slider 
-  start=start
-  min=min
-  max=max
-  connect=true
-  tooltips=(array format format)
-  step=1
+<RangeSlider
+  @start={{this.start}}
+  @min={{this.min}}
+  @max={{this.max}}
+  connect={{true}}
+  @tooltips={{array this.format this.format}}
+  step="1"
   behaviour="drag"
   on-change="sliderChanged"
-}}
+/>

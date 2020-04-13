@@ -1,9 +1,9 @@
 {{fa-icon
-  (if (contains value currentValues) 'check-square' 'square')
-  prefix=(unless (contains value currentValues) 'far')
-  class=(if (contains value currentValues) 'dark-gray' 'light-gray')
+  (if (contains this.value this.currentValues) 'check-square' 'square')
+  prefix=(unless (contains this.value this.currentValues) 'far')
+  class=(if (contains this.value this.currentValues) 'dark-gray' 'light-gray')
 }}
 
-{{value}}
+{{this.value}}
 
 {{yield}}

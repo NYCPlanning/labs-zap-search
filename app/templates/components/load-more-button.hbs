@@ -1,10 +1,10 @@
-<p class="text-center" style="margin:3rem 0 6rem;">
+<p class="text-center margin-3rem-0-6rem">
   <span
     class="button projects-load-more-button gray"
-    onClick={{unless noMoreRecords (queue (action (mut page) (add page 1)) (perform task))}}
-    disabled={{or noMoreRecords task.isRunning}}
+    onClick={{unless this.noMoreRecords (queue (fn (mut this.page) (add this.page 1)) (perform this.task))}}
+    disabled={{or this.noMoreRecords this.task.isRunning}}
   >
-    {{#if task.isRunning}}
+    {{#if this.task.isRunning}}
       {{fa-icon 'spinner' class="fa-spin" transform='grow-8'}}
     {{else}}
       LOAD MORE

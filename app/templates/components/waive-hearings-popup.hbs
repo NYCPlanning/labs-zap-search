@@ -1,6 +1,6 @@
-{{#ember-wormhole to="reveal-modal-container"}}
-  {{#confirmation-modal open=showPopup}}
-    {{#if error}}
+<EmberWormhole @to="reveal-modal-container">
+  <ConfirmationModal @open={{this.showPopup}}>
+    {{#if this.error}}
       <div class="cell auto">
         <span data-test-error-alert-message>
           Oops something went wrong, can you try again?
@@ -10,17 +10,17 @@
         class="button clear"
         data-test-button="backToMyProjectsAfterError"
         type="button"
-        onClick={{action "closeModal"}}
+        onClick={{fn this.closeModal}}
       >
         Back to My Projects
       </button>
     {{else}}
       <h3>
         <small class="display-inline-block">Opt out of noticing a public hearing for:</small>
-        <span class="display-inline-block">{{assignment.project.dcpProjectname}}</span>
+        <span class="display-inline-block">{{this.assignment.project.dcpProjectname}}</span>
       </h3>
-      {{#if (not-eq assignment.dcpLupteammemberrole 'BP')}}
-        <p>Without proper notice of a public hearing, the {{participant-type-label assignment.dcpLupteammemberrole}}'s recommendation does not comply with City Charter requirements.
+      {{#if (not-eq this.assignment.dcpLupteammemberrole 'BP')}}
+        <p>Without proper notice of a public hearing, the {{participant-type-label this.assignment.dcpLupteammemberrole}}'s recommendation does not comply with City Charter requirements.
         NYC Planning will still accept a recommendation, but a disapproval will not trigger an automatic City Council call up.</p>
       {{/if}}
       <p><strong>Are you sure you want to opt out of noticing a public hearing?</strong></p>
@@ -28,7 +28,7 @@
         class="button small"
         data-test-button="onConfirmOptOutHearing"
         type="button"
-        onClick={{action "onConfirmOptOutHearing" assignment}}
+        onClick={{fn this.onConfirmOptOutHearing this.assignment}}
       >
         Opt Out
       </button>
@@ -36,10 +36,10 @@
         class="button small clear"
         data-test-button="closeOptOutHearingPopup"
         type="button"
-        onClick={{action "closeModal"}}
+        onClick={{fn this.closeModal}}
       >
         Cancel
       </button>
     {{/if}}
-  {{/confirmation-modal}}
-{{/ember-wormhole}}
+  </ConfirmationModal>
+</EmberWormhole>

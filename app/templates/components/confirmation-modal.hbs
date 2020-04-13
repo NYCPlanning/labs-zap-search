@@ -1,16 +1,15 @@
-{{#if open}}
-  <div class="reveal-overlay" style="display:block;">
-    <div class="reveal-overlay-target" {{action closeModal}}></div>
+{{#if this.open}}
+  <div class="reveal-overlay">
+    <button onClick={{fn this.closeModal}} type="button" class="reveal-overlay-target"></button>
     <div
       class="reveal"
       role="dialog"
-      aria-hidden="false"
+      aria-hidden={{false}}
       tabindex="-1"
-      style="display:block;"
       data-test-confirmation-modal
     >
       {{yield}}
-      <button {{action closeModal}} class="close-button" aria-label="Close modal" type="button">
+      <button onClick={{fn this.closeModal}} class="close-button" aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>

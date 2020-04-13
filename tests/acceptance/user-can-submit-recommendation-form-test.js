@@ -208,6 +208,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
 
     await click('[data-test-all-actions-yes]');
 
+    await this.pauseTest();
+
     await find('[data-test-all-actions-recommendation-select]');
 
     await selectChoose('[data-test-all-actions-recommendation]', 'Unfavorable');

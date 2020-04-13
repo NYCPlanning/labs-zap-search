@@ -1,5 +1,5 @@
-{{#map.source 
-  sourceId=sourceId
-  options=(hash type='vector' tiles=tiles) as |source|}}
-  {{yield source}}
-{{/map.source}}
+<this.map.Source
+  @sourceId={{this.sourceId}}
+  options={{hash type='vector' tiles=this.tiles}} as |source|>
+  {{yield source}}>
+</this.map.Source>

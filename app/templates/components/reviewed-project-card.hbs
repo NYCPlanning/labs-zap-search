@@ -5,7 +5,12 @@
     <div class="grid-x grid-x-small-gutters">
       <div class="cell large-4 xlarge-5">
         <h3 class="tiny-margin-bottom">
-          {{#link-to 'show-project' this.assignment.project.id}}{{this.assignment.project.dcpProjectname}}{{/link-to}}
+          <LinkTo 
+            @route="show-project"
+            @model={{this.assignment.project.id}}
+          >
+            {{this.assignment.project.dcpProjectname}}
+          </LinkTo>
           <small class="dark-gray">{{this.assignment.project.dcpUlurpNonulurp}}</small>
         </h3>
         <h5 class="applicant">{{this.assignment.project.applicants}}</h5>
@@ -13,34 +18,34 @@
       </div>
       <div class="cell medium-4 large-3 xlarge-2">
         <div class="text-center medium-margin-right medium-margin-left">
-          {{#if timeDisplayLabel}}
-            <p class="tiny-margin-bottom" data-test-time-display-label="{{assignment.id}}">{{timeDisplayLabel}}</p>
-            {{#if plannedTimeDisplay.estTimeRemaining}}
+          {{#if this.timeDisplayLabel}}
+            <p class="tiny-margin-bottom" data-test-time-display-label="{{this.assignment.id}}">{{this.timeDisplayLabel}}</p>
+            {{#if this.plannedTimeDisplay.estTimeRemaining}}
               <p>
                 <strong
                   class="stat"
-                  data-test-estimated-time-remaining="{{assignment.id}}"
-                >{{plannedTimeDisplay.estTimeRemaining}}</strong>
-                {{#if plannedTimeDisplay.estTimeDuration}}
-                  <strong class="display-block" data-test-estimated-time-duration="{{assignment.id}}">
-                    of {{plannedTimeDisplay.estTimeDuration}} estimated days remain
+                  data-test-estimated-time-remaining="{{this.assignment.id}}"
+                >{{this.plannedTimeDisplay.estTimeRemaining}}</strong>
+                {{#if this.plannedTimeDisplay.estTimeDuration}}
+                  <strong class="display-block" data-test-estimated-time-duration="{{this.assignment.id}}">
+                    of {{this.plannedTimeDisplay.estTimeDuration}} estimated days remain
                   </strong>
                 {{else}}
-                  <strong class="display-block" data-test-estimated-no-time-duration-message="{{assignment.id}}">
+                  <strong class="display-block" data-test-estimated-no-time-duration-message="{{this.assignment.id}}">
                     estimated days remain
                   </strong>
                 {{/if}}
               </p>
             {{/if}}
             <p class="text-tiny">
-              Estimated End <DateDisplay @date={{plannedTimeDisplay.dcpPlannedcompletiondate}} outputFormat="M/D/YYYY" />
+              Estimated End <DateDisplay @date={{this.plannedTimeDisplay.dcpPlannedcompletiondate}} outputFormat="M/D/YYYY" />
             </p>
           {{/if}}
         </div>
       </div>
       <div class="cell medium-auto">
         <ul class="no-bullet no-margin">
-          {{#each assignment.tabSpecificMilestones as |milestone|}}
+          {{#each this.assignment.tabSpecificMilestones as |milestone|}}
             <ReviewedProjectMilestoneListItem
               @project={{this.assignment.project}}
               @milestone={{milestone}}

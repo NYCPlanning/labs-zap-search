@@ -3,20 +3,28 @@
   otherwise show the "Sign In" button.
   --}}
 {{#if this.session.isAuthenticated}}
-  <li>{{#link-to 'my-projects'}}<span data-test-my-projects-button>My Projects</span>{{/link-to}}</li>
+  <li>
+    <LinkTo 
+      @route="my-projects"
+      data-test-button="my-projects"
+    >
+      My Projects
+    </LinkTo>
+  </li>
   <li class="auth--container">
     {{fa-icon 'user-circle' size='2x' class="auth--icon"}}
     <div>
       <span data-test-auth-name class="auth--name">
         {{this.session.data.authenticated.emailaddress1}}
       </span>
-      <a
+      <button
         data-test-auth-logout-button
+        type="button"
         class="auth--logout-button"
-        onclick={{action this.logout}}
+        onClick={{fn this.logout}}
       >
         Sign Out
-      </a>
+      </button>
     </div>
   </li>
 {{else}}
@@ -24,7 +32,7 @@
     <a
       data-test-auth-login-button
       class="auth--login-button"
-      {{action toggleAuthModal}}
+      onClick={{fn this.toggleAuthModal}}
       >
       {{fa-icon 'user-circle' class="light-gray"}}
       Sign In
@@ -32,8 +40,8 @@
   </li>
 {{/if}}
 
-{{#ember-wormhole to="reveal-modal-container"}}
-  {{#confirmation-modal open=showAuthModal}}
+<EmberWormhole @to="reveal-modal-container">
+  <ConfirmationModal @open={{this.showAuthModal}}>
     <h2 class="large-margin-right small-margin-bottom">Borough&nbsp;Presidents &amp;&nbsp;Community&nbsp;Boards,</h2>
     <p class="lead">
       <strong>Use your NYC.ID account to sign in.</strong>
@@ -57,5 +65,5 @@
       Sign in with NYC.ID
       <sup>{{fa-icon 'external-link-alt'}}</sup>
     </a>
-  {{/confirmation-modal}}
-{{/ember-wormhole}}
+  </ConfirmationModal>
+</EmberWormhole>

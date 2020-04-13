@@ -1,50 +1,63 @@
-{{#labs-ui/site-header
-  responsiveNav=true
+<LabsUi::SiteHeader
+  responsiveNav={{true}}
   responsiveSize='large'
-  betaNotice=false
+  betaNotice={{false}}
   as |banner|
-}}
-  {{#banner.pre}}
+>
+  <banner.pre>
     <ul class="pre-nav">
-      <li>{{link-to 'Disclaimer' 'disclaimer'}}</li>
       <li>
-        {{#tool-tipster
+        <LinkTo @route="disclaimer">
+          Disclaimer
+        </LinkTo>
+      </li>
+      <li>
+        <ToolTipster
           content='
               <p>Please report data errors by using the “Report Data Issue” form on each particular project’s page.</p>
               <p class="no-margin">For general feedback about this application, email <strong><a href="mailto:ZAP_Feedback_DL@planning.nyc.gov">ZAP_Feedback_DL@planning.nyc.gov</a></strong>.</p>
             '
-          interactive=true
-          contentAsHTML=true
+          interactive={{true}}
+          contentAsHTML={{true}}
           triggerEvent='click'
           tagName='a'
           side='bottom'
-        }}
+        >
           {{fa-icon 'envelope'}} Feedback
-        {{/tool-tipster}}
+        </ToolTipster>
       </li>
     </ul>
-  {{/banner.pre}}
-  {{#banner.title}}
-    {{#link-to 'show-geography' classNames='site-title'}}Zoning Application Portal{{/link-to}}
-  {{/banner.title}}
-  {{#banner.nav}}
+  </banner.pre>
+  <banner.title>
+    <LinkTo 
+      @route="show-geography"
+      class="site-title"
+    >
+      Zoning Application Portal
+    </LinkTo>
+  </banner.title>
+  <banner.nav>
     <ul class="menu vertical large-horizontal">
-      <li>{{link-to 'Find Projects' 'show-geography'}}</li>
+      <li>
+        <LinkTo @route="show-geography">
+            Find Projects
+       </LinkTo>
+      </li>
       {{#if this.ENV.LUPP_ENABLED}}
-        {{sign-in}}
+        <SignIn/>
       {{/if}}
     </ul>
-  {{/banner.nav}}
-{{/labs-ui/site-header}}
+  </banner.nav>
+</LabsUi::SiteHeader>
 
-<div class="site-main grid-x grid-padding-x route-{{currentRouteName}}">
+<div class="site-main grid-x grid-padding-x route-{{this.currentRouteName}}">
   {{#if
     (and
       (user-agent "browser.isIE")
       (lte (user-agent "browser.info.major") 10)
     )
   }}
-    <div class="cell large-6 large-offset-3 text-center" style="padding:2rem 0;">
+    <div class="cell large-6 large-offset-3 text-center padding-2-rem">
       {{fa-icon 'exclamation-triangle' size='2x' class='yellow-muted'}}
       <p>It looks like you're using Internet Explorer.  This site works best in a modern browser. Please try a current version of Edge, Chrome, or Firefox.</p>
     </div>
@@ -62,8 +75,8 @@
   @warning - boolean: adds an exclamation-triangle icon
   @dismissible - boolean: allows user to close message
 --}}
-{{site-message
-  message=false
-  warning=true
-  dismissible=true
-}}
+<SiteMessage
+  @message={{false}}
+  @warning={{true}}
+  @dismissible={{true}}
+/>

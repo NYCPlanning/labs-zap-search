@@ -5,7 +5,13 @@
   <div class="grid-x grid-x-small-gutters">
     <div class="cell large-4 xlarge-5">
       <h3 class="tiny-margin-bottom">
-        {{#link-to 'show-project' this.assignment.project.id}}<span data-test-project-profile-button="{{this.assignment.project.id}}">{{this.assignment.project.dcpProjectname}}</span>{{/link-to}}
+        <LinkTo 
+          @route="show-project"
+          @model={{this.assignment.project.id}}
+          data-test-project-profile-button="{{this.assignment.project.id}}"
+        >
+          {{this.assignment.project.dcpProjectname}}
+        </LinkTo>
         <small class="dark-gray display-inline-block">{{this.assignment.project.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{this.assignment.project.applicants}}</h5>
@@ -38,8 +44,8 @@
             <strong
               data-test-fuzzy-time-remaining
             >
-              {{#if (not (eq isMoreThanThirtyDaysBeforePublicReview null))}}
-                {{if isMoreThanThirtyDaysBeforePublicReview 'in more than 30 days' 'in fewer than 30 days'}}
+              {{#if (not (eq this.isMoreThanThirtyDaysBeforePublicReview null))}}
+                {{if this.isMoreThanThirtyDaysBeforePublicReview 'in more than 30 days' 'in fewer than 30 days'}}
               {{else}}
                 <span class="light-gray">
                   Date Unknown
@@ -67,8 +73,9 @@
           </div>
           <div class="cell medium-shrink">
             <button
+              type="button"
               class="button expanded gray"
-              onClick={{action "openOptOutHearingPopup"}}
+              onClick={{fn this.openOptOutHearingPopup}}
               disabled={{not this.assignment.dispositionsByRole}}
               data-test-button-opt-out-hearing-popup="{{this.assignment.id}}"
             >
@@ -78,17 +85,17 @@
           </div>
         </div>
       {{else}}
-        {{#if assignment.hearingsWaived}}
-          <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
+        {{#if this.assignment.hearingsWaived}}
+          <span class="opt-out-notice" data-test-hearings-waived-message="{{this.assignment.project.id}}">
             {{fa-icon 'calendar-times' size="lg" transform="left-2"}}
             You've opted out of posting a hearing
           </span>
         {{/if}}
       {{/if}}
 
-      {{#if assignment.hearingsSubmitted}}
-        {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
-          <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
+      {{#if this.assignment.hearingsSubmitted}}
+        <DedupedHearingsList @dispositions={{this.assignment.dispositionsByRole}} as |dedupedHearings|>
+          <h6>{{participant-type-label this.assignment.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}
                 <li class="grid-x small-margin-bottom">
@@ -100,7 +107,6 @@
                     {{/if}}
                   </div>
                   <div class="cell auto">
-                    {{log "id" hearing.disposition.id}}
                     <strong data-test-hearing-location="{{hearing.disposition.id}}" class="display-inline-block">
                       {{~hearing.disposition.dcpPublichearinglocation~}}
                     </strong>
@@ -116,7 +122,7 @@
                     </span>
 
                     <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
-                      {{#each hearing.hearingActions as |action index| ~}}
+                      {{#each hearing.hearingActions as |action| ~}}
                         {{#if action.dcpName}}
                           <span class="label light-gray tiny-margin-bottom tiny-margin-right">
                             {{action.dcpName}}
@@ -129,10 +135,10 @@
                 </li>
               {{/each}}
               </ul>
-        {{/deduped-hearings-list}}
+        </DedupedHearingsList>
       {{/if}}
 
-      {{waive-hearings-popup assignment=this.assignment showPopup=showPopup}}
+      <WaiveHearingsPopup @assignment={{this.assignment}} @showPopup={{this.showPopup}}/>
       <ul class="no-bullet no-margin">
         {{#each this.assignment.assigneeDisplayMilestones as |milestone idx|}}
           {{#if (eq idx 1)}}

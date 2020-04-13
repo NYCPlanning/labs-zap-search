@@ -1,7 +1,7 @@
 import Application from '@ember/application';
 import loadInitializers from 'ember-load-initializers';
 import DS from 'ember-data';
-import Resolver from './resolver';
+import Resolver from 'ember-resolver';
 import config from './config/environment';
 
 const { Model } = DS;

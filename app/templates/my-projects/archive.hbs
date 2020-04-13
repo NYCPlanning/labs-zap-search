@@ -4,11 +4,11 @@
 </h4>
 
 {{#if this.model}}
-  {{#each sortedAssignments as |assignment|}}
+  {{#each this.sortedAssignments as |assignment|}}
     <ArchiveProjectCard @assignment={{assignment}} />
   {{/each}}
 {{else}}
-  <div class="grid-x grid-padding-x grid-padding-y align-bottom" style="min-height: 20vh">
+  <div class="grid-x grid-padding-x grid-padding-y align-bottom min-height-20-vh">
     <div class="cell large-10 large-offset-1 xlarge-8 xlarge-offset-2  text-center">
       <h2 class="charcoal">You currently have no archived&nbsp;projects.</h2>
     </div>

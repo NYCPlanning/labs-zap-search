@@ -1,22 +1,22 @@
-{{#mapbox-gl
+<MapboxGl
   id='project-map'
-  initOptions=(hash
-    zoom=12
+  initOptions={{hash
+    zoom="12"
     center=(array -73.96532400540775 40.709710016659386)
-  )
-  mapLoaded=(action 'handleMapLoad')
+  }}
+  mapLoaded={{fn this.handleMapLoad}}
   as |map|
-}}
-  {{map.on 'click' (action 'handleMapClick')}}
-  {{map.on 'mousemove' (action 'handleMouseMove')}}
+>
+  {{map.on 'click' (fn this.handleMapClick)}}
+  {{map.on 'mousemove' (fn this.handleMouseMove)}}
 
-  {{#if highlightedFeature}}
-    <div class='map-tooltip' style="top:{{tooltipPoint.y}}px;left:{{tooltipPoint.x}}px;">
-      {{highlightedFeature.properties.dcp_projectname}} (<DateDisplay @date={{highlightedFeature.properties.dcpLastmilestonedate}} @outputFormat="MMMM, YYYY" />)
+  {{#if this.highlightedFeature}}
+    <div class='map-tooltip' style={{html-safe (concat "top:{{this.tooltipPoint.y}}px;left:{{this.tooltipPoint.x}}px;")}}>
+      {{this.highlightedFeature.properties.dcp_projectname}} (<DateDisplay @date={{this.highlightedFeature.properties.dcpLastmilestonedate}} @outputFormat="MMMM, YYYY" />)
     </div>
   {{/if}}
 
-  {{#if tilesLoading}}
+  {{#if this.tilesLoading}}
     {{fa-icon 'spinner' spin="true" size="5x" class="map-loading-spinner"}}
   {{/if}}
 
@@ -25,8 +25,8 @@
     (hash
       dynamic-tiles=(component 'mapbox-gl-dynamic-tiles'
         map=map
-        mapInstance=mapInstance
+        mapInstance=this.mapInstance
       )
     )
   )}}
-{{/mapbox-gl}}
+</MapboxGl>

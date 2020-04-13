@@ -3,41 +3,41 @@
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
         <h1 class="">
-          {{#if model.dcpProjectname}}
-            {{model.dcpProjectname}}
+          {{#if this.model.dcpProjectname}}
+            {{this.model.dcpProjectname}}
           {{else}}
-            Project {{model.dcpName}}
+            Project {{this.model.dcpName}}
           {{/if}}
         </h1>
 
         <div class="grid-x">
           <div class="cell medium-auto">
             <p class="lead">
-              {{#if (gt model.applicantteam.length 1)}}
+              {{#if (gt this.model.applicantteam.length 1)}}
                 <strong>Applicant Team:</strong>
-                {{#each model.applicantteam as |applicant|}}
+                {{#each this.model.applicantteam as |applicant|}}
                   <br>
                   {{applicant.name}}
-                  <small class="dark-gray">{{#if (gt model.applicantteam.length 1)}}({{applicant.role}}){{/if}}</small>
+                  <small class="dark-gray">{{#if (gt this.model.applicantteam.length 1)}}({{applicant.role}}){{/if}}</small>
                 {{/each}}
               {{else}}
                 <strong>Applicant:</strong>
-                {{#each model.applicantteam as |applicant|}}
+                {{#each this.model.applicantteam as |applicant|}}
                   {{applicant.name}}
                 {{/each}}
               {{/if}}
             </p>
           </div>
           <div class="cell medium-shrink">
-            {{modal-controls project=model}}
+            <ModalControls @project={{this.model}}/>
           </div>
         </div>
 
         <p>
           <strong>Project Brief:</strong>
-          {{#if model.dcpProjectbrief}}
-            {{markdown-to-html
-              markdown=model.dcpProjectbrief}}
+          {{#if this.model.dcpProjectbrief}}
+            <MarkdownToHtml
+              @markdown={{this.model.dcpProjectbrief}}/>
           {{else}}
             No Project Brief
           {{/if}}
@@ -46,14 +46,14 @@
         <div class="grid-x grid-padding-x">
           <p class="cell auto">
             <strong>Status:</strong>
-            <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">{{model.dcpPublicstatusSimp}}</span>
+            <span class="label dark-gray publicstatus-{{dasherize this.model.dcpPublicstatusSimp}}">{{this.model.dcpPublicstatusSimp}}</span>
           </p>
-          {{#if model.dcpUlurpNonulurp}}
+          {{#if this.model.dcpUlurpNonulurp}}
             <p class="cell small-6 text-right">
               <span class="label dark-gray">
-                {{~model.dcpUlurpNonulurp~}}
+                {{~this.model.dcpUlurpNonulurp~}}
                 <sup>
-                  {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
+                  <IconTooltip @tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'/>
                 </sup>
               </span>
             </p>
@@ -62,11 +62,11 @@
 
         <hr>
 
-        {{#if model.videoLinks}}
+        {{#if this.model.videoLinks}}
           <div class="button-group">
-            {{#each model.videoLink as |link|}}
-              <a href="{{link.link}}" target="_blank" class="button gray" style="text-align:left;">
-                <span style="color:#ff0000">{{fa-icon 'youtube' prefix='fab' size='2x' pull='left'}}</span>
+            {{#each this.model.videoLink as |link|}}
+              <a href="{{link.link}}" target="_blank" class="button gray text-align-left" rel="noreferrer noopener">
+                <span class="color-ff0000">{{fa-icon 'youtube' prefix='fab' size='2x' pull='left'}}</span>
                 <span class="text-small">
                   <strong>{{link.hearing_type}}</strong>
                   <span class="display-block dark-gray">
@@ -88,7 +88,7 @@
           <div class="cell medium-6">
             <h2>Actions</h2>
             <ul class="actions-list no-bullet">
-              {{#each model.actions as |action|}}
+              {{#each this.model.actions as |action|}}
                 <li class="grid-x grid-padding-small action">
                   <div class="cell shrink statuscode {{dasherize action.statuscode}}">
                     <span class="action-icon fa-layers fa-fw">
@@ -102,8 +102,8 @@
                       {{action.dcpName}}
                       {{#if (lookup-action-type action.actioncode)}}
                         <sup class="dark-gray">
-                          {{icon-tooltip
-                            tip=(lookup-action-type action.actioncode)}}
+                          <IconTooltip
+                            @tip={{lookup-action-type action.actioncode}}/>
                         </sup>
                       {{/if}}
                     </h5>
@@ -111,15 +111,15 @@
                       {{#if action.dcpUlurpnumber}}
                         ULURP Number:
                         {{#if (eq action.statuscode "Approved")}}
-                          {{#tool-tipster
+                          <ToolTipster
                             content='City Planning Commision Report'
                             tagName='span'
-                          }}
-                            <a href={{build-url "cpcReport" action.dcpUlurpnumber}} target="_blank">
+                          >
+                            <a href={{build-url "cpcReport" action.dcpUlurpnumber}} target="_blank" rel="noreferrer noopener">
                               {{action.dcpUlurpnumber}}
                               {{fa-icon 'external-link-alt'}}
                             </a>
-                          {{/tool-tipster}}
+                          </ToolTipster>
                         {{else}}
                           {{action.dcpUlurpnumber}}
                         {{/if}}
@@ -130,7 +130,7 @@
                     {{#if action.dcpZoningresolution}}
                       <p class="text-small no-margin">
                         Zoning Resolution:
-                        <a href="{{build-url "zoningResolution" action.dcpZoningresolution}}" target="_blank">
+                        <a href="{{build-url "zoningResolution" action.dcpZoningresolution}}" target="_blank" rel="noreferrer noopener">
                           {{action.dcpZoningresolution}}
                           {{fa-icon 'external-link-alt'}}
                         </a>
@@ -147,9 +147,9 @@
           <div class="cell medium-6">
             <h2>Milestones</h2>
             <ul class="no-bullet milestones-list">
-              {{#if model.milestones}}
-                {{#each model.milestones as | milestone |}}
-                  {{project-milestone milestone=milestone}}
+              {{#if this.model.milestones}}
+                {{#each this.model.milestones as | milestone |}}
+                  <ProjectMilestone @milestone={{milestone}}/>
                 {{/each}}
               {{else}}
                 No Milestones
@@ -160,73 +160,74 @@
 
       </div>
       <div class="cell large-5">
-        {{#if (and this.session.isAuthenticated isUserAssignedToProject)}}
+        {{#if (and this.session.isAuthenticated this.isUserAssignedToProject)}}
           <div
             data-test-hearing-rec-shortcuts
             class="project--lup-section callout"
           >
             <h3 class="small-margin-bottom">
-                {{participant-type-label model.assignments.firstObject.dcpLupteammemberrole}} Review
+                {{participant-type-label this.model.assignments.firstObject.dcpLupteammemberrole}} Review
               </h3>
-            {{#link-to "my-projects.to-review" class="button expanded"}}
-              <span>
-                Review Current Projects
-              </span>
-            {{/link-to}}
+            <LinkTo 
+              @route="my-projects.to-review"
+              class="button expanded"
+            >
+              Review Current Projects
+            </LinkTo>
           </div>
         {{/if}}
 
-        {{#if hasBBLFeatureCollectionGeometry}}
-          {{#mapbox-gl
+        {{#if this.hasBBLFeatureCollectionGeometry}}
+          <MapboxGl
               id='project-map'
-              initOptions=(hash
-                zoom=12
+              initOptions={{hash
+                zoom="12"
                 center=(array -73.96532400540775 40.709710016659386)
-              )
-              mapLoaded=(action 'handleMapLoad')
+              }}
+              mapLoaded={{fn this.handleMapLoad}}
               as |map|
-          }}
-            {{#map.source options=model.bblFeatureCollectionSource as |source|}}
-              {{source.layer
-                layer=bblFeatureCollectionLayerFill
+          >
+            <map.Source @options={{this.model.bblFeatureCollectionSource}} as |source|>
+              <source.Layer
+                @layer={{this.bblFeatureCollectionLayerFill}}
                 before='boundary_country'
-              }}
-              {{source.layer
-                layer=bblFeatureCollectionLayerLine
+              />
+              <source.Layer
+                @layer={{this.bblFeatureCollectionLayerLine}}
                 before='boundary_country'
-              }}
-            {{/map.source}}
-            {{map-info-box legend=false}}
-          {{/mapbox-gl}}
+              />
+            </map.Source>
+            <MapInfoBox legend={{false}}/>
+          </MapboxGl>
         {{else}}
-          <div id='project-map' class="align-middle grid-x" style="border: 1px solid darkgray; background:#EEE; color:gray;">
+          <div id='project-map' class="align-middle grid-x border-1px-solid-darkgray background-EEE color-gray">
             <h4 class="cell text-center">No Map Available</h4>
           </div>
         {{/if}}
 
         <div class="project-meta">
 
-          {{#if (or model.dcpCeqrtype model.dcpCeqrnumber)}}
+          {{#if (or this.model.dcpCeqrtype this.model.dcpCeqrnumber)}}
             <p class="text-small label-group">
-              <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
-              {{#if model.dcpCeqrtype}}<span class="label light-gray">{{model.dcpCeqrtype}}</span>{{/if~}}
-              {{#if model.dcpCeqrnumber}}<span class="label light-gray"><a href="https://a002-ceqraccess.nyc.gov/ceqr/" target="_blank">{{model.dcpCeqrnumber}} {{fa-icon 'external-link-alt'}}</a></span>{{/if~}}
+              <strong>CEQR<sup class="dark-gray"><IconTooltip @tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'/></sup>:</strong>
+              {{#if this.model.dcpCeqrtype}}<span class="label light-gray">{{this.model.dcpCeqrtype}}</span>{{/if~}}
+              {{#if this.model.dcpCeqrnumber}}<span class="label light-gray"><a href="https://a002-ceqraccess.nyc.gov/ceqr/" target="_blank" rel="noreferrer noopener">{{this.model.dcpCeqrnumber}} {{fa-icon 'external-link-alt'}}</a></span>{{/if~}}
             </p>
           {{/if}}
 
           <p class="text-small label-group">
             <strong>Keywords:</strong>
-            {{#if model.dcpSisubdivision}}<span class="label light-gray">Subdivision</span>{{/if}}
-            {{#if model.dcpSischoolseat}}<span class="label light-gray">School Seat</span>{{/if}}
+            {{#if this.model.dcpSisubdivision}}<span class="label light-gray">Subdivision</span>{{/if}}
+            {{#if this.model.dcpSischoolseat}}<span class="label light-gray">School Seat</span>{{/if}}
 
-            {{#if model.keywords}}
-              {{#each model.keywords as |keyword|}}
+            {{#if this.model.keywords}}
+              {{#each this.model.keywords as |keyword|}}
                 <span class="label light-gray">
                   {{keyword}}
                   {{#if (keyword-lookup keyword)}}
                     <sup class="dark-gray">
-                      {{icon-tooltip
-                        tip=(keyword-lookup keyword)}}
+                      <IconTooltip
+                        @tip={{keyword-lookup keyword}}/>
                     </sup>
                   {{/if}}
                 </span>
@@ -235,64 +236,64 @@
           </p>
 
 
-          {{#if (or model.dcpFemafloodzonea model.dcpFemafloodzonecoastala model.dcpFemafloodzoneshadedx model.dcpFemafloodzonev) }}
+          {{#if (or this.model.dcpFemafloodzonea this.model.dcpFemafloodzonecoastala this.model.dcpFemafloodzoneshadedx this.model.dcpFemafloodzonev) }}
             <p class="text-small">
               <strong>FEMA Flood Zone:</strong>
-              {{#if model.dcpFemafloodzonea}}<span class="label light-gray">Zone A</span>{{/if}}
-              {{#if model.dcpFemafloodzonecoastala}}<span class="label light-gray">Coastal Zone A</span>{{/if}}
-              {{#if model.dcpFemafloodzoneshadedx}}<span class="label light-gray">Zone Shaded X</span>{{/if}}
-              {{#if model.dcpFemafloodzonev}}<span class="label light-gray">Zone V</span>{{/if}}
+              {{#if this.model.dcpFemafloodzonea}}<span class="label light-gray">Zone A</span>{{/if}}
+              {{#if this.model.dcpFemafloodzonecoastala}}<span class="label light-gray">Coastal Zone A</span>{{/if}}
+              {{#if this.model.dcpFemafloodzoneshadedx}}<span class="label light-gray">Zone Shaded X</span>{{/if}}
+              {{#if this.model.dcpFemafloodzonev}}<span class="label light-gray">Zone V</span>{{/if}}
             </p>
           {{/if}}
 
-          {{#if model.dcpBsanumber}}
+          {{#if this.model.dcpBsanumber}}
             <p class="text-small">
-              <strong>BSA Number<sup class="dark-gray">{{icon-tooltip tip='Board of Standards and Appeals Calendar Number'}}</sup>:</strong>
-              {{model.dcpBsanumber}}
+              <strong>BSA Number<sup class="dark-gray"><IconTooltip @tip='Board of Standards and Appeals Calendar Number'/></sup>:</strong>
+              {{this.model.dcpBsanumber}}
             </p>
           {{/if}}
 
-          {{#if model.dcpWrpnumber}}
+          {{#if this.model.dcpWrpnumber}}
             <p class="text-small">
-              <strong>WRP Number<sup class="dark-gray">{{icon-tooltip tip='Waterfront Revitalization Program Application Number'}}</sup>:</strong>
-              {{model.dcpWrpnumber}}
+              <strong>WRP Number<sup class="dark-gray"><IconTooltip @tip='Waterfront Revitalization Program Application Number'/></sup>:</strong>
+              {{this.model.dcpWrpnumber}}
             </p>
           {{/if}}
 
-          {{#if model.dcpLpcnumber}}
+          {{#if this.model.dcpLpcnumber}}
             <p class="text-small">
-              <strong>LPC Number<sup class="dark-gray">{{icon-tooltip tip='Landmark Preservation Commission Number'}}</sup>:</strong>
-              {{model.dcpLpcnumber}}
+              <strong>LPC Number<sup class="dark-gray"><IconTooltip @tip='Landmark Preservation Commission Number'/></sup>:</strong>
+              {{this.model.dcpLpcnumber}}
             </p>
           {{/if}}
 
-          {{#if model.dcpNydospermitnumber}}
+          {{#if this.model.dcpNydospermitnumber}}
             <p class="text-small">
               <strong>NYS Dep<span class="show-for-large">ar</span>t<span class="show-for-large">ment</span> of State Permit Number:</strong>
-              {{model.dcpNydospermitnumber}}
+              {{this.model.dcpNydospermitnumber}}
             </p>
           {{/if}}
 
           <p class="text-small">
             <strong>Borough:</strong>
-            <span class="label light-gray">{{model.dcpBorough}}</span>
+            <span class="label light-gray">{{this.model.dcpBorough}}</span>
           </p>
 
           <p class="text-small label-group">
             <strong>Community Districts:</strong>
-              {{consolidated-cds cds=model.dcpCommunitydistricts cdlink=true}}
+              <ConsolidatedCds @cds={{this.model.dcpCommunitydistricts}} cdlink={{true}}/>
           </p>
 
           <p class="text-small">
             <strong>Addresses:</strong>
-            {{#each model.addresses as |address index|}}
+            {{#each this.model.addresses as |address index|}}
               {{if index ", "}}{{address.dcp-validatedaddressnumber}} {{address.dcp-validatedstreet}}
             {{/each}}
           </p>
 
           <p class="text-small label-group"><strong>BBLs:</strong>
-            {{#each model.bbls as |bbl|}}
-              {{~project-bbl bbl=bbl~}}
+            {{#each this.model.bbls as |bbl|}}
+              <ProjectBbl @bbl={{bbl}}/>
             {{/each}}
           </p>
 

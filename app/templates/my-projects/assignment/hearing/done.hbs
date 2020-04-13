@@ -6,15 +6,15 @@
       <h3 class="tiny-margin-bottom">
         <LinkTo
           @route="show-project"
-          @model={{model.project}}
+          @model={{@model.project}}
           data-test-button="back-to-project-profile"
         >
-          {{model.project.dcpProjectname}}
+          {{@model.project.dcpProjectname}}
         </LinkTo>
-        <small class="dark-gray">{{model.project.dcpUlurpNonulurp}}</small>
+        <small class="dark-gray">{{@model.project.dcpUlurpNonulurp}}</small>
       </h3>
-      <h5 class="applicant">{{model.project.applicants}}</h5>
-      <p>{{model.project.dcpProjectbrief}}</p>
+      <h5 class="applicant">{{@model.project.applicants}}</h5>
+      <p>{{@model.project.dcpProjectbrief}}</p>
     </div>
   </div>
   <div class="large-7 cell">
@@ -30,7 +30,6 @@
 
     <LinkTo
       @route="my-projects.to-review"
-      data-test-button="back-to-review"
       class="button gray"
       data-test-button="back-to-review"
     >

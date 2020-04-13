@@ -958,7 +958,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     assert.equal(currentURL(), '/my-projects/5/hearing/add');
 
     // return to the UPCOMING tab
-    await click('[data-test-my-projects-button]');
+    await click('[data-test-button="my-projects"]');
     await click('[data-test-tab-button="upcoming"]');
 
     // clicking on the "opt out of hearings" button should open the modal
@@ -1039,7 +1039,7 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
     assert.equal(currentURL(), '/my-projects/5/hearing/add');
 
     // return to the to-review tab
-    await click('[data-test-my-projects-button]');
+    await click('[data-test-button="my-projects"]');
     await click('[data-test-tab-button="to-review"]');
 
     // clicking on the "opt out of hearings" button should open the modal

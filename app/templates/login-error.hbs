@@ -1,12 +1,12 @@
 <div class="cell">
   <div class="grid-container">
-    <div class="grid-x grid-padding-x grid-padding-y align-middle" style="min-height: 50vh">
+    <div class="grid-x grid-padding-x grid-padding-y align-middle min-height-50-vh">
       <div class="cell large-6 large-offset-3 text-center">
         <h2>Oops!</h2>
 
         <p>Something went wrong.</p>
 
-        {{#each model.errors as |error idx|}}
+        {{#each this.model.errors as |error idx|}}
           {{#if error.detail}}
             <code class="callout display-block text-left red-muted" data-test-error-message={{idx}}>{{error.detail}}</code>
           {{else}}
@@ -16,7 +16,7 @@
           {{/if}}
         {{/each}}
 
-        {{auth/do-logout}}
+        <Auth::DoLogout/>
 
       </div>
       <div class="cell large-10 large-offset-1 xlarge-8 xlarge-offset-2  text-center">

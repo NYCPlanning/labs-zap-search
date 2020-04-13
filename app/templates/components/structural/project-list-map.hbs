@@ -1,33 +1,33 @@
-{{#projects-map-data as |map|}}
-  {{#if tiles}}
+<ProjectsMapData as |map|>
+  {{#if this.tiles}}
     {{!-- High-level dynamic tiles configuration --}}
-    {{#map.dynamic-tiles
-      tiles=tilesForZoom
-      sourceId=projectCentroidsCircleLayer.source
+    <map.DynamicTiles
+      tiles={{this.tilesForZoom}}
+      sourceId={{this.projectCentroidsCircleLayer.source}}
       as |dynamic-tile-source|
-    }}
-      {{dynamic-tile-source.layer
-        layer=projectCentroidsCircleLayer
+    >
+      <dynamic-tile-source.Layer
+        @layer={{this.projectCentroidsCircleLayer}}
         before='boundary_country'
-      }}
+      />
 
-      {{dynamic-tile-source.layer
-        layer=projectPolygonsLayer
+      <dynamic-tile-source.Layer
+        @layer={{this.projectPolygonsLayer}}
         before='boundary_country'
-      }}
+      />
 
       {{!-- Anything else for dynamic tiles, like hovers --}}
-      {{dynamic-tile-source.layer
-        layer=projectCentroidsCircleHoverLayer
-      }}
+      <dynamic-tile-source.Layer
+        @layer={{this.projectCentroidsCircleHoverLayer}}
+      />
 
-      {{dynamic-tile-source.layer
-        layer=projectPolygonsHoverLayer
-      }}
-    {{/map.dynamic-tiles}}
+      <dynamic-tile-source.Layer
+        @layer={{this.projectPolygonsHoverLayer}}
+      />
+    </map.DynamicTiles>
   {{/if}}
 
-  {{map.on 'zoomend' (action 'computeTileMode')}}
+  {{map.on 'zoomend' (fn this.computeTileMode)}}
 
   {{yield (merge
     map
@@ -36,4 +36,4 @@
       filter-distance-from-point=(component 'filter-distance-from-point' map=map)
     )
   )}}
-{{/projects-map-data}}
+</ProjectsMapData>

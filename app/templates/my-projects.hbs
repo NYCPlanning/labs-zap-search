@@ -1,24 +1,44 @@
   <div class="cell">
     <div class="grid-container medium-margin-top medium-margin-bottom">
-      {{#if (not this.isInSubroute)}}
+      {{#unless this.isInSubroute}}
         <ul
           class="tabs medium-margin-bottom"
           data-test-dashboard-tab-links
         >
-          <li class="tabs-title upcoming {{if (eq activeTab 'upcoming') 'is-active'}}">
-            {{#link-to 'my-projects.upcoming'}}<span data-test-tab-button="upcoming">Upcoming</span>{{/link-to}}
+          <li class="tabs-title upcoming {{if (eq this.activeTab 'upcoming') 'is-active'}}">
+            <LinkTo 
+              @route="my-projects.upcoming"
+              data-test-tab-button="upcoming"
+            >
+              Upcoming
+            </LinkTo>
           </li>
-          <li class="tabs-title to-review {{if (eq activeTab 'to-review') 'is-active'}}">
-            {{#link-to 'my-projects.to-review'}}<span data-test-tab-button="to-review">To Review</span>{{/link-to}}
+          <li class="tabs-title to-review {{if (eq this.activeTab 'to-review') 'is-active'}}">
+            <LinkTo 
+              @route="my-projects.to-review"
+              data-test-tab-button="to-review"
+            >
+              To Review
+            </LinkTo>
           </li>
-          <li class="tabs-title reviewed {{if (eq activeTab 'reviewed') 'is-active'}}">
-            {{#link-to 'my-projects.reviewed'}}Reviewed{{/link-to}}
+          <li class="tabs-title reviewed {{if (eq this.activeTab 'reviewed') 'is-active'}}">
+            <LinkTo 
+              @route="my-projects.reviewed"
+              data-test-tab-button="reviewed"
+            >
+              Reviewed
+            </LinkTo>
           </li>
-          <li class="tabs-title archive {{if (eq activeTab 'archive') 'is-active'}}">
-            {{#link-to 'my-projects.archive'}}Archive{{/link-to}}
+          <li class="tabs-title archive {{if (eq this.activeTab 'archive') 'is-active'}}">
+            <LinkTo 
+              @route="my-projects.archive"
+              data-test-tab-button="archive"
+            >
+              Archive
+            </LinkTo>
           </li>
         </ul>
-      {{/if}}
+      {{/unless}}
 
       {{outlet}}
 

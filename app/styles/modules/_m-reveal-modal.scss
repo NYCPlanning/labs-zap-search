@@ -8,6 +8,7 @@
 
 .reveal-overlay {
   padding: 1rem;
+  display:block;
 
   @include breakpoint(medium) {
     padding: 4rem 1rem;
@@ -27,6 +28,7 @@
   border: 0;
   box-shadow: 0 0 0 rem-calc(4) rgba(0,0,0,0.1);
   top: 0;
+  display: block;
 
   &:focus {
     outline: none;

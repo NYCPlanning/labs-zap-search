@@ -81,6 +81,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
   get appliedQueryParams() {
     // construct query object only with applied params
     const params = this.allQueryParams;
+
     const { page } = this;
     const {
       'applied-filters': appliedFilters,

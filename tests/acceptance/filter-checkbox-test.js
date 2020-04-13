@@ -83,6 +83,7 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('Landing on QP default leads to cleaned URL', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
+
     await click('[data-test-status-checkbox="Filed"]');
     await click('[data-test-status-checkbox="In Public Review"]');
     await click('[data-test-status-checkbox="Completed"]');

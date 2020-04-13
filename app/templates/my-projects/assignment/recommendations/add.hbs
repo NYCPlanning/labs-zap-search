@@ -1,7 +1,7 @@
 {{#if this.error}}
   <div class="cell">
     <div class="grid-container">
-      <div class="grid-x grid-padding-x grid-padding-y align-middle" style="min-height: 50vh">
+      <div class="grid-x grid-padding-x grid-padding-y align-middle message-grid">
         <div class="cell large-6 large-offset-3 text-center">
           <h2>Oops!</h2>
           <p>{{this.error}}</p>
@@ -13,7 +13,7 @@
   <div class="grid-container">
     <div class="grid-x grid-x-container">
       <h2>
-        Add {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
+        Add {{participant-type-label this.assignment.dcpLupteammemberrole}} Recommendation
       </h2>
       <div class="grid-x grid-margin-x">
         <div class="large-5 cell large-order-2">
@@ -22,18 +22,18 @@
             <h3 class="tiny-margin-bottom">
               <LinkTo
                 @route="show-project"
-                @model={{assignment.project}}
+                @model={{this.assignment.project}}
               >
-                {{assignment.project.dcpProjectname}}
+                {{this.assignment.project.dcpProjectname}}
               </LinkTo>
-              <small class="dark-gray">{{assignment.project.dcpUlurpNonulurp}}</small>
+              <small class="dark-gray">{{this.assignment.project.dcpUlurpNonulurp}}</small>
             </h3>
-            <h5 class="applicant">{{assignment.project.applicants}}</h5>
-            <p>{{assignment.project.dcpProjectbrief}}</p>
+            <h5 class="applicant">{{this.assignment.project.applicants}}</h5>
+            <p>{{this.assignment.project.dcpProjectbrief}}</p>
           </div>
         </div>
         <div class="cell large-7">
-          {{#if assignment.hearingsSubmitted}}
+          {{#if this.assignment.hearingsSubmitted}}
             <strong
               data-test-quorum-question
             >
@@ -44,7 +44,7 @@
             <p class="help-text">
               A quorum requires the presence of 20% of appointed board members, and not fewer than seven members.
             </p>
-            {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
+            <DedupedHearingsList @dispositions={{this.assignment.dispositionsByRole}} as |dedupedHearings|>
               {{#each dedupedHearings as |hearing idx|}}
                 {{#if hearing.disposition.dcpDateofpublichearing}}
                   <div class="grid-x">
@@ -59,7 +59,7 @@
                         <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
                       </span>
                       <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
-                        {{#each hearing.hearingActions as |action index| ~}}
+                        {{#each hearing.hearingActions as |action| ~}}
                           {{#if action.dcpName}}
                             <span class="label light-gray tiny-margin-bottom tiny-margin-right">
                               {{action.dcpName}}
@@ -74,12 +74,12 @@
                         name={{concat idx '-quorum'}}
                         id={{concat idx '-quorum-yes'}}
                         checked={{if hearing.disposition.dcpWasaquorumpresent "checked"}}
-                        onClick={{action 'updateDispositionAttr' hearing assignment.dispositionsByRole 'dcpWasaquorumpresent' true}}
+                        onClick={{fn this.updateDispositionAttr hearing this.assignment.dispositionsByRole 'dcpWasaquorumpresent' true}}
                         data-test-quorum-yes="{{idx}}"
                       />
                       <label
                         for="{{concat idx '-quorum-yes'}}"
-                        {{action 'updateDispositionAttr' hearing assignment.dispositionsByRole 'dcpWasaquorumpresent' true}}
+                        onClick={{fn this.updateDispositionAttr hearing this.assignment.dispositionsByRole 'dcpWasaquorumpresent' true}}
                       >
                         Yes
                       </label>
@@ -87,12 +87,12 @@
                         name={{concat idx '-quorum'}}
                         id={{concat idx '-quorum-no'}}
                         checked={{if (eq hearing.disposition.dcpWasaquorumpresent false) "checked"}}
-                        onClick={{action 'updateDispositionAttr' hearing assignment.dispositionsByRole 'dcpWasaquorumpresent' false}}
+                        onClick={{fn this.updateDispositionAttr hearing this.assignment.dispositionsByRole 'dcpWasaquorumpresent' false}}
                         data-test-quorum-no="{{idx}}"
                       />
                       <label
                         for="{{concat idx '-quorum-no'}}"
-                        {{action 'updateDispositionAttr' hearing assignment.dispositionsByRole 'dcpWasaquorumpresent' false}}
+                        onClick={{fn this.updateDispositionAttr hearing this.assignment.dispositionsByRole 'dcpWasaquorumpresent' false}}
                       >
                         No
                       </label>
@@ -100,12 +100,12 @@
                   </div>
                 {{/if}}
               {{/each}}
-            {{/deduped-hearings-list}}
+            </DedupedHearingsList>
           {{/if}}
-          {{#if assignment.hearingsWaived}}
+          {{#if this.assignment.hearingsWaived}}
             <div class="callout warning large-margin-bottom" data-test-hearings-waived-message>
               <h5 class="small-margin-bottom">Note: You have opted out of submitting hearings for this project.</h5>
-              <p class="text-small">Without proper notice of a public hearing, the {{participant-type-label assignment.dcpLupteammemberrole}}'s recommendation does not comply with City Charter requirements. NYC Planning will still accept a recommendation, but a disapproval will not trigger an automatic City Council call up.</p>
+              <p class="text-small">Without proper notice of a public hearing, the {{participant-type-label this.assignment.dcpLupteammemberrole}}'s recommendation does not comply with City Charter requirements. NYC Planning will still accept a recommendation, but a disapproval will not trigger an automatic City Council call up.</p>
             </div>
           {{/if}}
           {{#if (gt this.dispositions.length 1)}}
@@ -122,7 +122,7 @@
                 name="all-actions-yes"
                 id="all-actions-yes"
                 checked={{if (eq this.allActions true) "checked"}}
-                onClick={{action "setProp" "allActions" true}}
+                onClick={{fn this.setProp "allActions" true}}
                 data-test-all-actions-yes
               />
               <label for="all-actions-yes">
@@ -133,7 +133,7 @@
                 name="all-actions-no"
                 id="all-actions-no"
                 checked={{if (eq this.allActions false) "checked"}}
-                onClick={{action "setProp" "allActions" false}}
+                onClick={{fn this.setProp "allActions" false}}
                 data-test-all-actions-no
               />
               <label for="all-actions-no">
@@ -159,8 +159,8 @@
                       @searchField='label'
                       @options={{this.recOptions}}
                       @placeholder="Select a recommendation"
-                      @selected={{recommendation-label-lookup participantType this.dispositionForAllActionsChangeset.recommendation objectMode=true}}
-                      @onchange={{action "setDispositionChangesetRec" this.dispositionForAllActionsChangeset}}
+                      @selected={{recommendation-label-lookup this.participantType this.dispositionForAllActionsChangeset.recommendation objectMode=true}}
+                      @onchange={{fn this.setDispositionChangesetRec this.dispositionForAllActionsChangeset}}
                       as |recOption|
                     >
                       {{recOption.label}}
@@ -171,7 +171,7 @@
                   </span>
                 </div>
               {{/if}}
-              {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+              {{#if (or (eq this.participantType 'CB') (eq this.participantType 'BB'))}}
                 <legend class="show-for-sr">
                   <strong>
                     Vote Counts
@@ -186,10 +186,10 @@
                       Votes In Favor
                     </label>
                     <Input
-                      @id="all-actions-votes-in-favor"
+                      id="all-actions-votes-in-favor"
                       @type="number"
-                      @min=0
-                      @max=999
+                      @min="0"
+                      @max="999"
                       @value={{this.dispositionForAllActionsChangeset.dcpVotinginfavorrecommendation}}
                       @key-up={{fn (mut this.dispositionForAllActionsChangeset.dcpVotinginfavorrecommendation) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.dcpVotinginfavorrecommendation "is-invalid-input"}}
@@ -207,10 +207,10 @@
                       Votes Against
                     </label>
                     <Input
-                      @id="all-actions-votes-against"
+                      id="all-actions-votes-against"
                       @type="number"
-                      @min=0
-                      @max=999
+                      @min="0"
+                      @max="999"
                       @value={{this.dispositionForAllActionsChangeset.dcpVotingagainstrecommendation}}
                       @key-up={{fn (mut this.dispositionForAllActionsChangeset.dcpVotingagainstrecommendation) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.dcpVotingagainstrecommendation "is-invalid-input"}}
@@ -228,10 +228,10 @@
                       Abstain
                     </label>
                     <Input
-                      @id="all-actions-votes-abstain"
+                      id="all-actions-votes-abstain"
                       @type="number"
-                      @min=0
-                      @max=999
+                      @min="0"
+                      @max="999"
                       @value={{this.dispositionForAllActionsChangeset.dcpVotingabstainingonrecommendation}}
                       @key-up={{fn (mut this.dispositionForAllActionsChangeset.dcpVotingabstainingonrecommendation) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.dcpVotingabstainingonrecommendation "is-invalid-input"}}
@@ -249,10 +249,10 @@
                       Total Members
                     </label>
                     <Input
-                      @id="all-actions-votes-total-members"
+                      id="all-actions-votes-total-members"
                       @type="number"
-                      @min=0
-                      @max=999
+                      @min="0"
+                      @max="999"
                       @value={{this.dispositionForAllActionsChangeset.dcpTotalmembersappointedtotheboard}}
                       @key-up={{fn (mut this.dispositionForAllActionsChangeset.dcpTotalmembersappointedtotheboard) value="target.value"}}
                       @class={{if this.dispositionForAllActionsChangeset.error.dcpTotalmembersappointedtotheboard "is-invalid-input"}}
@@ -291,7 +291,7 @@
                       @options={{this.recOptions}}
                       @placeholder="Select a recommendation"
                       @selected={{recommendation-label-lookup this.participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType objectMode=true)) objectMode=true}}
-                      @onchange={{action "setDispositionChangesetRec" dispositionChangesetPair.changeset}}
+                      @onchange={{fn this.setDispositionChangesetRec dispositionChangesetPair.changeset}}
                       as |recOption|
                     >
                       {{recOption.label}}
@@ -301,7 +301,7 @@
                     {{get (get dispositionChangesetPair.changeset.error (rec-field-by-parttype-lookup this.participantType)) "validation"}}
                   </span>
                 </div>
-                {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                {{#if (or (eq this.participantType 'CB') (eq this.participantType 'BB'))}}
                   <legend class="show-for-sr">
                     <strong>
                       Vote Counts
@@ -316,10 +316,10 @@
                         Votes In Favor
                       </label>
                       <Input
-                        @id={{concat "disposition-" (concat idx "-votes-in-favor")}}
+                        id={{concat "disposition-" (concat idx "-votes-in-favor")}}
                         @type="number"
-                        @min=0
-                        @max=999
+                        @min="0"
+                        @max="999"
                         @value={{dispositionChangesetPair.changeset.dcpVotinginfavorrecommendation}}
                         @key-up={{fn (mut dispositionChangesetPair.changeset.dcpVotinginfavorrecommendation) value="target.value"}}
                         @class={{if dispositionChangesetPair.changeset.error.dcpVotinginfavorrecommendation "is-invalid-input"}}
@@ -337,10 +337,10 @@
                       Votes Against
                     </label>
                     <Input
-                      @id={{concat "disposition-" (concat idx "-votes-against")}}
+                      id={{concat "disposition-" (concat idx "-votes-against")}}
                       @type="number"
-                      @min=0
-                      @max=999
+                      @min="0"
+                      @max="999"
                       @value={{dispositionChangesetPair.changeset.dcpVotingagainstrecommendation}}
                       @key-up={{fn (mut dispositionChangesetPair.changeset.dcpVotingagainstrecommendation) value="target.value"}}
                       @class={{if dispositionChangesetPair.changeset.error.dcpVotingagainstrecommendation "is-invalid-input"}}
@@ -358,10 +358,10 @@
                       Abstain
                     </label>
                     <Input
-                      @id={{concat "disposition-" (concat idx "-votes-abstain")}}
+                      id={{concat "disposition-" (concat idx "-votes-abstain")}}
                       @type="number"
-                      @min=0
-                      @max=999
+                      @min="0"
+                      @max="999"
                       @value={{dispositionChangesetPair.changeset.dcpVotingabstainingonrecommendation}}
                       @key-up={{fn (mut dispositionChangesetPair.changeset.dcpVotingabstainingonrecommendation) value="target.value"}}
                       @class={{if dispositionChangesetPair.changeset.error.dcpVotingabstainingonrecommendation "is-invalid-input"}}
@@ -379,10 +379,10 @@
                       Total Members
                     </label>
                     <Input
-                      @id={{concat "disposition-" (concat idx "-votes-total-members")}}
+                      id={{concat "disposition-" (concat idx "-votes-total-members")}}
                       @type="number"
-                      @min=0
-                      @max=999
+                      @min="0"
+                      @max="999"
                       @value={{dispositionChangesetPair.changeset.dcpTotalmembersappointedtotheboard}}
                       @key-up={{fn (mut dispositionChangesetPair.changeset.dcpTotalmembersappointedtotheboard) value="target.value"}}
                       @class={{if dispositionChangesetPair.changeset.error.dcpTotalmembersappointedtotheboard "is-invalid-input"}}
@@ -403,8 +403,8 @@
                       Recommendation Comment
                     </label>
                     <Textarea
-                      @id={{concat "disposition-" (concat idx "-dcpConsideration")}}
-                      @maxlength=2000
+                      id={{concat "disposition-" (concat idx "-dcpConsideration")}}
+                      @maxlength="2000"
                       @value={{dispositionChangesetPair.changeset.dcpConsideration}}
                       @placeholder="Add a Recommendation comment for this action here."
                       @rows="4"
@@ -422,7 +422,7 @@
           {{/if}}
           {{!-- Not null --}}
           {{#if (not (eq this.allActions null))}}
-            {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+            {{#if (or (eq this.participantType 'CB') (eq this.participantType 'BB'))}}
               <fieldset class="medium-margin-bottom recommendation-by-action-fieldset">
                 <legend>
                   <strong>
@@ -438,9 +438,9 @@
                       Vote Location
                     </label>
                     <Input
-                      @id="all-actions-vote-location"
+                      id="all-actions-vote-location"
                       @type="text"
-                      @maxlength=200
+                      @maxlength="200"
                       @placeholder="Add a location"
                       @autocomplete="off"
                       @value={{this.dispositionForAllActionsChangeset.dcpVotelocation}}
@@ -460,7 +460,7 @@
                       Vote Date
                     </label>
                     <PikadayInput
-                      @id="all-actions-vote-date"
+                      id="all-actions-vote-date"
                       @readonly="readonly"
                       @placeholder='Select a date'
                       @value={{this.dispositionForAllActionsChangeset.dcpDateofvote}}
@@ -486,8 +486,8 @@
                   Recommendation Comment for all actions.
                 </label>
                 <Textarea
-                  @id="all-actions-dcpConsideration"
-                  @maxlength=2000
+                  id="all-actions-dcpConsideration"
+                  @maxlength="2000"
                   @value={{this.dispositionForAllActionsChangeset.dcpConsideration}}
                   @placeholder="Add Recommendation comment for all actions here."
                   @rows="4"
@@ -507,7 +507,7 @@
               <button
                 class="button"
                 type="button"
-                onClick={{this.onContinue}}
+                onClick={{fn this.onContinue}}
                 data-test-continue
               >
                 Continue
@@ -515,27 +515,24 @@
             </fieldset>
           {{/if}}
 
-          {{#ember-wormhole to="reveal-modal-container"}}
-            {{#confirmation-modal open=modalOpen}}
+          <EmberWormhole @to="reveal-modal-container">
+            <ConfirmationModal @open={{this.modalOpen}}>
               {{#if this.isSubmitting}}
-                <div
-                  class="text-center large-margin-top large-padding-top" style="padding:3rem 0;"
-                >
+                <div class="text-center large-margin-top large-padding-top padding-3-rem">
                   {{fa-icon 'spinner' spin="true" size="5x" class="light-gray"}}
                 </div>
-                <div class="text-center large-margin-top large-padding-top" style="padding:3rem 0;"
-                >
+                <div class="text-center large-margin-top large-padding-top padding-3-rem">
                   Please wait...
                 </div>
               {{else}}
                 <h3 class="large-margin-right">Please confirm your recommendation information.</h3>
-                {{#unless assignment.hearingsWaived}}
+                {{#unless this.assignment.hearingsWaived}}
                   <h5
                     data-test-confirmation-quorum-answer
                   >
                     Was a Quorum Present at your Hearing(s)?
                   </h5>
-                  {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
+                  <DedupedHearingsList @dispositions={{this.assignment.dispositionsByRole}} as |dedupedHearings|>
                     {{#each dedupedHearings as |hearing idx|}}
                       <p class="grid-x">
                         <strong class="cell small-1"
@@ -554,7 +551,7 @@
                             <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
                           </span>
                           <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
-                            {{#each hearing.hearingActions as |action index| ~}}
+                            {{#each hearing.hearingActions as |action| ~}}
                               {{#if action.dcpName}}
                                 <span class="label light-gray tiny-margin-bottom tiny-margin-right">
                                   {{action.dcpName}}
@@ -566,15 +563,15 @@
                         </span>
                       </p>
                     {{/each}}
-                  {{/deduped-hearings-list}}
+                  </DedupedHearingsList>
                 {{/unless}}
                 {{#if this.allActions}}
                   <p
                     data-test-confirmation-all-actions-recommendation
                   >
-                    <strong>Recommendation:</strong> {{recommendation-label-lookup participantType this.dispositionForAllActionsChangeset.recommendation}}
+                    <strong>Recommendation:</strong> {{recommendation-label-lookup this.participantType this.dispositionForAllActionsChangeset.recommendation}}
                   </p>
-                  {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                  {{#if (or (eq this.participantType 'CB') (eq this.participantType 'BB'))}}
                     <p
                       data-test-confirmation-all-actions-dcpVotinginfavorrecommendation
                     >
@@ -607,9 +604,9 @@
                     <p
                       data-test-confirmation-each-action-recommendation={{idx}}
                     >
-                      <strong>Recommendation:</strong> {{recommendation-label-lookup participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType))}}
+                      <strong>Recommendation:</strong> {{recommendation-label-lookup this.participantType (get dispositionChangesetPair.changeset (rec-field-by-parttype-lookup this.participantType))}}
                     </p>
-                    {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                    {{#if (or (eq this.participantType 'CB') (eq this.participantType 'BB'))}}
                       <p
                         data-test-confirmation-each-action-votes={{concat "in-favor-" idx}}
                       >
@@ -639,7 +636,7 @@
                   {{/each}}
                 {{/if}}
                 {{#if (or (eq this.allActions true) (eq this.allActions false))}}
-                  {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
+                  {{#if (or (eq this.participantType 'CB') (eq this.participantType 'BB'))}}
                     <p
                       data-test-confirmation-all-actions-dcpVotelocation
                     >
@@ -689,8 +686,8 @@
                     class="button"
                     data-test-button="confirmRecommendation"
                     type="button"
-                    onClick={{action this.submitRecommendations}}
-                    disabled={{isSubmitting}}
+                    onClick={{fn this.submitRecommendations}}
+                    disabled={{this.isSubmitting}}
                     data-test-submit
                   >
                     Submit Recommendation Information
@@ -699,8 +696,8 @@
                     class="button clear"
                     data-test-button="closeModal"
                     type="button"
-                    onClick={{action this.closeModal}}
-                    disabled={{isSubmitting}}
+                    onClick={{fn this.closeModal}}
+                    disabled={{this.isSubmitting}}
                     data-test-cancel
                   >
                     Cancel <small>(continue editing)</small>
@@ -722,8 +719,8 @@
                   {{/each}}
                 {{/if}}
               {{/if}} {{!-- end if submitting --}}
-            {{/confirmation-modal}}
-          {{/ember-wormhole}}
+            </ConfirmationModal>
+          </EmberWormhole>
         </div>
       </div>
     </div>

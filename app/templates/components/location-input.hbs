@@ -1,18 +1,18 @@
-<label class="{{if (and locationMissing checkIfMissing) 'is-invalid-label'}}">
+<label class="{{if (and this.locationMissing this.checkIfMissing) 'is-invalid-label'}}">
   Hearing Location
-    {{input
-      class=(if (and locationMissing checkIfMissing) "is-invalid-input")
+    <Input
+      class={{if (and this.locationMissing this.checkIfMissing) "is-invalid-input"}}
       type="text"
-      maxlength=200
+      maxlength="200"
       placeholder="Add a location"
       autocomplete="off"
       data-test-allactions-input="location"
-      data-test-location-input=disposition.id
-      value=this.location
-      key-down=(action (mut this.location))
-      key-up=(action "setLocation")
-    }}
-  {{#if (and locationMissing checkIfMissing)}}
+      @data-test-location-input={{this.disposition.id}}
+      @value={{this.location}}
+      @key-down={{fn (mut this.location)}}
+      @key-up={{fn this.setLocation}}
+    />
+  {{#if (and this.locationMissing this.checkIfMissing)}}
     <span class="form-error is-visible" role="alert">Please enter a valid location for your hearing</span>
   {{/if}}
 </label>

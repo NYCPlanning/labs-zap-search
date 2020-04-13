@@ -1,34 +1,34 @@
-{{#if shouldQueryFullMap}}
-  {{#map.source options=(hash
+{{#if this.shouldQueryFullMap}}
+  <this.map.Source @options={{hash
     type='geojson'
     data=(hash
       type='Feature'
       geometry=(hash
         type='Point'
-        coordinates=pointGeometry
+        coordinates=this.pointGeometry
       )
-    )) as |source|
-  }}
-    {{source.layer layer=(hash
+    )}} as |source|
+  >
+    <source.Layer @layer={{hash
       type='circle'
-      paint=(hash circle-color='rgba(238,102,170,0.8)' circle-radius=7))
-    }}
-  {{/map.source}}
+      paint=(hash circle-color='rgba(238,102,170,0.8)' circle-radius=7)}}
+    />
+  </this.map.Source>
   {{! only display radius circle and zoom to point if point exists}}
-  {{#if pointGeometry}}
-    {{#map.source options=(hash
+  {{#if this.pointGeometry}}
+    <this.map.Source @options={{hash
       type='geojson'
-      data=circleFromRadius) as |source|
-    }}
-      {{source.layer layer=(hash
+      data=this.circleFromRadius}} as |source|
+    >
+      <source.Layer @layer={{hash
         type='line'
-        paint=(hash line-dasharray=(array 1 1) line-width=3 line-color='rgba(238,102,170,0.8)')
-      )}}
-    {{/map.source}}
+        paint=(hash line-dasharray=(array 1 1) line-width=3 line-color='rgba(238,102,170,0.8)')}}
+      />
+    </this.map.Source>
   {{/if}}
 {{/if}}
 
-{{map.on 'click' (action 'handleClick')}}
+{{map.on 'click' (fn this.handleClick)}}
 
-{{yield map}}
-{{yield (hash circleFromRadius=circleFromRadius)}}
+{{yield this.map}}
+{{yield (hash circleFromRadius=this.circleFromRadius)}}

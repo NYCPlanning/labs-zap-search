@@ -5,35 +5,41 @@
   <div class="grid-x grid-x-small-gutters">
     <div class="cell large-4 xlarge-5">
       <h3 class="tiny-margin-bottxrom">
-        {{#link-to 'show-project' assignment.project.id}}<span data-test-project-profile-button="{{assignment.project.id}}">{{assignment.project.dcpProjectname}}</span>{{/link-to}}
-        <small class="dark-gray">{{assignment.project.dcpUlurpNonulurp}}</small>
+        <LinkTo 
+          @route="show-project"
+          @model={{this.assignment.project.id}}
+          data-test-project-profile-button="{{this.assignment.project.id}}"
+        >
+          {{this.assignment.project.dcpProjectname}}
+        </LinkTo>
+        <small class="dark-gray">{{this.assignment.project.dcpUlurpNonulurp}}</small>
       </h3>
-      <h5 class="applicant">{{assignment.project.applicants}}</h5>
-      <p>{{assignment.project.dcpProjectbrief}}</p>
+      <h5 class="applicant">{{this.assignment.project.applicants}}</h5>
+      <p>{{this.assignment.project.dcpProjectbrief}}</p>
     </div>
     <div class="cell medium-4 large-3 xlarge-2">
       <div class="text-center medium-margin-right medium-margin-left">
-        <p class="tiny-margin-bottom" data-test-milestone-label="{{assignment.id}}">{{participant-type-label assignment.dcpLupteammemberrole}} Review</p>
-        {{#if assignment.toReviewMilestonePlannedCompletionDate}}
-          {{#if assignment.toReviewMilestoneTimeRemaining}}
+        <p class="tiny-margin-bottom" data-test-milestone-label="{{this.assignment.id}}">{{participant-type-label this.assignment.dcpLupteammemberrole}} Review</p>
+        {{#if this.assignment.toReviewMilestonePlannedCompletionDate}}
+          {{#if this.assignment.toReviewMilestoneTimeRemaining}}
             <p>
               <strong class="stat"
-                data-test-time-remaining="{{assignment.id}}"
+                data-test-time-remaining="{{this.assignment.id}}"
               >
-                {{assignment.toReviewMilestoneTimeRemaining}}
+                {{this.assignment.toReviewMilestoneTimeRemaining}}
               </strong>
-              {{#if assignment.toReviewMilestoneTimeDuration}}
-                <strong class="display-block" data-test-time-duration="{{assignment.id}}">
-                  of {{assignment.toReviewMilestoneTimeDuration}} days remain
-                  <sup class="dark-gray">{{icon-tooltip icon='info-circle' tip='Review periods ending on a weekend or public holiday are extended to the next business day.'}}</sup>
+              {{#if this.assignment.toReviewMilestoneTimeDuration}}
+                <strong class="display-block" data-test-time-duration="{{this.assignment.id}}">
+                  of {{this.assignment.toReviewMilestoneTimeDuration}} days remain
+                  <sup class="dark-gray"><IconTooltip @icon='info-circle' @tip='Review periods ending on a weekend or public holiday are extended to the next business day.'/></sup>
                 </strong>
               {{else}}
-                <strong class="display-block" data-test-no-time-duration-message="{{assignment.id}}">days remain</strong>
+                <strong class="display-block" data-test-no-time-duration-message="{{this.assignment.id}}">days remain</strong>
               {{/if}}
             </p>
           {{/if}}
           <p class="text-tiny">
-            Ends <DateDisplay @date={{assignment.toReviewMilestonePlannedCompletionDate}} @outputFormat="M/D/YYYY" />
+            Ends <DateDisplay @date={{this.assignment.toReviewMilestonePlannedCompletionDate}} @outputFormat="M/D/YYYY" />
           </p>
         {{else}}
           <br>
@@ -46,7 +52,7 @@
       </div>
     </div>
     <div class="cell medium-8 large-auto">
-      {{#if assignment.hearingsNotSubmittedNotWaived}}
+      {{#if this.assignment.hearingsNotSubmittedNotWaived}}
         <div class="grid-x">
           <div class="cell medium-auto">
             <LinkTo
@@ -54,16 +60,17 @@
               @model={{if this.assignment.dispositionsByRole this.assignment}}
               class="button expanded tiny-margin-bottom"
               disabled={{not this.assignment.dispositionsByRole}}
-              data-test-button-post-hearing="{{assignment.id}}"
+              data-test-button-post-hearing="{{this.assignment.id}}"
             >
               {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
-              Post {{participant-type-label assignment.dcpLupteammemberrole}} Hearing Notice
+              Post {{participant-type-label this.assignment.dcpLupteammemberrole}} Hearing Notice
             </LinkTo>
           </div>
           <div class="cell medium-shrink">
             <button
+              type="button"
               class="button expanded gray"
-              onClick={{action "openOptOutHearingPopup"}}
+              onClick={{fn this.openOptOutHearingPopup}}
               disabled={{not this.assignment.dispositions}}
               data-test-button-opt-out-hearing-popup="{{this.assignment.id}}"
             >
@@ -73,36 +80,36 @@
           </div>
         </div>
       {{else}}
-        {{#if assignment.hearingsWaived}}
-          <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
+        {{#if this.assignment.hearingsWaived}}
+          <span class="opt-out-notice" data-test-hearings-waived-message="{{this.assignment.project.id}}">
             {{fa-icon 'calendar-times' size="lg" transform="left-2"}}
             You've opted out of posting a hearing
           </span>
         {{/if}}
       {{/if}}
 
-      {{#if assignment.hearingsSubmittedOrWaived}}
+      {{#if this.assignment.hearingsSubmittedOrWaived}}
         <LinkTo @route="my-projects.assignment.recommendations.add"
-          @model={{assignment}}
+          @model={{this.assignment}}
           class="button expanded"
           data-test-button="submitRecommendation"
         >
           {{fa-icon 'thumbs-up' fixedWidth=true size="lg"}}
           {{fa-icon 'thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
-          Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
+          Submit {{participant-type-label this.assignment.dcpLupteammemberrole}} Recommendation
         </LinkTo>
       {{else}}
         <a class="button expanded" disabled>
           {{fa-icon 'thumbs-up' fixedWidth=true size="lg"}}
           {{fa-icon 'thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
-          Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
+          Submit {{participant-type-label this.assignment.dcpLupteammemberrole}} Recommendation
         </a>
       {{/if}}
-      {{waive-hearings-popup assignment=assignment showPopup=showPopup}}
+      <WaiveHearingsPopup @assignment={{this.assignment}} @showPopup={{this.showPopup}}/>
 
-      {{#if assignment.hearingsSubmitted}}
-        {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
-          <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
+      {{#if this.assignment.hearingsSubmitted}}
+        <DedupedHearingsList @dispositions={{this.assignment.dispositionsByRole}} as |dedupedHearings|>
+          <h6>{{participant-type-label this.assignment.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}
                 <li class="grid-x small-margin-bottom">
@@ -129,7 +136,7 @@
                     </span>
 
                     <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
-                      {{#each hearing.hearingActions as |action index| ~}}
+                      {{#each hearing.hearingActions as |action| ~}}
                         {{#if action.dcpName}}
                           <span class="label light-gray tiny-margin-bottom tiny-margin-right">
                             {{action.dcpName}}
@@ -142,7 +149,7 @@
                 </li>
               {{/each}}
               </ul>
-        {{/deduped-hearings-list}}
+        </DedupedHearingsList>
       {{/if}}
 
     </div>

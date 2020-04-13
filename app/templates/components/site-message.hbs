@@ -1,26 +1,26 @@
-{{#if (and message open)}}
+{{#if (and this.message this.open)}}
 
-  <div class="site-message {{if warning 'warning'}}">
+  <div class="site-message {{if this.warning 'warning'}}">
 
-    {{#if warning}}
+    {{#if this.warning}}
       <div class="grid-x grid-margin-x align-middle">
         <div class="cell text-center medium-text-left medium-shrink">
           {{fa-icon 'exclamation-triangle' size='2x' class='yellow-dark'}}
         </div>
         <div class="cell auto">
-          {{message}}
+          {{this.message}}
         </div>
       </div>
     {{else}}
-      {{message}}
+      {{this.message}}
     {{/if}}
 
-    {{#if dismissible}}
+    {{#if this.dismissible}}
       <button
         class="close-button"
         aria-label="Dismiss message"
         type="button" data-close
-        onclick={{action handleSiteMessageToggle}}
+        onclick={{fn this.handleSiteMessageToggle}}
       >
         <span aria-hidden="true">&times;</span>
       </button>

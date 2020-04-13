@@ -8,6 +8,13 @@ export default class ProjectListComponent extends Component {
     return applicants ? applicants.split(';')[0] : 'Unknown';
   }
 
+  @computed('project.{dcpCeqrtype,dcpCeqrnumber}')
+  get ceqrUnlistedNull() {
+    const unlistedOrNullCeqr = this.get('project.dcpCeqrtype') === 'Unlisted' || this.get('project.dcpCeqrtype') === null;
+    const nullCeqrNumber = this.get('project.dcpCeqrnumber') === null;
+    return unlistedOrNullCeqr && nullCeqrNumber;
+  }
+
   // @argument
   project = {};
 }

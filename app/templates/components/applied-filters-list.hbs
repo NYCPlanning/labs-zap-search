@@ -1,7 +1,7 @@
 <div class="no-results-message text-center dark-gray">
   <p class="medium-gray">{{fa-icon 'search' size='4x'}}</p>
   <h4>No results. The following filters are applied, which may be too specific or contradictory:</h4>
-  {{#each currentFiltersNames as |name|}}
+  {{#each this.currentFiltersNames as |name|}}
     <p>{{name}}</p>
   {{/each}}
 </div>

@@ -1,17 +1,19 @@
-{{#labs-search
+<LabsSearch
   searchPlaceholder='Zoom to Address...'
-  onSelect=(action 'selectSearchResult')
-  onClear=(action 'clearSearchResult') as |search|}}
+  onSelect={{fn this.selectSearchResult}}
+  onClear={{fn this.clearSearchResult}} as |search|>
 
   <small class="dark-gray">{{search.result.label}}</small>
 
   {{#if search.result}}
-    {{#if geocodedGeometry}}
-      {{#map.source options=(hash type='geojson' data=geocodedGeometry) as |source|}}
-        {{source.layer layer=geocodedLayer}}
-      {{/map.source}}
+    {{#if this.geocodedGeometry}}
+      <this.map.Source @options={{hash
+      type='geojson'
+      data=this.geocodedGeometry}} as |source|>
+        <source.Layer @layer={{this.geocodedLayer}}/>
+      </this.map.Source>
 
-      {{map.call 'flyTo' (hash center=geocodedGeometry.coordinates zoom=16)}}
+      {{this.map.call 'flyTo' (hash center=this.geocodedGeometry.coordinates zoom=16)}}
     {{/if}}
   {{/if}}
-{{/labs-search}}
+</LabsSearch>

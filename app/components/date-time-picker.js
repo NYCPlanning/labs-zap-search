@@ -10,12 +10,14 @@ export default class DateTimePickerComponent extends Component {
   // e.g. disposition.dcpDateofpublichearing
   targetField = '';
 
+  timeOfDayOption = ['AM', 'PM'];
+
   // the options for the AM/PM power-select
-  @computed()
-  get timeOfDayOption() {
-    const timeOfDayOption = ['AM', 'PM'];
-    return timeOfDayOption;
-  }
+  // @computed()
+  // get timeOfDayOption() {
+  //   const timeOfDayOption = ['AM', 'PM'];
+  //   return timeOfDayOption;
+  // }
 
   // checks if the hour number input is between 1 and 12
   @computed('hour')

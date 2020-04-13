@@ -1,6 +1,6 @@
 {{yield (hash 
   section=(component 'filter-section'
-    mutateArray=(action mutateArray)
-    appliedFilters=appliedFilters
+    mutateArray=(fn this.mutateArray)
+    appliedFilters=this.appliedFilters
   )
 )}}
