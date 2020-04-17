@@ -1,20 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
 import { 
-  extractMeta,
-  coerceToNumber,
-  coerceToDateString,
-  mapInLookup,
   all,
   any,
   comparisonOperator,
-  containsString,
-  equalsAnyOf,
   containsAnyOf 
 } from '../odata/odata.module';
 import { transformMilestones } from '../project/_utils/transform-milestones';
 import { transformActions } from '../project/_utils/transform-actions';
 
+@Injectable()
+export class AssignmentService {
+  constructor(
+    private readonly dynamicsWebApi: OdataService
+  ) {}
+
+  async getAssignments(contactid, tab) {
+    const queryObject = generateAssignmentsQueryObject({ contactid });
+    const { records: projects } = await this.dynamicsWebApi
+      .queryFromObject('dcp_projects', queryObject);
+
+    return transformIntoAssignments(projects, contactid)
+      .filter(assignment => assignment.tab === tab);
+  }
+}
+
+// these are keys that will be replaced with their
+// labeled values
 const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   'dcp_publicstatus',
   'dcp_borough',
@@ -39,24 +51,9 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   'statecode',
 ];
 
-@Injectable()
-export class AssignmentService {
-  constructor(
-    private readonly dynamicsWebApi: OdataService
-  ) {}
-
-  async getAssignments(contactid, tab) {
-    const queryObject = generateAssignmentsQueryObject({ contactid });
-    const { records: projects } = await this.dynamicsWebApi
-      .queryFromObject('dcp_projects', queryObject);
-
-    return transformIntoAssignments(projects)
-      .filter(assignment => assignment.tab === tab);
-  }
-}
-
 // munge projects into user assignments
-function transformIntoAssignments(projects) {
+// TODO: dispos need to be scoped to the correct user
+export function transformIntoAssignments(projects, contactid) {
   /*
     [
       ...(assignment props)
@@ -66,7 +63,7 @@ function transformIntoAssignments(projects) {
         dispositions,
       }
       milestones,
-      dispositions,
+      dispositions { project },
     ]
   */
 
@@ -96,7 +93,16 @@ function transformIntoAssignments(projects) {
       const tab = computeStatusTab(project, lupteam);
       const actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
       const milestones = project.dcp_dcp_project_dcp_projectmilestone_project;
-      const dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project;
+      const dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project
+        // filter all dispositions so they're scoped to the user only
+        // TODO: value mapping is making this lookup not work right, need to
+        // find a better way to provide BOTH orig values and labeled vals
+        // .filter(disposition => disposition._dcp_recommendationsubmittedby_value === contactid)
+        .map(disposition => {
+          disposition.project = project;
+
+          return disposition;
+        });
 
       return {
         ...lupteam,
@@ -117,6 +123,8 @@ function transformIntoAssignments(projects) {
     });
   })
   .reduce((acc, curr) => [...acc, ...curr], []);
+
+  // const valueMappedAssignments = assignmentsLabelMapper(assignments);
 
   return assignments;
 }
@@ -167,6 +175,7 @@ function generateAssignmentsQueryObject(query) {
 
   return {
     $count: true,
+
     // todo maybe alias these crm named relationships
     $filter: `
       dcp_dcp_project_dcp_communityboarddisposition_project/any(o:o/_dcp_recommendationsubmittedby_value eq ${contactid})

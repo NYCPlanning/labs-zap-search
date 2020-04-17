@@ -1,19 +1,13 @@
-import * as pgp from 'pg-promise';
 import { Controller, Get, Query, Session, HttpException, HttpStatus } from '@nestjs/common';
-import { getConnection } from 'typeorm';
 import { Serializer } from 'jsonapi-serializer';
 import { AssignmentService } from '../assignment/assignment.service';
 import { ContactService } from '../contact/contact.service';
-import { getQueryFile } from '../_utils/get-query-file';
 import { KEYS as ASSIGNMENT_KEYS } from './assignment.entity';
 import { KEYS as DISPOSITION_KEYS } from '../disposition/disposition.entity';
 import { KEYS as PROJECT_KEYS } from '../project/project.entity';
 import { MILESTONE_KEYS } from '../project/project.entity';
 import { ACTION_KEYS } from '../project/project.entity';
 import { dasherize } from 'inflected';
-
-const userAssignmentsQuery = getQueryFile('/assignments/index.sql');
-const projectQuery = getQueryFile('/projects/project.sql');
 
 @Controller('assignments')
 export class AssignmentController {
@@ -27,6 +21,7 @@ export class AssignmentController {
     if (!session) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
     let { contactid } = session;
+
     const {
       tab = 'to-review',
       email = '',
@@ -45,6 +40,7 @@ export class AssignmentController {
       }
 
       const records = await this.assignmentService.getAssignments(contactid, tab);
+
       // return records;
       return this.serialize(records);
     }
@@ -86,6 +82,14 @@ export class AssignmentController {
       dispositions: {
         ref: 'dcp_communityboarddispositionid',
         attributes: DISPOSITION_KEYS,
+        project: {
+          ref: 'dcp_name',
+          attributes: PROJECT_KEYS,
+          actions: {
+            ref: 'dcp_projectactionid',
+            attributes: ACTION_KEYS,
+          },
+        },
       },
       meta: { ...opts },
       keyForAttribute(key) {
