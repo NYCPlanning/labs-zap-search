@@ -46,35 +46,10 @@ export const CRMWebAPI = {
     return "Error";
   },
 
+  // this provides the formatted values but doesn't do it for top level
+  // TODO: where should this happen? 
   fixLongODataAnnotations: function (dataObj) {
-    const newObj = {};
-
-    for (let name in dataObj) {
-      const formattedValuePrefix = name.indexOf("@OData.Community.Display.V1.FormattedValue");
-      const logicalNamePrefix = name.indexOf("@Microsoft.Dynamics.CRM.lookuplogicalname");
-      const navigationPropertyPrefix = name.indexOf("@Microsoft.Dynamics.CRM.associatednavigationproperty");
-
-      if (formattedValuePrefix >= 0) {
-        const newName = name.substring(0, formattedValuePrefix);
-        if(newName) newObj[`${newName}_formatted`] = dataObj[name];
-      }
-
-      else if (logicalNamePrefix >= 0) {
-        const newName = name.substring(0, logicalNamePrefix);
-        if(newName) newObj[`${newName}_logical`] = dataObj[name];
-      }
-
-      else if (navigationPropertyPrefix >= 0) {
-        const newName = name.substring(0, navigationPropertyPrefix);
-        if (newName) newObj[`${newName}_navigationproperty`] = dataObj[name];
-      }
-
-      else {
-        newObj[name] = dataObj[name];
-      }
-    }
-
-    return newObj;
+    return dataObj;
   },
 
   get: async function (query, maxPageSize = 100, headers= {}): Promise<any> {

@@ -94,7 +94,7 @@ export const rollupActionTypes = (row) => {
 
 export const transformActions = (actions) => {
   return actions
-    .filter(({ _dcp_action_value }) => Object.keys(actionTypesLookup).includes(_dcp_action_value))
+    .filter(({ '_dcp_action_value@OData.Community.Display.V1.FormattedValue': _dcp_action_value }) => Object.keys(actionTypesLookup).includes(_dcp_action_value))
     .map(action => ({
       ...action,
       dcp_name: (action.dcp_name.split('-')[1] || '').trim(),
