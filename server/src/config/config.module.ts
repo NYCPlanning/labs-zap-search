@@ -10,4 +10,12 @@ import { ConfigService } from './config.service';
   ],
   exports: [ConfigService],
 })
-export class ConfigModule {}
+export class ConfigModule {
+  constructor(private readonly config: ConfigService) {}
+
+  onApplicationBootstrap() {
+    if (process.env.NODE_ENV !== 'production') {
+      this.config.printValues();
+    }
+  }
+}
