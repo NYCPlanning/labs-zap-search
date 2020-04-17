@@ -67,9 +67,31 @@ export function transformIntoAssignments(projects, contactid) {
     ]
   */
 
+  // JANK. This flags dispositions as contact-owned or not. this is needed for 2 steps later
+  // in which we provide all dispositions, but tell our app to associate only contact-specific dispositions
+  // with the assignment. This happens here because the _dcp_recommendationsubmittedby_value becomes
+  // value-mapped by the time we need the original value (id) to check.
+  // TODO: find a better way to deal with the wacky wild order in which we transform/value map
+  const projectsWithFlaggedDispositions = projects.map(project => {
+    const flaggedDispositions =
+      project.dcp_dcp_project_dcp_communityboarddisposition_project.map(disposition => {
+        disposition._isContactDisposition = false;
+
+        if (disposition._dcp_recommendationsubmittedby_value === contactid) {
+          disposition._isContactDisposition = true;
+        }
+
+        return disposition;
+      });
+
+    project.dcp_dcp_project_dcp_communityboarddisposition_project = flaggedDispositions;
+
+    return project;
+  });
+
   // this needs to happen before value-mapping because transformMilestones requires raw ids
   // of nested related references.
-  const projectsWithFixedMilestones = projects.map(project => {
+  const projectsWithFixedMilestones = projectsWithFlaggedDispositions.map(project => {
     project.dcp_dcp_project_dcp_projectmilestone_project =
       transformMilestones(project.dcp_dcp_project_dcp_projectmilestone_project, project);
 
@@ -89,7 +111,6 @@ export function transformIntoAssignments(projects, contactid) {
   const assignments = valueMappedProjects.map(project => {
     const { dcp_dcp_project_dcp_projectlupteam_project } = project;
 
-    // invert the relationship: every projectlupteam gets a project
     return dcp_dcp_project_dcp_projectlupteam_project.map(lupteam => {
       const tab = computeStatusTab(project, lupteam);
       const actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
@@ -98,7 +119,7 @@ export function transformIntoAssignments(projects, contactid) {
         // filter all dispositions so they're scoped to the user only
         // TODO: value mapping is making this lookup not work right, need to
         // find a better way to provide BOTH orig values and labeled vals
-        // .filter(disposition => disposition._dcp_recommendationsubmittedby_value === contactid)
+        .filter(disposition => disposition._isContactDisposition)
         .map(disposition => {
           disposition.project = project;
 
