@@ -89,6 +89,7 @@ export function transformIntoAssignments(projects, contactid) {
   const assignments = valueMappedProjects.map(project => {
     const { dcp_dcp_project_dcp_projectlupteam_project } = project;
 
+    // invert the relationship: every projectlupteam gets a project
     return dcp_dcp_project_dcp_projectlupteam_project.map(lupteam => {
       const tab = computeStatusTab(project, lupteam);
       const actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
@@ -189,7 +190,7 @@ function generateAssignmentsQueryObject(query) {
       dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value),
       dcp_dcp_project_dcp_projectaction_project,
       dcp_dcp_project_dcp_projectbbl_project,
-      dcp_dcp_project_dcp_projectlupteam_project($filter=_dcp_lupteammember_value eq ${contactid})
+      dcp_dcp_project_dcp_projectlupteam_project($filter=(_dcp_lupteammember_value eq ${contactid}) and (statuscode eq 1))
     `,
   };
 }
