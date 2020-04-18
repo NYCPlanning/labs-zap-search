@@ -10,6 +10,6 @@ import { OdataModule } from '../odata/odata.module';
   	ConfigModule,
   ],
   controllers: [ProjectController],
-  providers: [ProjectService]
+  providers: [ProjectService],
 })
 export class ProjectModule {}

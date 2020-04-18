@@ -1,20 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ContactService } from '../contact/contact.service';
+import { ContactModule } from '../contact/contact.module';
+import { OdataModule } from '../odata/odata.module';
 import { AssignmentController } from './assignment.controller';
+import { AssignmentService } from './assignment.service';
 
 describe('Assignment Controller', () => {
   let controller: AssignmentController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        {
-          provide: ContactService,
-          // how you provide the injection token in a test instance
-          useValue: new (class ContactServiceMock { }),
-        },
+      imports: [
+        ContactModule,
+        OdataModule,
       ],
       controllers: [AssignmentController],
+      providers: [AssignmentService],
     }).compile();
 
     controller = module.get<AssignmentController>(AssignmentController);
