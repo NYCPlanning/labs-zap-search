@@ -78,6 +78,8 @@ export const CRMWebAPI = {
 
     return new Promise((resolve, reject) => {
       request.get(options, (error, response, body) => {
+        if (error) console.log(error);
+
         const encoding = response.headers['content-encoding'];
 
         if (!error && response.statusCode === 200) {

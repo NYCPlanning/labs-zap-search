@@ -1,14 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
-import * as nock from 'nock';
-import * as rootPath from 'app-root-path';
-import * as fs from 'fs';
 import { doLogin } from './helpers/do-login';
 import { extractJWT } from './helpers/extract-jwt';
 import { AppModule } from './../src/app.module';
-import { Project } from './../src/project/project.entity';
-import { strict as assert } from 'assert';
 
 describe('Project Get', () => {
   let app;

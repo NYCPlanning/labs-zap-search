@@ -6,7 +6,8 @@ export class ConfigService {
   private readonly envValuesFromFile: { [key: string]: string } = {};
 
   constructor(filePath: string) {
-    if (process.env.NODE_ENV === 'production') {
+    // prefer the regular env for prod or test. in test, we mock process.env.
+    if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
       this.envConfig = process.env;
     } else {
       try {

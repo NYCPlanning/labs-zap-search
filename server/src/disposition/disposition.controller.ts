@@ -10,9 +10,6 @@ import {
 } from '@nestjs/common';
 import { Deserializer } from 'jsonapi-serializer';
 import { pick } from 'underscore';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Disposition } from './disposition.entity';
 import { ConfigService } from '../config/config.service';
 import { OdataService } from '../odata/odata.service';
 

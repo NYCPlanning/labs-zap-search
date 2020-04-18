@@ -1,38 +1,40 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
-import * as nock from 'nock';
-import * as rootPath from 'app-root-path';
-import * as fs from 'fs';
+import * as mockedEnvPkg from 'mocked-env';
 import { doLogin } from './helpers/do-login';
-import { extractJWT } from './helpers/extract-jwt';
 import { AppModule } from './../src/app.module';
 import { ContactService } from './../src/contact/contact.service';
-import { ConfigService } from './../src/config/config.service';
+
+const { 'default': mockedEnv } = mockedEnvPkg;
 
 describe('Login', () => {
   let app;
   let contactMock;
-  let configMock;
+  let restoreEnv;
 
   beforeAll(async () => {
     contactMock = new class {
       findByEmail() {}
     };
 
-    configMock = new ConfigService('test.env');
+    restoreEnv = mockedEnv({
+      NYCID_CONSOLE_PASSWORD: 'test',
+      CRM_SIGNING_SECRET: 'test',
+    });
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [AppModule],
       })
       .overrideProvider(ContactService)
       .useValue(contactMock)
-      .overrideProvider(ConfigService)
-      .useValue(configMock)
       .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
+  });
+
+  afterAll(async () => {
+    restoreEnv();
   });
 
   it('runs /login without token and gives an error', () => {

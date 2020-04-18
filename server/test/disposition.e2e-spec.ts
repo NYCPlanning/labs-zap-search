@@ -37,7 +37,7 @@ describe('Disposition Patch', () => {
   });
 
   beforeAll(() => {
-    nock('https://login.microsoftonline.com:443')
+    nock('https://login.microsoftonline.com')
       .post(uri => uri.includes('oauth2/token'))
       .reply(200, {
         token_type: 'Bearer',
@@ -50,7 +50,7 @@ describe('Disposition Patch', () => {
       })
       .persist();
 
-    const scope = nock('https://dcppfsuat2.crm9.dynamics.com:443');
+    const scope = nock('https://dcppfsuat2.crm9.dynamics.com');
 
     scope
       .patch(uri => uri.includes('api/data/v9.1/dcp_communityboarddispositions'))

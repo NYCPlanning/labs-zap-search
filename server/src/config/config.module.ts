@@ -14,7 +14,7 @@ export class ConfigModule {
   constructor(private readonly config: ConfigService) {}
 
   onApplicationBootstrap() {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
       this.config.printValues();
     }
   }
