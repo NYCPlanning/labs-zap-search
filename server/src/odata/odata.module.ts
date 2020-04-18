@@ -60,13 +60,15 @@ export function any(...statements): string {
 export function comparisonOperator(propertyName, operator, value) {
   let typeSafeValue = value
 
-  if ((typeof value === 'string') && value !== 'false' && value !== 'true') {
-    typeSafeValue = `'${value}'`;
+  if (typeof value === 'string') {
+    if (value !== 'false' && value !== 'true') {
+      typeSafeValue = `'${value}'`;
+    }
   }
 
   // most likely means it's a date. we want the date formatting that
   // json stringify provides.
-  if ((typeof value === 'object') && value !== 'false' && value !== 'true') {
+  if (typeof value === 'object') {
     const stringyDate = JSON.stringify(value).replace(/"/g, "'");
 
     typeSafeValue = `${stringyDate}`;

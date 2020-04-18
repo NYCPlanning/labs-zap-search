@@ -12,7 +12,6 @@ import { ConfigService } from '../config/config.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { CRMWebAPI } from '../_utils/crm-web-api';
-const eol = require('eol');
 
 @Controller('document')
 export class DocumentController {

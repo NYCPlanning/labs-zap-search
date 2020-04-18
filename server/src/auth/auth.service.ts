@@ -60,7 +60,6 @@ export class AuthService {
    * @param      {<type>}  NYCIDToken  The nycid token
    */
   public async generateNewToken(NYCIDToken: string): Promise<string> {
-    const { CRM_IMPOSTER_ID } = this;
     const { mail, exp } = this.verifyNYCIDToken(NYCIDToken);
     const { contactid } = await this.lookupContact(mail);
 
@@ -73,8 +72,6 @@ export class AuthService {
    * @param      {string}  token   The token
    */
   public validateCurrentToken(token: string) {
-    const { CRM_IMPOSTER_ID } = this;
-
     return this.verifyCRMToken(token);
   }
 

@@ -1,6 +1,8 @@
 module.exports = {
   globals: {
     server: true,
+    $: true,
+    d3: true,
   },
   root: true,
   parserOptions: {
@@ -18,10 +20,6 @@ module.exports = {
   ],
   env: {
     browser: true,
-  },
-  globals: {
-    $: true,
-    d3: true,
   },
   rules: {
     'import/no-extraneous-dependencies': 0,

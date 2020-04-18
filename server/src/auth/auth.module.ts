@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import * as fetch from 'node-fetch';
 import * as jwt from 'jsonwebtoken';
 import * as superagent from 'superagent';
 import { AuthService } from './auth.service';

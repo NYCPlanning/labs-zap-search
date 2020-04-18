@@ -158,14 +158,13 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     // Query for new projects and grab the metadata from response
     try {
       // prefer skip token params for pagination
-      projects = yield this.store.query('project', this.skipTokenParams 
+      projects = yield this.store.query('project', this.skipTokenParams
         ? { skipTokenParams: this.skipTokenParams } : queryOptions);
       meta = projects.get('meta');
 
       this.set('skipTokenParams', meta.skipTokenParams);
-
     } catch (e) {
-      console.log(e);
+      console.log(e); // eslint-disable-line
       this.transitionToRoute('oops');
     }
 

@@ -1,8 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { Contact } from '../contact/contact.entity';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { ConfigService } from '../config/config.service';
 import { ContactService } from '../contact/contact.service';
 

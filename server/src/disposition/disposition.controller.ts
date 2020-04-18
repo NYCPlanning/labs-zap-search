@@ -2,7 +2,6 @@ import {
   Controller,
   Patch,
   Body,
-  Req,
   Param,
   Session,
   HttpException,

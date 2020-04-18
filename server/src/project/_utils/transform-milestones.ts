@@ -150,7 +150,7 @@ function applyDisplayDate(milestone, project) {
   return milestone;
 }
 
-function transformDisplayName(milestone, project) {
+function transformDisplayName(milestone) {
   if (milestone._dcp_milestone_value === '963beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Borough Board Review';
   if (milestone._dcp_milestone_value === '943beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Borough President Review';
   if (milestone._dcp_milestone_value === '763beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'CEQR Fee Paid';
@@ -177,7 +177,7 @@ function transformDisplayName(milestone, project) {
   return milestone;
 }
 
-function transformDisplaySequence(milestone, project) {
+function transformDisplaySequence(milestone) {
   milestone.display_sequence = milestone.dcp_milestonesequence;
 
   if (milestone._dcp_milestone_value === '780593bb-ecc2-e811-8156-1458d04d0698') milestone
@@ -186,7 +186,7 @@ function transformDisplaySequence(milestone, project) {
   return milestone;
 }
 
-function transformAliases(milestone, project) {
+function transformAliases(milestone) {
   // Use the raw labeled formatted value
   milestone.milestonename = milestone['_dcp_milestone_value@OData.Community.Display.V1.FormattedValue'];
 
@@ -209,8 +209,8 @@ export const transformMilestones = (milestones, project) => {
     .map(milestone => applyDisplayDescriptions(milestone, project))
     .map(milestone => applySecondDisplayDate(milestone, project))
     .map(milestone => applyDisplayDate(milestone, project))
-    .map(milestone => transformDisplayName(milestone, project))
-    .map(milestone => transformDisplaySequence(milestone, project))
-    .map(milestone => transformAliases(milestone, project))
+    .map(milestone => transformDisplayName(milestone))
+    .map(milestone => transformDisplaySequence(milestone))
+    .map(milestone => transformAliases(milestone))
     .sort(sortMilestones);
 }

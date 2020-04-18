@@ -1,25 +1,41 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import * as nock from 'nock';
+import * as mockedEnvPkg from 'mocked-env';
 import { doLogin } from './helpers/do-login';
 import { extractJWT } from './helpers/extract-jwt';
 import { AppModule } from './../src/app.module';
 
+const { 'default': mockedEnv } = mockedEnvPkg;
+
 describe('Document Upload', () => {
   let app;
+  let restoreEnv;
 
   beforeAll(async () => {
+    // Mocks the local environment with dummy data so the app can boot
+    restoreEnv = mockedEnv({
+      CRM_HOST: 'https://dcppfsuat2.crm9.dynamics.com',
+      AUTHORITY_HOST_URL: 'https://login.microsoftonline.com',
+      CRM_URL_PATH: '/api/data/v9.1/',
+      CLIENT_ID: 'test',
+      CLIENT_SECRET: 'test',
+      TENANT_ID: 'test',
+      TOKEN_PATH: '/oauth2/token',
+
+      CRM_SIGNING_SECRET: 'test',
+      NYCID_CONSOLE_PASSWORD: 'test',
+    });
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
-        imports: [AppModule],
-      })
+      imports: [AppModule],
+    })
       .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
-  });
 
-  beforeAll(() => {
-    nock('https://login.microsoftonline.com:443')
+    nock('https://login.microsoftonline.com')
       .post(uri => uri.includes('oauth2/token'))
       .reply(200, {
         token_type: 'Bearer',
@@ -32,7 +48,18 @@ describe('Document Upload', () => {
       })
       .persist();
 
-    const scope = nock('https://dcppfsuat2.crm9.dynamics.com:443');
+    const scope = nock('https://dcppfsuat2.crm9.dynamics.com');
+
+    // mock a dummy contact throughout
+    scope
+      .get(uri => uri.includes('api/data/v9.1/contacts'))
+      .reply(200, {
+        value: [{
+          contactid: 'test',
+          emailaddress1: 'labs_dl@planning.nyc.gov',
+        }], '@odata.context': ''
+      })
+      .persist();
 
     scope
       .get(uri => uri.includes('api/data/v9.1/dcp_communityboarddispositions'))
@@ -75,19 +102,7 @@ describe('Document Upload', () => {
       .persist();
   });
 
-  // beforeAll(() => {
-  //   nock.recorder.rec({
-  //     dont_print: true,
-  //     output_objects: true,
-  //   });
-  // })
-
-  // afterAll(() => {
-  //   const nockCalls = nock.recorder.play();
-  //   nock.restore();
-
-  //   fs.writeFileSync(`${rootPath}/test/mocks.json`, JSON.stringify(nockCalls), 'utf8');
-  // });
+  afterAll(() => restoreEnv());
 
   // If this fails, it may be due to the disposition entity setup being changed in UAT2.
   // For example, if the disposition entity '37b7894b-9ef9-e911-a9bc-001dd8308ef1' is deleted, since this test uploads to that 

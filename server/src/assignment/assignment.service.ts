@@ -108,6 +108,8 @@ export function transformIntoAssignments(projects, contactid) {
   );
 
   // retrieve all assignments, inferred from lup team.
+  // this maps projects, then maps project lup teams, then flattens
+  // 1:1 assignment-to-projectLUPteam
   const assignments = valueMappedProjects.map(project => {
     const { dcp_dcp_project_dcp_projectlupteam_project } = project;
 
@@ -145,8 +147,6 @@ export function transformIntoAssignments(projects, contactid) {
     });
   })
   .reduce((acc, curr) => [...acc, ...curr], []);
-
-  // const valueMappedAssignments = assignmentsLabelMapper(assignments);
 
   return assignments;
 }
@@ -196,6 +196,8 @@ function generateAssignmentsQueryObject(query) {
   );
 
   return {
+    $select: 'dcp_name,dcp_applicanttype,dcp_borough,dcp_ceqrnumber,dcp_ceqrtype,dcp_certifiedreferred,dcp_femafloodzonea,dcp_femafloodzonecoastala,dcp_femafloodzoneshadedx,dcp_femafloodzonev,dcp_sisubdivision,dcp_sischoolseat,dcp_projectbrief,dcp_projectname,dcp_publicstatus,dcp_projectcompleted,dcp_hiddenprojectmetrictarget,dcp_ulurp_nonulurp,dcp_communitydistrict,dcp_communitydistricts,dcp_validatedcommunitydistricts,dcp_bsanumber,dcp_wrpnumber,dcp_lpcnumber,dcp_name,dcp_nydospermitnumber,dcp_lastmilestonedate,_dcp_applicant_customer_value,_dcp_applicantadministrator_customer_value',
+
     $count: true,
 
     // todo maybe alias these crm named relationships
@@ -209,7 +211,7 @@ function generateAssignmentsQueryObject(query) {
     $expand: `
       dcp_dcp_project_dcp_communityboarddisposition_project($filter=${DISPOSITIONS_FILTER}),
       dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value),
-      dcp_dcp_project_dcp_projectaction_project,
+      dcp_dcp_project_dcp_projectaction_project($select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber),
       dcp_dcp_project_dcp_projectbbl_project,
       dcp_dcp_project_dcp_projectlupteam_project($filter=(_dcp_lupteammember_value eq ${contactid}) and (statuscode eq 1))
     `,

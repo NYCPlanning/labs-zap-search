@@ -43,6 +43,7 @@ export default class ProjectMilestoneComponent extends Component {
       return '';
     }
 
+    // date1 is always truthy at this point
     if (tense === 'past' && date2) {
       return moment(date2).fromNow();
     }
@@ -51,7 +52,7 @@ export default class ProjectMilestoneComponent extends Component {
       return moment(date1).fromNow();
     }
 
-    if (tense === 'future' && date1) {
+    if (tense === 'future') {
       return moment(date1).fromNow();
     }
 
