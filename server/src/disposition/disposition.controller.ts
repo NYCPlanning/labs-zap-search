@@ -52,8 +52,6 @@ const { deserialize } = new Deserializer({
 @Controller('dispositions')
 export class DispositionController {
   constructor(
-    @InjectRepository(Disposition)
-    private readonly dispositionRepository: Repository<Disposition>,
     private readonly dynamicsWebApi:OdataService,
     private readonly config: ConfigService,
   ) {}
@@ -70,7 +68,10 @@ export class DispositionController {
     // update CRM first
     // then, update the database
     try {
-      const { dcp_recommendationsubmittedby } = await this.dispositionRepository.findOneOrFail(id);
+      const { records: [{ _dcp_recommendationsubmittedby_value: dcp_recommendationsubmittedby }] } = await this.dynamicsWebApi
+        .queryFromObject('dcp_communityboarddispositions', {
+          $filter: `dcp_communityboarddispositionid eq ${id}`,
+        });
 
       // check that the person updating the disposition is the person who submitted the dispo
       // also check if it's imposter_id enabled
@@ -79,7 +80,6 @@ export class DispositionController {
       }
 
       await this.dynamicsWebApi.update('dcp_communityboarddispositions', id, whitelistedAttrs);
-      await this.dispositionRepository.update(id, whitelistedAttrs);
     } catch (e) {
       const message = await e; 
       console.log(message);

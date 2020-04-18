@@ -4,8 +4,6 @@ import * as cookieparser from 'cookie-parser';
 import * as compression from 'compression';
 import { AuthMiddleware } from './auth.middleware';
 import { ConfigModule } from './config/config.module';
-import { ConfigService } from './config/config.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectModule } from './project/project.module';
 import { AppController } from './app.controller';
 import { ContactModule } from './contact/contact.module';
@@ -19,17 +17,6 @@ import { DocumentModule } from './document/document.module';
   imports: [
     ProjectModule,
     ContactModule,
-    TypeOrmModule.forRootAsync({
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        url: config.get('DATABASE_URL'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: false,
-        ssl: true,
-      }),
-      imports: [ConfigModule],
-      inject: [ConfigService],
-    }),
     ConfigModule,
     AuthModule,
     DispositionModule,
