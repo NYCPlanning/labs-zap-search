@@ -36,7 +36,7 @@ module('Acceptance | upcoming project cards renders', function(hooks) {
           dcpLupteammemberrole: 'BP',
           dispositions: [],
           project: this.server.create('project', {
-            dcpPublicstatusSimp: 'Filed',
+            dcpPublicstatus: 'Filed',
             milestones: [
               this.server.create('milestone', 'communityBoardReview', {
                 dcpPlannedstartdate: moment().add(32, 'days'),
@@ -70,7 +70,7 @@ module('Acceptance | upcoming project cards renders', function(hooks) {
           dcpLupteammemberrole: 'BP',
           dispositions: [],
           project: this.server.create('project', {
-            dcpPublicstatusSimp: 'Filed',
+            dcpPublicstatus: 'Filed',
             milestones: [this.server.create('milestone', 'communityBoardReview', {
               dcpPlannedstartdate: moment().add(15, 'days'),
             })],
@@ -102,7 +102,7 @@ module('Acceptance | upcoming project cards renders', function(hooks) {
           dcpLupteammemberrole: 'BP',
           dispositions: [],
           project: this.server.create('project', {
-            dcpPublicstatusSimp: 'In Public Review',
+            dcpPublicstatus: 'In Public Review',
             milestones: [
               this.server.create('milestone', 'communityBoardReview', {
               }),
@@ -138,7 +138,7 @@ module('Acceptance | upcoming project cards renders', function(hooks) {
           dcpLupteammemberrole: 'BP',
           dispositions: [],
           project: this.server.create('project', {
-            dcpPublicstatusSimp: '',
+            dcpPublicstatus: '',
             milestones: [this.server.create('milestone', 'communityBoardReview', {
               // note how Community Board Review has already started, but we still display
               // the fuzzy public review start date ('in fewer than 30 days')
