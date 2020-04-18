@@ -143,7 +143,7 @@ module.exports = function(environment) {
 };
 
 function getHost(environment) {
-  if (process.env.HOST) {
+  if (process.env.HOST && environment === 'development') {
     return process.env.HOST;
   }
 
