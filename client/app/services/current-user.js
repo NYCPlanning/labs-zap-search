@@ -9,10 +9,14 @@ export default class CurrentUserService extends Service {
   store;
 
   // If session is authenticated, uses the session's user id to
-  // look up and return a PROMISE for the Ember Data Store's User object.
+  // peek the local store to return that user record
   @computed('session.{isAuthenticated,data.authenticated}')
   get user() {
-    return this.store.peekRecord('user', this.session.data.authenticated.id);
+    if (this.isLoggedIn) {
+      return this.store.peekRecord('user', this.session.data.authenticated.id);
+    }
+
+    return {};
   }
 
   @computed('session.isAuthenticated')
