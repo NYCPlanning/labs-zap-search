@@ -4,10 +4,7 @@
   command = "yarn build --environment=production"
 
 [context.develop]
-  environment = { HOST_API="https://zap-api-beta.herokuapp.com", NYCID_CLIENT_ID="zap_prod", NYC_ID_HOST="https://www1.nyc.gov/account" }
-
-[context.api-only-experiment]
-  environment = { HOST_API="https://zap-api-beta.herokuapp.com", NYCID_CLIENT_ID="zap_prod", NYC_ID_HOST="https://www1.nyc.gov/account" }
+  environment = { HOST ="https://zap-api-staging.herokuapp.com", NYCID_CLIENT_ID="lup-portal-staging", NYC_ID_HOST="https://accounts-nonprd.nyc.gov/account" }
 
 [context.master]
-  environment = { HOST_API="https://zap-api.herokuapp.com", NYCID_CLIENT_ID="zap_prod", NYC_ID_HOST="https://www1.nyc.gov/account" }
+  environment = { HOST ="https://zap-api-production.herokuapp.com", NYCID_CLIENT_ID="zap_prod", NYC_ID_HOST="https://www1.nyc.gov/account" }

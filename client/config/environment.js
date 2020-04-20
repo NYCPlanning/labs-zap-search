@@ -143,16 +143,12 @@ module.exports = function(environment) {
 };
 
 function getHost(environment) {
-  if (process.env.HOST && environment === 'development') {
+  if (process.env.HOST && environment !== 'test') {
     return process.env.HOST;
   }
 
   if (environment === 'review') {
     return process.env.HOST_PR_REVIEW;
-  }
-
-  if (environment === 'production') {
-    return 'https://zap-api.planninglabs.nyc';
   }
 
   return '';
