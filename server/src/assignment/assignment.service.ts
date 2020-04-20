@@ -52,21 +52,7 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
 ];
 
 // munge projects into user assignments
-// TODO: dispos need to be scoped to the correct user
 export function transformIntoAssignments(projects, contactid) {
-  /*
-    [
-      ...(assignment props)
-      project {
-        actions,
-        milestones,
-        dispositions,
-      }
-      milestones,
-      dispositions { project },
-    ]
-  */
-
   // JANK. This flags dispositions as contact-owned or not. this is needed for 2 steps later
   // in which we provide all dispositions, but tell our app to associate only contact-specific dispositions
   // with the assignment. This happens here because the _dcp_recommendationsubmittedby_value becomes
@@ -75,27 +61,27 @@ export function transformIntoAssignments(projects, contactid) {
   const projectsWithFlaggedDispositions = projects.map(project => {
     const flaggedDispositions =
       project.dcp_dcp_project_dcp_communityboarddisposition_project.map(disposition => {
-        disposition._isContactDisposition = false;
+        const _isContactDisposition = disposition._dcp_recommendationsubmittedby_value === contactid;
 
-        if (disposition._dcp_recommendationsubmittedby_value === contactid) {
-          disposition._isContactDisposition = true;
-        }
-
-        return disposition;
+        return {
+          ...disposition,
+          _isContactDisposition,
+        };
       });
 
-    project.dcp_dcp_project_dcp_communityboarddisposition_project = flaggedDispositions;
-
-    return project;
+    return {
+      ...project,
+      dcp_dcp_project_dcp_communityboarddisposition_project: flaggedDispositions,
+    }
   });
 
   // this needs to happen before value-mapping because transformMilestones requires raw ids
   // of nested related references.
   const projectsWithFixedMilestones = projectsWithFlaggedDispositions.map(project => {
-    project.dcp_dcp_project_dcp_projectmilestone_project =
-      transformMilestones(project.dcp_dcp_project_dcp_projectmilestone_project, project);
-
-    return project;
+    return {
+      ...project,
+      dcp_dcp_project_dcp_projectmilestone_project: transformMilestones(project.dcp_dcp_project_dcp_projectmilestone_project, project),
+    }
   });
 
   // this happens first bc expanded entities provide labelled properties
@@ -117,15 +103,14 @@ export function transformIntoAssignments(projects, contactid) {
       const tab = computeStatusTab(project, lupteam);
       const actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
       const milestones = project.dcp_dcp_project_dcp_projectmilestone_project;
-      const dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project
+      const dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project;
+      const userDispositions = dispositions
         // filter all dispositions so they're scoped to the user only
         // TODO: value mapping is making this lookup not work right, need to
         // find a better way to provide BOTH orig values and labeled vals
         .filter(disposition => disposition._isContactDisposition)
         .map(disposition => {
-          disposition.project = project;
-
-          return disposition;
+          return { ...disposition, project };
         });
 
       return {
@@ -135,14 +120,16 @@ export function transformIntoAssignments(projects, contactid) {
           ...project,
           actions,
           milestones,
+          // all dispositions regardless of user assignment
+          dispositions,
         },
 
         // this has already been transformed above
         // TODO: however, they need to be SCOPED to the user
         milestones,
 
-        // TODO: these need to be _scoped_ to the USER!!!
-        dispositions,
+        // only the users dispositions
+        dispositions: userDispositions,
       }
     });
   })
