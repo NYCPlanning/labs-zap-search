@@ -1,0 +1,15 @@
+{{!-- Implicit logout — this renders the logout domain --}}
+<iframe
+  onload={{action this.didLogoutNycId}}
+  src="{{this.nycIDHost}}/idpLogout.htm?x-frames-allow-from={{this.origin}}"
+  style="display: none;">
+</iframe>
+
+{{!-- Allows component invocation to provide an "else" block. This logic
+shows that else block when the iframe is still loading. When it is finished
+loading, it yields the main block. --}}
+{{#if this.iFrameDidLoad}}
+  {{yield}}
+{{else if (hasBlock 'inverse')}}
+  {{yield to="inverse"}}
+{{/if}}

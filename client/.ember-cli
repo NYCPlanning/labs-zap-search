@@ -1,0 +1,5 @@
+{
+  "disableAnalytics": false,
+  "ssl-key": "ssl/server.key",
+  "ssl-cert": "ssl/server.crt"
+}
