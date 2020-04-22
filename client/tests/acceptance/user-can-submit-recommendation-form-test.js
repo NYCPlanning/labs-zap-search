@@ -337,6 +337,7 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await click('[data-test-submit]');
 
     assert.equal(currentURL(), '/my-projects/1/recommendations/done');
+    assert.equal(this.server.db.dispositions[0].dcpNameofpersoncompletingthisform, 'ZAP LUP Portal');
   });
 
   test('BP User can submit a recommendation for each action', async function(assert) {
