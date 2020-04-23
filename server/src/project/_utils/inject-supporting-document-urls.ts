@@ -29,11 +29,13 @@ export async function injectSupportDocumentURLs(project) {
     ...ulurpNumbers
       .map(ulurlp => fetch(`${S3_BUCKET_HOST}/?prefix=comments/${ulurlp}`)
         .then(blob => blob.text())
-        .then(text => parseStringAsync(text))),
+        .then(text => parseStringAsync(text)
+        .catch(error => console.log(error)))),
     ...ulurpNumbers
       .map(ulurlp => fetch(`${S3_BUCKET_HOST}/?prefix=letters-dob-hpd/${ulurlp}`)
         .then(blob => blob.text())
-        .then(text => parseStringAsync(text))),
+        .then(text => parseStringAsync(text)
+        .catch(error => console.log(error)))),
   ]);
 
   // extract relevant contents, filter undefineds, and flatten

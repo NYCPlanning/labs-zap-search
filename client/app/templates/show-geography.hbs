@@ -334,35 +334,27 @@
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6" id="scrolling-result-content">
   <div class="results">
-    <h3 class="results-header clearfix">
-      <span class="float-left results-header-title">
-        {{numeral-format fetchData.lastSuccessful.value.meta.total '0,0'}}
-        project{{unless (eq fetchData.lastSuccessful.value.meta.total 1) 's'}}
-        {{if (eq fetchData.lastSuccessful.value.meta.total 1) 'matches' 'match'}} your filters
-      </span>
-      <span class="float-right results-header-meta">
-        {{#if fetchData.isRunning}}
-          {{fa-icon 'spinner' class="fa-spin light-gray"}}
-        {{else}}
-          {{#unless (eq fetchData.lastSuccessful.value.meta.total 0)}}
-            listing 1-{{numeral-format cachedProjects.length '0,0'}}
-            &nbsp;<span class="light-gray">|</span>&nbsp;
-            <span class="download-container">
-              <a>{{fa-icon 'download'}} Download</a>
-              <span class="download-links">
-                <p>Download all projects that match your filters</p>
-                <a href={{downloadURLs.csv}} class="button expanded" >{{fa-icon 'file'}} <small>CSV</small></a>
-              </span>
-            </span>
-          {{/unless}}
+    {{#results-header-meta
+      fetchData=fetchData
+      cachedProjects=cachedProjects
+      downloadURLs=downloadURLs
+      as |meta|
+    }}
+      <ul class="results-list no-bullet">
+        {{#if meta.exceedsAllowedResults}}
+          <li>
+            <p class="red">
+              Too many projects match your filters.
+              Results are limited to 5,000 and may not include projects you're looking for.
+              Please adjust the filters to narrow your results.
+            </p>
+          </li>
         {{/if}}
-      </span>
-    </h3>
-    <ul class="results-list no-bullet">
-      {{#each cachedProjects as |project|}}
-        {{project-list-item project=project}}
-      {{/each}}
-    </ul>
+        {{#each cachedProjects as |project|}}
+          {{project-list-item project=project}}
+        {{/each}}
+      </ul>
+    {{/results-header-meta}}
 
     {{#if (eq fetchData.lastSuccessful.value.meta.total 0)}}
       {{applied-filters-list
