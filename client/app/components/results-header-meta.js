@@ -1,16 +1,20 @@
 import Component from '@ember/component';
-import { alias } from '@ember/object/computed';
 import { computed } from '@ember/object';
+import queryString from 'qs';
+import ENV from 'labs-zap-search/config/environment';
 
 const MAX_RESULT_COUNT = 5000;
 
 export default class ResultsHeaderMeta extends Component {
-  // required ember-concurrency task object
-  fetchData;
-
   tagName = '';
 
-  @alias('fetchData.lastSuccessful.value.meta.total') totalResults;
+  queryParams = {};
+
+  totalResults;
+
+  isRunning;
+
+  cachedProjectsLength;
 
   @computed('totalResults')
   get hasAllowedResults() {
@@ -20,5 +24,18 @@ export default class ResultsHeaderMeta extends Component {
   @computed('totalResults')
   get exceedsAllowedResults() {
     return this.totalResults >= MAX_RESULT_COUNT;
+  }
+
+  @computed('queryParams')
+  get downloadLocations() {
+    // construct query object only with applied params
+    const href = `${ENV.host}/projects`;
+    const { queryParams } = this;
+
+    return {
+      csv: `${href}.csv?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
+      geojson: `${href}.geojson?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
+      shp: `${href}.shp?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
+    };
   }
 }

@@ -4,47 +4,47 @@
 {{!-- More than One but less than 5000 --}}
 {{!-- 5000 or more results --}}
 <h3 class="results-header clearfix">
-  <span class="float-left results-header-title">
-    {{#if this.hasAllowedResults}}
-      {{numeral-format this.totalResults '0,0'}}
-      {{pluralize this.totalResults 'project' 'projects'}}
-      {{pluralize this.totalResults 'matches' 'match'}} your filters
+  <span class="float-left results-header-title" data-test-results-header="title">
+    {{#if this.hasAllowedResults}}{{!--
+  --}}{{numeral-format this.totalResults '0,0'}} {{!--
+  --}}{{pluralize this.totalResults 'project' 'projects'}} {{!--
+  --}}{{pluralize this.totalResults 'matches' 'match'}} your filters
     {{/if}}
 
     {{#if this.exceedsAllowedResults}}
-      {{fa-icon 'exclamation-triangle' class='gold'}}
-      Over 5,000
-      projects
-      match your filters
+      <span data-test-results-header="exceeds">
+        {{fa-icon 'exclamation-triangle' class='gold'}}
+        Over 5,000
+        projects
+        match your filters
+      </span>
     {{/if}}
   </span>
 
   <span class="float-right results-header-meta">
-    {{#if this.fetchData.isRunning}}
+    {{#if this.isRunning}}
       {{fa-icon 'spinner' class="fa-spin light-gray"}}
     {{else}}
-      listing 1-{{numeral-format this.cachedProjects.length '0,0'}}
+      <span data-test-results-meta="listing">listing 1-{{numeral-format this.cachedProjectsLength '0,0'}}</span>
       &nbsp;<span class="light-gray">|</span>&nbsp;
 
-      {{#if this.hasAllowedResults}}
-        <span class="download-container">
+      <span class="download-container" data-test-results-meta="download">
+        {{#if this.hasAllowedResults}}
           <a>{{fa-icon 'download'}} Download</a>
           <span class="download-links">
             <p>Download all projects that match your filters</p>
-            <a href={{this.downloadURLs.csv}} class="button expanded">{{fa-icon 'file'}} <small>CSV</small></a>
+            <a href={{this.downloadLocations.csv}} class="button expanded">{{fa-icon 'file'}} <small>CSV</small></a>
           </span>
-        </span>
-      {{/if}}
+        {{/if}}
 
-      {{#if this.exceedsAllowedResults}}
-        <span class="download-container">
-          <a class='light-gray'>{{fa-icon 'download'}} Download</a>
+        {{#if this.exceedsAllowedResults}}
+          <a class='light-gray' data-test-results-downlad="disabled">{{fa-icon 'download'}} Download</a>
           <span class="download-links">
             <p>Download all projects that match your filters</p>
             <a href='#' class="button disabled expanded">{{fa-icon 'file'}} <small>CSV</small></a>
           </span>
-        </span>
-      {{/if}}
+        {{/if}}
+      </span>
     {{/if}}
   </span>
 </h3>

@@ -335,9 +335,10 @@
 <div class="cell large-6 xlarge-5 xxlarge-6" id="scrolling-result-content">
   <div class="results">
     {{#results-header-meta
-      fetchData=fetchData
-      cachedProjects=cachedProjects
-      downloadURLs=downloadURLs
+      totalResults=fetchData.lastSuccessful.value.meta.total
+      isRunning=fetchData.isRunning
+      cachedProjectsLength=cachedProjects.length
+      queryParams=appliedQueryParams
       as |meta|
     }}
       <ul class="results-list no-bullet">
