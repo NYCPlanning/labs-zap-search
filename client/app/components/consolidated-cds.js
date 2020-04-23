@@ -16,7 +16,7 @@ const boroLookup = (boroPrefix) => {
 @tagName('span')
 export default class ProjectListComponent extends Component {
   // @argument
-  cds = [];
+  cds = '';
 
   // @argument
   cdlink = false;
@@ -24,7 +24,7 @@ export default class ProjectListComponent extends Component {
   @computed('cds')
   get consolodatedCDs() {
     const { cds } = this;
-    const cdsArray = cds.split(';');
+    const cdsArray = (cds || '').split(';');
     const noDoubleZeroes = cdsArray.filter(d => d.substring(2) !== '00');
     let boroughGroups = _.toArray(_.groupBy(noDoubleZeroes, d => d.substring(0, 2)));
 
