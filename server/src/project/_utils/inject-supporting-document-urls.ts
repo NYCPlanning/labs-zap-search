@@ -24,48 +24,52 @@ export async function injectSupportDocumentURLs(project) {
     .map(({ dcp_ulurpnumber }) => dcp_ulurpnumber.match(/[A-Z]?([A-Z0-9]{6,7})[A-Z]{3}/))
     .map(ulurpNumber => (ulurpNumber || [])[1]);
 
-  // hit s3 object listing for all ULURP number & doc-type combination
-  const searchResults = await Promise.all([
-    ...ulurpNumbers
-      .map(ulurlp => fetch(`${S3_BUCKET_HOST}/?prefix=comments/${ulurlp}`)
-        .then(blob => blob.text())
-        .then(text => parseStringAsync(text)
-        .catch(error => console.log(error)))),
-    ...ulurpNumbers
-      .map(ulurlp => fetch(`${S3_BUCKET_HOST}/?prefix=letters-dob-hpd/${ulurlp}`)
-        .then(blob => blob.text())
-        .then(text => parseStringAsync(text)
-        .catch(error => console.log(error)))),
-  ]);
+  try {
+    // hit s3 object listing for all ULURP number & doc-type combination
+    const searchResults = await Promise.all([
+      ...ulurpNumbers
+        .map(ulurlp => fetch(`${S3_BUCKET_HOST}/?prefix=comments/${ulurlp}`)
+          .then(blob => blob.text())
+          .then(text => parseStringAsync(text)
+            .catch(error => console.log(error)))),
+      ...ulurpNumbers
+        .map(ulurlp => fetch(`${S3_BUCKET_HOST}/?prefix=letters-dob-hpd/${ulurlp}`)
+          .then(blob => blob.text())
+          .then(text => parseStringAsync(text)
+            .catch(error => console.log(error)))),
+    ]);
 
-  // extract relevant contents, filter undefineds, and flatten
-  const allSupportingDocs = searchResults
-    .map(result => result['ListBucketResult']['Contents']) // eslint-disable-line
-    .filter(Boolean)
-    .reduce((acc, curr) => acc.concat(curr), []);
+    // extract relevant contents, filter undefineds, and flatten
+    const allSupportingDocs = searchResults
+      .map(result => result['ListBucketResult']['Contents']) // eslint-disable-line
+      .filter(Boolean)
+      .reduce((acc, curr) => acc.concat(curr), []);
 
-  project.milestones.forEach((milestone) => {
-    const { _dcp_milestone_value: milestonename } = milestone;
-    const regex = MILESTONE_TYPES[milestonename];
-    milestone.milestone_links = [];
+    project.milestones.forEach((milestone) => {
+      const { _dcp_milestone_value: milestonename } = milestone;
+      const regex = MILESTONE_TYPES[milestonename];
+      milestone.milestone_links = [];
 
-    if (regex) {
-      const foundDocuments = allSupportingDocs.filter(({ Key: key }) => {
-        const [filename] = key;
+      if (regex) {
+        const foundDocuments = allSupportingDocs.filter(({ Key: key }) => {
+          const [filename] = key;
 
-        return filename.match(regex);
-      });
-
-      if (foundDocuments.length) {
-        milestone.milestone_links = foundDocuments.map((doc) => {
-          const { Key: [filename] } = doc;
-
-          return {
-            filename: filename.split('/')[1],
-            url: `${S3_BUCKET_HOST}/${filename}`,
-          };
+          return filename.match(regex);
         });
+
+        if (foundDocuments.length) {
+          milestone.milestone_links = foundDocuments.map((doc) => {
+            const { Key: [filename] } = doc;
+
+            return {
+              filename: filename.split('/')[1],
+              url: `${S3_BUCKET_HOST}/${filename}`,
+            };
+          });
+        }
       }
-    }
-  });
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }
