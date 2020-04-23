@@ -1,0 +1,323 @@
+// --------------------------------------------------
+// Default Layout
+// --------------------------------------------------
+
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  html, & {
+    @include breakpoint(large) {
+      max-height: 100vh;
+      overflow: hidden;
+    }
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.display-block { display: block; }
+.display-inline { display: inline; }
+.display-inline-block { display: inline-block;; }
+
+.site-header {
+  position: relative;
+  z-index: 2;
+}
+
+.site-main {
+  position: relative;
+  z-index: 1;
+  height: calc(100vh - 5rem);
+  background-color: $body-background;
+
+  @include breakpoint(medium) {
+    height: calc(100vh - 6rem);
+  }
+
+  @include breakpoint(large) {
+    overflow: hidden;
+
+    > .cell {
+      @include xy-cell-block($vertical:true);
+      overflow-x: hidden;
+    }
+
+  }
+}
+
+.site-message {
+  @include callout($white);
+  padding: calc(2rem + 2vw) calc(2rem + 3vw);
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: 42rem;
+  max-width: 80vw;
+  max-height: 80vh;
+  transform: translateX(-50%) translateY(-50%);
+  overflow: auto;
+  box-shadow: 0 0 0 6px rgba(0,0,0,0.1);
+
+  &.warning {
+    @include callout-style($warning-color);
+  }
+}
+
+#project-map {
+  height: 300px;
+  margin-top: $global-margin;
+  margin-bottom: $global-margin;
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 2px rgba(0,0,0,0.1);
+  }
+
+  @include breakpoint(large) {
+    height: calc(45vh - 3rem);
+    margin: 0;
+  }
+}
+
+.project-filters {
+  margin-bottom: $global-margin;
+
+  @include breakpoint(large) {
+    height: calc(55vh - 3rem);
+    overflow: auto;
+    margin-bottom: 0;
+  }
+}
+
+.results {
+  padding-top: $global-margin;
+  padding-bottom: $global-margin;
+
+  .results-header {
+    font-size: rem-calc(16);
+
+    @include breakpoint(large) {
+      position: fixed;
+      z-index: 2;
+      top: 6rem;
+      right: rem-calc(15);
+      bottom: auto;
+      left: auto;
+      width: calc(50% - #{rem-calc(30)});
+      background-color: $body-background;
+      padding: $global-margin*0.75 rem-calc(5);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+    }
+
+    @include breakpoint(xlarge) {
+      width: calc(41.66667% - #{rem-calc(30)});
+    }
+
+    @include breakpoint(xxlarge) {
+      width: calc(50% - #{rem-calc(30)});
+      font-size: rem-calc(20);
+    }
+
+    .results-header-meta {
+      font-weight: normal;
+      font-size: $small-font-size;
+      padding: rem-calc(6) 0 0 rem-calc(10);
+    }
+  }
+  .results-list {
+    @include breakpoint(large) {
+      padding-top: 3rem;
+    }
+
+    .publicstatus-label {
+      display: block;
+      font-size: rem-calc(10);
+      text-align: center;
+      white-space: normal;
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+      padding: 0.375rem;
+      font-weight: bold;
+    }
+
+    .map-marker-button {
+      margin-bottom: 0;
+      padding: 0.6em;
+
+      &, &:hover {
+        border-color: $silver;
+        border-bottom-width: 0;
+      }
+    }
+  }
+
+  .results-list--message {
+    @include breakpoint(large) {
+      position: fixed;
+      z-index: 2;
+      top: auto;
+      right: rem-calc(15);
+      bottom: 0;
+      left: auto;
+      width: calc(50% - #{rem-calc(30)});
+      background-color: $body-background;
+      padding: $global-margin*0.75 rem-calc(5);
+      box-shadow: 0 -2px 0 rgba(0,0,0,0.1);
+    }
+
+    @include breakpoint(xlarge) {
+      width: calc(41.66667% - #{rem-calc(30)});
+    }
+
+    @include breakpoint(xxlarge) {
+      width: calc(50% - #{rem-calc(30)});
+    }
+  }
+}
+
+.projects-list-result {}
+
+.projects-list-result--header {
+  display: inline;
+  margin: 0;
+}
+
+.projects-list-result--date {
+  display: block;
+  white-space: nowrap;
+  font-size: rem-calc(12);
+  line-height: 2;
+  float: right;
+  margin-left: rem-calc(10);
+}
+
+.projects-list-result--description {}
+
+.projects-list-result--meta {}
+
+.no-results-message {
+  @include breakpoint(large) {
+    margin-top: 15vh;
+  }
+
+  p {
+    max-width: 27em;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+.project-meta {
+  margin: $global-margin 0;
+}
+
+.ember-content-placeholders-img {
+  min-height: 350px;
+}
+
+.grid-padding-small {
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+
+  > .cell {
+    padding: 0.5rem;
+  }
+}
+
+// Download links dropdown
+
+.download-container {
+  position: relative;
+
+  .download-links {
+    position: absolute;
+    top: 100%;
+    right:0;
+    background: #FFF;
+    padding: 1rem;
+    width: 15em;
+    font-size: rem-calc(12);
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
+    display: none;
+
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &:hover .download-links {
+    display: block;
+  }
+}
+
+// Site header pre navigation
+.pre-nav {
+  list-style: none;
+  height: rem-calc(21);
+  line-height: rem-calc(18);
+  margin: 0;
+  padding: 0 $global-margin;
+  background-color: $dcp-orange;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.1);
+  text-align: right;
+
+  li, a {
+    line-height: inherit;
+    display: inline-block;
+  }
+
+  li + li {
+    margin-left: rem-calc(6);
+  }
+
+  a {
+    display: inline-block;
+    color: $off-white;
+    font-size: rem-calc(10);
+    text-align: center;
+
+    &:hover, &:focus {
+      color: $white;
+      text-decoration: underline;
+    }
+  }
+}
+
+//
+// Gutters
+// --------------------------------------------------
+.grid-x-small-gutters {
+  @include xy-gutters($gutters:$global-margin, $negative:true);
+
+  > .cell {
+    padding-right: $global-margin/2;
+    padding-left: $global-margin/2;
+  }
+}
+
+
+//
+// Project LUP Section
+// --------------------------------------------------
+.project--lup-section {
+
+  @include breakpoint(large) {
+    border-radius: 0 0 1rem 1rem;
+    margin: -1.25rem -0.75rem 2rem -0.75rem;
+    padding: 1.5rem;
+    border: 0;
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
+  }
+}

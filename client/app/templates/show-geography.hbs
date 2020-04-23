@@ -1,0 +1,373 @@
+<div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
+
+{{!--
+  FAQ:
+  `section.delegate-mutation` is a wrapper action to notify the "applied-filters"
+  that an explicit change has happened
+
+  About:
+  The filter-mutators component is a convenience wrapper component that yields
+  sub-components with some context that flows downstream of applied filters and
+  the mutator action.
+
+  {{#filter-mutators
+    mutateArray=(action 'mutateArray')
+    appliedFilters=applied-filters
+    as |filters|}}
+  {{/filter-mutators}}
+
+  Filter-mutators yields a `filters.section` component which helps group together
+  the actual filterable fieldnames. For example, some "filters" may actually be
+  affecting multiple fields in the database. `filters.section` makes sure those
+  get turned on when mutated.
+
+  {{#filters.section
+    filterNames=(array 'names' 'of' 'grouped' 'fields') as |section|}}
+  {{/filters.section}}
+
+  This component is abstract because it has no markup - it only sets up some
+  actions needed for mutating groups. It gets a `filter-wrapper` component and
+  the `delegate-mutation` action.
+
+  {{#section.filter-wrapper}}
+    This component invokes all the necessary markup for this to work
+  {{/section.filter-wrapper}}
+
+  `delegate-mutation` is a wrapper action that should wrap all filter mutators.
+  It is responsible for notifying the applied-filters query param that something
+  should be added or removed.
+--}}
+
+  {{#filter-mutators
+    mutateArray=(action 'mutateArray')
+    appliedFilters=applied-filters
+    as |filters|}}
+
+    {{!-- map ALSO acts as a filter, mutates applied filters --}}
+    {{!-- so we wrap it in a filter section so it has context --}}
+    {{#filters.section
+      filterNames=(array 'distance_from_point' 'radius_from_point')
+      as |section|}}
+
+      {{!-- Invoke the main map component.
+            This extends some behavior from the app's base map component --}}
+      {{#structural/project-list-map
+        tiles=tiles as |map|}}
+
+        <div class="disable-map gray">
+          <h4>Map temporarily disabled</h4>
+        </div>
+
+        {{!-- FILTER: DISTANCE FROM POINT (ADDRESS MODE) --}}
+        {{map.address-search
+          onSelectSearchResult=(action section.delegate-mutation
+            (action 'handleSearchResultSelect' 'distance_from_point')
+          )
+          onClearSearchResult=(action section.mutateWithAction)
+        }}
+
+        {{!-- FILTER: DISTANCE FROM POINT --}}
+        {{map.filter-distance-from-point
+          pointGeometry=distance_from_point
+          radius=radius_from_point
+          shouldQueryFullMap=section.filterIsActive
+          onRadiusFilterClick=(action section.delegate-mutation
+            (action 'handleRadiusFilterClick' 'distance_from_point')
+          )
+        }}
+
+        {{map-info-box}}
+
+        {{map.call 'fitBounds' bounds (hash padding=20)}}
+      {{/structural/project-list-map}}
+    {{/filters.section}}
+
+    <div class="project-filters">
+      <div class="filter">
+        <div class="grid-x align-middle">
+          <div class="cell auto">
+            <h2 class="header-small no-margin">Filter Projects</h2>
+          </div>
+          <div class="cell shrink">
+            <span
+              class="button projects-reset-filters-button tiny gray no-margin"
+              onClick={{action 'resetAll'}}>
+              &nbsp;RESET&nbsp;FILTERS&nbsp;
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {{!-- FILTER: PROJECT STAGE --}}
+      {{#filters.section
+        filterNames='dcp_publicstatus'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.dcp_publicstatus')
+          tooltip='These checkboxes filter projects by their stage in the application process. "Prefiled" refers to applications that are likely to be filed or enter public review in the next 30 days. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
+          <ul class="menu vertical medium-horizontal stage-checkboxes">
+            {{#each (array 'Prefiled' 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
+              <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}
+                data-test-status-checkbox={{type}}
+              >
+                <a>
+                  {{filter-checkbox
+                    value=type
+                    currentValues=dcp_publicstatus
+                    classPrefix="publicstatus"
+                  }}
+                </a>
+              </li>
+            {{/each}}
+          </ul>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: PROJECT / DESCRIPTION / APPLICANT --}}
+      {{#filters.section
+        filterNames='project_applicant_text'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.project_applicant_text')
+          tooltip="Enter an exact word or phrase that matches a project's name, description, applicant name, ULURP/CEQR number, or BBL."}}
+           <input
+            class="filter-text-input"
+            type="text"
+            value={{project_applicant_text}}
+            placeholder="Enter an exact phrase, name, or number..."
+            oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'project_applicant_text')}}>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: DATE CERTIFIED / REFERRED --}}
+      {{#filters.section
+        filterNames='dcp_certifiedreferred'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.dcp_certifiedreferred')
+          tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'}}
+          {{date-range-filter
+            start=dcp_certifiedreferred
+            min=0
+            max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
+            replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: BOROUGH / BLOCK --}}
+      {{#filters.section
+        filterNames=(array 'boroughs' 'block')
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.boroughs')
+          tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'
+        }}
+          <ul class="menu vertical medium-horizontal">
+            {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
+              <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}
+              data-test-borough-checkbox={{type}}
+              >
+                <a>
+                  {{filter-checkbox
+                    value=type
+                    currentValues=boroughs
+                    classPrefix="borough"
+                  }}
+                </a>
+              </li>
+            {{/each}}
+          </ul>
+          <input
+            class="filter-text-input"
+            type="text"
+            value={{block}}
+            placeholder="Block Number (e.g. '1000')"
+            oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'block')}}>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: COMMUNITY DISTRICT --}}
+      {{#filters.section
+        filterNames='community-districts'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.community-districts')
+          tooltip='Filter by Community District in each borough by either typing the Community District name (e.g. “Brooklyn 1”) or by selecting from the dropdown list. Multiple Community Districts can be selected.'}}
+          {{#power-select-multiple
+            triggerClass="community-district-dropdown-selection"
+            options=(lookup-community-district)
+            selected=(contains-keys
+              (lookup-community-district)
+              community-districts
+              key='code')
+            placeholder="Select some names..."
+            searchField='searchField'
+            onchange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
+            as |district|
+          }}
+            {{district.boro}} {{district.num}}
+          {{/power-select-multiple}}
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: ACTION TYPE --}}
+      {{#filters.section
+        filterNames='action-types'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.action-types')
+          tooltip='Filter by action type by either typing the code/name of the action or by selecting from the dropdown list. Action type refers to city planning land use actions that accompany a project. There may be multiple land use actions attached to an application. Many action types have been retired and are listed for historical projects only. Searching by one action type should return all projects that include that action. Multiple action types can be selected.'}}
+          {{#power-select-multiple
+            options=(lookup-action-type)
+            selected=(contains-keys
+              (lookup-action-type)
+              action-types
+              key='code')
+            placeholder="Select some actions..."
+            searchField='searchField'
+            onchange=(action section.delegate-mutation (action 'replaceProperty' 'action-types'))
+            as |action|
+          }}
+            {{action.code}}
+
+            {{#if action.short}}
+              - {{action.short}}
+            {{/if}}
+          {{/power-select-multiple}}
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: FEMA FLOOD ZONE --}}
+      {{#filters.section
+        filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.dcp_femafloodzonea')
+          tooltip='Projects may be located within multiple flood zones. Selecting multiple checkboxes will return projects that are at least partially located withinin all of the selected zones.'}}
+        <ul class="menu vertical medium-horizontal FEMA-checkbox">
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonev')}}
+          data-test-flood-v-checkbox>
+            {{#filters/named-checkbox
+              mainProperty=dcp_femafloodzonev
+              label='V'}}
+              <sup>
+                {{icon-tooltip
+                  tip='A portion of the 1% annual chance floodplain subject to high velocity wave action (a breaking wave 3 feet high or larger). V Zones are subject to more stringent building requirements than other zones because of the damaging force of waves.'
+                  class="dark-gray"
+                }}
+              </sup>
+            {{/filters/named-checkbox}}
+
+          </li>
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonecoastala')}}>
+            {{#filters/named-checkbox
+              mainProperty=dcp_femafloodzonecoastala
+              label='Coastal A'}}
+              <sup>
+                {{icon-tooltip
+                  tip='A sub-zone of the A Zone where wave heights are expected to be between 1.5 and 3 feet high. This zone is indicated by the Limit of Moderate Wave Action (LiMWA) line on the latest FEMA FIRMs.'
+                  class="dark-gray"
+                }}
+              </sup>
+            {{/filters/named-checkbox}}
+          </li>
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonea')}}>
+            {{#filters/named-checkbox
+              mainProperty=dcp_femafloodzonea
+              label='A'}}
+              <sup>
+                {{icon-tooltip
+                  tip='A portion of the area subject to flooding from the 1% annual chance flood. These areas are not subject to high velocity wave action but are still considered high risk flooding areas. In A Zones, NYC Building Code requires buildings to be elevated or flood-proofed based on the Base Flood Elevation identified on the FEMA’s FIRMs.'
+                  class="dark-gray"
+                }}
+              </sup>
+            {{/filters/named-checkbox}}
+          </li>
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzoneshadedx')}}>
+            {{#filters/named-checkbox
+              mainProperty=dcp_femafloodzoneshadedx
+              label='Shaded X'}}
+              <sup>
+                {{icon-tooltip
+                  tip='The area of moderate flood risk outside the regulatory 1% annual chance flood but within the limits of the 0.2% annual chance flood level (the 500-year floodplain). There are no current NYC Building Code or FEMA flood insurance purchase requirements for buildings in this zone.'
+                  class="dark-gray"
+                }}
+              </sup>
+            {{/filters/named-checkbox}}
+          </li>
+        </ul>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: ULURP TYPE --}}
+      {{#filters.section
+        filterNames='dcp_ulurp_nonulurp'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle='ULURP Type'
+          tooltip='Applications can either follow the Uniform Land Use Review Procedure (ULURP) or are designated as Non-ULURP, and are therefore not restricted to ULURP rules and timing.'}}
+          <ul class="menu vertical medium-horizontal ULURP-checkbox">
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}
+              data-test-ulurp-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='ULURP'
+                  currentValues=dcp_ulurp_nonulurp}}
+              </a>
+            </li>
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}
+              data-test-nonulurp-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='Non-ULURP'
+                  currentValues=dcp_ulurp_nonulurp}}
+              </a>
+            </li>
+          </ul>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+    </div>
+
+  {{/filter-mutators}}
+</div>
+<div class="cell large-6 xlarge-5 xxlarge-6" id="scrolling-result-content">
+  <div class="results">
+    {{#results-header-meta
+      totalResults=fetchData.lastSuccessful.value.meta.total
+      isRunning=fetchData.isRunning
+      cachedProjectsLength=cachedProjects.length
+      queryParams=appliedQueryParams
+      as |meta|
+    }}
+      <ul class="results-list no-bullet">
+        {{#if meta.exceedsAllowedResults}}
+          <li class="results-list--message">
+            <p class="red">
+              Too many projects match your filters.
+              Results are limited to 5,000 and may not include projects you're looking for.
+              Please adjust the filters to narrow your results.
+            </p>
+          </li>
+        {{/if}}
+        {{#each cachedProjects as |project|}}
+          {{project-list-item project=project}}
+        {{/each}}
+      </ul>
+    {{/results-header-meta}}
+
+    {{#if (eq fetchData.lastSuccessful.value.meta.total 0)}}
+      {{applied-filters-list
+        appliedFilters=applied-filters
+      }}
+    {{else}}
+      {{load-more-button
+        page=page
+        noMoreRecords=noMoreRecords
+        task=fetchData}}
+    {{/if}}
+  </div>
+</div>
+
+{{outlet}}
