@@ -2,8 +2,6 @@ import { action, computed } from '@ember/object';
 import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
-import ENV from 'labs-zap-search/config/environment';
-import queryString from 'qs';
 import turfBbox from '@turf/bbox';
 import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 import GeographyParachuteController from './query-parameters/show-geography';
@@ -100,23 +98,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     });
 
     return queryOptions;
-  }
-
-  /**
-   * Returns the download URL with the URI serialized `appliedQueryParams` object
-   * @returns{String}
-   */
-  @computed('allQueryParams')
-  get downloadURLs() {
-    // construct query object only with applied params
-    const href = `${ENV.host}/projects`;
-    const queryParams = this.appliedQueryParams;
-
-    return {
-      csv: `${href}.csv?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
-      geojson: `${href}.geojson?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
-      shp: `${href}.shp?${queryString.stringify(queryParams, { arrayFormat: 'bracket' })}`,
-    };
   }
 
   /**

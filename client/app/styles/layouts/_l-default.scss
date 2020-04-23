@@ -162,6 +162,29 @@ body {
       }
     }
   }
+
+  .results-list--message {
+    @include breakpoint(large) {
+      position: fixed;
+      z-index: 2;
+      top: auto;
+      right: rem-calc(15);
+      bottom: 0;
+      left: auto;
+      width: calc(50% - #{rem-calc(30)});
+      background-color: $body-background;
+      padding: $global-margin*0.75 rem-calc(5);
+      box-shadow: 0 -2px 0 rgba(0,0,0,0.1);
+    }
+
+    @include breakpoint(xlarge) {
+      width: calc(41.66667% - #{rem-calc(30)});
+    }
+
+    @include breakpoint(xxlarge) {
+      width: calc(50% - #{rem-calc(30)});
+    }
+  }
 }
 
 .projects-list-result {}
