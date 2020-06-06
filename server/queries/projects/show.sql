@@ -4,7 +4,7 @@ SELECT
   dcp_projectname,
   dcp_projectbrief,
   dcp_borough,
-  dcp_communitydistricts,
+  dcp_validatedcommunitydistricts,
   dcp_ulurp_nonulurp,
   dcp_leaddivision,
   dcp_ceqrtype,

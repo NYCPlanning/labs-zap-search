@@ -136,15 +136,15 @@ export default Factory.extend({
     return faker.random.number();
   },
 
-  dcpCommunitydistrict() {
-    return faker.random.word();
-  },
+  // dcpCommunitydistrict() {
+  //   return faker.random.word();
+  // },
 
-  dcpCommunitydistricts: 'BX08;SI01;SI02;SI03',
+  dcpValidatedcommunitydistricts: 'X08;R01;R02;R03',
 
-  dcpValidatedcommunitydistricts() {
-    return faker.random.word();
-  },
+  // dcpValidatedcommunitydistricts() {
+  //   return faker.random.word();
+  // },
 
   bblFeaturecollection() {
     return bblFeatureCollection;

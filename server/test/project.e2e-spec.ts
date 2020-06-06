@@ -107,8 +107,6 @@ describe('Project Get', () => {
           dcp_hiddenprojectmetrictarget: 717170000,
           'dcp_ulurp_nonulurp@OData.Community.Display.V1.FormattedValue': 'ULURP',
           dcp_ulurp_nonulurp: 717170001,
-          dcp_communitydistrict: null,
-          dcp_communitydistricts: 'BK10',
           dcp_validatedcommunitydistricts: 'K10',
           dcp_bsanumber: null,
           dcp_wrpnumber: null,
