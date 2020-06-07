@@ -28,7 +28,7 @@ export class AssignmentController {
     } = query;
 
     // we have different queries for LUPP things
-    if (tab && contactid) {
+    if (tab && contactid && fullname) {
       // one of 'archive', 'reviewed', 'to-review', 'upcoming'
       if (!['archive', 'reviewed', 'to-review', 'upcoming'].includes(tab)) {
         throw new Error('Must be one of archive, reviewed, to-review, upcoming');
@@ -39,7 +39,7 @@ export class AssignmentController {
         ({ contactid } = await this.contactService.findByEmail(email));
       }
 
-      const records = await this.assignmentService.getAssignments(contactid, tab);
+      const records = await this.assignmentService.getAssignments(contactid, tab, fullname);
 
       // return records;
       return this.serialize(records);

@@ -134,45 +134,49 @@
 
       {{waive-hearings-popup assignment=this.assignment showPopup=showPopup}}
       <ul class="no-bullet no-margin">
-        {{#each this.assignment.assigneeDisplayMilestones as |milestone idx|}}
-          {{#if (eq idx 1)}}
-            <li class="small-margin-bottom">
-              <LinkTo
-                @route='show-project'
-                @model={{milestone.project.id}}
-                data-test-button='submitHearing'
-              >
-                {{fa-icon 'ellipsis-v' fixedWidth=true class="tiny-margin-right"}}
-                <span class="text-tiny">VIEW FULL TIMELINE</span>
-              </LinkTo>
+        {{#if (eq this.assignment.project.dcpPublicstatus 'Prefiled')}}
+          <p>This application has not yet been filed.</p>
+        {{else}}
+          {{#each this.assignment.assigneeDisplayMilestones as |milestone idx|}}
+            {{#if (eq idx 1)}}
+              <li class="small-margin-bottom">
+                <LinkTo
+                  @route='show-project'
+                  @model={{milestone.project.id}}
+                  data-test-button='submitHearing'
+                >
+                  {{fa-icon 'ellipsis-v' fixedWidth=true class="tiny-margin-right"}}
+                  <span class="text-tiny">VIEW FULL TIMELINE</span>
+                </LinkTo>
+              </li>
+            {{/if}}
+            <li class="grid-x small-margin-bottom" data-test-milestone-view="true" data-test-milestone-id={{milestone.id}} data-test-display-order={{idx}}>
+              <div class="cell shrink small-margin-right">
+                {{#if (eq milestone.statuscode "Completed")}}
+                  {{fa-icon 'check' class='blue' fixedWidth=true}}
+                {{else if (eq milestone.statuscode "In Progress")}}
+                  {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
+                {{else if (eq milestone.statuscode "Overridden")}}
+                  {{fa-icon 'times' class='red-muted' fixedWidth=true}}
+                {{else if (eq milestone.statuscode "Not Started")}}
+                  <span data-test={{if (string-includes milestone.displayName "Review") "upcoming-indicator"}}>
+                    {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
+                  </span>
+                {{/if}}
+              </div>
+              <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
+                <strong data-test-milestone-displayname="{{idx}}">{{milestone.displayName}}</strong>
+                {{#if milestone.dcpActualenddate}}
+                  <small class="display-inline-block">
+                    <DateDisplay
+                      @date={{milestone.dcpActualenddate}}
+                    />
+                  </small>
+                {{/if}}
+              </div>
             </li>
-          {{/if}}
-          <li class="grid-x small-margin-bottom" data-test-milestone-view="true" data-test-milestone-id={{milestone.id}} data-test-display-order={{idx}}>
-            <div class="cell shrink small-margin-right">
-              {{#if (eq milestone.statuscode "Completed")}}
-                {{fa-icon 'check' class='blue' fixedWidth=true}}
-              {{else if (eq milestone.statuscode "In Progress")}}
-                {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
-              {{else if (eq milestone.statuscode "Overridden")}}
-                {{fa-icon 'times' class='red-muted' fixedWidth=true}}
-              {{else if (eq milestone.statuscode "Not Started")}}
-                <span data-test={{if (string-includes milestone.displayName "Review") "upcoming-indicator"}}>
-                  {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
-                </span>
-              {{/if}}
-            </div>
-            <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
-              <strong data-test-milestone-displayname="{{idx}}">{{milestone.displayName}}</strong>
-              {{#if milestone.dcpActualenddate}}
-                <small class="display-inline-block">
-                  <DateDisplay
-                    @date={{milestone.dcpActualenddate}}
-                  />
-                </small>
-              {{/if}}
-            </div>
-          </li>
-        {{/each}}
+          {{/each}}
+        {{/if}}
       </ul>
     </div>
   </div>

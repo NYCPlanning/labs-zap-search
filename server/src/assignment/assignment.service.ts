@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
-import { 
+import {
   all,
   any,
   comparisonOperator,
-  containsAnyOf 
+  containsAnyOf
 } from '../odata/odata.module';
 import { transformMilestones } from '../project/_utils/transform-milestones';
 import { transformActions } from '../project/_utils/transform-actions';
@@ -15,8 +15,9 @@ export class AssignmentService {
     private readonly dynamicsWebApi: OdataService
   ) {}
 
-  async getAssignments(contactid, tab) {
+  async getAssignments(contactid, tab, fullname) {
     const queryObject = generateAssignmentsQueryObject({ contactid });
+    const recodedCbFullName = recodeCbFullName(fullname);
     const { records: projects } = await this.dynamicsWebApi
       .queryFromObject('dcp_projects', queryObject);
 
@@ -138,6 +139,16 @@ export function transformIntoAssignments(projects, contactid) {
   return assignments;
 }
 
+function recodeCbFullName(fullname) {
+  const newBoroAbbrev = fullname.replace('MN CB', 'M').replace('BX CB', 'X').replace('BK CB', 'K').replace('QN CB', 'Q').replace('SI CB', 'R');
+  if (newBoroAbbrev.length == 2) {
+    const paddedNewBoroAbbrev = newBoroAbbrev.splice(1, 0, '0');
+    return paddedNewBoroAbbrev;
+  } else {
+    return newBoroAbbrev;
+  }
+}
+
 function generateAssignmentsQueryObject(query) {
   const { contactid } = query;
   const DISPLAY_MILESTONE_IDS = [
@@ -206,7 +217,7 @@ function generateAssignmentsQueryObject(query) {
 }
 
 // TODO: finish this — currently defaults to "to review"!
-function computeStatusTab(project, lupteam) {
+function computeStatusTab(project, lupteam, recodedCbFullName) {
   const {
     dcp_dcp_project_dcp_projectmilestone_project: projectMilestones,
     dcp_dcp_project_dcp_communityboarddisposition_project: dispositions,
@@ -227,6 +238,13 @@ function computeStatusTab(project, lupteam) {
 
   if (project.statecode === 'Inactive') {
     return 'archive';
+  }
+
+  if (
+    project.dcp_publicstatus === 'Prefiled'
+      && project.dcp_ulurp_nonulurp === ''
+      && project.dcp_validatedcommunitydistricts.includes(recodedCbFullName)) { // TODO
+    return 'upcoming';
   }
 
   if (participantProjectMilestones.find(milestone => milestone.statuscode === 'Not Started')) {
