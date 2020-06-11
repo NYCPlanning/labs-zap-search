@@ -136,7 +136,7 @@ export default Factory.extend({
     return faker.random.number();
   },
 
-  dcpValidatedcommunitydistricts: 'X08;R01;R02;R03',
+  dcpValidatedcommunitydistricts: 'X08,R01,R02,R03',
 
   bblFeaturecollection() {
     return bblFeatureCollection;
