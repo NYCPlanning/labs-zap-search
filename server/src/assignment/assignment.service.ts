@@ -21,7 +21,7 @@ export class AssignmentService {
     const { records: projects } = await this.dynamicsWebApi
       .queryFromObject('dcp_projects', queryObject);
 
-    return transformIntoAssignments(projects, contactid)
+    return transformIntoAssignments(projects, contactid, fullname)
       .filter(assignment => assignment.tab === tab);
   }
 }
@@ -53,7 +53,7 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
 ];
 
 // munge projects into user assignments
-export function transformIntoAssignments(projects, contactid) {
+export function transformIntoAssignments(projects, contactid, fullname) {
   // JANK. This flags dispositions as contact-owned or not. this is needed for 2 steps later
   // in which we provide all dispositions, but tell our app to associate only contact-specific dispositions
   // with the assignment. This happens here because the _dcp_recommendationsubmittedby_value becomes
@@ -101,7 +101,7 @@ export function transformIntoAssignments(projects, contactid) {
     const { dcp_dcp_project_dcp_projectlupteam_project } = project;
 
     return dcp_dcp_project_dcp_projectlupteam_project.map(lupteam => {
-      const tab = computeStatusTab(project, lupteam);
+      const tab = computeStatusTab(project, lupteam, fullname);
       const actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
       const milestones = project.dcp_dcp_project_dcp_projectmilestone_project;
       const dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project;
@@ -142,7 +142,7 @@ export function transformIntoAssignments(projects, contactid) {
 function recodeCbFullName(fullname) {
   const newBoroAbbrev = fullname.replace('MN CB', 'M').replace('BX CB', 'X').replace('BK CB', 'K').replace('QN CB', 'Q').replace('SI CB', 'R');
   if (newBoroAbbrev.length == 2) {
-    const paddedNewBoroAbbrev = newBoroAbbrev.splice(1, 0, '0');
+    const paddedNewBoroAbbrev = newBoroAbbrev.slice(0,1) + '0' + newBoroAbbrev.slice(1);
     return paddedNewBoroAbbrev;
   } else {
     return newBoroAbbrev;

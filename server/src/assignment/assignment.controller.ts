@@ -28,15 +28,19 @@ export class AssignmentController {
     } = query;
 
     // we have different queries for LUPP things
-    if (tab && contactid && fullname) {
+    if (tab && contactid) {
       // one of 'archive', 'reviewed', 'to-review', 'upcoming'
       if (!['archive', 'reviewed', 'to-review', 'upcoming'].includes(tab)) {
         throw new Error('Must be one of archive, reviewed, to-review, upcoming');
       }
+      const fullname = 'BK CB6'
 
       // todo: turn into CRM API
       if (email) {
-        ({ contactid } = await this.contactService.findByEmail(email));
+        const contact = await this.contactService.findByEmail(email);
+        const contactid = contact.contactid;
+        const fullname = contact.fullname;
+        console.log(fullname);
       }
 
       const records = await this.assignmentService.getAssignments(contactid, tab, fullname);

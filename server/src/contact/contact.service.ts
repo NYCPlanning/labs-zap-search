@@ -1,4 +1,4 @@
-import { 
+import {
   Injectable,
 } from '@nestjs/common';
 import { OdataService } from '../odata/odata.service';
