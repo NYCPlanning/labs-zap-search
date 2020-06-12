@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
-import { 
+import {
   all,
   any,
   comparisonOperator,
-  containsAnyOf 
+  containsAnyOf
 } from '../odata/odata.module';
 import { transformMilestones } from '../project/_utils/transform-milestones';
 import { transformActions } from '../project/_utils/transform-actions';
@@ -190,7 +190,6 @@ function generateAssignmentsQueryObject(query) {
     // todo maybe alias these crm named relationships
     $filter: `
       dcp_dcp_project_dcp_communityboarddisposition_project/any(o:o/_dcp_recommendationsubmittedby_value eq ${contactid})
-        and dcp_dcp_project_dcp_communityboarddisposition_project/any(o:o/statuscode eq 1)
         and dcp_dcp_project_dcp_projectlupteam_project/any(o:o/statuscode eq 1)
     `,
 
