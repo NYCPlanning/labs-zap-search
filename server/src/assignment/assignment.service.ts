@@ -201,7 +201,6 @@ function generateAssignmentsQueryObject(query) {
     // todo maybe alias these crm named relationships
     $filter: `
       dcp_dcp_project_dcp_communityboarddisposition_project/any(o:o/_dcp_recommendationsubmittedby_value eq ${contactid})
-        and dcp_dcp_project_dcp_communityboarddisposition_project/any(o:o/statuscode eq 1)
         and dcp_dcp_project_dcp_projectlupteam_project/any(o:o/statuscode eq 1)
     `,
 
