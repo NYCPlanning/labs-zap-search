@@ -33,14 +33,13 @@ export class AssignmentController {
       if (!['archive', 'reviewed', 'to-review', 'upcoming'].includes(tab)) {
         throw new Error('Must be one of archive, reviewed, to-review, upcoming');
       }
-      const fullname = 'BK CB6'
+      const fullname = 'BK CB6' // dummy variable for testing that subsequent steps in assignment.service work
 
       // todo: turn into CRM API
       if (email) {
         const contact = await this.contactService.findByEmail(email);
         const contactid = contact.contactid;
         const fullname = contact.fullname;
-        console.log(fullname);
       }
 
       const records = await this.assignmentService.getAssignments(contactid, tab, fullname);

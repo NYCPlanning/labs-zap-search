@@ -21,7 +21,7 @@ export class AssignmentService {
     const { records: projects } = await this.dynamicsWebApi
       .queryFromObject('dcp_projects', queryObject);
 
-    return transformIntoAssignments(projects, contactid, fullname)
+    return transformIntoAssignments(projects, contactid, recodedCbFullName)
       .filter(assignment => assignment.tab === tab);
   }
 }
@@ -53,7 +53,7 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
 ];
 
 // munge projects into user assignments
-export function transformIntoAssignments(projects, contactid, fullname) {
+export function transformIntoAssignments(projects, contactid, recodedCbFullName) {
   // JANK. This flags dispositions as contact-owned or not. this is needed for 2 steps later
   // in which we provide all dispositions, but tell our app to associate only contact-specific dispositions
   // with the assignment. This happens here because the _dcp_recommendationsubmittedby_value becomes
@@ -101,7 +101,7 @@ export function transformIntoAssignments(projects, contactid, fullname) {
     const { dcp_dcp_project_dcp_projectlupteam_project } = project;
 
     return dcp_dcp_project_dcp_projectlupteam_project.map(lupteam => {
-      const tab = computeStatusTab(project, lupteam, fullname);
+      const tab = computeStatusTab(project, lupteam, recodedCbFullName);
       const actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
       const milestones = project.dcp_dcp_project_dcp_projectmilestone_project;
       const dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project;
@@ -240,9 +240,10 @@ function computeStatusTab(project, lupteam, recodedCbFullName) {
   }
 
   if (
-    project.dcp_publicstatus === 'Prefiled'
-      && project.dcp_ulurp_nonulurp === ''
+    project.dcp_publicstatus === 717170005 // Prefiled
+      && project.dcp_ulurp_nonulurp === 717170001 // ULURP
       && project.dcp_validatedcommunitydistricts.includes(recodedCbFullName)) { // TODO
+    console.log('Prefiled!');
     return 'upcoming';
   }
 
