@@ -100,8 +100,11 @@ export function transformIntoAssignments(projects, contactid, recodedCbFullName)
   const assignments = valueMappedProjects.map(project => {
     let { dcp_dcp_project_dcp_projectlupteam_project } = project;
 
+    // special handling for projects that do not have dcp_projectlupteam
+    // this creates a "fake" lupteam to make downstream logic happy
     if (!dcp_dcp_project_dcp_projectlupteam_project.length) {
       dcp_dcp_project_dcp_projectlupteam_project = [{
+        dcp_projectlupteamid: `cb-nonteam-${project.dcp_projectname}-${contactid}`,
         dcp_lupteammemberrole: 'CB',
       }];
     }
@@ -146,9 +149,15 @@ export function transformIntoAssignments(projects, contactid, recodedCbFullName)
 }
 
 function recodeCbFullName(fullname) {
-  const newBoroAbbrev = fullname.replace('MN CB', 'M').replace('BX CB', 'X').replace('BK CB', 'K').replace('QN CB', 'Q').replace('SI CB', 'R');
+  const newBoroAbbrev = fullname
+    .replace('MN CB', 'M')
+    .replace('BX CB', 'X')
+    .replace('BK CB', 'K')
+    .replace('QN CB', 'Q')
+    .replace('SI CB', 'R');
+
   if (newBoroAbbrev.length == 2) {
-    const paddedNewBoroAbbrev = newBoroAbbrev.slice(0,1) + '0' + newBoroAbbrev.slice(1);
+    const paddedNewBoroAbbrev = `${newBoroAbbrev.slice(0,1)}0${newBoroAbbrev.slice(1)}`;
     return paddedNewBoroAbbrev;
   } else {
     return newBoroAbbrev;
@@ -230,13 +239,6 @@ function computeStatusTab(project, lupteam, recodedCbFullName) {
     dcp_dcp_project_dcp_projectmilestone_project: projectMilestones,
     dcp_dcp_project_dcp_communityboarddisposition_project: dispositions,
   } = project;
-  console.log('computedStatusTab',
-    project.dcp_projectname,
-    project.dcp_publicstatus,
-    project.dcp_ulurp_nonulurp,
-    project.dcp_validatedcommunitydistricts,
-    recodedCbFullName,
-  );
 
   // retrieve the LUP's relevant projectMilestones
   const participantProjectMilestones = projectMilestones.filter(
@@ -255,11 +257,12 @@ function computeStatusTab(project, lupteam, recodedCbFullName) {
     return 'archive';
   }
 
-  if (
-    project.dcp_publicstatus === 717170005 // Prefiled
-      && project.dcp_ulurp_nonulurp === 717170001 // ULURP
-      && project.dcp_validatedcommunitydistricts.includes(recodedCbFullName)) { // TODO
-    console.log('Prefiled!');
+  // REDO: Terrible: mix of labeled/coded.
+  // Some values come through here as labeled, not coded, so we look for both the labeled
+  // and coded versions
+  if ((project.dcp_publicstatus === 717170005 || project.dcp_publicstatus === 'Prefiled') // Prefiled
+    && (project.dcp_ulurp_nonulurp === 717170001 || project.dcp_ulurp_nonulurp === 'ULURP') // ULURP
+    && project.dcp_validatedcommunitydistricts.includes(recodedCbFullName)) {
     return 'upcoming';
   }
 
