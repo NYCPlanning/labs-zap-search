@@ -17,8 +17,8 @@ export class AssignmentService {
 
   async getAssignments(contact, tab) {
     const { contactid, fullname } = contact;
-    const queryObject = generateAssignmentsQueryObject({ contactid });
     const recodedCbFullName = recodeCbFullName(fullname);
+    const queryObject = generateAssignmentsQueryObject(contact);
     const { records: projects } = await this.dynamicsWebApi
       .queryFromObject('dcp_projects', queryObject);
 
@@ -165,8 +165,9 @@ function recodeCbFullName(fullname) {
   }
 }
 
-function generateAssignmentsQueryObject(query) {
-  const { contactid } = query;
+function generateAssignmentsQueryObject(contact) {
+  const { contactid, fullname } = contact;
+  const recodedCbFullName = recodeCbFullName(fullname);
   const DISPLAY_MILESTONE_IDS = [
     '963beec4-dad0-e711-8116-1458d04e2fb8',
     '943beec4-dad0-e711-8116-1458d04e2fb8',
@@ -215,12 +216,17 @@ function generateAssignmentsQueryObject(query) {
     $count: true,
 
     // todo maybe alias these crm named relationships
+    // filters by projects with associations having some connection to contactid
+    // OR infers an association through recodedCbFullName (for prefiled)
     $filter: `
       (dcp_dcp_project_dcp_communityboarddisposition_project/any
           (o:o/_dcp_recommendationsubmittedby_value eq ${contactid})
         and dcp_dcp_project_dcp_projectlupteam_project/any
           (o:o/statuscode eq 1))
-      or (dcp_ulurp_nonulurp eq 717170001 and dcp_publicstatus eq 717170005)
+      or (
+        (dcp_ulurp_nonulurp eq 717170001 and dcp_publicstatus eq 717170005)
+          and contains(dcp_validatedcommunitydistricts, '${recodedCbFullName}')
+      )
     `,
 
     // TODO: dispositions need these: AND disp.dcp_visibility IN ('General Public', 'LUP') AND disp.statuscode <> 'Deactivated'
@@ -267,7 +273,6 @@ function computeStatusTab(project, lupteam, recodedCbFullName) {
     return 'upcoming';
   }
 
-  
   if (participantProjectMilestones.find(milestone => milestone.statuscode === 'Not Started')) {
     return 'upcoming';
   }
