@@ -199,7 +199,7 @@ Others:
 
 ### Migrations
 
-Migration files are used to predictably recreate a database schema, like how a commit history recreates a codebase. 
+Migration files are used to predictably recreate a database schema, like how a commit history recreates a codebase.
 
 This project uses the [node-pg-migrate](https://github.com/salsita/node-pg-migrate) Node tool to create and run SQL-based migrations on the PostGresSQL database.
 
@@ -212,7 +212,7 @@ This project has aliased `node-pg-migrate` as `yarn run migrate` (through the `s
 yarn run migrate <command> <options>
 ```
 
-*IMPORTANT NOTE:* One caveat with migrations in this project is that they do not create the database from scratch. They should only be used after manually creating and seeding the (local or staging/prod) database. For a local database, this means after recreating it using either the "via Docker" or "on metal" instructions above. For staging and production databases, this means after the ETL scripts have finished according to the "Skyvia: Dropping then recreating tables" document. I.e. after step 13. 
+*IMPORTANT NOTE:* One caveat with migrations in this project is that they do not create the database from scratch. They should only be used after manually creating and seeding the (local or staging/prod) database. For a local database, this means after recreating it using either the "via Docker" or "on metal" instructions above. For staging and production databases, this means after the ETL scripts have finished according to the "Skyvia: Dropping then recreating tables" document. I.e. after step 13.
 
 Since the existing migrations are run on a database schema created elsewhere, it makes some assumptions about the state of the database.
 One assumption is that the indexes that the migrations will create do not already exist. If they already exist, running the migrations will throw an error.
@@ -234,7 +234,7 @@ This command will run all migrations in the `/migrations` folder in the order th
 
 #### Undo and redo migrations
 
-You can also undo migrations and redo them. You can use the `down` commmand to go backwards, or `redo` to go backwards and forwards again. 
+You can also undo migrations and redo them. You can use the `down` commmand to go backwards, or `redo` to go backwards and forwards again.
 
 For these commands, [see the CLI docs here](https://github.com/salsita/node-pg-migrate/blob/master/docs/cli.md).
 
@@ -267,7 +267,7 @@ Use query Parameters for filtering:
 
     `itemsPerPage` *default 30* - the number of projects to return with each request
 
-    `community-districts[]` - array of community district codes (mn01, bx02)
+    `community-districts[]` - array of community district codes (M01, X02)
 
     `action-types[]` - array of action types
 
@@ -341,4 +341,3 @@ The `/projects/:projectid` endpoint uses `get-video-links` util to append an arr
 ## Contact us
 
 You can find us on Twitter at [@nycplanninglabs](https://twitter.com/nycplanninglabs), or comment on issues and we'll follow up as soon as we can. If you'd like to send an email, use [labs_dl@planning.nyc.gov](mailto:labs_dl@planning.nyc.gov)
-

@@ -12,7 +12,7 @@ import { KEYS as PROJECT_KEYS, ACTION_KEYS, MILESTONE_KEYS } from './project.ent
 import { KEYS as DISPOSITION_KEYS } from '../disposition/disposition.entity';
 import { Octokit } from '@octokit/rest';
 import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
-import { 
+import {
   coerceToNumber,
   coerceToDateString,
   mapInLookup,
@@ -21,7 +21,7 @@ import {
   comparisonOperator,
   containsString,
   equalsAnyOf,
-  containsAnyOf 
+  containsAnyOf
 } from '../odata/odata.module';
 
 const ITEMS_PER_PAGE = 30;
@@ -107,11 +107,11 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
 // could these become a first class object?
 const QUERY_TEMPLATES = {
   'community-districts': (queryParamValue) =>
-    containsAnyOf('dcp_communitydistricts', queryParamValue),
+    containsAnyOf('dcp_validatedcommunitydistricts', queryParamValue),
 
   'action-types': (queryParamValue) =>
     containsAnyOf('dcp_name', queryParamValue, {
-      childEntity: 'dcp_dcp_project_dcp_projectaction_project' 
+      childEntity: 'dcp_dcp_project_dcp_projectaction_project'
     }),
 
   boroughs: (queryParamValue) =>
@@ -147,16 +147,16 @@ const QUERY_TEMPLATES = {
       containsString('dcp_projectname', queryParamValue),
       containsString('dcp_ceqrnumber', queryParamValue),
       containsAnyOf('dcp_name', [queryParamValue], {
-        childEntity: 'dcp_dcp_project_dcp_projectapplicant_Project' 
+        childEntity: 'dcp_dcp_project_dcp_projectapplicant_Project'
       }),
       containsAnyOf('dcp_ulurpnumber', [queryParamValue], {
-        childEntity: 'dcp_dcp_project_dcp_projectaction_project' 
+        childEntity: 'dcp_dcp_project_dcp_projectaction_project'
       }),
 
       // this is prohibitively slow... not sure we can use this.
       // for some reason, only dcp_name is reasonably query-able in terms of speed.
       containsAnyOf('dcp_name', [queryParamValue], {
-        childEntity: 'dcp_dcp_project_dcp_projectbbl_project' 
+        childEntity: 'dcp_dcp_project_dcp_projectbbl_project'
       }),
     ),
 };
@@ -207,19 +207,17 @@ function generateQueryObject(query, overrides?) {
     'dcp_ceqrtype',
     'dcp_certifiedreferred',
     'dcp_femafloodzonea',
-    'dcp_femafloodzonecoastala', 
+    'dcp_femafloodzonecoastala',
     'dcp_femafloodzoneshadedx',
     'dcp_femafloodzonev',
     'dcp_sisubdivision',
-    'dcp_sischoolseat', 
+    'dcp_sischoolseat',
     'dcp_projectbrief',
     'dcp_projectname',
     'dcp_publicstatus',
-    'dcp_projectcompleted', 
+    'dcp_projectcompleted',
     'dcp_hiddenprojectmetrictarget',
     'dcp_ulurp_nonulurp',
-    'dcp_communitydistrict', 
-    'dcp_communitydistricts',
     'dcp_validatedcommunitydistricts',
     'dcp_bsanumber',
     'dcp_wrpnumber',
@@ -296,19 +294,17 @@ export class ProjectService {
       'dcp_ceqrtype',
       'dcp_certifiedreferred',
       'dcp_femafloodzonea',
-      'dcp_femafloodzonecoastala', 
+      'dcp_femafloodzonecoastala',
       'dcp_femafloodzoneshadedx',
       'dcp_femafloodzonev',
       'dcp_sisubdivision',
-      'dcp_sischoolseat', 
+      'dcp_sischoolseat',
       'dcp_projectbrief',
       'dcp_projectname',
       'dcp_publicstatus',
-      'dcp_projectcompleted', 
+      'dcp_projectcompleted',
       'dcp_hiddenprojectmetrictarget',
       'dcp_ulurp_nonulurp',
-      'dcp_communitydistrict', 
-      'dcp_communitydistricts',
       'dcp_validatedcommunitydistricts',
       'dcp_bsanumber',
       'dcp_wrpnumber',
@@ -351,7 +347,7 @@ export class ProjectService {
     const [firstProject] = projects;
 
     const transformedProject = await transformProjectAttributes(firstProject);
-    // TODO: This could possibly be a carto lookup based on 
+    // TODO: This could possibly be a carto lookup based on
     // projectbbl
     // project.bbl_featurecollection = {
     //   type: 'FeatureCollection',
@@ -388,7 +384,7 @@ export class ProjectService {
       } else {
         return this.dynamicsWebApi
           .queryFromObject('dcp_projects', queryObject, itemsPerPage);
-      } 
+      }
     })();
 
     const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);

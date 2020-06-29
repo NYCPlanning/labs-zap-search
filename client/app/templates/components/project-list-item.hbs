@@ -32,7 +32,7 @@
     <p class="projects-list-result--meta no-margin text-tiny dark-gray label-group">
       {{#if (eq project.dcpBorough 'Citywide')}}<span class="label light-gray"><strong class="dark-gray">{{project.dcpBorough}}</strong></span>{{/if}}
 
-      {{consolidated-cds cds=project.dcpCommunitydistricts}}
+      {{consolidated-cds cds=project.dcpValidatedcommunitydistricts}}
 
       {{#if project.dcpUlurpNonulurp}}<span class="label light-gray"><strong class="dark-gray">{{project.dcpUlurpNonulurp}}</strong></span>{{/if}}
       {{#each project.ulurpnumbers as |ulurpnumber|}}

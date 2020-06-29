@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
 import {
   all,
-  any,
   comparisonOperator,
   containsAnyOf
 } from '../odata/odata.module';
@@ -203,15 +202,11 @@ function generateAssignmentsQueryObject(contact) {
     }),
   );
   const DISPOSITIONS_FILTER = all(
-    any(
-      comparisonOperator('dcp_visibility', 'eq', 717170004),
-      comparisonOperator('dcp_visibility', 'eq', 717170003),
-    ),
     `(not ${comparisonOperator('statuscode', 'eq', 717170001)})`,
   );
 
   return {
-    $select: 'dcp_name,dcp_applicanttype,dcp_borough,dcp_ceqrnumber,dcp_ceqrtype,dcp_certifiedreferred,dcp_femafloodzonea,dcp_femafloodzonecoastala,dcp_femafloodzoneshadedx,dcp_femafloodzonev,dcp_sisubdivision,dcp_sischoolseat,dcp_projectbrief,dcp_projectname,dcp_publicstatus,dcp_projectcompleted,dcp_hiddenprojectmetrictarget,dcp_ulurp_nonulurp,dcp_communitydistrict,dcp_communitydistricts,dcp_validatedcommunitydistricts,dcp_bsanumber,dcp_wrpnumber,dcp_lpcnumber,dcp_name,dcp_nydospermitnumber,dcp_lastmilestonedate,_dcp_applicant_customer_value,_dcp_applicantadministrator_customer_value',
+    $select: 'dcp_name,dcp_applicanttype,dcp_borough,dcp_ceqrnumber,dcp_ceqrtype,dcp_certifiedreferred,dcp_femafloodzonea,dcp_femafloodzonecoastala,dcp_femafloodzoneshadedx,dcp_femafloodzonev,dcp_sisubdivision,dcp_sischoolseat,dcp_projectbrief,dcp_projectname,dcp_publicstatus,dcp_projectcompleted,dcp_hiddenprojectmetrictarget,dcp_ulurp_nonulurp,dcp_validatedcommunitydistricts,dcp_bsanumber,dcp_wrpnumber,dcp_lpcnumber,dcp_name,dcp_nydospermitnumber,dcp_lastmilestonedate,_dcp_applicant_customer_value,_dcp_applicantadministrator_customer_value',
 
     $count: true,
 
@@ -243,16 +238,8 @@ function generateAssignmentsQueryObject(contact) {
 // TODO: finish this — currently defaults to "to review"!
 function computeStatusTab(project, lupteam, recodedCbFullName) {
   const {
-    dcp_dcp_project_dcp_projectmilestone_project: projectMilestones,
     dcp_dcp_project_dcp_communityboarddisposition_project: dispositions,
   } = project;
-
-  // retrieve the LUP's relevant projectMilestones
-  const participantProjectMilestones = projectMilestones.filter(
-    milestone => (milestone.dcp_milestone === '923beec4-dad0-e711-8116-1458d04e2fb8' && lupteam.dcp_lupteammemberrole === 'CB')
-      || (milestone.dcp_milestone === '943beec4-dad0-e711-8116-1458d04e2fb8' && lupteam.dcp_lupteammemberrole === 'BP')
-      || (milestone.dcp_milestone === '963beec4-dad0-e711-8116-1458d04e2fb8' && lupteam.dcp_lupteammemberrole === 'BB')
-    );
 
   const participantDispositions = dispositions.filter(
     disposition => disposition.dcp_representing === 'Borough President' && lupteam.dcp_lupteammemberrole === 'BP'
@@ -273,21 +260,36 @@ function computeStatusTab(project, lupteam, recodedCbFullName) {
     return 'upcoming';
   }
 
-  if (participantProjectMilestones.find(milestone => milestone.statuscode === 'Not Started')) {
-    return 'upcoming';
-  }
-
   // TODO: this is sensitive to sort order. we need to revise this!!!
   if (
-    participantProjectMilestones.find(milestone => ['In Progress', 'Completed'].includes(milestone.statuscode))
-      && participantDispositions.find(disposition => ['Inactive'].includes(disposition.statecode) && ['Submitted', 'Not Submitted'].includes(disposition.statuscode))) {
+    participantDispositions.find(disposition =>
+      // dcp_visibility 717170003 is General Public
+      // dcp_visibility 717170004 is LUP
+      [717170003, 717170004].includes(disposition.dcp_visibility)
+      && ['Submitted', 'Not Submitted'].includes(disposition.statuscode)
+      && ['Inactive'].includes(disposition.statecode))
+    ) {
     return 'reviewed';
   }
 
   if (
-    participantProjectMilestones.find(milestone => ['In Progress', 'Completed'].includes(milestone.statuscode))
-      && participantDispositions.find(disposition => ['Active'].includes(disposition.statecode) && ['Draft', 'Saved'].includes(disposition.statuscode))) {
+    participantDispositions.find(disposition =>
+      // dcp_visibility 717170003 is General Public
+      // dcp_visibility 717170004 is LUP
+      [717170003, 717170004].includes(disposition.dcp_visibility)
+      && ['Draft', 'Saved'].includes(disposition.statuscode)
+      && ['Active'].includes(disposition.statecode))
+    ) {
     return 'to-review';
+  }
+
+  if (
+    participantDispositions.find(disposition =>
+      disposition.dcp_visibility == null
+      && ['Draft'].includes(disposition.statuscode)
+      && ['Active'].includes(disposition.statecode))
+    ) {
+    return 'upcoming';
   }
 
   return null;

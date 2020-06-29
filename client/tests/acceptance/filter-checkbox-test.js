@@ -37,7 +37,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await fillIn('[data-test-filter-control="filter-section-community-district"] .ember-power-select-multiple-options input', 'Brooklyn');
     await selectChoose('.community-district-dropdown-selection', 'Brooklyn 2');
 
-    assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_publicstatus&community-districts=BK02');
+    assert.equal(currentURL(), '/projects?applied-filters=community-districts%2Cdcp_publicstatus&community-districts=K02');
   });
 
   test('User clicks action box, fills in action name, selects action type', async function(assert) {
