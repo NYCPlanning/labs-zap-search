@@ -15,7 +15,8 @@ export class AssignmentService {
     private readonly dynamicsWebApi: OdataService
   ) {}
 
-  async getAssignments(contactid, tab, fullname) {
+  async getAssignments(contact, tab) {
+    const { contactid, fullname } = contact;
     const queryObject = generateAssignmentsQueryObject({ contactid });
     const recodedCbFullName = recodeCbFullName(fullname);
     const { records: projects } = await this.dynamicsWebApi
@@ -266,6 +267,7 @@ function computeStatusTab(project, lupteam, recodedCbFullName) {
     return 'upcoming';
   }
 
+  
   if (participantProjectMilestones.find(milestone => milestone.statuscode === 'Not Started')) {
     return 'upcoming';
   }
