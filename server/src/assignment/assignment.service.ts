@@ -98,7 +98,13 @@ export function transformIntoAssignments(projects, contactid, recodedCbFullName)
   // this maps projects, then maps project lup teams, then flattens
   // 1:1 assignment-to-projectLUPteam
   const assignments = valueMappedProjects.map(project => {
-    const { dcp_dcp_project_dcp_projectlupteam_project } = project;
+    let { dcp_dcp_project_dcp_projectlupteam_project } = project;
+
+    if (!dcp_dcp_project_dcp_projectlupteam_project.length) {
+      dcp_dcp_project_dcp_projectlupteam_project = [{
+        dcp_lupteammemberrole: 'CB',
+      }];
+    }
 
     return dcp_dcp_project_dcp_projectlupteam_project.map(lupteam => {
       const tab = computeStatusTab(project, lupteam, recodedCbFullName);
@@ -200,8 +206,11 @@ function generateAssignmentsQueryObject(query) {
 
     // todo maybe alias these crm named relationships
     $filter: `
-      dcp_dcp_project_dcp_communityboarddisposition_project/any(o:o/_dcp_recommendationsubmittedby_value eq ${contactid})
-        and dcp_dcp_project_dcp_projectlupteam_project/any(o:o/statuscode eq 1)
+      (dcp_dcp_project_dcp_communityboarddisposition_project/any
+          (o:o/_dcp_recommendationsubmittedby_value eq ${contactid})
+        and dcp_dcp_project_dcp_projectlupteam_project/any
+          (o:o/statuscode eq 1))
+      or (dcp_ulurp_nonulurp eq 717170001 and dcp_publicstatus eq 717170005)
     `,
 
     // TODO: dispositions need these: AND disp.dcp_visibility IN ('General Public', 'LUP') AND disp.statuscode <> 'Deactivated'
@@ -221,6 +230,13 @@ function computeStatusTab(project, lupteam, recodedCbFullName) {
     dcp_dcp_project_dcp_projectmilestone_project: projectMilestones,
     dcp_dcp_project_dcp_communityboarddisposition_project: dispositions,
   } = project;
+  console.log('computedStatusTab',
+    project.dcp_projectname,
+    project.dcp_publicstatus,
+    project.dcp_ulurp_nonulurp,
+    project.dcp_validatedcommunitydistricts,
+    recodedCbFullName,
+  );
 
   // retrieve the LUP's relevant projectMilestones
   const participantProjectMilestones = projectMilestones.filter(
