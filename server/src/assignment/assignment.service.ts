@@ -14,12 +14,14 @@ export class AssignmentService {
     private readonly dynamicsWebApi: OdataService
   ) {}
 
-  async getAssignments(contactid, tab) {
-    const queryObject = generateAssignmentsQueryObject({ contactid });
+  async getAssignments(contact, tab) {
+    const { contactid, fullname } = contact;
+    const recodedCbFullName = recodeCbFullName(fullname);
+    const queryObject = generateAssignmentsQueryObject(contact);
     const { records: projects } = await this.dynamicsWebApi
       .queryFromObject('dcp_projects', queryObject);
 
-    return transformIntoAssignments(projects, contactid)
+    return transformIntoAssignments(projects, contactid, recodedCbFullName)
       .filter(assignment => assignment.tab === tab);
   }
 }
@@ -51,7 +53,7 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
 ];
 
 // munge projects into user assignments
-export function transformIntoAssignments(projects, contactid) {
+export function transformIntoAssignments(projects, contactid, recodedCbFullName) {
   // JANK. This flags dispositions as contact-owned or not. this is needed for 2 steps later
   // in which we provide all dispositions, but tell our app to associate only contact-specific dispositions
   // with the assignment. This happens here because the _dcp_recommendationsubmittedby_value becomes
@@ -96,10 +98,19 @@ export function transformIntoAssignments(projects, contactid) {
   // this maps projects, then maps project lup teams, then flattens
   // 1:1 assignment-to-projectLUPteam
   const assignments = valueMappedProjects.map(project => {
-    const { dcp_dcp_project_dcp_projectlupteam_project } = project;
+    let { dcp_dcp_project_dcp_projectlupteam_project } = project;
+
+    // special handling for projects that do not have dcp_projectlupteam
+    // this creates a "fake" lupteam to make downstream logic happy
+    if (!dcp_dcp_project_dcp_projectlupteam_project.length) {
+      dcp_dcp_project_dcp_projectlupteam_project = [{
+        dcp_projectlupteamid: `cb-nonteam-${project.dcp_projectname}-${contactid}`,
+        dcp_lupteammemberrole: 'CB',
+      }];
+    }
 
     return dcp_dcp_project_dcp_projectlupteam_project.map(lupteam => {
-      const tab = computeStatusTab(project, lupteam);
+      const tab = computeStatusTab(project, lupteam, recodedCbFullName);
       const actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
       const milestones = project.dcp_dcp_project_dcp_projectmilestone_project;
       const dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project;
@@ -137,8 +148,25 @@ export function transformIntoAssignments(projects, contactid) {
   return assignments;
 }
 
-function generateAssignmentsQueryObject(query) {
-  const { contactid } = query;
+function recodeCbFullName(fullname) {
+  const newBoroAbbrev = fullname
+    .replace('MN CB', 'M')
+    .replace('BX CB', 'X')
+    .replace('BK CB', 'K')
+    .replace('QN CB', 'Q')
+    .replace('SI CB', 'R');
+
+  if (newBoroAbbrev.length == 2) {
+    const paddedNewBoroAbbrev = `${newBoroAbbrev.slice(0,1)}0${newBoroAbbrev.slice(1)}`;
+    return paddedNewBoroAbbrev;
+  } else {
+    return newBoroAbbrev;
+  }
+}
+
+function generateAssignmentsQueryObject(contact) {
+  const { contactid, fullname } = contact;
+  const recodedCbFullName = recodeCbFullName(fullname);
   const DISPLAY_MILESTONE_IDS = [
     '963beec4-dad0-e711-8116-1458d04e2fb8',
     '943beec4-dad0-e711-8116-1458d04e2fb8',
@@ -183,9 +211,17 @@ function generateAssignmentsQueryObject(query) {
     $count: true,
 
     // todo maybe alias these crm named relationships
+    // filters by projects with associations having some connection to contactid
+    // OR infers an association through recodedCbFullName (for prefiled)
     $filter: `
-      dcp_dcp_project_dcp_communityboarddisposition_project/any(o:o/_dcp_recommendationsubmittedby_value eq ${contactid})
-        and dcp_dcp_project_dcp_projectlupteam_project/any(o:o/statuscode eq 1)
+      (dcp_dcp_project_dcp_communityboarddisposition_project/any
+          (o:o/_dcp_recommendationsubmittedby_value eq ${contactid})
+        and dcp_dcp_project_dcp_projectlupteam_project/any
+          (o:o/statuscode eq 1))
+      or (
+        (dcp_ulurp_nonulurp eq 717170001 and dcp_publicstatus eq 717170005)
+          and contains(dcp_validatedcommunitydistricts, '${recodedCbFullName}')
+      )
     `,
 
     // TODO: dispositions need these: AND disp.dcp_visibility IN ('General Public', 'LUP') AND disp.statuscode <> 'Deactivated'
@@ -200,7 +236,7 @@ function generateAssignmentsQueryObject(query) {
 }
 
 // TODO: finish this — currently defaults to "to review"!
-function computeStatusTab(project, lupteam) {
+function computeStatusTab(project, lupteam, recodedCbFullName) {
   const {
     dcp_dcp_project_dcp_communityboarddisposition_project: dispositions,
   } = project;
@@ -213,6 +249,15 @@ function computeStatusTab(project, lupteam) {
 
   if (project.statecode === 'Inactive') {
     return 'archive';
+  }
+
+  // REDO: Terrible: mix of labeled/coded.
+  // Some values come through here as labeled, not coded, so we look for both the labeled
+  // and coded versions
+  if ((project.dcp_publicstatus === 717170005 || project.dcp_publicstatus === 'Prefiled') // Prefiled
+    && (project.dcp_ulurp_nonulurp === 717170001 || project.dcp_ulurp_nonulurp === 'ULURP') // ULURP
+    && project.dcp_validatedcommunitydistricts.includes(recodedCbFullName)) {
+    return 'upcoming';
   }
 
   // TODO: this is sensitive to sort order. we need to revise this!!!
