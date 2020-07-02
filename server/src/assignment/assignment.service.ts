@@ -21,7 +21,7 @@ export class AssignmentService {
     const { records: projects } = await this.dynamicsWebApi
       .queryFromObject('dcp_projects', queryObject);
 
-    return transformIntoAssignments(projects, contactid, recodedCbFullName)
+    return transformIntoAssignments(projects, contactid, recodedCbFullName, fullname)
       .filter(assignment => assignment.tab === tab);
   }
 }
@@ -53,7 +53,7 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
 ];
 
 // munge projects into user assignments
-export function transformIntoAssignments(projects, contactid, recodedCbFullName) {
+export function transformIntoAssignments(projects, contactid, recodedCbFullName, fullname) {
   // JANK. This flags dispositions as contact-owned or not. this is needed for 2 steps later
   // in which we provide all dispositions, but tell our app to associate only contact-specific dispositions
   // with the assignment. This happens here because the _dcp_recommendationsubmittedby_value becomes
@@ -110,7 +110,7 @@ export function transformIntoAssignments(projects, contactid, recodedCbFullName)
     }
 
     return dcp_dcp_project_dcp_projectlupteam_project.map(lupteam => {
-      const tab = computeStatusTab(project, lupteam, recodedCbFullName);
+      const tab = computeStatusTab(project, lupteam, recodedCbFullName, fullname);
       const actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
       const milestones = project.dcp_dcp_project_dcp_projectmilestone_project;
       const dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project;
@@ -236,15 +236,16 @@ function generateAssignmentsQueryObject(contact) {
 }
 
 // TODO: finish this — currently defaults to "to review"!
-function computeStatusTab(project, lupteam, recodedCbFullName) {
+function computeStatusTab(project, lupteam, recodedCbFullName, fullname) {
   const {
     dcp_dcp_project_dcp_communityboarddisposition_project: dispositions,
   } = project;
 
   const participantDispositions = dispositions.filter(
-    disposition => disposition.dcp_representing === 'Borough President' && lupteam.dcp_lupteammemberrole === 'BP'
-      || disposition.dcp_representing === 'Borough Board' && lupteam.dcp_lupteammemberrole === 'BB'
-      || disposition.dcp_representing === 'Community Board' && lupteam.dcp_lupteammemberrole === 'CB'
+    disposition => ((disposition.dcp_representing === 'Borough President' && lupteam.dcp_lupteammemberrole === 'BP')
+      || (disposition.dcp_representing === 'Borough Board' && lupteam.dcp_lupteammemberrole === 'BB')
+      || (disposition.dcp_representing === 'Community Board' && lupteam.dcp_lupteammemberrole === 'CB'))
+      && disposition._dcp_recommendationsubmittedby_value === fullname
     );
 
   if (project.statecode === 'Inactive') {
