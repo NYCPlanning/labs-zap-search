@@ -114,11 +114,16 @@ export function transformIntoAssignments(projects, contactid, recodedCbFullName)
       const actions = transformActions(project.dcp_dcp_project_dcp_projectaction_project);
       const milestones = project.dcp_dcp_project_dcp_projectmilestone_project;
       const dispositions = project.dcp_dcp_project_dcp_communityboarddisposition_project;
+      const participantRoleLookup = {
+        BP: 'Borough President',
+        BB: 'Borough Board',
+        CB: 'Community Board',
+      };
       const userDispositions = dispositions
         // filter all dispositions so they're scoped to the user only
         // TODO: value mapping is making this lookup not work right, need to
         // find a better way to provide BOTH orig values and labeled vals
-        .filter(disposition => disposition._isContactDisposition)
+        .filter(disposition => disposition._isContactDisposition && disposition.dcp_representing === participantRoleLookup[lupteam.dcp_lupteammemberrole])
         .map(disposition => {
           return { ...disposition, project };
         });
