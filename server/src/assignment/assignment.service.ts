@@ -219,14 +219,15 @@ function generateAssignmentsQueryObject(contact) {
     // filters by projects with associations having some connection to contactid
     // OR infers an association through recodedCbFullName (for prefiled)
     $filter: `
-      (dcp_dcp_project_dcp_communityboarddisposition_project/any
+      dcp_visibility eq 717170003
+      and ((dcp_dcp_project_dcp_communityboarddisposition_project/any
           (o:o/_dcp_recommendationsubmittedby_value eq ${contactid})
         and dcp_dcp_project_dcp_projectlupteam_project/any
           (o:o/statuscode eq 1))
       or (
         (dcp_ulurp_nonulurp eq 717170001 and dcp_publicstatus eq 717170005)
           and contains(dcp_validatedcommunitydistricts, '${recodedCbFullName}')
-      )
+      ))
     `,
 
     // TODO: dispositions need these: AND disp.dcp_visibility IN ('General Public', 'LUP') AND disp.statuscode <> 'Deactivated'
