@@ -75,10 +75,6 @@ export default class ProjectModel extends Model {
 
   @attr('string') dcpUlurpNonulurp;
 
-  @attr() dcpCommunitydistrict;
-
-  @attr('string') dcpCommunitydistricts;
-
   @attr('string') dcpValidatedcommunitydistricts;
 
   @attr('boolean') hasCentroid;

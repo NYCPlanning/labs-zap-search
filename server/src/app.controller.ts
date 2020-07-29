@@ -23,7 +23,7 @@ export class AppController {
     try {
       const ZAPToken = await this.authService.generateNewToken(NYCIDToken);
 
-      res.cookie('token', ZAPToken, { httpOnly: true })
+      res.cookie('token', ZAPToken, { httpOnly: true, sameSite: 'none', secure: true })
         .send({ message: 'Login successful!' });
     } catch (e) {
       if (e instanceof HttpException) {

@@ -10,7 +10,7 @@ module('Integration | Component | consolidated-cds', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    this.set('cds', 'BK03;BK04');
+    this.set('cds', 'K03,K04');
 
     await render(hbs`{{consolidated-cds cds=cds}}`);
 

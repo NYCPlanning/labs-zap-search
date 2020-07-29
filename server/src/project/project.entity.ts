@@ -20,8 +20,6 @@ export const KEYS = [
   'dcp_projectcompleted',
   'dcp_hiddenprojectmetrictarget',
   'dcp_ulurp_nonulurp',
-  'dcp_communitydistrict',
-  'dcp_communitydistricts',
   'dcp_validatedcommunitydistricts',
   'has_centroid',
   'dcp_bsanumber',
