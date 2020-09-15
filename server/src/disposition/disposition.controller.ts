@@ -11,6 +11,9 @@ import { Deserializer } from 'jsonapi-serializer';
 import { pick } from 'underscore';
 import { ConfigService } from '../config/config.service';
 import { OdataService } from '../odata/odata.service';
+import {
+    defaultValueDispositionPipe as defaultValuePipe
+  } from './defaultValue.disposition.pipe';
 
 // Only attrs in the whitelist get posted
 const ATTRS_WHITELIST = [
@@ -53,7 +56,7 @@ export class DispositionController {
   ) {}
 
   @Patch('/:id')
-  async update(@Body() body, @Param('id') id, @Session() session) {
+  async update(@Body(defaultValuePipe) body, @Param('id') id, @Session() session) {
     if (!session) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
     const { contactid } = session;
