@@ -214,27 +214,6 @@
             </p>
           {{/if}}
 
-          <p class="text-small label-group">
-            <strong>Keywords:</strong>
-            {{#if model.dcpSisubdivision}}<span class="label light-gray">Subdivision</span>{{/if}}
-            {{#if model.dcpSischoolseat}}<span class="label light-gray">School Seat</span>{{/if}}
-
-            {{#if model.keywords}}
-              {{#each model.keywords as |keyword|}}
-                <span class="label light-gray">
-                  {{keyword}}
-                  {{#if (keyword-lookup keyword)}}
-                    <sup class="dark-gray">
-                      {{icon-tooltip
-                        tip=(keyword-lookup keyword)}}
-                    </sup>
-                  {{/if}}
-                </span>
-              {{/each}}
-            {{/if}}
-          </p>
-
-
           {{#if (or model.dcpFemafloodzonea model.dcpFemafloodzonecoastala model.dcpFemafloodzoneshadedx model.dcpFemafloodzonev) }}
             <p class="text-small">
               <strong>FEMA Flood Zone:</strong>
