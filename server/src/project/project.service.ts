@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Serializer } from 'jsonapi-serializer';
 import { dasherize } from 'inflected';
 import { ConfigService } from '../config/config.service';
+import { CartoService } from '../carto/carto.service';
 import { handleDownload } from './_utils/handle-download';
 import { transformMilestones } from './_utils/transform-milestones';
 import { transformActions } from './_utils/transform-actions';
@@ -283,7 +284,42 @@ export class ProjectService {
   constructor(
     private readonly dynamicsWebApi: OdataService,
     private readonly config: ConfigService,
+    private readonly carto: CartoService,
   ) {}
+
+  async getBblsGeometry(bbls = []) {
+    if (bbls === null) return null;
+
+    const SQL = `
+        SELECT
+          ST_AsGeoJSON(ST_Multi(ST_Union(the_geom))) AS polygons
+        FROM mappluto
+        WHERE bbl IN (${bbls.join(',')})
+        GROUP BY version
+      `;
+
+    const cartoResponse = await this.carto.fetchCarto(SQL, 'json', 'post');
+
+    if (cartoResponse.length === 0)
+      return null;
+
+    // return first object in carto response, carto.sql always return an array
+    return JSON.parse(cartoResponse[0].polygons);
+  }
+
+  async getBblsFeaturecollection(bbls) {
+    const bblsGeometry = await this.getBblsGeometry(bbls);
+
+    return {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: bblsGeometry,
+        }
+      ],
+    };
+  }
 
   async findOneByName(name: string): Promise<any> {
     const DEFAULT_PROJECT_SHOW_FIELDS = [
@@ -347,15 +383,15 @@ export class ProjectService {
     const [firstProject] = projects;
 
     const transformedProject = await transformProjectAttributes(firstProject);
-    // TODO: This could possibly be a carto lookup based on
-    // projectbbl
-    // project.bbl_featurecollection = {
-    //   type: 'FeatureCollection',
-    //   features: [{
-    //     type: 'Feature',
-    //     geometry: JSON.parse(project.bbl_multipolygon),
-    //   }],
-    // };
+
+    // get geoms from carto that match array of bbls
+    const bblsFeaturecollection = await this.getBblsFeaturecollection(firstProject.bbls);
+
+    if (bblsFeaturecollection == null) {
+      console.log(`MapPLUTO does not contain matching BBLs for project ${firstProject.id}`);
+    } else {
+      transformedProject.bbl_featurecollection = bblsFeaturecollection;
+    }
 
     transformedProject.video_links = await getVideoLinks(this.config.get('AIRTABLE_API_KEY'), firstProject.dcp_name);
 
