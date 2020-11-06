@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectService } from './project.service';
+import { CartoService } from '../carto/carto.service';
 import { ConfigModule } from '../config/config.module';
 import { OdataModule } from '../odata/odata.module';
 import { ProjectController } from './project.controller';
@@ -14,7 +15,7 @@ describe('ProjectService', () => {
         ConfigModule,
       ],
       controllers: [ProjectController],
-      providers: [ProjectService],
+      providers: [ProjectService, CartoService],
     }).compile();
 
     service = module.get<ProjectService>(ProjectService);
