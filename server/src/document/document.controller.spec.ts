@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '../config/config.module';
 import { DocumentController } from './document.controller';
+import { CrmModule } from '../crm/crm.module';
 
 describe('Document Controller', () => {
   let controller: DocumentController;
@@ -9,6 +10,7 @@ describe('Document Controller', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule,
+        CrmModule,
       ],
       controllers: [DocumentController],
     }).compile();

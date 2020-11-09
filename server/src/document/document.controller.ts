@@ -1,4 +1,5 @@
 import { Controller,
+  Get,
   Post,
   Req,
   Res,
@@ -6,9 +7,11 @@ import { Controller,
   UploadedFile,
   HttpStatus,
   HttpException,
+  Param,
   Session,
 } from '@nestjs/common';
 import { ConfigService } from '../config/config.service';
+import { CrmService } from '../crm/crm.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { CRMWebAPI } from '../_utils/crm-web-api';
@@ -17,6 +20,7 @@ import { CRMWebAPI } from '../_utils/crm-web-api';
 export class DocumentController {
   constructor(
     private readonly config: ConfigService,
+    private readonly crmService: CrmService,
   ) {}
 
   /** Uploads a single document
@@ -64,5 +68,16 @@ export class DocumentController {
     } else {
       response.status(400).send({ "error": 'You can only upload files to dcp_communityboarddisposition at this time' });
     }
+  }
+
+  // "path" refers to the "relative server path", the path
+  // to the file itself on the sharepoint host. for example,
+  // /sites/dcpuat2/.../filename.png
+  @Get('/*')
+  async read(@Param() path, @Res() res) {
+    const pathSegment = path[0];
+    const stream = await this.crmService.getSharepointFile(pathSegment);
+
+    stream.pipe(res);
   }
 }
