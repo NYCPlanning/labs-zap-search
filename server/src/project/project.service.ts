@@ -11,6 +11,7 @@ import { injectSupportDocumentURLs } from './_utils/inject-supporting-document-u
 import { getVideoLinks } from './_utils/get-video-links';
 import { KEYS as PROJECT_KEYS, ACTION_KEYS, MILESTONE_KEYS } from './project.entity';
 import { KEYS as DISPOSITION_KEYS } from '../disposition/disposition.entity';
+import { PACKAGE_ATTRS } from '../package/packages.attrs';
 import { Octokit } from '@octokit/rest';
 import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
 import {
@@ -24,6 +25,11 @@ import {
   equalsAnyOf,
   containsAnyOf
 } from '../odata/odata.module';
+// CrmService is a copy of the newer API we built for Applicant Portal to talk to CRM.
+// It will eventually strangle out OdataService, which is an older API to accomplish
+// the same thing.
+import { CrmService } from '../crm/crm.service';
+import { DocumentService } from '../document/document.service';
 
 const ITEMS_PER_PAGE = 30;
 const BOROUGH_LOOKUP = {
@@ -102,6 +108,13 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   '_dcp_action_value',
   '_dcp_zoningresolution_value',
 ];
+
+const PACKAGE_VISIBILITY = {
+  GENERAL_PUBLIC: 717170003,
+}
+const PACKAGE_STATUSCODE = {
+  SUBMITTED: 717170012,
+}
 
 // configure received params, provide procedures for generating queries.
 // these funcs do not get called unless they are in the query params.
@@ -285,6 +298,8 @@ export class ProjectService {
     private readonly dynamicsWebApi: OdataService,
     private readonly config: ConfigService,
     private readonly carto: CartoService,
+    private readonly crmService: CrmService,
+    private readonly documentService: DocumentService,
   ) {}
 
   async getBblsGeometry(bbls = []) {
@@ -323,6 +338,7 @@ export class ProjectService {
 
   async findOneByName(name: string): Promise<any> {
     const DEFAULT_PROJECT_SHOW_FIELDS = [
+      'dcp_projectid',
       'dcp_name',
       'dcp_applicanttype',
       'dcp_borough',
@@ -395,6 +411,23 @@ export class ProjectService {
 
     transformedProject.video_links = await getVideoLinks(this.config.get('AIRTABLE_API_KEY'), firstProject.dcp_name);
 
+    let { records: projectPackages } = await this.crmService.get('dcp_packages', `
+        $filter=
+          _dcp_project_value eq ${firstProject.dcp_projectid}
+          and (
+            dcp_visibility eq ${PACKAGE_VISIBILITY.GENERAL_PUBLIC}
+          )
+          and (
+            statuscode eq ${PACKAGE_STATUSCODE.SUBMITTED}
+          )
+      `);
+
+    projectPackages = await Promise.all(projectPackages.map(async (pkg) => {
+        return await this.documentService.packageWithDocuments(pkg);
+      }));
+
+    transformedProject.packages = projectPackages;
+
     await injectSupportDocumentURLs(transformedProject);
 
     return this.serialize(transformedProject);
@@ -460,6 +493,11 @@ export class ProjectService {
       dispositions: {
         ref: 'dcp_communityboarddispositionid',
         attributes: DISPOSITION_KEYS,
+      },
+
+      packages: {
+        ref: 'dcp_packageid',
+        attributes: PACKAGE_ATTRS,
       },
 
       // dasherize, but also remove the dash prefix
