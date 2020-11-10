@@ -65,8 +65,10 @@ function acris(bbl) {
 }
 
 function LowerCaseBorough(borough) {
-  const boroText = borough.replace(/\s/g, '-');
-  return boroText.toLowerCase();
+  if (borough) {
+    return borough.replace(/\s/g, '-').toLowerCase();
+  }
+  return '';
 }
 
 function CommProfiles(boro, cd) {

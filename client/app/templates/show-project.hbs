@@ -43,10 +43,16 @@
           {{/if}}
         </p>
 
+        <ShowProject::PublicDocuments
+          @packages={{this.model.sortedPackages}}
+        />
+
         <div class="grid-x grid-padding-x">
           <p class="cell auto">
             <strong>Status:</strong>
-            <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">{{model.dcpPublicstatusSimp}}</span>
+            {{#if model.dcpPublicstatusSimp}}
+              <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">{{model.dcpPublicstatusSimp}}</span>
+            {{/if}}
           </p>
           {{#if model.dcpUlurpNonulurp}}
             <p class="cell small-6 text-right">
