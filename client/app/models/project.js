@@ -30,6 +30,9 @@ export default class ProjectModel extends Model {
 
   @hasMany('assignment', { async: false }) assignments;
 
+  @hasMany('package', { async: false })
+  packages;
+
   @attr() applicantteam;
 
   // array of applicant objects
@@ -111,5 +114,11 @@ export default class ProjectModel extends Model {
       type: 'geojson',
       data,
     };
+  }
+
+  @computed('packages')
+  get sortedPackages() {
+    return this.packages.sortBy('dcpPackagesubmissiondate')
+      .reverse();
   }
 }
