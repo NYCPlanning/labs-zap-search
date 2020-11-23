@@ -1,0 +1,27 @@
+<h5
+  class="clickable-header"
+  onClick={{this.toggleShowPackageDocuments}}
+>
+  <FaIcon
+    @icon={{if this.showPackageDocuments "caret-down" "caret-right"}}
+  />
+  {{this.packageType}} v{{@package.dcpPackageversion}}
+</h5>
+
+{{#if this.showPackageDocuments}}
+  <ul
+    class="no-bullet package-documents-list"
+  >
+    {{#each @package.documents as |document|}}
+      <li>
+        <a
+          href={{concat this.host '/document' document.serverRelativeUrl}}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{document.name}}
+        </a>
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}

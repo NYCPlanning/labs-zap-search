@@ -55,6 +55,7 @@
     "nestjs-typeorm-paginate": "^1.0.2",
     "nock": "^11.7.0",
     "node-cache": "^4.2.1",
+    "node-fetch": "^2.6.1",
     "node-pg-migrate": "^3.23.3",
     "odata": "^1.0.4",
     "odata-parser": "^1.4.1",
