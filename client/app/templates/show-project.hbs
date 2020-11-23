@@ -13,19 +13,14 @@
         <div class="grid-x">
           <div class="cell medium-auto">
             <p class="lead">
-              {{#if (gt model.applicantteam.length 1)}}
-                <strong>Applicant Team:</strong>
-                {{#each model.applicantteam as |applicant|}}
+              <strong>Applicant Team:</strong>
+              {{#each model.applicantteam as |applicant|}}
+                {{#if (eq applicant.role 'Primary Applicant')}}
                   <br>
                   {{applicant.name}}
                   <small class="dark-gray">{{#if (gt model.applicantteam.length 1)}}({{applicant.role}}){{/if}}</small>
-                {{/each}}
-              {{else}}
-                <strong>Applicant:</strong>
-                {{#each model.applicantteam as |applicant|}}
-                  {{applicant.name}}
-                {{/each}}
-              {{/if}}
+                {{/if}}
+              {{/each}}
             </p>
           </div>
           <div class="cell medium-shrink">
