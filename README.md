@@ -277,10 +277,6 @@ Use query Parameters for filtering:
 
     `dcp_ulurp_nonulurp[]` - array of 'ULURP' or 'Non-ULURP'
 
-    `dcp_femafloodzonev` *default false* - flood zone boolean
-
-    `dcp_femafloodzonecoastala` *default false* - flood zone boolean
-
     `dcp_femafloodzonea` *default false* - flood zone boolean
 
     `dcp_femafloodzoneshadedx` *default false* - flood zone boolean

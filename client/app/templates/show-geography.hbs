@@ -239,39 +239,14 @@
 
       {{!-- FILTER: FEMA FLOOD ZONE --}}
       {{#filters.section
-        filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx' 'dcp_femafloodzonecoastala' 'dcp_femafloodzonev')
+        filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx')
         as |section|}}
         {{#section.filter-wrapper
           filterTitle=(get-label-for 'filters.dcp_femafloodzonea')
           tooltip='Projects may be located within multiple flood zones. Selecting multiple checkboxes will return projects that are at least partially located withinin all of the selected zones.'}}
         <ul class="menu vertical medium-horizontal FEMA-checkbox">
-          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonev')}}
-          data-test-flood-v-checkbox>
-            {{#filters/named-checkbox
-              mainProperty=dcp_femafloodzonev
-              label='V'}}
-              <sup>
-                {{icon-tooltip
-                  tip='A portion of the 1% annual chance floodplain subject to high velocity wave action (a breaking wave 3 feet high or larger). V Zones are subject to more stringent building requirements than other zones because of the damaging force of waves.'
-                  class="dark-gray"
-                }}
-              </sup>
-            {{/filters/named-checkbox}}
-
-          </li>
-          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonecoastala')}}>
-            {{#filters/named-checkbox
-              mainProperty=dcp_femafloodzonecoastala
-              label='Coastal A'}}
-              <sup>
-                {{icon-tooltip
-                  tip='A sub-zone of the A Zone where wave heights are expected to be between 1.5 and 3 feet high. This zone is indicated by the Limit of Moderate Wave Action (LiMWA) line on the latest FEMA FIRMs.'
-                  class="dark-gray"
-                }}
-              </sup>
-            {{/filters/named-checkbox}}
-          </li>
-          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonea')}}>
+          <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonea')}}
+           data-test-flood-zone-a-checkbox>
             {{#filters/named-checkbox
               mainProperty=dcp_femafloodzonea
               label='A'}}

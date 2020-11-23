@@ -215,13 +215,11 @@
             </p>
           {{/if}}
 
-          {{#if (or model.dcpFemafloodzonea model.dcpFemafloodzonecoastala model.dcpFemafloodzoneshadedx model.dcpFemafloodzonev) }}
+          {{#if (or model.dcpFemafloodzonea model.dcpFemafloodzoneshadedx) }}
             <p class="text-small">
               <strong>FEMA Flood Zone:</strong>
               {{#if model.dcpFemafloodzonea}}<span class="label light-gray">Zone A</span>{{/if}}
-              {{#if model.dcpFemafloodzonecoastala}}<span class="label light-gray">Coastal Zone A</span>{{/if}}
               {{#if model.dcpFemafloodzoneshadedx}}<span class="label light-gray">Zone Shaded X</span>{{/if}}
-              {{#if model.dcpFemafloodzonev}}<span class="label light-gray">Zone V</span>{{/if}}
             </p>
           {{/if}}
 

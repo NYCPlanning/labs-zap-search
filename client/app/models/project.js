@@ -52,11 +52,7 @@ export default class ProjectModel extends Model {
 
   @attr('boolean') dcpFemafloodzonea;
 
-  @attr('boolean') dcpFemafloodzonecoastala;
-
-  @attr('boolean') dcpFemafloodzoneshadedx;
-
-  @attr('boolean') dcpFemafloodzonev;
+@attr('boolean') dcpFemafloodzoneshadedx;
 
   @attr('boolean') dcpSisubdivision;
 

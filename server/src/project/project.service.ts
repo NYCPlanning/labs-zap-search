@@ -134,12 +134,6 @@ const QUERY_TEMPLATES = {
   dcp_ulurp_nonulurp: (queryParamValue) =>
     equalsAnyOf('dcp_ulurp_nonulurp', coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP))),
 
-  dcp_femafloodzonev: (queryParamValue) =>
-    comparisonOperator('dcp_femafloodzonev', 'eq', queryParamValue),
-
-  dcp_femafloodzonecoastala: (queryParamValue) =>
-    comparisonOperator('dcp_femafloodzonecoastala', 'eq', queryParamValue),
-
   dcp_femafloodzonea: (queryParamValue) =>
     comparisonOperator('dcp_femafloodzonea', 'eq', queryParamValue),
 
@@ -182,8 +176,6 @@ function generateProjectsFilterString(query) {
     'boroughs',
     'dcp_ceqrtype', // is this even used? 'Type I', 'Type II', 'Unlisted', 'Unknown'
     'dcp_ulurp_nonulurp', // 'ULURP', 'Non-ULURP'
-    'dcp_femafloodzonev',
-    'dcp_femafloodzonecoastala',
     'dcp_femafloodzonea',
     'dcp_femafloodzoneshadedx',
     'dcp_publicstatus', // 'Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown'
@@ -221,9 +213,7 @@ function generateQueryObject(query, overrides?) {
     'dcp_ceqrtype',
     'dcp_certifiedreferred',
     'dcp_femafloodzonea',
-    'dcp_femafloodzonecoastala',
     'dcp_femafloodzoneshadedx',
-    'dcp_femafloodzonev',
     'dcp_sisubdivision',
     'dcp_sischoolseat',
     'dcp_projectbrief',
@@ -346,9 +336,7 @@ export class ProjectService {
       'dcp_ceqrtype',
       'dcp_certifiedreferred',
       'dcp_femafloodzonea',
-      'dcp_femafloodzonecoastala',
       'dcp_femafloodzoneshadedx',
-      'dcp_femafloodzonev',
       'dcp_sisubdivision',
       'dcp_sischoolseat',
       'dcp_projectbrief',
