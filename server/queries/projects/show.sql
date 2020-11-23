@@ -21,9 +21,7 @@ SELECT
   dcp_lpcnumber,
   dcp_decpermitnumber,
   dcp_femafloodzonea,
-  dcp_femafloodzonecoastala,
-  dcp_femafloodzonecoastala,
-  dcp_femafloodzonev,
+  dcp_femafloodzoneshadedx,
   dcp_projectcompleted,
   CASE
     WHEN p.dcp_publicstatus = 'Prefiled' THEN 'Prefiled'

@@ -12,12 +12,14 @@ import { DispositionModule } from './disposition/disposition.module';
 import { OdataModule } from './odata/odata.module';
 import { AssignmentModule } from './assignment/assignment.module';
 import { DocumentModule } from './document/document.module';
+import { CrmModule } from './crm/crm.module';
 
 @Module({
   imports: [
     ProjectModule,
     ContactModule,
     ConfigModule,
+    CrmModule,
     AuthModule,
     DispositionModule,
     OdataModule,

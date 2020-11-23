@@ -8,12 +8,11 @@ export const KEYS = [
   'dcp_ceqrtype',
   'dcp_certifiedreferred',
   'dcp_femafloodzonea',
-  'dcp_femafloodzonecoastala',
   'dcp_femafloodzoneshadedx',
-  'dcp_femafloodzonev',
   'dcp_sisubdivision',
   'dcp_sischoolseat',
   'dcp_projectbrief',
+  'dcp_projectid',
   'dcp_projectname',
   'dcp_publicstatus',
   'dcp_publicstatus_simp',
@@ -44,6 +43,7 @@ export const KEYS = [
   'actions',
   'milestones',
   'dispositions',
+  'packages',
 ];
 
 export const ACTION_KEYS = [
