@@ -25,9 +25,9 @@ module('Acceptance | filter checkbox', function(hooks) {
   test('User clicks first FEMA Flood Zone status and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');
-    await click('[data-test-flood-zone-a-checkbox]');
+    await click('[data-test-flood-v-checkbox]');
 
-    assert.equal(currentURL().includes('dcp_femafloodzonea=true'), true);
+    assert.equal(currentURL().includes('dcp_femafloodzonev=true'), true);
   });
 
   test('User clicks community district box, fills in community district name, selects CD', async function(assert) {
@@ -98,7 +98,7 @@ module('Acceptance | filter checkbox', function(hooks) {
     await visit('/projects');
     await click('[data-test-filter-section="filter-section-fema-flood-zone"] .switch-paddle');
 
-    assert.equal(currentURL(), '/projects?applied-filters=dcp_femafloodzonea%2Cdcp_femafloodzoneshadedx%2Cdcp_publicstatus');
+    assert.equal(currentURL(), '/projects?applied-filters=dcp_femafloodzonea%2Cdcp_femafloodzonecoastala%2Cdcp_femafloodzoneshadedx%2Cdcp_femafloodzonev%2Cdcp_publicstatus');
     await click('[data-test-filter-section="filter-section-fema-flood-zone"] .switch-paddle');
 
     assert.equal(currentURL(), '/projects');
@@ -124,8 +124,8 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL().includes('boroughs=Bronx%2CCitywide%2CManhattan'), true);
 
     await find('[data-test-filter-control="filter-section-fema-flood-zone"].inactive');
-    await click('[data-test-flood-zone-a-checkbox]');
+    await click('[data-test-flood-v-checkbox]');
     await find('[data-test-filter-control="filter-section-fema-flood-zone"].active');
-    assert.equal(currentURL().includes('dcp_femafloodzonea=true'), true);
+    assert.equal(currentURL().includes('dcp_femafloodzonev=true'), true);
   });
 });

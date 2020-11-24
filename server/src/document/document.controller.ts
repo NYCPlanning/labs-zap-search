@@ -1,5 +1,4 @@
 import { Controller,
-  Get,
   Post,
   Req,
   Res,
@@ -7,11 +6,9 @@ import { Controller,
   UploadedFile,
   HttpStatus,
   HttpException,
-  Param,
   Session,
 } from '@nestjs/common';
 import { ConfigService } from '../config/config.service';
-import { DocumentService } from './document.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { CRMWebAPI } from '../_utils/crm-web-api';
@@ -20,7 +17,6 @@ import { CRMWebAPI } from '../_utils/crm-web-api';
 export class DocumentController {
   constructor(
     private readonly config: ConfigService,
-    private readonly documentService: DocumentService,
   ) {}
 
   /** Uploads a single document
@@ -68,12 +64,5 @@ export class DocumentController {
     } else {
       response.status(400).send({ "error": 'You can only upload files to dcp_communityboarddisposition at this time' });
     }
-  }
-
-  @Get('/*')
-  async read(@Param() path, @Res() res) {
-    const stream = await this.documentService.getPublicPackageDocument(path);
-
-    stream.pipe(res);
   }
 }

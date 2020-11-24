@@ -88,8 +88,12 @@ describe('Project Get', () => {
           dcp_certifiedreferred: '2020-04-16T14:12:50.000Z',
           'dcp_femafloodzonea@OData.Community.Display.V1.FormattedValue': 'No',
           dcp_femafloodzonea: false,
+          'dcp_femafloodzonecoastala@OData.Community.Display.V1.FormattedValue': 'No',
+          dcp_femafloodzonecoastala: false,
           'dcp_femafloodzoneshadedx@OData.Community.Display.V1.FormattedValue': 'No',
           dcp_femafloodzoneshadedx: false,
+          'dcp_femafloodzonev@OData.Community.Display.V1.FormattedValue': 'No',
+          dcp_femafloodzonev: false,
           'dcp_sisubdivision@OData.Community.Display.V1.FormattedValue': 'No',
           dcp_sisubdivision: false,
           'dcp_sischoolseat@OData.Community.Display.V1.FormattedValue': 'No',
@@ -136,7 +140,9 @@ describe('Project Get', () => {
         expect(project).toHaveProperty('attributes.dcp-certifiedreferred');
         expect(project).toHaveProperty('attributes.dcp-communitydistricts');
         expect(project).toHaveProperty('attributes.dcp-femafloodzonea');
+        expect(project).toHaveProperty('attributes.dcp-femafloodzonecoastala');
         expect(project).toHaveProperty('attributes.dcp-femafloodzoneshadedx');
+        expect(project).toHaveProperty('attributes.dcp-femafloodzonev');
         expect(project).toHaveProperty('attributes.dcp-name');
         expect(project).toHaveProperty('attributes.dcp-projectbrief');
         expect(project).toHaveProperty('attributes.dcp-projectname');

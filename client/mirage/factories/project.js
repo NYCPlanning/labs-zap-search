@@ -69,10 +69,17 @@ export default Factory.extend({
     return faker.random.arrayElement(['Flood Zone A', '']);
   },
 
+  dcpFemafloodzonecoastala() {
+    return faker.random.arrayElement(['Coastal Flood Zone', '']);
+  },
+
   dcpFemafloodzoneshadedx() {
     return faker.random.arrayElement(['Shaded Flood Zone X', '']);
   },
 
+  dcpFemafloodzonev() {
+    return faker.random.arrayElement(['Flood Zone V', '']);
+  },
 
   dcpLeadagencyforenvreview() {
     return faker.commerce.department();

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Serializer } from 'jsonapi-serializer';
 import { dasherize } from 'inflected';
 import { ConfigService } from '../config/config.service';
-import { CartoService } from '../carto/carto.service';
 import { handleDownload } from './_utils/handle-download';
 import { transformMilestones } from './_utils/transform-milestones';
 import { transformActions } from './_utils/transform-actions';
@@ -11,7 +10,6 @@ import { injectSupportDocumentURLs } from './_utils/inject-supporting-document-u
 import { getVideoLinks } from './_utils/get-video-links';
 import { KEYS as PROJECT_KEYS, ACTION_KEYS, MILESTONE_KEYS } from './project.entity';
 import { KEYS as DISPOSITION_KEYS } from '../disposition/disposition.entity';
-import { PACKAGE_ATTRS } from '../package/packages.attrs';
 import { Octokit } from '@octokit/rest';
 import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
 import {
@@ -25,11 +23,6 @@ import {
   equalsAnyOf,
   containsAnyOf
 } from '../odata/odata.module';
-// CrmService is a copy of the newer API we built for Applicant Portal to talk to CRM.
-// It will eventually strangle out OdataService, which is an older API to accomplish
-// the same thing.
-import { CrmService } from '../crm/crm.service';
-import { DocumentService } from '../document/document.service';
 
 const ITEMS_PER_PAGE = 30;
 const BOROUGH_LOOKUP = {
@@ -109,13 +102,6 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   '_dcp_zoningresolution_value',
 ];
 
-const PACKAGE_VISIBILITY = {
-  GENERAL_PUBLIC: 717170003,
-}
-const PACKAGE_STATUSCODE = {
-  SUBMITTED: 717170012,
-}
-
 // configure received params, provide procedures for generating queries.
 // these funcs do not get called unless they are in the query params.
 // could these become a first class object?
@@ -133,6 +119,12 @@ const QUERY_TEMPLATES = {
 
   dcp_ulurp_nonulurp: (queryParamValue) =>
     equalsAnyOf('dcp_ulurp_nonulurp', coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP))),
+
+  dcp_femafloodzonev: (queryParamValue) =>
+    comparisonOperator('dcp_femafloodzonev', 'eq', queryParamValue),
+
+  dcp_femafloodzonecoastala: (queryParamValue) =>
+    comparisonOperator('dcp_femafloodzonecoastala', 'eq', queryParamValue),
 
   dcp_femafloodzonea: (queryParamValue) =>
     comparisonOperator('dcp_femafloodzonea', 'eq', queryParamValue),
@@ -176,6 +168,8 @@ function generateProjectsFilterString(query) {
     'boroughs',
     'dcp_ceqrtype', // is this even used? 'Type I', 'Type II', 'Unlisted', 'Unknown'
     'dcp_ulurp_nonulurp', // 'ULURP', 'Non-ULURP'
+    'dcp_femafloodzonev',
+    'dcp_femafloodzonecoastala',
     'dcp_femafloodzonea',
     'dcp_femafloodzoneshadedx',
     'dcp_publicstatus', // 'Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown'
@@ -213,7 +207,9 @@ function generateQueryObject(query, overrides?) {
     'dcp_ceqrtype',
     'dcp_certifiedreferred',
     'dcp_femafloodzonea',
+    'dcp_femafloodzonecoastala',
     'dcp_femafloodzoneshadedx',
+    'dcp_femafloodzonev',
     'dcp_sisubdivision',
     'dcp_sischoolseat',
     'dcp_projectbrief',
@@ -287,48 +283,10 @@ export class ProjectService {
   constructor(
     private readonly dynamicsWebApi: OdataService,
     private readonly config: ConfigService,
-    private readonly carto: CartoService,
-    private readonly crmService: CrmService,
-    private readonly documentService: DocumentService,
   ) {}
-
-  async getBblsGeometry(bbls = []) {
-    if (bbls === null) return null;
-
-    const SQL = `
-        SELECT
-          ST_AsGeoJSON(ST_Multi(ST_Union(the_geom))) AS polygons
-        FROM mappluto
-        WHERE bbl IN (${bbls.join(',')})
-        GROUP BY version
-      `;
-
-    const cartoResponse = await this.carto.fetchCarto(SQL, 'json', 'post');
-
-    if (cartoResponse.length === 0)
-      return null;
-
-    // return first object in carto response, carto.sql always return an array
-    return JSON.parse(cartoResponse[0].polygons);
-  }
-
-  async getBblsFeaturecollection(bbls) {
-    const bblsGeometry = await this.getBblsGeometry(bbls);
-
-    return {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: bblsGeometry,
-        }
-      ],
-    };
-  }
 
   async findOneByName(name: string): Promise<any> {
     const DEFAULT_PROJECT_SHOW_FIELDS = [
-      'dcp_projectid',
       'dcp_name',
       'dcp_applicanttype',
       'dcp_borough',
@@ -336,7 +294,9 @@ export class ProjectService {
       'dcp_ceqrtype',
       'dcp_certifiedreferred',
       'dcp_femafloodzonea',
+      'dcp_femafloodzonecoastala',
       'dcp_femafloodzoneshadedx',
+      'dcp_femafloodzonev',
       'dcp_sisubdivision',
       'dcp_sischoolseat',
       'dcp_projectbrief',
@@ -387,34 +347,17 @@ export class ProjectService {
     const [firstProject] = projects;
 
     const transformedProject = await transformProjectAttributes(firstProject);
-
-    // get geoms from carto that match array of bbls
-    const bblsFeaturecollection = await this.getBblsFeaturecollection(firstProject.bbls);
-
-    if (bblsFeaturecollection == null) {
-      console.log(`MapPLUTO does not contain matching BBLs for project ${firstProject.id}`);
-    } else {
-      transformedProject.bbl_featurecollection = bblsFeaturecollection;
-    }
+    // TODO: This could possibly be a carto lookup based on
+    // projectbbl
+    // project.bbl_featurecollection = {
+    //   type: 'FeatureCollection',
+    //   features: [{
+    //     type: 'Feature',
+    //     geometry: JSON.parse(project.bbl_multipolygon),
+    //   }],
+    // };
 
     transformedProject.video_links = await getVideoLinks(this.config.get('AIRTABLE_API_KEY'), firstProject.dcp_name);
-
-    let { records: projectPackages } = await this.crmService.get('dcp_packages', `
-        $filter=
-          _dcp_project_value eq ${firstProject.dcp_projectid}
-          and (
-            dcp_visibility eq ${PACKAGE_VISIBILITY.GENERAL_PUBLIC}
-          )
-          and (
-            statuscode eq ${PACKAGE_STATUSCODE.SUBMITTED}
-          )
-      `);
-
-    projectPackages = await Promise.all(projectPackages.map(async (pkg) => {
-        return await this.documentService.packageWithDocuments(pkg);
-      }));
-
-    transformedProject.packages = projectPackages;
 
     await injectSupportDocumentURLs(transformedProject);
 
@@ -481,11 +424,6 @@ export class ProjectService {
       dispositions: {
         ref: 'dcp_communityboarddispositionid',
         attributes: DISPOSITION_KEYS,
-      },
-
-      packages: {
-        ref: 'dcp_packageid',
-        attributes: PACKAGE_ATTRS,
       },
 
       // dasherize, but also remove the dash prefix
