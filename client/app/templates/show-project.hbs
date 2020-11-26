@@ -13,19 +13,14 @@
         <div class="grid-x">
           <div class="cell medium-auto">
             <p class="lead">
-              {{#if (gt model.applicantteam.length 1)}}
-                <strong>Applicant Team:</strong>
-                {{#each model.applicantteam as |applicant|}}
+              <strong>Applicant Team:</strong>
+              {{#each model.applicantteam as |applicant|}}
+                {{#if (eq applicant.role 'Primary Applicant')}}
                   <br>
                   {{applicant.name}}
                   <small class="dark-gray">{{#if (gt model.applicantteam.length 1)}}({{applicant.role}}){{/if}}</small>
-                {{/each}}
-              {{else}}
-                <strong>Applicant:</strong>
-                {{#each model.applicantteam as |applicant|}}
-                  {{applicant.name}}
-                {{/each}}
-              {{/if}}
+                {{/if}}
+              {{/each}}
             </p>
           </div>
           <div class="cell medium-shrink">
@@ -43,10 +38,16 @@
           {{/if}}
         </p>
 
+        <ShowProject::PublicDocuments
+          @packages={{this.model.sortedPackages}}
+        />
+
         <div class="grid-x grid-padding-x">
           <p class="cell auto">
             <strong>Status:</strong>
-            <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">{{model.dcpPublicstatusSimp}}</span>
+            {{#if model.dcpPublicstatusSimp}}
+              <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">{{model.dcpPublicstatusSimp}}</span>
+            {{/if}}
           </p>
           {{#if model.dcpUlurpNonulurp}}
             <p class="cell small-6 text-right">
@@ -214,34 +215,11 @@
             </p>
           {{/if}}
 
-          <p class="text-small label-group">
-            <strong>Keywords:</strong>
-            {{#if model.dcpSisubdivision}}<span class="label light-gray">Subdivision</span>{{/if}}
-            {{#if model.dcpSischoolseat}}<span class="label light-gray">School Seat</span>{{/if}}
-
-            {{#if model.keywords}}
-              {{#each model.keywords as |keyword|}}
-                <span class="label light-gray">
-                  {{keyword}}
-                  {{#if (keyword-lookup keyword)}}
-                    <sup class="dark-gray">
-                      {{icon-tooltip
-                        tip=(keyword-lookup keyword)}}
-                    </sup>
-                  {{/if}}
-                </span>
-              {{/each}}
-            {{/if}}
-          </p>
-
-
-          {{#if (or model.dcpFemafloodzonea model.dcpFemafloodzonecoastala model.dcpFemafloodzoneshadedx model.dcpFemafloodzonev) }}
+          {{#if (or model.dcpFemafloodzonea model.dcpFemafloodzoneshadedx) }}
             <p class="text-small">
               <strong>FEMA Flood Zone:</strong>
               {{#if model.dcpFemafloodzonea}}<span class="label light-gray">Zone A</span>{{/if}}
-              {{#if model.dcpFemafloodzonecoastala}}<span class="label light-gray">Coastal Zone A</span>{{/if}}
               {{#if model.dcpFemafloodzoneshadedx}}<span class="label light-gray">Zone Shaded X</span>{{/if}}
-              {{#if model.dcpFemafloodzonev}}<span class="label light-gray">Zone V</span>{{/if}}
             </p>
           {{/if}}
 
