@@ -7,6 +7,7 @@ import * as zlib from 'zlib';
 import * as Request from 'request';
 import { ConfigService } from '../config/config.service';
 import { ADAL } from '../_utils/adal';
+import { XmlService } from './xml/xml.service';
 
 /**
  * This service is responsible for providing convenience
@@ -23,11 +24,13 @@ export class CrmService {
   crmUrlPath = '';
   crmHost = '';
   host = '';
+  ADAL = ADAL;
+  xml = {};
 
   constructor(
     private readonly config: ConfigService,
   ) {
-    ADAL.ADAL_CONFIG = {
+    this.ADAL.ADAL_CONFIG = {
       CRMUrl: this.config.get('CRM_HOST'),
       webAPIurl: this.config.get('CRM_URL_PATH'),
       clientId: this.config.get('CLIENT_ID'),
@@ -48,11 +51,10 @@ export class CrmService {
       const response = await this._get(`${entity}?${sanitizedQuery}`, ...options);
       const {
         value: records,
-        '@odata.count': count,
       } = response;
 
       return {
-        count,
+        count: records.length,
         records,
       };
     } catch (e) {
@@ -139,7 +141,7 @@ export class CrmService {
 
   async _get(query, maxPageSize = 100, headers = {}): Promise<any> {
     //  get token
-    const JWToken = await ADAL.acquireToken();
+    const JWToken = await this.ADAL.acquireToken();
     const options = {
       url: `${this.host}${query}`,
       headers: {
@@ -221,7 +223,7 @@ export class CrmService {
 
   async _create(query, data, headers): Promise<any> {
     //  get token
-    const JWToken = await ADAL.acquireToken();
+    const JWToken = await this.ADAL.acquireToken();
     const options = {
       url: `${this.host + query}`,
       headers: {
@@ -306,7 +308,7 @@ export class CrmService {
 
   async _sendPatchRequest(query, data, headers) {
     //  get token
-    const JWToken = await ADAL.acquireToken();
+    const JWToken = await this.ADAL.acquireToken();
     const options = {
       url: `${this.host + query}`,
       headers: {
@@ -351,7 +353,7 @@ export class CrmService {
 
   async _sendDeleteRequest(query, headers) {
     // get token
-    const JWToken = await ADAL.acquireToken();
+    const JWToken = await this.ADAL.acquireToken();
     const options = {
       url: `${this.host + query}`,
       headers: {

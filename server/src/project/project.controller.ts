@@ -11,12 +11,14 @@ import { Request } from 'express';
 import { ConfigService } from '../config/config.service';
 import { ProjectService } from './project.service';
 import { RecaptchaV2 } from 'express-recaptcha';
+import { GeometryService } from './geometry/geometry.service';
 
 @Controller()
 export class ProjectController {
   constructor(
-    private projectService: ProjectService,
+    private readonly projectService: ProjectService,
     private readonly config: ConfigService,
+    private readonly geometryService: GeometryService,
   ) {}
 
   // Extract the raw Express instance and pass to the query method

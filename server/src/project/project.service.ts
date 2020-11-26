@@ -30,9 +30,10 @@ import {
 // the same thing.
 import { CrmService } from '../crm/crm.service';
 import { DocumentService } from '../document/document.service';
+import { GeometryService } from './geometry/geometry.service';
 
 const ITEMS_PER_PAGE = 30;
-const BOROUGH_LOOKUP = {
+export const BOROUGH_LOOKUP = {
   Bronx: 717170000,
   Brooklyn: 717170002,
   Manhattan: 717170001,
@@ -40,25 +41,25 @@ const BOROUGH_LOOKUP = {
   'Staten Island': 717170004,
   Citywide: 717170005,
 };
-const ULURP_LOOKUP = {
+export const ULURP_LOOKUP = {
   'Non-ULURP': 717170000,
   'ULURP': 717170001,
 };
-const PROJECT_STATUS_LOOKUP = {
+export const PROJECT_STATUS_LOOKUP = {
   Prefiled: 717170005,
   Filed: 717170000,
   'In Public Review': 717170001,
   Completed: 717170002,
   Unknown: null,
 };
-const PROJECT_VISIBILITY_LOOKUP = {
+export const PROJECT_VISIBILITY_LOOKUP = {
   'Applicant Only': 717170002,
   'CPC Only': 717170001,
   'General Public': 717170003,
   'Internal DCP Only': 717170000,
   'LUP': 717170004,
 };
-const DISPLAY_MILESTONE_IDS = [
+export const DISPLAY_MILESTONE_IDS = [
   '963beec4-dad0-e711-8116-1458d04e2fb8',
   '943beec4-dad0-e711-8116-1458d04e2fb8',
   '763beec4-dad0-e711-8116-1458d04e2fb8',
@@ -88,7 +89,7 @@ const DISPLAY_MILESTONE_IDS = [
 ];
 
 // Only these fields will be value mapped
-const FIELD_LABEL_REPLACEMENT_WHITELIST = [
+export const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   'dcp_publicstatus',
   'dcp_borough',
   'statuscode',
@@ -109,10 +110,10 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   '_dcp_zoningresolution_value',
 ];
 
-const PACKAGE_VISIBILITY = {
+export const PACKAGE_VISIBILITY = {
   GENERAL_PUBLIC: 717170003,
 }
-const PACKAGE_STATUSCODE = {
+export const PACKAGE_STATUSCODE = {
   SUBMITTED: 717170012,
 }
 
@@ -160,40 +161,34 @@ const QUERY_TEMPLATES = {
       containsAnyOf('dcp_ulurpnumber', [queryParamValue], {
         childEntity: 'dcp_dcp_project_dcp_projectaction_project'
       }),
-
-      // this is prohibitively slow... not sure we can use this.
-      // for some reason, only dcp_name is reasonably query-able in terms of speed.
-      containsAnyOf('dcp_name', [queryParamValue], {
-        childEntity: 'dcp_dcp_project_dcp_projectbbl_project'
-      }),
     ),
 };
 
+export const ALLOWED_FILTERS = [
+  'community-districts',
+  'action-types',
+  'boroughs',
+  'dcp_ceqrtype', // is this even used? 'Type I', 'Type II', 'Unlisted', 'Unknown'
+  'dcp_ulurp_nonulurp', // 'ULURP', 'Non-ULURP'
+  'dcp_femafloodzonea',
+  'dcp_femafloodzoneshadedx',
+  'dcp_publicstatus', // 'Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown'
+  'dcp_certifiedreferred',
+  'project_applicant_text',
+  'block', // not sure this gets used
+];
+
+export const generateFromTemplate = (query, template) => {
+  return Object.keys(query)
+    .filter(key => ALLOWED_FILTERS.includes(key)) // filter is allowed
+    .filter(key => template[key]) // filter has query handler
+    .map(key => template[key](query[key]));
+}
+
 function generateProjectsFilterString(query) {
-  const ALLOWED_FILTERS = [
-    'community-districts',
-    'action-types',
-    'boroughs',
-    'dcp_ceqrtype', // is this even used? 'Type I', 'Type II', 'Unlisted', 'Unknown'
-    'dcp_ulurp_nonulurp', // 'ULURP', 'Non-ULURP'
-    'dcp_femafloodzonea',
-    'dcp_femafloodzoneshadedx',
-    'dcp_publicstatus', // 'Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown'
-    'dcp_certifiedreferred',
-    'project_applicant_text',
-    'block', // not sure this gets used
-
-    // not implemented yet
-    'distance_from_point',
-    'radius_from_point'
-  ];
-
   // optional params
   // apply only those that appear in the query object
-  const requestedFiltersQuery = Object.keys(query)
-    .filter(key => ALLOWED_FILTERS.includes(key)) // filter is allowed
-    .filter(key => QUERY_TEMPLATES[key]) // filter has query handler
-    .map(key => QUERY_TEMPLATES[key](query[key]));
+  const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
 
   return all(
     // defaults
@@ -290,6 +285,7 @@ export class ProjectService {
     private readonly carto: CartoService,
     private readonly crmService: CrmService,
     private readonly documentService: DocumentService,
+    private readonly geometryService: GeometryService,
   ) {}
 
   async getBblsGeometry(bbls = []) {
@@ -423,6 +419,7 @@ export class ProjectService {
 
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
     const queryObject = generateQueryObject(query);
+    const blocks = await this.geometryService.getBlocksFromQuery(query);
 
     // EXTRACT META PARAM VALUES;
     const {
@@ -444,6 +441,50 @@ export class ProjectService {
       }
     })();
 
+    let spatialInfo = {};
+
+    if (blocks.length) {
+      const sql = `
+      SELECT * FROM (
+        SELECT the_geom, the_geom_webmercator, cartodb_id, concat(borocode, LPAD(block::text, 5, '0')) as block 
+        FROM dtm_block_centroids_v20201106
+      ) orig WHERE block IN (${blocks.map(bl => `'${bl}'`).join(',')})
+    `;
+
+      const tiles = await this.carto.createAnonymousMap({
+        version: '1.3.1',
+        layers: [{
+          type: 'mapnik',
+          id: 'project-centroids',
+          options: {
+            sql,
+          },
+        }],
+      });
+
+      const [{ bbox: bounds }] = await this.carto.fetchCarto(`
+        SELECT
+          ARRAY[
+            ARRAY[
+              ST_XMin(bbox),
+              ST_YMin(bbox)
+            ],
+            ARRAY[
+              ST_XMax(bbox),
+              ST_YMax(bbox)
+            ]
+          ] as bbox
+        FROM (
+          SELECT ST_Extent(ST_Transform(the_geom, 4326)) AS bbox FROM (${sql}) query
+        ) extent
+      `, 'json', 'post');
+
+      spatialInfo = {
+        bounds,
+        tiles,
+      }
+    }
+
     const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);
     const transformedProjects = transformProjects(valueMappedRecords);
 
@@ -451,6 +492,8 @@ export class ProjectService {
       pageTotal: ITEMS_PER_PAGE,
       total: count,
       ...(nextPageSkipTokenParams ? { skipTokenParams: nextPageSkipTokenParams } : {}),
+
+      ...spatialInfo,
     });
   }
 
