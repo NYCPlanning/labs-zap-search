@@ -441,24 +441,49 @@ export class ProjectService {
       }
     })();
 
-    const sql = `
+    let spatialInfo = {};
+
+    if (blocks.length) {
+      const sql = `
       SELECT * FROM (
-        SELECT the_geom_webmercator, cartodb_id, concat(borocode, LPAD(block::text, 5, '0')) as block 
+        SELECT the_geom, the_geom_webmercator, cartodb_id, concat(borocode, LPAD(block::text, 5, '0')) as block 
         FROM dtm_block_centroids_v20201106
       ) orig WHERE block IN (${blocks.map(bl => `'${bl}'`).join(',')})
     `;
 
-    console.log(sql);
-    const tiles = await this.carto.createAnonymousMap({
-      version: '1.3.1',
-      layers: [{
-        type: 'mapnik',
-        id: 'project-centroids',
-        options: {
-          sql,
-        },
-      }],
-    });
+      const tiles = await this.carto.createAnonymousMap({
+        version: '1.3.1',
+        layers: [{
+          type: 'mapnik',
+          id: 'project-centroids',
+          options: {
+            sql,
+          },
+        }],
+      });
+
+      const [{ bbox: bounds }] = await this.carto.fetchCarto(`
+        SELECT
+          ARRAY[
+            ARRAY[
+              ST_XMin(bbox),
+              ST_YMin(bbox)
+            ],
+            ARRAY[
+              ST_XMax(bbox),
+              ST_YMax(bbox)
+            ]
+          ] as bbox
+        FROM (
+          SELECT ST_Extent(ST_Transform(the_geom, 4326)) AS bbox FROM (${sql}) query
+        ) extent
+      `, 'json', 'post');
+
+      spatialInfo = {
+        bounds,
+        tiles,
+      }
+    }
 
     const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);
     const transformedProjects = transformProjects(valueMappedRecords);
@@ -466,9 +491,9 @@ export class ProjectService {
     return this.serialize(transformedProjects, {
       pageTotal: ITEMS_PER_PAGE,
       total: count,
-      tiles,
-      bounds: [[0,0], [0,0]],
       ...(nextPageSkipTokenParams ? { skipTokenParams: nextPageSkipTokenParams } : {}),
+
+      ...spatialInfo,
     });
   }
 

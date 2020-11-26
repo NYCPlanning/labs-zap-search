@@ -50,7 +50,7 @@ const any = (...statements) => {
   ];
 };
 const containsString = (key, value, entityName='') => {
-  return `<condition ${entityName ? `entityname="${entityName}"` : '' } attribute="${key}" operator="like" value="%${value}%" />`
+  return `<condition ${entityName ? `entityname="${entityName}"` : '' } attribute="${key}" operator="like" value="% ${value} %" />`
 };
 
 // configure received params, provide procedures for generating queries.
@@ -84,19 +84,20 @@ const QUERY_TEMPLATES = {
   dcp_publicstatus: (queryParamValue: []) =>
     containsAnyOf('dcp_publicstatus', coerceToNumber(mapInLookup(queryParamValue, PROJECT_STATUS_LOOKUP)), 'dcp_project'),
 
-  dcp_certifiedreferred: (queryParamValue) =>
-    all(
-      comparisonOperator('dcp_certifiedreferred', 'gt', coerceToDateString(queryParamValue[0])),
-      comparisonOperator('dcp_certifiedreferred', 'lt', coerceToDateString(queryParamValue[1])),
-    ),
+  // NOT SUPPORTED YET — fix the date serialization issue
+  // dcp_certifiedreferred: (queryParamValue) =>
+  //   all(
+  //     comparisonOperator('dcp_certifiedreferred', 'gt', coerceToDateString(queryParamValue[0]), 'dcp_project'),
+  //     comparisonOperator('dcp_certifiedreferred', 'lt', coerceToDateString(queryParamValue[1]), 'dcp_project'),
+  //   ),
 
   project_applicant_text: (queryParamValue) =>
     any(
       containsString('dcp_projectbrief', queryParamValue, 'dcp_project'),
       containsString('dcp_projectname', queryParamValue, 'dcp_project'),
       containsString('dcp_ceqrnumber', queryParamValue, 'dcp_project'),
-      containsString('dcp_name', [queryParamValue], 'dcp_projectapplicant'),
-      containsString('dcp_ulurpnumber', [queryParamValue], 'dcp_projectaction'),
+      containsString('dcp_name', queryParamValue, 'dcp_projectapplicant'),
+      containsString('dcp_ulurpnumber', queryParamValue, 'dcp_projectaction'),
     ),
 };
 
@@ -146,10 +147,13 @@ export class GeometryService {
       return value.map(block => `${localizeBoroughCodes(block.dcp_validatedborough)}${block.dcp_validatedblock}`);
     } catch (e) {
       console.log(e);
+      console.log(projectGeomsXML(filters));
     }
   }
 }
 
+// these are represented as MS Dynamics CRM-specific codings in CRM, but
+// when we join them to block data, they are represented differently
 function localizeBoroughCodes(crmCodedBorough) {
   switch (crmCodedBorough) {
     case 717170002:

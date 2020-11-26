@@ -56,7 +56,6 @@ export class CartoService {
     });
     
     const json = await result.json();
-
     const { metadata: { tilejson: { vector: { tiles } } } } = json;
 
     return tiles;

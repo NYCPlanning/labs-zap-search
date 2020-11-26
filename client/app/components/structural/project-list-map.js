@@ -20,7 +20,6 @@ export const projectCentroidsCircleLayer = {
   source: 'project-centroids',
   'source-layer': 'project-centroids',
   minzoom: 0,
-  maxzoom: expandToPolygonZoomThreshold,
   paint: {
     'circle-radius': {
       stops: [[10, 3], [15, 4]],
@@ -38,7 +37,6 @@ export const projectCentroidsCircleHoverLayer = {
   source: 'project-centroids',
   'source-layer': 'project-centroids',
   minzoom: 0,
-  maxzoom: expandToPolygonZoomThreshold,
   layout: { visibility: 'none' },
   paint: {
     'circle-radius': 5,
