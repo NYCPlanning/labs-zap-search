@@ -53,10 +53,10 @@
             This extends some behavior from the app's base map component --}}
       {{#structural/project-list-map
         tiles=tiles as |map|}}
-
+{{!-- 
         <div class="disable-map gray">
           <h4>Map temporarily disabled</h4>
-        </div>
+        </div> --}}
 
         {{!-- FILTER: DISTANCE FROM POINT (ADDRESS MODE) --}}
         {{map.address-search
@@ -78,7 +78,7 @@
 
         {{map-info-box}}
 
-        {{map.call 'fitBounds' bounds (hash padding=20)}}
+        {{map.call 'fitBounds' bounds (hash padding=20 maxZoom=18)}}
       {{/structural/project-list-map}}
     {{/filters.section}}
 

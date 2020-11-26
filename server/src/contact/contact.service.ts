@@ -28,7 +28,7 @@ export class ContactService {
         `startswith(emailaddress1, '${email}')`,
       ),
     });
-
+    console.log(contact, email);
     return contact;
   }
 }

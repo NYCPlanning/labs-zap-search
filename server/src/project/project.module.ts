@@ -6,6 +6,7 @@ import { CartoModule } from '../carto/carto.module';
 import { OdataModule } from '../odata/odata.module';
 import { CrmModule } from '../crm/crm.module';
 import { DocumentModule } from '../document/document.module';
+import { GeometryService } from './geometry/geometry.service';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { DocumentModule } from '../document/document.module';
     DocumentModule,
   ],
   controllers: [ProjectController],
-  providers: [ProjectService],
+  providers: [ProjectService, GeometryService],
 })
 export class ProjectModule {}
