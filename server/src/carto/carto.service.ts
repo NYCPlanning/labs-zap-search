@@ -5,8 +5,10 @@ import * as fetch from 'node-fetch';
 export class CartoService {
   cartoUsername = 'planninglabs';
 
+  cartoHost = `https://${this.cartoUsername}.carto.com`;
+
   buildSqlUrl(cleanedQuery, format = 'json', method) { // eslint-disable-line
-    let url = `https://${this.cartoUsername}.carto.com/api/v2/sql`;
+    let url = `${this.cartoHost}/api/v2/sql`;
     url += method === 'get' ? `?q=${cleanedQuery}&format=${format}` : '';
 
     return url;
@@ -41,4 +43,22 @@ export class CartoService {
 
     throw new Error('Request to carto failed.');
   };
+
+  async createAnonymousMap(options) {
+    const cartoMapsEndpoint = `${this.cartoHost}/api/v1/map`;
+    const result = await fetch(cartoMapsEndpoint, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(options),
+    });
+    
+    const json = await result.json();
+
+    const { metadata: { tilejson: { vector: { tiles } } } } = json;
+
+    return tiles;
+  }
 }

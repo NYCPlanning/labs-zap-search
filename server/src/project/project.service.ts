@@ -441,13 +441,33 @@ export class ProjectService {
       }
     })();
 
+    const sql = `
+      SELECT * FROM (
+        SELECT the_geom_webmercator, cartodb_id, concat(borocode, LPAD(block::text, 5, '0')) as block 
+        FROM dtm_block_centroids_v20201106
+      ) orig WHERE block IN (${blocks.map(bl => `'${bl}'`).join(',')})
+    `;
+
+    console.log(sql);
+    const tiles = await this.carto.createAnonymousMap({
+      version: '1.3.1',
+      layers: [{
+        type: 'mapnik',
+        id: 'project-centroids',
+        options: {
+          sql,
+        },
+      }],
+    });
+
     const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);
     const transformedProjects = transformProjects(valueMappedRecords);
 
     return this.serialize(transformedProjects, {
       pageTotal: ITEMS_PER_PAGE,
       total: count,
-      blocks,
+      tiles,
+      bounds: [[0,0], [0,0]],
       ...(nextPageSkipTokenParams ? { skipTokenParams: nextPageSkipTokenParams } : {}),
     });
   }

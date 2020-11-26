@@ -105,7 +105,7 @@ const projectGeomsXML = (filters = []) => {
    `<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">`,
       `<entity name="dcp_projectbbl">`,
         `<attribute name="dcp_validatedblock" distinct="true" />`,
-        `<order attribute="dcp_validatedblock" descending="false" />`,
+        `<attribute name="dcp_validatedborough" />`,
         `<filter type="and">`,
           `<condition attribute="statuscode" operator="eq" value="1" />`,
           `<condition attribute="dcp_validatedblock" operator="not-null" />`,
@@ -141,9 +141,26 @@ export class GeometryService {
       }, []);
 
     try {
-      return this.xmlService.doGet(`dcp_projectbbls?fetchXml=${projectGeomsXML(filters)}`);
+      const { value } = await this.xmlService.doGet(`dcp_projectbbls?fetchXml=${projectGeomsXML(filters)}`);
+
+      return value.map(block => `${localizeBoroughCodes(block.dcp_validatedborough)}${block.dcp_validatedblock}`);
     } catch (e) {
       console.log(e);
     }
+  }
+}
+
+function localizeBoroughCodes(crmCodedBorough) {
+  switch (crmCodedBorough) {
+    case 717170002:
+      return 3; 
+    case 717170000:
+      return 2;
+    case 717170001:
+      return 1;
+    case 717170003:
+      return 4;
+    case 717170004:
+      return 5;
   }
 }
