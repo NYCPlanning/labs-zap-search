@@ -5,13 +5,18 @@ import { tracked } from '@glimmer/tracking';
 export default class PublicDocumentsComponent extends Component {
   @tracked showPublicDocuments = false;
 
-  get existsPublicDocuments () {
-    const allPublicDocuments = this.packages.reduce(
+  get hasPublicDocuments () {
+    const allPublicPackageDocuments = this.packages.reduce(
       (allDocuments, curPackage) => allDocuments.concat(curPackage.documents),
       [],
     );
 
-    return allPublicDocuments.length > 0;
+    const allPublicArtifactDocuments = this.artifacts.reduce(
+      (allDocuments, curArtifact) => allDocuments.concat(curArtifact.documents),
+      [],
+    );
+
+    return allPublicPackageDocuments.concat(allPublicArtifactDocuments).length > 0;
   }
 
   @action

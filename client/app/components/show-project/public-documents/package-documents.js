@@ -82,6 +82,10 @@ export default class PackageDocumentsComponent extends Component {
     return 'Unknown package';
   }
 
+  get hasPackageDocuments() {
+    return this.package.documents.length > 0;
+  }
+
   @action
   toggleShowPackageDocuments() {
     this.showPackageDocuments = !this.showPackageDocuments;
