@@ -53,10 +53,6 @@
             This extends some behavior from the app's base map component --}}
       {{#structural/project-list-map
         tiles=tiles as |map|}}
-{{!-- 
-        <div class="disable-map gray">
-          <h4>Map temporarily disabled</h4>
-        </div> --}}
 
         {{!-- FILTER: DISTANCE FROM POINT (ADDRESS MODE) --}}
         {{map.address-search
@@ -79,6 +75,10 @@
         {{map-info-box}}
 
         {{map.call 'fitBounds' bounds (hash padding=20 maxZoom=18)}}
+
+        {{#if fetchData.isRunning}}
+          {{fa-icon 'spinner' spin="true" size="5x" class="map-loading-spinner"}}
+        {{/if}}
       {{/structural/project-list-map}}
     {{/filters.section}}
 
@@ -136,6 +136,44 @@
             value={{project_applicant_text}}
             placeholder="Enter an exact phrase, name, or number..."
             oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'project_applicant_text')}}>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: DISTANCE FROM POINT --}}
+      {{#filters.section
+        filterNames=(array 'distance_from_point' 'radius_from_point')
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.distance_from_point')
+          tooltip='Click on the map to set filter first then drag to adjust radius'}}
+          {{#if queryParamsState.distance_from_point.changed}}
+            <div class="grid-x">
+              <div class="cell large-auto">
+                {{integer-slider-filter
+                  start=radius_from_point
+                  min=20
+                  max=1000
+                  step=5
+                  behaviour="drag"
+                  on-change=(action section.delegate-mutation (action (mut radius_from_point)))}}
+              </div>
+              <div class="cell large-shrink">
+                <div class="input-group">
+                  <input
+                    class="filter-text-input"
+                    type="number"
+                    value={{radius_from_point}}
+                    placeholder="Distance in feet (e.g. '50')"
+                    oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'radius_from_point')}}
+                    step="5"
+                    style="width:5.1em;">
+                  <span class="input-group-label" style="padding:0 0.4rem">ft</span>
+                </div>
+              </div>
+            </div>
+          {{else}}
+            Click the map to add a point
+          {{/if}}
         {{/section.filter-wrapper}}
       {{/filters.section}}
 

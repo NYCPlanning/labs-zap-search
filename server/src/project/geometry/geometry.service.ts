@@ -4,8 +4,54 @@ import { CrmService } from '../../crm/crm.service';
 import CONSTANTS from '../../_utils/constants';
 import { BOROUGH_LOOKUP, generateFromTemplate, PROJECT_STATUS_LOOKUP, ULURP_LOOKUP } from '../project.service';
 import { stat } from 'fs';
+import { CartoService } from '../../carto/carto.service';
 
 const { VISIBILITY } = CONSTANTS;
+
+// radius_from_point value is set in the frontend as feet, we convert it to meters to run this query
+const METERS_TO_FEET_FACTOR = 3.28084;
+
+const QUERIES = {
+  DTM_BLOCK_CENTROIDS: `
+    SELECT the_geom, the_geom_webmercator, cartodb_id, concat(borocode, LPAD(block::text, 5, '0')) as block 
+    FROM dtm_block_centroids_v20201106
+  `,
+
+  centroidsFor(blocks) {
+    return `
+      SELECT * FROM (
+        ${this.DTM_BLOCK_CENTROIDS}
+      ) orig WHERE block IN (${blocks.map(bl => `'${bl}'`).join(',')})
+    `;
+  },
+
+  boundingBoxOf(sql) {
+    return `
+        SELECT
+          ARRAY[
+            ARRAY[
+              ST_XMin(bbox),
+              ST_YMin(bbox)
+            ],
+            ARRAY[
+              ST_XMax(bbox),
+              ST_YMax(bbox)
+            ]
+          ] as bbox
+        FROM (
+          SELECT ST_Extent(ST_Transform(the_geom, 4326)) AS bbox FROM (${sql}) query
+        ) extent
+      `;
+  },
+
+  blocksWithinRadius(x, y, radius) {
+    const adjustedRadius = radius / METERS_TO_FEET_FACTOR;
+
+    return `
+      SELECT * FROM (${this.DTM_BLOCK_CENTROIDS}) centroids
+      WHERE ST_DWithin(ST_MakePoint(${x}, ${y})::geography, centroids.the_geom::geography, ${adjustedRadius})`;
+  }
+}
 
 const containsAnyOf = (key, strings = [], entityName='') => {
   if (!strings.length) return '';
@@ -65,6 +111,9 @@ const QUERY_TEMPLATES = {
 
   boroughs: (queryParamValue) =>
     containsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP)), 'dcp_project'),
+
+  blocks: (queryParamValue) =>
+    containsAnyOf('dcp_validatedblock', queryParamValue, 'dcp_projectbbl'),
 
   dcp_ulurp_nonulurp: (queryParamValue) =>
     containsAnyOf('dcp_ulurp_nonulurp', coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP)), 'dcp_project'),
@@ -129,13 +178,42 @@ export class GeometryService {
   xmlService;
 
   constructor(
-    private readonly crmService: CrmService
+    private readonly crmService: CrmService,
+    private readonly carto: CartoService,
   ) {
     this.xmlService = crmService.xml;
   }
 
+  async createAnonymousMapWithFilters(query) {
+    const blocks = await this.getBlocksFromXMLQuery(query);
+
+    if (blocks.length) {
+      const sql = QUERIES.centroidsFor(blocks);
+
+      const tiles = await this.carto.createAnonymousMap({
+        version: '1.3.1',
+        layers: [{
+          type: 'mapnik',
+          id: 'project-centroids',
+          options: {
+            sql,
+          },
+        }],
+      });
+
+      const [{ bbox: bounds }] = await this.carto.fetchCarto(QUERIES.boundingBoxOf(sql), 'json', 'post');
+
+      return {
+        bounds,
+        tiles,
+      };
+    }
+
+    return {};
+  }
+
   // return a list of blocks
-  async getBlocksFromQuery(query) {
+  async getBlocksFromXMLQuery(query) {
     const filters = generateFromTemplate(query, QUERY_TEMPLATES)
       .reduce((acc, curr) => {
         return acc.concat(curr);
@@ -149,6 +227,16 @@ export class GeometryService {
       console.log(e);
       console.log(projectGeomsXML(filters));
     }
+  }
+
+  async getBlocksFromRadiusQuery(x, y, radius) {
+    const queryForBlocks = QUERIES.blocksWithinRadius(x, y, radius);
+    const distinctBlocks = `SELECT DISTINCT(block) FROM (${queryForBlocks}) blocksWithinRadius`
+    const blocks = await this.carto.fetchCarto(distinctBlocks, 'json', 'post');
+
+    // note: DTM stores blocks with the borough
+    return blocks
+      .map(block => `${block.block.substring(1)}`);
   }
 }
 

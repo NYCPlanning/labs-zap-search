@@ -24,7 +24,15 @@ export class ProjectController {
   // Extract the raw Express instance and pass to the query method
   @Get('/projects/')
   async index(@Query() query) {
-    return await this.projectService.queryProjects(query);
+    try {
+      return await this.projectService.queryProjects(query);
+    } catch (e) {
+      console.log(e);
+
+      return {
+        errors: [`Something went wrong. ${e.message}`]
+      };
+    }
   }
 
   @Get('/projects/:name')
