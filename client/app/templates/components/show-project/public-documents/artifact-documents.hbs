@@ -1,19 +1,19 @@
-{{#if this.hasPackageDocuments}}
+{{#if this.hasArtifactDocuments}}
   <h5
     class="clickable-header"
-    onClick={{this.toggleShowPackageDocuments}}
+    onClick={{this.toggleShowArtifactDocuments}}
   >
     <FaIcon
-      @icon={{if this.showPackageDocuments "caret-down" "caret-right"}}
+      @icon={{if this.showArtifactDocuments "caret-down" "caret-right"}}
     />
-    {{this.packageType}} v{{@package.dcpPackageversion}}
+    {{this.formattedArtifactName}}
   </h5>
 
-  {{#if this.showPackageDocuments}}
+  {{#if this.showArtifactDocuments}}
     <ul
       class="no-bullet public-documents-list-item"
     >
-      {{#each @package.documents as |document|}}
+      {{#each @artifact.documents as |document|}}
         <li>
           <a
             href={{concat this.host '/document' document.serverRelativeUrl}}
@@ -33,6 +33,6 @@
     <FaIcon
       @icon="caret-right"
     />
-    No Documents for {{this.packageType}} v{{@package.dcpPackageversion}}
+    No Documents for {{this.formattedArtifactName}}
   </h6>
 {{/if}}

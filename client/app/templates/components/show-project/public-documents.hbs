@@ -1,5 +1,5 @@
 <p>
-  {{#if this.existsPublicDocuments}}
+  {{#if this.hasPublicDocuments}}
     <h4
       class="clickable-header"
       onClick={{this.toggleShowPublicDocuments}}
@@ -21,6 +21,14 @@
             />
           </li>
         {{/each}}
+
+        {{#each @artifacts as |artifact|}}
+          <li>
+            <ShowProject::PublicDocuments::ArtifactDocuments
+              @artifact={{artifact}}
+            />
+          </li>
+        {{/each}}
       </ul>
     {{/if}}
   {{else}}
@@ -30,7 +38,7 @@
       <FaIcon
         @icon="caret-right"
       />
-      No Public Documents for this project
+      No Documents for this Project
     </h5>
   {{/if}}
 </p>

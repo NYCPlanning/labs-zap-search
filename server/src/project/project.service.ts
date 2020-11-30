@@ -11,6 +11,7 @@ import { injectSupportDocumentURLs } from './_utils/inject-supporting-document-u
 import { getVideoLinks } from './_utils/get-video-links';
 import { KEYS as PROJECT_KEYS, ACTION_KEYS, MILESTONE_KEYS } from './project.entity';
 import { KEYS as DISPOSITION_KEYS } from '../disposition/disposition.entity';
+import { ARTIFACT_ATTRS } from '../artifact/artifacts.attrs';
 import { PACKAGE_ATTRS } from '../package/packages.attrs';
 import { Octokit } from '@octokit/rest';
 import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
@@ -115,6 +116,10 @@ export const PACKAGE_VISIBILITY = {
 }
 export const PACKAGE_STATUSCODE = {
   SUBMITTED: 717170012,
+}
+
+const ARTIFACT_VISIBILITY = {
+  GENERAL_PUBLIC: 717170003,
 }
 
 // configure received params, provide procedures for generating queries.
@@ -412,6 +417,20 @@ export class ProjectService {
 
     transformedProject.packages = projectPackages;
 
+    let { records: projectArtifacts } = await this.crmService.get('dcp_artifactses', `
+      $filter=
+        _dcp_project_value eq ${firstProject.dcp_projectid}
+        and (
+          dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
+        )
+    `);
+
+    projectArtifacts = await Promise.all(projectArtifacts.map(async (artifact) => {
+        return await this.documentService.artifactWithDocuments(artifact);
+      }));
+    
+    transformedProject.artifacts = projectArtifacts;
+
     await injectSupportDocumentURLs(transformedProject);
 
     return this.serialize(transformedProject);
@@ -529,6 +548,11 @@ export class ProjectService {
       packages: {
         ref: 'dcp_packageid',
         attributes: PACKAGE_ATTRS,
+      },
+
+      artifacts: {
+        ref: 'dcp_artifactsid',
+        attributes: ARTIFACT_ATTRS,
       },
 
       // dasherize, but also remove the dash prefix

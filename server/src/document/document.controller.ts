@@ -72,7 +72,7 @@ export class DocumentController {
 
   @Get('/*')
   async read(@Param() path, @Res() res) {
-    const stream = await this.documentService.getPublicPackageDocument(path);
+    const stream = await this.documentService.getPublicPackageOrArtifactDocument(path);
 
     stream.pipe(res);
   }

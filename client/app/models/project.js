@@ -33,6 +33,9 @@ export default class ProjectModel extends Model {
   @hasMany('package', { async: false })
   packages;
 
+  @hasMany('artifact', { async: false })
+  artifacts;
+
   @attr() applicantteam;
 
   // array of applicant objects
@@ -115,6 +118,12 @@ export default class ProjectModel extends Model {
   @computed('packages')
   get sortedPackages() {
     return this.packages.sortBy('dcpPackagesubmissiondate')
+      .reverse();
+  }
+
+  @computed('artifacts')
+  get sortedArtifacts() {
+    return this.artifacts.sortBy('modifiedon')
       .reverse();
   }
 }
