@@ -134,7 +134,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
     // Temporary variables for store found projects/metadata
     let projects;
-    let meta;
+    let meta = {};
 
     // Query for new projects and grab the metadata from response
     try {
@@ -146,7 +146,8 @@ export default class ShowGeographyController extends GeographyParachuteControlle
       this.set('skipTokenParams', meta.skipTokenParams);
     } catch (e) {
       console.log(e); // eslint-disable-line
-      this.transitionToRoute('oops');
+
+      return this.resetAll();
     }
 
     // If configured to reset, clear out the "cachedProjects"

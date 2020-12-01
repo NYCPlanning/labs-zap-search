@@ -9,7 +9,7 @@ export default class ShowProjectRoute extends Route {
   async model({ id }) {
     const project = await this.store.findRecord('project', id, {
       reload: true,
-      include: 'actions,milestones,dispositions,dispositions.action,users,assignments.user,packages',
+      include: 'actions,milestones,dispositions,dispositions.action,users,assignments.user,packages,artifacts',
     });
     return project;
   }
@@ -26,6 +26,6 @@ export default class ShowProjectRoute extends Route {
   @action
   error(e) {
     console.log(e); // eslint-disable-line
-    this.transitionTo('not-found', 'not-found');
+    // this.transitionTo('not-found', 'not-found');
   }
 }

@@ -11,6 +11,7 @@ import { injectSupportDocumentURLs } from './_utils/inject-supporting-document-u
 import { getVideoLinks } from './_utils/get-video-links';
 import { KEYS as PROJECT_KEYS, ACTION_KEYS, MILESTONE_KEYS } from './project.entity';
 import { KEYS as DISPOSITION_KEYS } from '../disposition/disposition.entity';
+import { ARTIFACT_ATTRS } from '../artifact/artifacts.attrs';
 import { PACKAGE_ATTRS } from '../package/packages.attrs';
 import { Octokit } from '@octokit/rest';
 import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
@@ -117,6 +118,10 @@ export const PACKAGE_STATUSCODE = {
   SUBMITTED: 717170012,
 }
 
+const ARTIFACT_VISIBILITY = {
+  GENERAL_PUBLIC: 717170003,
+}
+
 // configure received params, provide procedures for generating queries.
 // these funcs do not get called unless they are in the query params.
 // could these become a first class object?
@@ -150,6 +155,11 @@ const QUERY_TEMPLATES = {
       comparisonOperator('dcp_certifiedreferred', 'lt', coerceToDateString(queryParamValue[1])),
     ),
 
+  blocks: (queryParamValue) =>
+    containsAnyOf('dcp_validatedblock', queryParamValue, {
+      childEntity: 'dcp_dcp_project_dcp_projectbbl_project'
+    }),
+
   project_applicant_text: (queryParamValue) =>
     any(
       containsString('dcp_projectbrief', queryParamValue),
@@ -175,7 +185,9 @@ export const ALLOWED_FILTERS = [
   'dcp_publicstatus', // 'Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown'
   'dcp_certifiedreferred',
   'project_applicant_text',
-  'block', // not sure this gets used
+  'blocks', // not sure this gets used
+  'distance_from_point',
+  'radius_from_point',
 ];
 
 export const generateFromTemplate = (query, template) => {
@@ -288,40 +300,6 @@ export class ProjectService {
     private readonly geometryService: GeometryService,
   ) {}
 
-  async getBblsGeometry(bbls = []) {
-    if (bbls === null) return null;
-
-    const SQL = `
-        SELECT
-          ST_AsGeoJSON(ST_Multi(ST_Union(the_geom))) AS polygons
-        FROM mappluto
-        WHERE bbl IN (${bbls.join(',')})
-        GROUP BY version
-      `;
-
-    const cartoResponse = await this.carto.fetchCarto(SQL, 'json', 'post');
-
-    if (cartoResponse.length === 0)
-      return null;
-
-    // return first object in carto response, carto.sql always return an array
-    return JSON.parse(cartoResponse[0].polygons);
-  }
-
-  async getBblsFeaturecollection(bbls) {
-    const bblsGeometry = await this.getBblsGeometry(bbls);
-
-    return {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: bblsGeometry,
-        }
-      ],
-    };
-  }
-
   async findOneByName(name: string): Promise<any> {
     const DEFAULT_PROJECT_SHOW_FIELDS = [
       'dcp_projectid',
@@ -365,7 +343,7 @@ export class ProjectService {
       `dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value)`,
       'dcp_dcp_project_dcp_communityboarddisposition_project($select=dcp_publichearinglocation,dcp_dateofpublichearing,dcp_boroughpresidentrecommendation,dcp_boroughboardrecommendation,dcp_communityboardrecommendation,dcp_consideration,dcp_votelocation,dcp_datereceived,dcp_dateofvote,statecode,statuscode,dcp_docketdescription,dcp_votinginfavorrecommendation,dcp_votingagainstrecommendation,dcp_votingabstainingonrecommendation,dcp_totalmembersappointedtotheboard,dcp_wasaquorumpresent,_dcp_recommendationsubmittedby_value,dcp_representing,_dcp_projectaction_value)',
       `dcp_dcp_project_dcp_projectaction_project($filter=${ACTIONS_FILTER};$select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber)`,
-      'dcp_dcp_project_dcp_projectbbl_project($select=dcp_bblnumber)', // TODO: add filter to exclude inactives
+      'dcp_dcp_project_dcp_projectbbl_project($select=dcp_bblnumber;$filter=statuscode eq 1)', // TODO: add filter to exclude inactives
       'dcp_dcp_project_dcp_projectkeywords_project($select=dcp_name,_dcp_keyword_value)',
 
       // TODO: i think there is a limit of 5 expansions so this one does not even appear
@@ -385,7 +363,7 @@ export class ProjectService {
     const transformedProject = await transformProjectAttributes(firstProject);
 
     // get geoms from carto that match array of bbls
-    const bblsFeaturecollection = await this.getBblsFeaturecollection(firstProject.bbls);
+    const bblsFeaturecollection = await this.geometryService.getBblsFeaturecollection(firstProject.bbls);
 
     if (bblsFeaturecollection == null) {
       console.log(`MapPLUTO does not contain matching BBLs for project ${firstProject.id}`);
@@ -412,14 +390,54 @@ export class ProjectService {
 
     transformedProject.packages = projectPackages;
 
+    let { records: projectArtifacts } = await this.crmService.get('dcp_artifactses', `
+      $filter=
+        _dcp_project_value eq ${firstProject.dcp_projectid}
+        and (
+          dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
+        )
+    `);
+
+    projectArtifacts = await Promise.all(projectArtifacts.map(async (artifact) => {
+        return await this.documentService.artifactWithDocuments(artifact);
+      }));
+    
+    transformedProject.artifacts = projectArtifacts;
+
     await injectSupportDocumentURLs(transformedProject);
 
     return this.serialize(transformedProject);
   }
 
+  async blocksWithinRadius(query) {
+    let {
+      distance_from_point,
+      radius_from_point
+    } = query;
+
+    if (!distance_from_point || !radius_from_point) return [];
+
+    // search cannot support more than 1000 because of URI Too Large errors
+    // if (radius_from_point > 1000) radius_from_point = 1000;
+
+    const [x, y]  = distance_from_point;
+
+    return await this.geometryService.getBlocksFromRadiusQuery(x, y, radius_from_point);
+  }
+
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
-    const queryObject = generateQueryObject(query);
-    const blocks = await this.geometryService.getBlocksFromQuery(query);
+    const blocks = await this.blocksWithinRadius(query);
+
+    // adds in the blocks filter for use across various query types
+    const normalizedQuery = {
+      ...query,
+
+      // this information is sent as separate filters but must be represented as one
+      // to work correctly with the query template system.
+      ...(blocks.length ? { blocks } : {}),
+    };
+    const queryObject = generateQueryObject(normalizedQuery);
+    const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(normalizedQuery);
 
     // EXTRACT META PARAM VALUES;
     const {
@@ -440,50 +458,6 @@ export class ProjectService {
           .queryFromObject('dcp_projects', queryObject, itemsPerPage);
       }
     })();
-
-    let spatialInfo = {};
-
-    if (blocks.length) {
-      const sql = `
-      SELECT * FROM (
-        SELECT the_geom, the_geom_webmercator, cartodb_id, concat(borocode, LPAD(block::text, 5, '0')) as block 
-        FROM dtm_block_centroids_v20201106
-      ) orig WHERE block IN (${blocks.map(bl => `'${bl}'`).join(',')})
-    `;
-
-      const tiles = await this.carto.createAnonymousMap({
-        version: '1.3.1',
-        layers: [{
-          type: 'mapnik',
-          id: 'project-centroids',
-          options: {
-            sql,
-          },
-        }],
-      });
-
-      const [{ bbox: bounds }] = await this.carto.fetchCarto(`
-        SELECT
-          ARRAY[
-            ARRAY[
-              ST_XMin(bbox),
-              ST_YMin(bbox)
-            ],
-            ARRAY[
-              ST_XMax(bbox),
-              ST_YMax(bbox)
-            ]
-          ] as bbox
-        FROM (
-          SELECT ST_Extent(ST_Transform(the_geom, 4326)) AS bbox FROM (${sql}) query
-        ) extent
-      `, 'json', 'post');
-
-      spatialInfo = {
-        bounds,
-        tiles,
-      }
-    }
 
     const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);
     const transformedProjects = transformProjects(valueMappedRecords);
@@ -529,6 +503,11 @@ export class ProjectService {
       packages: {
         ref: 'dcp_packageid',
         attributes: PACKAGE_ATTRS,
+      },
+
+      artifacts: {
+        ref: 'dcp_artifactsid',
+        attributes: ARTIFACT_ATTRS,
       },
 
       // dasherize, but also remove the dash prefix

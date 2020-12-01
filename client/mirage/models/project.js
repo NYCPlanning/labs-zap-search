@@ -7,4 +7,5 @@ export default Model.extend({
   milestones: hasMany(),
   assignments: hasMany(),
   packages: hasMany(),
+  artifacts: hasMany(),
 });

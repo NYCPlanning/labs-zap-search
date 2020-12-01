@@ -44,6 +44,7 @@ export const KEYS = [
   'milestones',
   'dispositions',
   'packages',
+  'artifacts',
 ];
 
 export const ACTION_KEYS = [

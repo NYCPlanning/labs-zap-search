@@ -88,7 +88,14 @@ export const CRMWebAPI = {
           const parseResponse = jsonText => {
             const json_string = jsonText.toString('utf-8');
 
-            var result = JSON.parse(json_string, this.dateReviver);
+            let result: any = {};
+
+            try {
+              result = JSON.parse(json_string, this.dateReviver);
+            } catch (e) {
+              console.log(`Cannot parse ${e}`);
+            }
+
             if (result["@odata.context"].indexOf("/$entity") >= 0) {
                 // retrieve single
                 result = this.fixLongODataAnnotations(result);
@@ -117,7 +124,14 @@ export const CRMWebAPI = {
             // Bug: sometimes CRM returns 'object reference' error
             // Fix: if we retry error will not show again
             const json_string = jsonText.toString('utf-8');
-            const result = JSON.parse(json_string, this.dateReviver);
+
+            let result = {};
+            try {
+              result = JSON.parse(json_string, this.dateReviver);
+            } catch (e) {
+              console.log(`Cannot parse ${e}`);
+            }
+
             const err = this.parseErrorMessage(result);
 
             if (err == "Object reference not set to an instance of an object.") {
@@ -289,7 +303,13 @@ export const CRMWebAPI = {
         if(error || (response.status != 204 && response.status != 1223)){
           const parseError = jsonText => {
             const json_string = jsonText.toString('utf-8');
-            const result = JSON.parse(json_string, this.dateReviver);
+            let result = {};
+
+            try {
+              result = JSON.parse(json_string, this.dateReviver);
+            } catch (e) {
+              console.log(`Cannot parse ${e}`);
+            }
             const err = this.parseErrorMessage(result);
             reject(err);
           };

@@ -40,6 +40,7 @@
 
         <ShowProject::PublicDocuments
           @packages={{this.model.sortedPackages}}
+          @artifacts={{this.model.sortedArtifacts}}
         />
 
         <div class="grid-x grid-padding-x">
@@ -269,9 +270,9 @@
           </p>
 
           <p class="text-small label-group"><strong>BBLs:</strong>
-            {{#each model.bbls as |bbl|}}
+            {{!-- {{#each model.bbls as |bbl|}}
               {{~project-bbl bbl=bbl~}}
-            {{/each}}
+            {{/each}} --}}
           </p>
 
         </div>
