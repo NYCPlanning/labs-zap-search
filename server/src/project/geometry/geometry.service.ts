@@ -276,7 +276,7 @@ export class GeometryService {
   }
 
   async getBblsGeometry(bbls = []) {
-    if (bbls === null) return null;
+    if (bbls === null || bbls.length === 0) return null;
 
     const normalizedBbls = bbls.filter(Boolean);
     const SQL = (normalizedBbls.length < 100) ?
