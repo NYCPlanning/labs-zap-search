@@ -155,6 +155,11 @@ const QUERY_TEMPLATES = {
       comparisonOperator('dcp_certifiedreferred', 'lt', coerceToDateString(queryParamValue[1])),
     ),
 
+  blocks: (queryParamValue) =>
+    containsAnyOf('dcp_validatedblock', queryParamValue, {
+      childEntity: 'dcp_dcp_project_dcp_projectbbl_project'
+    }),
+
   project_applicant_text: (queryParamValue) =>
     any(
       containsString('dcp_projectbrief', queryParamValue),
@@ -180,7 +185,9 @@ export const ALLOWED_FILTERS = [
   'dcp_publicstatus', // 'Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown'
   'dcp_certifiedreferred',
   'project_applicant_text',
-  'block', // not sure this gets used
+  'blocks', // not sure this gets used
+  'distance_from_point',
+  'radius_from_point',
 ];
 
 export const generateFromTemplate = (query, template) => {
@@ -436,9 +443,35 @@ export class ProjectService {
     return this.serialize(transformedProject);
   }
 
+  async blocksWithinRadius(query) {
+    let {
+      distance_from_point,
+      radius_from_point
+    } = query;
+
+    if (!distance_from_point || !radius_from_point) return [];
+
+    // search cannot support more than 1000 because of URI Too Large errors
+    // if (radius_from_point > 1000) radius_from_point = 1000;
+
+    const [x, y]  = distance_from_point;
+
+    return await this.geometryService.getBlocksFromRadiusQuery(x, y, radius_from_point);
+  }
+
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
-    const queryObject = generateQueryObject(query);
-    const blocks = await this.geometryService.getBlocksFromQuery(query);
+    const blocks = await this.blocksWithinRadius(query);
+
+    // adds in the blocks filter for use across various query types
+    const normalizedQuery = {
+      ...query,
+
+      // this information is sent as separate filters but must be represented as one
+      // to work correctly with the query template system.
+      ...(blocks.length ? { blocks } : {}),
+    };
+    const queryObject = generateQueryObject(normalizedQuery);
+    const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(normalizedQuery);
 
     // EXTRACT META PARAM VALUES;
     const {
@@ -459,50 +492,6 @@ export class ProjectService {
           .queryFromObject('dcp_projects', queryObject, itemsPerPage);
       }
     })();
-
-    let spatialInfo = {};
-
-    if (blocks.length) {
-      const sql = `
-      SELECT * FROM (
-        SELECT the_geom, the_geom_webmercator, cartodb_id, concat(borocode, LPAD(block::text, 5, '0')) as block 
-        FROM dtm_block_centroids_v20201106
-      ) orig WHERE block IN (${blocks.map(bl => `'${bl}'`).join(',')})
-    `;
-
-      const tiles = await this.carto.createAnonymousMap({
-        version: '1.3.1',
-        layers: [{
-          type: 'mapnik',
-          id: 'project-centroids',
-          options: {
-            sql,
-          },
-        }],
-      });
-
-      const [{ bbox: bounds }] = await this.carto.fetchCarto(`
-        SELECT
-          ARRAY[
-            ARRAY[
-              ST_XMin(bbox),
-              ST_YMin(bbox)
-            ],
-            ARRAY[
-              ST_XMax(bbox),
-              ST_YMax(bbox)
-            ]
-          ] as bbox
-        FROM (
-          SELECT ST_Extent(ST_Transform(the_geom, 4326)) AS bbox FROM (${sql}) query
-        ) extent
-      `, 'json', 'post');
-
-      spatialInfo = {
-        bounds,
-        tiles,
-      }
-    }
 
     const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);
     const transformedProjects = transformProjects(valueMappedRecords);
