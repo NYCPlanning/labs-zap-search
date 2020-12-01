@@ -56,6 +56,9 @@ export default class ShowGeographyController extends GeographyParachuteControlle
    */
   queryParamsDidChange({ shouldRefresh }) {
     if (shouldRefresh) {
+      this.set('skipTokenParams', '');
+      this.set('page', 1);
+
       this.fetchData.perform({ unloadAll: true });
     }
   }
@@ -152,8 +155,6 @@ export default class ShowGeographyController extends GeographyParachuteControlle
 
     // If configured to reset, clear out the "cachedProjects"
     if (unloadAll) {
-      this.set('page', 1);
-      this.set('skipTokenParams', '');
       cachedProjects.clear();
     }
 
