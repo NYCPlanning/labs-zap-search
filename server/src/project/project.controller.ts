@@ -18,13 +18,16 @@ export class ProjectController {
   constructor(
     private readonly projectService: ProjectService,
     private readonly config: ConfigService,
-    private readonly geometryService: GeometryService,
   ) {}
 
   // Extract the raw Express instance and pass to the query method
   @Get('/projects/')
-  async index(@Query() query) {
+  async index(@Query() query, @Query('skipTokenParams') skipTokenParams) {
     try {
+      if (skipTokenParams) {
+        return await this.projectService.paginate(skipTokenParams);  
+      }
+
       return await this.projectService.queryProjects(query);
     } catch (e) {
       console.log(e);

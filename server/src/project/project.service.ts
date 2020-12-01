@@ -438,26 +438,12 @@ export class ProjectService {
     };
     const queryObject = generateQueryObject(normalizedQuery);
     const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(normalizedQuery);
-
-    // EXTRACT META PARAM VALUES;
-    const {
-      skipTokenParams = '',
-    } = query;
-
     const {
       records: projects,
       skipTokenParams: nextPageSkipTokenParams,
       count,
-    } = await (async () => {
-      // prefer the skip token which include original params
-      if (skipTokenParams) {
-        return this.dynamicsWebApi
-          .query('dcp_projects', skipTokenParams, itemsPerPage);
-      } else {
-        return this.dynamicsWebApi
-          .queryFromObject('dcp_projects', queryObject, itemsPerPage);
-      }
-    })();
+    } = await this.dynamicsWebApi
+      .queryFromObject('dcp_projects', queryObject, itemsPerPage);
 
     const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);
     const transformedProjects = transformProjects(valueMappedRecords);
@@ -468,6 +454,24 @@ export class ProjectService {
       ...(nextPageSkipTokenParams ? { skipTokenParams: nextPageSkipTokenParams } : {}),
 
       ...spatialInfo,
+    });
+  }
+
+  async paginate(skipTokenParams) {
+    const {
+      records: projects,
+      skipTokenParams: nextPageSkipTokenParams,
+      count,
+    } = await this.dynamicsWebApi
+      .query('dcp_projects', skipTokenParams, ITEMS_PER_PAGE);
+
+    const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);
+    const transformedProjects = transformProjects(valueMappedRecords);
+
+    return this.serialize(transformedProjects, {
+      pageTotal: ITEMS_PER_PAGE,
+      total: count,
+      ...(nextPageSkipTokenParams ? { skipTokenParams: nextPageSkipTokenParams } : {}),
     });
   }
 
