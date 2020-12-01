@@ -5152,6 +5152,14 @@ ember-content-placeholders@1.0.0:
     ember-cli-babel "^7.1.0"
     ember-getowner-polyfill "^1.1.0 || ^2.0.0"
 
+ember-cookies@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/ember-cookies/-/ember-cookies-0.5.2.tgz#06e33463f2f83254fefaf224cc944dec3fb9d3ba"
+  integrity sha512-nZ7oG97kBcO9UHjO95ryABpnVx62Bhxo7lIsBJNmWvFXleILm9DGueiAynzXxuYWWPuKIeeSbYakrS1869tNTw==
+  dependencies:
+    ember-cli-babel "^7.1.0"
+    ember-getowner-polyfill "^1.1.0 || ^2.0.0"
+
 ember-data@~3.11.0:
   version "3.11.4"
   resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-3.11.4.tgz#d12b2280fc46f7d5c3236bfb88db3f6f893e8332"
