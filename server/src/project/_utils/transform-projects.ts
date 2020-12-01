@@ -8,6 +8,7 @@ export const transformProjects = (projects) => {
       name: project._dcp_applicantadministrator_customer_value,
       role: 'Primary Contact',
     }],
+    has_centroid: !!project.dcp_dcp_project_dcp_projectbbl_project.length,
     ...project,
   }));
 };

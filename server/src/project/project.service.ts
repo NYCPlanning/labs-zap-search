@@ -248,6 +248,7 @@ function generateQueryObject(query, overrides?) {
     $count: true,
     $orderby: 'dcp_lastmilestonedate desc,dcp_publicstatus asc',
     $filter: generateProjectsFilterString(query),
+    $expand: `dcp_dcp_project_dcp_projectbbl_project($top=1;$filter=dcp_bblvalidated eq true)`,
     ...overrides,
   };
 }
