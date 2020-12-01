@@ -20,7 +20,9 @@ module.exports = function(defaults) {
     'ember-cli-foundation-6-sass': {
       foundationJs: 'all',
     },
-
+    'ember-composable-helpers': {
+      only: ['take', 'drop'],
+    },
     hinting: IS_TEST, // Disable linting for all builds but test
     // tests: IS_TEST, // Don't even generate test files unless a test build
 
