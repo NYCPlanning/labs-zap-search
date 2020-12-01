@@ -19,9 +19,22 @@ const QUERIES = {
 
   centroidsFor(blocks) {
     return `
-      SELECT * FROM (
+      WITH blocks_and_statuses AS (
+        SELECT * FROM
+          unnest(
+            '{${blocks.map(bl => bl.id).join(',')}}'::text[],
+            '{${blocks.map(bl => bl.dcp_publicstatus).join(',')}}'::int[]
+          )
+        AS x(block, status)
+      )
+      SELECT
+        the_geom,
+        the_geom_webmercator,
+        cartodb_id,
+        blocks_and_statuses.status AS dcp_publicstatus
+      FROM (
         ${this.DTM_BLOCK_CENTROIDS}
-      ) orig WHERE block IN (${blocks.map(bl => `'${bl}'`).join(',')})
+      ) orig INNER JOIN blocks_and_statuses ON orig.block = blocks_and_statuses.block
     `;
   },
 
@@ -173,8 +186,9 @@ const projectGeomsXML = (filters = []) => {
   return [
    `<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">`,
       `<entity name="dcp_projectbbl">`,
-        `<attribute name="dcp_validatedblock" distinct="true" />`,
+        `<attribute name="dcp_validatedblock"/>`,
         `<attribute name="dcp_validatedborough" />`,
+
         `<filter type="and">`,
           `<condition attribute="statuscode" operator="eq" value="1" />`,
           `<condition attribute="dcp_validatedblock" operator="not-null" />`,
@@ -183,7 +197,8 @@ const projectGeomsXML = (filters = []) => {
           ...filters,
         `</filter>`,
 
-        `<link-entity name="dcp_project" from="dcp_projectid" to="dcp_project" link-type="inner" distinct="true">`,
+        `<link-entity name="dcp_project" from="dcp_projectid" to="dcp_project" link-type="inner" alias="dcpProject" distinct="true">`,
+          `<attribute name="dcp_publicstatus" />`,
           `<link-entity name="dcp_projectaction" from="dcp_project" to="dcp_projectid" link-type="inner" alias="ad" />`,
           `<link-entity name="dcp_projectapplicant" from="dcp_project" to="dcp_projectid" link-type="inner" alias="ab" />`,
         `</link-entity>`,
@@ -208,7 +223,6 @@ export class GeometryService {
 
     if (blocks.length) {
       const sql = QUERIES.centroidsFor(blocks);
-
       const tiles = await this.carto.createAnonymousMap({
         version: '1.3.1',
         layers: [{
@@ -241,7 +255,10 @@ export class GeometryService {
     try {
       const { value } = await this.xmlService.doGet(`dcp_projectbbls?fetchXml=${projectGeomsXML(filters)}`);
 
-      return value.map(block => `${localizeBoroughCodes(block.dcp_validatedborough)}${block.dcp_validatedblock}`);
+      return value.map(block => ({
+        id: `${localizeBoroughCodes(block.dcp_validatedborough)}${block.dcp_validatedblock}`,
+        dcp_publicstatus: block['dcpProject.dcp_publicstatus'],
+      }));
     } catch (e) {
       console.log(e);
       console.log(projectGeomsXML(filters));
