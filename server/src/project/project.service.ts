@@ -300,40 +300,6 @@ export class ProjectService {
     private readonly geometryService: GeometryService,
   ) {}
 
-  async getBblsGeometry(bbls = []) {
-    if (bbls === null) return null;
-
-    const SQL = `
-        SELECT
-          ST_AsGeoJSON(ST_Multi(ST_Union(the_geom))) AS polygons
-        FROM mappluto
-        WHERE bbl IN (${bbls.join(',')})
-        GROUP BY version
-      `;
-
-    const cartoResponse = await this.carto.fetchCarto(SQL, 'json', 'post');
-
-    if (cartoResponse.length === 0)
-      return null;
-
-    // return first object in carto response, carto.sql always return an array
-    return JSON.parse(cartoResponse[0].polygons);
-  }
-
-  async getBblsFeaturecollection(bbls) {
-    const bblsGeometry = await this.getBblsGeometry(bbls);
-
-    return {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: bblsGeometry,
-        }
-      ],
-    };
-  }
-
   async findOneByName(name: string): Promise<any> {
     const DEFAULT_PROJECT_SHOW_FIELDS = [
       'dcp_projectid',
@@ -377,7 +343,7 @@ export class ProjectService {
       `dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value)`,
       'dcp_dcp_project_dcp_communityboarddisposition_project($select=dcp_publichearinglocation,dcp_dateofpublichearing,dcp_boroughpresidentrecommendation,dcp_boroughboardrecommendation,dcp_communityboardrecommendation,dcp_consideration,dcp_votelocation,dcp_datereceived,dcp_dateofvote,statecode,statuscode,dcp_docketdescription,dcp_votinginfavorrecommendation,dcp_votingagainstrecommendation,dcp_votingabstainingonrecommendation,dcp_totalmembersappointedtotheboard,dcp_wasaquorumpresent,_dcp_recommendationsubmittedby_value,dcp_representing,_dcp_projectaction_value)',
       `dcp_dcp_project_dcp_projectaction_project($filter=${ACTIONS_FILTER};$select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber)`,
-      'dcp_dcp_project_dcp_projectbbl_project($select=dcp_bblnumber)', // TODO: add filter to exclude inactives
+      'dcp_dcp_project_dcp_projectbbl_project($select=dcp_bblnumber;$filter=statuscode eq 1)', // TODO: add filter to exclude inactives
       'dcp_dcp_project_dcp_projectkeywords_project($select=dcp_name,_dcp_keyword_value)',
 
       // TODO: i think there is a limit of 5 expansions so this one does not even appear
@@ -397,7 +363,7 @@ export class ProjectService {
     const transformedProject = await transformProjectAttributes(firstProject);
 
     // get geoms from carto that match array of bbls
-    const bblsFeaturecollection = await this.getBblsFeaturecollection(firstProject.bbls);
+    const bblsFeaturecollection = await this.geometryService.getBblsFeaturecollection(firstProject.bbls);
 
     if (bblsFeaturecollection == null) {
       console.log(`MapPLUTO does not contain matching BBLs for project ${firstProject.id}`);

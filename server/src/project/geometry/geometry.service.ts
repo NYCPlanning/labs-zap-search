@@ -50,6 +50,25 @@ const QUERIES = {
     return `
       SELECT * FROM (${this.DTM_BLOCK_CENTROIDS}) centroids
       WHERE ST_DWithin(ST_MakePoint(${x}, ${y})::geography, centroids.the_geom::geography, ${adjustedRadius})`;
+  },
+
+  unionedGeojsonFromBbls(bbls) {
+    return `
+      SELECT ST_Multi(ST_Union(the_geom)) AS the_geom
+      FROM mappluto
+      WHERE bbl IN (${bbls.join(',')})
+    `;
+  },
+
+  unionedGeojsonFromBoroughBlocks(bbls) {
+    const uniqueBoroughBlocks: any = [...new Set(bbls.map(bbl => bbl.substring(0, 6)))];
+    const boroughBlocksTuples = uniqueBoroughBlocks.map(block => `(${block.substring(0, 1)}, ${parseInt(block.substring(1, 6), 10)})`);
+
+    return `
+      SELECT ST_Multi(ST_Union(the_geom)) AS the_geom
+      FROM mappluto
+      WHERE (borocode, block) IN (${boroughBlocksTuples.join(',')})
+    `;
   }
 }
 
@@ -237,6 +256,20 @@ export class GeometryService {
     // note: DTM stores blocks with the borough
     return blocks
       .map(block => `${block.block.substring(1)}`);
+  }
+
+  async getBblsGeometry(bbls = []) {
+    if (bbls === null) return null;
+
+    const normalizedBbls = bbls.filter(Boolean);
+    const SQL = (normalizedBbls.length < 100) ?
+      QUERIES.unionedGeojsonFromBbls(normalizedBbls) : QUERIES.unionedGeojsonFromBoroughBlocks(normalizedBbls);
+
+    return await this.carto.fetchCarto(SQL, 'geojson', 'post');
+  }
+
+  async getBblsFeaturecollection(bbls) {
+    return await this.getBblsGeometry(bbls);
   }
 }
 

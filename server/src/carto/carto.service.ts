@@ -41,6 +41,8 @@ export class CartoService {
       return cartoResponse;
     }
 
+    console.log(await cartoResponse.json());
+
     throw new Error('Request to carto failed.');
   };
 
