@@ -73,8 +73,8 @@ const QUERIES = {
     `;
   },
 
-  unionedGeojsonFromBoroughBlocks(bbls) {
-    const uniqueBoroughBlocks: any = [...new Set(bbls.map(bbl => bbl.substring(0, 6)))];
+  unionedGeojsonFromBoroughBlocks(bblLike /* can be 1-5-4 or just 1-5 */) {
+    const uniqueBoroughBlocks: any = [...new Set(bblLike.map(bbl => bbl.substring(0, 6)))];
     const boroughBlocksTuples = uniqueBoroughBlocks.map(block => `(${block.substring(0, 1)}, ${parseInt(block.substring(1, 6), 10)})`);
 
     return `
@@ -253,6 +253,15 @@ export class GeometryService {
       }, []);
 
     try {
+      return await this.fetchBoroughBlocks(filters);
+    } catch (e) {
+      console.log(e);
+      console.log(projectGeomsXML(filters));
+    }
+  }
+
+  async fetchBoroughBlocks(filters) {
+    try {
       const { value } = await this.xmlService.doGet(`dcp_projectbbls?fetchXml=${projectGeomsXML(filters)}`);
 
       return value.map(block => ({
@@ -261,7 +270,6 @@ export class GeometryService {
       }));
     } catch (e) {
       console.log(e);
-      console.log(projectGeomsXML(filters));
     }
   }
 
@@ -287,6 +295,23 @@ export class GeometryService {
 
   async getBblsFeaturecollection(bbls) {
     return await this.getBblsGeometry(bbls);
+  }
+
+  async lookupBoroughBlocksForProject(id) {
+    const projectIdFilter = [`<condition entityname="dcp_project" attribute="dcp_projectid" operator="eq" value="${id}" />`];
+
+    return await this.fetchBoroughBlocks(projectIdFilter);
+  }
+
+  async synchronizeProjectGeometry(id) {
+    const boroughBlocks = await this.lookupBoroughBlocksForProject(id);
+    const SQL = QUERIES.unionedGeojsonFromBoroughBlocks(boroughBlocks.map(bb => bb.id));
+    const geojson = await this.carto.fetchCarto(SQL, 'geojson', 'post');
+    const { records: [{ _dcp_leadaction_value }] } = await this.crmService.get('dcp_projects', `$filter=dcp_projectid eq ${id}`);
+
+    await this.crmService.update('dcp_projectactions', _dcp_leadaction_value, {
+      dcp_actiongeometry: JSON.stringify(geojson),
+    });
   }
 }
 

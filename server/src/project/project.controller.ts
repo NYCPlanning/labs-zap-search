@@ -18,13 +18,23 @@ export class ProjectController {
   constructor(
     private readonly projectService: ProjectService,
     private readonly config: ConfigService,
+    private readonly geometryService: GeometryService,
   ) {}
 
   @Get('/projects/sync/:id')
   async syncProjectGeoms(@Param('id') id) {
-    console.log(id);
+    try {
+      await this.geometryService.synchronizeProjectGeometry(id);
 
-    return {};
+      return {
+        success: true,
+      };
+    } catch (e) {
+      console.log('something went wrong...', e.message);
+      return {
+        success: false,
+      };
+    }
     // 1. lookup projectbbls by project id
     // 2. connect to carto and union them
     // 3. post data back to project record
