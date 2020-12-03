@@ -6,7 +6,6 @@ import {
   Query,
   Req,
   Res,
-  Body,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { ConfigService } from '../config/config.service';
@@ -19,14 +18,11 @@ export class ProjectController {
   constructor(
     private readonly projectService: ProjectService,
     private readonly config: ConfigService,
-    private readonly geometryService: GeometryService,
   ) {}
 
-  @Post('/projects/sync')
-  async syncProjectGeoms(@Body() body) {
-    const { dcp_projectid } = body;
-
-    console.log(dcp_projectid, body);
+  @Get('/projects/sync/:id')
+  async syncProjectGeoms(@Param('id') id) {
+    console.log(id);
 
     return {};
     // 1. lookup projectbbls by project id
