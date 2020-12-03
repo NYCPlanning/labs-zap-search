@@ -305,6 +305,8 @@ export class GeometryService {
 
   async synchronizeProjectGeometry(id) {
     const boroughBlocks = await this.lookupBoroughBlocksForProject(id);
+    if (!boroughBlocks.length) return;
+
     const SQL = QUERIES.unionedGeojsonFromBoroughBlocks(boroughBlocks.map(bb => bb.id));
     const geojson = await this.carto.fetchCarto(SQL, 'geojson', 'post');
     const { records: [{ _dcp_leadaction_value }] } = await this.crmService.get('dcp_projects', `$filter=dcp_projectid eq ${id}`);
