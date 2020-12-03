@@ -20,6 +20,16 @@ export class ProjectController {
     private readonly config: ConfigService,
   ) {}
 
+  @Get('/projects/sync/:id')
+  async syncProjectGeoms(@Param('id') id) {
+    console.log(id);
+
+    return {};
+    // 1. lookup projectbbls by project id
+    // 2. connect to carto and union them
+    // 3. post data back to project record
+  }
+
   // Extract the raw Express instance and pass to the query method
   @Get('/projects/')
   async index(@Query() query, @Query('skipTokenParams') skipTokenParams) {
