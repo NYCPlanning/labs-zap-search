@@ -146,6 +146,22 @@ function applyDisplayDate(milestone, project) {
   if (milestone._dcp_milestone_value === '780593bb-ecc2-e811-8156-1458d04d0698') milestone.display_date = milestone.dcp_actualenddate;
   if (milestone._dcp_milestone_value === '483beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
   if (milestone._dcp_milestone_value === '4a3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
+  
+  /*
+  * The following is for task 13239
+  * The date displayed should be the CRM Review Meeting date for certain milestones if the milestone is "in progress" or "completed"
+  * I have included a check to make sure that the field is not null to make sure we are not overwriting dates with nothing
+  * 2 is completed, 717170000 is in progress
+  * Application Reviewed at City Planning Commission Review Session, City Planning Commission Vote - Need to get the ids for the other three milestones
+  */
+  if((milestone.statuscode === 2) || (milestone.statuscode === 717170000)) {
+    console.log('status is complete', milestone.statuscode)
+    if ((milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8') || (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8')) { 
+      if(milestone.dcp_reviewmeetingdate) {
+        milestone.display_date = milestone.dcp_reviewmeetingdate;
+      }
+    }
+  }
 
   return milestone;
 }
