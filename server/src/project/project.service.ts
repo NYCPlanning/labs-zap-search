@@ -162,6 +162,7 @@ const QUERY_TEMPLATES = {
 
   project_applicant_text: (queryParamValue) =>
     any(
+      listOfProjectActionIds(queryParamValue),
       containsString('dcp_projectbrief', queryParamValue),
       containsString('dcp_projectname', queryParamValue),
       containsString('dcp_ceqrnumber', queryParamValue),
@@ -206,9 +207,27 @@ export const generateFromTemplate = (query, template) => {
     .map(key => template[key](query[key]));
 }
 
+async function listOfProjectActionIds(queryParamValue) {
+  console.log('beach', this.crmService);
+  let { records: projectActions } = await this.crmService.get('dcp_projectactions', `
+  $filter=dcp_ZoningResolution/any(
+    dcp_ZoningResolution:
+      contains(
+        dcp_ZoningResolution/
+        dcp_zoningresolution,
+        ${queryParamValue}
+      )
+    )
+`);
+
+  return projectActions.map(action => `dcp_dcp_project_dcp_projectaction_project/any(o:o/dcp_projectactionid eq ${action.dcp_projectactionid})`).join(' or ');
+}
+
 function generateProjectsFilterString(query) {
+  console.log('kiwi', listOfProjectActionIds('appendix'));
   // optional params
   // apply only those that appear in the query object
+  console.log('hot sauce', QUERY_TEMPLATES);
   const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
 
   return all(

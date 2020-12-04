@@ -54,6 +54,7 @@ export function all(...statements): string {
 }
 
 export function any(...statements): string {
+  console.log('hamburger', statements);
   return `(${(statements.join(' or '))})`;
 }
 
@@ -108,6 +109,8 @@ export function containsAnyOf(propertyName, strings = [], options?) {
     })
     .join(' or ');
   const lambdaQueryPrefix = childEntity ? `${childEntity}/any` : '';
+
+  console.log('umbrella', `(${not ? 'not ': ''}${lambdaQueryPrefix}(${containsQuery}))`);
 
   return `(${not ? 'not ': ''}${lambdaQueryPrefix}(${containsQuery}))`;
 }
