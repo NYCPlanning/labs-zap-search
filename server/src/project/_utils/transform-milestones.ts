@@ -155,7 +155,6 @@ function applyDisplayDate(milestone, project) {
   * Application Reviewed at City Planning Commission Review Session, City Planning Commission Vote - Need to get the ids for the other three milestones
   */
   if((milestone.statuscode === 2) || (milestone.statuscode === 717170000)) {
-    console.log('status is complete', milestone.statuscode)
     if ((milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8') || (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8')) { 
       if(milestone.dcp_reviewmeetingdate) {
         milestone.display_date = milestone.dcp_reviewmeetingdate;
