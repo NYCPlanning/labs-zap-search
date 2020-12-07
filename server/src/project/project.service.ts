@@ -171,6 +171,15 @@ const QUERY_TEMPLATES = {
       containsAnyOf('dcp_ulurpnumber', [queryParamValue], {
         childEntity: 'dcp_dcp_project_dcp_projectaction_project'
       }),
+      containsAnyOf('dcp_comment', [queryParamValue], {
+        childEntity: 'dcp_dcp_project_dcp_projectaction_project'
+      }),
+      containsAnyOf('dcp_docket', [queryParamValue], {
+        childEntity: 'dcp_dcp_project_dcp_projectaction_project'
+      }),
+      containsAnyOf('dcp_historiczoningresolutionsectionnumber', [queryParamValue], {
+        childEntity: 'dcp_dcp_project_dcp_projectaction_project'
+      }),
     ),
 };
 
