@@ -149,13 +149,13 @@ function applyDisplayDate(milestone, project) {
   
   /*
   * The following is for task 13239
-  * The date displayed should be the CRM Review Meeting date for certain milestones if the milestone is "in progress" or "completed", and the meeting date is <= current date
+  * The date displayed should be the CRM Review Meeting date for certain milestones if the milestone statuscode is "in progress" or "completed", and the meeting date is <= current date
   * I have included a check to make sure that the field is not null to make sure we are not overwriting dates with nothing
   * 2 is completed, 717170000 is in progress
   * Application Reviewed at City Planning Commission Review Session, City Planning Commission Vote - Need to get the ids for the other three milestones
   */
-  if((milestone.statuscode === 2) || (milestone.statuscode === 717170000)) {
-    if ((milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8') || (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8')) { 
+  if ((milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8') || (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8')) { 
+    if((milestone.statuscode === 2) || (milestone.statuscode === 717170000)) {
       if((milestone.dcp_reviewmeetingdate) && (Date.now() >= milestone.dcp_reviewmeetingdate.getTime())) {
         milestone.display_date = milestone.dcp_reviewmeetingdate;
       }
