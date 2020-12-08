@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ArtifactModule } from '../artifact/artifact.module';
+import { PackageModule } from '../package/package.module';
 import { ProjectController } from './project.controller';
 import { ProjectService } from './project.service';
 import { ConfigModule } from '../config/config.module';
@@ -10,6 +12,8 @@ import { GeometryService } from './geometry/geometry.service';
 
 @Module({
   imports: [
+    ArtifactModule,
+    PackageModule,
     OdataModule,
     ConfigModule,
     CartoModule,
