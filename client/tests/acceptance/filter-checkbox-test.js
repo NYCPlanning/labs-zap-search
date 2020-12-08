@@ -53,6 +53,32 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL(), '/projects?action-types=BF&applied-filters=action-types%2Cdcp_publicstatus');
   });
 
+  test('User clicks zoning resolution box, fills in zoning resolution name, selects zoning resolution type', async function(assert) {
+    server.createList('project', 20);
+
+    this.server.create('zoning-resolution', 1, {
+      dcpZoningresolution: 'AppendixD',
+    });
+    this.server.create('zoning-resolution', 2, {
+      dcpZoningresolution: 'AppendixF',
+    });
+    this.server.create('zoning-resolution', 3, {
+      dcpZoningresolution: '74-116',
+    });
+
+    await visit('/');
+    await click('[data-test-filter-section="filter-section-zoning-resolutions"] .switch-paddle');
+    await click('[data-test-filter-control="filter-section-zoning-resolutions"] .ember-power-select-multiple-options');
+    // Choose the second option in the select options, which is "AppendixF", which has an id of 2.
+    // Due to how we format the "action-type" options text, ember-power-select has difficulty selecting the text,
+    // so we use an index number instead.
+    await selectChoose('[data-test-filter-control="filter-section-zoning-resolutions"]', '.ember-power-select-option', 1);
+
+    // since we query _dcp_zoningresolution_value on the dcp_projectaction entity, our queryparam here is an id
+    // rather than the name of the zoning resolution
+    assert.equal(currentURL(), '/projects?applied-filters=dcp_publicstatus%2Czoning-resolutions&zoning-resolutions=2');
+  });
+
   test('User clicks ULURP checkbox and it filters', async function(assert) {
     server.createList('project', 20);
     await visit('/');

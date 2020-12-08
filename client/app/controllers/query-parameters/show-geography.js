@@ -84,6 +84,16 @@ export const projectParams = new QueryParams({
       return value.split(',');
     },
   },
+  'zoning-resolutions': {
+    defaultValue: [],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',');
+    },
+  },
   dcp_publicstatus: {
     defaultValue: ['Filed', 'In Public Review'].sort(),
     refresh: true,

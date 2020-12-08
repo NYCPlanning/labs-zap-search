@@ -141,6 +141,9 @@ const QUERY_TEMPLATES = {
   'action-types': (queryParamValue) =>
     equalsAnyOf('dcp_name', queryParamValue, 'dcp_projectaction'),
 
+  'zoning-resolutions': (queryParamValue) =>
+    queryParamValue.map(value => `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`).join(' or '),
+
   boroughs: (queryParamValue) =>
     containsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP)), 'dcp_project'),
 
