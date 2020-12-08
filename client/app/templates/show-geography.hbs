@@ -1,5 +1,7 @@
 <div class="cell large-6 xlarge-7 xxlarge-5 xxlarge-offset-1">
 
+
+
 {{!--
   FAQ:
   `section.delegate-mutation` is a wrapper action to notify the "applied-filters"
@@ -255,6 +257,33 @@
         {{#section.filter-wrapper
           filterTitle=(get-label-for 'filters.action-types')
           tooltip='Filter by action type by either typing the code/name of the action or by selecting from the dropdown list. Action type refers to city planning land use actions that accompany a project. There may be multiple land use actions attached to an application. Many action types have been retired and are listed for historical projects only. Searching by one action type should return all projects that include that action. Multiple action types can be selected.'}}
+          {{#power-select-multiple
+            options=(lookup-action-type)
+            selected=(contains-keys
+              (lookup-action-type)
+              action-types
+              key='code')
+            placeholder="Select some actions..."
+            searchField='searchField'
+            onchange=(action section.delegate-mutation (action 'replaceProperty' 'action-types'))
+            as |action|
+          }}
+            {{action.code}}
+
+            {{#if action.short}}
+              - {{action.short}}
+            {{/if}}
+          {{/power-select-multiple}}
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
+      {{!-- FILTER: ZONING RESOLUTION --}}
+      {{#filters.section
+        filterNames='zoning_resolution'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.zoning_resolution')
+          tooltip='Filter by zoning resolution type.'}}
           {{#power-select-multiple
             options=(lookup-action-type)
             selected=(contains-keys

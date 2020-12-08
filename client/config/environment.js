@@ -97,6 +97,7 @@ module.exports = function(environment) {
         distance_from_point: 'Radius Filter',
         project_applicant_text: 'Text Match',
         radius_from_point: 'Radius Filter',
+        zoning_resolution: 'Zoning Resolution',
       },
     },
   };

@@ -1,0 +1,24 @@
+{{#let @landuseActionForm as |landuseActionForm|}}
+  <div>
+    <h5 class="small-margin-bottom">
+      What Zoning Resolution section is this Action pursuant to?
+    </h5>
+
+    <label data-test-zoning-resolution-picker="{{landuseActionForm.data.dcpActioncode}}">
+      <PowerSelect
+        triggerClass="zoning-resolution-dropdown"
+        supportsDataTestProperties={{true}}
+        @placeholder={{this.searchPlaceholder}}
+        @searchEnabled={{true}}
+        @searchField="dcpZoningresolution"
+        @options={{@zoningResolutions}}
+        @selected={{this.chosenZoningResolution}}
+        @onChange={{fn (mut this.chosenZoningResolution)}}
+        @onClose={{fn (mut landuseActionForm.data.chosenZoningResolutionId) this.chosenZoningResolution.id}}
+        as |zoningResolution|
+      >
+        {{zoningResolution.dcpZoningresolution}}
+      </PowerSelect>
+    </label>
+  </div>
+{{/let}}
