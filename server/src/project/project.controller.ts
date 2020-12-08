@@ -11,6 +11,7 @@ import { Request } from 'express';
 import { ConfigService } from '../config/config.service';
 import { ProjectService } from './project.service';
 import { RecaptchaV2 } from 'express-recaptcha';
+import { GeometryService } from './geometry/geometry.service';
 
 @Controller()
 export class ProjectController {
