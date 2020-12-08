@@ -1,52 +1,62 @@
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
-import { DocumentService } from '../document/document.service';
 import { SharepointService } from '../sharepoint/sharepoint.service';
 
 @Injectable()
 export class PackageService {
   constructor(
-    private readonly documentService: DocumentService,
     private readonly sharepointService: SharepointService,
   ) {}
-  // We retrieve documents from the Sharepoint folder (`folderIdentifier` in the
-  // code below) that holds both documents from past revisions and the current
-  // revision. CRM automatically carries over documents from past revisions into
-  // this folder, and we deliberately upload documents for the latest/current
-  // revision into this folder.
-  async findPackageSharepointDocuments(packageName, id: string) {
-    try {
-      const strippedPackageName = this.documentService.stripDcpName(packageName);
-      const folderIdentifier = this.documentService.constructFolderIdentifier(strippedPackageName, id);
 
-      const { value: documents } = await this.sharepointService.getSharepointFolderFiles(`dcp_package/${folderIdentifier}`);
+  /**
+   * @param      {Object}  packageDocumentLocation   a Document Location object.
+   * This is an one element acquired from the `dcp_package_SharePointDocumentLocations`
+   * Navigation property array on a Package entity.
+   * @return     {Object[]}     Array of 0 or more custom Document objects
+  */
+  async getPackageSharepointDocuments(packageDocumentLocation) {
+    // relativeurl is the path url "relative to the entity".
+    // In essence it is the Sharepoint folder name.
+    // e.g. P2015K0223_Draft Land Use_3
+    const {
+      relativeurl,
+      _regardingobjectid_value,
+    } = packageDocumentLocation;
 
-      if (documents) {
-        return documents.map(document => ({
-          name: document['Name'],
-          timeCreated: document['TimeCreated'],
-          serverRelativeUrl: document['ServerRelativeUrl'],
-        }));
-      }
+    if (relativeurl) {
+      try {
+        const { value: documents } = await this.sharepointService.getSharepointFolderFiles(`dcp_package/${relativeurl}`);
 
-      return [];
-    } catch (e) {
-      if (e instanceof HttpException) {
-        throw e;
-      } else {
-        const errorMessage = `An error occured while constructing and looking up folder for package. Perhaps the package name or id is wrong. ${JSON.stringify(e)}`;
-        console.log(errorMessage);
+        if (documents) {
+          return documents.map(document => ({
+            name: document['Name'],
+            timeCreated: document['TimeCreated'],
+            serverRelativeUrl: document['ServerRelativeUrl'],
+          }));
+        }
 
-        throw new HttpException({
-          code: 'SHAREPOINT_FOLDER_ERROR',
-          title: 'Bad Sharepoint folder lookup',
-          detail: errorMessage,
-          meta: {
-            packageName: packageName,
-            packageId: id,
-          }
-        }, HttpStatus.INTERNAL_SERVER_ERROR);
+        return [];
+      } catch (e) {
+        if (e instanceof HttpException) {
+          throw e;
+        } else {
+          const errorMessage = `An error occured while constructing and looking up folder for package. Perhaps the package name or id is wrong. ${JSON.stringify(e)}`;
+          console.log(errorMessage);
+
+          throw new HttpException({
+            code: 'SHAREPOINT_FOLDER_ERROR',
+            title: 'Bad Sharepoint folder lookup',
+            detail: errorMessage,
+            meta: {
+              relativeurl,
+            }
+          }, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
       }
     }
+
+    console.log(`Warning: Tried to load documents for a package but the Document Location "relativeurl" was null. Regarding object is ${_regardingobjectid_value}`);
+
+    return [];
   }
 
   /**
@@ -54,29 +64,40 @@ export class PackageService {
    *
    * @param      {Object{ dcp_name, dcp_packageid }} CRM Package with
    *              dcp_name and dcp_packageid properties
-   * @return     {[Object]} The CRM Package with the 'documents' property hydrated,
+   * @return     {Object} The CRM Package with the 'documents' property hydrated,
    *              if associated documents exist in CRM.
    */
   public async packageWithDocuments(projectPackage: any) {
     const {
       dcp_name,
-      dcp_packageid,
+      dcp_package_SharePointDocumentLocations: documentLocations,
     } = projectPackage;
 
-    try {
-      return {
-        ...projectPackage,
-        documents: await this.findPackageSharepointDocuments(dcp_name, dcp_packageid),
-      };
-    } catch (e) {
-      const errorMessage = `Error loading documents for package ${dcp_name}. ${JSON.stringify(e)}`;
-      console.log(errorMessage);
+    if (documentLocations && documentLocations.length > 0) {
+      try {
+        return {
+          ...projectPackage,
+          documents: await this.getPackageSharepointDocuments(documentLocations[0]),
+        };
+      } catch (e) {
+        const errorMessage = `Error loading documents for package ${dcp_name}. ${JSON.stringify(e)}`;
+        console.log(errorMessage);
+  
+        throw new HttpException({
+          "code": "PACKAGE_WITH_DOCUMENTS",
+          "title": "Package Documents Error",
+          "detail": errorMessage,
+        }, HttpStatus.NOT_FOUND);
+      }
+    }
 
-      throw new HttpException({
-        "code": "PACKAGE_WITH_DOCUMENTS",
-        "title": "Package Documents Error",
-        "detail": errorMessage,
-      }, HttpStatus.NOT_FOUND);
+    if (documentLocations === null) {
+      console.log(`Warning: Tried to load documents for the Package "${dcp_name}", but no dcp_package_SharePointDocumentLocations was null.`);
+    }
+
+    return {
+      ...projectPackage,
+      documents: [],
     }
   }
 }

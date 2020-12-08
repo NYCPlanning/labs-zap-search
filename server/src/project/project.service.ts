@@ -394,6 +394,7 @@ export class ProjectService {
           and (
             statuscode eq ${PACKAGE_STATUSCODE.SUBMITTED}
           )
+        &$expand=dcp_package_SharePointDocumentLocations
       `);
 
     projectPackages = await Promise.all(projectPackages.map(async (pkg) => {
