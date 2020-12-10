@@ -220,8 +220,17 @@ function transformAliases(milestone) {
 }
 
 function sortMilestones(prev, next) {
-  return (prev.display_sequence - next.display_sequence)
-    || (prev.display_date - next.display_date);
+  const displaySequenceDifference = prev.display_sequence - next.display_sequence;
+
+  if (displaySequenceDifference === 0) {
+    if (!prev.display_date)
+      return 1;
+    if (!next.display_date)
+      return -1;
+    return prev.display_date - next.display_date;
+  }
+
+  return displaySequenceDifference;
 }
 
 export const transformMilestones = (milestones, project) => {
