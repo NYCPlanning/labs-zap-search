@@ -30,7 +30,8 @@ import {
 // It will eventually strangle out OdataService, which is an older API to accomplish
 // the same thing.
 import { CrmService } from '../crm/crm.service';
-import { DocumentService } from '../document/document.service';
+import { ArtifactService } from '../artifact/artifact.service';
+import { PackageService } from '../package/package.service';
 import { GeometryService } from './geometry/geometry.service';
 
 const ITEMS_PER_PAGE = 30;
@@ -306,7 +307,8 @@ export class ProjectService {
     private readonly config: ConfigService,
     private readonly carto: CartoService,
     private readonly crmService: CrmService,
-    private readonly documentService: DocumentService,
+    private readonly artifactService: ArtifactService,
+    private readonly packageService: PackageService,
     private readonly geometryService: GeometryService,
   ) {}
 
@@ -392,10 +394,11 @@ export class ProjectService {
           and (
             statuscode eq ${PACKAGE_STATUSCODE.SUBMITTED}
           )
+        &$expand=dcp_package_SharePointDocumentLocations
       `);
 
     projectPackages = await Promise.all(projectPackages.map(async (pkg) => {
-        return await this.documentService.packageWithDocuments(pkg);
+        return await this.packageService.packageWithDocuments(pkg);
       }));
 
     transformedProject.packages = projectPackages;
@@ -409,7 +412,7 @@ export class ProjectService {
     `);
 
     projectArtifacts = await Promise.all(projectArtifacts.map(async (artifact) => {
-        return await this.documentService.artifactWithDocuments(artifact);
+        return await this.artifactService.artifactWithDocuments(artifact);
       }));
     
     transformedProject.artifacts = projectArtifacts;
