@@ -22,7 +22,7 @@ export default class ProjectMilestoneComponent extends Component {
     const date1 = this.get('milestone.displayDate');
     const date2 = this.get('milestone.displayDate2');
 
-    if (!date2 && moment(date1).isBefore()) { return 'past'; }
+    if (moment(date1).isBefore() && !date2) { return 'past'; }
 
     if (moment(date1).isBefore() && moment(date2).isBefore()) { return 'past'; }
 
