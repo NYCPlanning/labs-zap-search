@@ -144,8 +144,8 @@ const QUERY_TEMPLATES = {
   boroughs: (queryParamValue) =>
     containsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP)), 'dcp_project'),
 
-  blocks: (queryParamValue) =>
-    containsAnyOf('dcp_validatedblock', queryParamValue, 'dcp_projectbbl'),
+  block: (queryParamValue) =>
+    containsAnyOf('dcp_validatedblock', [queryParamValue], 'dcp_projectbbl'),
 
   dcp_ulurp_nonulurp: (queryParamValue) =>
     containsAnyOf('dcp_ulurp_nonulurp', coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP)), 'dcp_project'),

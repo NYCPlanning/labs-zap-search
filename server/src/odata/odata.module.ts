@@ -97,6 +97,10 @@ export function containsAnyOf(propertyName, strings = [], options?) {
     not = false,
   } = options || {};
 
+  console.log('pancakes strings', strings);
+  console.log('pancakes propertyName', propertyName);
+  console.log('pancakes childEntity', childEntity);
+
   const containsQuery = strings
     .map((string, i) => {
       // in odata syntax, this character o is a variable for scoping
