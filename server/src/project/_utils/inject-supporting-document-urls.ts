@@ -39,6 +39,8 @@ export async function injectSupportDocumentURLs(project) {
             .catch(error => console.log(error)))),
     ]);
 
+    if (searchResults[0].hasOwnProperty('Error')) return;
+
     // extract relevant contents, filter undefineds, and flatten
     const allSupportingDocs = searchResults
       .map(result => result['ListBucketResult']['Contents']) // eslint-disable-line

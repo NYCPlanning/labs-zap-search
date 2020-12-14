@@ -355,7 +355,7 @@ export class ProjectService {
       `dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value,dcp_reviewmeetingdate)`,
       'dcp_dcp_project_dcp_communityboarddisposition_project($select=dcp_publichearinglocation,dcp_dateofpublichearing,dcp_boroughpresidentrecommendation,dcp_boroughboardrecommendation,dcp_communityboardrecommendation,dcp_consideration,dcp_votelocation,dcp_datereceived,dcp_dateofvote,statecode,statuscode,dcp_docketdescription,dcp_votinginfavorrecommendation,dcp_votingagainstrecommendation,dcp_votingabstainingonrecommendation,dcp_totalmembersappointedtotheboard,dcp_wasaquorumpresent,_dcp_recommendationsubmittedby_value,dcp_representing,_dcp_projectaction_value)',
       `dcp_dcp_project_dcp_projectaction_project($filter=${ACTIONS_FILTER};$select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber)`,
-      'dcp_dcp_project_dcp_projectbbl_project($select=dcp_bblnumber;$filter=statuscode eq 1)', // TODO: add filter to exclude inactives
+      'dcp_dcp_project_dcp_projectbbl_project($select=dcp_bblnumber;$filter=statuscode eq 1 and dcp_validatedblock ne null)', // TODO: add filter to exclude inactives
       'dcp_dcp_project_dcp_projectkeywords_project($select=dcp_name,_dcp_keyword_value)',
 
       // TODO: i think there is a limit of 5 expansions so this one does not even appear
@@ -383,7 +383,8 @@ export class ProjectService {
       transformedProject.bbl_featurecollection = bblsFeaturecollection;
     }
 
-    transformedProject.video_links = await getVideoLinks(this.config.get('AIRTABLE_API_KEY'), firstProject.dcp_name);
+    // TODO: Not clear that this gets used still
+    transformedProject.video_links = [];
 
     let { records: projectPackages } = await this.crmService.get('dcp_packages', `
         $filter=
@@ -417,7 +418,8 @@ export class ProjectService {
     
     transformedProject.artifacts = projectArtifacts;
 
-    await injectSupportDocumentURLs(transformedProject);
+    // TODO: disabling for now until DO resolves stability issues
+    // await injectSupportDocumentURLs(transformedProject);
 
     return this.serialize(transformedProject);
   }
