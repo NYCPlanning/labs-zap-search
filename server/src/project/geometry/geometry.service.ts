@@ -144,8 +144,8 @@ const QUERY_TEMPLATES = {
   boroughs: (queryParamValue) =>
     containsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP)), 'dcp_project'),
 
-  blocks: (queryParamValue) =>
-    containsAnyOf('dcp_validatedblock', queryParamValue, 'dcp_projectbbl'),
+  block: (queryParamValue) =>
+    containsAnyOf('dcp_validatedblock', [queryParamValue], 'dcp_projectbbl'),
 
   dcp_ulurp_nonulurp: (queryParamValue) =>
     containsAnyOf('dcp_ulurp_nonulurp', coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP)), 'dcp_project'),
@@ -247,6 +247,8 @@ export class GeometryService {
 
   // return a list of blocks
   async getBlocksFromXMLQuery(query) {
+    console.log('getBlocksFromXMLQuery query', query);
+    console.log('getBlocksFromXMLQuery QUERY_TEMPLATES', QUERY_TEMPLATES.block);
     const filters = generateFromTemplate(query, QUERY_TEMPLATES)
       .reduce((acc, curr) => {
         return acc.concat(curr);
@@ -261,8 +263,11 @@ export class GeometryService {
   }
 
   async fetchBoroughBlocks(filters) {
+    // console.log('fetchBoroughBlocks filters', filters);
+    const testFilters = [ '<condition entityname="dcp_projectbbl" attribute="dcp_validatedblock" operator="like" value="%5321%"> </condition>' ];
     try {
-      const { value } = await this.xmlService.doGet(`dcp_projectbbls?fetchXml=${projectGeomsXML(filters)}`);
+      const { value } = await this.xmlService.doGet(`dcp_projectbbls?fetchXml=${projectGeomsXML(testFilters)}`);
+      console.log('banana value', value);
 
       return value.map(block => ({
         id: `${localizeBoroughCodes(block.dcp_validatedborough)}${block.dcp_validatedblock}`,
