@@ -271,7 +271,15 @@
 
           <p class="text-small label-group"><strong>BBLs:</strong>
             {{#each (take 50 model.bbls) as |bbl|}}
-              {{~project-bbl bbl=bbl~}}
+              {{!--
+                Sometimes the first BBL is null, so we must prevent
+                operations on null in that case.
+                TODO: Rework frontend and backend so that BBLs
+                will always only be an Array datatype.
+              --}}
+              {{#if bbl}}
+                {{~project-bbl bbl=bbl~}}
+              {{/if}}
             {{/each}}
 
             {{#each (drop 50 model.bbls) as |bbl|}}
