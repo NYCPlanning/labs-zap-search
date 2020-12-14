@@ -135,6 +135,9 @@ const QUERY_TEMPLATES = {
       childEntity: 'dcp_dcp_project_dcp_projectaction_project'
     }),
 
+  'zoning-resolutions': (queryParamValue) =>
+    queryParamValue.map(value => `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`).join(' or '),
+
   boroughs: (queryParamValue) =>
     equalsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP))),
 
@@ -198,6 +201,7 @@ export const ALLOWED_FILTERS = [
   'blocks', // not sure this gets used
   'distance_from_point',
   'radius_from_point',
+  'zoning-resolutions',
 ];
 
 export const generateFromTemplate = (query, template) => {

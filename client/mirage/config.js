@@ -88,6 +88,7 @@ export default function () {
     return new Response(401, { some: 'header' }, { errors: ['Unauthorized'] });
   });
   this.get('/users/:id');
+  this.get('/zoning-resolutions');
 
   this.get('/actions');
   this.get('/assignments', function(schema, request) {
