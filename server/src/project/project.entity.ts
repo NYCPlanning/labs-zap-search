@@ -81,4 +81,5 @@ export const MILESTONE_KEYS = [
   'outcome',
   'milestone_links',
   'is_revised',
+  'dcp_reviewmeetingdate',
 ];

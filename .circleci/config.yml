@@ -2,7 +2,7 @@ version: 2
 jobs:
   nest_tests:
     docker:
-      - image: circleci/node:10.18-browsers
+      - image: circleci/node:12.14-browsers
     working_directory: ~/repo/server
 
     steps:
@@ -40,7 +40,7 @@ jobs:
   ember_tests:
     docker:
       # specify the version you desire here
-      - image: circleci/node:10.18-browsers
+      - image: circleci/node:12.14-browsers
         environment:
           BUILD_CONTEXT: test
 
