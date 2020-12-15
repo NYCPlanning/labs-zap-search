@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { coerceToDateString, coerceToNumber, mapInLookup } from '../../odata/odata.module';
+import { coerceToDateString, coerceToNumber, equalsAnyOfChildEntity, mapInLookup } from '../../odata/odata.module';
 import { CrmService } from '../../crm/crm.service';
 import CONSTANTS from '../../_utils/constants';
 import { BOROUGH_LOOKUP, generateFromTemplate, PROJECT_STATUS_LOOKUP, ULURP_LOOKUP } from '../project.service';
@@ -105,10 +105,15 @@ const containsAnyOf = (key, strings = [], entityName='') => {
     `;
   }
 
+  console.log('our list', list);
   return list;
 };
 const equalsAnyOf = (key, strings = [], entityName = '') => {
   return strings.map(s => containsString(key, s, entityName))
+};
+const equalsAnyOf2 = (key, value, entityName='') => {
+  // <condition attribute="parentsiteorlocation" operator="eq" value="${sharepointSiteID}"/>`
+  return `<condition ${entityName ? `entityname="${entityName}"` : '' } attribute="${key}" operator="eq" value="${value}" />`
 };
 const comparisonOperator = (key, operator, value, entityName = '') => {
   return `<condition ${entityName ? `entityname="${entityName}"` : '' } attribute="${key}" operator="${operator}" value="${value}" />`;
@@ -142,7 +147,7 @@ const QUERY_TEMPLATES = {
     equalsAnyOf('dcp_name', queryParamValue, 'dcp_projectaction'),
 
   'zoning-resolutions': (queryParamValue) =>
-    queryParamValue.map(value => `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`).join(' or '),
+    equalsAnyOf2('_dcp_zoningresolution_value', queryParamValue, 'dcp_projectaction'),
 
   boroughs: (queryParamValue) =>
     containsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP)), 'dcp_project'),

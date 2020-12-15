@@ -57,7 +57,7 @@ export function any(...statements): string {
   return `(${(statements.join(' or '))})`;
 }
 
-export function comparisonOperator(propertyName, operator, value) {
+export function comparisonOperator(propertyName, operator, value, withParen = true) {
   let typeSafeValue = value
 
   if (typeof value === 'string') {
@@ -74,7 +74,7 @@ export function comparisonOperator(propertyName, operator, value) {
     typeSafeValue = `${stringyDate}`;
   }
 
-  return `(${propertyName} ${operator} ${typeSafeValue})`;
+  return withParen ? `(${propertyName} ${operator} ${typeSafeValue})` : `${propertyName} ${operator} ${typeSafeValue}`;
 }
 
 export function containsString(propertyName, string) {
@@ -82,12 +82,25 @@ export function containsString(propertyName, string) {
 }
 
 export function equalsAnyOf(propertyName, strings = []) {
+  // (dcp_borough eq 717170000) or (dcp_borough eq 717170001)
   const querySegment = strings
     .map(string => comparisonOperator(propertyName, 'eq', string))
     .join(' or ');
 
   // Empty parenthases are invalid
+  // ((dcp_borough eq 717170000) or (dcp_borough eq 717170001))
   return querySegment ? `(${querySegment})` : '';
+}
+
+export function equalsAnyOfChildEntity(propertyName, strings = [], childEntity) {
+  return strings
+    .map((string) => {
+      const lambdaQueryPrefix = childEntity ? `${childEntity}/` : '';
+      const equalsAnyQuerySegment = comparisonOperator(propertyName, 'eq', string, false);
+      const anyOperator = `any(o:o/${equalsAnyQuerySegment})`;
+      return `${lambdaQueryPrefix}${anyOperator}`;
+    })
+    .join(' or ');
 }
 
 export function containsAnyOf(propertyName, strings = [], options?) {

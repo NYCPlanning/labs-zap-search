@@ -24,7 +24,8 @@ import {
   comparisonOperator,
   containsString,
   equalsAnyOf,
-  containsAnyOf
+  containsAnyOf,
+  equalsAnyOfChildEntity
 } from '../odata/odata.module';
 // CrmService is a copy of the newer API we built for Applicant Portal to talk to CRM.
 // It will eventually strangle out OdataService, which is an older API to accomplish
@@ -136,7 +137,7 @@ const QUERY_TEMPLATES = {
     }),
 
   'zoning-resolutions': (queryParamValue) =>
-    queryParamValue.map(value => `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`).join(' or '),
+    equalsAnyOfChildEntity('_dcp_zoningresolution_value', queryParamValue, 'dcp_dcp_project_dcp_projectaction_project'),
 
   boroughs: (queryParamValue) =>
     equalsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP))),
