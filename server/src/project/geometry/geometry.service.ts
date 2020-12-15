@@ -128,7 +128,7 @@ const any = (...statements) => {
   ];
 };
 const containsString = (key, value, entityName='') => {
-  return `<condition ${entityName ? `entityname="${entityName}"` : '' } attribute="${key}" operator="like" value="% ${value} %" />`
+  return `<condition ${entityName ? `entityname="${entityName}"` : '' } attribute="${key}" operator="like" value="%25${value}%25" />`
 };
 
 // configure received params, provide procedures for generating queries.
@@ -147,8 +147,8 @@ const QUERY_TEMPLATES = {
   boroughs: (queryParamValue) =>
     containsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP)), 'dcp_project'),
 
-  blocks: (queryParamValue) =>
-    containsAnyOf('dcp_validatedblock', queryParamValue, 'dcp_projectbbl'),
+  block: (queryParamValue) =>
+    containsString('dcp_validatedblock', [queryParamValue], 'dcp_projectbbl'),
 
   dcp_ulurp_nonulurp: (queryParamValue) =>
     containsAnyOf('dcp_ulurp_nonulurp', coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP)), 'dcp_project'),
@@ -182,6 +182,9 @@ const QUERY_TEMPLATES = {
       containsString('dcp_ceqrnumber', queryParamValue, 'dcp_project'),
       containsString('dcp_name', queryParamValue, 'dcp_projectapplicant'),
       containsString('dcp_ulurpnumber', queryParamValue, 'dcp_projectaction'),
+      containsString('dcp_docket', queryParamValue, 'dcp_projectaction'),
+      containsString('dcp_comment', queryParamValue, 'dcp_projectaction'),
+      containsString('dcp_historiczoningresolutionsectionnumber', queryParamValue, 'dcp_projectaction'),
     ),
 };
 

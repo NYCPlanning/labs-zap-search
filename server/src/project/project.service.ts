@@ -159,8 +159,8 @@ const QUERY_TEMPLATES = {
       comparisonOperator('dcp_certifiedreferred', 'lt', coerceToDateString(queryParamValue[1])),
     ),
 
-  blocks: (queryParamValue) =>
-    containsAnyOf('dcp_validatedblock', queryParamValue, {
+  block: (queryParamValue) =>
+    containsAnyOf('dcp_validatedblock', [queryParamValue], {
       childEntity: 'dcp_dcp_project_dcp_projectbbl_project'
     }),
 
@@ -198,7 +198,7 @@ export const ALLOWED_FILTERS = [
   'dcp_publicstatus', // 'Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown'
   'dcp_certifiedreferred',
   'project_applicant_text',
-  'blocks', // not sure this gets used
+  'block',
   'distance_from_point',
   'radius_from_point',
   'zoning-resolutions',
