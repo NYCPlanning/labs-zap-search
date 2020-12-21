@@ -135,6 +135,9 @@ const QUERY_TEMPLATES = {
       childEntity: 'dcp_dcp_project_dcp_projectaction_project'
     }),
 
+  'zoning-resolutions': (queryParamValue) =>
+    queryParamValue.map(value => `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`).join(' or '),
+
   boroughs: (queryParamValue) =>
     equalsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP))),
 
@@ -198,6 +201,7 @@ export const ALLOWED_FILTERS = [
   'blocks', // not sure this gets used
   'distance_from_point',
   'radius_from_point',
+  'zoning-resolutions',
 ];
 
 export const generateFromTemplate = (query, template) => {
@@ -398,25 +402,27 @@ export class ProjectService {
         &$expand=dcp_package_SharePointDocumentLocations
       `);
 
-    projectPackages = await Promise.all(projectPackages.map(async (pkg) => {
-        return await this.packageService.packageWithDocuments(pkg);
-      }));
+    // TODO: Disabling for now because this is unstable and doesn\'t work well enough
+    // We need a saner way to share documents!
+    // projectPackages = await Promise.all(projectPackages.map(async (pkg) => {
+    //     return await this.packageService.packageWithDocuments(pkg);
+    //   }));
 
-    transformedProject.packages = projectPackages;
+    // transformedProject.packages = projectPackages;
 
-    let { records: projectArtifacts } = await this.crmService.get('dcp_artifactses', `
-      $filter=
-        _dcp_project_value eq ${firstProject.dcp_projectid}
-        and (
-          dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
-        )
-    `);
+    // let { records: projectArtifacts } = await this.crmService.get('dcp_artifactses', `
+    //   $filter=
+    //     _dcp_project_value eq ${firstProject.dcp_projectid}
+    //     and (
+    //       dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
+    //     )
+    // `);
 
-    projectArtifacts = await Promise.all(projectArtifacts.map(async (artifact) => {
-        return await this.artifactService.artifactWithDocuments(artifact);
-      }));
+    // projectArtifacts = await Promise.all(projectArtifacts.map(async (artifact) => {
+    //     return await this.artifactService.artifactWithDocuments(artifact);
+    //   }));
     
-    transformedProject.artifacts = projectArtifacts;
+    // transformedProject.artifacts = projectArtifacts;
 
     // TODO: disabling for now until DO resolves stability issues
     // await injectSupportDocumentURLs(transformedProject);

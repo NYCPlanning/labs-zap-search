@@ -77,6 +77,15 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     return (pageTotal < MAX_PAGES) || ((page * MAX_PAGES) >= total);
   }
 
+  // remap the zoning resolutions to match the `lookup-action-type` and `lookup-community-district` filters
+  // this is so that we can standardize and keep the `replaceProperty` action working for each of these "lookups"
+  @computed('model')
+  get zoningResolutions() {
+    const allZoningResolutions = this.model;
+    const zoningResolutionsRemapped = allZoningResolutions.map(zr => ({ code: zr.id, name: zr.dcpZoningresolution }));
+    return zoningResolutionsRemapped;
+  }
+
   /**
    * Contructs an Ember Data friendly query object to be passed along
    * to calls to the `store`. This constructs an object representing

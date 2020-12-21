@@ -141,6 +141,9 @@ const QUERY_TEMPLATES = {
   'action-types': (queryParamValue) =>
     equalsAnyOf('dcp_name', queryParamValue, 'dcp_projectaction'),
 
+  'zoning-resolutions': (queryParamValue) =>
+    queryParamValue.map(value => `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`).join(' or '),
+
   boroughs: (queryParamValue) =>
     containsAnyOf('dcp_borough', coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP)), 'dcp_project'),
 
@@ -283,10 +286,16 @@ export class GeometryService {
       .map(block => `${block.block.substring(1)}`);
   }
 
+  // Warning! Returns either null or an Object
   async getBblsGeometry(bbls = []) {
-    if (bbls === null || bbls.length === 0) return null;
-
+    // Sometimes Dynamics populates the BBLs array with one element: null.
+    // So we make sure to remove all null values.
     const normalizedBbls = bbls.filter(Boolean);
+
+    // The carto fetch fails if we try to construct a query from an empty array,
+    // so we just return null for an empty normalizedBbls array.
+    if (normalizedBbls === null || normalizedBbls.length === 0) return null;
+
     const SQL = (normalizedBbls.length < 100) ?
       QUERIES.unionedGeojsonFromBbls(normalizedBbls) : QUERIES.unionedGeojsonFromBoroughBlocks(normalizedBbls);
 

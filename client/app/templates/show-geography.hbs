@@ -275,6 +275,29 @@
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
+      {{!-- FILTER: ZONING RESOLUTION TYPE --}}
+      {{#filters.section
+        filterNames='zoning-resolutions'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.zoning-resolutions')
+          tooltip='Filter by Zoning Resolution.'}}
+          {{#power-select-multiple
+            options=this.zoningResolutions
+            selected=(contains-keys
+              this.zoningResolutions
+              zoning-resolutions
+              key='code')
+            placeholder="Select some zoning resolutions..."
+            searchField='name'
+            onchange=(action section.delegate-mutation (action 'replaceProperty' 'zoning-resolutions'))
+            as |zoningResolution|
+          }}
+            {{zoningResolution.name}}
+          {{/power-select-multiple}}
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
       {{!-- FILTER: FEMA FLOOD ZONE --}}
       {{#filters.section
         filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx')

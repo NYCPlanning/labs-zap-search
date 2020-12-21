@@ -13,6 +13,7 @@ import { OdataModule } from './odata/odata.module';
 import { AssignmentModule } from './assignment/assignment.module';
 import { DocumentModule } from './document/document.module';
 import { CrmModule } from './crm/crm.module';
+import { ZoningResolutionsModule } from './zoning-resolutions/zoning-resolutions.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CrmModule } from './crm/crm.module';
     OdataModule,
     AssignmentModule,
     DocumentModule,
+    ZoningResolutionsModule,
    ],
   controllers: [AppController],
 })

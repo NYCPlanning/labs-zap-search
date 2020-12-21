@@ -271,6 +271,8 @@ Use query Parameters for filtering:
 
     `action-types[]` - array of action types
 
+    `zoning-resolutions[]` - array of zoning resolutions
+
     `boroughs[]` - array of borough names, including 'Citywide'
 
     `dcp_ceqrtype[]` - array of CEQR types
