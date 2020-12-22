@@ -1,6 +1,8 @@
 import { module, test, skip } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, click, waitFor } from '@ember/test-helpers';
+import {
+  render, find, click,
+} from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import Service from '@ember/service';

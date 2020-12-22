@@ -1,26 +1,7 @@
-import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 import fetch from 'fetch';
-import location from 'ember-simple-auth/utils/location';
-import { inject as service } from '@ember/service';
 import ENV from 'labs-zap-search/config/environment';
 import { InvalidError } from '@ember-data/adapter/error';
 import OAuth2ImplicitGrantAuthenticator from 'ember-simple-auth/authenticators/oauth2-implicit-grant';
-
-// lifted from https://github.com/simplabs/ember-simple-auth/blob/master/addon/mixins/oauth2-implicit-grant-callback-route-mixin.js#L6
-// parses a window hash and grabs the access token
-function _parseResponse(locationHash) {
-  const params = {};
-  const query = locationHash.substring(locationHash.indexOf('?'));
-  const regex = /([^#?&=]+)=([^&]*)/g;
-  let match;
-
-  // decode all parameter pairs
-  while ((match = regex.exec(query)) !== null) { // eslint-disable-line
-    params[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
-  }
-
-  return params;
-}
 
 export default class ZAPAuthenticator extends OAuth2ImplicitGrantAuthenticator {
   // @service
@@ -51,6 +32,6 @@ export default class ZAPAuthenticator extends OAuth2ImplicitGrantAuthenticator {
 
     if (!response.ok) throw await response.json();
 
-    return await response.json();
+    return response.json();
   }
 }

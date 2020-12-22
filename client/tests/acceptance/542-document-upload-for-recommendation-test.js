@@ -170,9 +170,9 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
 
     await click('[data-test-submit]');
 
-    assert.ok(this.server.pretender.handledRequests.every(req => {
-      console.log(req.requestHeaders['Authorization'], req);
-      return req.requestHeaders['Authorization'] === 'Bearer some_token';
+    assert.ok(this.server.pretender.handledRequests.every((req) => {
+      console.log(req.requestHeaders.Authorization, req);
+      return req.requestHeaders.Authorization === 'Bearer some_token';
     }));
   });
 
