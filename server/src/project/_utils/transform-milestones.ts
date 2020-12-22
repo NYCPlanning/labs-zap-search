@@ -124,23 +124,35 @@ function applySecondDisplayDate(milestone, project) {
 }
 
 function applyDisplayDate(milestone, project) {
-  if (milestone._dcp_milestone_value === '963beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '943beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
+  const MILESTONE_STATUSCODE_NOT_STARTED = 1;
+  const MILESTONE_STATUSCODE_IN_PROGRESS = 717170000;
+  const MILESTONE_STATUSCODE_COMPLETED = 2;
+
+  let chosenStartDate;
+
+  if (milestone.statuscode === MILESTONE_STATUSCODE_IN_PROGRESS || milestone.statuscode === MILESTONE_STATUSCODE_COMPLETED) {
+    chosenStartDate = milestone.dcp_actualstartdate;
+  } else if (milestone.statsucode === MILESTONE_STATUSCODE_NOT_STARTED) {
+    chosenStartDate = milestone.dcp_plannedstartdate;
+  };
+
+  if (milestone._dcp_milestone_value === '963beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = chosenStartDate;
+  if (milestone._dcp_milestone_value === '943beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = chosenStartDate;
   if (milestone._dcp_milestone_value === '763beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === 'a63beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '923beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
+  if (milestone._dcp_milestone_value === 'a63beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = chosenStartDate;
+  if (milestone._dcp_milestone_value === '923beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = chosenStartDate;
+  if (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = chosenStartDate;
   if (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
   if (milestone._dcp_milestone_value === '863beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '7c3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
+  if (milestone._dcp_milestone_value === '7c3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = chosenStartDate;
   if (milestone._dcp_milestone_value === '7e3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '883beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '783beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualstartdate;
+  if (milestone._dcp_milestone_value === '883beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = chosenStartDate;
+  if (milestone._dcp_milestone_value === '783beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = chosenStartDate;
   if (milestone._dcp_milestone_value === 'aa3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
   if (milestone._dcp_milestone_value === '823beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
   if (milestone._dcp_milestone_value === '663beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
   if (milestone._dcp_milestone_value === '6a3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === 'a83beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
+  if (milestone._dcp_milestone_value === 'a83beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = chosenStartDate;
   if (milestone._dcp_milestone_value === '843beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
   if (milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
   if (milestone._dcp_milestone_value === '780593bb-ecc2-e811-8156-1458d04d0698') milestone.display_date = milestone.dcp_actualenddate;
