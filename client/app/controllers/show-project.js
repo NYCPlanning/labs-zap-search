@@ -16,6 +16,8 @@ export default class ShowProjectController extends Controller {
 
   showPopup = false;
 
+  ACTION_STATUSCODE_ACTIVE = 1;
+
   bblFeatureCollectionLayerFill = {
     id: 'project-geometry-fill',
     type: 'fill',

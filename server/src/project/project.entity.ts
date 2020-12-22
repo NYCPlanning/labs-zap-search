@@ -58,6 +58,7 @@ export const ACTION_KEYS = [
   'dcp_ccresolutionnumber',
   '_dcp_action_value',
   '_dcp_zoningresolution_value',
+  'dcp_spabsoluteurl',
 ];
 
 export const MILESTONE_KEYS = [
