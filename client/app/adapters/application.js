@@ -1,14 +1,23 @@
 import DS from 'ember-data';
 import ENV from 'labs-zap-search/config/environment';
+import { inject as service } from '@ember/service';
 
 const { JSONAPIAdapter } = DS;
 
 export default class ApplicationAdapter extends JSONAPIAdapter {
   host = ENV.host;
 
-  ajax(url, method, hash = {}) {
-    hash.xhrFields = { withCredentials: true };
+  @service
+  session;
 
-    return super.ajax(url, method, hash);
+  get headers() {
+    console.log(this.session);
+    if (this.session.isAuthenticated) {
+      return {
+        Authorization: `Bearer ${this.session.data.authenticated.access_token}`,
+      };
+    }
+
+    return {};
   }
 }

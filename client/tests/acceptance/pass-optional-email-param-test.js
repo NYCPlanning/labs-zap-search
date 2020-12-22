@@ -9,7 +9,7 @@ module('Acceptance | pass optional email param', function(hooks) {
   setupMirage(hooks);
 
   test('my projects passes optional email params', async function(assert) {
-    await authenticateSession();
+    await authenticateSession({ access_token: 'test' });
     await visit('/my-projects/to-review?email=test@test.com');
 
     const [req] = this.server.pretender.handledRequests;
@@ -18,7 +18,7 @@ module('Acceptance | pass optional email param', function(hooks) {
   });
 
   test('my projects passes optional email params to upcoming', async function(assert) {
-    await authenticateSession();
+    await authenticateSession({ access_token: 'test' });
     await visit('/my-projects/upcoming?email=test@test.com');
 
     const [req] = this.server.pretender.handledRequests;
@@ -27,13 +27,13 @@ module('Acceptance | pass optional email param', function(hooks) {
   });
 
   test('tab through with param', async function(assert) {
-    await authenticateSession();
+    await authenticateSession({ access_token: 'test' });
     await visit('/my-projects/to-review?email=test@test.com');
     await click('[data-test-tab-button="upcoming"]');
 
-    const [req, req2] = this.server.pretender.handledRequests;
+    const [req,, req3] = this.server.pretender.handledRequests;
 
     assert.equal(req.queryParams.email, 'test@test.com');
-    assert.equal(req2.queryParams.email, 'test@test.com');
+    assert.equal(req3.queryParams.email, 'test@test.com');
   });
 });

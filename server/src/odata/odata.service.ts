@@ -72,11 +72,7 @@ export class OdataService {
   }
 
   update(model, guid, data, headers = {}) {
-    if (!this.config.get('SKIP_CRM')) {
-      return CRMWebAPI.update(model, guid, data, headers);
-    }
-
-    return data;
+    return CRMWebAPI.update(model, guid, data, headers);
   }
 
   async query(entity: string, query: string, ...options) {

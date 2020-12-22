@@ -27,11 +27,11 @@ module.exports = function(defaults) {
     // tests: IS_TEST, // Don't even generate test files unless a test build
 
     autoprefixer: {
-      sourcemap: false // Was never helpful
+      sourcemap: false, // Was never helpful
     },
 
     sourcemaps: {
-      enabled: IS_PROD // CMD ALT F in chrome is *almost* as fast as CMD P
+      enabled: IS_PROD, // CMD ALT F in chrome is *almost* as fast as CMD P
     },
   });
 

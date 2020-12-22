@@ -2,13 +2,14 @@
   If auth'd, show "My Project" and auth info,
   otherwise show the "Sign In" button.
   --}}
+
 {{#if this.session.isAuthenticated}}
   <li>{{#link-to 'my-projects'}}<span data-test-my-projects-button>My Projects</span>{{/link-to}}</li>
   <li class="auth--container">
     {{fa-icon 'user-circle' size='2x' class="auth--icon"}}
     <div>
       <span data-test-auth-name class="auth--name">
-        {{this.session.data.authenticated.emailaddress1}}
+        {{this.currentUser.user.emailaddress1}}
       </span>
       <a
         data-test-auth-logout-button
@@ -34,28 +35,6 @@
 
 {{#ember-wormhole to="reveal-modal-container"}}
   {{#confirmation-modal open=showAuthModal}}
-    <h2 class="large-margin-right small-margin-bottom">Borough&nbsp;Presidents &amp;&nbsp;Community&nbsp;Boards,</h2>
-    <p class="lead">
-      <strong>Use your NYC.ID account to sign in.</strong>
-      <small><a href="https://www1.nyc.gov/assets/nyc4d/html/services-nycid/user-features-benefits.shtml" class="no-wrap">What is NYC.ID?</a></small>
-    </p>
-    <p class="small-margin-bottom">Be sure to use the email address that is associated with the Zoning Application Portal. If you're unsure which email address to use, please contact City Planning at <a href="mailto:ZAP_feedback_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a> or 212-720-3300.</p>
-    <ul class="text-small">
-      <li>
-        <p class="small-margin-bottom">For NYC.GOV credentials, select the "NYC Employees" option</p>
-      </li>
-      <li>
-        <p>For non-NYC.GOV email addresses, enter your existing NYC.ID credentials (you may need to create an NYC.ID account)</p>
-      </li>
-    </ul>
-    <p>Once you're signed in, you'll be redirected back here, where you'll see your list of assigned projects.</p>
-
-    <a
-      class="button large expanded"
-      href={{this.oauthEndpoint}}
-    >
-      Sign in with NYC.ID
-      <sup>{{fa-icon 'external-link-alt'}}</sup>
-    </a>
+    {{auth/login-dialog}}
   {{/confirmation-modal}}
 {{/ember-wormhole}}

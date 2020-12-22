@@ -1,27 +1,36 @@
-<div class="cell">
-  <div class="grid-container">
-    <div class="grid-x grid-padding-x grid-padding-y align-middle" style="min-height: 50vh">
-      <div class="cell large-6 large-offset-3 text-center">
-        <h2>Oops!</h2>
+{{#auth/do-logout}}
+  {{#ember-wormhole to="reveal-modal-container"}}
+    {{#confirmation-modal open=true}}
+        <div class="grid-container">
+          <div class="grid-x grid-padding-x grid-padding-y align-middle">
+            <div class="cell large-6 large-offset-3 text-center">
+              <h2>Oops!</h2>
 
-        <p>Something went wrong.</p>
+              <p>Something went wrong.</p>
 
-        {{#each model.errors as |error idx|}}
-          {{#if error.detail}}
-            <code class="callout display-block text-left red-muted" data-test-error-message={{idx}}>{{error.detail}}</code>
-          {{else}}
-            {{#each-in error as |key value|}}
-              <code class="callout display-block text-left red-muted">{{key}}: {{value}}</code>
-            {{/each-in}}
-          {{/if}}
-        {{/each}}
+              {{#each model.errors as |error idx|}}
+                {{#if error.detail}}
+                  <code class="callout display-block text-left red-muted" data-test-error-message={{idx}}>{{error.detail}}</code>
+                {{else}}
+                  {{#each-in error as |key value|}}
+                    <code class="callout display-block text-left red-muted">{{key}}: {{value}}</code>
+                  {{/each-in}}
+                {{/if}}
+              {{/each}}
 
-        {{auth/do-logout}}
 
-      </div>
-      <div class="cell large-10 large-offset-1 xlarge-8 xlarge-offset-2  text-center">
-        <p class="">Please contact City Planning at <a href="mailto:ZAP_feedback_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a> or 212-720-3300.</p>
-      </div>
-    </div>
-  </div>
-</div>
+
+            </div>
+            <div class="cell large-10 large-offset-1 xlarge-8 xlarge-offset-2  text-center">
+              <p class="">Please contact City Planning at <a href="mailto:ZAP_feedback_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a> or 212-720-3300.</p>
+            </div>
+          </div>
+        </div>
+
+
+      {{auth/login-dialog}}
+    {{/confirmation-modal}}
+  {{/ember-wormhole}}
+{{else}}
+  Logging out...
+{{/auth/do-logout}}

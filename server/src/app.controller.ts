@@ -19,20 +19,24 @@ export class AppController {
   }
 
   @Get('/login')
-  async login(@Res() res: Response, @Query('accessToken') NYCIDToken: string) {
+  async login(@Query('accessToken') NYCIDToken: string) {
     try {
       const ZAPToken = await this.authService.generateNewToken(NYCIDToken);
 
-      res.cookie('token', ZAPToken, { httpOnly: true, sameSite: 'none', secure: true })
-        .send({ message: 'Login successful!' });
-    } catch (e) {
-      if (e instanceof HttpException) {
-        res.status(401).send({ errors: [e] });
-      } else {
-        console.log(e);
+      return {
+        access_token: ZAPToken,
+      };
 
-        res.status(500).send({ errors: [e] });
-      }
+      // res.cookie('token', ZAPToken, { httpOnly: true, sameSite: 'none', secure: true })
+      //   .send({ message: 'Login successful!' });
+    } catch (e) {
+      // if (e instanceof HttpException) {
+      //   res.status(401).send({ errors: [e] });
+      // } else {
+      //   console.log(e);
+
+      //   res.status(500).send({ errors: [e] });
+      // }
     }
   }
 

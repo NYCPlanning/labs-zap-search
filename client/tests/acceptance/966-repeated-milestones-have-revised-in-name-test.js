@@ -15,8 +15,10 @@ module('Acceptance | 966 repeated milestones have revised in name', function(hoo
 
     await invalidateSession();
     await authenticateSession({
-      id: 1,
+      access_token: 'test',
     });
+
+    this.server.create('user');
   });
 
   hooks.afterEach(async function() {
@@ -27,7 +29,6 @@ module('Acceptance | 966 repeated milestones have revised in name', function(hoo
 
   test('repeated milestones AFTER the first in the list with the same name will have `Revised` in the name', async function(assert) {
     this.server.create('project', {
-      id: 5,
       // NOTE: These five `Land Use Application Filed` milestones are based on real data for project P2015K0272
       // to search these milestones by id run the SQL query
       // Example: SELECT * FROM dcp_projectmilestone WHERE dcp_projectmilestoneid = '2e710c18-643e-e811-812a-1458d04d2538'
@@ -161,7 +162,7 @@ module('Acceptance | 966 repeated milestones have revised in name', function(hoo
       ],
     });
 
-    await visit('/projects/5');
+    await visit('/projects/1');
 
     assert.notOk(this.element.querySelector('[data-test-milestone-name="2e710c18-643e-e811-812a-1458d04d2538"]').textContent.includes('Revised'), 'first land use app milestone');
     assert.ok(this.element.querySelector('[data-test-milestone-name="4bd1cdb2-ac3e-e911-814c-1458d04d2538"]').textContent.includes('Revised Land Use Application Filed'), 'second land use app milestone');
