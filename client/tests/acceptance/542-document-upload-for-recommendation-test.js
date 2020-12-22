@@ -142,7 +142,9 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
   test('Assert credentials in request body', async function (assert) {
     setUpProjectAndDispos(server, 'CB');
 
-    await authenticateSession();
+    await authenticateSession({
+      access_token: 'some_token',
+    });
 
     // Fill in all form fields except for documents
     await visit('/my-projects/1/recommendations/add');
@@ -168,7 +170,10 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
 
     await click('[data-test-submit]');
 
-    assert.ok(this.server.pretender.handledRequests.every(req => req.withCredentials));
+    assert.ok(this.server.pretender.handledRequests.every(req => {
+      console.log(req.requestHeaders['Authorization'], req);
+      return req.requestHeaders['Authorization'] === 'Bearer some_token';
+    }));
   });
 
   test('Selected docs are only put into assignment-specific queus', async function (assert) {

@@ -6,8 +6,6 @@ import ENV from 'labs-zap-search/config/environment';
 
 @tagName('')
 export default class SignInComponent extends Component {
-  oauthEndpoint = ENV.OAUTH_ENDPOINT;
-
   showAuthModal = false;
 
   @service
@@ -15,6 +13,9 @@ export default class SignInComponent extends Component {
 
   @service
   router
+
+  @service
+  currentUser
 
   @action
   logout() {

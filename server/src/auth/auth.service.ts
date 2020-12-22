@@ -20,17 +20,12 @@ export class AuthService {
   CRM_SIGNING_SECRET = '';
   NYCID_CONSOLE_PASSWORD = '';
 
-  // development environment features
-  CRM_IMPOSTER_ID = '';
-
   constructor(
     private readonly config: ConfigService,
     private readonly contactService: ContactService,
   ) {
     this.CRM_SIGNING_SECRET = this.config.get('CRM_SIGNING_SECRET');
     this.NYCID_CONSOLE_PASSWORD = this.config.get('NYCID_CONSOLE_PASSWORD');
-
-    this.CRM_IMPOSTER_ID = this.config.get('CRM_IMPOSTER_ID');
   }
 
   /**
@@ -82,14 +77,7 @@ export class AuthService {
    * @param      {string}  mail    An email account to be found in CRM
    */
   private async lookupContact(mail: string) {
-    const { CRM_IMPOSTER_ID } = this;
-
     try {
-      // prefer CRM_IMPOSTER_ID if it exists
-      if (CRM_IMPOSTER_ID) {
-        return this.contactService.findOne(CRM_IMPOSTER_ID);
-      }
-
       return this.contactService.findByEmail(mail);
     } catch (e) {
       throw new HttpException(`

@@ -74,7 +74,7 @@ export class DispositionController {
 
       // check that the person updating the disposition is the person who submitted the dispo
       // also check if it's imposter_id enabled
-      if ((dcp_recommendationsubmittedby !== contactid) && !this.config.get('CRM_IMPOSTER_ID')) {
+      if (dcp_recommendationsubmittedby !== contactid) {
         throw new Error('Not authorized to edit this record.');
       }
 

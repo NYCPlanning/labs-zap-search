@@ -82,7 +82,7 @@ export default function () {
     // leak issues. http-only cookies means the server is fully responsible
     // for identity management
     if (me) {
-      return schema.users.first();
+      return schema.users.first() || schema.users.create();
     }
 
     return new Response(401, { some: 'header' }, { errors: ['Unauthorized'] });

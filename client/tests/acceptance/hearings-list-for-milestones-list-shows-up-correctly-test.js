@@ -16,8 +16,10 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
 
     await invalidateSession();
     await authenticateSession({
-      id: 1,
+      access_token: 'test',
     });
+
+    this.server.create('user');
   });
 
   hooks.afterEach(async function() {

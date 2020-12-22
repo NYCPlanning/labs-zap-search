@@ -3,6 +3,8 @@ import fetch from 'fetch';
 import location from 'ember-simple-auth/utils/location';
 import { inject as service } from '@ember/service';
 import ENV from 'labs-zap-search/config/environment';
+import { InvalidError } from '@ember-data/adapter/error';
+import OAuth2ImplicitGrantAuthenticator from 'ember-simple-auth/authenticators/oauth2-implicit-grant';
 
 // lifted from https://github.com/simplabs/ember-simple-auth/blob/master/addon/mixins/oauth2-implicit-grant-callback-route-mixin.js#L6
 // parses a window hash and grabs the access token
@@ -20,38 +22,35 @@ function _parseResponse(locationHash) {
   return params;
 }
 
-export default class ZAPAuthenticator extends BaseAuthenticator {
-  @service
-  store
+export default class ZAPAuthenticator extends OAuth2ImplicitGrantAuthenticator {
+  // @service
+  // store
 
-  async _fetchUserObject() {
-    const user = await this.store.queryRecord('user', { me: true });
+  // async _fetchUserObject() {
+  //   const user = await this.store.queryRecord('user', { me: true });
 
-    return { id: user.id, ...user.toJSON() };
-  }
+  //   return { id: user.id, ...user.toJSON() };
+  // }
 
-  async authenticate() {
-    const { access_token } = _parseResponse(location().hash);
+  async authenticate(...args) {
+    let accessToken;
 
-    if (!access_token) {
-      throw { errors: [{ detail: 'No access token present' }] }; // eslint-disable-line
+    try {
+      const { access_token } = await super.authenticate(...args);
+
+      accessToken = access_token;
+    } catch (e) {
+      throw new InvalidError([{ detail: e, message: 'Please login again or contact DCP.' }]);
     }
 
     // returns an http cookie to implicitly authenticate later requests
-    const response = await fetch(`${ENV.host}/login?accessToken=${access_token}`, {
+    const response = await fetch(`${ENV.host}/login?accessToken=${accessToken}`, {
       mode: 'same-origin',
       credentials: 'include',
     });
 
     if (!response.ok) throw await response.json();
 
-    return this._fetchUserObject();
-  }
-
-  restore() {
-    // authentication is implicit with an httponly cookie
-    // this request will fail if that cookie doesn't exist
-    // https://github.com/simplabs/ember-simple-auth/blob/master/guides/managing-current-user.md#using-a-dedicated-endpoint
-    return this._fetchUserObject();
+    return await response.json();
   }
 }

@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, find, currentURL } from '@ember/test-helpers';
+import { visit, find, currentURL, waitFor } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession } from 'ember-simple-auth/test-support';
@@ -45,6 +45,7 @@ module('Acceptance | user can login', function(hooks) {
     window.location.hash = '#access_token=test';
 
     await visit('/login');
+    await waitFor('[data-test-error-message="0"]');
 
     assert.equal(find('[data-test-error-message="0"]').textContent.trim(), 'We couldn\'t find your email in our system.');
   });

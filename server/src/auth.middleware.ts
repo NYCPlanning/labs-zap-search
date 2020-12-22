@@ -13,7 +13,8 @@ export class AuthMiddleware implements NestMiddleware {
   async use(req: any, res: any, next: () => void) {
     req.session = false;
 
-    const { token } = req.cookies;
+    const { authorization = '' } = req.headers;
+    const token = authorization.split(' ')[1];
 
     try {
       req.session = await this.authService.validateCurrentToken(token);

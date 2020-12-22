@@ -13,7 +13,7 @@ export default class CurrentUserService extends Service {
   @computed('session.{isAuthenticated,data.authenticated}')
   get user() {
     if (this.isLoggedIn) {
-      return this.store.peekRecord('user', this.session.data.authenticated.id);
+      return this.store.queryRecord('user', { me: true });
     }
 
     return {};
