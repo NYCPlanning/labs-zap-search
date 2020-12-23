@@ -66,6 +66,7 @@ export class ArtifactService {
     // property is a single-valued property, a string representing the absolute Sharepoint URL.
     // So we have to split the string to get the "relative URL" portion.
     const {
+      dcp_artifactsid,
       dcp_name,
       dcp_artifactdocumentlocation,
     } = projectArtifact;
@@ -77,11 +78,12 @@ export class ArtifactService {
         // Also that the segment divides the absolute URL into two tokens.
         // Example value for dcp_artifactdocumentlocation:
         // https://nyco365.sharepoint.com/sites/dcppfsuat2/dcp_artifacts/P2016K0021 - Area Map - 1_77A5253923FBE911A9BC001DD8308EF1
-        const relativeUrl = dcp_artifactdocumentlocation.split('/dcp_artifacts/')[1];
+
+        const formattedId = dcp_artifactsid.toUpperCase().replace(/-/g, '');
 
         return {
           ...projectArtifact,
-          documents: await this.getArtifactSharepointDocuments(relativeUrl, dcp_name),
+          documents: await this.getArtifactSharepointDocuments(`${dcp_name}_${formattedId}`, dcp_name),
         };
       } catch (e) {
         const errorMessage = `Error loading documents for artifact ${dcp_name}. ${JSON.stringify(e)}`;
