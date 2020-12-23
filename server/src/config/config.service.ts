@@ -50,7 +50,7 @@ export class ConfigService {
     Object.entries(this.envValuesFromFile).forEach(([key, value]) => {
       const printedValue = `${value}`;
 
-      console.log(`${key}: ${printedValue.slice(0,10)}...`);
+      console.log(`${key}: ${printedValue.slice(0,15)}...`);
     });
 
     const missingKeys = REQUIRED_ENV_KEYS.filter(envKey => !Object.keys(this.envConfig).includes(envKey));

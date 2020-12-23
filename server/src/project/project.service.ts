@@ -390,6 +390,8 @@ export class ProjectService {
     // TODO: Not clear that this gets used still
     transformedProject.video_links = [];
 
+    // TODO: Disabling for now because this is unstable and doesn\'t work well enough
+    // We need a saner way to share documents!
     let { records: projectPackages } = await this.crmService.get('dcp_packages', `
         $filter=
           _dcp_project_value eq ${firstProject.dcp_projectid}
@@ -402,27 +404,41 @@ export class ProjectService {
         &$expand=dcp_package_SharePointDocumentLocations
       `);
 
-    // TODO: Disabling for now because this is unstable and doesn\'t work well enough
-    // We need a saner way to share documents!
-    // projectPackages = await Promise.all(projectPackages.map(async (pkg) => {
-    //     return await this.packageService.packageWithDocuments(pkg);
-    //   }));
+    try {
+      projectPackages = await Promise.all(projectPackages.map(async (pkg) => {
+        try {
+          return await this.packageService.packageWithDocuments(pkg);
+        } catch(e) {
+          console.log(e);
+        }
+      }));
 
-    // transformedProject.packages = projectPackages;
+      transformedProject.packages = projectPackages;
+    } catch (e) {
+      console.log(e);
+    }
 
-    // let { records: projectArtifacts } = await this.crmService.get('dcp_artifactses', `
-    //   $filter=
-    //     _dcp_project_value eq ${firstProject.dcp_projectid}
-    //     and (
-    //       dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
-    //     )
-    // `);
+    let { records: projectArtifacts } = await this.crmService.get('dcp_artifactses', `
+      $filter=
+        _dcp_project_value eq ${firstProject.dcp_projectid}
+        and (
+          dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
+        )
+    `);
 
-    // projectArtifacts = await Promise.all(projectArtifacts.map(async (artifact) => {
-    //     return await this.artifactService.artifactWithDocuments(artifact);
-    //   }));
-    
-    // transformedProject.artifacts = projectArtifacts;
+    try {
+      projectArtifacts = await Promise.all(projectArtifacts.map(async (artifact) => {
+          try {
+            return await this.artifactService.artifactWithDocuments(artifact);
+          } catch (e) {
+            console.log(e);
+          }
+        }));
+
+      transformedProject.artifacts = projectArtifacts;
+    } catch (e) {
+      console.log(e);
+    }
 
     // TODO: disabling for now until DO resolves stability issues
     // await injectSupportDocumentURLs(transformedProject);
