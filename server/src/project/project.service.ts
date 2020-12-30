@@ -117,6 +117,11 @@ export const PACKAGE_VISIBILITY = {
 }
 export const PACKAGE_STATUSCODE = {
   SUBMITTED: 717170012,
+  CERTIFIED: 717170005,
+  REVIEWED_NO_REVISIONS_REQUIRED: 717170009,
+  REVIEWED_REVISIONS_REQUIRED: 717170010,
+  UNDER_REVIEW: 717170013,
+  FINAL_APPROVAL: 717170008,
 }
 
 const ARTIFACT_VISIBILITY = {
@@ -219,7 +224,6 @@ function generateProjectsFilterString(query) {
   return all(
     // defaults
     comparisonOperator('dcp_visibility', 'eq', PROJECT_VISIBILITY_LOOKUP['General Public']),
-
     // optional params
     ...requestedFiltersQuery,
   );
@@ -370,7 +374,7 @@ export class ProjectService {
         $select: DEFAULT_PROJECT_SHOW_FIELDS,
         $filter: all(
           comparisonOperator('dcp_name', 'eq', name),
-          comparisonOperator('dcp_visibility', 'eq', 717170003),
+          comparisonOperator('dcp_visibility', 'eq', PROJECT_VISIBILITY_LOOKUP['General Public']),
         ),
         $expand: EXPANSIONS.join(','),
       }, 1);
@@ -390,8 +394,6 @@ export class ProjectService {
     // TODO: Not clear that this gets used still
     transformedProject.video_links = [];
 
-    // TODO: Disabling for now because this is unstable and doesn\'t work well enough
-    // We need a saner way to share documents!
     let { records: projectPackages } = await this.crmService.get('dcp_packages', `
         $filter=
           _dcp_project_value eq ${firstProject.dcp_projectid}
@@ -400,6 +402,11 @@ export class ProjectService {
           )
           and (
             statuscode eq ${PACKAGE_STATUSCODE.SUBMITTED}
+            or statuscode eq ${PACKAGE_STATUSCODE.CERTIFIED}
+            or statuscode eq ${PACKAGE_STATUSCODE.REVIEWED_NO_REVISIONS_REQUIRED}
+            or statuscode eq ${PACKAGE_STATUSCODE.REVIEWED_REVISIONS_REQUIRED}
+            or statuscode eq ${PACKAGE_STATUSCODE.UNDER_REVIEW}
+            or statuscode eq ${PACKAGE_STATUSCODE.FINAL_APPROVAL}
           )
         &$expand=dcp_package_SharePointDocumentLocations
       `);
