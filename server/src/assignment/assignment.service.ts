@@ -217,7 +217,7 @@ function generateAssignmentsQueryObject(contact) {
 
     // todo maybe alias these crm named relationships
     // filters by projects with associations having some connection to contactid
-    // OR infers an association through recodedCbFullName (for prefiled)
+    // OR infers an association through recodedCbFullName (for Noticed)
     $filter: `
       dcp_visibility eq 717170003
       and ((dcp_dcp_project_dcp_communityboarddisposition_project/any
@@ -261,7 +261,7 @@ function computeStatusTab(project, lupteam, recodedCbFullName, fullname) {
   // REDO: Terrible: mix of labeled/coded.
   // Some values come through here as labeled, not coded, so we look for both the labeled
   // and coded versions
-  if ((project.dcp_publicstatus === 717170005 || project.dcp_publicstatus === 'Prefiled') // Prefiled
+  if ((project.dcp_publicstatus === 717170005 || project.dcp_publicstatus === 'Noticed') // Noticed
     && (project.dcp_ulurp_nonulurp === 717170001 || project.dcp_ulurp_nonulurp === 'ULURP') // ULURP
     && project.dcp_validatedcommunitydistricts.includes(recodedCbFullName)) {
     return 'upcoming';

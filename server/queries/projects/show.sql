@@ -24,7 +24,7 @@ SELECT
   dcp_femafloodzoneshadedx,
   dcp_projectcompleted,
   CASE
-    WHEN p.dcp_publicstatus = 'Prefiled' THEN 'Prefiled'
+    WHEN p.dcp_publicstatus = 'Noticed' THEN 'Noticed'
     WHEN p.dcp_publicstatus = 'Filed' THEN 'Filed'
     WHEN p.dcp_publicstatus = 'In Public Review' THEN 'In Public Review'
     WHEN p.dcp_publicstatus = 'Completed' THEN 'Completed'

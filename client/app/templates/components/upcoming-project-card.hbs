@@ -134,7 +134,7 @@
 
       {{waive-hearings-popup assignment=this.assignment showPopup=showPopup}}
       <ul class="no-bullet no-margin">
-        {{#if (eq this.assignment.project.dcpPublicstatus 'Prefiled')}}
+        {{#if (eq this.assignment.project.dcpPublicstatus 'Noticed')}}
           <p>This application has not yet been filed.</p>
         {{else}}
           {{#each this.assignment.assigneeDisplayMilestones as |milestone idx|}}

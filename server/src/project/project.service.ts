@@ -48,7 +48,7 @@ export const ULURP_LOOKUP = {
   'ULURP': 717170001,
 };
 export const PROJECT_STATUS_LOOKUP = {
-  Prefiled: 717170005,
+  Noticed: 717170005,
   Filed: 717170000,
   'In Public Review': 717170001,
   Completed: 717170002,
@@ -200,7 +200,7 @@ export const ALLOWED_FILTERS = [
   'dcp_ulurp_nonulurp', // 'ULURP', 'Non-ULURP'
   'dcp_femafloodzonea',
   'dcp_femafloodzoneshadedx',
-  'dcp_publicstatus', // 'Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown'
+  'dcp_publicstatus', // 'Noticed', 'Filed', 'In Public Review', 'Completed', 'Unknown'
   'dcp_certifiedreferred',
   'project_applicant_text',
   'block',

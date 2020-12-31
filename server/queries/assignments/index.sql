@@ -433,7 +433,7 @@ SELECT
         dcp_projectcompleted,
         dcp_publicstatus,
         CASE
-          WHEN dcp_publicstatus = 'Prefiled' THEN 'Prefiled'
+          WHEN dcp_publicstatus = 'Noticed' THEN 'Noticed'
           WHEN dcp_publicstatus = 'Filed' THEN 'Filed'
           WHEN dcp_publicstatus = 'In Public Review' THEN 'In Public Review'
           WHEN dcp_publicstatus = 'Completed' THEN 'Completed'

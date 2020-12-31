@@ -104,9 +104,9 @@
         as |section|}}
         {{#section.filter-wrapper
           filterTitle=(get-label-for 'filters.dcp_publicstatus')
-          tooltip='These checkboxes filter projects by their stage in the application process. "Prefiled" refers to applications that are likely to be filed or enter public review in the next 30 days. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
+          tooltip='These checkboxes filter projects by their stage in the application process. "Noticed" refers to applications that are likely to be filed or enter public review in the next 30 days. “Filed” refers to applications that have been submitted but have not yet started the public review process. “In Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
           <ul class="menu vertical medium-horizontal stage-checkboxes">
-            {{#each (array 'Prefiled' 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
+            {{#each (array 'Noticed' 'Filed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
               <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}
                 data-test-status-checkbox={{type}}
               >
