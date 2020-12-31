@@ -49,4 +49,6 @@ export default class ActionModel extends Model {
 
   // sourced from dcp_ccresolutionnumber
   @attr('string') dcpCcresolutionnumber;
+
+  @attr('string') dcpSpabsoluteurl;
 }

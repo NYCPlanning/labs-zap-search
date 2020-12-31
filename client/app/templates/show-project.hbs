@@ -117,10 +117,14 @@
                             content='City Planning Commision Report'
                             tagName='span'
                           }}
-                            <a href={{build-url "cpcReport" action.dcpUlurpnumber}} target="_blank">
+                            {{#if (and (not-eq action.statuscode ACTION_STATUSCODE_ACTIVE) action.dcpSpabsoluteurl)}}
+                            <a href={{build-url "cpcReport" action.dcpUlurpnumber action.dcpSpabsoluteurl}} target="_blank">
                               {{action.dcpUlurpnumber}}
                               {{fa-icon 'external-link-alt'}}
                             </a>
+                            {{else}}
+                              {{action.dcpUlurpnumber}}
+                            {{/if}}
                           {{/tool-tipster}}
                         {{else}}
                           {{action.dcpUlurpnumber}}

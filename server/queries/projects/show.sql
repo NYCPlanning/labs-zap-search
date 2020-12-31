@@ -50,7 +50,8 @@ SELECT
       'dcp_prefix', a.dcp_prefix,
       'statuscode', a.statuscode,
       'dcp_ccresolutionnumber', a.dcp_ccresolutionnumber,
-      'dcp_zoningresolution', z.dcp_zoningresolution
+      'dcp_zoningresolution', z.dcp_zoningresolution,
+      'dcp_spabsoluteurl', a.dcp_spabsoluteurl
     ))
     FROM dcp_projectaction a
     LEFT JOIN dcp_zoningresolution z ON a.dcp_zoningresolution = z.dcp_zoningresolutionid
