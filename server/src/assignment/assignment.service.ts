@@ -217,7 +217,7 @@ function generateAssignmentsQueryObject(contact) {
 
     // todo maybe alias these crm named relationships
     // filters by projects with associations having some connection to contactid
-    // OR infers an association through recodedCbFullName (for prefiled)
+    // OR infers an association through recodedCbFullName (for Noticed)
     $filter: `
       dcp_visibility eq 717170003
       and ((dcp_dcp_project_dcp_communityboarddisposition_project/any
@@ -234,7 +234,7 @@ function generateAssignmentsQueryObject(contact) {
     $expand: `
       dcp_dcp_project_dcp_communityboarddisposition_project($filter=${DISPOSITIONS_FILTER}),
       dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value),
-      dcp_dcp_project_dcp_projectaction_project($select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber),
+      dcp_dcp_project_dcp_projectaction_project($select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber,dcp_spabsoluteurl),
       dcp_dcp_project_dcp_projectbbl_project,
       dcp_dcp_project_dcp_projectlupteam_project($filter=(_dcp_lupteammember_value eq ${contactid}) and (statuscode eq 1))
     `,
@@ -261,7 +261,7 @@ function computeStatusTab(project, lupteam, recodedCbFullName, fullname) {
   // REDO: Terrible: mix of labeled/coded.
   // Some values come through here as labeled, not coded, so we look for both the labeled
   // and coded versions
-  if ((project.dcp_publicstatus === 717170005 || project.dcp_publicstatus === 'Prefiled') // Prefiled
+  if ((project.dcp_publicstatus === 717170005 || project.dcp_publicstatus === 'Noticed') // Noticed
     && (project.dcp_ulurp_nonulurp === 717170001 || project.dcp_ulurp_nonulurp === 'ULURP') // ULURP
     && project.dcp_validatedcommunitydistricts.includes(recodedCbFullName)) {
     return 'upcoming';

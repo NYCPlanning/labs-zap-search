@@ -48,7 +48,7 @@ export const ULURP_LOOKUP = {
   'ULURP': 717170001,
 };
 export const PROJECT_STATUS_LOOKUP = {
-  Prefiled: 717170005,
+  Noticed: 717170005,
   Filed: 717170000,
   'In Public Review': 717170001,
   Completed: 717170002,
@@ -117,6 +117,11 @@ export const PACKAGE_VISIBILITY = {
 }
 export const PACKAGE_STATUSCODE = {
   SUBMITTED: 717170012,
+  CERTIFIED: 717170005,
+  REVIEWED_NO_REVISIONS_REQUIRED: 717170009,
+  REVIEWED_REVISIONS_REQUIRED: 717170010,
+  UNDER_REVIEW: 717170013,
+  FINAL_APPROVAL: 717170008,
 }
 
 const ARTIFACT_VISIBILITY = {
@@ -159,8 +164,8 @@ const QUERY_TEMPLATES = {
       comparisonOperator('dcp_certifiedreferred', 'lt', coerceToDateString(queryParamValue[1])),
     ),
 
-  blocks: (queryParamValue) =>
-    containsAnyOf('dcp_validatedblock', queryParamValue, {
+  block: (queryParamValue) =>
+    containsAnyOf('dcp_validatedblock', [queryParamValue], {
       childEntity: 'dcp_dcp_project_dcp_projectbbl_project'
     }),
 
@@ -195,10 +200,10 @@ export const ALLOWED_FILTERS = [
   'dcp_ulurp_nonulurp', // 'ULURP', 'Non-ULURP'
   'dcp_femafloodzonea',
   'dcp_femafloodzoneshadedx',
-  'dcp_publicstatus', // 'Prefiled', 'Filed', 'In Public Review', 'Completed', 'Unknown'
+  'dcp_publicstatus', // 'Noticed', 'Filed', 'In Public Review', 'Completed', 'Unknown'
   'dcp_certifiedreferred',
   'project_applicant_text',
-  'blocks', // not sure this gets used
+  'block',
   'distance_from_point',
   'radius_from_point',
   'zoning-resolutions',
@@ -219,7 +224,6 @@ function generateProjectsFilterString(query) {
   return all(
     // defaults
     comparisonOperator('dcp_visibility', 'eq', PROJECT_VISIBILITY_LOOKUP['General Public']),
-
     // optional params
     ...requestedFiltersQuery,
   );
@@ -351,14 +355,16 @@ export class ProjectService {
         comparisonStrategy: (prop, val) => comparisonOperator(prop, 'eq', val),
       }),
     );
-    const ACTIONS_FILTER = `(not ${comparisonOperator('statuscode', 'eq', 717170003)})`;
+
+    const ACTION_STATUSCODE_DEACTIVATED = 717170003;
+    const ACTIONS_FILTER = `(not ${comparisonOperator('statuscode', 'eq', ACTION_STATUSCODE_DEACTIVATED)})`;
 
     // WARNING: Only 5 expansions are allowed by Web API. Requesting more expansions
     // results in a silent failure.
     const EXPANSIONS = [
       `dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value,dcp_reviewmeetingdate)`,
       'dcp_dcp_project_dcp_communityboarddisposition_project($select=dcp_publichearinglocation,dcp_dateofpublichearing,dcp_boroughpresidentrecommendation,dcp_boroughboardrecommendation,dcp_communityboardrecommendation,dcp_consideration,dcp_votelocation,dcp_datereceived,dcp_dateofvote,statecode,statuscode,dcp_docketdescription,dcp_votinginfavorrecommendation,dcp_votingagainstrecommendation,dcp_votingabstainingonrecommendation,dcp_totalmembersappointedtotheboard,dcp_wasaquorumpresent,_dcp_recommendationsubmittedby_value,dcp_representing,_dcp_projectaction_value)',
-      `dcp_dcp_project_dcp_projectaction_project($filter=${ACTIONS_FILTER};$select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber)`,
+      `dcp_dcp_project_dcp_projectaction_project($filter=${ACTIONS_FILTER};$select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber,dcp_spabsoluteurl)`,
       'dcp_dcp_project_dcp_projectbbl_project($select=dcp_bblnumber;$filter=statuscode eq 1 and dcp_validatedblock ne null)', // TODO: add filter to exclude inactives
       'dcp_dcp_project_dcp_projectkeywords_project($select=dcp_name,_dcp_keyword_value)',
 
@@ -370,7 +376,7 @@ export class ProjectService {
         $select: DEFAULT_PROJECT_SHOW_FIELDS,
         $filter: all(
           comparisonOperator('dcp_name', 'eq', name),
-          comparisonOperator('dcp_visibility', 'eq', 717170003),
+          comparisonOperator('dcp_visibility', 'eq', PROJECT_VISIBILITY_LOOKUP['General Public']),
         ),
         $expand: EXPANSIONS.join(','),
       }, 1);
@@ -390,8 +396,6 @@ export class ProjectService {
     // TODO: Not clear that this gets used still
     transformedProject.video_links = [];
 
-    // TODO: Disabling for now because this is unstable and doesn\'t work well enough
-    // We need a saner way to share documents!
     let { records: projectPackages } = await this.crmService.get('dcp_packages', `
         $filter=
           _dcp_project_value eq ${firstProject.dcp_projectid}
@@ -400,6 +404,11 @@ export class ProjectService {
           )
           and (
             statuscode eq ${PACKAGE_STATUSCODE.SUBMITTED}
+            or statuscode eq ${PACKAGE_STATUSCODE.CERTIFIED}
+            or statuscode eq ${PACKAGE_STATUSCODE.REVIEWED_NO_REVISIONS_REQUIRED}
+            or statuscode eq ${PACKAGE_STATUSCODE.REVIEWED_REVISIONS_REQUIRED}
+            or statuscode eq ${PACKAGE_STATUSCODE.UNDER_REVIEW}
+            or statuscode eq ${PACKAGE_STATUSCODE.FINAL_APPROVAL}
           )
         &$expand=dcp_package_SharePointDocumentLocations
       `);

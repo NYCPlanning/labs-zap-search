@@ -45,7 +45,7 @@ function bisweb(bbl) {
   return `http://a810-bisweb.nyc.gov/bisweb/PropertyBrowseByBBLServlet?allborough=${boro}&allblock=${block}&alllot=${lot}&go5=+GO+&requestid=0`;
 }
 
-function cpcReport(ulurp) {
+function cpcReport(ulurp, cpcUrl) {
   // for ulurp numbers that have a letter at the end of the 6 numbers to represent the version (ex. the "A" in C18005AZMX)
   // pull 6 numbers AND next character after the last number
   const ulurpNumberWithLetter = (ulurp.match(/(\d+)./g)[0]).toLowerCase();
@@ -53,10 +53,10 @@ function cpcReport(ulurp) {
 
   // the ulurp numbers with that extra letter have overall 11 characters compared to the usual 10
   if (ulurp.length > 10) {
-    return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumberWithLetter}.pdf`;
+    return `${cpcUrl}/${ulurpNumberWithLetter}.pdf`;
   }
 
-  return `http://www1.nyc.gov/assets/planning/download/pdf/about/cpc/${ulurpNumberWithoutLetter}.pdf`;
+  return `${cpcUrl}/${ulurpNumberWithoutLetter}.pdf`;
 }
 
 function acris(bbl) {
@@ -80,7 +80,7 @@ export function buildUrl([type, value, option]) {
   if (type === 'zoningResolution') return zoningResolution(value);
   if (type === 'zola') return zola(value);
   if (type === 'bisweb') return bisweb(value);
-  if (type === 'cpcReport') return cpcReport(value);
+  if (type === 'cpcReport') return cpcReport(value, option);
   if (type === 'acris') return acris(value);
   if (type === 'CommProfiles') return CommProfiles(value, option);
 
