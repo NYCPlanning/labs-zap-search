@@ -26,6 +26,9 @@ export default class ShowProjectRoute extends Route {
   @action
   error(e) {
     console.log(e); // eslint-disable-line
-    // this.transitionTo('not-found', 'not-found');
+    if (e.errors) {
+      const isNotFound = e.errors.map(err => err.status).includes('404');
+      if (isNotFound) this.transitionTo('not-found', 'not-found');
+    }
   }
 }

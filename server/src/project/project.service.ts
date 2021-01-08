@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { 
+  Injectable,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { Serializer } from 'jsonapi-serializer';
 import { dasherize } from 'inflected';
 import { ConfigService } from '../config/config.service';
@@ -371,6 +375,7 @@ export class ProjectService {
       // TODO: i think there is a limit of 5 expansions so this one does not even appear
       'dcp_dcp_project_dcp_projectaddress_project($select=dcp_name)',
     ];
+    
     const { records: projects } = await this.dynamicsWebApi
       .queryFromObject('dcp_projects', {
         $select: DEFAULT_PROJECT_SHOW_FIELDS,
@@ -381,6 +386,13 @@ export class ProjectService {
         $expand: EXPANSIONS.join(','),
       }, 1);
     const [firstProject] = projects;
+
+    if (projects.length < 1)
+      throw new HttpException({
+        "code": "PROJECT_NOT_FOUND", 
+        "title": "Project not found",
+        "detail": `Project ${name} not found`,
+      }, HttpStatus.NOT_FOUND);
 
     const transformedProject = await transformProjectAttributes(firstProject);
 
