@@ -18,7 +18,7 @@ export class ArtifactService {
   async getArtifactSharepointDocuments(relativeUrl, dcp_name) {
     if (relativeUrl) {
       try {
-        const { value: documents } = await this.sharepointService.getSharepointFolderFiles(`dcp_artifacts/${relativeUrl}`);
+        const documents = await this.sharepointService.getSharepointFolderFiles(`dcp_artifacts/${relativeUrl}`, '?$expand=Files,Folders,Folders/Files,Folders/Folders/Files,Folders/Folders/Folders/Files');
 
         if (documents) {
           return documents.map(document => ({
