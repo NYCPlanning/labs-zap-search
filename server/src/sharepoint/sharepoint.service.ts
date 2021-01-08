@@ -6,6 +6,21 @@ import {
 import * as Request from 'request';
 import { ConfigService } from '../config/config.service';
 
+// {
+//  Files: []
+//  Folders: []
+// }
+
+function unnest(folders) {
+  return folders
+    .map(folder => {
+      return [...folder['Files'], ...unnest(folder['Folders'])];
+    })
+    .reduce((acc, curr) => {
+      return acc.concat(curr);
+    }, []);
+}
+
 // This service currently only helps you read and delete files from Sharepoint.
 // If you wish to upload documents to Sharepoint through CRM,
 // use the DocumentService instead.
@@ -56,7 +71,7 @@ export class SharepointService {
   }
 
   // Retrieves a list of files in a given Sharepoint folder
-  async getSharepointFolderFiles(folderIdentifier): Promise<any> {
+  async getSharepointFolderFiles(folderIdentifier, path = 'Files', method = 'post'): Promise<any> {
     try {
       const { access_token } = await this.generateSharePointAccessToken();
       const SHAREPOINT_CRM_SITE = this.config.get('SHAREPOINT_CRM_SITE');
@@ -64,7 +79,7 @@ export class SharepointService {
       // Escape apostrophes by duplicating any apostrophes.
       // See https://sharepoint.stackexchange.com/a/165224
       const formattedFolderIdentifier = folderIdentifier.replace(/'/g, "''");
-      const url = encodeURI(`https://nyco365.sharepoint.com/sites/${SHAREPOINT_CRM_SITE}/_api/web/GetFolderByServerRelativeUrl('/sites/${SHAREPOINT_CRM_SITE}/${formattedFolderIdentifier}')/Files`);
+      const url = encodeURI(`https://nyco365.sharepoint.com/sites/${SHAREPOINT_CRM_SITE}/_api/web/GetFolderByServerRelativeUrl('/sites/${SHAREPOINT_CRM_SITE}/${formattedFolderIdentifier}')/${path}`);
 
       const options = {
         url,
@@ -75,7 +90,7 @@ export class SharepointService {
       };
 
       return new Promise(resolve => {
-        Request.post(options, (error, response, body) => {
+        Request[method](options, (error, response, body) => {
           const stringifiedBody = body.toString('utf-8');
           if (response.statusCode >= 400) {
             throw new HttpException({
@@ -84,8 +99,12 @@ export class SharepointService {
               detail: `Could not load file list from Sharepoint folder "${formattedFolderIdentifier}". ${stringifiedBody}`,
             }, HttpStatus.NOT_FOUND);
           }
+          const folderfiles = JSON.parse(stringifiedBody);
 
-          resolve(JSON.parse(stringifiedBody));
+          resolve([
+            ...(folderfiles['Files'] ? folderfiles['Files'] : []),
+            ...(folderfiles['Folders'] ? unnest(folderfiles['Folders']) : []),
+          ]);
         });
       })
     } catch (e) {
