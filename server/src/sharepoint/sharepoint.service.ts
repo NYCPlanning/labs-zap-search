@@ -99,12 +99,9 @@ export class SharepointService {
               detail: `Could not load file list from Sharepoint folder "${formattedFolderIdentifier}". ${stringifiedBody}`,
             }, HttpStatus.NOT_FOUND);
           }
-          const folderfiles = JSON.parse(stringifiedBody);
+          const { value: folderFiles } = JSON.parse(stringifiedBody);
 
-          resolve([
-            ...(folderfiles['Files'] ? folderfiles['Files'] : []),
-            ...(folderfiles['Folders'] ? unnest(folderfiles['Folders']) : []),
-          ]);
+          resolve(folderFiles);
         });
       })
     } catch (e) {
