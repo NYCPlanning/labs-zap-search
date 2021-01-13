@@ -89,15 +89,15 @@ export class SharepointService {
         },
       };
 
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         Request[method](options, (error, response, body) => {
           const stringifiedBody = body.toString('utf-8');
           if (response.statusCode >= 400) {
-            throw new HttpException({
+            reject(new HttpException({
               code: 'LOAD_FOLDER_FAILED',
               title: 'Error loading sharepoint files',
               detail: `Could not load file list from Sharepoint folder "${formattedFolderIdentifier}". ${stringifiedBody}`,
-            }, HttpStatus.NOT_FOUND);
+            }, HttpStatus.NOT_FOUND));
           }
           const folderfiles = JSON.parse(stringifiedBody);
 
