@@ -117,19 +117,20 @@
                             action.statuscode
                           )
                         }}
-                          {{#tool-tipster
-                            content='City Planning Commision Report'
-                            tagName='span'
-                          }}
                             {{#if (and (not-eq action.statuscode ACTION_STATUSCODE_ACTIVE) action.dcpSpabsoluteurl)}}
+                            {{#tool-tipster
+                              content='City Planning Commision Report'
+                              tagName='span'
+                            }}
                               <a href={{build-url "cpcReport" action.dcpUlurpnumber action.dcpSpabsoluteurl}} target="_blank">
                                 {{action.dcpUlurpnumber}}
                                 {{fa-icon 'external-link-alt'}}
                               </a>
+                              {{/tool-tipster}}
                             {{else}}
                               {{action.dcpUlurpnumber}}
                             {{/if}}
-                          {{/tool-tipster}}
+                          
                         {{else}}
                           {{action.dcpUlurpnumber}}
                         {{/if}}
