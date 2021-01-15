@@ -112,16 +112,20 @@
                     <p class="text-small no-margin">
                       {{#if action.dcpUlurpnumber}}
                         ULURP Number:
-                        {{#if (eq action.statuscode "Approved")}}
+                        {{#if (in-array
+                            (array "Approved" "Certified" "Referred" "Disapproved" "Terminated" "Withdrawn" "Study Complete")
+                            action.statuscode
+                          )
+                        }}
                           {{#tool-tipster
                             content='City Planning Commision Report'
                             tagName='span'
                           }}
                             {{#if (and (not-eq action.statuscode ACTION_STATUSCODE_ACTIVE) action.dcpSpabsoluteurl)}}
-                            <a href={{build-url "cpcReport" action.dcpUlurpnumber action.dcpSpabsoluteurl}} target="_blank">
-                              {{action.dcpUlurpnumber}}
-                              {{fa-icon 'external-link-alt'}}
-                            </a>
+                              <a href={{build-url "cpcReport" action.dcpUlurpnumber action.dcpSpabsoluteurl}} target="_blank">
+                                {{action.dcpUlurpnumber}}
+                                {{fa-icon 'external-link-alt'}}
+                              </a>
                             {{else}}
                               {{action.dcpUlurpnumber}}
                             {{/if}}
