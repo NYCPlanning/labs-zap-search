@@ -157,9 +157,16 @@ function applyDisplayDate(milestone, project) {
   * Milestone value optionset:
   *   8e3beec4-dad0-e711-8116-1458d04e2fb8 == Application Reviewed at City Planning Commission Review Session
   *   a43beec4-dad0-e711-8116-1458d04e2fb8 == City Planning Commission Vote
-  *   The other three milestones noted in the task do not currently exist
+  *   9e3beec4-dad0-e711-8116-1458d04e2fb8 == 'CPC Public Meeting - Public Hearing' a.k.a 'City Planning Commission Review'
+  *   9c3beec4-dad0-e711-8116-1458d04e2fb8 == 'Review Session - Pre-Hearing Review / Post Referral'
+  *   a23beec4-dad0-e711-8116-1458d04e2fb8 == 'Review Session - Post Hearing Follow-Up / Future Votes'
   */
-  if ((milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8') || (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8')) { 
+  if ((milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8')
+      || (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8')
+      || (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8')
+      || (milestone._dcp_milestone_value === '9c3beec4-dad0-e711-8116-1458d04e2fb8')
+      || (milestone._dcp_milestone_value === 'a23beec4-dad0-e711-8116-1458d04e2fb8')
+    ) { 
     if((milestone.statuscode === 2) || (milestone.statuscode === 717170000)) {
       if((milestone.dcp_reviewmeetingdate) && (Date.now() >= milestone.dcp_reviewmeetingdate.getTime())) {
         milestone.display_date = milestone.dcp_reviewmeetingdate;
@@ -178,6 +185,8 @@ function transformDisplayName(milestone) {
   if (milestone._dcp_milestone_value === '923beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Community Board Review';
   if (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'City Planning Commission Review';
   if (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'City Planning Commission Vote';
+  if (milestone._dcp_milestone_value === '9c3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Review Session - Pre-Hearing Review / Post Referral';
+  if (milestone._dcp_milestone_value === 'a23beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Post Hearing Follow-Up / Future Votes';
   if (milestone._dcp_milestone_value === '863beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Draft Environmental Impact Statement Public Hearing';
   if (milestone._dcp_milestone_value === '7c3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Draft Scope of Work for Environmental Impact Statement Received';
   if (milestone._dcp_milestone_value === '7e3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Environmental Impact Statement Public Scoping Meeting';
