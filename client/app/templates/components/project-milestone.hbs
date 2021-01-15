@@ -26,9 +26,11 @@
       </sup>
     {{/if}}
   </h4>
+
   {{#if milestone.displayDate}}
-    <p class="milestone-dates" data-test-milestone-dates="{{milestone.id}}">
-      {{#if milestone.displayDate}}
+    {{#if (in-array (array "In Progress" "Completed") milestone.statuscode)}}
+      <p class="milestone-dates" data-test-milestone-dates="{{milestone.id}}">
+        
         {{#if (and milestone.displayDate2 (is-same milestone.displayDate milestone.displayDate2 precision="year"))}}
           <DateDisplay
             @date={{milestone.displayDate}}
@@ -40,19 +42,21 @@
             @outputFormat="MMMM D, YYYY"
           />
         {{/if}}
-      {{/if}}
-      {{#if milestone.displayDate2}}
-        &ndash;
-        <DateDisplay
-          @date={{milestone.displayDate2}}
-          @outputFormat="MMMM D, YYYY"
-        />
-      {{/if}}
-      {{!-- {{#if timeRelativeToNow}}
-        <div class="milestone-offset">{{timeRelativeToNow}}</div>
-      {{/if}} --}}
-    </p>
-    {{#if milestone.outcome}} <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.outcome}}</span> {{/if}}
+
+        {{#if milestone.displayDate2}}
+          &ndash;
+          <DateDisplay
+            @date={{milestone.displayDate2}}
+            @outputFormat="MMMM D, YYYY"
+          />
+        {{/if}}
+      </p>
+    {{/if}}
+
+    {{#if milestone.outcome}}
+      <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.outcome}}</span>
+    {{/if}}
+
     <ul class="milestone-links">
       {{#if (eq milestone.dcpMilestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
         <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank">{{fa-icon "external-link-alt"}} CPC Public Meeting Calendar</a></li>
@@ -65,6 +69,7 @@
       {{/each}}
     </ul>
   {{/if}}
+
   {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
     {{#each milestoneParticipants as |milestoneParticipant|}}
       {{#if (or milestoneParticipant.hearingsSubmitted milestoneParticipant.votesSubmitted)}}
