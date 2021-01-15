@@ -493,8 +493,8 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     assert.ok(this.element.querySelector('[data-test-milestone-name="38"]').textContent.includes('Borough Board Review'), 'BB milestone');
 
     assert.ok(this.element.querySelector('[data-test-milestone-dates="1"]').textContent.includes, 'July 13, 2019');
-    assert.ok(this.element.querySelector('[data-test-milestone-dates="11"]').textContent.includes, 'October 18, 2019');
-    assert.ok(this.element.querySelector('[data-test-milestone-dates="12"]').textContent.includes, 'October 5 - October 29, 2019');
+    assert.notOk(this.element.querySelector('[data-test-milestone-dates="11"]'));
+    assert.notOk(this.element.querySelector('[data-test-milestone-dates="12"]'));
     assert.ok(this.element.querySelector('[data-test-milestone-dates="38"]').textContent.includes, 'October 7 - November 6, 2019');
   });
 
@@ -590,8 +590,8 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     assert.ok(this.element.querySelector('[data-test-milestone-name="38"]').textContent.includes('Borough Board Review'), 'BB milestone');
 
     assert.ok(this.element.querySelector('[data-test-milestone-dates="1"]').textContent.includes, 'July 13, 2019');
-    assert.ok(this.element.querySelector('[data-test-milestone-dates="11"]').textContent.includes, 'October 18, 2019');
-    assert.ok(this.element.querySelector('[data-test-milestone-dates="12"]').textContent.includes, 'October 5 - October 29, 2019');
+    assert.notOk(this.element.querySelector('[data-test-milestone-dates="11"]'));
+    assert.notOk(this.element.querySelector('[data-test-milestone-dates="12"]'));
     assert.ok(this.element.querySelector('[data-test-milestone-dates="38"]').textContent.includes, 'October 7 - November 6, 2019');
   });
 
