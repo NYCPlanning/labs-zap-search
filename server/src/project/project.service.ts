@@ -72,6 +72,8 @@ export const DISPLAY_MILESTONE_IDS = [
   'a63beec4-dad0-e711-8116-1458d04e2fb8',
   '923beec4-dad0-e711-8116-1458d04e2fb8',
   '9e3beec4-dad0-e711-8116-1458d04e2fb8',
+  '9c3beec4-dad0-e711-8116-1458d04e2fb8',
+  'a23beec4-dad0-e711-8116-1458d04e2fb8',
   'a43beec4-dad0-e711-8116-1458d04e2fb8',
   '863beec4-dad0-e711-8116-1458d04e2fb8',
   '7c3beec4-dad0-e711-8116-1458d04e2fb8',

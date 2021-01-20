@@ -150,6 +150,14 @@ const MILESTONES = {
       'Non-ULURP': 'The City Planning Commission does not have a clock for non-ULURP items. It may or may not hold a hearing depending on the action.',
     },
   },
+  '9c3beec4-dad0-e711-8116-1458d04e2fb8': {
+    display_name: 'Review Session - Pre-Hearing Review / Post Referral',
+    display_description: '',
+  },
+  'a23beec4-dad0-e711-8116-1458d04e2fb8': {
+    display_name: 'Review Session - Post Hearing Follow-Up / Future Votes',
+    display_description: '',
+  },
   '8e3beec4-dad0-e711-8116-1458d04e2fb8': {
     display_name: 'Application Reviewed at City Planning Commission Review Session',
     display_description: {
