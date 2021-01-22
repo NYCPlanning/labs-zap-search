@@ -1,0 +1,45 @@
+<h2>Actions</h2>
+
+<ul class="actions-list no-bullet">
+  {{#each @projectActions as |projectAction|}}
+    <li class="grid-x grid-padding-small action">
+      <div class="cell shrink statuscode {{dasherize projectAction.statuscode}}">
+        <span class="action-icon fa-layers fa-fw">
+          {{fa-icon 'circle' fixedWidth=true}}
+          {{fa-icon 'file-alt' fixedWidth=true class='off-white' transform='shrink-7'}}
+        </span>
+        <p class="text-tiny status">{{if projectAction.statuscode projectAction.statuscode "No Status Code"}}</p>
+      </div>
+      <div class="cell auto">
+        <h5 class="no-margin">
+          {{projectAction.dcpName}}
+          {{#if (lookup-action-type projectAction.actioncode)}}
+            <sup class="dark-gray">
+              {{icon-tooltip
+                tip=(lookup-action-type projectAction.actioncode)}}
+            </sup>
+          {{/if}}
+        </h5>
+
+        <p class="text-small no-margin">
+          <ShowProject::ActionsList::UlurpNumberLink
+            @action={{projectAction}}
+          />
+        </p>
+
+        {{#if projectAction.dcpZoningresolution}}
+          <p class="text-small no-margin">
+            Zoning Resolution:
+            <a href="{{build-url "zoningResolution" projectAction.dcpZoningresolution}}" target="_blank">
+              {{projectAction.dcpZoningresolution}}
+              {{fa-icon 'external-link-alt'}}
+            </a>
+          </p>
+        {{/if}}
+        {{#if projectAction.dcpCcresolutionnumber}}
+          <p class="text-small no-margin">City Council Resolution: {{projectAction.dcpCcresolutionnumber}}</p>
+        {{/if}}
+      </div>
+    </li>
+  {{/each}}
+</ul>

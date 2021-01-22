@@ -70,9 +70,10 @@ export class DocumentController {
     }
   }
 
+  
   @Get('/*')
-  async read(@Param() path, @Res() res) {
-    const stream = await this.documentService.getPublicPackageOrArtifactDocument(path);
+  async read(@Param() sharepointRelativePath, @Res() res) {
+    const stream = await this.documentService.getDocument(sharepointRelativePath[0]);
 
     stream.pipe(res);
   }

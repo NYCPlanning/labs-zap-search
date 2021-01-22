@@ -1,0 +1,29 @@
+{{#if @action.dcpUlurpnumber}}
+  ULURP Number:
+  {{#if (in-array
+      (array "Approved" "Certified" "Referred" "Disapproved" "Terminated" "Withdrawn" "Study Complete")
+      @action.statuscode
+    )
+  }}  
+      {{#if (and (not-eq @action.statuscode this.actionStatuscodeActive) @action.dcpSpabsoluteurl)}}
+        {{#tool-tipster
+          content='City Planning Commision Report'
+          tagName='span'
+        }}
+          <a
+            href={{concat this.host '/document' this.serverRelativeUrl}}
+            target="_blank"
+          >
+            {{@action.dcpUlurpnumber}}
+            {{fa-icon 'external-link-alt'}}
+          </a>
+        {{/tool-tipster}}
+      {{else}}
+        {{@action.dcpUlurpnumber}}
+      {{/if}}
+  {{else}}
+    {{@action.dcpUlurpnumber}}
+  {{/if}}
+{{else}}
+  No ULURP Number
+{{/if}}
