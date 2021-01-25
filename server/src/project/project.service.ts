@@ -132,6 +132,12 @@ const ARTIFACT_VISIBILITY = {
   GENERAL_PUBLIC: 717170003,
 }
 
+const ARTIFACT_STATUSCODE = {
+  ACTIVE: 1,
+  INACTIVE: 2,
+  SUBMITTED: 717170000,
+};
+
 // configure received params, provide procedures for generating queries.
 // these funcs do not get called unless they are in the query params.
 // could these become a first class object?
@@ -444,6 +450,10 @@ export class ProjectService {
         _dcp_project_value eq ${firstProject.dcp_projectid}
         and (
           dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
+        )
+        and (
+          statuscode eq ${ARTIFACT_STATUSCODE.SUBMITTED}
+          or statuscode eq ${ARTIFACT_STATUSCODE.ACTIVE}
         )
     `);
 
