@@ -71,9 +71,23 @@ export class DocumentController {
   }
 
   
-  @Get('/*')
-  async read(@Param() sharepointRelativePath, @Res() res) {
-    const stream = await this.documentService.getDocument(sharepointRelativePath[0]);
+  @Get('/package/*')
+  async readPackageDoc(@Param() sharepointRelativePath, @Res() res) {
+    const stream = await this.documentService.getPackageDocument(sharepointRelativePath[0]);
+
+    stream.pipe(res);
+  }
+
+  @Get('/artifact/*')
+  async readArtifactDoc(@Param() sharepointRelativePath, @Res() res) {
+    const stream = await this.documentService.getArtifactDocument(sharepointRelativePath[0]);
+
+    stream.pipe(res);
+  }
+
+  @Get('/projectaction/*')
+  async readProjectactionDoc(@Param() sharepointRelativePath, @Res() res) {
+    const stream = await this.documentService.getProjectactionDocument(sharepointRelativePath[0]);
 
     stream.pipe(res);
   }

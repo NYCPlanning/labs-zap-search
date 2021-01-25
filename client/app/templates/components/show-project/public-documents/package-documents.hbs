@@ -16,7 +16,7 @@
       {{#each @package.documents as |document|}}
         <li>
           <a
-            href={{concat this.host '/document' document.serverRelativeUrl}}
+            href={{concat this.host '/document/package' document.serverRelativeUrl}}
             target="_blank"
             rel="noopener noreferrer"
           >
