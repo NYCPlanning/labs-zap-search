@@ -22,9 +22,35 @@
         </h5>
 
         <p class="text-small no-margin">
-          <ShowProject::ActionsList::UlurpNumberLink
-            @action={{projectAction}}
-          />
+          {{#if projectAction.dcpUlurpnumber}}
+            ULURP Number:
+            {{#if (in-array
+                (array "Approved" "Certified" "Referred" "Disapproved" "Terminated" "Withdrawn" "Study Complete")
+                projectAction.statuscode
+              )
+            }}
+                {{#if (and (not-eq projectAction.statuscode this.actionStatuscodeActive) projectAction.dcpSpabsoluteurl)}}
+                  {{#tool-tipster
+                    content='City Planning Commision Report'
+                    tagName='span'
+                  }}
+                    <a
+                      href={{concat this.host '/document/projectaction' projectAction.serverRelativeUrl}}
+                      target="_blank"
+                    >
+                      {{projectAction.dcpUlurpnumber}}
+                      {{fa-icon 'external-link-alt'}}
+                    </a>
+                  {{/tool-tipster}}
+                {{else}}
+                  {{projectAction.dcpUlurpnumber}}
+                {{/if}}
+            {{else}}
+              {{projectAction.dcpUlurpnumber}}
+            {{/if}}
+          {{else}}
+            No ULURP Number
+          {{/if}}
         </p>
 
         {{#if projectAction.dcpZoningresolution}}
