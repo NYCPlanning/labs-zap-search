@@ -1,5 +1,7 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { buildUrl } from '../helpers/build-url';
 
 const {
   Model, attr, belongsTo, hasMany,
@@ -51,4 +53,9 @@ export default class ActionModel extends Model {
   @attr('string') dcpCcresolutionnumber;
 
   @attr('string') dcpSpabsoluteurl;
+
+  @computed('dcpUlurpnumber', 'dcpSpabsoluteurl')
+  get serverRelativeUrl() {
+    return buildUrl(['cpcReport', this.dcpUlurpnumber, this.dcpSpabsoluteurl]);
+  }
 }

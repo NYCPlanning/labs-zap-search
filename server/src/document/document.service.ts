@@ -18,6 +18,10 @@ const ARTIFACT_VISIBILITY = {
   GENERAL_PUBLIC: 717170003,
 }
 
+const ACTION_STATUSCODE = {
+  ACTIVE: 1,
+}
+
 // Inserts hyphens into an unhyphenated GUID string
 // e.g. 
 // 996699F37323EB11A813001DD8309FA8 
@@ -39,6 +43,52 @@ function hyphenateGUID(unhyphenatedGUID) {
   ].join('');
 }
 
+  // "path" refers to the "relative server path", the path
+  // to the file itself on the sharepoint host. It has the format
+  //
+  //   /sites/<site>/<entity_name>/<folder_name>/filename.pdf
+  //
+  // For example,
+  //
+  //   /sites/dcpuat2/dcp_package/2021M0268_DraftEAS_1_996699F37323EB11A813001DD8309FA8/EAS%20Full%20Form.pdf
+  //
+  // Note that <folder_name> has this format:
+  //
+  //   <dcp_name>_<RECORDID>
+  //
+  // where dcp_name is usually the dcp_name property on the entity (e.g. package, artifact, or projectaction)
+  // (spaces replaced with underscores)
+  // and RECORDID is the package dcp_packageid property,
+  // or artifact dcp_artifactsid, or dcp_projectactionid, stripped of hyphens.
+  //
+  // We have assurance of this after sprint 10 EAS enhancements. See
+  // https://dcp-paperless.visualstudio.com/dcp-paperless-dynamics/_workitems/edit/13366
+function getRecordIdFromDocumentPath(path) {
+  const [
+    , // "sites"
+    , // environment
+    , // entityType
+    folder,
+    // fileName
+  ] = path.split('/');
+
+  const folderSegments = folder.split('_');
+  const strippedRecordId = folderSegments[folderSegments.length - 1];
+
+  // we need to re-insert hyphens to recreate the actual packageId, artifactId or ProjectactionId
+  // TODO: Consider asking to preseve hyphens in record ID
+  return hyphenateGUID(strippedRecordId);
+}
+
+function throwNoDocumentError(errorMessage) {
+  console.log(errorMessage);
+
+  throw new HttpException({
+    "code": "DOCUMENT_GET_ERROR",
+    "detail": errorMessage,
+  }, HttpStatus.NOT_FOUND);
+}
+
 @Injectable()
 export class DocumentService {
   constructor(
@@ -56,35 +106,10 @@ export class DocumentService {
     return `${dcpName}_${recordId.toUpperCase().replace(/-/g, '')}`;
   }
 
-  // "path" refers to the "relative server path", the path
-  // to the file itself on the sharepoint host. It has the format
-  //
-  //   /sites/<site>/<entity_name>/<folder_name>/filename.pdf
-  //
-  // For example,
-  //
-  //   /sites/dcpuat2/dcp_package/2021M0268_DraftEAS_1_996699F37323EB11A813001DD8309FA8/EAS%20Full%20Form.pdf
-  //
-  // Note that <folder_name> has this format:
-  //
-  //   <dcp_name>_<RECORDID>
-  //
-  // where dcp_name is the dcp_name property on the package or artifact
-  // (spaces replaced with underscores)
-  // and RECORDID is the package dcp_packageid property,
-  // or artifact dcp_artifactsid, stripped of hyphens.
-  //
-  // We will have assurance of this after sprint 10 EAS enhancements. See
-  // https://dcp-paperless.visualstudio.com/dcp-paperless-dynamics/_workitems/edit/13366
-  public async getPublicPackageOrArtifactDocument(path) {
-    const pathSegment = path[0];
-    const folder = pathSegment.split('/')[3];
-    const folderSegments = folder.split('_');
-    const strippedRecordId = folderSegments[folderSegments.length - 1];
-
-    // we need to re-insert hyphens to recreate the actual packageId or artifactId
-    // TODO: Consider asking to preseve hyphens in record ID
-    const recordId = hyphenateGUID(strippedRecordId);
+  // For info on the path param,
+  // see above documentation for the getRecordIdFromDocumentPath function
+  public async getPackageDocument(path) {
+    const recordId = getRecordIdFromDocumentPath(path);
 
     try {
       // Only documents belonging to public, submitted packages should be accessible
@@ -106,41 +131,57 @@ export class DocumentService {
         )
       `);
 
-      // We can't determine whether the record id pertains to a Package
-      // or Artifact until we try to query either one.
-      // So if firstPackage is undefined, we then attempt to retrieve an
-      // Artifact
       if (!firstPackage) {
-        const { records: [firstArtifact] } = await this.crmService.get('dcp_artifactses', `
-          $select=dcp_artifactsid
-          &$filter=dcp_artifactsid eq ${recordId}
-          and (
-            dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
-          )
-        `);
-
-        // If the record GUID also returns no Artifact, then there may be
-        // something wrong with the GUID 
-        if (!firstArtifact) {
-          const errorMessage = `No document access.`;
-          console.log(`Client attempted to retrieve document ${pathSegment}, but no associated public, submitted packages or artifacts were found.`);
-
-          throw new HttpException({
-            "code": "NO_DOCUMENT_ACCESS",
-            "detail": errorMessage,
-          }, HttpStatus.NOT_FOUND);
-        }
+        throwNoDocumentError(`Client attempted to retrieve document ${path}, but no associated public, submitted packages were found.`);
       }
 
-      return await this.sharepointService.getSharepointFile(pathSegment);
+      return await this.sharepointService.getSharepointFile(path);
     } catch(e) {
-      const errorMessage = `Unable to provide document access. ${JSON.stringify(e)}`;
-      console.log(errorMessage);
+      throwNoDocumentError(`Unable to provide document access. ${JSON.stringify(e)}`);
+    }
+  }
 
-      throw new HttpException({
-        "code": "DOCUMENT_GET_ERROR",
-        "detail": errorMessage,
-      }, HttpStatus.NOT_FOUND);
+  public async getArtifactDocument(path) {
+    const recordId = getRecordIdFromDocumentPath(path);
+
+    try {
+      const { records: [firstArtifact] } = await this.crmService.get('dcp_artifactses', `
+        $select=dcp_artifactsid
+        &$filter=dcp_artifactsid eq ${recordId}
+        and (
+          dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
+        )
+      `);
+
+      if (!firstArtifact) {
+        throwNoDocumentError(`Client attempted to retrieve document ${path}, but no associated public, submitted artifacts were found.`);
+      }
+
+      return await this.sharepointService.getSharepointFile(path);
+    } catch(e) {
+      throwNoDocumentError(`Unable to provide document access. ${JSON.stringify(e)}`);
+    }
+  }
+
+  public async getProjectactionDocument(path) {
+    const recordId = getRecordIdFromDocumentPath(path);
+
+    try {
+      const { records: [firstProjectaction] } = await this.crmService.get('dcp_projectactions', `
+        $select=dcp_projectactionid
+        &$filter=dcp_projectactionid eq ${recordId}
+        and (
+          statuscode ne ${ACTION_STATUSCODE.ACTIVE}
+        )
+      `);
+
+      if (!firstProjectaction) {
+        throwNoDocumentError(`Client attempted to retrieve document ${path}, but no associated inactive project actions were found.`);
+      }
+
+      return await this.sharepointService.getSharepointFile(path);
+    } catch(e) {
+      throwNoDocumentError(`Unable to provide document access. ${JSON.stringify(e)}`);
     }
   }
 }
