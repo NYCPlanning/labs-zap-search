@@ -45,18 +45,22 @@ function bisweb(bbl) {
   return `http://a810-bisweb.nyc.gov/bisweb/PropertyBrowseByBBLServlet?allborough=${boro}&allblock=${block}&alllot=${lot}&go5=+GO+&requestid=0`;
 }
 
-function cpcReport(ulurp, cpcUrl) {
-  // for ulurp numbers that have a letter at the end of the 6 numbers to represent the version (ex. the "A" in C18005AZMX)
-  // pull 6 numbers AND next character after the last number
-  const ulurpNumberWithLetter = (ulurp.match(/(\d+)./g)[0]).toLowerCase();
-  const ulurpNumberWithoutLetter = ulurp.match(/\d+/g)[0]; // pull 100149 from C100149ZSM
+function cpcReport(ulurpNumber, cpcUrl) {
+  const serverRelativeFolderUrl = cpcUrl.replace('https://nyco365.sharepoint.com', '');
 
-  // the ulurp numbers with that extra letter have overall 11 characters compared to the usual 10
-  if (ulurp.length > 10) {
-    return `${cpcUrl}/${ulurpNumberWithLetter}.pdf`;
+  // Some ulurp numbers have extra letter and overall 11 characters compared to the usual 10
+  // They have an extra letter at the end of the 6 numbers.
+  // It represents the version (ex. the "A" in C18005AZMX)
+  if (ulurpNumber.length === 11) {
+    // pull 6 numbers AND next character after the last number
+    const ulurpNumberWithLetter = (ulurpNumber.match(/(\d+)./g)[0]).toLowerCase();
+    return `${serverRelativeFolderUrl}/${ulurpNumberWithLetter}.pdf`;
   }
 
-  return `${cpcUrl}/${ulurpNumberWithoutLetter}.pdf`;
+  // else assume ulurp has 10 characters, and no extra letter after first 6 numbers.
+  // e.g. pull 100149 from C100149ZSM
+  const ulurpNumberWithoutLetter = ulurpNumber.match(/\d+/g)[0];
+  return `${serverRelativeFolderUrl}/${ulurpNumberWithoutLetter}.pdf`;
 }
 
 function acris(bbl) {

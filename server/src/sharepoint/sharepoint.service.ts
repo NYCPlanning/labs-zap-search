@@ -75,12 +75,15 @@ export class SharepointService {
     try {
       const { access_token } = await this.generateSharePointAccessToken();
       const SHAREPOINT_CRM_SITE = this.config.get('SHAREPOINT_CRM_SITE');
+      let [, relativeUrl] = folderIdentifier.split(SHAREPOINT_CRM_SITE);
 
-      // Escape apostrophes by duplicating any apostrophes.
-      // See https://sharepoint.stackexchange.com/a/165224
-      const formattedFolderIdentifier = folderIdentifier.replace(/'/g, "''");
-      const url = encodeURI(`https://nyco365.sharepoint.com/sites/${SHAREPOINT_CRM_SITE}/_api/web/GetFolderByServerRelativeUrl('/sites/${SHAREPOINT_CRM_SITE}/${formattedFolderIdentifier}')/${path}`);
-
+      // package related urls are provided as true relative urls — but the relative url for artifacts is not relative but
+      // only provided as full path
+      if (!relativeUrl) {
+        relativeUrl = folderIdentifier;
+      }
+      
+      const url = encodeURI(`https://nyco365.sharepoint.com/sites/${SHAREPOINT_CRM_SITE}/_api/web/GetFolderByServerRelativeUrl('/sites/${SHAREPOINT_CRM_SITE}/${relativeUrl}')/${path}`);
       const options = {
         url,
         headers: {
@@ -96,7 +99,7 @@ export class SharepointService {
             reject(new HttpException({
               code: 'LOAD_FOLDER_FAILED',
               title: 'Error loading sharepoint files',
-              detail: `Could not load file list from Sharepoint folder "${formattedFolderIdentifier}". ${stringifiedBody}`,
+              detail: `Could not load file list from Sharepoint folder "${url}". ${stringifiedBody}`,
             }, HttpStatus.NOT_FOUND));
           }
           const folderfiles = JSON.parse(stringifiedBody);
@@ -135,7 +138,6 @@ export class SharepointService {
 
     // see https://docs.microsoft.com/en-us/previous-versions/office/sharepoint-server/dn775742(v=office.15)
     const url = `https://nyco365.sharepoint.com/sites/${SHAREPOINT_CRM_SITE}/_api/web/GetFileByServerRelativeUrl('/${serverRelativeUrl}')/$value?binaryStringResponseBody=true`;
-
     const options = {
       url,
       headers: {
