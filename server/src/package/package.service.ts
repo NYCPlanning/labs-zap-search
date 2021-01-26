@@ -24,7 +24,7 @@ export class PackageService {
 
     if (relativeurl) {
       try {
-        const documents = await this.sharepointService.getSharepointFolderFiles(`dcp_package/${relativeurl}`);
+        const documents = await this.sharepointService.getSharepointFolderFiles(`dcp_package/${relativeurl}`, '?$expand=Files,Folders,Folders/Files,Folders/Folders/Files,Folders/Folders/Folders/Files');
 
         if (documents) {
           return documents.map(document => ({
