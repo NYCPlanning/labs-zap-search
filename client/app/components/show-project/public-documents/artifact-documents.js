@@ -10,7 +10,7 @@ export default class ArtifactDocumentsComponent extends Component {
   @tracked showArtifactDocuments = false;
 
   get formattedArtifactName() {
-    return this.artifact.dcpName.split(' - ')[1];
+    return this.artifact.dcpName.split(' - ')[1] || this.artifact.dcpName;
   }
 
   get hasArtifactDocuments() {
