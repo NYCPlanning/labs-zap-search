@@ -55,7 +55,7 @@ export default class ProjectModel extends Model {
 
   @attr('boolean') dcpFemafloodzonea;
 
-@attr('boolean') dcpFemafloodzoneshadedx;
+  @attr('boolean') dcpFemafloodzoneshadedx;
 
   @attr('boolean') dcpSisubdivision;
 
@@ -64,6 +64,8 @@ export default class ProjectModel extends Model {
   @attr('string') dcpProjectbrief;
 
   @attr('string') dcpProjectname;
+
+  @attr('string') dcpProjectid;
 
   @attr('string', { defaultValue: '' }) dcpPublicstatus;
 

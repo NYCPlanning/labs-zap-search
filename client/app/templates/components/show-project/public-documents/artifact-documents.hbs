@@ -13,7 +13,7 @@
     <ul
       class="no-bullet public-documents-list-item"
     >
-      {{#each @artifact.documents as |document|}}
+      {{#each (sort-by 'serverRelativeUrl' @artifact.documents) as |document|}}
         <li>
           <a
             href={{concat this.host '/document/artifact' document.serverRelativeUrl}}

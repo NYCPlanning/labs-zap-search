@@ -14,7 +14,11 @@ export default class ShowProjectController extends Controller {
   @service
   session
 
+  queryParams = ['debug'];
+
   showPopup = false;
+
+  debug = false;
 
   bblFeatureCollectionLayerFill = {
     id: 'project-geometry-fill',
