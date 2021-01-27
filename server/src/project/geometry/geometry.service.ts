@@ -88,13 +88,20 @@ const QUERIES = {
 const containsAnyOf = (key, strings = [], entityName='') => {
   if (!strings.length) return '';
 
+  // filters out "null" condition because it requires different syntax, but is handled later
   const values = strings
     .filter(Boolean) // no null values allowed
     .map(s => `<value>${s}</value>`)
     .join('');
 
   const hasNullValue = !strings.every(Boolean);
-  const list = `<condition ${entityName ? `entityname="${entityName}"` : ''} attribute="${key}" operator="in">${values}</condition>`;
+
+  // if the filter list has non-null values, generate markup. otherwise, make blank.
+  const list = values.length ?  `
+    <condition ${entityName ? `entityname="${entityName}"` : ''} attribute="${key}" operator="in">
+      ${values}
+    </condition>
+  ` : '';
 
   if (hasNullValue) {
     return `
