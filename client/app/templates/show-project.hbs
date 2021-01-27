@@ -8,8 +8,13 @@
           {{else}}
             Project {{model.dcpName}}
           {{/if}}
-        </h1>
 
+          {{#if this.debug}}
+            <a href="{{link-to-crm 'dcp_project' model.dcpProjectid}}" target="_blank">
+              {{fa-icon 'external-link-alt'}}
+            </a>
+          {{/if}}
+        </h1>
         <div class="grid-x">
           <div class="cell medium-auto">
             <p class="lead">
