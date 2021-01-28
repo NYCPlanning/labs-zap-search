@@ -153,17 +153,13 @@ const QUERY_TEMPLATES = {
   dcp_ulurp_nonulurp: (queryParamValue) =>
     containsAnyOf('dcp_ulurp_nonulurp', coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP)), 'dcp_project'),
 
-  dcp_femafloodzonev: (queryParamValue) =>
-    comparisonOperator('dcp_femafloodzonev', 'eq', queryParamValue, 'dcp_project'),
-
-  dcp_femafloodzonecoastala: (queryParamValue) =>
-    comparisonOperator('dcp_femafloodzonecoastala', 'eq', queryParamValue, 'dcp_project'),
-
-  dcp_femafloodzonea: (queryParamValue) =>
-    comparisonOperator('dcp_femafloodzonea', 'eq', queryParamValue, 'dcp_project'),
-
-  dcp_femafloodzoneshadedx: (queryParamValue) =>
-    comparisonOperator('dcp_femafloodzoneshadedx', 'eq', queryParamValue, 'dcp_project'),
+  fema_flood_zone: (queryParamValue) =>
+    any(
+      comparisonOperator('dcp_femafloodzonea', 'eq', queryParamValue),
+      comparisonOperator('dcp_femafloodzoneshadedx', 'eq', queryParamValue),
+      comparisonOperator('dcp_femafloodzonev', 'eq', queryParamValue, 'dcp_project'),
+      comparisonOperator('dcp_femafloodzonecoastala', 'eq', queryParamValue, 'dcp_project'),
+    ),
 
   dcp_publicstatus: (queryParamValue: []) =>
     containsAnyOf('dcp_publicstatus', coerceToNumber(mapInLookup(queryParamValue, PROJECT_STATUS_LOOKUP)), 'dcp_project'),
@@ -225,6 +221,7 @@ export class GeometryService {
   }
 
   async createAnonymousMapWithFilters(query) {
+    console.log('vodka query', query);
     const blocks = await this.getBlocksFromXMLQuery(query);
 
     if (blocks.length) {

@@ -300,10 +300,10 @@
 
       {{!-- FILTER: FEMA FLOOD ZONE --}}
       {{#filters.section
-        filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx')
+        filterNames=(array 'fema_flood_zone')
         as |section|}}
         {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.dcp_femafloodzonea')
+
           tooltip='Projects may be located within multiple flood zones. Selecting multiple checkboxes will return projects that are at least partially located withinin all of the selected zones.'}}
         <ul class="menu vertical medium-horizontal FEMA-checkbox">
           <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonea')}}

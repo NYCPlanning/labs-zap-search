@@ -75,6 +75,7 @@ export default class FilterWrapperComponent extends Component {
   @className
   @computed('filterTitle')
   get dasherizedFilterTitle() {
+    console.log('peanut filterTitle', this.filterTitle);
     const dasherizedFilterTitle = this.filterTitle.dasherize();
     return `filter-section-${dasherizedFilterTitle}`;
   }

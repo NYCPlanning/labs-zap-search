@@ -155,11 +155,11 @@ const QUERY_TEMPLATES = {
   dcp_ulurp_nonulurp: (queryParamValue) =>
     equalsAnyOf('dcp_ulurp_nonulurp', coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP))),
 
-  dcp_femafloodzonea: (queryParamValue) =>
-    comparisonOperator('dcp_femafloodzonea', 'eq', queryParamValue),
-
-  dcp_femafloodzoneshadedx: (queryParamValue) =>
-    comparisonOperator('dcp_femafloodzoneshadedx', 'eq', queryParamValue),
+  fema_flood_zone: (queryParamValue) =>
+    any(
+      comparisonOperator('dcp_femafloodzonea', 'eq', queryParamValue),
+      comparisonOperator('dcp_femafloodzoneshadedx', 'eq', queryParamValue),
+    ),
 
   dcp_publicstatus: (queryParamValue: []) =>
     equalsAnyOf('dcp_publicstatus', coerceToNumber(mapInLookup(queryParamValue, PROJECT_STATUS_LOOKUP))),
@@ -204,8 +204,7 @@ export const ALLOWED_FILTERS = [
   'boroughs',
   'dcp_ceqrtype', // is this even used? 'Type I', 'Type II', 'Unlisted', 'Unknown'
   'dcp_ulurp_nonulurp', // 'ULURP', 'Non-ULURP'
-  'dcp_femafloodzonea',
-  'dcp_femafloodzoneshadedx',
+  'fema_flood_zone',
   'dcp_publicstatus', // 'Noticed', 'Filed', 'In Public Review', 'Completed', 'Unknown'
   'dcp_certifiedreferred',
   'project_applicant_text',
@@ -225,7 +224,10 @@ export const generateFromTemplate = (query, template) => {
 function generateProjectsFilterString(query) {
   // optional params
   // apply only those that appear in the query object
+  console.log('tequila query_templates', QUERY_TEMPLATES);
+  console.log('cocktail query', query);
   const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
+  console.log('tequila requestedFiltersQuery', requestedFiltersQuery);
 
   return all(
     // defaults

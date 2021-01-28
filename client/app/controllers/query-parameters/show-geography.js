@@ -119,12 +119,8 @@ export const projectParams = new QueryParams({
     defaultValue: 600,
     refresh: true,
   },
-  dcp_femafloodzonea: {
-    defaultValue: false,
-    refresh: true,
-  },
-  dcp_femafloodzoneshadedx: {
-    defaultValue: false,
+  fema_flood_zone: {
+    defaultValue: [],
     refresh: true,
   },
   project_applicant_text: {

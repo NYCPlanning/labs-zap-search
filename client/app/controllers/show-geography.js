@@ -282,6 +282,7 @@ export default class ShowGeographyController extends GeographyParachuteControlle
    */
   @action
   toggleBoolean(key) {
+    console.log('bananas', key);
     this.set(key, !this.get(key));
   }
 }
