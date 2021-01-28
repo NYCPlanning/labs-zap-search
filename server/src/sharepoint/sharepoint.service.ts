@@ -11,7 +11,7 @@ import { ConfigService } from '../config/config.service';
 //  Folders: []
 // }
 
-function unnest(folders) {
+function unnest(folders = []) {
   return folders
     .map(folder => {
       return [...folder['Files'], ...unnest(folder['Folders'])];
