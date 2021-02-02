@@ -4,19 +4,38 @@
 
 An ambitious web app for filtering and viewing NYC land use application records stored in DCP's Zoning Application Portal (ZAP).
 
-## Prerequisites
+## Development Setup 
 
-You will need the following things installed on your computer.
+### 1. Install prerequisite tools
 
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with npm)
 * [Ember CLI](https://ember-cli.com/)
 
-## Installation
+### 2. Install frontend and backend packages 
 
-* `git clone https://github.com/NYCPlanning/labs-zap-search` this repository
-* `cd labs-zap-search`
-* Install dependencies `yarn`
+```
+> git clone https://github.com/NYCPlanning/labs-zap-search
+> cd labs-zap-search/client
+> yarn
+> cd labs-zap-search/server
+> yarn
+```
+
+### 3. Set up SSL and environment files
+1. Clone this repo and follow the steps in its README: https://github.com/NYCPlanning/local-cert-generator
+
+2. Note that Step 1 generates two files in the `local-cert-generator` repo: `server.key` and `server.crt`. Later, you will need to copy/paste these files into the `labs-zap-search` repo to run the application.
+
+3. Open up your hosts file on your machine with admin permissions: `/etc/hosts`. For example, `sudo vim /etc/hosts`
+
+4. Add the following line: `127.0.0.1 local.planninglabs.nyc` ![image](https://user-images.githubusercontent.com/3311663/78998629-fc437e00-7b16-11ea-81ef-edb19b4b1d90.png)
+
+5. Navigate into the `server` folder.
+    - Create the `development.env` file using variables stored on 1Password.
+    - Copy the `server.key` and `server.crt` files from your `local-cert-generator` repo and paste both files into the `labs-zap-search/server/ssl/` folder.
+6. Navigate into the `client` folder.
+    - Copy the `server.key` and `server.crt` files from your `local-cert-generator` repo and paste both files into the `labs-zap-search/client/ssl/` folder.
 
 ## One-click startup 
 
