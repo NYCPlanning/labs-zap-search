@@ -12,17 +12,19 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     steps:
-      - working-directory: app
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 10.x
       - name: install dependencies
         run: yarn install --frozen-lockfile --non-interactive
+        working-directory: client
       - name: build
         env:
           DISABLE_SOURCE_MAPS: true
           BROCCOLI_ENV: production
         run: yarn ember build -prod
+        working-directory: client
       - name: test
         run: yarn test
+        working-directory: client
