@@ -18,21 +18,21 @@
     <strong>
       {{this.milestone.displayName}}
     </strong>
-    {{#if (eq this.milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
+    {{#if (eq this.milestone.dcpMilestone this.communityBoardReferralMilestone)}}
       {{#each this.communityBoardDispositions as |disposition|}}
         <RecommendationResultIcon
           @recommendation={{disposition.dcpCommunityboardrecommendation}}
           @action={{disposition.action}}
         />
       {{/each}}
-    {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_BOARD_REFERRAL)}}
+    {{else if (eq this.milestone.dcpMilestone this.boroughBoardReferralMilestone)}}
       {{#each this.boroughBoardDispositions as |disposition|}}
         <RecommendationResultIcon
           @recommendation={{disposition.dcpBoroughboardrecommendation}}
           @action={{disposition.action}}
         />
       {{/each}}
-    {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_PRESIDENT_REFERRAL)}}
+    {{else if (eq this.milestone.dcpMilestone this.boroughPresidentReferralMilestone)}}
       {{#each this.boroughPresidentDispositions as |disposition|}}
         <RecommendationResultIcon
           @recommendation={{disposition.dcpBoroughpresidentrecommendation}}
