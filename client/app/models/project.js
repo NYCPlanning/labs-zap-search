@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { inject as service } from '@ember/service';
 
 const {
   Model, attr, hasMany,
@@ -19,9 +18,6 @@ const EmptyFeatureCollection = {
 };
 
 export default class ProjectModel extends Model {
-  @service
-  milestoneConstants;
-
   @hasMany('action', { async: false }) actions;
 
   @hasMany('milestone', { async: false }) milestones;

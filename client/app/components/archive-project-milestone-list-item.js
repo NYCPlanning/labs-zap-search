@@ -1,14 +1,21 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
+import {
+  COMMUNITY_BOARD_REFERRAL as COMMUNITY_BOARD_REFERRAL_MILESTONE,
+  BOROUGH_BOARD_REFERRAL as BOROUGH_BOARD_REFERRAL_MILESTONE,
+  BOROUGH_PRESIDENT_REFERRAL as BOROUGH_PRESIDENT_REFERRAL_MILESTONE,
+} from '../models/milestone/constants';
 
 export default class ArchiveProjectMilestoneListItemComponent extends Component {
-  @service
-  milestoneConstants;
-
   project = {};
 
   milestone = {};
+
+  communityBoardReferralMilestone = COMMUNITY_BOARD_REFERRAL_MILESTONE;
+
+  boroughBoardReferralMilestone = BOROUGH_BOARD_REFERRAL_MILESTONE;
+
+  boroughPresidentReferralMilestone = BOROUGH_PRESIDENT_REFERRAL_MILESTONE;
 
   @computed('project.dispositions')
   get communityBoardDispositions() {
