@@ -9,7 +9,6 @@ import { AppController } from './app.controller';
 import { ContactModule } from './contact/contact.module';
 import { AuthModule } from './auth/auth.module';
 import { DispositionModule } from './disposition/disposition.module';
-import { OdataModule } from './odata/odata.module';
 import { AssignmentModule } from './assignment/assignment.module';
 import { DocumentModule } from './document/document.module';
 import { CrmModule } from './crm/crm.module';
@@ -23,7 +22,6 @@ import { ZoningResolutionsModule } from './zoning-resolutions/zoning-resolutions
     CrmModule,
     AuthModule,
     DispositionModule,
-    OdataModule,
     AssignmentModule,
     DocumentModule,
     ZoningResolutionsModule,

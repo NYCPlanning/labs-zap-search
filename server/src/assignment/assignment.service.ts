@@ -1,24 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
+import {
+  CrmService,
+} from '../crm/crm.service';
 import {
   all,
   comparisonOperator,
-  containsAnyOf
-} from '../odata/odata.module';
+  containsAnyOf,
+  overwriteCodesWithLabels,
+} from '../crm/crm.utilities';
 import { transformMilestones } from '../project/_utils/transform-milestones';
 import { transformActions } from '../project/_utils/transform-actions';
 
 @Injectable()
 export class AssignmentService {
   constructor(
-    private readonly dynamicsWebApi: OdataService
+    private readonly crmService: CrmService
   ) {}
 
   async getAssignments(contact, tab) {
     const { contactid, fullname } = contact;
     const recodedCbFullName = recodeCbFullName(fullname);
     const queryObject = generateAssignmentsQueryObject(contact);
-    const { records: projects } = await this.dynamicsWebApi
+    const { records: projects } = await this.crmService
       .queryFromObject('dcp_projects', queryObject);
 
     return transformIntoAssignments(projects, contactid, recodedCbFullName, fullname)

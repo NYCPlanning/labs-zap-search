@@ -5,7 +5,6 @@ import { ProjectController } from './project.controller';
 import { ProjectService } from './project.service';
 import { ConfigModule } from '../config/config.module';
 import { CartoModule } from '../carto/carto.module';
-import { OdataModule } from '../odata/odata.module';
 import { CrmModule } from '../crm/crm.module';
 import { DocumentModule } from '../document/document.module';
 import { GeometryService } from './geometry/geometry.service';
@@ -14,7 +13,6 @@ import { GeometryService } from './geometry/geometry.service';
   imports: [
     ArtifactModule,
     PackageModule,
-    OdataModule,
     ConfigModule,
     CartoModule,
     CrmModule,
