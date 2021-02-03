@@ -1,14 +1,3 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '../config/config.module';
-import { OdataService } from './odata.service';
-
-@Module({
-  imports: [ConfigModule],
-  exports: [OdataService],
-  providers: [OdataService],
-})
-export class OdataModule {}
-
 // utility functions for creating OData queries
 export function extractMeta(projects = []) {
   const [{ total_projects: total = 0 } = {}] = projects;
@@ -109,5 +98,79 @@ export function containsAnyOf(propertyName, strings = [], options?) {
     .join(' or ');
   const lambdaQueryPrefix = childEntity ? `${childEntity}/any` : '';
 
-  return `(${not ? 'not ': ''}${lambdaQueryPrefix}(${containsQuery}))`;
+  return `(${not ? 'not ' : ''}${lambdaQueryPrefix}(${containsQuery}))`;
+}
+
+export const dateParser = function (key, value) {
+  if (typeof value === 'string') {
+    // YYYY-MM-DDTHH:mm:ss.sssZ => parsed as UTC
+    // YYYY-MM-DD => parsed as local date
+
+    if (value != "") {
+      const a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(value);
+
+      if (a) {
+        const s = parseInt(a[6]);
+        const ms = Number(a[6]) * 1000 - s * 1000;
+        return new Date(Date.UTC(parseInt(a[1]), parseInt(a[2]) - 1, parseInt(a[3]), parseInt(a[4]), parseInt(a[5]), s, ms));
+      }
+
+      const b = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+
+      if (b) {
+        return new Date(parseInt(b[1]), parseInt(b[2]) - 1, parseInt(b[3]), 0, 0, 0, 0);
+      }
+    }
+  }
+
+  return value;
+}
+
+
+const COMMUNITY_DISPLAY_TOKEN = '@OData.Community.Display.V1.FormattedValue';
+
+// CRM provides numeric codes for picklist types
+// for example, "yes" might appear as "1"
+// This function maps those values with appropriate labels
+// TODO: Make this return new objects instead of in-place reassignment
+export function overwriteCodesWithLabels(records, targetFields) {
+  return records.map(record => {
+    const newRecord = record;
+
+    // parent record
+    Object.keys(record)
+      .filter(key => key.includes(COMMUNITY_DISPLAY_TOKEN))
+      .map(key => key.replace(COMMUNITY_DISPLAY_TOKEN, ''))
+      .forEach(key => {
+        if (targetFields.includes(key)) {
+          newRecord[key] = record[`${key}${COMMUNITY_DISPLAY_TOKEN}`];
+        }
+      });
+
+    // child records
+    // etag here is used to filter for entities
+    // we need keys whos values are arrays
+    Object.entries(record)
+      .filter(([, value]) => Array.isArray(value))
+      .forEach(([, collection]) => {
+
+        collection
+          // @ts-ignore
+          .filter(Boolean)
+          .map(record => {
+            const newRecord = record;
+
+            Object.keys(record)
+              .filter(key => key.includes(COMMUNITY_DISPLAY_TOKEN))
+              .map(key => key.replace(COMMUNITY_DISPLAY_TOKEN, ''))
+              .forEach(key => {
+                if (targetFields.includes(key)) {
+                  newRecord[key] = record[`${key}${COMMUNITY_DISPLAY_TOKEN}`];
+                }
+              });
+          });
+      });
+
+    return newRecord;
+  });
 }

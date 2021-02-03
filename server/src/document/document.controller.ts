@@ -36,6 +36,10 @@ export class DocumentController {
   async index(@UploadedFile() file, @Req() request: Request, @Res() response, @Session() session) {
     if (!session) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
+    // legacy monkey-patching that was lost in removing odata.
+    CRMWebAPI.webAPIurl = this.config.get('CRM_URL_PATH');
+    CRMWebAPI.CRMUrl = this.config.get('CRM_HOST');
+
     const {
       body: {
         instanceId,

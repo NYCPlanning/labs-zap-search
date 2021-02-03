@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DispositionController } from './disposition.controller';
 import { Disposition } from './disposition.entity';
-import { OdataService } from '../odata/odata.service';
+import { CrmService } from '../crm/crm.service';
 import { ConfigService } from '../config/config.service';
 
 describe('Disposition Controller', () => {
@@ -13,7 +13,7 @@ describe('Disposition Controller', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          provide: OdataService,
+          provide: CrmService,
           useValue: new (class OdataServiceMock { }),
         },
         {
