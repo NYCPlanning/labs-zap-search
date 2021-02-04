@@ -4,14 +4,14 @@
   <div class="cell shrink small-margin-right">
     {{#if (eq this.milestone.statuscode "Completed")}}
       <span data-test={{if (string-includes this.milestone.displayName "Review") "reviewed-indicator"}}>
-        {{fa-icon 'check' class='blue' fixedWidth=true}}
+        {{fa-icon icon='check' class='blue' fixedWidth=true}}
       </span>
     {{else if (eq this.milestone.statuscode "In Progress")}}
-      {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
+      {{fa-icon icon='hourglass-half' class='blue' fixedWidth=true}}
     {{else if (eq this.milestone.statuscode "Overridden")}}
-      {{fa-icon 'times' class='red-muted' fixedWidth=true}}
+      {{fa-icon icon='times' class='red-muted' fixedWidth=true}}
     {{else}}
-      {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
+      {{fa-icon icon='calendar' class='light-gray' fixedWidth=true}}
     {{/if}}
   </div>
   <div class="cell auto {{if (eq this.milestone.statuscode "Not Started") 'gray'}}">

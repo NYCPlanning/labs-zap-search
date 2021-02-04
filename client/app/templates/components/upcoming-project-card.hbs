@@ -61,7 +61,7 @@
               disabled={{not this.assignment.dispositionsByRole}}
               data-test-button-post-hearing="{{this.assignment.id}}"
             >
-              {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
+              {{fa-icon icon='calendar' fixedWidth=true size="lg" transform="left-2"}}
               Post {{participant-type-label this.assignment.dcpLupteammemberrole}} Hearing Notice
             </LinkTo>
           </div>
@@ -72,7 +72,7 @@
               disabled={{not this.assignment.dispositionsByRole}}
               data-test-button-opt-out-hearing-popup="{{this.assignment.id}}"
             >
-              {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
+              {{fa-icon icon='calendar-times' size="lg" transform="shrink-5 down-1"}}
               <small>Opt Out</small>
             </button>
           </div>
@@ -80,7 +80,7 @@
       {{else}}
         {{#if assignment.hearingsWaived}}
           <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
-            {{fa-icon 'calendar-times' size="lg" transform="left-2"}}
+            {{fa-icon icon='calendar-times' size="lg" transform="left-2"}}
             You've opted out of posting a hearing
           </span>
         {{/if}}
@@ -145,7 +145,7 @@
                   @model={{milestone.project.id}}
                   data-test-button='submitHearing'
                 >
-                  {{fa-icon 'ellipsis-v' fixedWidth=true class="tiny-margin-right"}}
+                  {{fa-icon icon='ellipsis-v' fixedWidth=true class="tiny-margin-right"}}
                   <span class="text-tiny">VIEW FULL TIMELINE</span>
                 </LinkTo>
               </li>
@@ -153,14 +153,14 @@
             <li class="grid-x small-margin-bottom" data-test-milestone-view="true" data-test-milestone-id={{milestone.id}} data-test-display-order={{idx}}>
               <div class="cell shrink small-margin-right">
                 {{#if (eq milestone.statuscode "Completed")}}
-                  {{fa-icon 'check' class='blue' fixedWidth=true}}
+                  {{fa-icon icon='check' class='blue' fixedWidth=true}}
                 {{else if (eq milestone.statuscode "In Progress")}}
-                  {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
+                  {{fa-icon icon='hourglass-half' class='blue' fixedWidth=true}}
                 {{else if (eq milestone.statuscode "Overridden")}}
-                  {{fa-icon 'times' class='red-muted' fixedWidth=true}}
+                  {{fa-icon icon='times' class='red-muted' fixedWidth=true}}
                 {{else if (eq milestone.statuscode "Not Started")}}
                   <span data-test={{if (string-includes milestone.displayName "Review") "upcoming-indicator"}}>
-                    {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
+                    {{fa-icon icon='calendar' class='light-gray' fixedWidth=true}}
                   </span>
                 {{/if}}
               </div>
