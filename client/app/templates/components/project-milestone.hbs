@@ -1,22 +1,22 @@
 <div class="cell shrink">
-  {{#if (eq tense "past")}}
+  {{#if (eq milestone.statuscode "Completed")}}
     <span class="milestone-icon fa-layers fa-fw">
       {{fa-icon icon='circle' fixedWidth=true class='dark-gray'}}
       {{fa-icon icon='check' fixedWidth=true class='blue-light' transform='shrink-6'}}
     </span>
-  {{else if (eq tense "present")}}
+  {{else if (eq milestone.statuscode "In Progress")}}
     <span class="milestone-icon fa-layers fa-fw">
       {{fa-icon icon='circle' fixedWidth=true class='green-dark'}}
       {{fa-icon icon='calendar' prefix='far' fixedWidth=true class='white-smoke' transform='shrink-8'}}
     </span>
-  {{else}}{{!-- future --}}
+  {{else}}{{!-- milestone.statuscode "Not Started" --}}
     <span class="milestone-icon fa-layers fa-fw">
       {{fa-icon icon='circle' fixedWidth=true class='light-gray'}}
       {{fa-icon icon='calendar' prefix='far' fixedWidth=true class='off-white' transform='shrink-8'}}
     </span>
   {{/if}}
 </div>
-<div class="cell auto {{if (or (eq tense 'past') (eq tense 'present')) '' 'gray'}}">
+<div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
   <h4 class="no-margin">
     <span data-test-milestone-name="{{milestone.id}}">{{milestone.orderSensitiveName}}</span>
 
