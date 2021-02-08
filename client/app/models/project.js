@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { sort, alias } from '@ember/object/computed';
 
 const {
   Model, attr, hasMany,
@@ -124,4 +124,19 @@ export default class ProjectModel extends Model {
     return this.artifacts.sortBy('modifiedon')
       .reverse();
   }
+
+  @sort('milestones', function(prev, next) {
+    const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
+
+    if (milestoneSequenceDifference === 0) {
+      if (!prev.displayDate) return 1;
+
+      if (!next.displayDate) return -1;
+
+      return prev.displayDate - next.displayDate;
+    }
+
+    return milestoneSequenceDifference;
+  })
+  sortedMilestones;
 }

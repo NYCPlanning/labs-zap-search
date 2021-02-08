@@ -52,131 +52,6 @@ function applyDisplayDescriptions(milestone, project) {
   return mutatedMilestone;
 }
 
-function applySecondDisplayDate(milestone, project) {
-  if (milestone._dcp_milestone_value === '963beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) {
-    milestone.display_date_2 = (milestone.dcp_actualenddate || milestone.dcp_plannedcompletiondate);
-  }
-  if (milestone._dcp_milestone_value === '943beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) {
-    milestone.display_date_2 = (milestone.dcp_actualenddate || milestone.dcp_plannedcompletiondate);
-  }
-  if (milestone._dcp_milestone_value === '763beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === 'a63beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) {
-    milestone.display_date_2 = (milestone.dcp_actualenddate || milestone.dcp_plannedcompletiondate);
-  }
-  if (milestone._dcp_milestone_value === '923beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) {
-    milestone.display_date_2 = (milestone.dcp_actualenddate || milestone.dcp_plannedcompletiondate);
-  }
-  if (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) {
-    milestone.display_date_2 = (milestone.dcp_actualenddate || milestone.dcp_plannedcompletiondate);
-  }
-  if (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '863beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '7c3beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '7e3beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '883beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '783beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === 'aa3beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '823beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '663beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '6a3beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === 'a83beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) {
-    milestone.display_date_2 = (milestone.dcp_actualenddate || milestone.dcp_plannedcompletiondate);
-  }
-  if (milestone._dcp_milestone_value === '843beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '780593bb-ecc2-e811-8156-1458d04d0698') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '483beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-  if (milestone._dcp_milestone_value === '4a3beec4-dad0-e711-8116-1458d04e2fb8') {
-    milestone.display_date_2 = null;
-  }
-
-  return milestone;
-}
-
-function applyDisplayDate(milestone, project) {
-  if (milestone._dcp_milestone_value === '963beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '943beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '763beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === 'a63beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '923beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '863beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '7c3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '7e3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '883beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '783beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === 'aa3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '823beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '663beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '6a3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === 'a83beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualstartdate;
-  if (milestone._dcp_milestone_value === '843beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_publicstatus !== 717170000) milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '780593bb-ecc2-e811-8156-1458d04d0698') milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '483beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
-  if (milestone._dcp_milestone_value === '4a3beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_date = milestone.dcp_actualenddate;
-  
-  /*
-  * The following is for task 13239
-  * The date displayed should be the CRM Review Meeting date for certain milestones if the milestone statuscode is "in progress" or "completed", and the meeting date is <= current date
-  * I have included a check to make sure that the field is not null to make sure we are not overwriting dates with nothing
-  * Statuscode optionset:
-  *   2 == completed
-  *   717170000 == progress
-  * Milestone value optionset:
-  *   8e3beec4-dad0-e711-8116-1458d04e2fb8 == Application Reviewed at City Planning Commission Review Session
-  *   a43beec4-dad0-e711-8116-1458d04e2fb8 == City Planning Commission Vote
-  *   9e3beec4-dad0-e711-8116-1458d04e2fb8 == 'CPC Public Meeting - Public Hearing' a.k.a 'City Planning Commission Review'
-  *   9c3beec4-dad0-e711-8116-1458d04e2fb8 == 'Review Session - Pre-Hearing Review / Post Referral'
-  *   a23beec4-dad0-e711-8116-1458d04e2fb8 == 'Review Session - Post Hearing Follow-Up / Future Votes'
-  */
-  if ((milestone._dcp_milestone_value === '8e3beec4-dad0-e711-8116-1458d04e2fb8')
-      || (milestone._dcp_milestone_value === 'a43beec4-dad0-e711-8116-1458d04e2fb8')
-      || (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8')
-      || (milestone._dcp_milestone_value === '9c3beec4-dad0-e711-8116-1458d04e2fb8')
-      || (milestone._dcp_milestone_value === 'a23beec4-dad0-e711-8116-1458d04e2fb8')
-    ) { 
-    if((milestone.statuscode === 2) || (milestone.statuscode === 717170000)) {
-      if((milestone.dcp_reviewmeetingdate) && (Date.now() >= milestone.dcp_reviewmeetingdate.getTime())) {
-        milestone.display_date = milestone.dcp_reviewmeetingdate;
-      }
-    }
-  }
-
-  return milestone;
-}
-
 function transformDisplayName(milestone) {
   if (milestone._dcp_milestone_value === '963beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Borough Board Review';
   if (milestone._dcp_milestone_value === '943beec4-dad0-e711-8116-1458d04e2fb8') milestone.display_name = 'Borough President Review';
@@ -231,22 +106,12 @@ function transformAliases(milestone) {
 function sortMilestones(prev, next) {
   const displaySequenceDifference = prev.display_sequence - next.display_sequence;
 
-  if (displaySequenceDifference === 0) {
-    if (!prev.display_date)
-      return 1;
-    if (!next.display_date)
-      return -1;
-    return prev.display_date - next.display_date;
-  }
-
   return displaySequenceDifference;
 }
 
 export const transformMilestones = (milestones, project) => {
 	return milestones
     .map(milestone => applyDisplayDescriptions(milestone, project))
-    .map(milestone => applySecondDisplayDate(milestone, project))
-    .map(milestone => applyDisplayDate(milestone, project))
     .map(milestone => transformDisplayName(milestone))
     .map(milestone => transformDisplaySequence(milestone))
     .map(milestone => transformAliases(milestone))

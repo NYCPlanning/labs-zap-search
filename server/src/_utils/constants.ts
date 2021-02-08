@@ -125,7 +125,7 @@ const MILESTONES = {
     display_description: 'A Draft Environmental Impact Statement must be completed prior to the City Planning Commission certifying or referring a project for public review.',
   },
   '780593bb-ecc2-e811-8156-1458d04d0698': {
-    display_name: 'CPC Review of Council Modification}',
+    display_name: 'CPC Review of Council Modification',
     display_sequence: 58,
   },
 
