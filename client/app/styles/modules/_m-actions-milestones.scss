@@ -52,41 +52,6 @@
   }
 }
 
-.milestone.present + .milestone.future {
-  padding-top: 0.5rem;
-}
-
-.milestone.past + .milestone.future:not(.no-dates) {
-  padding-top: 2.5rem;
-
-  &::before {
-    content: '';
-    border-top: rem-calc(4) dashed $lu-green;
-    display: block;
-    width: 100%;
-    height: 0.5rem;
-    position: absolute;
-    top: rem-calc(8);
-    left: 0;
-  }
-
-  &::after {
-    content: "NOW";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0.5rem;
-    background-color: $lu-green;
-    color: $white;
-    padding: 0;
-    line-height: 2;
-    width: rem-calc(41);
-    text-align: center;
-    font-size: rem-calc(10);
-    border-radius: 0.5rem;
-  }
-}
-
 .milestone-icon,
 .action-icon {
   font-size: 2rem;
