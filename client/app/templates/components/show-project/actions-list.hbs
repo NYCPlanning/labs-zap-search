@@ -5,8 +5,8 @@
     <li class="grid-x grid-padding-small action">
       <div class="cell shrink statuscode {{dasherize projectAction.statuscode}}">
         <span class="action-icon fa-layers fa-fw">
-          {{fa-icon 'circle' fixedWidth=true}}
-          {{fa-icon 'file-alt' fixedWidth=true class='off-white' transform='shrink-7'}}
+          {{fa-icon icon='circle' fixedWidth=true}}
+          {{fa-icon icon='file-alt' fixedWidth=true class='off-white' transform='shrink-7'}}
         </span>
         <p class="text-tiny status">{{if projectAction.statuscode projectAction.statuscode "No Status Code"}}</p>
       </div>
@@ -39,7 +39,7 @@
                       target="_blank"
                     >
                       {{projectAction.dcpUlurpnumber}}
-                      {{fa-icon 'external-link-alt'}}
+                      {{fa-icon icon='external-link-alt'}}
                     </a>
                   {{/tool-tipster}}
                 {{else}}
@@ -58,7 +58,7 @@
             Zoning Resolution:
             <a href="{{build-url "zoningResolution" projectAction.dcpZoningresolution}}" target="_blank">
               {{projectAction.dcpZoningresolution}}
-              {{fa-icon 'external-link-alt'}}
+              {{fa-icon icon='external-link-alt'}}
             </a>
           </p>
         {{/if}}

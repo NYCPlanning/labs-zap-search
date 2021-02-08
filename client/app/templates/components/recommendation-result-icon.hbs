@@ -1,28 +1,28 @@
 {{!Approval options}}
 {{#if (eq this.recommendation "Favorable")}}
-  {{fa-icon 'thumbs-up' class='green-dark'}}
+  {{fa-icon icon='thumbs-up' class='green-dark'}}
 {{/if}}
 {{!Conditional approval options}}
 {{#if (eq this.recommendation "Conditional Favorable")}}
 <span class="fa-layers">
-  {{fa-icon 'thumbs-up' class='green-dark'}}
-  {{fa-icon 'question' class='white' transform="shrink-9 right-2 down-2"}}
+  {{fa-icon icon='thumbs-up' class='green-dark'}}
+  {{fa-icon icon='question' class='white' transform="shrink-9 right-2 down-2"}}
 </span>
 {{/if}}
 {{!Disapproval options}}
 {{#if (eq this.recommendation "Unfavorable")}}
-  {{fa-icon 'thumbs-down' class='red-dark'}}
+  {{fa-icon icon='thumbs-down' class='red-dark'}}
 {{/if}}
 {{!Conditional disapproval options}}
 {{#if (eq this.recommendation "Conditional Unfavorable")}}
 <span class="fa-layers">
-  {{fa-icon 'thumbs-down' class='red-dark' }}
-  {{fa-icon 'question' class='white' transform="shrink-9 right-2 up-2"}}
+  {{fa-icon icon='thumbs-down' class='red-dark' }}
+  {{fa-icon icon='question' class='white' transform="shrink-9 right-2 up-2"}}
 </span>
 {{/if}}
 {{!No opinion options}}
 {{#if (or (eq this.recommendation "Waiver of Recommendation") (eq this.recommendation "No Objection"))}}
-  {{fa-icon 'comment-slash' class='gray'}}
+  {{fa-icon icon='comment-slash' class='gray'}}
 {{/if}}
 
 {{#if this.action.dcpName}}

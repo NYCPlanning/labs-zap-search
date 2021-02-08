@@ -1,7 +1,7 @@
 <div class="modal-controls">
 
-  <button {{action 'handleShareOpen'}} class="modal-button button small gray">{{fa-icon 'share-alt'}} Share Project</button>
-  <button {{action 'handleFlagOpen'}} class="modal-button button small gray">{{fa-icon 'flag'}} Report Data Issue</button>
+  <button {{action 'handleShareOpen'}} class="modal-button button small gray">{{fa-icon icon='share-alt'}} Share Project</button>
+  <button {{action 'handleFlagOpen'}} class="modal-button button small gray">{{fa-icon icon='flag'}} Report Data Issue</button>
 
   {{#unless (and shareClosed flagClosed)}}
     <div class="modal-controls-content">
@@ -18,13 +18,13 @@
               error=(action 'handleModalClose')
               class="button"
             }}
-              {{fa-icon 'paste'}} Copy Link
+              {{fa-icon icon='paste'}} Copy Link
             {{/copy-button}}
           </div>
         </div>
         {{#if copySuccess}}
         <div class="share-controls-copy-success">
-          <div class="share-controls-copy-success-message">{{fa-icon 'check'}} Copied</div>
+          <div class="share-controls-copy-success-message">{{fa-icon icon='check'}} Copied</div>
         </div>
         {{/if}}
       {{/unless}}
@@ -32,7 +32,7 @@
       {{#unless flagClosed}}
         <h3 class="header header-medium">Report Data Issue {{model.dcp_name}}</h3>
         <div class="callout secondary" style="padding:0.5rem;">
-          <p style="margin-bottom:0.5em;">{{fa-icon 'exclamation-triangle' class="gold"}} <strong>This form is for reporting data problems only.</strong> Do not post <a href="https://a002-irm.nyc.gov/EventRegistration/RegForm.aspx?eventGuid=fa206f3d-6400-4a95-8b39-87b1bfa975ef" target="_blank">City Planning Commission Public Hearing Comments</a>. For general feedback about this application, email <a href="mailto:ZAP_Feedback_DL@planning.nyc.gov">ZAP_Feedback_DL@planning.nyc.gov</a>.</p>
+          <p style="margin-bottom:0.5em;">{{fa-icon icon='exclamation-triangle' class="gold"}} <strong>This form is for reporting data problems only.</strong> Do not post <a href="https://a002-irm.nyc.gov/EventRegistration/RegForm.aspx?eventGuid=fa206f3d-6400-4a95-8b39-87b1bfa975ef" target="_blank">City Planning Commission Public Hearing Comments</a>. For general feedback about this application, email <a href="mailto:ZAP_Feedback_DL@planning.nyc.gov">ZAP_Feedback_DL@planning.nyc.gov</a>.</p>
         </div>
 
         <ul class="">
