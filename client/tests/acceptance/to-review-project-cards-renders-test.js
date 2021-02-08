@@ -39,9 +39,7 @@ module('Acceptance | to review project cards renders', function(hooks) {
             milestones: [this.server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: moment().subtract(9, 'days'),
-              displayDate: moment().subtract(9, 'days'),
               dcpPlannedcompletiondate: moment().add(21, 'days'),
-              displayDate2: moment().add(21, 'days'),
               dcpRemainingplanneddays: '20',
               dcpGoalduration: '59',
             })],
@@ -77,9 +75,7 @@ module('Acceptance | to review project cards renders', function(hooks) {
             milestones: [this.server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: moment().subtract(9, 'days'),
-              displayDate: moment().subtract(9, 'days'),
               dcpPlannedcompletiondate: moment().add(21, 'days'),
-              displayDate2: moment().add(21, 'days'),
               dcpRemainingplanneddays: '20',
               dcpGoalduration: null,
             })],
@@ -115,9 +111,7 @@ module('Acceptance | to review project cards renders', function(hooks) {
             milestones: [this.server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: moment().subtract(9, 'days'),
-              displayDate: moment().subtract(9, 'days'),
               dcpPlannedcompletiondate: moment().add(21, 'days'),
-              displayDate2: moment().add(21, 'days'),
               dcpRemainingplanneddays: null,
               dcpGoalduration: '59',
             })],
@@ -153,9 +147,7 @@ module('Acceptance | to review project cards renders', function(hooks) {
             milestones: [this.server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: moment().subtract(9, 'days'),
-              displayDate: moment().subtract(9, 'days'),
               dcpPlannedcompletiondate: null,
-              displayDate2: null,
             })],
           }),
         }),

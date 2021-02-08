@@ -77,8 +77,6 @@ export const MILESTONE_KEYS = [
   'dcp_actualdurationasoftoday',
   'display_description',
   'display_name',
-  'display_date',
-  'display_date2',
   'outcome',
   'milestone_links',
   'is_revised',

@@ -32,30 +32,4 @@ export default class ProjectMilestoneComponent extends Component {
 
     return 'future';
   }
-
-  @computed('tense', 'milestone.{displayDate,displayDate2}')
-  get timeRelativeToNow() {
-    const tense = this.get('tense');
-    const date1 = this.get('milestone.displayDate');
-    const date2 = this.get('milestone.displayDate2');
-
-    if (!date1) {
-      return '';
-    }
-
-    // date1 is always truthy at this point
-    if (tense === 'past' && date2) {
-      return moment(date2).fromNow();
-    }
-
-    if (tense === 'past' && !date2) {
-      return moment(date1).fromNow();
-    }
-
-    if (tense === 'future') {
-      return moment(date1).fromNow();
-    }
-
-    return 'In Progress';
-  }
 }

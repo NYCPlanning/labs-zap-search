@@ -8,8 +8,6 @@ export default Factory.extend({
   dcpActualstartdate: null,
   dcpActualenddate: null,
   statuscode: null,
-  displayDate: null,
-  displayDate2: null,
   outcome: null,
   milestoneLinks: [],
   dcpRemainingplanneddays: 12,
@@ -17,19 +15,16 @@ export default Factory.extend({
   isCompleted: trait({
     statuscode: 'Completed',
     dcpActualstartdate: moment().subtract(95, 'days'),
-    displayDate: moment().subtract(95, 'days'),
   }),
 
   isInProgress: trait({
     statuscode: 'In Progress',
     dcpActualstartdate: moment().subtract(3, 'days'),
-    displayDate: moment().subtract(3, 'days'),
   }),
 
   isNotStarted: trait({
     statuscode: 'Not Started',
     dcpActualstartdate: moment().add(95, 'days'),
-    displayDate: moment().add(95, 'days'),
   }),
 
   // UPCOMING MILESTONES FOR ALL LUP USERS
