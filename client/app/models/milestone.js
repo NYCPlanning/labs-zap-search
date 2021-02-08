@@ -186,8 +186,12 @@ export default class MilestoneModel extends Model {
       REVIEW_SESSION_POST_HEARING_FOLLOW_UP_FUTURE_VOTES, // aka 'Review Session - Post Hearing Follow-Up / Future Votes'
       CPC_PUBLIC_MEETING_VOTE, // aka 'City Planning Commission Vote'
     ].includes(this.dcpMilestone)) {
-      if ((this.dcpReviewmeetingdate) && (Date.now() >= this.dcpReviewmeetingdate.getTime())) {
-        displayDate = this.dcpReviewmeetingdate;
+      if (this.dcpReviewmeetingdate) {
+        const reviewMeetingDate = new Date(this.dcpReviewmeetingdate);
+
+        if (Date.now() >= reviewMeetingDate.getTime()) {
+          displayDate = this.dcpReviewmeetingdate;
+        }
       }
     }
 
