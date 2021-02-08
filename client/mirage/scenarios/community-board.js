@@ -28,8 +28,6 @@ export default function(server) {
             server.create('milestone', 'prepareFiledLandUseApplication', {
               statuscode: 'Completed',
               dcpPlannedstartdate: createDateInPast(60, 'days'),
-              displayDate: createDateInPast(60, 'days'),
-              displayDate2: createDateInPast(60, 'days'),
               dcpActualenddate: createDateInPast(60, 'days'),
               outcome: null,
             }),
@@ -54,8 +52,6 @@ export default function(server) {
             server.create('milestone', 'prepareFiledLandUseApplication', {
               statuscode: 'Completed',
               dcpPlannedstartdate: createDateInPast(75, 'days'),
-              displayDate: createDateInPast(75, 'days'),
-              displayDate2: createDateInPast(75, 'days'),
               dcpActualenddate: createDateInPast(75, 'days'),
               outcome: null,
             }),
@@ -85,8 +81,6 @@ export default function(server) {
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: createDateInPast(2, 'days'),
-              displayDate: createDateInPast(2, 'days'),
-              displayDate2: null,
               dcpPlannedcompletiondate: createDateFromNow(58, 'days'),
               outcome: null,
             }),
@@ -107,8 +101,6 @@ export default function(server) {
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: createDateInPast(35, 'days'),
-              displayDate: createDateInPast(35, 'days'),
-              displayDate2: null,
               dcpPlannedcompletiondate: createDateFromNow(25, 'days'),
               outcome: null,
             }),
@@ -147,9 +139,7 @@ export default function(server) {
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(180, 'days'),
-              displayDate: createDateInPast(180, 'days'),
               dcpActualenddate: createDateInPast(120, 'days'),
-              displayDate2: createDateInPast(120, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -159,9 +149,7 @@ export default function(server) {
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(120, 'days'),
-              displayDate: createDateInPast(120, 'days'),
               dcpActualenddate: createDateInPast(90, 'days'),
-              displayDate2: createDateInPast(90, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -172,9 +160,7 @@ export default function(server) {
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: createDateInPast(10, 'days'),
-              displayDate: createDateInPast(10, 'days'),
               dcpPlannedcompletiondate: createDateFromNow(10, 'days'),
-              displayDate2: createDateFromNow(10, 'days'),
             }),
 
             server.create('milestone', 'cityPlanningCommissionVote', {
@@ -217,9 +203,7 @@ export default function(server) {
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(160, 'days'),
-              displayDate: createDateInPast(160, 'days'),
               dcpActualenddate: createDateInPast(130, 'days'),
-              displayDate2: createDateInPast(130, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -229,9 +213,7 @@ export default function(server) {
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(130, 'days'),
-              displayDate: createDateInPast(130, 'days'),
               dcpActualenddate: createDateInPast(82, 'days'),
-              displayDate2: createDateInPast(82, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -242,9 +224,7 @@ export default function(server) {
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(82, 'days'),
-              displayDate: createDateInPast(82, 'days'),
               dcpActualenddate: createDateInPast(47, 'days'),
-              displayDate2: createDateInPast(47, 'days'),
               outcome: 'Hearing Closed',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -255,9 +235,7 @@ export default function(server) {
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(46, 'days'),
-              displayDate: createDateInPast(46, 'days'),
               dcpActualenddate: createDateInPast(16, 'days'),
-              displayDate2: createDateInPast(16, 'days'),
               outcome: 'Approval',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -268,9 +246,7 @@ export default function(server) {
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: createDateInPast(15, 'days'),
-              displayDate: createDateInPast(15, 'days'),
               dcpPlannedcompletiondate: createDateFromNow(15, 'days'),
-              displayDate2: createDateFromNow(15, 'days'),
             }),
 
             server.create('milestone', 'mayoralReview', {
@@ -305,9 +281,7 @@ export default function(server) {
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(180, 'days'),
-              displayDate: createDateInPast(180, 'days'),
               dcpActualenddate: createDateInPast(120, 'days'),
-              displayDate2: createDateInPast(120, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -317,9 +291,7 @@ export default function(server) {
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(120, 'days'),
-              displayDate: createDateInPast(120, 'days'),
               dcpActualenddate: createDateInPast(90, 'days'),
-              displayDate2: createDateInPast(90, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -330,9 +302,7 @@ export default function(server) {
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(90, 'days'),
-              displayDate: createDateInPast(90, 'days'),
               dcpActualenddate: createDateInPast(71, 'days'),
-              displayDate2: createDateInPast(71, 'days'),
               outcome: 'Hearing Closed',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -343,27 +313,21 @@ export default function(server) {
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(70, 'days'),
-              displayDate: createDateInPast(70, 'days'),
               dcpActualenddate: createDateInPast(61, 'days'),
-              displayDate2: createDateInPast(61, 'days'),
               outcome: 'Approval',
             }),
 
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(60, 'days'),
-              displayDate: createDateInPast(60, 'days'),
               dcpActualenddate: createDateInPast(30, 'days'),
-              displayDate2: createDateInPast(30, 'days'),
               outcome: 'Approval',
             }),
 
             server.create('milestone', 'mayoralReview', {
               statuscode: 'In Progress',
               dcpActualstartdate: createDateInPast(30, 'days'),
-              displayDate: createDateInPast(30, 'days'),
               dcpPlannedcompletiondate: createDateFromNow(8, 'days'),
-              displayDate2: createDateFromNow(8, 'days'),
             }),
 
             server.create('milestone', 'finalLetterSent', {
@@ -405,9 +369,7 @@ export default function(server) {
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(180, 'days'),
-              displayDate: createDateInPast(180, 'days'),
               dcpActualenddate: createDateInPast(120, 'days'),
-              displayDate2: createDateInPast(120, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -417,9 +379,7 @@ export default function(server) {
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(120, 'days'),
-              displayDate: createDateInPast(120, 'days'),
               dcpActualenddate: createDateInPast(110, 'days'),
-              displayDate2: createDateInPast(110, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -430,41 +390,31 @@ export default function(server) {
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(110, 'days'),
-              displayDate: createDateInPast(110, 'days'),
               dcpActualenddate: createDateInPast(90, 'days'),
-              displayDate2: createDateInPast(90, 'days'),
             }),
 
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(110, 'days'),
-              displayDate: createDateInPast(110, 'days'),
               dcpActualenddate: createDateInPast(90, 'days'),
-              displayDate2: createDateInPast(90, 'days'),
             }),
 
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(90, 'days'),
-              displayDate: createDateInPast(90, 'days'),
               dcpActualenddate: createDateInPast(60, 'days'),
-              displayDate2: createDateInPast(60, 'days'),
             }),
 
             server.create('milestone', 'mayoralReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(60, 'days'),
-              displayDate: createDateInPast(60, 'days'),
               dcpActualenddate: createDateInPast(50, 'days'),
-              displayDate2: createDateInPast(50, 'days'),
             }),
 
             server.create('milestone', 'finalLetterSent', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(40, 'days'),
-              displayDate: createDateInPast(40, 'days'),
               dcpActualenddate: createDateInPast(40, 'days'),
-              displayDate2: createDateInPast(40, 'days'),
             }),
           ],
         }),
@@ -493,9 +443,7 @@ export default function(server) {
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(380, 'days'),
-              displayDate: createDateInPast(380, 'days'),
               dcpActualenddate: createDateInPast(320, 'days'),
-              displayDate2: createDateInPast(320, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -505,9 +453,7 @@ export default function(server) {
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(320, 'days'),
-              displayDate: createDateInPast(320, 'days'),
               dcpActualenddate: createDateInPast(290, 'days'),
-              displayDate2: createDateInPast(290, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -518,41 +464,31 @@ export default function(server) {
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(290, 'days'),
-              displayDate: createDateInPast(290, 'days'),
               dcpActualenddate: createDateInPast(210, 'days'),
-              displayDate2: createDateInPast(210, 'days'),
             }),
 
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(210, 'days'),
-              displayDate: createDateInPast(210, 'days'),
               dcpActualenddate: createDateInPast(190, 'days'),
-              displayDate2: createDateInPast(190, 'days'),
             }),
 
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(190, 'days'),
-              displayDate: createDateInPast(190, 'days'),
               dcpActualenddate: createDateInPast(160, 'days'),
-              displayDate2: createDateInPast(160, 'days'),
             }),
 
             server.create('milestone', 'mayoralReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(160, 'days'),
-              displayDate: createDateInPast(160, 'days'),
               dcpActualenddate: createDateInPast(150, 'days'),
-              displayDate2: createDateInPast(150, 'days'),
             }),
 
             server.create('milestone', 'finalLetterSent', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(140, 'days'),
-              displayDate: createDateInPast(140, 'days'),
               dcpActualenddate: createDateInPast(140, 'days'),
-              displayDate2: createDateInPast(140, 'days'),
             }),
           ],
         }),
@@ -581,9 +517,7 @@ export default function(server) {
             server.create('milestone', 'communityBoardReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(180, 'days'),
-              displayDate: createDateInPast(180, 'days'),
               dcpActualenddate: createDateInPast(120, 'days'),
-              displayDate2: createDateInPast(120, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -593,9 +527,7 @@ export default function(server) {
             server.create('milestone', 'boroughPresidentReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(120, 'days'),
-              displayDate: createDateInPast(120, 'days'),
               dcpActualenddate: createDateInPast(90, 'days'),
-              displayDate2: createDateInPast(90, 'days'),
               outcome: 'Approved',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -606,9 +538,7 @@ export default function(server) {
             server.create('milestone', 'cityPlanningCommissionReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(90, 'days'),
-              displayDate: createDateInPast(90, 'days'),
               dcpActualenddate: createDateInPast(71, 'days'),
-              displayDate2: createDateInPast(71, 'days'),
               outcome: 'Hearing Closed',
               milestoneLinks: [{
                 filename: '2020_QB.pdf',
@@ -619,7 +549,6 @@ export default function(server) {
             server.create('milestone', 'cityPlanningCommissionVote', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(70, 'days'),
-              displayDate: createDateInPast(70, 'days'),
               dcpActualenddate: createDateInPast(61, 'days'),
               outcome: 'Approval',
             }),
@@ -627,9 +556,7 @@ export default function(server) {
             server.create('milestone', 'cityCouncilReview', {
               statuscode: 'Completed',
               dcpActualstartdate: createDateInPast(160, 'days'),
-              displayDate: createDateInPast(160, 'days'),
               dcpActualenddate: createDateInPast(130, 'days'),
-              displayDate2: createDateInPast(130, 'days'),
               outcome: 'Disapproved',
             }),
 
