@@ -16,9 +16,12 @@
     </span>
   {{/if}}
 </div>
+
 <div class="cell auto {{if (eq milestone.statuscode "Not Started") 'gray'}}">
   <h4 class="no-margin">
-    <span data-test-milestone-name="{{milestone.id}}">{{milestone.orderSensitiveName}}</span>
+    <span data-test-milestone-name="{{milestone.id}}">
+      {{milestone.orderSensitiveName}}
+    </span>
 
     {{#if milestone.displayDescription}}
       <sup class="gray">
@@ -27,31 +30,31 @@
     {{/if}}
   </h4>
 
-  {{#if milestone.displayDate}}
-    {{#if (in-array (array "In Progress" "Completed") milestone.statuscode)}}
-      <p class="milestone-dates" data-test-milestone-dates="{{milestone.id}}">
-        
-        {{#if (and milestone.displayDate2 (is-same milestone.displayDate milestone.displayDate2 precision="year"))}}
-          <DateDisplay
-            @date={{milestone.displayDate}}
-            @outputFormat="MMMM D"
-          />
-        {{else}}
-          <DateDisplay
-            @date={{milestone.displayDate}}
-            @outputFormat="MMMM D, YYYY"
-          />
-        {{/if}}
+  {{#if (and
+    (in-array (array "In Progress" "Completed") milestone.statuscode)
+    milestone.displayDate
+  )}}
+    <p class="milestone-dates" data-test-milestone-dates="{{milestone.id}}">
+      {{#if (and milestone.displayDate2 (is-same milestone.displayDate milestone.displayDate2 precision="year"))}}
+        <DateDisplay
+          @date={{milestone.displayDate}}
+          @outputFormat="MMMM D"
+        />
+      {{else}}
+        <DateDisplay
+          @date={{milestone.displayDate}}
+          @outputFormat="MMMM D, YYYY"
+        />
+      {{/if}}
 
-        {{#if milestone.displayDate2}}
-          &ndash;
-          <DateDisplay
-            @date={{milestone.displayDate2}}
-            @outputFormat="MMMM D, YYYY"
-          />
-        {{/if}}
-      </p>
-    {{/if}}
+      {{#if milestone.displayDate2}}
+        &ndash;
+        <DateDisplay
+          @date={{milestone.displayDate2}}
+          @outputFormat="MMMM D, YYYY"
+        />
+      {{/if}}
+    </p>
 
     {{#if milestone.outcome}}
       <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.outcome}}</span>
@@ -68,133 +71,133 @@
         <li><a href="{{link.url}}" target="_blank">{{link.filename}}</a></li>
       {{/each}}
     </ul>
-  {{/if}}
 
-  {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
-    {{#each milestoneParticipants as |milestoneParticipant|}}
-      {{#if (or milestoneParticipant.hearingsSubmitted milestoneParticipant.votesSubmitted)}}
-        <hr>
-        <h5 class="small-margin-bottom" data-test-lup-full-name="{{milestoneParticipant.landUseParticipantFullName}}">
-          {{milestoneParticipant.landUseParticipantFullName}}
-        </h5>
-      {{/if}}
-      {{#if milestoneParticipant.hearingsSubmitted}}
-        {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
-          {{#each dedupedHearings as |hearing|}}
-            {{#if hearing.dispHasAllFields}}
-              <ul class="sub-milestones no-bullet">
-                <li class="grid-x small-margin-bottom">
-                  <div class="cell shrink small-margin-right">
-                    {{#if (is-before disposition.dcpDateofpublichearing)}}
-                      {{fa-icon 'calendar' fixedWidth=true class='light-gray'}}
-                    {{else}}
-                      {{fa-icon 'check' fixedWidth=true class='blue-muted'}}
-                    {{/if}}
-                  </div>
-                  <div class="cell auto">
-                    <strong>Public Hearing</strong>
-                      <small class="display-inline-block" data-test-hearing-location="{{hearing.disposition.id}}">
-                        {{hearing.disposition.dcpPublichearinglocation}}
-                      </small>
-                      <small class="display-inline-block" data-test-hearing-date="{{hearing.disposition.id}}">
-                        {{~moment-format hearing.disposition.dcpDateofpublichearing "LLLL"~}}
-                      </small>
-                    <div class="text-tiny">
-                      {{#each hearing.hearingActions as |action index|}}
-                        {{#if action.dcpName}}
-                          <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
-                            {{action.dcpName}}
-                            <small>{{action.dcpUlurpnumber}}</small>
-                          </span>
-                        {{/if}}
-                      {{/each}}
+    {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
+      {{#each milestoneParticipants as |milestoneParticipant|}}
+        {{#if (or milestoneParticipant.hearingsSubmitted milestoneParticipant.votesSubmitted)}}
+          <hr>
+          <h5 class="small-margin-bottom" data-test-lup-full-name="{{milestoneParticipant.landUseParticipantFullName}}">
+            {{milestoneParticipant.landUseParticipantFullName}}
+          </h5>
+        {{/if}}
+        {{#if milestoneParticipant.hearingsSubmitted}}
+          {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
+            {{#each dedupedHearings as |hearing|}}
+              {{#if hearing.dispHasAllFields}}
+                <ul class="sub-milestones no-bullet">
+                  <li class="grid-x small-margin-bottom">
+                    <div class="cell shrink small-margin-right">
+                      {{#if (is-before disposition.dcpDateofpublichearing)}}
+                        {{fa-icon 'calendar' fixedWidth=true class='light-gray'}}
+                      {{else}}
+                        {{fa-icon 'check' fixedWidth=true class='blue-muted'}}
+                      {{/if}}
                     </div>
-                  </div>
-                </li>
-              </ul>
-            {{/if}}
-          {{/each}}
-        {{/deduped-hearings-list}}
-      {{/if}}
-      {{#if milestoneParticipant.votesSubmitted}}
-        <ul class="sub-milestones no-bullet">
-          {{#deduped-votes-list dispositions=milestoneParticipant.userDispositions participantRecommendationType=milestoneParticipant.participantRecommendationType as |dedupedVotes|}}
-            {{#each dedupedVotes as |vote|}}
-              {{#if vote.dispHasRequiredField}}
-                <li class="grid-x small-margin-bottom">
-                  <div class="cell shrink small-margin-right">
-                    <span data-test-rec-symbol="{{vote.disposition.id}}">
-                      <RecommendationResultIcon
-                        @recommendation={{vote.disposition.recommendationLabel}}
-                      />
-                    </span>
-                  </div>
-                  <div class="cell auto">
-                    <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
-                    <small>
-                      <span class="display-inline-block" data-test-voting-favor="{{vote.disposition.id}}">
-                        {{vote.disposition.dcpVotinginfavorrecommendation}} In Favor,
-                      </span>
-                      <span class="display-inline-block" data-test-voting-against="{{vote.disposition.id}}">
-                        {{vote.disposition.dcpVotingagainstrecommendation}} Against,
-                      </span>
-                      <span class="display-inline-block" data-test-voting-abstain="{{vote.disposition.id}}">
-                        {{vote.disposition.dcpVotingabstainingonrecommendation}} Abstain
-                      </span>
-                    </small>
-                    <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
-                      Vote:&nbsp;{{~moment-format vote.disposition.dcpDateofvote "LL"~}}
-                    </small>
-                    <div class="text-tiny">
-                      {{#each vote.voteActions as |action index|}}
-                        {{#if action.dcpName}}
-                          <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
-                            {{action.dcpName}}
-                            <small>{{action.dcpUlurpnumber}}</small>
-                          </span>
-                        {{/if}}
-                      {{/each}}
+                    <div class="cell auto">
+                      <strong>Public Hearing</strong>
+                        <small class="display-inline-block" data-test-hearing-location="{{hearing.disposition.id}}">
+                          {{hearing.disposition.dcpPublichearinglocation}}
+                        </small>
+                        <small class="display-inline-block" data-test-hearing-date="{{hearing.disposition.id}}">
+                          {{~moment-format hearing.disposition.dcpDateofpublichearing "LLLL"~}}
+                        </small>
+                      <div class="text-tiny">
+                        {{#each hearing.hearingActions as |action index|}}
+                          {{#if action.dcpName}}
+                            <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
+                              {{action.dcpName}}
+                              <small>{{action.dcpUlurpnumber}}</small>
+                            </span>
+                          {{/if}}
+                        {{/each}}
+                      </div>
                     </div>
-                  </div>
-                </li>
+                  </li>
+                </ul>
               {{/if}}
             {{/each}}
-          {{/deduped-votes-list}}
-          {{#borough-pres-deduped-votes-list dispositions=milestoneParticipant.userDispositions as |dedupedVotes|}}
-            {{#each dedupedVotes as |vote|}}
-              {{#if vote.dispHasRequiredField}}
-                <li class="grid-x small-margin-bottom">
-                  <div class="cell shrink small-margin-right">
-                    <span data-test-rec-symbol="{{vote.disposition.id}}">
-                      <RecommendationResultIcon
-                        @recommendation={{vote.disposition.recommendationLabel}}
-                      />
-                    </span>
-                  </div>
-                  <div class="cell auto">
-                    <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
-                    <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
-                      Vote:&nbsp;{{~moment-format vote.disposition.dcpDatereceived "LL"~}}
-                    </small>
-                    <div class="text-tiny">
-                      {{#each vote.voteActions as |action index|}}
-                        {{#if action.dcpName}}
-                          <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
-                            {{action.dcpName}}
-                            <small>{{action.dcpUlurpnumber}}</small>
-                          </span>
-                        {{/if}}
-                      {{/each}}
+          {{/deduped-hearings-list}}
+        {{/if}}
+        {{#if milestoneParticipant.votesSubmitted}}
+          <ul class="sub-milestones no-bullet">
+            {{#deduped-votes-list dispositions=milestoneParticipant.userDispositions participantRecommendationType=milestoneParticipant.participantRecommendationType as |dedupedVotes|}}
+              {{#each dedupedVotes as |vote|}}
+                {{#if vote.dispHasRequiredField}}
+                  <li class="grid-x small-margin-bottom">
+                    <div class="cell shrink small-margin-right">
+                      <span data-test-rec-symbol="{{vote.disposition.id}}">
+                        <RecommendationResultIcon
+                          @recommendation={{vote.disposition.recommendationLabel}}
+                        />
+                      </span>
                     </div>
-                  </div>
-                </li>
-              {{/if}}
-            {{/each}}
-          {{/borough-pres-deduped-votes-list}}
-        </ul>
-      {{/if}}
-    {{/each}}
-  {{/hearings-list-for-milestones-list}}
+                    <div class="cell auto">
+                      <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
+                      <small>
+                        <span class="display-inline-block" data-test-voting-favor="{{vote.disposition.id}}">
+                          {{vote.disposition.dcpVotinginfavorrecommendation}} In Favor,
+                        </span>
+                        <span class="display-inline-block" data-test-voting-against="{{vote.disposition.id}}">
+                          {{vote.disposition.dcpVotingagainstrecommendation}} Against,
+                        </span>
+                        <span class="display-inline-block" data-test-voting-abstain="{{vote.disposition.id}}">
+                          {{vote.disposition.dcpVotingabstainingonrecommendation}} Abstain
+                        </span>
+                      </small>
+                      <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
+                        Vote:&nbsp;{{~moment-format vote.disposition.dcpDateofvote "LL"~}}
+                      </small>
+                      <div class="text-tiny">
+                        {{#each vote.voteActions as |action index|}}
+                          {{#if action.dcpName}}
+                            <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
+                              {{action.dcpName}}
+                              <small>{{action.dcpUlurpnumber}}</small>
+                            </span>
+                          {{/if}}
+                        {{/each}}
+                      </div>
+                    </div>
+                  </li>
+                {{/if}}
+              {{/each}}
+            {{/deduped-votes-list}}
+            {{#borough-pres-deduped-votes-list dispositions=milestoneParticipant.userDispositions as |dedupedVotes|}}
+              {{#each dedupedVotes as |vote|}}
+                {{#if vote.dispHasRequiredField}}
+                  <li class="grid-x small-margin-bottom">
+                    <div class="cell shrink small-margin-right">
+                      <span data-test-rec-symbol="{{vote.disposition.id}}">
+                        <RecommendationResultIcon
+                          @recommendation={{vote.disposition.recommendationLabel}}
+                        />
+                      </span>
+                    </div>
+                    <div class="cell auto">
+                      <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
+                      <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
+                        Vote:&nbsp;{{~moment-format vote.disposition.dcpDatereceived "LL"~}}
+                      </small>
+                      <div class="text-tiny">
+                        {{#each vote.voteActions as |action index|}}
+                          {{#if action.dcpName}}
+                            <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
+                              {{action.dcpName}}
+                              <small>{{action.dcpUlurpnumber}}</small>
+                            </span>
+                          {{/if}}
+                        {{/each}}
+                      </div>
+                    </div>
+                  </li>
+                {{/if}}
+              {{/each}}
+            {{/borough-pres-deduped-votes-list}}
+          </ul>
+        {{/if}}
+      {{/each}}
+    {{/hearings-list-for-milestones-list}}
+  {{/if}}
 </div>
 
 {{yield}}
