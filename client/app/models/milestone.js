@@ -25,7 +25,6 @@ import {
   REVIEW_SESSION_POST_HEARING_FOLLOW_UP_FUTURE_VOTES,
   REVIEW_SESSION_PRE_HEARING_REVIEW_POST_REFERRAL,
   SCOPING_MEETING,
-  STATUSCODE_OPTIONSET,
 } from './milestone/constants';
 import {
   DCPPUBLICSTATUS_OPTIONSET,
@@ -182,13 +181,15 @@ export default class MilestoneModel extends Model {
 
     if ([
       REVIEW_SESSION_CERTIFIED_REFERRED, // aka 'Application Reviewed at City Planning Commission Review Session'
-      CPC_PUBLIC_MEETING_VOTE, // aka 'City Planning Commission Vote'
-      CPC_PUBLIC_MEETING_PUBLIC_HEARING, // aka 'CPC Public Meeting - Public Hearing' a.k.a 'City Planning Commission Review'
       REVIEW_SESSION_PRE_HEARING_REVIEW_POST_REFERRAL, // aka 'Review Session - Pre-Hearing Review / Post Referral'
+      CPC_PUBLIC_MEETING_PUBLIC_HEARING, // aka 'CPC Public Meeting - Public Hearing' a.k.a 'City Planning Commission Review'
       REVIEW_SESSION_POST_HEARING_FOLLOW_UP_FUTURE_VOTES, // aka 'Review Session - Post Hearing Follow-Up / Future Votes'
+      CPC_PUBLIC_MEETING_VOTE, // aka 'City Planning Commission Vote'
     ].includes(this.dcpMilestone)) {
-      if ((this.statuscode === STATUSCODE_OPTIONSET.COMPLETED) || (this.statuscode === STATUSCODE_OPTIONSET.IN_PROGRESS)) {
-        if ((this.dcpReviewmeetingdate) && (Date.now() >= this.dcpReviewmeetingdate.getTime())) {
+      if (this.dcpReviewmeetingdate) {
+        const reviewMeetingDate = new Date(this.dcpReviewmeetingdate);
+
+        if (Date.now() >= reviewMeetingDate.getTime()) {
           displayDate = this.dcpReviewmeetingdate;
         }
       }
