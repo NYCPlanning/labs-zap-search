@@ -95,17 +95,6 @@ export class DocumentService {
     private readonly crmService: CrmService,
     private readonly sharepointService: SharepointService,
   ){}
-  // NOTE: There are no guarantees that Filed Land Use documents will show up until we have secured Sprint 10 enhancements from the EAS team.
-  // This is because there have been instances that the dcpName portion for Filed LU is stripped of hyphens and spaces.
-  // After that, we can also consider updating the app to read document locations.
-  public stripDcpName(dcpName) {
-    return dcpName.replace(/'+/g, '').replace(/^\~|\#|\%|\&|\*|\{|\}|\\|\:|\<|\>|\?|\/|\||\"/g, '');
-  }
-
-  public constructFolderIdentifier(dcpName, recordId) {
-    return `${dcpName}_${recordId.toUpperCase().replace(/-/g, '')}`;
-  }
-
   // For info on the path param,
   // see above documentation for the getRecordIdFromDocumentPath function
   public async getPackageDocument(path) {
