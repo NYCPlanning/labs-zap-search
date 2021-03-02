@@ -6,11 +6,25 @@ import {
 import * as Request from 'request';
 import { ConfigService } from '../config/config.service';
 
-// {
-//  Files: []
-//  Folders: []
-// }
-
+/***
+  * If Sharepoint returns a nested Folders array (see 'folders' argument example),
+  * we recursively flatten it out to just an array of Files.
+  * @param { folders } - Example:
+  *  [{
+  *   Files: [File Object, File Object],
+  *   Folders: [{
+  *        Files: [File Object, File Object],
+  *        Folders: [
+  *          ..etc
+  *        ]
+  *      }, {
+  *        Files: [File Object, File Object],
+  *        Folders: [
+  *          ..etc
+  *        ]
+  *      }]
+  *  }, ...]
+ */
 function unnest(folders = []) {
   return folders
     .map(folder => {
@@ -70,15 +84,28 @@ export class SharepointService {
     })
   }
 
-  // Retrieves a list of files in a given Sharepoint folder
+  /***
+   * Retrieves a list of files in a given Sharepoint folder
+  * @param {string} folderIdentifier - the relative URL for the document location.
+  * E.g.
+  *   - for packages: "dcp_package/2021M0371_PAS Package_2_92A42B7BAC4EEB11A811001DD83093A3"
+  *     this is constructed from the package's Document Location 'relativeurl' property
+  *   - for artifacts: "dcp_artifacts/https://nyco365.sharepoint.com/sites/dcppfsuat2/dcp_artifacts/2022Q0155 - Test File for ZA - 1_2C0C20A49656EB11A812001DD830A1E2"
+  *     this is constructed from the artifact's 'dcp_artifactdocumentlocation' property
+  *      This isn't a true relative url, but the function below handles this special case by extracting the relative url portion
+  */
   async getSharepointFolderFiles(folderIdentifier, path = 'Files', method = 'post'): Promise<any> {
     try {
       const { access_token } = await this.generateSharePointAccessToken();
+
+      // For Artifacts, folderIdentifier is an absolute URL instead of a relative url, so we extract it
+      // by spltting folderIdentifier with the environment token (e.g. 'dcppfsuat2')
       const SHAREPOINT_CRM_SITE = this.config.get('SHAREPOINT_CRM_SITE');
       let [, relativeUrl] = folderIdentifier.split(SHAREPOINT_CRM_SITE);
 
-      // package related urls are provided as true relative urls — but the relative url for artifacts is not relative but
-      // only provided as full path
+      // If there's no relative url extracted, it means folderIdentifier was
+      // a true relative url (from a Package) to begin with. So we
+      // use the original folderIdentifier
       if (!relativeUrl) {
         relativeUrl = folderIdentifier;
       }
@@ -102,11 +129,11 @@ export class SharepointService {
               detail: `Could not load file list from Sharepoint folder "${url}". ${stringifiedBody}`,
             }, HttpStatus.NOT_FOUND));
           }
-          const folderfiles = JSON.parse(stringifiedBody);
+          const folderFiles = JSON.parse(stringifiedBody);
 
           resolve([
-            ...(folderfiles['Files'] ? folderfiles['Files'] : []),
-            ...(folderfiles['Folders'] ? unnest(folderfiles['Folders']) : []),
+            ...(folderFiles['Files'] ? folderFiles['Files'] : []),
+            ...(folderFiles['Folders'] ? unnest(folderFiles['Folders']) : []),
           ]);
         });
       })
