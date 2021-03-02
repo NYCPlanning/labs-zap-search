@@ -43,6 +43,12 @@ You can even connect to the API on staging on production, instead of on your mac
 HOST_API=https://zap-api-staging.herokuapp.com ember s -e devlocal
 ```
 
+## Changing filter defaults
+
+To change defaults for filters on the landing page, edit `client/app/controllers/query-parameters/show-geography.js` 
+
+That file contains an [Ember Parachute](https://github.com/offirgolan/ember-parachute) `QueryParams` object that defines application query parameters. The `defaultValue` property for each listed parameter specifies its default values. Query Params are updated as the user interacts with filters.
+
 ## How to create new test scenarios
 
 * Create a new scenario file under mirage/scenarios/

@@ -47,7 +47,6 @@ yarn run start
 
 This will spin up both the frontend (in the `/client` folder) and the server API (in `/server`).
 
-## Running the frontend or backend individually. 
-You can also run either the frontend or backend on their own.
-  - See [./client/](./client/) for running the frontend
-  - See [./server/](./server/) for running the server side API
+## Frontend and Backend Documentation
+  - See [./client/](./client/) for more docs on running and modifying the frontend
+  - See [./server/](./server/) for more docs on running and modifying the server side API
