@@ -48,6 +48,33 @@
           @artifacts={{this.model.sortedArtifacts}}
         />
 
+        {{#if (or model.dcpPublicstatusSimp model.dcpUlurpNonulurp)}}
+          <div class="grid-x grid-padding-x">
+            <p class="cell auto">
+              {{#if model.dcpPublicstatusSimp}}
+                <strong>Status:</strong>
+                  <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">
+                    {{model.dcpPublicstatusSimp}}
+                    <sup>
+                      {{icon-tooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
+                    </sup>
+                  </span>
+              {{/if}}
+            </p>
+
+            {{#if model.dcpUlurpNonulurp}}
+              <p class="cell small-6 text-right">
+                <span class="label dark-gray">
+                  {{~model.dcpUlurpNonulurp~}}
+                  <sup>
+                    {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
+                  </sup>
+                </span>
+              </p>
+            {{/if}}
+          </div>
+        {{/if}}
+
         <hr>
 
         {{#if model.videoLinks}}
@@ -139,33 +166,6 @@
         {{/if}}
 
         <div class="project-meta">
-          {{#if model.dcpPublicstatusSimp}}
-            <p class="text-small label-group">
-              <strong>Status{{!--
-            --}}<sup class="dark-gray">{{!--
-              --}}{{icon-tooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
-                </sup>:
-              </strong>
-              <span class="label light-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">
-                {{model.dcpPublicstatusSimp}}
-              </span>
-            </p>
-          {{/if}}
-
-          {{#if model.dcpUlurpNonulurp}}
-            <p class="text-small label-group">
-              <strong>
-                Project is
-              </strong>
-              <span class="label light-gray">
-                {{~model.dcpUlurpNonulurp~}}
-              </span>{{!--
-          --}}<sup>{{!--
-            --}}{{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
-              </sup>
-            </p>
-          {{/if}}
-
           {{#if (or model.dcpCeqrtype model.dcpCeqrnumber)}}
             <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
