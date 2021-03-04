@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { coerceToDateString, coerceToNumber, mapInLookup } from '../../odata/odata.module';
-import { CrmService } from '../../crm/crm.service';
+import {
+  CrmService,
+} from '../../crm/crm.service';
+import {
+  coerceToNumber,
+  mapInLookup,
+} from '../../crm/crm.utilities';
 import CONSTANTS from '../../_utils/constants';
 import { BOROUGH_LOOKUP, generateFromTemplate, PROJECT_STATUS_LOOKUP, ULURP_LOOKUP } from '../project.service';
-import { stat } from 'fs';
 import { CartoService } from '../../carto/carto.service';
 
 const { VISIBILITY } = CONSTANTS;

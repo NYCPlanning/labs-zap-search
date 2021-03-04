@@ -3,21 +3,39 @@ import {
   HttpStatus,
   Injectable
 } from '@nestjs/common';
-import * as zlib from 'zlib';
-import * as Request from 'request';
 import { ConfigService } from '../config/config.service';
 import { ADAL } from '../_utils/adal';
-import { XmlService } from './xml/xml.service';
+import { ORequest } from 'odata';
+import * as superagent from 'superagent';
+import { dateParser } from './crm.utilities';
+
+// custom parser for json data. instantiates javascript date objects for date-like json strings
+// code cribbed from https://github.com/visionmedia/superagent/issues/986#issuecomment-218435902
+superagent.parse['application/json'] = function parseJSON(res, fn) {
+  res.text = '';
+  res.setEncoding('utf8');
+  res.on('data', function (chunk) { res.text += chunk; });
+  res.on('end', function () {
+    let body, err;
+
+    try {
+      body = res.text && JSON.parse(res.text, dateParser);
+    } catch (e) {
+      err = e;
+      // return the raw response if the response parsing fails
+      err.rawResponse = res.text || null;
+
+      // return the http status code if the response parsing fails
+      err.statusCode = res.status;
+    } finally {
+      fn(err, body);
+    }
+  });
+};
 
 /**
  * This service is responsible for providing convenience
  * methods for interacting with CRM.
- * TODO: Leverage the oData service written by @allthesignals
- * See
- * https://github.com/NYCPlanning/labs-zap-api/blob/api-only/src/odata/odata.service.ts
- * https://github.com/NYCPlanning/labs-zap-api/blob/api-only/src/contact/contact.service.ts
- *
- * @class      CrmService (name)
  */
 @Injectable()
 export class CrmService {
@@ -45,17 +63,50 @@ export class CrmService {
     this.host = `${this.crmHost}${this.crmUrlPath}`;
   }
 
-  async get(entity: string, query: string, ...options) {
+  async getToken() {
+    return await this.ADAL.acquireToken();
+  }
+
+  async generateDefaultHeaders(crmPreferences = []) {
+    const token = await this.getToken();
+    const DEFAULT_CRM_PREFERENCES = [
+      'odata.include-annotations="OData.Community.Display.V1.FormattedValue"',
+    ];
+
+    return {
+      'Accept-Encoding': 'gzip, deflate',
+      'Content-Type': 'application/json; charset=utf-8',
+      Authorization: `Bearer ${token}`,
+      'OData-MaxVersion': '4.0',
+      'OData-Version': '4.0',
+      Accept: 'application/json',
+      Prefer: [
+        ...DEFAULT_CRM_PREFERENCES,
+        ...crmPreferences,
+      ],
+    };
+  }
+
+  async get(entity: string, query: string) {
+    // These may only be used against GET request to CRM.
+    const ODATA_PREFERENCES = ['odata.include-annotations="*"', 'odata.maxpagesize=30'];
+
     try {
       const sanitizedQuery = query.replace(/^\s+|\s+$/g, '');
-      const response = await this._get(`${entity}?${sanitizedQuery}`, ...options);
+      const defaultHeaders = await this.generateDefaultHeaders(ODATA_PREFERENCES);
+      const { body } = await superagent
+        .get(`${this.host}${entity}?${sanitizedQuery}`)
+        .set(defaultHeaders);
       const {
         value: records,
-      } = response;
+        '@odata.nextLink': nextPage = '',
+        '@odata.count': count,
+      } = body;
 
       return {
-        count: records.length,
+        count,
         records,
+        skipTokenParams: nextPage.split('?')[1],
       };
     } catch (e) {
       throw new HttpException({
@@ -66,340 +117,46 @@ export class CrmService {
     }
   }
 
-  async create(query, data, headers = {}) {
-    return this._create(query, data, headers);
+  async query(entity: string, query: string) {
+    return await this.get(entity, query);
   }
 
-  async update(entity, guid, data, headers = {}) {
-    return this._update(entity, guid, data, headers);
+  async update(entitySetName, guid, data) {
+    return this._sendPatchRequest(`${entitySetName}(${guid})`, data);
   }
 
-  async delete(entitySetName, guid, headers = {}) {
-    const query = entitySetName + "(" + guid + ")";
+  async _sendPatchRequest(query, data) {
+    const defaultHeaders = await this.generateDefaultHeaders(['odata.include-annotations="*"']);
+    const { body } = await superagent
+      .patch(`${this.host}${query}`)
+      .send(data)
+      .set(defaultHeaders);
 
-    return this._sendDeleteRequest(query, headers);
+    return body;
   }
 
-  async associate(relationshipName, entitySetName1, guid1, entitySetName2, guid2, headers = {}) {
-    return this._associate(relationshipName, entitySetName1, guid1, entitySetName2, guid2, headers);
+  // TODO: Remove object-driven query templating
+  async queryFromObject(entity: string, query: any, ...options) {
+    const queryStringForEntity = this.serializeToQueryString(query);
+
+    return await this.query(entity, queryStringForEntity);
   }
 
-  /**
-   * Makes a CRM Web API query using the passed in query in XML format
-   *
-   * @param      {string}  entity     the pluralized version of the entity
-   * @param      {string}  xmlQuery   query string to additionally filter, in XML
-   * @return     {string}
-   */
-  async getWithXMLQuery(entity: string, xmlQuery: string, ...options) {
-    const response = await this._get(`${entity}?fetchXml=${xmlQuery}`, ...options);
-    return response;
-  }
-
-  // this provides the formatted values but doesn't do it for top level
-  // TODO: where should this happen? 
-  _fixLongODataAnnotations(dataObj) {
-    return dataObj;
-  }
-
-  _parseErrorMessage(json) {
-    if (json) {
-      if (json.error) {
-        return json.error;
+  // TODO: Remove object-driven query templating
+  serializeToQueryString(query: any) {
+    const truthyKeyedObject = Object.keys(query).reduce((acc, curr) => {
+      if (query[curr]) {
+        acc[curr] = query[curr];
       }
-      if (json._error) {
-        return json._error;
-      }
-    }
-    return "Error";
-  }
 
-  _dateReviver(key, value) {
-    if (typeof value === 'string') {
-      // YYYY-MM-DDTHH:mm:ss.sssZ => parsed as UTC
-      // YYYY-MM-DD => parsed as local date
+      return acc;
+    }, {});
+    const oDataReq = new ORequest(this.config.get('CRM_HOST'), {});
 
-      if (value != "") {
-        const a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(value);
+    oDataReq.applyQuery(truthyKeyedObject);
 
-        if (a) {
-          const s = parseInt(a[6]);
-          const ms = Number(a[6]) * 1000 - s * 1000;
-          return new Date(Date.UTC(parseInt(a[1]), parseInt(a[2]) - 1, parseInt(a[3]), parseInt(a[4]), parseInt(a[5]), s, ms));
-        }
+    const { url: { search } } = oDataReq;
 
-        const b = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-
-        if (b) {
-          return new Date(parseInt(b[1]), parseInt(b[2]) - 1, parseInt(b[3]), 0, 0, 0, 0);
-        }
-      }
-    }
-
-    return value;
-  }
-
-  async _get(query, maxPageSize = 100, headers = {}): Promise<any> {
-    //  get token
-    const JWToken = await this.ADAL.acquireToken();
-    const options = {
-      url: `${this.host}${query}`,
-      headers: {
-        'Accept-Encoding': 'gzip, deflate',
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Bearer ${JWToken}`,
-        'OData-MaxVersion': '4.0',
-        'OData-Version': '4.0',
-        Accept: 'application/json',
-        Prefer: 'odata.include-annotations="*"',
-        ...headers
-      },
-      encoding: null,
-    };
-
-    return new Promise((resolve, reject) => {
-      Request.get(options, (error, response, body) => {
-        const encoding = response.headers['content-encoding'];
-
-        if (!error && response.statusCode === 200) {
-          // If response is gzip, unzip first
-
-          const parseResponse = jsonText => {
-            const json_string = jsonText.toString('utf-8');
-
-            var result = JSON.parse(json_string, this._dateReviver);
-            if (result["@odata.context"].indexOf("/$entity") >= 0) {
-              // retrieve single
-              result = this._fixLongODataAnnotations(result);
-            }
-            else if (result.value) {
-              // retrieve multiple
-              var array = [];
-              for (var i = 0; i < result.value.length; i++) {
-                array.push(this._fixLongODataAnnotations(result.value[i]));
-              }
-              result.value = array;
-            }
-            resolve(result);
-          };
-
-          if (encoding && encoding.indexOf('gzip') >= 0) {
-            zlib.gunzip(body, (err, dezipped) => {
-              parseResponse(dezipped);
-            });
-          }
-          else {
-            parseResponse(body);
-          }
-        } else {
-          const parseError = jsonText => {
-            // Bug: sometimes CRM returns 'object reference' error
-            // Fix: if we retry error will not show again
-            const json_string = jsonText.toString('utf-8');
-            const result = JSON.parse(json_string, this._dateReviver);
-            const err = this._parseErrorMessage(result);
-
-            if (err == "Object reference not set to an instance of an object.") {
-              this._get(query, maxPageSize, options)
-                .then(
-                  resolve, reject
-                );
-            } else {
-              reject(err);
-            }
-          };
-
-          if (encoding && encoding.indexOf('gzip') >= 0) {
-            zlib.gunzip(body, (err, dezipped) => {
-              parseError(dezipped);
-            });
-          } else {
-            parseError(body);
-          }
-        }
-      });
-    });
-  }
-
-  async _create(query, data, headers): Promise<any> {
-    //  get token
-    const JWToken = await this.ADAL.acquireToken();
-    const options = {
-      url: `${this.host + query}`,
-      headers: {
-        'Accept-Encoding': 'gzip, deflate',
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Bearer ${JWToken}`,
-        'OData-MaxVersion': '4.0',
-        'OData-Version': '4.0',
-        Accept: 'application/json',
-        Prefer: 'return=representation',
-        ...headers
-      },
-      body: JSON.stringify(data),
-      encoding: null,
-    };
-
-    return new Promise((resolve, reject) => {
-      Request.post(options, (error, response, body) => {
-        const encoding = response.headers['content-encoding'];
-
-        if (error || (response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 204 && response.statusCode != 1223)) {
-          const parseError = jsonText => {
-            // Bug: sometimes CRM returns 'object reference' error
-            // Fix: if we retry error will not show again
-            const json_string = jsonText.toString('utf-8');
-
-            var result = JSON.parse(json_string, this._dateReviver);
-            var err = this._parseErrorMessage(result);
-            reject(err);
-          };
-          if (encoding && encoding.indexOf('gzip') >= 0) {
-            zlib.gunzip(body, (err, dezipped) => {
-              parseError(dezipped);
-            });
-          }
-          else {
-            parseError(body);
-
-          }
-        }
-        else if (response.statusCode === 200 || response.statusCode === 201) {
-          const parseResponse = jsonText => {
-            const json_string = jsonText.toString('utf-8');
-            var result = JSON.parse(json_string, this._dateReviver);
-            resolve(result);
-          };
-
-          if (encoding && encoding.indexOf('gzip') >= 0) {
-            zlib.gunzip(body, (err, dezipped) => {
-              parseResponse(dezipped);
-            });
-          }
-          else {
-            parseResponse(body);
-          }
-        }
-        else if (response.statusCode === 204 || response.statusCode === 1223) {
-          const uri = response.headers["OData-EntityId"];
-          if (uri) {
-            // create request - server sends new id
-            const regExp = /\(([^)]+)\)/;
-            const matches = regExp.exec(uri);
-            const newEntityId = matches[1];
-            resolve(newEntityId);
-          }
-          else {
-            // other type of request - no response
-            resolve();
-          }
-        }
-        else {
-          resolve();
-        }
-      });
-    })
-  }
-
-  async _update(entitySetName, guid, data, headers) {
-    var query = entitySetName + "(" + guid + ")";
-    return this._sendPatchRequest(query, data, headers);
-  }
-
-  async _sendPatchRequest(query, data, headers) {
-    //  get token
-    const JWToken = await this.ADAL.acquireToken();
-    const options = {
-      url: `${this.host + query}`,
-      headers: {
-        'Accept-Encoding': 'gzip, deflate',
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Bearer ${JWToken}`,
-        'OData-MaxVersion': '4.0',
-        'OData-Version': '4.0',
-        Accept: 'application/json',
-        Prefer: 'odata.include-annotations="*"',
-        ...headers
-      },
-      body: JSON.stringify(data),
-      encoding: null,
-    };
-
-    return new Promise((resolve, reject) => {
-      Request.patch(options, (error, response, body) => {
-        const encoding = response.headers['content-encoding'];
-
-        if (error || response.statusCode != 204) {
-          const parseError = jsonText => {
-            const json_string = jsonText.toString('utf-8');
-            var result = JSON.parse(json_string, this._dateReviver);
-            var err = this._parseErrorMessage(result);
-            reject(err);
-          };
-          if (encoding && encoding.indexOf('gzip') >= 0) {
-            zlib.gunzip(body, (err, dezipped) => {
-              parseError(dezipped);
-            });
-          }
-          else {
-            parseError(body);
-
-          }
-        }
-        else resolve(body);
-      })
-    });
-  }
-
-  async _sendDeleteRequest(query, headers) {
-    // get token
-    const JWToken = await this.ADAL.acquireToken();
-    const options = {
-      url: `${this.host + query}`,
-      headers: {
-        'Accept-Encoding': 'gzip, deflate',
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Bearer ${JWToken}`,
-        'OData-MaxVersion': '4.0',
-        'OData-Version': '4.0',
-        Accept: 'application/json',
-        Prefer: 'odata.include-annotations="*"',
-        ...headers
-      },
-      encoding: null,
-    };
-
-    return new Promise((resolve, reject) => {
-      Request.delete(options, (error, response, body) => {
-        const encoding = response.headers['content-encoding'];
-
-        if (error || (response.statusCode != 204 && response.statusCode != 1223)) {
-          const parseError = jsonText => {
-            const json_string = jsonText.toString('utf-8');
-            const result = JSON.parse(json_string, this._dateReviver);
-            const err = this._parseErrorMessage(result);
-            reject(err);
-          };
-          if (encoding && encoding.indexOf('gzip') >= 0) {
-            zlib.gunzip(body, (err, dezipped) => {
-              parseError(dezipped);
-            });
-          }
-          else {
-            parseError(body);
-
-          }
-        }
-        else resolve();
-      })
-    });
-  }
-
-  async _associate(relationshipName, entitySetName1, guid1, entitySetName2, guid2, headers) {
-    const query = entitySetName1 + "(" + guid1 + ")/" + relationshipName + "/$ref";
-    const data = {
-      "@odata.id": this.host + entitySetName2 + "(" + guid2 + ")"
-    };
-    return this.create(query, data, headers);
+    return search.split('?')[1];
   }
 }

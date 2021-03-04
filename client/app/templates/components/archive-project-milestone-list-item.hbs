@@ -3,14 +3,14 @@
 >
   <div class="cell shrink small-margin-right">
     {{#if (eq this.milestone.statuscode "Completed")}}
-      {{fa-icon 'check' class='blue' fixedWidth=true}}
+      {{fa-icon icon='check' class='blue' fixedWidth=true}}
     {{else if (eq this.milestone.statuscode "Overridden")}}
-      {{fa-icon 'stop' class='red-dark' fixedWidth=true}}
+      {{fa-icon icon='stop' class='red-dark' fixedWidth=true}}
     {{else if (eq this.milestone.statuscode "In Progress")}}
-      {{fa-icon 'hourglass-half' class='blue' fixedWidth=true}}
+      {{fa-icon icon='hourglass-half' class='blue' fixedWidth=true}}
     {{else if (eq this.milestone.statuscode "Not Started")}}
       <span data-test={{if (string-includes this.milestone.displayName "Review") "upcoming-indicator"}}>
-        {{fa-icon 'calendar' class='light-gray' fixedWidth=true}}
+        {{fa-icon icon='calendar' class='light-gray' fixedWidth=true}}
       </span>
     {{/if}}
   </div>
@@ -18,21 +18,21 @@
     <strong>
       {{this.milestone.displayName}}
     </strong>
-    {{#if (eq this.milestone.dcpMilestone this.milestoneConstants.COMMUNITY_BOARD_REFERRAL)}}
+    {{#if (eq this.milestone.dcpMilestone this.communityBoardReferralMilestone)}}
       {{#each this.communityBoardDispositions as |disposition|}}
         <RecommendationResultIcon
           @recommendation={{disposition.dcpCommunityboardrecommendation}}
           @action={{disposition.action}}
         />
       {{/each}}
-    {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_BOARD_REFERRAL)}}
+    {{else if (eq this.milestone.dcpMilestone this.boroughBoardReferralMilestone)}}
       {{#each this.boroughBoardDispositions as |disposition|}}
         <RecommendationResultIcon
           @recommendation={{disposition.dcpBoroughboardrecommendation}}
           @action={{disposition.action}}
         />
       {{/each}}
-    {{else if (eq this.milestone.dcpMilestone this.milestoneConstants.BOROUGH_PRESIDENT_REFERRAL)}}
+    {{else if (eq this.milestone.dcpMilestone this.boroughPresidentReferralMilestone)}}
       {{#each this.boroughPresidentDispositions as |disposition|}}
         <RecommendationResultIcon
           @recommendation={{disposition.dcpBoroughpresidentrecommendation}}

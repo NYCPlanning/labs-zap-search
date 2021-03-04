@@ -19,7 +19,7 @@
           tagName='a'
           side='bottom'
         }}
-          {{fa-icon 'envelope'}} Feedback
+          {{fa-icon icon='envelope'}} Feedback
         {{/tool-tipster}}
       </li>
     </ul>
@@ -45,7 +45,7 @@
     )
   }}
     <div class="cell large-6 large-offset-3 text-center" style="padding:2rem 0;">
-      {{fa-icon 'exclamation-triangle' size='2x' class='yellow-muted'}}
+      {{fa-icon icon='exclamation-triangle' size='2x' class='yellow-muted'}}
       <p>It looks like you're using Internet Explorer.  This site works best in a modern browser. Please try a current version of Edge, Chrome, or Firefox.</p>
     </div>
   {{else}}
@@ -56,18 +56,8 @@
 <div id="reveal-modal-container">
 </div>
 
-{{!--
-  Display a site-wide nothification with the site-message component:
-  @message - string: conditionally displays component
-  @warning - boolean: adds an exclamation-triangle icon
-  @dismissible - boolean: allows user to close message
---}}
-{{#site-message
-  warning=true
-  dismissible=true
-}}
-  <h3>Update on City Planning Business in light of COVID-19</h3>
-  <p>To minimize the potential spread of COVID-19, all Department of City Planning (DCP) staff members are temporarily working remotely, during normal business hours. The Central Office and all Borough Offices are currently closed. If you need assistance, please call (212) 720-3300.</p>
-  <p><span class="redNote"><b>All Filing</b></span><br>City Planning has temporarily revised filing protocols.  Please call 212.720.3366 - <b>leave a voicemail</b> or e-mail (<a href="mailto:savila@planning.nyc.gov" target="_blank">savila@planning.nyc.gov</a>).</p>
-  <p>The <a href="https://zap.planning.nyc.gov/projects">Zoning Application Portal</a> will be updated as normal.</p>
-{{/site-message}}
+{{#if (string-includes currentRouteName "my-projects")}}
+  <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script><script type="text/javascript">window.Beacon('init', '9a027170-0976-46ac-afba-8d1322ef19d6')</script>
+{{else}}
+  <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script><script type="text/javascript">window.Beacon('init', '5782616e-c1ec-4db4-8365-1c83eb3e66a3')</script>
+{{/if}}

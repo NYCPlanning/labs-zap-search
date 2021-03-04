@@ -56,7 +56,7 @@
               disabled={{not this.assignment.dispositionsByRole}}
               data-test-button-post-hearing="{{assignment.id}}"
             >
-              {{fa-icon 'calendar' fixedWidth=true size="lg" transform="left-2"}}
+              {{fa-icon icon='calendar' fixedWidth=true size="lg" transform="left-2"}}
               Post {{participant-type-label assignment.dcpLupteammemberrole}} Hearing Notice
             </LinkTo>
           </div>
@@ -67,7 +67,7 @@
               disabled={{not this.assignment.dispositions}}
               data-test-button-opt-out-hearing-popup="{{this.assignment.id}}"
             >
-              {{fa-icon 'calendar-times' size="lg" transform="shrink-5 down-1"}}
+              {{fa-icon icon='calendar-times' size="lg" transform="shrink-5 down-1"}}
               <small>Opt Out</small>
             </button>
           </div>
@@ -75,7 +75,7 @@
       {{else}}
         {{#if assignment.hearingsWaived}}
           <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
-            {{fa-icon 'calendar-times' size="lg" transform="left-2"}}
+            {{fa-icon icon='calendar-times' size="lg" transform="left-2"}}
             You've opted out of posting a hearing
           </span>
         {{/if}}
@@ -87,14 +87,14 @@
           class="button expanded"
           data-test-button="submitRecommendation"
         >
-          {{fa-icon 'thumbs-up' fixedWidth=true size="lg"}}
-          {{fa-icon 'thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
+          {{fa-icon icon='thumbs-up' fixedWidth=true size="lg"}}
+          {{fa-icon icon='thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
           Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
         </LinkTo>
       {{else}}
         <a class="button expanded" disabled>
-          {{fa-icon 'thumbs-up' fixedWidth=true size="lg"}}
-          {{fa-icon 'thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
+          {{fa-icon icon='thumbs-up' fixedWidth=true size="lg"}}
+          {{fa-icon icon='thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
           Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
         </a>
       {{/if}}

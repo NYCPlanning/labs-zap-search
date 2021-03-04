@@ -6,7 +6,7 @@
 {{#if this.session.isAuthenticated}}
   <li>{{#link-to 'my-projects'}}<span data-test-my-projects-button>My Projects</span>{{/link-to}}</li>
   <li class="auth--container">
-    {{fa-icon 'user-circle' size='2x' class="auth--icon"}}
+    {{fa-icon icon='user-circle' size='2x' class="auth--icon"}}
     <div>
       <span data-test-auth-name class="auth--name">
         {{this.currentUser.user.emailaddress1}}
@@ -27,7 +27,7 @@
       class="auth--login-button"
       {{action toggleAuthModal}}
       >
-      {{fa-icon 'user-circle' class="light-gray"}}
+      {{fa-icon icon='user-circle' class="light-gray"}}
       Sign In
     </a>
   </li>

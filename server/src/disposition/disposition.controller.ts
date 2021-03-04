@@ -10,7 +10,7 @@ import {
 import { Deserializer } from 'jsonapi-serializer';
 import { pick } from 'underscore';
 import { ConfigService } from '../config/config.service';
-import { OdataService } from '../odata/odata.service';
+import { CrmService } from '../crm/crm.service';
 import {
     defaultValueDispositionPipe as defaultValuePipe
   } from './defaultValue.disposition.pipe';
@@ -51,8 +51,7 @@ const { deserialize } = new Deserializer({
 @Controller('dispositions')
 export class DispositionController {
   constructor(
-    private readonly dynamicsWebApi:OdataService,
-    private readonly config: ConfigService,
+    private readonly crmService:CrmService,
   ) {}
 
   @Patch('/:id')
@@ -67,7 +66,7 @@ export class DispositionController {
     // update CRM first
     // then, update the database
     try {
-      const { records: [{ _dcp_recommendationsubmittedby_value: dcp_recommendationsubmittedby }] } = await this.dynamicsWebApi
+      const { records: [{ _dcp_recommendationsubmittedby_value: dcp_recommendationsubmittedby }] } = await this.crmService
         .queryFromObject('dcp_communityboarddispositions', {
           $filter: `dcp_communityboarddispositionid eq ${id}`,
         });
@@ -78,7 +77,7 @@ export class DispositionController {
         throw new Error('Not authorized to edit this record.');
       }
 
-      await this.dynamicsWebApi.update('dcp_communityboarddispositions', id, whitelistedAttrs);
+      await this.crmService.update('dcp_communityboarddispositions', id, whitelistedAttrs);
     } catch (e) {
       const message = await e; 
       console.log(message);

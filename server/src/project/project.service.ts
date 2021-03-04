@@ -6,19 +6,20 @@ import {
 import { Serializer } from 'jsonapi-serializer';
 import { dasherize } from 'inflected';
 import { ConfigService } from '../config/config.service';
-import { CartoService } from '../carto/carto.service';
 import { handleDownload } from './_utils/handle-download';
 import { transformMilestones } from './_utils/transform-milestones';
 import { transformActions } from './_utils/transform-actions';
 import { transformProjects } from './_utils/transform-projects';
-import { injectSupportDocumentURLs } from './_utils/inject-supporting-document-urls';
-import { getVideoLinks } from './_utils/get-video-links';
 import { KEYS as PROJECT_KEYS, ACTION_KEYS, MILESTONE_KEYS } from './project.entity';
 import { KEYS as DISPOSITION_KEYS } from '../disposition/disposition.entity';
 import { ARTIFACT_ATTRS } from '../artifact/artifacts.attrs';
 import { PACKAGE_ATTRS } from '../package/packages.attrs';
 import { Octokit } from '@octokit/rest';
-import { OdataService, overwriteCodesWithLabels } from '../odata/odata.service';
+
+// CrmService is a copy of the newer API we built for Applicant Portal to talk to CRM.
+// It will eventually strangle out OdataService, which is an older API to accomplish
+// the same thing.
+import { CrmService } from '../crm/crm.service';
 import {
   coerceToNumber,
   coerceToDateString,
@@ -28,12 +29,9 @@ import {
   comparisonOperator,
   containsString,
   equalsAnyOf,
-  containsAnyOf
-} from '../odata/odata.module';
-// CrmService is a copy of the newer API we built for Applicant Portal to talk to CRM.
-// It will eventually strangle out OdataService, which is an older API to accomplish
-// the same thing.
-import { CrmService } from '../crm/crm.service';
+  containsAnyOf,
+  overwriteCodesWithLabels,
+} from '../crm/crm.utilities';
 import { ArtifactService } from '../artifact/artifact.service';
 import { PackageService } from '../package/package.service';
 import { GeometryService } from './geometry/geometry.service';
@@ -317,9 +315,7 @@ export function transformProjectAttributes(project): any {
 @Injectable()
 export class ProjectService {
   constructor(
-    private readonly dynamicsWebApi: OdataService,
     private readonly config: ConfigService,
-    private readonly carto: CartoService,
     private readonly crmService: CrmService,
     private readonly artifactService: ArtifactService,
     private readonly packageService: PackageService,
@@ -378,7 +374,7 @@ export class ProjectService {
       'dcp_dcp_project_dcp_projectaddress_project($select=dcp_name)',
     ];
     
-    const { records: projects } = await this.dynamicsWebApi
+    const { records: projects } = await this.crmService
       .queryFromObject('dcp_projects', {
         $select: DEFAULT_PROJECT_SHOW_FIELDS,
         $filter: all(
@@ -502,7 +498,7 @@ export class ProjectService {
       records: projects,
       skipTokenParams: nextPageSkipTokenParams,
       count,
-    } = await this.dynamicsWebApi
+    } = await this.crmService
       .queryFromObject('dcp_projects', queryObject, itemsPerPage);
 
     const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);
@@ -522,8 +518,8 @@ export class ProjectService {
       records: projects,
       skipTokenParams: nextPageSkipTokenParams,
       count,
-    } = await this.dynamicsWebApi
-      .query('dcp_projects', skipTokenParams, ITEMS_PER_PAGE);
+    } = await this.crmService
+      .query('dcp_projects', skipTokenParams);
 
     const valueMappedRecords = overwriteCodesWithLabels(projects, FIELD_LABEL_REPLACEMENT_WHITELIST);
     const transformedProjects = transformProjects(valueMappedRecords);

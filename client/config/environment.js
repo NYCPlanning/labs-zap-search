@@ -48,7 +48,7 @@ module.exports = function(environment) {
     },
 
     'labs-search': {
-      host: 'https://search-api.planninglabs.nyc',
+      host: 'https://search-api-production.herokuapp.com',
       route: 'search',
       helpers: ['geosearch'],
     },
@@ -92,7 +92,7 @@ module.exports = function(environment) {
         dcp_certifiedreferred: 'Date Certified / Referred',
         dcp_femafloodzonea: 'FEMA Flood Zone',
         dcp_femafloodzoneshadedx: 'FEMA Flood Zone',
-        dcp_publicstatus: 'Project Stage',
+        dcp_publicstatus: 'Project Status',
         dcp_ulurp_nonulurp: 'ULURP Type',
         distance_from_point: 'Radius Filter',
         project_applicant_text: 'Text Match',

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { OdataModule } from '../odata/odata.module';
+import { CrmModule } from '../crm/crm.module';
 import { ContactService } from './contact.service';
 
 @Module({
   imports: [
-    OdataModule,
+    CrmModule,
   ],
   providers: [ContactService],
   exports: [ContactService],

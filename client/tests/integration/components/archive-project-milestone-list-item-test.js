@@ -21,8 +21,6 @@ module('Integration | Component | archive-project-milestone-list-item', function
         dcpMilestone: '923beec4-dad0-e711-8116-1458d04e2fb8',
         milestoneLinks: [],
         outcome: null,
-        displayDate2: null,
-        displayDate: '2019-10-05T20:31:57.956Z',
         statuscode: 'Completed',
         dcpActualenddate: new Date('2020-12-15T00:00:00'),
         dcpActualstartdate: null,

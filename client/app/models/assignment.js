@@ -1,6 +1,11 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
+import {
+  COMMUNITY_BOARD_REFERRAL as COMMUNITY_BOARD_REFERRAL_MILESTONE,
+  MILESTONE_LIST_BY_TAB_LOOKUP,
+  REFERRAL_MILESTONEID_BY_ACRONYM_LOOKUP,
+  REVIEW_MILESTONE_IDS,
+} from './milestone/constants';
 
 const {
   Model, belongsTo, hasMany, attr,
@@ -13,9 +18,6 @@ export const participantRoles = [
 ];
 
 export default class AssignmentModel extends Model {
-  @service
-  milestoneConstants;
-
   @belongsTo('user', { async: false }) user;
 
   @belongsTo('project', { async: false }) project;
@@ -86,13 +88,13 @@ export default class AssignmentModel extends Model {
 
   @computed('project.milestones')
   get publicReviewPlannedStartDate() {
-    const { dcpPlannedstartdate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === this.milestoneConstants.COMMUNITY_BOARD_REFERRAL) || {};
+    const { dcpPlannedstartdate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === COMMUNITY_BOARD_REFERRAL_MILESTONE) || {};
     return dcpPlannedstartdate || null;
   }
 
   @computed('project.milestones')
   get tabSpecificMilestones() {
-    return this.project.get('milestones').filter(milestone => this.milestoneConstants.milestoneListByTabLookup[this.tab].includes(milestone.dcpMilestone));
+    return this.project.get('milestones').filter(milestone => MILESTONE_LIST_BY_TAB_LOOKUP[this.tab].includes(milestone.dcpMilestone));
   }
 
   // abridged view of milestones typically used in upcoming tab
@@ -106,8 +108,7 @@ export default class AssignmentModel extends Model {
     const [firstMilestone] = milestones;
 
     // review milestones refer to four milestones: App Reviewed at CPC Review Session, CB Review, BP Review, and BB Review
-    const { reviewMilestoneIds } = this.milestoneConstants;
-    const reviewMilestones = milestones.filter(milestone => reviewMilestoneIds.includes(milestone.dcpMilestone));
+    const reviewMilestones = milestones.filter(milestone => REVIEW_MILESTONE_IDS.includes(milestone.dcpMilestone));
 
     // the order of milestones on the upcoming tab should be:
     // (1) the first milestone in the milestone list for that project
@@ -131,7 +132,7 @@ export default class AssignmentModel extends Model {
   // If not found, returns null
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
   get upcomingMilestonePlannedStartDate() {
-    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
+    const participantMilestoneId = REFERRAL_MILESTONEID_BY_ACRONYM_LOOKUP[this.dcpLupteammemberrole];
     const participantReviewMilestone = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId);
 
     return participantReviewMilestone ? participantReviewMilestone.dcpPlannedstartdate : null;
@@ -144,7 +145,7 @@ export default class AssignmentModel extends Model {
     if (this.tab !== 'to-review') {
       return null;
     }
-    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
+    const participantMilestoneId = REFERRAL_MILESTONEID_BY_ACRONYM_LOOKUP[this.dcpLupteammemberrole];
     const { dcpActualstartdate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return dcpActualstartdate;
   }
@@ -155,21 +156,21 @@ export default class AssignmentModel extends Model {
       return null;
     }
 
-    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
+    const participantMilestoneId = REFERRAL_MILESTONEID_BY_ACRONYM_LOOKUP[this.dcpLupteammemberrole];
     const { dcpPlannedcompletiondate } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return dcpPlannedcompletiondate;
   }
 
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
   get toReviewMilestoneTimeRemaining() {
-    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
+    const participantMilestoneId = REFERRAL_MILESTONEID_BY_ACRONYM_LOOKUP[this.dcpLupteammemberrole];
     const { remainingDays } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return remainingDays;
   }
 
   @computed('tab', 'dcpLupteammemberrole', 'project.milestones')
   get toReviewMilestoneTimeDuration() {
-    const participantMilestoneId = this.milestoneConstants.referralIdentifierByAcronymLookup[this.dcpLupteammemberrole];
+    const participantMilestoneId = REFERRAL_MILESTONEID_BY_ACRONYM_LOOKUP[this.dcpLupteammemberrole];
     const { dcpGoalduration } = this.project.get('milestones').find(milestone => milestone.dcpMilestone === participantMilestoneId) || {};
     return dcpGoalduration;
   }
