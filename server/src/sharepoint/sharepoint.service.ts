@@ -74,6 +74,7 @@ export class SharepointService {
 
     return new Promise(resolve => {
       Request.get(options, (error, response, body) => {
+        if (error) return;
         const stringifiedBody = body.toString('utf-8');
         if (response.statusCode >= 400) {
           console.log('error', stringifiedBody);
@@ -121,6 +122,7 @@ export class SharepointService {
 
       return new Promise((resolve, reject) => {
         Request[method](options, (error, response, body) => {
+          if (error) return;
           const stringifiedBody = body.toString('utf-8');
           if (response.statusCode >= 400) {
             reject(new HttpException({
