@@ -30,6 +30,7 @@
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
     "@nestjs/platform-express": "^7.6.15",
+    "@nestjs/testing": "^7.6.15",
     "@nestjs/typeorm": "^7.1.5",
     "@octokit/rest": "^16.43.1",
     "@turf/bbox": "^6.0.1",
@@ -70,7 +71,7 @@
     "sphericalmercator": "^1.0.5",
     "superagent": "^6.1.0",
     "ts-loader": "^6.1.2",
-    "typeorm": "^0.2.19",
+    "typeorm": "^0.2.32",
     "underscore": "^1.9.1",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9",
@@ -78,8 +79,7 @@
     "zlib": "^1.0.5"
   },
   "devDependencies": {
-    "@nestjs/cli": "^6.11.2",
-    "@nestjs/testing": "^6.0.0",
+    "@nestjs/cli": "^7.6.0",
     "@types/express": "^4.17.1",
     "@types/jest": "24.0.11",
     "@types/jsonwebtoken": "^8.3.4",
@@ -93,7 +93,7 @@
     "tsc-watch": "2.2.1",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
-    "typescript": "3.4.3"
+    "typescript": "^3.7.2"
   },
   "jest": {
     "moduleFileExtensions": [
