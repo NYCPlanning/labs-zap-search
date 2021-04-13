@@ -19,7 +19,8 @@ export class AssignmentService {
 
   async getAssignments(contact, tab) {
     const { contactid, fullname } = contact;
-    const recodedCbFullName = recodeCbFullName(fullname);
+    console.log(contact);
+    const recodedCbFullName = fullname ? recodeCbFullName(fullname) : 'Unknown';
     const queryObject = generateAssignmentsQueryObject(contact);
     const { records: projects } = await this.crmService
       .queryFromObject('dcp_projects', queryObject);
