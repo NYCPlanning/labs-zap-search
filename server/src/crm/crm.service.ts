@@ -89,7 +89,7 @@ export class CrmService {
 
   async get(entity: string, query: string) {
     // These may only be used against GET request to CRM.
-    const ODATA_PREFERENCES = ['odata.include-annotations="*"', 'odata.maxpagesize=30'];
+    const ODATA_PREFERENCES = ['odata.include-annotations="*"', 'odata.maxpagesize=500'];
 
     try {
       const sanitizedQuery = query.replace(/^\s+|\s+$/g, '');
