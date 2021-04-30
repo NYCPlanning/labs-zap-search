@@ -19,7 +19,7 @@ export class AssignmentService {
 
   async getAssignments(contact, tab) {
     const { contactid, fullname } = contact;
-    const recodedCbFullName = recodeCbFullName(fullname);
+    const recodedCbFullName = fullname ? recodeCbFullName(fullname) : 'Unknown';
     const queryObject = generateAssignmentsQueryObject(contact);
     const { records: projects } = await this.crmService
       .queryFromObject('dcp_projects', queryObject);
@@ -174,7 +174,7 @@ function recodeCbFullName(fullname) {
 
 function generateAssignmentsQueryObject(contact) {
   const { contactid, fullname } = contact;
-  const recodedCbFullName = recodeCbFullName(fullname);
+  const recodedCbFullName = fullname ? recodeCbFullName(fullname) : 'Unknown';
   const DISPLAY_MILESTONE_IDS = [
     '963beec4-dad0-e711-8116-1458d04e2fb8',
     '943beec4-dad0-e711-8116-1458d04e2fb8',
