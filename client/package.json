@@ -14,6 +14,7 @@
     "build": "ember build",
     "lint": "./node_modules/.bin/eslint ./*.js app config lib server tests",
     "lint:hbs": "ember-template-lint .",
+    "prepare": "cd .. && husky install .husky",
     "start": "ember serve",
     "start:ssl": "HOST=https://local.planninglabs.nyc:3000 ember serve --host local.planninglabs.nyc --ssl",
     "test": "ember test"
@@ -90,8 +91,10 @@
     "eslint-plugin-ember": "^6.2.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-node": "^9.0.1",
+    "husky": "^6.0.0",
     "labs-ember-search": "3.1.0",
     "labs-ui": "^0.0.26",
+    "lint-staged": ">=10",
     "loader.js": "^4.7.0",
     "mapbox-gl": "^0.44.0",
     "moment": "^2.22.2",
@@ -116,5 +119,8 @@
   },
   "resolutions": {
     "ember-concurrency": "1.0.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }
