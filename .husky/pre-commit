@@ -2,5 +2,8 @@
 . "$(dirname "$0")/_/husky.sh"
 
 cd client
-# yarn run test
+yarn run test
+yarn run lint-staged
+cd ../server
+yarn run test
 yarn run lint-staged
