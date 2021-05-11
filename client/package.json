@@ -16,6 +16,7 @@
     "lint:hbs": "ember-template-lint .",
     "prepare": "cd .. && husky install .husky",
     "start": "ember serve",
+    "start:devlocal": "HOST=http://localhost:3000 ember serve --environment=devlocal",
     "start:ssl": "HOST=https://local.planninglabs.nyc:3000 ember serve --host local.planninglabs.nyc --ssl",
     "test": "ember test"
   },
