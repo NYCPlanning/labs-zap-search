@@ -17,9 +17,6 @@ module.exports = function(defaults) {
     'ember-cli-tooltipster': {
       importTooltipsterDefaultStyles: false,
     },
-    'ember-cli-foundation-6-sass': {
-      foundationJs: 'all',
-    },
     'ember-composable-helpers': {
       only: ['take', 'drop', 'sort-by'],
     },
@@ -33,7 +30,28 @@ module.exports = function(defaults) {
     sourcemaps: {
       enabled: IS_PROD, // CMD ALT F in chrome is *almost* as fast as CMD P
     },
+
+    postcssOptions: {
+      compile: {
+        extension: 'scss',
+        enabled: true,
+        parser: require('postcss-scss'),
+        plugins: [
+          {
+            module: require('@csstools/postcss-sass'),
+            options: {
+              includePaths: [
+                'node_modules/foundation-sites/scss',
+                'node_modules/nyc-planning-style-guide/dist/assets/scss',
+              ],
+            },
+          },
+        ],
+      },
+    }
   });
+
+  // app.import('node_modules/nyc-planning-style-guide/dist/assets/css/nyc-planning.css');
 
   // Use `app.import` to add additional libraries to the generated
   // output files.

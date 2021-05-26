@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "labs-ui": {
+      "signature": "01b7b5e1c872da46500a098a837f3575",
+      "file": true,
+      "replaced": "^0.0.26"
+    }
+  }
+}
