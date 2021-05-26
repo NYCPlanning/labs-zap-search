@@ -23,10 +23,6 @@ module.exports = function(defaults) {
     hinting: IS_TEST, // Disable linting for all builds but test
     // tests: IS_TEST, // Don't even generate test files unless a test build
 
-    autoprefixer: {
-      sourcemap: false, // Was never helpful
-    },
-
     sourcemaps: {
       enabled: IS_PROD, // CMD ALT F in chrome is *almost* as fast as CMD P
     },

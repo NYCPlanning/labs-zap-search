@@ -10,6 +10,9 @@
     "doc": "doc",
     "test": "tests"
   },
+  "browserslist": [
+    "defaults"
+  ],
   "scripts": {
     "build": "ember build",
     "lint": "./node_modules/.bin/eslint ./*.js app config lib server tests",
