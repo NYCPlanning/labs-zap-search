@@ -51,8 +51,6 @@ module.exports = function(defaults) {
     }
   });
 
-  // app.import('node_modules/nyc-planning-style-guide/dist/assets/css/nyc-planning.css');
-
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //
