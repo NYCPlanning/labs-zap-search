@@ -160,7 +160,10 @@ function transformDisplayName(milestone) {
   if (milestone._dcp_milestone_value === "4a3beec4-dad0-e711-8116-1458d04e2fb8")
     milestone.display_name =
       "Environmental Impact Statement Public Scoping Meeting";
-
+  if (milestone._dcp_milestone_value === "6c3beec4-dad0-e711-8116-1458d04e2fb8")
+    milestone.display_name = "Land Use Application Filed";
+  if (milestone._dcp_milestone_value === "723beec4-dad0-e711-8116-1458d04e2fb8")
+    milestone.display_name = "Environmental Assessment Statement Filed";
   return milestone;
 }
 

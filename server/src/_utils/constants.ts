@@ -279,6 +279,12 @@ const MILESTONES = {
       "Non-ULURP":
         'A "Review Session" milestone signifies that the application has been sent to the City Planning Commission and is ready for review. The City Planning Commission does not have a clock for non-ULURP items. It may or may not hold a hearing depending on the action.'
     }
+  },
+  "6c3beec4-dad0-e711-8116-1458d04e2fb8": {
+    display_name: "Land Use Application Filed"
+  },
+  "723beec4-dad0-e711-8116-1458d04e2fb8": {
+    display_name: "Environmental Assessment Statement Filed"
   }
 };
 
