@@ -165,7 +165,7 @@ SELECT
           WHEN mm.dcp_milestone = '780593bb-ecc2-e811-8156-1458d04d0698' THEN 58
           ELSE mm.dcp_milestonesequence
         END) AS display_sequence,
-        -- The sequence number is being overidden for this 'CPC Review of Modification Scope' milestone because we want it to be inserted by date between the related city council review milestones
+        -- The sequence number is being overidden for this 'City Planning Commission Review of City Council Modification' milestone because we want it to be inserted by date between the related city council review milestones
         (CASE
           WHEN mm.dcp_milestone = '963beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Borough Board Review'
           WHEN mm.dcp_milestone = '943beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Borough President Review'
@@ -186,7 +186,7 @@ SELECT
           WHEN mm.dcp_milestone = 'a83beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Mayoral Review'
           WHEN mm.dcp_milestone = '843beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Draft Environmental Impact Statement Completed'
           WHEN mm.dcp_milestone = '8e3beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Application Reviewed at City Planning Commission Review Session'
-          WHEN mm.dcp_milestone = '780593bb-ecc2-e811-8156-1458d04d0698' THEN 'CPC Review of Council Modification'
+          WHEN mm.dcp_milestone = '780593bb-ecc2-e811-8156-1458d04d0698' THEN 'City Planning Commission Review of City Council Modification'
           WHEN mm.dcp_milestone = '483beec4-dad0-e711-8116-1458d04e2fb8' THEN 'DEIS Scope of Work Released'
           WHEN mm.dcp_milestone = '4a3beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Environmental Impact Statement Public Scoping Meeting'
         END) AS display_name,
@@ -299,7 +299,7 @@ SELECT
               'a83beec4-dad0-e711-8116-1458d04e2fb8', --Mayoral Veto--
               '843beec4-dad0-e711-8116-1458d04e2fb8', --DEIS Notice of Completion Issued--
               '8e3beec4-dad0-e711-8116-1458d04e2fb8', --Review Session - Certified / Referred--
-              '780593bb-ecc2-e811-8156-1458d04d0698' --CPC Review of Modification Scope--
+              '780593bb-ecc2-e811-8156-1458d04d0698' --City Planning Commission Review of City Council Modification--
             )
             OR (
               studyaction.has_study_action -- project has Study action --

@@ -153,7 +153,8 @@ function transformDisplayName(milestone) {
     milestone.display_name =
       "Application Reviewed at City Planning Commission Review Session";
   if (milestone._dcp_milestone_value === "780593bb-ecc2-e811-8156-1458d04d0698")
-    milestone.display_name = "CPC Review of Council Modification";
+    milestone.display_name =
+      "City Planning Commission Review of City Council Modification";
   if (milestone._dcp_milestone_value === "483beec4-dad0-e711-8116-1458d04e2fb8")
     milestone.display_name = "DEIS Scope of Work Released";
   if (milestone._dcp_milestone_value === "4a3beec4-dad0-e711-8116-1458d04e2fb8")
