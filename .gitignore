@@ -26,3 +26,4 @@ package.json.ember-try
 
 # OS
 .DS_Store
+/client/.yalc
