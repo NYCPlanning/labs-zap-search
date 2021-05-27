@@ -157,7 +157,10 @@ const ALLOWED_MILESTONES = [
   "Mayoral Veto",
   "DEIS Notice of Completion Issued",
   "Review Session - Certified / Referred",
-  "City Planning Commission Review of City Council Modification"
+  "City Planning Commission Review of City Council Modification",
+  "Environmental Impact Statement Public Scoping Meeting",
+  "Land Use Application Filed",
+  "Environmental Assessment Statement Filed"
 ];
 const MILESTONES = {
   "963beec4-dad0-e711-8116-1458d04e2fb8": {
