@@ -43,6 +43,15 @@
           {{/if}}
         </p>
 
+        {{#if model.dcpAdditionalpublicinformation}}
+          <p>
+            <a href={{model.dcpAdditionalpublicinformation}} target="_blank">
+              Learn More
+              {{fa-icon icon='external-link-alt'}}
+            </a>
+          </p>
+        {{/if}}
+
         <ShowProject::PublicDocuments
           @packages={{this.model.sortedPackages}}
           @artifacts={{this.model.sortedArtifacts}}
