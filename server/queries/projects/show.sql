@@ -165,7 +165,7 @@ SELECT
           WHEN mm.dcp_milestone = '780593bb-ecc2-e811-8156-1458d04d0698' THEN 58
           ELSE mm.dcp_milestonesequence
         END) AS display_sequence,
-        -- The sequence number is being overidden for this 'City Planning Commission Review of City Council Modification' milestone because we want it to be inserted by date between the related city council review milestones
+        -- The sequence number is being overidden for this 'CPC Review of Modification Scope' milestone because we want it to be inserted by date between the related city council review milestones
         (CASE
           WHEN mm.dcp_milestone = '963beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Borough Board Review'
           WHEN mm.dcp_milestone = '943beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Borough President Review'
@@ -186,11 +186,9 @@ SELECT
           WHEN mm.dcp_milestone = 'a83beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Mayoral Review'
           WHEN mm.dcp_milestone = '843beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Draft Environmental Impact Statement Completed'
           WHEN mm.dcp_milestone = '8e3beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Application Reviewed at City Planning Commission Review Session'
-          WHEN mm.dcp_milestone = '780593bb-ecc2-e811-8156-1458d04d0698' THEN 'City Planning Commission Review of City Council Modification'
+          WHEN mm.dcp_milestone = '780593bb-ecc2-e811-8156-1458d04d0698' THEN 'CPC Review of Council Modification'
           WHEN mm.dcp_milestone = '483beec4-dad0-e711-8116-1458d04e2fb8' THEN 'DEIS Scope of Work Released'
-          WHEN mm.dcp_milestone = '4a3beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Environmental Impact Statement Public Scoping Meeting'
-          WHEN mm.dcp_milestone = '6c3beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Land Use Application Filed'
-          WHEN mm.dcp_milestone = '723beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Environmental Assessment Statement Filed'
+          WHEN mm.dcp_milestone = '4a3beec4-dad0-e711-8116-1458d04e2fb8' THEN 'Scoping Meeting'
         END) AS display_name,
         (CASE
           WHEN mm.dcp_milestone = '963beec4-dad0-e711-8116-1458d04e2fb8' AND p.dcp_publicstatus <> 'Filed' THEN mm.dcp_actualstartdate
@@ -215,8 +213,6 @@ SELECT
           WHEN mm.dcp_milestone = '780593bb-ecc2-e811-8156-1458d04d0698' THEN mm.dcp_actualenddate
           WHEN mm.dcp_milestone = '483beec4-dad0-e711-8116-1458d04e2fb8' THEN mm.dcp_actualenddate
           WHEN mm.dcp_milestone = '4a3beec4-dad0-e711-8116-1458d04e2fb8' THEN mm.dcp_actualenddate
-          WHEN mm.dcp_milestone = '6c3beec4-dad0-e711-8116-1458d04e2fb8' AND p.dcp_publicstatus <> 'Filed' THEN mm.dcp_actualstartdate
-          WHEN mm.dcp_milestone = '723beec4-dad0-e711-8116-1458d04e2fb8' THEN mm.dcp_actualenddate
           ELSE NULL
         END) AS display_date,
         -- If the project is not yet in public review, we don't want to display dates for certain milestones
@@ -243,8 +239,6 @@ SELECT
           WHEN mm.dcp_milestone = '780593bb-ecc2-e811-8156-1458d04d0698' THEN NULL
           WHEN mm.dcp_milestone = '483beec4-dad0-e711-8116-1458d04e2fb8' THEN NULL
           WHEN mm.dcp_milestone = '4a3beec4-dad0-e711-8116-1458d04e2fb8' THEN NULL
-          WHEN mm.dcp_milestone = '6c3beec4-dad0-e711-8116-1458d04e2fb8' THEN NULL
-          WHEN mm.dcp_milestone = '723beec4-dad0-e711-8116-1458d04e2fb8' AND p.dcp_publicstatus <> 'Filed' THEN COALESCE(mm.dcp_actualenddate, mm.dcp_plannedcompletiondate)
           ELSE NULL
         END) AS display_date_2,
         -- display_date_2 is only populated for milestones that have date ranges. It captures the end of the date range. If the milestone is in-progress and dcp_actualenddate hasn't been populated yet, we use the planned end date instead.
@@ -305,9 +299,7 @@ SELECT
               'a83beec4-dad0-e711-8116-1458d04e2fb8', --Mayoral Veto--
               '843beec4-dad0-e711-8116-1458d04e2fb8', --DEIS Notice of Completion Issued--
               '8e3beec4-dad0-e711-8116-1458d04e2fb8', --Review Session - Certified / Referred--
-              '780593bb-ecc2-e811-8156-1458d04d0698', --City Planning Commission Review of City Council Modification--
-              '6c3beec4-dad0-e711-8116-1458d04e2fb8', --Land Use Application Filed--
-              '723beec4-dad0-e711-8116-1458d04e2fb8' --Environmental Assessment Statement Filed--
+              '780593bb-ecc2-e811-8156-1458d04d0698' --CPC Review of Modification Scope--
             )
             OR (
               studyaction.has_study_action -- project has Study action --
