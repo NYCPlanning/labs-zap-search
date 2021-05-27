@@ -59,6 +59,8 @@ export default class ProjectModel extends Model {
 
   @attr('string') dcpProjectbrief;
 
+  @attr('string') dcpAdditionalpublicinformation;
+
   @attr('string') dcpProjectname;
 
   @attr('string') dcpProjectid;
