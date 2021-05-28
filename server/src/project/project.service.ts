@@ -250,7 +250,7 @@ function generateQueryObject(query, overrides?) {
     "dcp_sisubdivision",
     "dcp_sischoolseat",
     "dcp_projectbrief",
-    'dcp_additionalpublicinformation',
+    "dcp_additionalpublicinformation",
     "dcp_projectname",
     "dcp_publicstatus",
     "dcp_projectcompleted",
