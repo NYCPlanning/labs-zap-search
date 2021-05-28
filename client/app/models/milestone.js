@@ -229,4 +229,9 @@ export default class MilestoneModel extends Model {
 
     return null;
   }
+
+  @computed('dcpMilestone')
+  get isCPCPublicMeetingPublicHearing() {
+    return this.dcpMilestone === CPC_PUBLIC_MEETING_PUBLIC_HEARING;
+  }
 }
