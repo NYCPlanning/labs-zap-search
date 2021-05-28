@@ -91,13 +91,13 @@ export default class DispositionModel extends Model {
   // e.g. 'Favorable', 'Conditional Favorable', 'Unfavorable', 'Conditional Unfavorable',
   // 'No Objection', 'Waiver of Recommendation', N/A is defualt
 
+
+  // TODO: These are duplicates??? Are they numbers or strings?
   @attr('number', { defaultValue: null }) dcpBoroughpresidentrecommendation;
 
   @attr('number', { defaultValue: null }) dcpBoroughboardrecommendation;
 
   @attr('number', { defaultValue: null }) dcpCommunityboardrecommendation;
-
-  @attr('number', { defaultValue: null }) dcpCitycouncilvote;
 
   // sourced from dcp_dcpConsideration
   // memo, exta information from participant
