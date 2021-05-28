@@ -21,6 +21,7 @@ import {
   MAYORAL_VOTE,
   NOC_OF_DRAFT_EIS_ISSUED,
   PREPARE_FILED_LAND_USE_APPLICATION,
+  REVIEW_FILED_LAND_USE_APPLICATION,
   REVIEW_SESSION_CERTIFIED_REFERRED,
   REVIEW_SESSION_POST_HEARING_FOLLOW_UP_FUTURE_VOTES,
   REVIEW_SESSION_PRE_HEARING_REVIEW_POST_REFERRAL,
@@ -148,6 +149,7 @@ export default class MilestoneModel extends Model {
       EIS_DRAFT_SCOPE_REVIEW,
       FEIS_SUBMITTED_AND_REVIEW,
       MAYORAL_VOTE,
+      REVIEW_FILED_LAND_USE_APPLICATION,
     ].includes(this.dcpMilestone) && projectPublicStatus !== DCPPUBLICSTATUS_OPTIONSET.FILED) {
       displayDate = this.dcpActualstartdate;
     }
@@ -185,6 +187,9 @@ export default class MilestoneModel extends Model {
       CPC_PUBLIC_MEETING_PUBLIC_HEARING, // aka 'CPC Public Meeting - Public Hearing' a.k.a 'City Planning Commission Review'
       REVIEW_SESSION_POST_HEARING_FOLLOW_UP_FUTURE_VOTES, // aka 'Review Session - Post Hearing Follow-Up / Future Votes'
       CPC_PUBLIC_MEETING_VOTE, // aka 'City Planning Commission Vote'
+      DEIS_PUBLIC_HEARING_HELD,
+      EIS_PUBLIC_SCOPING_MEETING,
+      SCOPING_MEETING,
     ].includes(this.dcpMilestone)) {
       if (this.dcpReviewmeetingdate) {
         const reviewMeetingDate = new Date(this.dcpReviewmeetingdate);
