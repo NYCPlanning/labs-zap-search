@@ -61,6 +61,7 @@ export default Factory.extend({
     milestonename: 'Environmental Assessment Statement Filed',
     dcpMilestonesequence: 37,
     displayName: 'Environmental Assessment Statement Filed',
+    displayDate2: '1/1/1',
   }),
 
   eisPublicScopingMeeting: trait({
