@@ -183,30 +183,30 @@
         {{/if}}
       {{/each}}
     {{/hearings-list-for-milestones-list}}
-  {{/if}}
 
-  {{#if (and
-    milestone.isCPCPublicMeetingPublicHearing
-    (is-same-or-after milestone.dcpReviewmeetingdate)
-  )}}
-    <ul class="sub-milestones no-bullet">
-      <li class="grid-x small-margin-bottom">
-        <div class="cell shrink small-margin-right">
-          {{!-- This is always "calendar" icon, because for this milestone, it should always have happened in the past --}}
-          {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
-        </div>
-        <div class="cell auto">
-          {{milestones/public-hearing
-            hearing=(hash
-              disposition=(hash
-                dcpDateofpublichearing=milestone.dcpReviewmeetingdate
+    {{#if (and
+      milestone.isCPCPublicMeetingPublicHearing
+      (is-same-or-after milestone.dcpReviewmeetingdate)
+    )}}
+      <ul class="sub-milestones no-bullet">
+        <li class="grid-x small-margin-bottom">
+          <div class="cell shrink small-margin-right">
+            {{!-- This is always "calendar" icon, because for this milestone, it should always have happened in the past --}}
+            {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
+          </div>
+          <div class="cell auto">
+            {{milestones/public-hearing
+              hearing=(hash
+                disposition=(hash
+                  dcpDateofpublichearing=milestone.dcpReviewmeetingdate
+                )
+                hearingActions=milestone.project.actions
               )
-              hearingActions=milestone.project.actions
-            )
-          }}
-        </div>
-      </li>
-    </ul>
+            }}
+          </div>
+        </li>
+      </ul>
+    {{/if}}
   {{/if}}
 </div>
 
