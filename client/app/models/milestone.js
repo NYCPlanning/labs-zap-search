@@ -150,6 +150,7 @@ export default class MilestoneModel extends Model {
       EIS_DRAFT_SCOPE_REVIEW,
       FEIS_SUBMITTED_AND_REVIEW,
       MAYORAL_VOTE,
+      REVIEW_FILED_LAND_USE_APPLICATION,
     ].includes(this.dcpMilestone) && projectPublicStatus !== DCPPUBLICSTATUS_OPTIONSET.FILED) {
       displayDate = this.dcpActualstartdate;
     }
@@ -164,6 +165,29 @@ export default class MilestoneModel extends Model {
       } else {
         displayDate = this.dcpActualstartdate;
       }
+    }
+
+    if ([
+      FINAL_LETTER_SENT,
+      FINAL_SCOPE_OF_WORK_ISSUED,
+      CPC_PUBLIC_MEETING_VOTE,
+      DEIS_PUBLIC_HEARING_HELD,
+      NOC_OF_DRAFT_EIS_ISSUED,
+      REVIEW_SESSION_CERTIFIED_REFERRED,
+    ].includes(this.dcpMilestone) && projectPublicStatus !== DCPPUBLICSTATUS_OPTIONSET.FILED) {
+      displayDate = this.dcpActualenddate;
+    }
+
+    if ([
+      EIS_PUBLIC_SCOPING_MEETING,
+      PREPARE_FILED_LAND_USE_APPLICATION,
+      LAND_USE_FEE_PAYMENT,
+      CEQR_FEE_PAYMENT,
+      CPC_REVIEW_OF_COUNCIL_MODIFICATION,
+      DEIS_SCOPE_OF_WORK_RELEASED,
+      SCOPING_MEETING,
+    ].includes(this.dcpMilestone)) {
+      displayDate = this.dcpActualenddate;
     }
 
     if ([ //  Task 2790 - "Land Use Application Filed" is displayed
@@ -190,28 +214,6 @@ export default class MilestoneModel extends Model {
           }
         }
       }
-    }
-
-    if ([
-      FINAL_LETTER_SENT,
-      FINAL_SCOPE_OF_WORK_ISSUED,
-      CPC_PUBLIC_MEETING_VOTE,
-      DEIS_PUBLIC_HEARING_HELD,
-      NOC_OF_DRAFT_EIS_ISSUED,
-      REVIEW_SESSION_CERTIFIED_REFERRED,
-    ].includes(this.dcpMilestone) && projectPublicStatus !== DCPPUBLICSTATUS_OPTIONSET.FILED) {
-      displayDate = this.dcpActualenddate;
-    }
-
-    if ([
-      EIS_PUBLIC_SCOPING_MEETING,
-      LAND_USE_FEE_PAYMENT,
-      CEQR_FEE_PAYMENT,
-      CPC_REVIEW_OF_COUNCIL_MODIFICATION,
-      DEIS_SCOPE_OF_WORK_RELEASED,
-      SCOPING_MEETING,
-    ].includes(this.dcpMilestone)) {
-      displayDate = this.dcpActualenddate;
     }
 
     if ([
