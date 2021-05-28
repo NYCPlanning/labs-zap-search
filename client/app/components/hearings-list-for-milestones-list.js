@@ -52,12 +52,14 @@ export default class HearingsListForMilestonesListComponent extends Component {
     'Borough President Review': 'Borough President',
     'Borough Board Review': 'Borough Board',
     'Community Board Review': 'Community Board',
+    'City Planning Commission Review': 'City Council',
   }
 
   participantRecommendationLookup = {
     'Borough President': 'dcpBoroughpresidentrecommendation',
     'Borough Board': 'dcpBoroughboardrecommendation',
     'Community Board': 'dcpCommunityboardrecommendation',
+    'City Council': 'dcpCitycouncilvote',
   }
 
   // An array of disposition models that match the current milestone that is passed in

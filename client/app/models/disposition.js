@@ -97,6 +97,8 @@ export default class DispositionModel extends Model {
 
   @attr('number', { defaultValue: null }) dcpCommunityboardrecommendation;
 
+  @attr('number', { defaultValue: null }) dcpCitycouncilvote;
+
   // sourced from dcp_dcpConsideration
   // memo, exta information from participant
   @attr('string', { defaultValue: '' }) dcpConsideration;
