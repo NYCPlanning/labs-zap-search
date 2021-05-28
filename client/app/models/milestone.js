@@ -15,6 +15,7 @@ import {
   EIS_PUBLIC_SCOPING_MEETING,
   FEIS_SUBMITTED_AND_REVIEW,
   FILED_EAS_REVIEW,
+  PREPARE_FILED_EAS,
   FINAL_LETTER_SENT,
   FINAL_SCOPE_OF_WORK_ISSUED,
   LAND_USE_FEE_PAYMENT,
@@ -154,8 +155,16 @@ export default class MilestoneModel extends Model {
       displayDate = this.dcpActualstartdate;
     }
 
-    if (this.dcpMilestone === FILED_EAS_REVIEW) {
-      displayDate = this.dcpActualstartdate;
+    if (this.dcpMilestone === FILED_EAS_REVIEW) { // FILED_EAS_REVIEW is used here as the generic "EAS" milestone
+      // 2792: if the project starts with P, prefare the display date found in the "PREPARE_FIELD_EAS" milestone
+      if (this.project.get('dcpName').startsWith('P')) {
+        const prepareFiledEas = this.project.get('milestones').findBy('dcpMilestone', PREPARE_FILED_EAS);
+        if (prepareFiledEas) {
+          displayDate = prepareFiledEas.dcpActualenddate;
+        }
+      } else {
+        displayDate = this.dcpActualstartdate;
+      }
     }
 
     if ([

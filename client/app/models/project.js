@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { sort, alias } from '@ember/object/computed';
+import { PREPARE_FILED_EAS } from './milestone/constants';
 
 const {
   Model, attr, hasMany,
@@ -58,6 +59,8 @@ export default class ProjectModel extends Model {
   @attr('boolean') dcpSischoolseat;
 
   @attr('string') dcpProjectbrief;
+
+  @attr('string') dcpAdditionalpublicinformation;
 
   @attr('string') dcpProjectname;
 
@@ -125,7 +128,13 @@ export default class ProjectModel extends Model {
       .reverse();
   }
 
-  @sort('milestones', function(prev, next) {
+  @computed('milestones')
+  get filteredMilestones() {
+    return this.get('milestones')
+      .filter(pMilestone => pMilestone.dcpMilestone !== PREPARE_FILED_EAS);
+  }
+
+  @sort('filteredMilestones', function(prev, next) {
     const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
 
     if (milestoneSequenceDifference === 0) {

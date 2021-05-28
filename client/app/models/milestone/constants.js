@@ -8,6 +8,8 @@ export const EIS_DRAFT_SCOPE_REVIEW = '7c3beec4-dad0-e711-8116-1458d04e2fb8';
 
 export const FILED_EAS_REVIEW = '783beec4-dad0-e711-8116-1458d04e2fb8';
 
+export const PREPARE_FILED_EAS = '723beec4-dad0-e711-8116-1458d04e2fb8';
+
 export const SCOPING_MEETING = '4a3beec4-dad0-e711-8116-1458d04e2fb8';
 
 export const FINAL_SCOPE_OF_WORK_ISSUED = '823beec4-dad0-e711-8116-1458d04e2fb8';

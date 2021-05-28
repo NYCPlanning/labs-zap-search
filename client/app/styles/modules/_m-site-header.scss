@@ -1,14 +1,141 @@
 // --------------------------------------------------
-// Module: Site header
+// Module: Site Header
 // --------------------------------------------------
 
+$logo-height-small: rem-calc(24);
+$logo-height-medium: rem-calc(36);
+
+.labs-beta-notice {
+  display: block;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  height: rem-calc(21);
+  line-height: 21px;
+  text-align: center;
+  background-color: #D96B27;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.1);
+
+  &:hover, &:focus {
+    color: #fff;
+    background-color: #b95b21;
+    text-decoration: none;
+  }
+}
+
 .site-header {
+  background-color: $white;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 2;
+
+  .branding {
+    padding-top: $global-margin;
+    padding-bottom: $global-margin;
+  }
+
+  .dcp-logo {
+    height: $logo-height-small;
+    float: left;
+    margin-right: $global-margin;
+
+    @include breakpoint(medium) {
+      height: $logo-height-medium;
+    }
+  }
+
+  .site-title {
+    font-size: $logo-height-small*0.8;
+    font-weight: $global-weight-bold;
+    line-height: 1.5;
+
+    @include breakpoint(medium) {
+      font-size: $logo-height-medium*0.8;
+    }
+  }
+
+  .site-subtitle {
+    font-size: 0.5em;
+    font-weight: $global-weight-normal;
+    color: $dark-gray;
+
+    @include breakpoint(large) {
+      font-size: 0.7em;
+      letter-spacing: -0.02em;
+    }
+  }
+  a:hover .site-subtitle {
+    color: $anchor-color;
+  }
 
   .menu {
+    a {
+      color: $dark-gray;
+      line-height: 1.5;
+      padding: (rem-calc(11)+$global-margin) rem-calc(20);
+      font-size:  rem-calc(14);
+      font-weight: $global-weight-bold;
+
+      &:hover {
+        background-color: $white-smoke;
+        color: $black;
+      }
+    }
+
+    &.dropdown > li > a {
+      padding-top: 1.6875rem;
+      padding-bottom: 1.6875rem;
+    }
+
+    .is-dropdown-submenu {
+      box-shadow: 0 2px 0 2px rgba(0,0,0,0.1);
+
+      li:not(:first-child) {
+        border-top: 1px solid lighten($medium-gray, 10%);
+      }
+
+      a {
+        padding: rem-calc(10) rem-calc(16);
+        font-size: rem-calc(12);
+      }
+    }
 
     .active {
       background-color: $off-white;
       box-shadow: inset 0 -0.25rem 0 0 #ffc861;
     }
   }
+
+  .responsive-nav-toggler {
+    color: $dark-gray;
+    background-color: $white-smoke;
+    font-size:  rem-calc(14);
+    font-weight: $global-weight-bold;
+    line-height: $logo-height-small;
+    cursor: pointer;
+    margin: $global-margin/2 0;
+    padding: rem-calc(10) rem-calc(16);
+
+    @include breakpoint(medium) {
+      margin: $global-margin 0;
+    }
+  }
+
+  nav.responsive {
+
+    .menu.medium-horizontal {
+      margin-bottom: rem-calc(10);
+      @include breakpoint(medium) {
+        margin-bottom: 0;
+      }
+    }
+
+    .menu.large-horizontal {
+      margin-bottom: rem-calc(10);
+      @include breakpoint(large) {
+        margin-bottom: 0;
+      }
+    }
+  }
 }
+

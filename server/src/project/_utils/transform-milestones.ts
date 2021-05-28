@@ -1,6 +1,38 @@
+// IDs of Milestones that should be sent to the client
+export const VISIBLE_MILESTONES = [
+  "963beec4-dad0-e711-8116-1458d04e2fb8",
+  "943beec4-dad0-e711-8116-1458d04e2fb8",
+  "763beec4-dad0-e711-8116-1458d04e2fb8",
+  "a63beec4-dad0-e711-8116-1458d04e2fb8",
+  "923beec4-dad0-e711-8116-1458d04e2fb8",
+  "9e3beec4-dad0-e711-8116-1458d04e2fb8",
+  "9c3beec4-dad0-e711-8116-1458d04e2fb8",
+  "a23beec4-dad0-e711-8116-1458d04e2fb8",
+  "a43beec4-dad0-e711-8116-1458d04e2fb8",
+  "863beec4-dad0-e711-8116-1458d04e2fb8",
+  "7c3beec4-dad0-e711-8116-1458d04e2fb8",
+  "7e3beec4-dad0-e711-8116-1458d04e2fb8",
+  "883beec4-dad0-e711-8116-1458d04e2fb8",
+  "783beec4-dad0-e711-8116-1458d04e2fb8",
+  "aa3beec4-dad0-e711-8116-1458d04e2fb8",
+  "823beec4-dad0-e711-8116-1458d04e2fb8",
+  "663beec4-dad0-e711-8116-1458d04e2fb8",
+  "6a3beec4-dad0-e711-8116-1458d04e2fb8",
+  "a83beec4-dad0-e711-8116-1458d04e2fb8",
+  "843beec4-dad0-e711-8116-1458d04e2fb8",
+  "8e3beec4-dad0-e711-8116-1458d04e2fb8",
+  "780593bb-ecc2-e811-8156-1458d04d0698",
+  "723beec4-dad0-e711-8116-1458d04e2fb8",
+
+  // these are study area entities and
+  // TODO: need to also check for study
+  // area flag
+  "483beec4-dad0-e711-8116-1458d04e2fb8",
+  "4a3beec4-dad0-e711-8116-1458d04e2fb8"
+];
+
 // TODO: filter milestones by whether the project have study action
 // function hasStudyAction(milestone, project) {}
-
 function applyDisplayDescriptions(milestone, project) {
   const mutatedMilestone = milestone;
 
@@ -164,6 +196,7 @@ function transformDisplayName(milestone) {
     milestone.display_name = "Land Use Application Filed";
   if (milestone._dcp_milestone_value === "723beec4-dad0-e711-8116-1458d04e2fb8")
     milestone.display_name = "Environmental Assessment Statement Filed";
+
   return milestone;
 }
 
@@ -193,6 +226,10 @@ function transformAliases(milestone) {
   return milestone;
 }
 
+function filterMilestonesForDisplay(milestone) {
+  return VISIBLE_MILESTONES.includes(milestone._dcp_milestone_value);
+}
+
 function sortMilestones(prev, next) {
   const displaySequenceDifference =
     prev.display_sequence - next.display_sequence;
@@ -202,6 +239,7 @@ function sortMilestones(prev, next) {
 
 export const transformMilestones = (milestones, project) => {
   return milestones
+    .filter(filterMilestonesForDisplay)
     .map(milestone => applyDisplayDescriptions(milestone, project))
     .map(milestone => transformDisplayName(milestone))
     .map(milestone => transformDisplaySequence(milestone))
