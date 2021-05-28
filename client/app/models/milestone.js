@@ -150,7 +150,6 @@ export default class MilestoneModel extends Model {
       EIS_DRAFT_SCOPE_REVIEW,
       FEIS_SUBMITTED_AND_REVIEW,
       MAYORAL_VOTE,
-      REVIEW_FILED_LAND_USE_APPLICATION,
     ].includes(this.dcpMilestone) && projectPublicStatus !== DCPPUBLICSTATUS_OPTIONSET.FILED) {
       displayDate = this.dcpActualstartdate;
     }
@@ -167,6 +166,32 @@ export default class MilestoneModel extends Model {
       }
     }
 
+    if ([ //  Task 2790 - "Land Use Application Filed" is displayed
+      PREPARE_FILED_LAND_USE_APPLICATION,
+      REVIEW_FILED_LAND_USE_APPLICATION,
+    ].includes(this.dcpMilestone)) {
+      if (this.project.get('dcpName').startsWith('P')) { // projectID starts with "P" (so use the “Prepare Filed Land Use Application” milestone)
+        if (this.dcpMilestone === PREPARE_FILED_LAND_USE_APPLICATION) { // if it's already a Prepare Filed Land Use Application, use its actual completion date
+          displayDate = this.dcpActualenddate;
+        } else { // if it's not, find the Prepare Filed Land Use application and use its actual end date
+          const prepareFiledLandUseApplication = this.project.get('milestones').findBy('dcpMilestone', PREPARE_FILED_LAND_USE_APPLICATION);
+          if (prepareFiledLandUseApplication) {
+            displayDate = prepareFiledLandUseApplication.dcpActualenddate;
+          }
+        }
+      } else { // projectID does not start with "P" (so use the “Review Filed Land Use Application”)
+        // eslint-disable-next-line no-lonely-if
+        if (this.dcpMilestone === REVIEW_FILED_LAND_USE_APPLICATION) { // if it's already a Review Filed Land Use Application, use its actual start date
+          displayDate = this.dcpActualstartdate;
+        } else { // if it's not, find the Review Filed Land Use application and use its actual start date
+          const reviewFiledLandUseApplication = this.project.get('milestones').findBy('dcpMilestone', REVIEW_FILED_LAND_USE_APPLICATION);
+          if (reviewFiledLandUseApplication) {
+            displayDate = reviewFiledLandUseApplication.dcpActualstartdate;
+          }
+        }
+      }
+    }
+
     if ([
       FINAL_LETTER_SENT,
       FINAL_SCOPE_OF_WORK_ISSUED,
@@ -180,7 +205,6 @@ export default class MilestoneModel extends Model {
 
     if ([
       EIS_PUBLIC_SCOPING_MEETING,
-      PREPARE_FILED_LAND_USE_APPLICATION,
       LAND_USE_FEE_PAYMENT,
       CEQR_FEE_PAYMENT,
       CPC_REVIEW_OF_COUNCIL_MODIFICATION,
