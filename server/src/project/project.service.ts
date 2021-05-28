@@ -63,36 +63,6 @@ export const PROJECT_VISIBILITY_LOOKUP = {
   "Internal DCP Only": 717170000,
   LUP: 717170004
 };
-export const DISPLAY_MILESTONE_IDS = [
-  "963beec4-dad0-e711-8116-1458d04e2fb8",
-  "943beec4-dad0-e711-8116-1458d04e2fb8",
-  "763beec4-dad0-e711-8116-1458d04e2fb8",
-  "a63beec4-dad0-e711-8116-1458d04e2fb8",
-  "923beec4-dad0-e711-8116-1458d04e2fb8",
-  "9e3beec4-dad0-e711-8116-1458d04e2fb8",
-  "9c3beec4-dad0-e711-8116-1458d04e2fb8",
-  "a23beec4-dad0-e711-8116-1458d04e2fb8",
-  "a43beec4-dad0-e711-8116-1458d04e2fb8",
-  "863beec4-dad0-e711-8116-1458d04e2fb8",
-  "7c3beec4-dad0-e711-8116-1458d04e2fb8",
-  "7e3beec4-dad0-e711-8116-1458d04e2fb8",
-  "883beec4-dad0-e711-8116-1458d04e2fb8",
-  "783beec4-dad0-e711-8116-1458d04e2fb8",
-  "aa3beec4-dad0-e711-8116-1458d04e2fb8",
-  "823beec4-dad0-e711-8116-1458d04e2fb8",
-  "663beec4-dad0-e711-8116-1458d04e2fb8",
-  "6a3beec4-dad0-e711-8116-1458d04e2fb8",
-  "a83beec4-dad0-e711-8116-1458d04e2fb8",
-  "843beec4-dad0-e711-8116-1458d04e2fb8",
-  "8e3beec4-dad0-e711-8116-1458d04e2fb8",
-  "780593bb-ecc2-e811-8156-1458d04d0698",
-
-  // these are study area entities and
-  // TODO: need to also check for study
-  // area flag
-  "483beec4-dad0-e711-8116-1458d04e2fb8",
-  "4a3beec4-dad0-e711-8116-1458d04e2fb8"
-];
 
 // Only these fields will be value mapped
 export const FIELD_LABEL_REPLACEMENT_WHITELIST = [
@@ -402,10 +372,7 @@ export class ProjectService {
       "_dcp_applicantadministrator_customer_value"
     ];
     const MILESTONES_FILTER = all(
-      `(not ${comparisonOperator("statuscode", "eq", 717170001)})`,
-      containsAnyOf("_dcp_milestone_value", DISPLAY_MILESTONE_IDS, {
-        comparisonStrategy: (prop, val) => comparisonOperator(prop, "eq", val)
-      })
+      `(not ${comparisonOperator("statuscode", "eq", 717170001)})`
     );
 
     const ACTION_STATUSCODE_DEACTIVATED = 717170003;
