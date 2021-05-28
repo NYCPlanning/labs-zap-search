@@ -5,28 +5,19 @@ function applyDisplayDescriptions(milestone, project) {
   const mutatedMilestone = milestone;
 
   if (milestone._dcp_milestone_value === '963beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_ulurp_nonulurp === 717170001) milestone
-    .display_description = 'The Borough Board has 30 days concurrent with the Borough President’s review period to review the application and issue a recommendation.';
+    .display_description = 'The Borough Board has 30 days concurrent with the Borough President’s review period to review a ULURP application and issue a recommendation.';
 
   if (milestone._dcp_milestone_value === '943beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_ulurp_nonulurp === 717170001) milestone
-    .display_description = 'The Borough President has 30 days after the Community Board issues a recommendation to review the application and issue a recommendation.';
+    .display_description = 'The Borough President has 30 days after the Community Board issues a recommendation to review a ULURP application and issue a recommendation.';
 
-  if (milestone._dcp_milestone_value === 'a63beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_ulurp_nonulurp === 717170001) milestone
-    .display_description = 'The City Council has 50 days from receiving the City Planning Commission report to call up the application, hold a hearing and vote on the application.';
+  if (milestone._dcp_milestone_value === 'a63beec4-dad0-e711-8116-1458d04e2fb8') milestone
+    .display_description = 'The City Council has 50 days from receiving the City Planning Commission report to call up the application, hold a hearing and vote on a ULURP application.';
 
-  if (milestone._dcp_milestone_value === 'a63beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_ulurp_nonulurp === 717170000) milestone
-    .display_description = 'The City Council reviews text amendments and a few other non-ULURP items.';
+  if (milestone._dcp_milestone_value === '923beec4-dad0-e711-8116-1458d04e2fb8') milestone
+    .display_description = 'The Community Board has at least 60 days from the time of the referral (nine days after certification) to hold a hearing and issue a recommendation for ULURP applications.';
 
-  if (milestone._dcp_milestone_value === '923beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_ulurp_nonulurp === 717170001) milestone
-    .display_description = 'The Community Board has 60 days from the time of referral (nine days after certification) to hold a hearing and issue a recommendation.';
-
-  if (milestone._dcp_milestone_value === '923beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_ulurp_nonulurp === 717170000) milestone
-    .display_description = 'The City Planning Commission refers to the Community Board for 30, 45 or 60 days.';
-
-  if (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_ulurp_nonulurp === 717170001) milestone
-    .display_description = 'The City Planning Commission has 60 days after the Borough President issues a recommendation to hold a hearing and vote on an application.';
-
-  if (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8' && project.dcp_ulurp_nonulurp === 717170000) milestone
-    .display_description = 'The City Planning Commission does not have a clock for non-ULURP items. It may or may not hold a hearing depending on the action.';
+  if (milestone._dcp_milestone_value === '9e3beec4-dad0-e711-8116-1458d04e2fb8') milestone
+    .display_description = 'The City Planning Commission has 60 days after the Borough President issues a recommendation to hold a hearing and vote on a ULURP application.';
 
   if (milestone._dcp_milestone_value === '7c3beec4-dad0-e711-8116-1458d04e2fb8') milestone
     .display_description = 'A Draft Scope of Work must be recieved 30 days prior to the Public Scoping Meeting.';
