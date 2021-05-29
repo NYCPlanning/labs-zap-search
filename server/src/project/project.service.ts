@@ -3,9 +3,8 @@ import { Serializer } from "jsonapi-serializer";
 import { dasherize } from "inflected";
 import { ConfigService } from "../config/config.service";
 import { handleDownload } from "./_utils/handle-download";
-import { transformMilestones } from "./_utils/transform-milestones";
-import { transformActions } from "./_utils/transform-actions";
 import { transformProjects } from "./_utils/transform-projects";
+import { transformProjectAttributes } from "./_utils/transform-project-attributes";
 import {
   KEYS as PROJECT_KEYS,
   ACTION_KEYS,
@@ -21,22 +20,31 @@ import { Octokit } from "@octokit/rest";
 // the same thing.
 import { CrmService } from "../crm/crm.service";
 import {
-  coerceToNumber,
-  coerceToDateString,
-  mapInLookup,
   all,
-  any,
   comparisonOperator,
-  containsString,
-  equalsAnyOf,
-  containsAnyOf,
   overwriteCodesWithLabels
 } from "../crm/crm.utilities";
 import { ArtifactService } from "../artifact/artifact.service";
 import { PackageService } from "../package/package.service";
 import { GeometryService } from "./geometry/geometry.service";
+import {
+  actionTypesFilter,
+  blocksFilter,
+  boroughFilter,
+  certifiedReferredFilter,
+  communityDistrictFilter,
+  femaFloodzoneFilter,
+  femaFloodzoneShadedFilter,
+  postProcessQueryFilters,
+  projectApplicantTextFilter,
+  publicStatusFilter,
+  ulurpNonUlurpFilter,
+  zoningResolutionFilter
+} from "./_utils/query-filters";
 
 const ITEMS_PER_PAGE = 30;
+
+// TODO: these lookups exist so many places, and this is probably not the rightest one
 export const BOROUGH_LOOKUP = {
   Bronx: 717170000,
   Brooklyn: 717170002,
@@ -63,33 +71,10 @@ export const PROJECT_VISIBILITY_LOOKUP = {
   "Internal DCP Only": 717170000,
   LUP: 717170004
 };
-
-// Only these fields will be value mapped
-export const FIELD_LABEL_REPLACEMENT_WHITELIST = [
-  "dcp_publicstatus",
-  "dcp_borough",
-  "statuscode",
-  "dcp_ulurp_nonulurp",
-  "_dcp_keyword_value",
-  "dcp_ceqrtype",
-  "dcp_applicantrole",
-  "_dcp_applicant_customer_value",
-  "_dcp_recommendationsubmittedby_value",
-  "dcp_communityboardrecommendation",
-  "dcp_boroughpresidentrecommendation",
-  "dcp_boroughboardrecommendation",
-  "dcp_representing",
-  "_dcp_milestone_value",
-  "_dcp_applicant_customer_value",
-  "_dcp_applicantadministrator_customer_value",
-  "_dcp_action_value",
-  "_dcp_zoningresolution_value"
-];
-
-export const PACKAGE_VISIBILITY = {
+export const PACKAGE_VISIBILITY_LOOKUP = {
   GENERAL_PUBLIC: 717170003
 };
-export const PACKAGE_STATUSCODE = {
+export const PACKAGE_STATUSCODE_LOOKUP = {
   SUBMITTED: 717170012,
   CERTIFIED: 717170005,
   REVIEWED_NO_REVISIONS_REQUIRED: 717170009,
@@ -98,238 +83,26 @@ export const PACKAGE_STATUSCODE = {
   FINAL_APPROVAL: 717170008
 };
 
-const ARTIFACT_VISIBILITY = {
+const ARTIFACT_VISIBILITY_LOOKUP = {
   GENERAL_PUBLIC: 717170003
 };
 
-// configure received params, provide procedures for generating queries.
-// these funcs do not get called unless they are in the query params.
-// could these become a first class object?
-const QUERY_TEMPLATES = {
-  "community-districts": queryParamValue =>
-    containsAnyOf("dcp_validatedcommunitydistricts", queryParamValue),
-
-  "action-types": queryParamValue =>
-    containsAnyOf("dcp_name", queryParamValue, {
-      childEntity: "dcp_dcp_project_dcp_projectaction_project"
-    }),
-
-  "zoning-resolutions": queryParamValue =>
-    queryParamValue
-      .map(
-        value =>
-          `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`
-      )
-      .join(" or "),
-
-  boroughs: queryParamValue =>
-    equalsAnyOf(
-      "dcp_borough",
-      coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP))
-    ),
-
-  dcp_ulurp_nonulurp: queryParamValue =>
-    equalsAnyOf(
-      "dcp_ulurp_nonulurp",
-      coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP))
-    ),
-
-  dcp_femafloodzonea: queryParamValue =>
-    comparisonOperator("dcp_femafloodzonea", "eq", queryParamValue),
-
-  dcp_femafloodzoneshadedx: queryParamValue =>
-    comparisonOperator("dcp_femafloodzoneshadedx", "eq", queryParamValue),
-
-  dcp_publicstatus: (queryParamValue: []) =>
-    equalsAnyOf(
-      "dcp_publicstatus",
-      coerceToNumber(mapInLookup(queryParamValue, PROJECT_STATUS_LOOKUP))
-    ),
-
-  dcp_certifiedreferred: queryParamValue =>
-    all(
-      comparisonOperator(
-        "dcp_certifiedreferred",
-        "gt",
-        coerceToDateString(queryParamValue[0])
-      ),
-      comparisonOperator(
-        "dcp_certifiedreferred",
-        "lt",
-        coerceToDateString(queryParamValue[1])
-      )
-    ),
-
-  block: queryParamValue =>
-    containsAnyOf("dcp_validatedblock", [queryParamValue], {
-      childEntity: "dcp_dcp_project_dcp_projectbbl_project"
-    }),
-
-  project_applicant_text: queryParamValue =>
-    any(
-      containsString("dcp_projectbrief", queryParamValue),
-      containsString("dcp_projectname", queryParamValue),
-      containsString("dcp_ceqrnumber", queryParamValue),
-      containsAnyOf("dcp_name", [queryParamValue], {
-        childEntity: "dcp_dcp_project_dcp_projectapplicant_Project"
-      }),
-      containsAnyOf("dcp_ulurpnumber", [queryParamValue], {
-        childEntity: "dcp_dcp_project_dcp_projectaction_project"
-      }),
-      containsAnyOf("dcp_comment", [queryParamValue], {
-        childEntity: "dcp_dcp_project_dcp_projectaction_project"
-      }),
-      containsAnyOf("dcp_docket", [queryParamValue], {
-        childEntity: "dcp_dcp_project_dcp_projectaction_project"
-      }),
-      containsAnyOf(
-        "dcp_historiczoningresolutionsectionnumber",
-        [queryParamValue],
-        {
-          childEntity: "dcp_dcp_project_dcp_projectaction_project"
-        }
-      )
-    )
+// Incoming query object from the client projects request
+type ClientProjectQuery = {
+  "community-districts"?: string[];
+  "action-types"?: string[];
+  "zoning-resolutions"?: string[];
+  boroughs?: string[];
+  dcp_ulurp_nonulurp?: string[];
+  dcp_femafloodzonea?: string;
+  dcp_femafloodzoneshadedx?: string;
+  dcp_publicstatus?: string[];
+  dcp_certifiedreferred?: [string, string];
+  block?: string;
+  project_applicant_text?: string;
+  distance_from_point: [number, number];
+  radius_from_point: number;
 };
-
-export const ALLOWED_FILTERS = [
-  "community-districts",
-  "action-types",
-  "boroughs",
-  "dcp_ceqrtype", // is this even used? 'Type I', 'Type II', 'Unlisted', 'Unknown'
-  "dcp_ulurp_nonulurp", // 'ULURP', 'Non-ULURP'
-  "dcp_femafloodzonea",
-  "dcp_femafloodzoneshadedx",
-  "dcp_publicstatus", // 'Noticed', 'Filed', 'In Public Review', 'Completed', 'Unknown'
-  "dcp_certifiedreferred",
-  "project_applicant_text",
-  "block",
-  "distance_from_point",
-  "radius_from_point",
-  "zoning-resolutions"
-];
-
-export const generateFromTemplate = (query, template) => {
-  return Object.keys(query)
-    .filter(key => ALLOWED_FILTERS.includes(key)) // filter is allowed
-    .filter(key => template[key]) // filter has query handler
-    .map(key => template[key](query[key]));
-};
-
-function generateProjectsFilterString(query) {
-  // Special handling for 'block' query, which must be explicitly ignored if empty
-  // otherwise, unmapped projects will be excluded from the results
-  if (!query.block) delete query.block;
-
-  // optional params
-  // apply only those that appear in the query object
-  const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
-
-  return all(
-    // defaults
-    comparisonOperator(
-      "dcp_visibility",
-      "eq",
-      PROJECT_VISIBILITY_LOOKUP["General Public"]
-    ),
-    // optional params
-    ...requestedFiltersQuery
-  );
-}
-
-function generateQueryObject(query, overrides?) {
-  const DEFAULT_PROJECT_LIST_FIELDS = [
-    "dcp_name",
-    "dcp_applicanttype",
-    "dcp_borough",
-    "dcp_ceqrnumber",
-    "dcp_ceqrtype",
-    "dcp_certifiedreferred",
-    "dcp_femafloodzonea",
-    "dcp_femafloodzoneshadedx",
-    "dcp_sisubdivision",
-    "dcp_sischoolseat",
-    "dcp_projectbrief",
-    "dcp_additionalpublicinformation",
-    "dcp_projectname",
-    "dcp_publicstatus",
-    "dcp_projectcompleted",
-    "dcp_hiddenprojectmetrictarget",
-    "dcp_ulurp_nonulurp",
-    "dcp_validatedcommunitydistricts",
-    "dcp_bsanumber",
-    "dcp_wrpnumber",
-    "dcp_lpcnumber",
-    "dcp_name",
-    "dcp_nydospermitnumber",
-    "dcp_lastmilestonedate",
-    "_dcp_applicant_customer_value",
-    "_dcp_applicantadministrator_customer_value"
-  ];
-
-  // this needs to be configurable, maybe come from project entity
-  const projectFields = DEFAULT_PROJECT_LIST_FIELDS.join(",");
-
-  return {
-    $select: projectFields,
-    $count: true,
-    $orderby: "dcp_lastmilestonedate desc,dcp_publicstatus asc",
-    $filter: generateProjectsFilterString(query),
-    $expand: `dcp_dcp_project_dcp_projectbbl_project($top=1;$filter=dcp_bblvalidated eq true)`,
-    ...overrides
-  };
-}
-
-export function transformProjectAttributes(project): any {
-  // this must happen before value-mapping because some of the constants
-  // refer to certain identifiers that are replaced after value-mapping
-  project.milestones = transformMilestones(
-    project.dcp_dcp_project_dcp_projectmilestone_project,
-    project
-  );
-  project.dispositions =
-    project.dcp_dcp_project_dcp_communityboarddisposition_project;
-
-  const [valueMappedProject] = overwriteCodesWithLabels(
-    [project],
-    FIELD_LABEL_REPLACEMENT_WHITELIST
-  );
-
-  project.actions = transformActions(
-    project.dcp_dcp_project_dcp_projectaction_project
-  );
-
-  // perform after value-mapping
-  const {
-    dcp_dcp_project_dcp_projectkeywords_project,
-    dcp_dcp_project_dcp_projectbbl_project
-  } = valueMappedProject;
-
-  if (dcp_dcp_project_dcp_projectkeywords_project) {
-    project.keywords = dcp_dcp_project_dcp_projectkeywords_project.map(
-      ({ _dcp_keyword_value }) => _dcp_keyword_value
-    );
-  }
-
-  if (dcp_dcp_project_dcp_projectbbl_project) {
-    project.bbls = dcp_dcp_project_dcp_projectbbl_project.map(
-      ({ dcp_bblnumber }) => dcp_bblnumber
-    );
-  }
-
-  project.applicantteam = [
-    {
-      name: valueMappedProject._dcp_applicant_customer_value,
-      role: "Primary Applicant"
-    },
-    {
-      name: valueMappedProject._dcp_applicantadministrator_customer_value,
-      role: "Primary Contact"
-    }
-  ];
-
-  return project;
-}
 
 @Injectable()
 export class ProjectService {
@@ -447,17 +220,19 @@ export class ProjectService {
         $filter=
           _dcp_project_value eq ${firstProject.dcp_projectid}
           and (
-            dcp_visibility eq ${PACKAGE_VISIBILITY.GENERAL_PUBLIC}
+            dcp_visibility eq ${PACKAGE_VISIBILITY_LOOKUP.GENERAL_PUBLIC}
           )
           and (
-            statuscode eq ${PACKAGE_STATUSCODE.SUBMITTED}
-            or statuscode eq ${PACKAGE_STATUSCODE.CERTIFIED}
+            statuscode eq ${PACKAGE_STATUSCODE_LOOKUP.SUBMITTED}
+            or statuscode eq ${PACKAGE_STATUSCODE_LOOKUP.CERTIFIED}
             or statuscode eq ${
-              PACKAGE_STATUSCODE.REVIEWED_NO_REVISIONS_REQUIRED
+              PACKAGE_STATUSCODE_LOOKUP.REVIEWED_NO_REVISIONS_REQUIRED
             }
-            or statuscode eq ${PACKAGE_STATUSCODE.REVIEWED_REVISIONS_REQUIRED}
-            or statuscode eq ${PACKAGE_STATUSCODE.UNDER_REVIEW}
-            or statuscode eq ${PACKAGE_STATUSCODE.FINAL_APPROVAL}
+            or statuscode eq ${
+              PACKAGE_STATUSCODE_LOOKUP.REVIEWED_REVISIONS_REQUIRED
+            }
+            or statuscode eq ${PACKAGE_STATUSCODE_LOOKUP.UNDER_REVIEW}
+            or statuscode eq ${PACKAGE_STATUSCODE_LOOKUP.FINAL_APPROVAL}
           )
         &$expand=dcp_package_SharePointDocumentLocations
       `
@@ -485,7 +260,7 @@ export class ProjectService {
       $filter=
         _dcp_project_value eq ${firstProject.dcp_projectid}
         and (
-          dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
+          dcp_visibility eq ${ARTIFACT_VISIBILITY_LOOKUP.GENERAL_PUBLIC}
         )
     `
     );
@@ -512,40 +287,134 @@ export class ProjectService {
     return this.serialize(transformedProject);
   }
 
-  async blocksWithinRadius(query) {
-    let { distance_from_point, radius_from_point } = query;
+  /**
+   * Compose query string for CRM service from query filter request from the client.
+   * Optionally creates a "normal" query, or an XML query
+   * @param query
+   * @param xml
+   */
+  async getProjectFilters(query: ClientProjectQuery, xml: boolean = false) {
+    const filters = [];
+    if (query["community-districts"]) {
+      filters.push(communityDistrictFilter(query["community-districts"], xml));
+    }
 
-    if (!distance_from_point || !radius_from_point) return {};
+    if (query["action-types"]) {
+      filters.push(actionTypesFilter(query["action-types"], xml));
+    }
 
-    // search cannot support more than 1000 because of URI Too Large errors
-    // if (radius_from_point > 1000) radius_from_point = 1000;
+    if (query["zoning-resolutions"]) {
+      filters.push(zoningResolutionFilter(query["zoning-resolutions"], xml));
+    }
 
-    const [x, y] = distance_from_point;
+    if (query.boroughs) {
+      filters.push(boroughFilter(query.boroughs, xml));
+    }
 
-    const blocks = await this.geometryService.getBlocksFromRadiusQuery(
-      x,
-      y,
-      radius_from_point
-    );
-    return { blocks };
+    if (query.dcp_ulurp_nonulurp) {
+      filters.push(ulurpNonUlurpFilter(query.dcp_ulurp_nonulurp, xml));
+    }
+
+    if (query.dcp_femafloodzonea) {
+      filters.push(femaFloodzoneFilter(query.dcp_femafloodzonea, xml));
+    }
+
+    if (query.dcp_femafloodzoneshadedx) {
+      filters.push(
+        femaFloodzoneShadedFilter(query.dcp_femafloodzoneshadedx, xml)
+      );
+    }
+
+    if (query.dcp_publicstatus) {
+      filters.push(publicStatusFilter(query.dcp_publicstatus, xml));
+    }
+
+    if (query.dcp_certifiedreferred) {
+      filters.push(certifiedReferredFilter(query.dcp_certifiedreferred, xml));
+    }
+
+    if (query.block) {
+      filters.push(blocksFilter([query.block], xml));
+    }
+
+    if (query.project_applicant_text) {
+      filters.push(
+        projectApplicantTextFilter(query.project_applicant_text, xml)
+      );
+    }
+
+    if (query.distance_from_point && query.radius_from_point) {
+      const blocks = await this.getBlocksWithinRadius(
+        query.distance_from_point,
+        query.radius_from_point
+      );
+      filters.push(blocksFilter(blocks, xml));
+    }
+
+    return postProcessQueryFilters(filters, xml);
   }
 
-  async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
-    const blocks = await this.blocksWithinRadius(query);
+  /**
+   * Helper function to get blocks (block numbers) within a given radius
+   * around a given point, using the geometry service
+   * @param point
+   * @param radius
+   */
+  async getBlocksWithinRadius(point: [number, number], radius: number) {
+    const [x, y] = point;
 
-    // adds in the blocks filter for use across various query types
-    const normalizedQuery = {
-      ...query,
+    return await this.geometryService.getBlocksFromRadiusQuery(x, y, radius);
+  }
 
-      // this information is sent as separate filters but must be represented as one
-      // to work correctly with the query template system.
-      ...blocks
+  /**
+   * Query CRM for projects matching query filters from client,
+   * process returned projects (map CRM codes, transform to shape expected by client),
+   * and augment with geospatial data
+   * @param query
+   * @param itemsPerPage
+   */
+  async queryProjects(
+    query: ClientProjectQuery,
+    itemsPerPage = ITEMS_PER_PAGE
+  ) {
+    // Create query object to send to CRM
+    const DEFAULT_PROJECT_LIST_FIELDS = [
+      "dcp_name",
+      "dcp_applicanttype",
+      "dcp_borough",
+      "dcp_ceqrnumber",
+      "dcp_ceqrtype",
+      "dcp_certifiedreferred",
+      "dcp_femafloodzonea",
+      "dcp_femafloodzoneshadedx",
+      "dcp_sisubdivision",
+      "dcp_sischoolseat",
+      "dcp_projectbrief",
+      "dcp_additionalpublicinformation",
+      "dcp_projectname",
+      "dcp_publicstatus",
+      "dcp_projectcompleted",
+      "dcp_hiddenprojectmetrictarget",
+      "dcp_ulurp_nonulurp",
+      "dcp_validatedcommunitydistricts",
+      "dcp_bsanumber",
+      "dcp_wrpnumber",
+      "dcp_lpcnumber",
+      "dcp_name",
+      "dcp_nydospermitnumber",
+      "dcp_lastmilestonedate",
+      "_dcp_applicant_customer_value",
+      "_dcp_applicantadministrator_customer_value"
+    ];
+    const queryObject = {
+      $select: DEFAULT_PROJECT_LIST_FIELDS,
+      $count: true,
+      $orderby: "dcp_lastmilestonedate desc,dcp_publicstatus asc",
+      $filter: await this.getProjectFilters(query),
+      $expand: `dcp_dcp_project_dcp_projectbbl_project($top=1;$filter=dcp_bblvalidated eq true)`
     };
 
-    const queryObject = generateQueryObject(normalizedQuery);
-    const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
-      normalizedQuery
-    );
+    // Make CRM query to get projects matching filters
     const {
       records: projects,
       skipTokenParams: nextPageSkipTokenParams,
@@ -556,12 +425,17 @@ export class ProjectService {
       itemsPerPage
     );
 
-    const valueMappedRecords = overwriteCodesWithLabels(
-      projects,
-      FIELD_LABEL_REPLACEMENT_WHITELIST
-    );
+    // Map CRM codes to human-readable values
+    const valueMappedRecords = overwriteCodesWithLabels(projects);
+    // Compose projects into structure the client needs
     const transformedProjects = transformProjects(valueMappedRecords);
 
+    // Get spatial info to augment projects with
+    const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
+      await this.getProjectFilters(query, true)
+    );
+
+    // Serialize data into paginated API response
     return this.serialize(transformedProjects, {
       pageTotal: ITEMS_PER_PAGE,
       total: count,
@@ -573,6 +447,11 @@ export class ProjectService {
     });
   }
 
+  /**
+   * Make a paginated request to CRM
+   * leveraging skip tokens from the client request
+   * @param skipTokenParams
+   */
   async paginate(skipTokenParams) {
     const {
       records: projects,
@@ -580,10 +459,7 @@ export class ProjectService {
       count
     } = await this.crmService.query("dcp_projects", skipTokenParams);
 
-    const valueMappedRecords = overwriteCodesWithLabels(
-      projects,
-      FIELD_LABEL_REPLACEMENT_WHITELIST
-    );
+    const valueMappedRecords = overwriteCodesWithLabels(projects);
     const transformedProjects = transformProjects(valueMappedRecords);
 
     return this.serialize(transformedProjects, {
@@ -606,7 +482,9 @@ export class ProjectService {
     return handleDownload(filetype, deserializedData);
   }
 
-  // Serializes an array of objects into a JSON:API document
+  /**
+   * Serializes an array of objects into a JSON:API document
+   */
   serialize(records, opts?: object): Serializer {
     const ProjectSerializer = new Serializer("projects", {
       id: "dcp_name",
