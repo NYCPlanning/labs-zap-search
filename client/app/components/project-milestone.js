@@ -13,10 +13,6 @@ export default class ProjectMilestoneComponent extends Component {
   get getClassNames() {
     let style = '';
 
-    if (this.milestone.statuscode === 'Not Started') style = 'gray';
-
-    if (this.milestone.statuscode === 'In Progress') style = 'green-glow';
-
     return `grid-x grid-padding-small milestone ${style}`;
   }
 }
