@@ -2,6 +2,9 @@ import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { sort, alias } from '@ember/object/computed';
 import { PREPARE_FILED_EAS } from './milestone/constants';
+import {
+  STATUSCODE_OPTIONSET,
+} from './milestone/constants';
 
 const {
   Model, attr, hasMany,
@@ -134,18 +137,67 @@ export default class ProjectModel extends Model {
       .filter(pMilestone => pMilestone.dcpMilestone !== PREPARE_FILED_EAS);
   }
 
-  @sort('filteredMilestones', function(prev, next) {
-    const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
+  @computed('filteredMilestones')
+  get completedMilestones() {
+    return this.get('filteredMilestones')
+      .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.COMPLETED.label);
+  }
 
-    if (milestoneSequenceDifference === 0) {
-      if (!prev.displayDate) return 1;
+  @computed('filteredMilestones')
+  get inProgressMilestones() {
+    return this.get('milestones')
+    .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.IN_PROGRESS.label);
+  }
 
-      if (!next.displayDate) return -1;
+  @computed('filteredMilestones')
+  get notStartedMilestones() {
+    return this.get('milestones')
+    .filter(pMilestone => (pMilestone.statuscode !== STATUSCODE_OPTIONSET.COMPLETED.label && pMilestone.statuscode !== STATUSCODE_OPTIONSET.IN_PROGRESS.label));
+  }
 
-      return prev.displayDate - next.displayDate;
-    }
+  // @sort('filteredMilestones', function(prev, next) {
+  //   const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
 
-    return milestoneSequenceDifference;
-  })
-  sortedMilestones;
+  //   if (milestoneSequenceDifference === 0) {
+  //     if (!prev.displayDate) return 1;
+
+  //     if (!next.displayDate) return -1;
+
+  //     return prev.displayDate - next.displayDate;
+  //   }
+
+  //   return milestoneSequenceDifference;
+  // })
+  // sortedCompletedMilestones;
+
+  // @sort('filteredMilestones', function(prev, next) {
+  //   const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
+
+  //   if (milestoneSequenceDifference === 0) {
+  //     if (!prev.displayDate) return 1;
+
+  //     if (!next.displayDate) return -1;
+
+  //     return prev.displayDate - next.displayDate;
+  //   }
+
+  //   return milestoneSequenceDifference;
+  // })
+  // sortedInProgressMilestones;
+
+  // @sort('filteredMilestones', function(prev, next) {
+  //   const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
+
+  //   if (milestoneSequenceDifference === 0) {
+  //     if (!prev.displayDate) return 1;
+
+  //     if (!next.displayDate) return -1;
+
+  //     return prev.displayDate - next.displayDate;
+  //   }
+
+  //   return milestoneSequenceDifference;
+  // })
+  // sortedNotStartedMilestones;
+
 }
