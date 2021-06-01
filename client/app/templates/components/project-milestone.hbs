@@ -30,6 +30,7 @@
     {{/if}}
   </h4>
 
+  {{!-- IN PROGRESS OR COMPLETED --}}
   {{#if (and
     (in-array (array "In Progress" "Completed") milestone.statuscode)
     milestone.displayDate
@@ -64,9 +65,6 @@
       {{#if (eq milestone.dcpMilestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
         <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank">{{fa-icon "external-link-alt"}} CPC Public Meeting Calendar</a></li>
       {{/if}}
-      {{#if (eq milestone.dcpMilestone "a43beec4-dad0-e711-8116-1458d04e2fb8")}}
-        <li><a href="http://a030-cpc.nyc.gov/html/cpc/index.aspx" target="_blank">{{fa-icon "external-link-alt"}} CPC Reports</a></li>
-      {{/if}}
       {{#each milestone.milestoneLinks as |link|}}
         <li><a href="{{link.url}}" target="_blank">{{link.filename}}</a></li>
       {{/each}}
@@ -80,6 +78,8 @@
             {{milestoneParticipant.landUseParticipantFullName}}
           </h5>
         {{/if}}
+
+        {{!-- HEARINGS SUB-MILESTONES --}}
         {{#if milestoneParticipant.hearingsSubmitted}}
           {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
             {{#each dedupedHearings as |hearing|}}
@@ -87,30 +87,14 @@
                 <ul class="sub-milestones no-bullet">
                   <li class="grid-x small-margin-bottom">
                     <div class="cell shrink small-margin-right">
-                      {{#if (is-before disposition.dcpDateofpublichearing)}}
+                      {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
                         {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
                       {{else}}
                         {{fa-icon icon='check' fixedWidth=true class='blue-muted'}}
                       {{/if}}
                     </div>
                     <div class="cell auto">
-                      <strong>Public Hearing</strong>
-                        <small class="display-inline-block" data-test-hearing-location="{{hearing.disposition.id}}">
-                          {{hearing.disposition.dcpPublichearinglocation}}
-                        </small>
-                        <small class="display-inline-block" data-test-hearing-date="{{hearing.disposition.id}}">
-                          {{~moment-format hearing.disposition.dcpDateofpublichearing "LLLL"~}}
-                        </small>
-                      <div class="text-tiny">
-                        {{#each hearing.hearingActions as |action index|}}
-                          {{#if action.dcpName}}
-                            <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-hearing-actions-list="{{hearing.disposition.id}}{{index}}">
-                              {{action.dcpName}}
-                              <small>{{action.dcpUlurpnumber}}</small>
-                            </span>
-                          {{/if}}
-                        {{/each}}
-                      </div>
+                      {{milestones/public-hearing hearing=hearing}}
                     </div>
                   </li>
                 </ul>
@@ -118,6 +102,8 @@
             {{/each}}
           {{/deduped-hearings-list}}
         {{/if}}
+
+        {{!-- VOTES SUB-MILESTONES --}}
         {{#if milestoneParticipant.votesSubmitted}}
           <ul class="sub-milestones no-bullet">
             {{#deduped-votes-list dispositions=milestoneParticipant.userDispositions participantRecommendationType=milestoneParticipant.participantRecommendationType as |dedupedVotes|}}
@@ -197,6 +183,30 @@
         {{/if}}
       {{/each}}
     {{/hearings-list-for-milestones-list}}
+  {{/if}}
+
+  {{#if (and
+    milestone.isCPCPublicMeetingPublicHearing
+    (is-same-or-after milestone.dcpReviewmeetingdate)
+  )}}
+    <ul class="sub-milestones no-bullet">
+      <li class="grid-x small-margin-bottom">
+        <div class="cell shrink small-margin-right">
+          {{!-- This is always "calendar" icon, because for this milestone, it should always have happened in the past --}}
+          {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
+        </div>
+        <div class="cell auto">
+          {{milestones/public-hearing
+            hearing=(hash
+              disposition=(hash
+                dcpDateofpublichearing=milestone.dcpReviewmeetingdate
+              )
+              hearingActions=milestone.project.actions
+            )
+          }}
+        </div>
+      </li>
+    </ul>
   {{/if}}
 </div>
 

@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+cd client
+yarn run lint-staged
+
+cd ../server
+yarn run lint-staged

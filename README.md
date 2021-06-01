@@ -10,12 +10,15 @@ An ambitious web app for filtering and viewing NYC land use application records 
 
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with npm)
+  - This installation was tested using Node v12.18.4, v14.15.0
 * [Ember CLI](https://ember-cli.com/)
 
 ### 2. Install frontend and backend packages 
 
 ```
 > git clone https://github.com/NYCPlanning/labs-zap-search
+> cd labs-zap-search
+> yarn
 > cd labs-zap-search/client
 > yarn
 > cd labs-zap-search/server

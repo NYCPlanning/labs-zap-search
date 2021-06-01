@@ -196,6 +196,7 @@ function generateAssignmentsQueryObject(contact) {
     '843beec4-dad0-e711-8116-1458d04e2fb8',
     '8e3beec4-dad0-e711-8116-1458d04e2fb8',
     '780593bb-ecc2-e811-8156-1458d04d0698',
+    '6c3beec4-dad0-e711-8116-1458d04e2fb8',
 
     // these are study area entities and
     // TODO: need to also check for study
@@ -214,7 +215,7 @@ function generateAssignmentsQueryObject(contact) {
   );
 
   return {
-    $select: 'dcp_name,statecode,dcp_applicanttype,dcp_borough,dcp_ceqrnumber,dcp_ceqrtype,dcp_certifiedreferred,dcp_femafloodzonea,dcp_femafloodzoneshadedx,dcp_sisubdivision,dcp_sischoolseat,dcp_projectbrief,dcp_projectname,dcp_publicstatus,dcp_projectcompleted,dcp_hiddenprojectmetrictarget,dcp_ulurp_nonulurp,dcp_validatedcommunitydistricts,dcp_bsanumber,dcp_wrpnumber,dcp_lpcnumber,dcp_name,dcp_nydospermitnumber,dcp_lastmilestonedate,_dcp_applicant_customer_value,_dcp_applicantadministrator_customer_value',
+    $select: 'dcp_name,statecode,dcp_applicanttype,dcp_borough,dcp_ceqrnumber,dcp_ceqrtype,dcp_certifiedreferred,dcp_femafloodzonea,dcp_femafloodzoneshadedx,dcp_sisubdivision,dcp_sischoolseat,dcp_projectbrief,dcp_additionalpublicinformation,dcp_projectname,dcp_publicstatus,dcp_projectcompleted,dcp_hiddenprojectmetrictarget,dcp_ulurp_nonulurp,dcp_validatedcommunitydistricts,dcp_bsanumber,dcp_wrpnumber,dcp_lpcnumber,dcp_name,dcp_nydospermitnumber,dcp_lastmilestonedate,_dcp_applicant_customer_value,_dcp_applicantadministrator_customer_value',
 
     $count: true,
 
