@@ -22,6 +22,9 @@ const EmptyFeatureCollection = {
 };
 
 const milestoneDateCompare = function(prev, next) {
+  if (prev.dcpActualstartdate && !next.dcpActualstartdate) return -1;
+  if (!prev.dcpActualstartdate && next.dcpActualstartdate) return 1;
+
   const prevMilestoneDate = new Date(prev.dcpActualstartdate);
   const nextMilestoneDate = new Date(next.dcpActualstartdate);
 
@@ -159,7 +162,7 @@ export default class ProjectModel extends Model {
   @computed('filteredMilestones')
   get notStartedMilestones() {
     return this.get('milestones')
-    .filter(pMilestone => (pMilestone.statuscode !== STATUSCODE_OPTIONSET.COMPLETED.label && pMilestone.statuscode !== STATUSCODE_OPTIONSET.IN_PROGRESS.label));
+    .filter(pMilestone => ((pMilestone.statuscode !== STATUSCODE_OPTIONSET.COMPLETED.label) && (pMilestone.statuscode !== STATUSCODE_OPTIONSET.IN_PROGRESS.label)));
   }
 
   @sort('completedMilestones', milestoneDateCompare)
@@ -171,4 +174,6 @@ export default class ProjectModel extends Model {
   @sort('filteredMilestones', milestoneDateCompare)
   sortedNotStartedMilestones;
 
+  @sort('filteredMilestones', milestoneDateCompare)
+  sortedFilteredMilestones;
 }

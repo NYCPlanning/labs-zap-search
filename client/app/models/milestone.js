@@ -106,9 +106,12 @@ export default class MilestoneModel extends Model {
   // In list of milestones with same displayName,
   // each milestone AFTER the first will have `Revised` before the name (isRevised === true)
   // milestones are already sorted in the backend by date
-  @computed()
+  @computed('project.sortedFilteredMilestones', 'id', 'displayName')
   get isRevised() {
-    return false;
+    const projectMilestones = this.get('project.sortedFilteredMilestones');
+    const sameNameMilestones = projectMilestones.filter(m => m.displayName === this.displayName);
+    // check if the current milestone id matches the first in the list
+    return this.id !== sameNameMilestones.firstObject.id;
   }
 
   // New milestone name based on isRevised
