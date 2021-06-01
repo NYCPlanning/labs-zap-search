@@ -132,8 +132,8 @@
                 </div>
               </li>
 
-              {{#if model.completedMilestones}}
-                {{#each model.completedMilestones as | milestone |}}
+              {{#if model.sortedCompletedMilestones}}
+                {{#each model.sortedCompletedMilestones as | milestone |}}
                   {{project-milestone milestone=milestone}}
                 {{/each}}
               {{else}}
@@ -151,14 +151,14 @@
                 <div class="cell auto">
                   <h4 class="no-margin">
                     <span>
-                      Completed
+                      In Progress
                     </span>
                   </h4>
                 </div>
               </li>
 
-              {{#if model.inProgressMilestones}}
-                {{#each model.inProgressMilestones as | milestone |}}
+              {{#if model.sortedInProgressMilestones}}
+                {{#each model.sortedInProgressMilestones as | milestone |}}
                   {{project-milestone milestone=milestone}}
                 {{/each}}
               {{else}}
@@ -176,14 +176,14 @@
                 <div class="cell auto">
                   <h4 class="no-margin">
                     <span>
-                      Completed
+                      Not Started
                     </span>
                   </h4>
                 </div>
               </li>
 
-              {{#if model.notStartedMilestones}}
-                {{#each model.notStartedMilestones as | milestone |}}
+              {{#if model.sortedNotStartedMilestones}}
+                {{#each model.sortedNotStartedMilestones as | milestone |}}
                   {{project-milestone milestone=milestone}}
                 {{/each}}
               {{else}}

@@ -21,6 +21,13 @@ const EmptyFeatureCollection = {
   }],
 };
 
+const milestoneDateCompare = function(prev, next) {
+  const prevMilestoneDate = new Date(prev.dcpActualstartdate);
+  const nextMilestoneDate = new Date(next.dcpActualstartdate);
+
+  return prevMilestoneDate.getTime() - nextMilestoneDate.getTime();
+}
+
 export default class ProjectModel extends Model {
   @hasMany('action', { async: false }) actions;
 
@@ -155,49 +162,13 @@ export default class ProjectModel extends Model {
     .filter(pMilestone => (pMilestone.statuscode !== STATUSCODE_OPTIONSET.COMPLETED.label && pMilestone.statuscode !== STATUSCODE_OPTIONSET.IN_PROGRESS.label));
   }
 
-  // @sort('filteredMilestones', function(prev, next) {
-  //   const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
+  @sort('completedMilestones', milestoneDateCompare)
+  sortedCompletedMilestones;
 
-  //   if (milestoneSequenceDifference === 0) {
-  //     if (!prev.displayDate) return 1;
+  @sort('inProgressMilestones', milestoneDateCompare)
+  sortedInProgressMilestones;
 
-  //     if (!next.displayDate) return -1;
-
-  //     return prev.displayDate - next.displayDate;
-  //   }
-
-  //   return milestoneSequenceDifference;
-  // })
-  // sortedCompletedMilestones;
-
-  // @sort('filteredMilestones', function(prev, next) {
-  //   const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
-
-  //   if (milestoneSequenceDifference === 0) {
-  //     if (!prev.displayDate) return 1;
-
-  //     if (!next.displayDate) return -1;
-
-  //     return prev.displayDate - next.displayDate;
-  //   }
-
-  //   return milestoneSequenceDifference;
-  // })
-  // sortedInProgressMilestones;
-
-  // @sort('filteredMilestones', function(prev, next) {
-  //   const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
-
-  //   if (milestoneSequenceDifference === 0) {
-  //     if (!prev.displayDate) return 1;
-
-  //     if (!next.displayDate) return -1;
-
-  //     return prev.displayDate - next.displayDate;
-  //   }
-
-  //   return milestoneSequenceDifference;
-  // })
-  // sortedNotStartedMilestones;
+  @sort('filteredMilestones', milestoneDateCompare)
+  sortedNotStartedMilestones;
 
 }
