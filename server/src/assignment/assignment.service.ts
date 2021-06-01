@@ -196,6 +196,7 @@ function generateAssignmentsQueryObject(contact) {
     '843beec4-dad0-e711-8116-1458d04e2fb8',
     '8e3beec4-dad0-e711-8116-1458d04e2fb8',
     '780593bb-ecc2-e811-8156-1458d04d0698',
+    '6c3beec4-dad0-e711-8116-1458d04e2fb8',
 
     // these are study area entities and
     // TODO: need to also check for study
