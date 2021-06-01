@@ -12,7 +12,6 @@ export const KEYS = [
   'dcp_sisubdivision',
   'dcp_sischoolseat',
   'dcp_projectbrief',
-  'dcp_additionalpublicinformation',
   'dcp_projectid',
   'dcp_projectname',
   'dcp_publicstatus',
