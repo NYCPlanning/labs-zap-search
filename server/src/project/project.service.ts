@@ -250,6 +250,7 @@ function generateQueryObject(query, overrides?) {
     "dcp_sisubdivision",
     "dcp_sischoolseat",
     "dcp_projectbrief",
+    "dcp_additionalpublicinformation",
     "dcp_projectname",
     "dcp_publicstatus",
     "dcp_projectcompleted",
@@ -354,6 +355,7 @@ export class ProjectService {
       "dcp_sisubdivision",
       "dcp_sischoolseat",
       "dcp_projectbrief",
+      "dcp_additionalpublicinformation",
       "dcp_projectname",
       "dcp_publicstatus",
       "dcp_projectcompleted",
@@ -533,11 +535,11 @@ export class ProjectService {
 
     // adds in the blocks filter for use across various query types
     const normalizedQuery = {
-      ...query,
+      ...query
 
       // this information is sent as separate filters but must be represented as one
       // to work correctly with the query template system.
-      ...blocks
+      // ...blocks
     };
 
     const queryObject = generateQueryObject(normalizedQuery);
