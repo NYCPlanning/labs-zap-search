@@ -189,7 +189,11 @@ const QUERY_TEMPLATES = {
           childEntity: "dcp_dcp_project_dcp_projectaction_project"
         }
       )
-    )
+    ),
+  blocks_in_radius: queryParamValue =>
+    containsAnyOf("dcp_validatedblock", queryParamValue, {
+      childEntity: "dcp_dcp_project_dcp_projectbbl_project"
+    })
 };
 
 export const ALLOWED_FILTERS = [
@@ -224,7 +228,6 @@ function generateProjectsFilterString(query) {
   // optional params
   // apply only those that appear in the query object
   const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
-
   return all(
     // defaults
     comparisonOperator(
@@ -522,12 +525,11 @@ export class ProjectService {
 
     const [x, y] = distance_from_point;
 
-    const blocks = await this.geometryService.getBlocksFromRadiusQuery(
+    return await this.geometryService.getBlocksFromRadiusQuery(
       x,
       y,
       radius_from_point
     );
-    return { blocks };
   }
 
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
@@ -536,10 +538,7 @@ export class ProjectService {
     // adds in the blocks filter for use across various query types
     const normalizedQuery = {
       ...query,
-
-      // this information is sent as separate filters but must be represented as one
-      // to work correctly with the query template system.
-      ...blocks
+      blocks_in_radius: blocks
     };
 
     const queryObject = generateQueryObject(normalizedQuery);
