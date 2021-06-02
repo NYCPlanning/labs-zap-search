@@ -11,7 +11,7 @@ export default class ProjectMilestoneComponent extends Component {
 
   @computed('milestone.statuscode')
   get getClassNames() {
-    let style = '';
+    const style = '';
 
     return `grid-x grid-padding-small milestone ${style}`;
   }

@@ -1,10 +1,11 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { sort, alias } from '@ember/object/computed';
-import { PREPARE_FILED_EAS } from './milestone/constants';
 import {
+  PREPARE_FILED_EAS,
   STATUSCODE_OPTIONSET,
 } from './milestone/constants';
+
 
 const {
   Model, attr, hasMany,
@@ -29,7 +30,7 @@ const milestoneDateCompare = function(prev, next) {
   const nextMilestoneDate = new Date(next.dcpActualstartdate);
 
   return prevMilestoneDate.getTime() - nextMilestoneDate.getTime();
-}
+};
 
 export default class ProjectModel extends Model {
   @hasMany('action', { async: false }) actions;
@@ -156,13 +157,13 @@ export default class ProjectModel extends Model {
   @computed('filteredMilestones')
   get inProgressMilestones() {
     return this.get('milestones')
-    .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.IN_PROGRESS.label);
+      .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.IN_PROGRESS.label);
   }
 
   @computed('filteredMilestones')
   get notStartedMilestones() {
     return this.get('milestones')
-    .filter(pMilestone => ((pMilestone.statuscode !== STATUSCODE_OPTIONSET.COMPLETED.label) && (pMilestone.statuscode !== STATUSCODE_OPTIONSET.IN_PROGRESS.label)));
+      .filter(pMilestone => ((pMilestone.statuscode !== STATUSCODE_OPTIONSET.COMPLETED.label) && (pMilestone.statuscode !== STATUSCODE_OPTIONSET.IN_PROGRESS.label)));
   }
 
   @sort('completedMilestones', milestoneDateCompare)
