@@ -15,6 +15,7 @@ import { KEYS as DISPOSITION_KEYS } from "../disposition/disposition.entity";
 import { ARTIFACT_ATTRS } from "../artifact/artifacts.attrs";
 import { PACKAGE_ATTRS } from "../package/packages.attrs";
 import { Octokit } from "@octokit/rest";
+import buildQuery, { ITEM_ROOT } from "odata-query";
 
 // CrmService is a copy of the newer API we built for Applicant Portal to talk to CRM.
 // It will eventually strangle out OdataService, which is an older API to accomplish
@@ -35,6 +36,7 @@ import {
 import { ArtifactService } from "../artifact/artifact.service";
 import { PackageService } from "../package/package.service";
 import { GeometryService } from "./geometry/geometry.service";
+import { ClientProjectQuery, getoDataFilters } from "./_utils/get-odata-query";
 
 const ITEMS_PER_PAGE = 30;
 export const BOROUGH_LOOKUP = {
@@ -220,68 +222,6 @@ export const generateFromTemplate = (query, template) => {
     .map(key => template[key](query[key]));
 };
 
-function generateProjectsFilterString(query) {
-  // Special handling for 'block' query, which must be explicitly ignored if empty
-  // otherwise, unmapped projects will be excluded from the results
-  if (!query.block) delete query.block;
-
-  // optional params
-  // apply only those that appear in the query object
-  const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
-  return all(
-    // defaults
-    comparisonOperator(
-      "dcp_visibility",
-      "eq",
-      PROJECT_VISIBILITY_LOOKUP["General Public"]
-    ),
-    // optional params
-    ...requestedFiltersQuery
-  );
-}
-
-function generateQueryObject(query, overrides?) {
-  const DEFAULT_PROJECT_LIST_FIELDS = [
-    "dcp_name",
-    "dcp_applicanttype",
-    "dcp_borough",
-    "dcp_ceqrnumber",
-    "dcp_ceqrtype",
-    "dcp_certifiedreferred",
-    "dcp_femafloodzonea",
-    "dcp_femafloodzoneshadedx",
-    "dcp_sisubdivision",
-    "dcp_sischoolseat",
-    "dcp_projectbrief",
-    "dcp_projectname",
-    "dcp_publicstatus",
-    "dcp_projectcompleted",
-    "dcp_hiddenprojectmetrictarget",
-    "dcp_ulurp_nonulurp",
-    "dcp_validatedcommunitydistricts",
-    "dcp_bsanumber",
-    "dcp_wrpnumber",
-    "dcp_lpcnumber",
-    "dcp_name",
-    "dcp_nydospermitnumber",
-    "dcp_lastmilestonedate",
-    "_dcp_applicant_customer_value",
-    "_dcp_applicantadministrator_customer_value"
-  ];
-
-  // this needs to be configurable, maybe come from project entity
-  const projectFields = DEFAULT_PROJECT_LIST_FIELDS.join(",");
-
-  return {
-    $select: projectFields,
-    $count: true,
-    $orderby: "dcp_lastmilestonedate desc,dcp_publicstatus asc",
-    $filter: generateProjectsFilterString(query),
-    $expand: `dcp_dcp_project_dcp_projectbbl_project($top=1;$filter=dcp_bblvalidated eq true)`,
-    ...overrides
-  };
-}
-
 export function transformProjectAttributes(project): any {
   // this must happen before value-mapping because some of the constants
   // refer to certain identifiers that are replaced after value-mapping
@@ -332,8 +272,6 @@ export function transformProjectAttributes(project): any {
 
   return project;
 }
-
-export type ClientProjectsQuery = {};
 
 @Injectable()
 export class ProjectService {
@@ -531,8 +469,57 @@ export class ProjectService {
       radius_from_point
     );
   }
+  async buildODataQuery(query: ClientProjectQuery) {
+    const DEFAULT_PROJECT_LIST_FIELDS = [
+      "dcp_name",
+      "dcp_applicanttype",
+      "dcp_borough",
+      "dcp_ceqrnumber",
+      "dcp_ceqrtype",
+      "dcp_certifiedreferred",
+      "dcp_femafloodzonea",
+      "dcp_femafloodzoneshadedx",
+      "dcp_sisubdivision",
+      "dcp_sischoolseat",
+      "dcp_projectbrief",
+      "dcp_projectname",
+      "dcp_publicstatus",
+      "dcp_projectcompleted",
+      "dcp_hiddenprojectmetrictarget",
+      "dcp_ulurp_nonulurp",
+      "dcp_validatedcommunitydistricts",
+      "dcp_bsanumber",
+      "dcp_wrpnumber",
+      "dcp_lpcnumber",
+      "dcp_name",
+      "dcp_nydospermitnumber",
+      "dcp_lastmilestonedate",
+      "_dcp_applicant_customer_value",
+      "_dcp_applicantadministrator_customer_value"
+    ];
 
-  async queryProjectsNew(query, itemsPerPage = ITEMS_PER_PAGE) {}
+    // this needs to be configurable, maybe come from project entity
+    const projectFields = DEFAULT_PROJECT_LIST_FIELDS.join(",");
+
+    return buildQuery({
+      select: projectFields,
+      count: true,
+      filter: getoDataFilters(query, this.geometryService),
+      expand: [
+        {
+          dcp_dcp_project_dcp_projectbbl_project: {
+            top: 1,
+            filter: { dcp_bblvalidated: true }
+          }
+        }
+      ],
+      orderBy: ["dcp_lastmilestonedate desc", "dcp_publicstatus asc"] as any // yuck but for some reason the typescript typing doesn't like expand + orderby
+    });
+  }
+
+  async queryProjectsNew(query: ClientProjectQuery) {
+    const oDataQuery = await this.buildODataQuery(query);
+  }
 
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
     const blocks = await this.blocksWithinRadius(query);
@@ -543,19 +530,27 @@ export class ProjectService {
       blocks_in_radius: blocks
     };
 
-    const queryObject = generateQueryObject(normalizedQuery);
-    const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
-      normalizedQuery
-    );
-    const {
-      records: projects,
-      skipTokenParams: nextPageSkipTokenParams,
-      count
-    } = await this.crmService.queryFromObject(
-      "dcp_projects",
-      queryObject,
-      itemsPerPage
-    );
+    // const queryObject = buildODataQuery(normalizedQuery);
+    // const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
+    //   normalizedQuery
+    // );
+    const spatialInfo = [];
+
+    // console.log("queryobject", queryObject);
+    // console.log(getoDataFilters(query));
+    // const {
+    //   records: projects,
+    //   skipTokenParams: nextPageSkipTokenParams,
+    //   count
+    // } = await this.crmService.queryFromObject(
+    //   "dcp_projects",
+    //   queryObject,
+    //   itemsPerPage
+    // );
+
+    const projects = [];
+    const count = 0;
+    const nextPageSkipTokenParams = {};
 
     const valueMappedRecords = overwriteCodesWithLabels(
       projects,
