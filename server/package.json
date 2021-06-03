@@ -62,6 +62,7 @@
     "node-pg-migrate": "^3.23.3",
     "odata": "^1.0.4",
     "odata-parser": "^1.4.1",
+    "odata-query": "^6.7.0",
     "odata-v4-parser": "^0.1.29",
     "p-limit": "^2.2.1",
     "pg": "^7.12.1",

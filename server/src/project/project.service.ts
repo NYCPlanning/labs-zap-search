@@ -333,6 +333,8 @@ export function transformProjectAttributes(project): any {
   return project;
 }
 
+export type ClientProjectsQuery = {};
+
 @Injectable()
 export class ProjectService {
   constructor(
@@ -529,6 +531,8 @@ export class ProjectService {
       radius_from_point
     );
   }
+
+  async queryProjectsNew(query, itemsPerPage = ITEMS_PER_PAGE) {}
 
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
     const blocks = await this.blocksWithinRadius(query);
