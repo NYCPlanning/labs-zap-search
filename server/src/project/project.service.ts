@@ -563,59 +563,27 @@ export class ProjectService {
     });
   }
 
-  async queryProjectsNew(query: ClientProjectQuery) {
-    const oDataQuery = await this.buildODataQuery(query);
-  }
+  async queryProjects(query: ClientProjectQuery) {
+    const {
+      records: projects,
+      skipTokenParams: _,
+      count
+    } = await this.crmService.query(
+      "dcp_projects",
+      await this.buildODataQuery(query)
+    );
+    const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
+      query
+    );
 
-  async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
-    const blocks = await this.blocksWithinRadius(query);
-
-    // adds in the blocks filter for use across various query types
-    const normalizedQuery = {
-      blocks_in_radius: blocks,
-      ...query
-
-      // this information is sent as separate filters but must be represented as one
-      // to work correctly with the query template system.
-      // ...blocks
-
-    };
-
-    // const queryObject = buildODataQuery(normalizedQuery);
-    // const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
-    //   normalizedQuery
-    // );
-    const spatialInfo = [];
-
-    // console.log("queryobject", queryObject);
-    // console.log(getoDataFilters(query));
-    // const {
-    //   records: projects,
-    //   skipTokenParams: nextPageSkipTokenParams,
-    //   count
-    // } = await this.crmService.queryFromObject(
-    //   "dcp_projects",
-    //   queryObject,
-    //   itemsPerPage
-    // );
-
-    const projects = [];
-    const count = 0;
-    const nextPageSkipTokenParams = {};
-
-    const valueMappedRecords = overwriteCodesWithLabels(
+    const valueMappedProjects = overwriteCodesWithLabels(
       projects,
       FIELD_LABEL_REPLACEMENT_WHITELIST
     );
-    const transformedProjects = transformProjects(valueMappedRecords);
+    const transformedProjects = transformProjects(valueMappedProjects);
 
     return this.serialize(transformedProjects, {
-      pageTotal: ITEMS_PER_PAGE,
       total: count,
-      ...(nextPageSkipTokenParams
-        ? { skipTokenParams: nextPageSkipTokenParams }
-        : {}),
-
       ...spatialInfo
     });
   }
@@ -643,7 +611,7 @@ export class ProjectService {
   }
 
   async handleDownload(request, filetype) {
-    const { data } = await this.queryProjects(request, 5000);
+    const { data } = await this.queryProjects(request);
 
     const deserializedData = data.map(jsonApiRecord => ({
       id: jsonApiRecord.id,
