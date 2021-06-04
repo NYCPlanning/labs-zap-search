@@ -22,15 +22,8 @@ import buildQuery, { ITEM_ROOT } from "odata-query";
 // the same thing.
 import { CrmService } from "../crm/crm.service";
 import {
-  coerceToNumber,
-  coerceToDateString,
-  mapInLookup,
   all,
-  any,
   comparisonOperator,
-  containsString,
-  equalsAnyOf,
-  containsAnyOf,
   overwriteCodesWithLabels
 } from "../crm/crm.utilities";
 import { ArtifactService } from "../artifact/artifact.service";
@@ -102,100 +95,6 @@ export const PACKAGE_STATUSCODE = {
 
 const ARTIFACT_VISIBILITY = {
   GENERAL_PUBLIC: 717170003
-};
-
-// configure received params, provide procedures for generating queries.
-// these funcs do not get called unless they are in the query params.
-// could these become a first class object?
-const QUERY_TEMPLATES = {
-  "community-districts": queryParamValue =>
-    containsAnyOf("dcp_validatedcommunitydistricts", queryParamValue),
-
-  "action-types": queryParamValue =>
-    containsAnyOf("dcp_name", queryParamValue, {
-      childEntity: "dcp_dcp_project_dcp_projectaction_project"
-    }),
-
-  "zoning-resolutions": queryParamValue =>
-    queryParamValue
-      .map(
-        value =>
-          `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`
-      )
-      .join(" or "),
-
-  boroughs: queryParamValue =>
-    equalsAnyOf(
-      "dcp_borough",
-      coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP))
-    ),
-
-  dcp_ulurp_nonulurp: queryParamValue =>
-    equalsAnyOf(
-      "dcp_ulurp_nonulurp",
-      coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP))
-    ),
-
-  dcp_femafloodzonea: queryParamValue =>
-    comparisonOperator("dcp_femafloodzonea", "eq", queryParamValue),
-
-  dcp_femafloodzoneshadedx: queryParamValue =>
-    comparisonOperator("dcp_femafloodzoneshadedx", "eq", queryParamValue),
-
-  dcp_publicstatus: (queryParamValue: []) =>
-    equalsAnyOf(
-      "dcp_publicstatus",
-      coerceToNumber(mapInLookup(queryParamValue, PROJECT_STATUS_LOOKUP))
-    ),
-
-  dcp_certifiedreferred: queryParamValue =>
-    all(
-      comparisonOperator(
-        "dcp_certifiedreferred",
-        "gt",
-        coerceToDateString(queryParamValue[0])
-      ),
-      comparisonOperator(
-        "dcp_certifiedreferred",
-        "lt",
-        coerceToDateString(queryParamValue[1])
-      )
-    ),
-
-  block: queryParamValue =>
-    containsAnyOf("dcp_validatedblock", [queryParamValue], {
-      childEntity: "dcp_dcp_project_dcp_projectbbl_project"
-    }),
-
-  project_applicant_text: queryParamValue =>
-    any(
-      containsString("dcp_projectbrief", queryParamValue),
-      containsString("dcp_projectname", queryParamValue),
-      containsString("dcp_ceqrnumber", queryParamValue),
-      containsAnyOf("dcp_name", [queryParamValue], {
-        childEntity: "dcp_dcp_project_dcp_projectapplicant_Project"
-      }),
-      containsAnyOf("dcp_ulurpnumber", [queryParamValue], {
-        childEntity: "dcp_dcp_project_dcp_projectaction_project"
-      }),
-      containsAnyOf("dcp_comment", [queryParamValue], {
-        childEntity: "dcp_dcp_project_dcp_projectaction_project"
-      }),
-      containsAnyOf("dcp_docket", [queryParamValue], {
-        childEntity: "dcp_dcp_project_dcp_projectaction_project"
-      }),
-      containsAnyOf(
-        "dcp_historiczoningresolutionsectionnumber",
-        [queryParamValue],
-        {
-          childEntity: "dcp_dcp_project_dcp_projectaction_project"
-        }
-      )
-    ),
-  blocks_in_radius: queryParamValue =>
-    containsAnyOf("dcp_validatedblock", queryParamValue, {
-      childEntity: "dcp_dcp_project_dcp_projectbbl_project"
-    })
 };
 
 export const ALLOWED_FILTERS = [
@@ -453,56 +352,39 @@ export class ProjectService {
     return this.serialize(transformedProject);
   }
 
-  async blocksWithinRadius(query) {
-    let { distance_from_point, radius_from_point } = query;
+  async buildProjectsQuery(query: ClientProjectQuery) {
+    class Project {
+      // create default values so we can grab property names to generate select list
+      dcp_name: string = "";
+      dcp_applicanttype: string = "";
+      dcp_borough: string = "";
+      dcp_ceqrnumber: string = "";
+      dcp_ceqrtype: string = "";
+      dcp_certifiedreferred: string = "";
+      dcp_femafloodzonea: boolean = false;
+      dcp_femafloodzoneshadedx: boolean = false;
+      dcp_sisubdivision: boolean = false;
+      dcp_sischoolseat: boolean = false;
+      dcp_projectbrief: string = "";
+      dcp_projectname: string = "";
+      dcp_publicstatus: string = "";
+      dcp_projectcompleted: string = "";
+      dcp_hiddenprojectmetrictarget: string = "";
+      dcp_ulurp_nonulurp: string = "";
+      dcp_validatedcommunitydistricts: string = "";
+      dcp_bsanumber: string = "";
+      dcp_wrpnumber: string = "";
+      dcp_lpcnumber: string = "";
+      dcp_nydospermitnumber: string = "";
+      dcp_lastmilestonedate: string = "";
+      _dcp_applicant_customer_value: string = "";
+      _dcp_applicantadministrator_customer_value: string = "";
+      // joins, not for selecting, so no default value
+      dcp_dcp_project_dcp_projectbbl_project: object;
+    }
 
-    if (!distance_from_point || !radius_from_point) return {};
-
-    // search cannot support more than 1000 because of URI Too Large errors
-    // if (radius_from_point > 1000) radius_from_point = 1000;
-
-    const [x, y] = distance_from_point;
-
-    return await this.geometryService.getBlocksFromRadiusQuery(
-      x,
-      y,
-      radius_from_point
-    );
-  }
-  async buildODataQuery(query: ClientProjectQuery) {
-    const DEFAULT_PROJECT_LIST_FIELDS = [
-      "dcp_name",
-      "dcp_applicanttype",
-      "dcp_borough",
-      "dcp_ceqrnumber",
-      "dcp_ceqrtype",
-      "dcp_certifiedreferred",
-      "dcp_femafloodzonea",
-      "dcp_femafloodzoneshadedx",
-      "dcp_sisubdivision",
-      "dcp_sischoolseat",
-      "dcp_projectbrief",
-      "dcp_projectname",
-      "dcp_publicstatus",
-      "dcp_projectcompleted",
-      "dcp_hiddenprojectmetrictarget",
-      "dcp_ulurp_nonulurp",
-      "dcp_validatedcommunitydistricts",
-      "dcp_bsanumber",
-      "dcp_wrpnumber",
-      "dcp_lpcnumber",
-      "dcp_name",
-      "dcp_nydospermitnumber",
-      "dcp_lastmilestonedate",
-      "_dcp_applicant_customer_value",
-      "_dcp_applicantadministrator_customer_value"
-    ];
-
-    // this needs to be configurable, maybe come from project entity
-    const projectFields = DEFAULT_PROJECT_LIST_FIELDS.join(",");
-
-    return buildQuery({
-      select: projectFields,
+    return buildQuery<Project>({
+      select: Object.getOwnPropertyNames(new Project()) as (keyof Project)[],
       count: true,
       filter: getoDataFilters(query, this.geometryService),
       expand: [
@@ -513,19 +395,25 @@ export class ProjectService {
           }
         }
       ],
-      orderBy: ["dcp_lastmilestonedate desc", "dcp_publicstatus asc"] as any // yuck but for some reason the typescript typing doesn't like expand + orderby
+      orderBy: {
+        dcp_lastmilestonedate: "desc",
+        dcp_publicstatus: "asc"
+      }
     });
   }
 
   async queryProjects(query: ClientProjectQuery) {
+    console.log("query projects!!!!!!!!!!");
     const {
       records: projects,
       skipTokenParams: _,
       count
     } = await this.crmService.query(
       "dcp_projects",
-      await this.buildODataQuery(query)
+      await this.buildProjectsQuery(query)
     );
+
+    console.log("projects", projects);
     const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
       query
     );

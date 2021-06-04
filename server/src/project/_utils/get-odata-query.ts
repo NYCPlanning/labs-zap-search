@@ -1,4 +1,4 @@
-import { ITEM_ROOT } from "odata-query";
+import { Filter, ITEM_ROOT } from "odata-query";
 import { coerceToDateString, coerceToNumber } from "src/crm/crm.utilities";
 import { GeometryService } from "../geometry/geometry.service";
 import {
@@ -28,17 +28,17 @@ export type ClientProjectQuery = {
 export async function getoDataFilters(
   query: ClientProjectQuery,
   geometryService: GeometryService
-) {
+): Promise<Filter> {
   const filters = [];
   if (query["community-districts"]) {
     filters.push({
-      ["dcp_validatedcommunitydistricts"]: { any: query["community-districts"] }
+      dcp_validatedcommunitydistricts: { any: query["community-districts"] }
     });
   }
 
   if (query["action-types"]) {
     filters.push({
-      ["dcp_dcp_project_dcp_projectaction_project"]: {
+      dcp_dcp_project_dcp_projectaction_project: {
         any: {
           or: query["action-types"].map(actionType => ({
             dcp_name: { contains: actionType }
@@ -50,7 +50,7 @@ export async function getoDataFilters(
 
   if (query["zoning-resolutions"]) {
     filters.push({
-      ["dcp_dcp_project_dcp_projectaction_project"]: {
+      dcp_dcp_project_dcp_projectaction_project: {
         any: {
           or: query["zoning-resolutions"].map(zoningResolution => ({
             _dcp_zoningresolution_value: zoningResolution
@@ -148,7 +148,8 @@ export async function getoDataFilters(
 
   if (query.radius_from_point && query.distance_from_point) {
     const blocksInRadius = await geometryService.getBlocksFromRadiusQuery(
-      ...query.distance_from_point,
+      query.distance_from_point[0],
+      query.distance_from_point[1],
       query.radius_from_point
     );
     filters.push({
