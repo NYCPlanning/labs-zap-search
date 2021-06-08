@@ -172,7 +172,7 @@ export default class ProjectModel extends Model {
   @sort('inProgressMilestones', milestoneDateCompare)
   sortedInProgressMilestones;
 
-  @sort('filteredMilestones', milestoneDateCompare)
+  @sort('notStartedMilestones', milestoneDateCompare)
   sortedNotStartedMilestones;
 
   @sort('filteredMilestones', milestoneDateCompare)
