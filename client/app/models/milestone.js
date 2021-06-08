@@ -117,7 +117,7 @@ export default class MilestoneModel extends Model {
   // New milestone name based on isRevised
   @computed('isRevised', 'displayName')
   get orderSensitiveName() {
-    if (this.isRevised) return `Revised ${this.displayName}`;
+    // if (this.isRevised) return `Revised ${this.displayName}`;
     return this.displayName;
   }
 
