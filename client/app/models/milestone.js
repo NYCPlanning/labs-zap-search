@@ -106,9 +106,9 @@ export default class MilestoneModel extends Model {
   // In list of milestones with same displayName,
   // each milestone AFTER the first will have `Revised` before the name (isRevised === true)
   // milestones are already sorted in the backend by date
-  @computed('project.sortedFilteredMilestones', 'id', 'displayName')
+  @computed('project.sortedMilestones', 'id', 'displayName')
   get isRevised() {
-    const projectMilestones = this.get('project.sortedFilteredMilestones');
+    const projectMilestones = this.get('project.sortedMilestones');
     const sameNameMilestones = projectMilestones.filter(m => m.displayName === this.displayName);
     // check if the current milestone id matches the first in the list
     return this.id !== sameNameMilestones.firstObject.id;
@@ -155,15 +155,29 @@ export default class MilestoneModel extends Model {
       displayDate = this.dcpActualstartdate;
     }
 
-    if (this.dcpMilestone === FILED_EAS_REVIEW) { // FILED_EAS_REVIEW is used here as the generic "EAS" milestone
-      // 2792: if the project starts with P, prefare the display date found in the "PREPARE_FIELD_EAS" milestone
-      if (this.project.get('dcpName').startsWith('P')) {
-        const prepareFiledEas = this.project.get('milestones').findBy('dcpMilestone', PREPARE_FILED_EAS);
-        if (prepareFiledEas) {
-          displayDate = prepareFiledEas.dcpActualenddate;
+    if ([ //  Task 2792 - "Environmental Assessment Statement Filed" is displayed
+      PREPARE_FILED_EAS,
+      FILED_EAS_REVIEW,
+    ].includes(this.dcpMilestone)) {
+      if (this.project.get('dcpName').startsWith('P')) { // projectID starts with "P" (so use the “Prepare Filed EAS” milestone)
+        if (this.dcpMilestone === PREPARE_FILED_EAS) { // if it's already a Prepare Filed EAS, use its actual completion date
+          displayDate = this.dcpActualenddate;
+        } else { // if it's not, find the Prepare Filed EAS and use its actual end date
+          const prepareFiledEas = this.project.get('milestones').findBy('dcpMilestone', PREPARE_FILED_EAS);
+          if (prepareFiledEas) {
+            displayDate = prepareFiledEas.dcpActualenddate;
+          }
         }
-      } else {
-        displayDate = this.dcpActualstartdate;
+      } else { // projectID does not start with "P" (so use the “Review Filed EAS”)
+        // eslint-disable-next-line no-lonely-if
+        if (this.dcpMilestone === FILED_EAS_REVIEW) { // if it's already a Review Filed EAS, use its actual start date
+          displayDate = this.dcpActualstartdate;
+        } else { // if it's not, find the Review Filed EAS and use its actual start date
+          const reviewFiledEas = this.project.get('milestones').findBy('dcpMilestone', FILED_EAS_REVIEW);
+          if (reviewFiledEas) {
+            displayDate = reviewFiledEas.dcpActualstartdate;
+          }
+        }
       }
     }
 
