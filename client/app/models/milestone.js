@@ -103,24 +103,6 @@ export default class MilestoneModel extends Model {
   // --> ZAP-API:milestoneLinks
   @attr() milestoneLinks;
 
-  // In list of milestones with same displayName,
-  // each milestone AFTER the first will have `Revised` before the name (isRevised === true)
-  // milestones are already sorted in the backend by date
-  @computed('project.sortedMilestones', 'id', 'displayName')
-  get isRevised() {
-    const projectMilestones = this.get('project.sortedMilestones');
-    const sameNameMilestones = projectMilestones.filter(m => m.displayName === this.displayName);
-    // check if the current milestone id matches the first in the list
-    return this.id !== sameNameMilestones.firstObject.id;
-  }
-
-  // New milestone name based on isRevised
-  @computed('isRevised', 'displayName')
-  get orderSensitiveName() {
-    if (this.isRevised) return `Revised ${this.displayName}`;
-    return this.displayName;
-  }
-
   @computed('dcpPlannedcompletiondate')
   get remainingDays() {
     const MILLISECONDS_MULTIPLIER = 60000;
