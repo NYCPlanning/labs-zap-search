@@ -2,7 +2,6 @@ import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { sort, alias } from '@ember/object/computed';
 import {
-  PREPARE_FILED_EAS,
   STATUSCODE_OPTIONSET,
 } from './milestone/constants';
 
@@ -143,24 +142,18 @@ export default class ProjectModel extends Model {
   }
 
   @computed('milestones')
-  get filteredMilestones() {
-    return this.get('milestones')
-      .filter(pMilestone => pMilestone.dcpMilestone !== PREPARE_FILED_EAS);
-  }
-
-  @computed('filteredMilestones')
   get completedMilestones() {
-    return this.get('filteredMilestones')
+    return this.get('milestones')
       .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.COMPLETED.label);
   }
 
-  @computed('filteredMilestones')
+  @computed('milestones')
   get inProgressMilestones() {
     return this.get('milestones')
       .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.IN_PROGRESS.label);
   }
 
-  @computed('filteredMilestones')
+  @computed('milestones')
   get notStartedMilestones() {
     return this.get('milestones')
       .filter(pMilestone => ((pMilestone.statuscode !== STATUSCODE_OPTIONSET.COMPLETED.label) && (pMilestone.statuscode !== STATUSCODE_OPTIONSET.IN_PROGRESS.label)));
@@ -175,6 +168,6 @@ export default class ProjectModel extends Model {
   @sort('notStartedMilestones', milestoneDateCompare)
   sortedNotStartedMilestones;
 
-  @sort('filteredMilestones', milestoneDateCompare)
-  sortedFilteredMilestones;
+  @sort('milestones', milestoneDateCompare)
+  sortedMilestones;
 }
