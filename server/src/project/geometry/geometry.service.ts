@@ -1,16 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { CrmService } from "../../crm/crm.service";
-import { coerceToNumber, mapInLookup } from "../../crm/crm.utilities";
-import CONSTANTS from "../../_utils/constants";
-import {
-  BOROUGH_LOOKUP,
-  generateFromTemplate,
-  PROJECT_STATUS_LOOKUP,
-  ULURP_LOOKUP
-} from "../project.service";
 import { CartoService } from "../../carto/carto.service";
-
-const { VISIBILITY } = CONSTANTS;
 
 // radius_from_point value is set in the frontend as feet, we convert it to meters to run this query
 const METERS_TO_FEET_FACTOR = 3.28084;
@@ -94,186 +84,9 @@ const QUERIES = {
   }
 };
 
-const containsAnyOf = (key, strings = [], entityName = "") => {
-  if (!strings.length) return "";
-
-  // filters out "null" condition because it requires different syntax, but is handled later
-  const values = strings
-    .filter(Boolean) // no null values allowed
-    .map(s => `<value>${s}</value>`)
-    .join("");
-
-  const hasNullValue = !strings.every(Boolean);
-
-  // if the filter list has non-null values, generate markup. otherwise, make blank.
-  const list = values.length
-    ? `
-    <condition ${
-      entityName ? `entityname="${entityName}"` : ""
-    } attribute="${key}" operator="in">
-      ${values}
-    </condition>
-  `
-    : "";
-
-  if (hasNullValue) {
-    return `
-      <filter type="or">
-        <condition entityname="${entityName}" attribute="${key}" operator="null" />
-        ${list}
-      </filter>
-    `;
-  }
-
-  return list;
-};
-const equalsAnyOf = (key, strings = [], entityName = "") => {
-  return strings.map(s => containsString(key, s, entityName));
-};
-const comparisonOperator = (key, operator, value, entityName = "") => {
-  return `<condition ${
-    entityName ? `entityname="${entityName}"` : ""
-  } attribute="${key}" operator="${operator}" value="${value}" />`;
-};
-const all = (...statements) => {
-  return ['<filter type="and">', ...statements, "</filter>"];
-};
-const any = (...statements) => {
-  return ['<filter type="or">', ...statements, "</filter>"];
-};
-const containsString = (key, value, entityName = "") => {
-  return `<condition ${
-    entityName ? `entityname="${entityName}"` : ""
-  } attribute="${key}" operator="like" value="%25${value}%25" />`;
-};
-
-// configure received params, provide procedures for generating queries.
-// these funcs do not get called unless they are in the query params.
-// could these become a first class object?
-const QUERY_TEMPLATES = {
-  "community-districts": queryParamValue =>
-    containsAnyOf(
-      "dcp_validatedcommunitydistricts",
-      queryParamValue,
-      "dcp_project"
-    ),
-
-  "action-types": queryParamValue =>
-    equalsAnyOf("dcp_name", queryParamValue, "dcp_projectaction"),
-
-  "zoning-resolutions": queryParamValue =>
-    queryParamValue
-      .map(
-        value =>
-          `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`
-      )
-      .join(" or "),
-
-  boroughs: queryParamValue =>
-    containsAnyOf(
-      "dcp_borough",
-      coerceToNumber(mapInLookup(queryParamValue, BOROUGH_LOOKUP)),
-      "dcp_project"
-    ),
-
-  block: queryParamValue =>
-    containsString("dcp_validatedblock", [queryParamValue], "dcp_projectbbl"),
-
-  dcp_ulurp_nonulurp: queryParamValue =>
-    containsAnyOf(
-      "dcp_ulurp_nonulurp",
-      coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP)),
-      "dcp_project"
-    ),
-
-  dcp_femafloodzonev: queryParamValue =>
-    comparisonOperator(
-      "dcp_femafloodzonev",
-      "eq",
-      queryParamValue,
-      "dcp_project"
-    ),
-
-  dcp_femafloodzonecoastala: queryParamValue =>
-    comparisonOperator(
-      "dcp_femafloodzonecoastala",
-      "eq",
-      queryParamValue,
-      "dcp_project"
-    ),
-
-  dcp_femafloodzonea: queryParamValue =>
-    comparisonOperator(
-      "dcp_femafloodzonea",
-      "eq",
-      queryParamValue,
-      "dcp_project"
-    ),
-
-  dcp_femafloodzoneshadedx: queryParamValue =>
-    comparisonOperator(
-      "dcp_femafloodzoneshadedx",
-      "eq",
-      queryParamValue,
-      "dcp_project"
-    ),
-
-  dcp_publicstatus: (queryParamValue: []) =>
-    containsAnyOf(
-      "dcp_publicstatus",
-      coerceToNumber(mapInLookup(queryParamValue, PROJECT_STATUS_LOOKUP)),
-      "dcp_project"
-    ),
-
-  // NOT SUPPORTED YET — fix the date serialization issue
-  // dcp_certifiedreferred: (queryParamValue) =>
-  //   all(
-  //     comparisonOperator('dcp_certifiedreferred', 'gt', coerceToDateString(queryParamValue[0]), 'dcp_project'),
-  //     comparisonOperator('dcp_certifiedreferred', 'lt', coerceToDateString(queryParamValue[1]), 'dcp_project'),
-  //   ),
-
-  project_applicant_text: queryParamValue =>
-    any(
-      containsString("dcp_projectbrief", queryParamValue, "dcp_project"),
-      containsString("dcp_projectname", queryParamValue, "dcp_project"),
-      containsString("dcp_ceqrnumber", queryParamValue, "dcp_project"),
-      containsString("dcp_name", queryParamValue, "dcp_projectapplicant"),
-      containsString("dcp_ulurpnumber", queryParamValue, "dcp_projectaction"),
-      containsString("dcp_docket", queryParamValue, "dcp_projectaction"),
-      containsString("dcp_comment", queryParamValue, "dcp_projectaction"),
-      containsString(
-        "dcp_historiczoningresolutionsectionnumber",
-        queryParamValue,
-        "dcp_projectaction"
-      )
-    )
-};
-
-const projectGeomsXML = (filters = []) => {
-  return [
-    `<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">`,
-    `<entity name="dcp_projectbbl">`,
-    `<attribute name="dcp_validatedblock"/>`,
-    `<attribute name="dcp_validatedborough" />`,
-
-    `<filter type="and">`,
-    `<condition attribute="statuscode" operator="eq" value="1" />`,
-    `<condition attribute="dcp_validatedblock" operator="not-null" />`,
-    `<condition entityname="dcp_project" attribute="dcp_visibility" operator="eq" value="${
-      VISIBILITY.GENERAL_PUBLIC
-    }" />`,
-
-    ...filters,
-    `</filter>`,
-
-    `<link-entity name="dcp_project" from="dcp_projectid" to="dcp_project" link-type="inner" alias="dcpProject" distinct="true">`,
-    `<attribute name="dcp_publicstatus" />`,
-    `<link-entity name="dcp_projectaction" from="dcp_project" to="dcp_projectid" link-type="inner" alias="ad" />`,
-    `<link-entity name="dcp_projectapplicant" from="dcp_project" to="dcp_projectid" link-type="inner" alias="ab" />`,
-    `</link-entity>`,
-    `</entity>`,
-    `</fetch>`
-  ];
+export type BoroughBlock = {
+  id: string;
+  dcp_publicstatus: string;
 };
 
 @Injectable()
@@ -287,11 +100,9 @@ export class GeometryService {
     this.xmlService = crmService.xml;
   }
 
-  async createAnonymousMapWithFilters(query) {
-    const blocks = await this.getBlocksFromXMLQuery(query);
-
-    if (blocks.length) {
-      const sql = QUERIES.centroidsFor(blocks);
+  async createAnonymousMapWithFilters(boroughBlocks: BoroughBlock[]) {
+    if (boroughBlocks.length) {
+      const sql = QUERIES.centroidsFor(boroughBlocks);
       const tiles = await this.carto.createAnonymousMap({
         version: "1.3.1",
         layers: [
@@ -318,40 +129,6 @@ export class GeometryService {
     }
 
     return {};
-  }
-
-  // return a list of blocks
-  async getBlocksFromXMLQuery(query) {
-    const filters = generateFromTemplate(query, QUERY_TEMPLATES).reduce(
-      (acc, curr) => {
-        return acc.concat(curr);
-      },
-      []
-    );
-
-    try {
-      return await this.fetchBoroughBlocks(filters);
-    } catch (e) {
-      console.log(e);
-      console.log(projectGeomsXML(filters));
-    }
-  }
-
-  async fetchBoroughBlocks(filters) {
-    try {
-      const { value } = await this.xmlService.doGet(
-        `dcp_projectbbls?fetchXml=${projectGeomsXML(filters)}`
-      );
-
-      return value.map(block => ({
-        id: `${localizeBoroughCodes(block.dcp_validatedborough)}${
-          block.dcp_validatedblock
-        }`,
-        dcp_publicstatus: block["dcpProject.dcp_publicstatus"]
-      }));
-    } catch (e) {
-      console.log(e);
-    }
   }
 
   async getBlocksFromRadiusQuery(x, y, radius): Promise<string[]> {
@@ -385,48 +162,19 @@ export class GeometryService {
     return await this.getBblsGeometry(bbls);
   }
 
-  async lookupBoroughBlocksForProject(id) {
-    const projectIdFilter = [
-      `<condition entityname="dcp_project" attribute="dcp_projectid" operator="eq" value="${id}" />`
-    ];
-
-    return await this.fetchBoroughBlocks(projectIdFilter);
-  }
-
-  async synchronizeProjectGeometry(id) {
-    const boroughBlocks = await this.lookupBoroughBlocksForProject(id);
+  async synchronizeProjectGeometry(
+    boroughBlocks: BoroughBlock[],
+    projectLeadAction: string
+  ) {
     if (!boroughBlocks.length) return;
 
     const SQL = QUERIES.unionedGeojsonFromBoroughBlocks(
       boroughBlocks.map(bb => bb.id)
     );
     const geojson = await this.carto.fetchCarto(SQL, "geojson", "post");
-    const {
-      records: [{ _dcp_leadaction_value }]
-    } = await this.crmService.get(
-      "dcp_projects",
-      `$filter=dcp_projectid eq ${id}`
-    );
 
-    await this.crmService.update("dcp_projectactions", _dcp_leadaction_value, {
+    await this.crmService.update("dcp_projectactions", projectLeadAction, {
       dcp_actiongeometry: JSON.stringify(geojson)
     });
-  }
-}
-
-// these are represented as MS Dynamics CRM-specific codings in CRM, but
-// when we join them to block data, they are represented differently
-function localizeBoroughCodes(crmCodedBorough) {
-  switch (crmCodedBorough) {
-    case 717170002:
-      return 3;
-    case 717170000:
-      return 2;
-    case 717170001:
-      return 1;
-    case 717170003:
-      return 4;
-    case 717170004:
-      return 5;
   }
 }
