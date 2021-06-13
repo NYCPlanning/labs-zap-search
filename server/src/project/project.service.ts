@@ -17,20 +17,20 @@ import { PACKAGE_ATTRS } from "../package/packages.attrs";
 import { Octokit } from "@octokit/rest";
 import buildQuery, { ITEM_ROOT } from "odata-query";
 
-// CrmService is a copy of the newer API we built for Applicant Portal to talk to CRM.
-// It will eventually strangle out OdataService, which is an older API to accomplish
-// the same thing.
 import { CrmService } from "../crm/crm.service";
-import {
-  all,
-  comparisonOperator,
-  overwriteCodesWithLabels
-} from "../crm/crm.utilities";
+import { overwriteCodesWithLabels } from "../crm/crm.utilities";
 import { ArtifactService } from "../artifact/artifact.service";
 import { PackageService } from "../package/package.service";
 import { GeometryService } from "./geometry/geometry.service";
 import { DispositionService } from "../disposition/disposition.service";
 import { ClientProjectQuery, getoDataFilters } from "./_utils/get-odata-query";
+import {
+  getProjectsBlocksQuery,
+  getProjectsQuery,
+  Project
+} from "./_utils/get-projects-query";
+import { transformProjectsBlocks } from "./_utils/transform-projects-blocks";
+import { getProjectDetailQuery } from "./_utils/get-project-detail-query";
 
 const ITEMS_PER_PAGE = 30;
 export const BOROUGH_LOOKUP = {
@@ -51,6 +51,9 @@ export const PROJECT_STATUS_LOOKUP = {
   "In Public Review": 717170001,
   Completed: 717170002,
   Unknown: null
+};
+export const ACTION_STATUSCODE_LOOKUP = {
+  Deactivated: 717170003
 };
 export const PROJECT_VISIBILITY_LOOKUP = {
   "Applicant Only": 717170002,
@@ -101,30 +104,6 @@ const ARTIFACT_VISIBILITY = {
 const DISPOSITION_VISIBILITY = {
   GENERAL_PUBLIC: 717170003,
   LUP: 717170004
-};
-
-export const ALLOWED_FILTERS = [
-  "community-districts",
-  "action-types",
-  "boroughs",
-  "dcp_ceqrtype", // is this even used? 'Type I', 'Type II', 'Unlisted', 'Unknown'
-  "dcp_ulurp_nonulurp", // 'ULURP', 'Non-ULURP'
-  "dcp_femafloodzonea",
-  "dcp_femafloodzoneshadedx",
-  "dcp_publicstatus", // 'Noticed', 'Filed', 'In Public Review', 'Completed', 'Unknown'
-  "dcp_certifiedreferred",
-  "project_applicant_text",
-  "block",
-  "distance_from_point",
-  "radius_from_point",
-  "zoning-resolutions"
-];
-
-export const generateFromTemplate = (query, template) => {
-  return Object.keys(query)
-    .filter(key => ALLOWED_FILTERS.includes(key)) // filter is allowed
-    .filter(key => template[key]) // filter has query handler
-    .map(key => template[key](query[key]));
 };
 
 export function transformProjectAttributes(project): any {
@@ -190,74 +169,9 @@ export class ProjectService {
   ) {}
 
   async findOneByName(name: string): Promise<any> {
-    const DEFAULT_PROJECT_SHOW_FIELDS = [
-      "dcp_projectid",
-      "dcp_name",
-      "dcp_applicanttype",
-      "dcp_borough",
-      "dcp_ceqrnumber",
-      "dcp_ceqrtype",
-      "dcp_certifiedreferred",
-      "dcp_femafloodzonea",
-      "dcp_femafloodzoneshadedx",
-      "dcp_sisubdivision",
-      "dcp_sischoolseat",
-      "dcp_projectbrief",
-      "dcp_additionalpublicinformation",
-      "dcp_projectname",
-      "dcp_publicstatus",
-      "dcp_projectcompleted",
-      "dcp_hiddenprojectmetrictarget",
-      "dcp_ulurp_nonulurp",
-      "dcp_validatedcommunitydistricts",
-      "dcp_bsanumber",
-      "dcp_wrpnumber",
-      "dcp_lpcnumber",
-      "dcp_name",
-      "dcp_nydospermitnumber",
-      "dcp_lastmilestonedate",
-      "_dcp_applicant_customer_value",
-      "_dcp_applicantadministrator_customer_value"
-    ];
-    const MILESTONES_FILTER = all(
-      `(not ${comparisonOperator("statuscode", "eq", 717170001)})`
-    );
-
-    const ACTION_STATUSCODE_DEACTIVATED = 717170003;
-    const ACTIONS_FILTER = `(not ${comparisonOperator(
-      "statuscode",
-      "eq",
-      ACTION_STATUSCODE_DEACTIVATED
-    )})`;
-
-    // WARNING: Only 5 expansions are allowed by Web API. Requesting more expansions
-    // results in a silent failure.
-    const EXPANSIONS = [
-      `dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value,dcp_reviewmeetingdate)`,
-      "dcp_dcp_project_dcp_communityboarddisposition_project",
-      `dcp_dcp_project_dcp_projectaction_project($filter=${ACTIONS_FILTER};$select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber,dcp_spabsoluteurl)`,
-      "dcp_dcp_project_dcp_projectbbl_project($select=dcp_bblnumber;$filter=statuscode eq 1 and dcp_validatedblock ne null)", // TODO: add filter to exclude inactives
-      "dcp_dcp_project_dcp_projectkeywords_project($select=dcp_name,_dcp_keyword_value)",
-
-      // TODO: i think there is a limit of 5 expansions so this one does not even appear
-      "dcp_dcp_project_dcp_projectaddress_project($select=dcp_name)"
-    ];
-
-    const { records: projects } = await this.crmService.queryFromObject(
+    const { records: projects } = await this.crmService.query(
       "dcp_projects",
-      {
-        $select: DEFAULT_PROJECT_SHOW_FIELDS,
-        $filter: all(
-          comparisonOperator("dcp_name", "eq", name),
-          comparisonOperator(
-            "dcp_visibility",
-            "eq",
-            PROJECT_VISIBILITY_LOOKUP["General Public"]
-          )
-        ),
-        $expand: EXPANSIONS.join(",")
-      },
-      1
+      getProjectDetailQuery(name)
     );
     const [firstProject] = projects;
 
@@ -291,24 +205,22 @@ export class ProjectService {
 
     let { records: projectPackages } = await this.crmService.get(
       "dcp_packages",
-      `
-        $filter=
-          _dcp_project_value eq ${firstProject.dcp_projectid}
-          and (
-            dcp_visibility eq ${PACKAGE_VISIBILITY.GENERAL_PUBLIC}
-          )
-          and (
-            statuscode eq ${PACKAGE_STATUSCODE.SUBMITTED}
-            or statuscode eq ${PACKAGE_STATUSCODE.CERTIFIED}
-            or statuscode eq ${
-              PACKAGE_STATUSCODE.REVIEWED_NO_REVISIONS_REQUIRED
+      buildQuery({
+        filter: {
+          and: [
+            { _dcp_project_value: firstProject.dcp_projectid },
+            { dcp_visibility: PACKAGE_VISIBILITY.GENERAL_PUBLIC },
+            {
+              statuscode: {
+                or: Object.values(PACKAGE_STATUSCODE).map(statusCode => ({
+                  [ITEM_ROOT]: statusCode
+                }))
+              }
             }
-            or statuscode eq ${PACKAGE_STATUSCODE.REVIEWED_REVISIONS_REQUIRED}
-            or statuscode eq ${PACKAGE_STATUSCODE.UNDER_REVIEW}
-            or statuscode eq ${PACKAGE_STATUSCODE.FINAL_APPROVAL}
-          )
-        &$expand=dcp_package_SharePointDocumentLocations
-      `
+          ]
+        },
+        expand: "dcp_package_SharePointDocumentLocations"
+      })
     );
 
     try {
@@ -329,13 +241,12 @@ export class ProjectService {
 
     let { records: projectArtifacts } = await this.crmService.get(
       "dcp_artifactses",
-      `
-      $filter=
-        _dcp_project_value eq ${firstProject.dcp_projectid}
-        and (
-          dcp_visibility eq ${ARTIFACT_VISIBILITY.GENERAL_PUBLIC}
-        )
-    `
+      buildQuery({
+        filter: [
+          { _dcp_project_value: firstProject.dcp_projectid },
+          { and: { dcp_visibility: ARTIFACT_VISIBILITY.GENERAL_PUBLIC } }
+        ]
+      })
     );
 
     try {
@@ -397,72 +308,32 @@ export class ProjectService {
     return this.serialize(transformedProject);
   }
 
-  async buildProjectsQuery(query: ClientProjectQuery) {
-    class Project {
-      // create default values so we can grab property names to generate select list
-      dcp_name: string = "";
-      dcp_applicanttype: string = "";
-      dcp_borough: string = "";
-      dcp_ceqrnumber: string = "";
-      dcp_ceqrtype: string = "";
-      dcp_certifiedreferred: string = "";
-      dcp_femafloodzonea: boolean = false;
-      dcp_femafloodzoneshadedx: boolean = false;
-      dcp_sisubdivision: boolean = false;
-      dcp_sischoolseat: boolean = false;
-      dcp_projectbrief: string = "";
-      dcp_projectname: string = "";
-      dcp_publicstatus: string = "";
-      dcp_projectcompleted: string = "";
-      dcp_hiddenprojectmetrictarget: string = "";
-      dcp_ulurp_nonulurp: string = "";
-      dcp_validatedcommunitydistricts: string = "";
-      dcp_bsanumber: string = "";
-      dcp_wrpnumber: string = "";
-      dcp_lpcnumber: string = "";
-      dcp_nydospermitnumber: string = "";
-      dcp_lastmilestonedate: string = "";
-      _dcp_applicant_customer_value: string = "";
-      _dcp_applicantadministrator_customer_value: string = "";
-      // joins, not for selecting, so no default value
-      dcp_dcp_project_dcp_projectbbl_project: object;
-    }
-
-    return buildQuery<Project>({
-      select: Object.getOwnPropertyNames(new Project()) as (keyof Project)[],
-      count: true,
-      filter: getoDataFilters(query, this.geometryService),
-      expand: [
-        {
-          dcp_dcp_project_dcp_projectbbl_project: {
-            top: 1,
-            filter: { dcp_bblvalidated: true }
-          }
-        }
-      ],
-      orderBy: {
-        dcp_lastmilestonedate: "desc",
-        dcp_publicstatus: "asc"
-      }
-    });
-  }
-
   async queryProjects(query: ClientProjectQuery) {
-    console.log("query projects!!!!!!!!!!");
+    // Query for all projects that match filters from client
+    // TODO: re-implement missing pagination ?
     const {
       records: projects,
       skipTokenParams: _,
       count
     } = await this.crmService.query(
       "dcp_projects",
-      await this.buildProjectsQuery(query)
+      await getProjectsQuery(query, this.geometryService)
     );
 
-    console.log("projects", projects);
+    // Keep blocks query separate so pagination can be supported
+    // (altho: currently, response time is _fine_ returning all projects up to 5000; do we need server-side pagination?)
+    const { records: projectsBlocks } = await this.crmService.query(
+      "dcp_projects",
+      await getProjectsBlocksQuery(query, this.geometryService)
+    );
+
+    // Query geometry service to get spatial info for projects
     const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
-      query
+      transformProjectsBlocks(projectsBlocks)
     );
 
+    // Transform projects
+    // TODO: combine transformations into single function
     const valueMappedProjects = overwriteCodesWithLabels(
       projects,
       FIELD_LABEL_REPLACEMENT_WHITELIST
@@ -475,6 +346,32 @@ export class ProjectService {
     });
   }
 
+  async syncProject(id: string) {
+    const { records: projectBlocks } = await this.crmService.query(
+      "dcp_projects",
+      buildQuery<Project>({
+        select: ["dcp_publicstatus", "_dcp_leadaction_value"],
+        filter: {
+          dcp_projectid: id
+        },
+        expand: [
+          {
+            dcp_dcp_project_dcp_projectbbl_project: {
+              select: ["dcp_validatedblock", "dcp_validatedborough"],
+              filter: [{ statuscode: 1 }, { not: { dcp_validatedblock: null } }]
+            }
+          }
+        ]
+      })
+    );
+    const projectLeadAction = projectBlocks[0]._dcp_leadaction_value;
+    return this.geometryService.synchronizeProjectGeometry(
+      transformProjectsBlocks(projectBlocks),
+      projectLeadAction
+    );
+  }
+
+  //TODO: re-implement pagination?
   async paginate(skipTokenParams) {
     const {
       records: projects,
