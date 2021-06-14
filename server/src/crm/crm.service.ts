@@ -107,7 +107,9 @@ export class CrmService {
         skipTokenParams: nextPage.split("?")[1]
       };
     } catch (e) {
-      console.log("error from CRM: ", e.response.text);
+      const crmResponseText =
+        e.response && e.response.text ? e.response.text : "Unknown";
+      console.error("error from CRM: ", crmResponseText);
       throw new HttpException(
         {
           code: "QUERY_FAILED",
@@ -123,11 +125,11 @@ export class CrmService {
     return await this.get(entity, query);
   }
 
-  async update(entitySetName, guid, data) {
+  async update(entitySetName: string, guid: string, data: string | object) {
     return this._sendPatchRequest(`${entitySetName}(${guid})`, data);
   }
 
-  async _sendPatchRequest(query, data) {
+  async _sendPatchRequest(query: string, data: string | object) {
     const defaultHeaders = await this.generateDefaultHeaders([
       'odata.include-annotations="*"'
     ]);
@@ -139,14 +141,16 @@ export class CrmService {
     return body;
   }
 
-  // TODO: Remove object-driven query templating
-  async queryFromObject(entity: string, query: any, ...options) {
+  // TODO: Remove object-driven query templating,
+  // replace with odata query builder (see projects service)
+  async queryFromObject(entity: string, query: any) {
     const queryStringForEntity = this.serializeToQueryString(query);
 
     return await this.query(entity, queryStringForEntity);
   }
 
   // TODO: Remove object-driven query templating
+  // replace with odata query builder (see projects service)
   serializeToQueryString(query: any) {
     const truthyKeyedObject = Object.keys(query).reduce((acc, curr) => {
       if (query[curr]) {

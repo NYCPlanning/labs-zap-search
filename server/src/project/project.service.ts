@@ -29,6 +29,7 @@ import {
 } from "./_utils/get-projects-query";
 import { transformProjectsBlocks } from "./_utils/transform-projects-blocks";
 import { getProjectDetailQuery } from "./_utils/get-project-detail-query";
+import { ClientProjectQuery } from "./project.controller";
 
 const ITEMS_PER_PAGE = 30;
 export const BOROUGH_LOOKUP = {
@@ -301,6 +302,9 @@ export class ProjectService {
     });
   }
 
+  /**
+   * @param id
+   */
   async syncProject(id: string) {
     const { records: projectBlocks } = await this.crmService.query(
       "dcp_projects",
@@ -320,10 +324,13 @@ export class ProjectService {
       })
     );
     const projectLeadAction = projectBlocks[0]._dcp_leadaction_value;
-    return this.geometryService.synchronizeProjectGeometry(
-      transformProjectsBlocks(projectBlocks),
-      projectLeadAction
+    const updatedGeoJSON = this.geometryService.getProjectGeoJSON(
+      transformProjectsBlocks(projectBlocks)
     );
+
+    await this.crmService.update("dcp_projectactions", projectLeadAction, {
+      dcp_actiongeometry: JSON.stringify(updatedGeoJSON)
+    });
   }
 
   //TODO: re-implement pagination?
