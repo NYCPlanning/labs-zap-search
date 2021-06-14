@@ -41,7 +41,7 @@ export class Project {
   _dcp_applicant_customer_value: string = "";
   _dcp_applicantadministrator_customer_value: string = "";
   // Not needed for project query select, so no default values
-  _dcp_leadaction_value;
+  _dcp_leadaction_value: string;
   dcp_dcp_project_dcp_projectbbl_project: any;
 }
 
