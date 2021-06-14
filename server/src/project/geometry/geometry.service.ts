@@ -90,7 +90,7 @@ export class GeometryService {
   }
 
   /**
-   * From a list of BoroughBlocks,
+   * From a list of BoroughBlocks, get unioned GeoJSON
    * @param boroughBlocks
    */
   async getProjectGeoJSON(boroughBlocks: BoroughBlock[]) {

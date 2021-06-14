@@ -348,6 +348,8 @@ export class ProjectService {
   }
 
   /**
+   * For a given project id, update project's lead action with
+   * unioned geoJSON based on project's current borough and block info
    * @param id
    */
   async syncProject(id: string) {
@@ -368,12 +370,12 @@ export class ProjectService {
         ]
       })
     );
-    const projectLeadAction = projectBlocks[0]._dcp_leadaction_value;
+    const projectLeadActionId = projectBlocks[0]._dcp_leadaction_value;
     const updatedGeoJSON = this.geometryService.getProjectGeoJSON(
       transformProjectsBlocks(projectBlocks)
     );
 
-    await this.crmService.update("dcp_projectactions", projectLeadAction, {
+    await this.crmService.update("dcp_projectactions", projectLeadActionId, {
       dcp_actiongeometry: JSON.stringify(updatedGeoJSON)
     });
   }
