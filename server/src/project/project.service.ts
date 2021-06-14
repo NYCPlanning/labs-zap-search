@@ -69,6 +69,7 @@ export const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   "dcp_publicstatus",
   "dcp_borough",
   "statuscode",
+  "statecode",
   "dcp_ulurp_nonulurp",
   "_dcp_keyword_value",
   "dcp_ceqrtype",
