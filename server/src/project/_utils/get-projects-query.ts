@@ -221,7 +221,7 @@ export async function getoDataFilters(
   }
 
   if (query.radius_from_point && query.distance_from_point) {
-    const blocksInRadius = await geometryService.getBlocksFromRadiusQuery(
+    const blocksInRadius = await geometryService.getBlocksWithinDistanceFromRadius(
       query.distance_from_point[0],
       query.distance_from_point[1],
       query.radius_from_point
