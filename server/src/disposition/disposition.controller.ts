@@ -12,6 +12,7 @@ import { pick } from "underscore";
 import { ConfigService } from "../config/config.service";
 import { CrmService } from "../crm/crm.service";
 import { defaultValueDispositionPipe as defaultValuePipe } from "./defaultValue.disposition.pipe";
+import buildQuery from "odata-query";
 
 const STATUSCODES_LABEL_TO_VALUE = {
   Draft: 1,
@@ -84,11 +85,11 @@ export class DispositionController {
             _dcp_recommendationsubmittedby_value: dcp_recommendationsubmittedby
           }
         ]
-      } = await this.crmService.queryFromObject(
+      } = await this.crmService.query(
         "dcp_communityboarddispositions",
-        {
-          $filter: `dcp_communityboarddispositionid eq ${id}`
-        }
+        buildQuery({
+          filter: { dcp_communityboarddispositionid: id }
+        })
       );
 
       // check that the person updating the disposition is the person who submitted the dispo

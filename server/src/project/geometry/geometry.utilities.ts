@@ -66,12 +66,12 @@ export const CARTO_QUERIES = {
   },
 
   /**
-	 * Given at least borough and block string, select 
-	 * geometries with block-level resolution
-	  
-	 * @param bblLike	string; borough block (1-digit borough, 5-digit bloco) or 
-	 * 								borough block lot (1-digit borough, 5 digit block, 4-digit lot)
-	 */
+   * Given at least borough and block string, select
+   * geometries with block-level resolution
+   *
+   * @param bblLike	string; borough block (1-digit borough, 5-digit bloco) or
+   * 								borough block lot (1-digit borough, 5 digit block, 4-digit lot)
+   */
   unionedGeojsonFromBoroughBlocks(bblLike: string[]) {
     const uniqueBoroughBlocks: any = [
       ...new Set(bblLike.map(bbl => bbl.substring(0, 6)))
