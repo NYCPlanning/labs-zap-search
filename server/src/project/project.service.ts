@@ -35,6 +35,8 @@ import {
 import { ArtifactService } from "../artifact/artifact.service";
 import { PackageService } from "../package/package.service";
 import { GeometryService } from "./geometry/geometry.service";
+import { SharepointService } from "../sharepoint/sharepoint.service";
+import { DispositionService } from "../disposition/disposition.service";
 
 const ITEMS_PER_PAGE = 30;
 export const BOROUGH_LOOKUP = {
@@ -340,7 +342,8 @@ export class ProjectService {
     private readonly crmService: CrmService,
     private readonly artifactService: ArtifactService,
     private readonly packageService: PackageService,
-    private readonly geometryService: GeometryService
+    private readonly geometryService: GeometryService,
+    private readonly dispositionService: DispositionService
   ) {}
 
   async findOneByName(name: string): Promise<any> {
@@ -387,7 +390,7 @@ export class ProjectService {
     // results in a silent failure.
     const EXPANSIONS = [
       `dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value,dcp_reviewmeetingdate)`,
-      "dcp_dcp_project_dcp_communityboarddisposition_project($select=dcp_publichearinglocation,dcp_dateofpublichearing,dcp_boroughpresidentrecommendation,dcp_boroughboardrecommendation,dcp_communityboardrecommendation,dcp_consideration,dcp_votelocation,dcp_datereceived,dcp_dateofvote,statecode,statuscode,dcp_docketdescription,dcp_votinginfavorrecommendation,dcp_votingagainstrecommendation,dcp_votingabstainingonrecommendation,dcp_totalmembersappointedtotheboard,dcp_wasaquorumpresent,_dcp_recommendationsubmittedby_value,dcp_representing,_dcp_projectaction_value)",
+      "dcp_dcp_project_dcp_communityboarddisposition_project",
       `dcp_dcp_project_dcp_projectaction_project($filter=${ACTIONS_FILTER};$select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber,dcp_spabsoluteurl)`,
       "dcp_dcp_project_dcp_projectbbl_project($select=dcp_bblnumber;$filter=statuscode eq 1 and dcp_validatedblock ne null)", // TODO: add filter to exclude inactives
       "dcp_dcp_project_dcp_projectkeywords_project($select=dcp_name,_dcp_keyword_value)",
@@ -507,6 +510,29 @@ export class ProjectService {
       console.log(e);
     }
 
+    let projectDispositions =
+      transformedProject[
+        "dcp_dcp_project_dcp_communityboarddisposition_project"
+      ];
+
+    try {
+      projectDispositions = await Promise.all(
+        projectDispositions.map(async disposition => {
+          try {
+            return await this.dispositionService.dispositionWithDocuments(
+              disposition
+            );
+          } catch (e) {
+            console.log(e);
+          }
+        })
+      );
+
+      transformedProject.dispositions = projectDispositions;
+    } catch (e) {
+      console.log(e);
+    }
+
     // TODO: disabling for now until DO resolves stability issues
     // await injectSupportDocumentURLs(transformedProject);
 
@@ -620,7 +646,7 @@ export class ProjectService {
 
       dispositions: {
         ref: "dcp_communityboarddispositionid",
-        attributes: DISPOSITION_KEYS
+        attributes: [...DISPOSITION_KEYS, "documents"]
       },
 
       packages: {
