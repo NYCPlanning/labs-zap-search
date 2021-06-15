@@ -29,6 +29,30 @@
             />
           </li>
         {{/each}}
+
+        <h4
+          class="clickable-header"
+          onClick={{this.toggleShowDispositionDocuments}}
+        >
+          <FaIcon
+            @icon={{if this.showDispositionDocuments "caret-down" "caret-right"}}
+          />
+          Recommendations
+        </h4>
+
+        {{#if this.showDispositionDocuments}}
+          <ul
+            class="no-bullet public-documents-list"
+          >
+            {{#each @dispositions as |disposition|}}
+              <li>
+                <ShowProject::PublicDocuments::DispositionDocuments
+                  @disposition={{disposition}}
+                />
+              </li>
+            {{/each}}
+          </ul>
+        {{/if}}
       </ul>
     {{/if}}
   {{else}}
