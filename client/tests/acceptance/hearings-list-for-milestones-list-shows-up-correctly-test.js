@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import {
   visit,
   find,
+  click,
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -243,6 +244,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     });
 
     await visit('/projects/5');
+    await click('.milestone-header');
 
     // #### LUP TITLE ############################################################
     assert.ok(this.element.querySelector('[data-test-lup-full-name="Queens Borough Board"]').textContent.includes('Queens Borough Board'), 'QNBB');
@@ -468,6 +470,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     });
 
     await visit('/projects/5');
+    await click('.milestone-header');
 
     assert.ok(this.element.querySelector('[data-test-milestone-name="1"]').textContent.includes('Land Use Application Filed'), 'land use app filed milestone');
     assert.ok(this.element.querySelector('[data-test-milestone-name="11"]').textContent.includes('Application Reviewed at City Planning Commission Review Session'), 'CPC milestone');
@@ -557,6 +560,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     });
 
     await visit('/projects/5');
+    await click('.milestone-header');
 
     assert.ok(this.element.querySelector('[data-test-milestone-name="1"]').textContent.includes('Land Use Application Filed'), 'land use app filed milestone');
     assert.ok(this.element.querySelector('[data-test-milestone-name="11"]').textContent.includes('Application Reviewed at City Planning Commission Review Session'), 'CPC milestone');
@@ -689,6 +693,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     });
 
     await visit('/projects/5');
+    await click('.milestone-header');
 
     // make sure that rest of milestones list shows up
     assert.ok(this.element.querySelector('[data-test-milestone-name="1"]').textContent.includes('Land Use Application Filed'), 'land use app filed milestone');
@@ -847,6 +852,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     });
 
     await visit('/projects/5');
+    await click('.milestone-header');
 
     // make sure that rest of milestones list shows up
     assert.ok(this.element.querySelector('[data-test-milestone-name="1"]').textContent.includes('Land Use Application Filed'), 'land use app filed milestone');
@@ -1068,6 +1074,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
     });
 
     await visit('/projects/5');
+    await click('.milestone-header');
 
     // #### LUP TITLE ############################################################
     // Borough boards -- ONLY BRONX SHOULD SHOW UP
