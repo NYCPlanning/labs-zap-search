@@ -54,6 +54,8 @@ export default class DispositionModel extends Model {
   // e.g. 'QN CB6', 'BX BP', 'MN BB'
   @alias('dcpRecommendationsubmittedbyValue') fullname;
 
+  @attr('string', { defaultValue: null }) dcpName;
+
   // sourced from dcp_dcpPublichearinglocation
   @attr('string', { defaultValue: null }) dcpPublichearinglocation;
 
@@ -156,6 +158,7 @@ export default class DispositionModel extends Model {
     return STATUSCODES.findBy('Label', 'Draft').Value;
   }
 
+  // TODO: explain.
   @attrComputed('statuscode')
   get statecode() {
     if (
@@ -165,6 +168,8 @@ export default class DispositionModel extends Model {
 
     return STATECODES.findBy('Label', 'Inactive').Value;
   }
+
+  @attr() documents;
 
   // sourced from dcp_docketdescription
   @attr('string') dcpDocketdescription;

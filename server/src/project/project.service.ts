@@ -35,7 +35,6 @@ import {
 import { ArtifactService } from "../artifact/artifact.service";
 import { PackageService } from "../package/package.service";
 import { GeometryService } from "./geometry/geometry.service";
-import { SharepointService } from "../sharepoint/sharepoint.service";
 import { DispositionService } from "../disposition/disposition.service";
 
 const ITEMS_PER_PAGE = 30;
@@ -102,6 +101,11 @@ export const PACKAGE_STATUSCODE = {
 
 const ARTIFACT_VISIBILITY = {
   GENERAL_PUBLIC: 717170003
+};
+
+const DISPOSITION_VISIBILITY = {
+  GENERAL_PUBLIC: 717170003,
+  LUP: 717170004
 };
 
 // configure received params, provide procedures for generating queries.
@@ -515,12 +519,26 @@ export class ProjectService {
     try {
       projectDispositions = await Promise.all(
         projectDispositions.map(async disposition => {
-          try {
-            return await this.dispositionService.dispositionWithDocuments(
-              disposition
-            );
-          } catch (e) {
-            console.log(e);
+          if (
+            [
+              DISPOSITION_VISIBILITY.GENERAL_PUBLIC,
+              DISPOSITION_VISIBILITY.LUP
+            ].includes(disposition.dcp_visibility) && // LUP or General Public
+            disposition.statecode === 1 && // the disposition is inactive
+            disposition.statuscode === "Submitted" // this is value-mapped post-processing... confusing, i know.
+          ) {
+            try {
+              return await this.dispositionService.dispositionWithDocuments(
+                disposition
+              );
+            } catch (e) {
+              console.log(e);
+            }
+          } else {
+            return {
+              ...disposition,
+              documents: []
+            };
           }
         })
       );

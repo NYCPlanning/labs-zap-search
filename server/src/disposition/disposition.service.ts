@@ -13,7 +13,7 @@ export class DispositionService {
    *
    * @return     {Object[]}     Array of 0 or more custom Document objects
    */
-  async getdispositionSharepointDocuments(relativeUrl, dcp_name) {
+  async getDispositionSharepointDocuments(relativeUrl, dcp_name) {
     if (relativeUrl) {
       try {
         const documents = await this.sharepointService.getSharepointFolderFiles(
@@ -79,7 +79,7 @@ export class DispositionService {
       try {
         return {
           ...projectDisposition,
-          documents: await this.getdispositionSharepointDocuments(
+          documents: await this.getDispositionSharepointDocuments(
             dcp_spabsoluteurl,
             dcp_name
           )
