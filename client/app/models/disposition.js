@@ -121,50 +121,9 @@ export default class DispositionModel extends Model {
 
   @attr('string', { defaultValue: '' }) dcpBoroughpresidentrecommendation;
 
-  // sourced from statuscode
-  // Label: 'Draft', 'Value': 1
-  // Label: 'Saved', 'Value': 717170000
-  // Label: 'Submitted', 'Value': 2
-  // Label: 'Deactivated', 'Value': 717170001
-  // Label: 'Not Submitted', 'Value': 717170002
-  @attrComputed(
-    // recommendations
-    'dcpDateofvote',
-    'dcpBoroughpresidentrecommendation',
-    'dcpBoroughboardrecommendation',
-    'dcpCommunityboardrecommendation',
-    'dcpIspublichearingrequired',
+  @attr('string', { defaultValue: '' }) statuscode;
 
-    // hearings
-    'dcpPublichearinglocation',
-    'dcpDateofpublichearing',
-  )
-  get statuscode() {
-    if (this.dcpBoroughpresidentrecommendation !== null
-      || this.dcpBoroughboardrecommendation !== null
-      || this.dcpCommunityboardrecommendation !== null
-    ) return STATUSCODES.findBy('Label', 'Submitted').Value;
-
-    if (
-      this.dcpIspublichearingrequired !== null
-    ) return STATUSCODES.findBy('Label', 'Saved').Value;
-
-    if (this.dcpPublichearinglocation
-      || this.dcpDateofpublichearing
-    ) return STATUSCODES.findBy('Label', 'Saved').Value;
-
-    return STATUSCODES.findBy('Label', 'Draft').Value;
-  }
-
-  @attrComputed('statuscode')
-  get statecode() {
-    if (
-      STATUSCODES.findBy('Value', this.statuscode).Label === 'Saved'
-      || STATUSCODES.findBy('Value', this.statuscode).Label === 'Draft'
-    ) return STATECODES.findBy('Label', 'Active').Value;
-
-    return STATECODES.findBy('Label', 'Inactive').Value;
-  }
+  @attr('string', { defaultValue: '' }) statecode;
 
   // sourced from dcp_docketdescription
   @attr('string') dcpDocketdescription;
