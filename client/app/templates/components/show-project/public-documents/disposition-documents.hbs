@@ -1,0 +1,29 @@
+{{#if this.hasDispositionDocuments}}
+  <h5
+    class="clickable-header"
+    onClick={{this.toggleShowDispositionDocuments}}
+  >
+    <FaIcon
+      @icon={{if this.showDispositionDocuments "caret-down" "caret-right"}}
+    />
+    {{this.formattedDispositionName}}
+  </h5>
+
+  {{#if this.showDispositionDocuments}}
+    <ul
+      class="no-bullet public-documents-list-item"
+    >
+      {{#each (sort-by 'serverRelativeUrl' @disposition.documents) as |document|}}
+        <li>
+          <a
+            href={{concat this.host '/document/disposition' document.serverRelativeUrl}}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{document.name}}
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+{{/if}}

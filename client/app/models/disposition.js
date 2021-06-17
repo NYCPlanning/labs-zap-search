@@ -54,6 +54,8 @@ export default class DispositionModel extends Model {
   // e.g. 'QN CB6', 'BX BP', 'MN BB'
   @alias('dcpRecommendationsubmittedbyValue') fullname;
 
+  @attr('string', { defaultValue: null }) dcpName;
+
   // sourced from dcp_dcpPublichearinglocation
   @attr('string', { defaultValue: null }) dcpPublichearinglocation;
 
@@ -124,6 +126,8 @@ export default class DispositionModel extends Model {
   @attr('string', { defaultValue: '' }) statuscode;
 
   @attr('string', { defaultValue: '' }) statecode;
+
+  @attr() documents;
 
   // sourced from dcp_docketdescription
   @attr('string') dcpDocketdescription;
