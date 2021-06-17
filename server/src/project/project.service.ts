@@ -70,6 +70,7 @@ export const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   "dcp_publicstatus",
   "dcp_borough",
   "statuscode",
+  "statecode",
   "dcp_ulurp_nonulurp",
   "_dcp_keyword_value",
   "dcp_ceqrtype",
@@ -527,7 +528,7 @@ export class ProjectService {
               DISPOSITION_VISIBILITY.GENERAL_PUBLIC,
               DISPOSITION_VISIBILITY.LUP
             ].includes(disposition.dcp_visibility) && // LUP or General Public
-            disposition.statecode === 1 && // the disposition is inactive
+            disposition.statecode === "Inactive" && // the disposition is inactive
             disposition.statuscode === "Submitted" // this is value-mapped post-processing... confusing, i know.
           ) {
             try {
