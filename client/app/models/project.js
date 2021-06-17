@@ -141,21 +141,37 @@ export default class ProjectModel extends Model {
       .reverse();
   }
 
-  @computed('milestones')
-  get completedMilestones() {
+  /**
+   *    We need to filter out the following:
+   *    If the project id starts with a 'P' (this.dcpName[0]):
+   *       Then filter out "Review Filed EAS" and "Review Filed Land Use Application"
+   *    Otherwise:
+   *       Filter out "Prepare Filed EAS" and "Prepare Filed Land Use Application"
+   */
+  @computed('milestones', 'dcpName')
+  get filteredMilestones() {
     return this.get('milestones')
+      .filter(pMilestone => (
+        !((this.dcpName[0] === 'P') && (['Review Filed EAS', 'Review Filed Land Use Application'].includes(pMilestone.milestonename)))
+        && !((this.dcpName[0] !== 'P') && (['Prepare Filed EAS', 'Prepare Filed Land Use Application'].includes(pMilestone.milestonename)))
+      ));
+  }
+
+  @computed('filteredMilestones')
+  get completedMilestones() {
+    return this.get('filteredMilestones')
       .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.COMPLETED.label);
   }
 
-  @computed('milestones')
+  @computed('filteredMilestones')
   get inProgressMilestones() {
-    return this.get('milestones')
+    return this.get('filteredMilestones')
       .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.IN_PROGRESS.label);
   }
 
-  @computed('milestones')
+  @computed('filteredMilestones')
   get notStartedMilestones() {
-    return this.get('milestones')
+    return this.get('filteredMilestones')
       .filter(pMilestone => ((pMilestone.statuscode !== STATUSCODE_OPTIONSET.COMPLETED.label) && (pMilestone.statuscode !== STATUSCODE_OPTIONSET.IN_PROGRESS.label)));
   }
 
