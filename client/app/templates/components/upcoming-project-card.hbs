@@ -135,7 +135,7 @@
       {{waive-hearings-popup assignment=this.assignment showPopup=showPopup}}
       <ul class="no-bullet no-margin">
         {{#if (eq this.assignment.project.dcpPublicstatus 'Noticed')}}
-          <p>This application has not yet been filed.</p>
+          <p>This application has been noticed, indicating that it will certify no sooner than 30 days from the date of the notice.</p>
         {{else}}
           {{#each this.assignment.assigneeDisplayMilestones as |milestone idx|}}
             {{#if (eq idx 1)}}
