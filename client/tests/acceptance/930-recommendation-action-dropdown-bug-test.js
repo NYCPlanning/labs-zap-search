@@ -64,7 +64,7 @@ module('Acceptance | 930 recommendation action dropdown bug', function(hooks) {
             server.create('disposition', {
               id: 5,
               dcpRepresenting: label,
-              dcpIspublichearingrequired: 'No',
+              dcpIspublichearingrequired: 717170001, // No
               dcpPublichearinglocation: null,
               dcpDateofpublichearing: null,
               action: server.create('action'),

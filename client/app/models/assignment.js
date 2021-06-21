@@ -6,6 +6,9 @@ import {
   REFERRAL_MILESTONEID_BY_ACRONYM_LOOKUP,
   REVIEW_MILESTONE_IDS,
 } from './milestone/constants';
+import {
+  DCPISPUBLICHEARINGREQUIRED_OPTIONSET,
+} from './disposition/constants';
 
 const {
   Model, belongsTo, hasMany, attr,
@@ -71,7 +74,7 @@ export default class AssignmentModel extends Model {
     // array of dcpIspublichearingrequired values
     const publicHearingRequiredArray = dispositions.map(disp => disp.dcpIspublichearingrequired);
     // check that each item in array equals 'No'
-    return publicHearingRequiredArray.every(req => req === 'No') && publicHearingRequiredArray.length > 0;
+    return publicHearingRequiredArray.every(req => req === DCPISPUBLICHEARINGREQUIRED_OPTIONSET.NO) && publicHearingRequiredArray.length > 0;
   }
 
   @computed('hearingsSubmitted', 'hearingsWaived')

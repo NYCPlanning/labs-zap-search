@@ -153,21 +153,21 @@ module('Integration | Component | to-review-project-card', function(hooks) {
             id: 1,
             dcpPublichearinglocation: '',
             dcpDateofpublichearing: null,
-            dcpIspublichearingrequired: 'No',
+            dcpIspublichearingrequired: 717170001, // No
             dcpProjeaction: '1',
           }),
           this.server.create('disposition', {
             id: 2,
             dcpPublichearinglocation: '',
             dcpDateofpublichearing: null,
-            dcpIspublichearingrequired: 'No',
+            dcpIspublichearingrequired: 717170001, // No
             dcpProjeaction: '2',
           }),
           this.server.create('disposition', {
             id: 3,
             dcpPublichearinglocation: '',
             dcpDateofpublichearing: null,
-            dcpIspublichearingrequired: 'No',
+            dcpIspublichearingrequired: 717170001, // No
             dcpProjeaction: '3',
           }),
         ],
