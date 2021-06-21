@@ -21,6 +21,7 @@ const ATTRS_WHITELIST = [
   "dcp_title",
   "dcp_dateofvote",
   "dcp_votelocation",
+  "dcp_ispublichearingrequired",
 
   // the sum of the other vote types must be equal to the
   // number in this column:

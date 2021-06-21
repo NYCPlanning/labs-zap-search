@@ -105,6 +105,10 @@ export default class MyProjectsProjectHearingAddController extends Controller {
       });
     }
 
+    dispositions.forEach(function(disposition) {
+      disposition.set('dcpIspublichearingrequired', 717170000);
+    });
+
     return Promise.all(dispositions.map(dispo => dispo.save())).then(() => {
       this.set('hearingSubmitted', false);
       this.set('checkIfMissing', false);

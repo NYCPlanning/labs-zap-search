@@ -9,7 +9,7 @@ export default class WaiveHearingsPopupComponent extends Component {
   @action
   async onConfirmOptOutHearing(assignment) {
     const { dispositions } = assignment;
-    dispositions.setEach('dcpIspublichearingrequired', 'No');
+    dispositions.setEach('dcpIspublichearingrequired', 717170001);
 
     try {
       await dispositions.save();
