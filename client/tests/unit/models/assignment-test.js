@@ -80,7 +80,7 @@ module('Unit | Model | assignment', function(hooks) {
       dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
-      dcpIspublichearingrequired: 'No',
+      dcpIspublichearingrequired: 717170001, // No
     });
 
     const disp2 = store.createRecord('disposition', {
@@ -88,7 +88,7 @@ module('Unit | Model | assignment', function(hooks) {
       dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
-      dcpIspublichearingrequired: 'No',
+      dcpIspublichearingrequired: 717170001, // No
     });
 
     const disp3 = store.createRecord('disposition', {
@@ -96,7 +96,7 @@ module('Unit | Model | assignment', function(hooks) {
       dcpRepresenting: 'Community Board',
       dcpPublichearinglocation: '',
       dcpDateofpublichearing: null,
-      dcpIspublichearingrequired: 'No',
+      dcpIspublichearingrequired: 717170001, // No
     });
 
     const model = run(() => store.createRecord('assignment', {

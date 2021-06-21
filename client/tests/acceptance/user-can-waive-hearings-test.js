@@ -93,7 +93,8 @@ module('Acceptance | user can waive hearings', function(hooks) {
     assert.ok(find('[data-test-hearings-waived-message="4"]'));
     assert.ok(find('[data-test-button="submitRecommendation"]'));
 
-    assert.equal(this.server.db.dispositions.firstObject.dcpIspublichearingrequired, 'No');
+    // equals 'No'
+    assert.equal(this.server.db.dispositions.firstObject.dcpIspublichearingrequired, 717170001);
 
     await click('[data-test-button="submitRecommendation"]');
 
@@ -167,7 +168,7 @@ module('Acceptance | user can waive hearings', function(hooks) {
 
     assert.ok(find('[data-test-hearings-waived-message="4"]'));
 
-    assert.equal(this.server.db.dispositions.firstObject.dcpIspublichearingrequired, 'No');
+    assert.equal(this.server.db.dispositions.firstObject.dcpIspublichearingrequired, 717170001);
   });
 
   test('if there is a server error when running .save(), user will see error message on to-review tab', async function(assert) {
