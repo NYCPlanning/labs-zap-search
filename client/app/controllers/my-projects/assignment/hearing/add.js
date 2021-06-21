@@ -1,5 +1,8 @@
 import Controller from '@ember/controller';
 import EmberObject, { action } from '@ember/object';
+import {
+  DCPISPUBLICHEARINGREQUIRED_OPTIONSET,
+} from '../../../../models/disposition/constants';
 
 // object used for when allActions is true
 // user has decided to submit one hearing for ALL actions
@@ -106,7 +109,7 @@ export default class MyProjectsProjectHearingAddController extends Controller {
     }
 
     dispositions.forEach(function(disposition) {
-      disposition.set('dcpIspublichearingrequired', 717170000);
+      disposition.set('dcpIspublichearingrequired', DCPISPUBLICHEARINGREQUIRED_OPTIONSET.YES);
     });
 
     return Promise.all(dispositions.map(dispo => dispo.save())).then(() => {

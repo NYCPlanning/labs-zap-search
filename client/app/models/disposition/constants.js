@@ -1,0 +1,4 @@
+export const DCPISPUBLICHEARINGREQUIRED_OPTIONSET = { // eslint-disable-line
+  YES: 717170000,
+  NO: 717170001,
+};
