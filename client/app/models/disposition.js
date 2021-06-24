@@ -187,6 +187,17 @@ export default class DispositionModel extends Model {
     return this.get(PARTICIPANT_TYPE_RECOMMENDATION_TYPE_LOOKUP[participantType]);
   }
 
+  @computed('statecode', 'statuscode', 'dcpRepresenting', 'dcpIspublichearingrequired')
+  get showHearingDetails() {
+    if (
+      (['Active', 'Inactive'].includes(this.get('statecode')))
+          && (['Saved', 'Submitted', 'Not Submitted'].includes(this.get('statuscode')))
+          && (this.get('dcpIspublichearingrequired') === 717170000)
+          && (['Borough President', 'Borough Board', 'Community Board'].includes(this.get('dcpRepresenting')))
+    ) { return true; }
+    return false;
+  }
+
   @computed('statecode', 'statuscode', 'dcpRepresenting')
   get showRecommendationDetails() {
     if (
