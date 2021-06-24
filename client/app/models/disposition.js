@@ -186,4 +186,14 @@ export default class DispositionModel extends Model {
     // e.g. `conditional favorable`
     return this.get(PARTICIPANT_TYPE_RECOMMENDATION_TYPE_LOOKUP[participantType]);
   }
+
+  @computed('statecode', 'statuscode', 'dcpRepresenting')
+  get showRecommendationDetails() {
+    if (
+      (this.get('statecode') === 'Inactive')
+          && (['Submitted', 'Not Submitted'].includes(this.get('statuscode')))
+          && (['Borough President', 'Borough Board', 'Community Board'].includes(this.get('dcpRepresenting')))
+    ) { return true; }
+    return false;
+  }
 }
