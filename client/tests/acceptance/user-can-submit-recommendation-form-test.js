@@ -101,7 +101,7 @@ function setUpProjectAndDispos(server, participantType) {
           server.create('disposition', {
             id: 5,
             dcpRepresenting,
-            dcpIspublichearingrequired: 'No',
+            dcpIspublichearingrequired: 717170001, // No
             dcpPublichearinglocation: null,
             dcpDateofpublichearing: null,
             dcpProjectaction: '1',
@@ -116,7 +116,7 @@ function setUpProjectAndDispos(server, participantType) {
             server.create('disposition', {
               id: 5,
               dcpRepresenting,
-              dcpIspublichearingrequired: 'No',
+              dcpIspublichearingrequired: 717170001, // No
               dcpPublichearinglocation: null,
               dcpDateofpublichearing: null,
               dcpProjectaction: '1',

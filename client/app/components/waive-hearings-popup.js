@@ -1,5 +1,8 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
+import {
+  DCPISPUBLICHEARINGREQUIRED_OPTIONSET,
+} from '../models/disposition/constants';
 
 export default class WaiveHearingsPopupComponent extends Component {
   showPopup = false;
@@ -9,7 +12,7 @@ export default class WaiveHearingsPopupComponent extends Component {
   @action
   async onConfirmOptOutHearing(assignment) {
     const { dispositions } = assignment;
-    dispositions.setEach('dcpIspublichearingrequired', 'No');
+    dispositions.setEach('dcpIspublichearingrequired', DCPISPUBLICHEARINGREQUIRED_OPTIONSET.NO);
 
     try {
       await dispositions.save();

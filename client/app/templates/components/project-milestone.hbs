@@ -69,21 +69,23 @@
         {{#if milestoneParticipant.hearingsSubmitted}}
           {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
             {{#each dedupedHearings as |hearing|}}
-              {{#if hearing.dispHasAllFields}}
-                <ul class="sub-milestones no-bullet">
-                  <li class="grid-x small-margin-bottom">
-                    <div class="cell shrink small-margin-right">
-                      {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
-                        {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
-                      {{else}}
-                        {{fa-icon icon='check' fixedWidth=true class='blue-muted'}}
-                      {{/if}}
-                    </div>
-                    <div class="cell auto">
-                      {{milestones/public-hearing hearing=hearing}}
-                    </div>
-                  </li>
-                </ul>
+              {{#if hearing.disposition.showHearingDetails}}
+                {{#if hearing.dispHasAllFields}}
+                  <ul class="sub-milestones no-bullet">
+                    <li class="grid-x small-margin-bottom">
+                      <div class="cell shrink small-margin-right">
+                        {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
+                          {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
+                        {{else}}
+                          {{fa-icon icon='check' fixedWidth=true class='blue-muted'}}
+                        {{/if}}
+                      </div>
+                      <div class="cell auto">
+                        {{milestones/public-hearing hearing=hearing}}
+                      </div>
+                    </li>
+                  </ul>
+                {{/if}}
               {{/if}}
             {{/each}}
           {{/deduped-hearings-list}}
@@ -94,74 +96,78 @@
           <ul class="sub-milestones no-bullet">
             {{#deduped-votes-list dispositions=milestoneParticipant.userDispositions participantRecommendationType=milestoneParticipant.participantRecommendationType as |dedupedVotes|}}
               {{#each dedupedVotes as |vote|}}
-                {{#if vote.dispHasRequiredField}}
-                  <li class="grid-x small-margin-bottom">
-                    <div class="cell shrink small-margin-right">
-                      <span data-test-rec-symbol="{{vote.disposition.id}}">
-                        <RecommendationResultIcon
-                          @recommendation={{vote.disposition.recommendationLabel}}
-                        />
-                      </span>
-                    </div>
-                    <div class="cell auto">
-                      <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
-                      <small>
-                        <span class="display-inline-block" data-test-voting-favor="{{vote.disposition.id}}">
-                          {{vote.disposition.dcpVotinginfavorrecommendation}} In Favor,
+                {{#if vote.disposition.showRecommendationDetails}}
+                  {{#if vote.dispHasRequiredField}}
+                    <li class="grid-x small-margin-bottom">
+                      <div class="cell shrink small-margin-right">
+                        <span data-test-rec-symbol="{{vote.disposition.id}}">
+                          <RecommendationResultIcon
+                            @recommendation={{vote.disposition.recommendationLabel}}
+                          />
                         </span>
-                        <span class="display-inline-block" data-test-voting-against="{{vote.disposition.id}}">
-                          {{vote.disposition.dcpVotingagainstrecommendation}} Against,
-                        </span>
-                        <span class="display-inline-block" data-test-voting-abstain="{{vote.disposition.id}}">
-                          {{vote.disposition.dcpVotingabstainingonrecommendation}} Abstain
-                        </span>
-                      </small>
-                      <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
-                        Vote:&nbsp;{{~moment-format vote.disposition.dcpDateofvote "LL"~}}
-                      </small>
-                      <div class="text-tiny">
-                        {{#each vote.voteActions as |action index|}}
-                          {{#if action.dcpName}}
-                            <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
-                              {{action.dcpName}}
-                              <small>{{action.dcpUlurpnumber}}</small>
-                            </span>
-                          {{/if}}
-                        {{/each}}
                       </div>
-                    </div>
-                  </li>
+                      <div class="cell auto">
+                        <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
+                        <small>
+                          <span class="display-inline-block" data-test-voting-favor="{{vote.disposition.id}}">
+                            {{vote.disposition.dcpVotinginfavorrecommendation}} In Favor,
+                          </span>
+                          <span class="display-inline-block" data-test-voting-against="{{vote.disposition.id}}">
+                            {{vote.disposition.dcpVotingagainstrecommendation}} Against,
+                          </span>
+                          <span class="display-inline-block" data-test-voting-abstain="{{vote.disposition.id}}">
+                            {{vote.disposition.dcpVotingabstainingonrecommendation}} Abstain
+                          </span>
+                        </small>
+                        <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
+                          Vote:&nbsp;{{~moment-format vote.disposition.dcpDateofvote "LL"~}}
+                        </small>
+                        <div class="text-tiny">
+                          {{#each vote.voteActions as |action index|}}
+                            {{#if action.dcpName}}
+                              <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
+                                {{action.dcpName}}
+                                <small>{{action.dcpUlurpnumber}}</small>
+                              </span>
+                            {{/if}}
+                          {{/each}}
+                        </div>
+                      </div>
+                    </li>
+                  {{/if}}
                 {{/if}}
               {{/each}}
             {{/deduped-votes-list}}
             {{#borough-pres-deduped-votes-list dispositions=milestoneParticipant.userDispositions as |dedupedVotes|}}
               {{#each dedupedVotes as |vote|}}
-                {{#if vote.dispHasRequiredField}}
-                  <li class="grid-x small-margin-bottom">
-                    <div class="cell shrink small-margin-right">
-                      <span data-test-rec-symbol="{{vote.disposition.id}}">
-                        <RecommendationResultIcon
-                          @recommendation={{vote.disposition.recommendationLabel}}
-                        />
-                      </span>
-                    </div>
-                    <div class="cell auto">
-                      <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
-                      <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
-                        Vote:&nbsp;{{~moment-format vote.disposition.dcpDatereceived "LL"~}}
-                      </small>
-                      <div class="text-tiny">
-                        {{#each vote.voteActions as |action index|}}
-                          {{#if action.dcpName}}
-                            <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
-                              {{action.dcpName}}
-                              <small>{{action.dcpUlurpnumber}}</small>
-                            </span>
-                          {{/if}}
-                        {{/each}}
+                {{#if vote.disposition.showRecommendationDetails}}
+                  {{#if vote.dispHasRequiredField}}
+                    <li class="grid-x small-margin-bottom">
+                      <div class="cell shrink small-margin-right">
+                        <span data-test-rec-symbol="{{vote.disposition.id}}">
+                          <RecommendationResultIcon
+                            @recommendation={{vote.disposition.recommendationLabel}}
+                          />
+                        </span>
                       </div>
-                    </div>
-                  </li>
+                      <div class="cell auto">
+                        <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
+                        <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
+                          Vote:&nbsp;{{~moment-format vote.disposition.dcpDatereceived "LL"~}}
+                        </small>
+                        <div class="text-tiny">
+                          {{#each vote.voteActions as |action index|}}
+                            {{#if action.dcpName}}
+                              <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
+                                {{action.dcpName}}
+                                <small>{{action.dcpUlurpnumber}}</small>
+                              </span>
+                            {{/if}}
+                          {{/each}}
+                        </div>
+                      </div>
+                    </li>
+                  {{/if}}
                 {{/if}}
               {{/each}}
             {{/borough-pres-deduped-votes-list}}
