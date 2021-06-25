@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { DCPISPUBLICHEARINGREQUIRED_OPTIONSET } from './disposition/constants';
+import { DCPISPUBLICHEARINGREQUIRED_OPTIONSET, DISPOSITION_VISIBILITY } from './disposition/constants';
 
 const {
   Model, attr, belongsTo,
@@ -150,6 +150,8 @@ export default class DispositionModel extends Model {
   // we want this to be null until a user selects yes or no
   @attr({ defaultValue: null }) dcpWasaquorumpresent;
 
+  @attr('number') dcpVisibility;
+
   // fullname = e.g. 'QN CB5'
   // recommendationSubmittedByFullName = e.g. `Queens Community Board 5`
   @computed('fullname', 'dcpRepresenting')
@@ -188,10 +190,11 @@ export default class DispositionModel extends Model {
     return this.get(PARTICIPANT_TYPE_RECOMMENDATION_TYPE_LOOKUP[participantType]);
   }
 
-  @computed('statecode', 'statuscode', 'dcpRepresenting', 'dcpIspublichearingrequired')
+  @computed('statecode', 'statuscode', 'dcpRepresenting', 'dcpIspublichearingrequired', 'dcpVisibility')
   get showHearingDetails() {
     if (
-      (['Active', 'Inactive'].includes(this.get('statecode')))
+      ([DISPOSITION_VISIBILITY.GENERAL_PUBLIC, DISPOSITION_VISIBILITY.LUP].includes(this.get('dcpVisibility')))
+          && (['Active', 'Inactive'].includes(this.get('statecode')))
           && (['Saved', 'Submitted', 'Not Submitted'].includes(this.get('statuscode')))
           && (this.get('dcpIspublichearingrequired') === DCPISPUBLICHEARINGREQUIRED_OPTIONSET.YES)
           && (['Borough President', 'Borough Board', 'Community Board'].includes(this.get('dcpRepresenting')))
@@ -199,10 +202,11 @@ export default class DispositionModel extends Model {
     return false;
   }
 
-  @computed('statecode', 'statuscode', 'dcpRepresenting')
+  @computed('statecode', 'statuscode', 'dcpRepresenting', 'dcpVisibility')
   get showRecommendationDetails() {
     if (
-      (this.get('statecode') === 'Inactive')
+      ([DISPOSITION_VISIBILITY.GENERAL_PUBLIC, DISPOSITION_VISIBILITY.LUP].includes(this.get('dcpVisibility')))
+          && (this.get('statecode') === 'Inactive')
           && (['Submitted', 'Not Submitted'].includes(this.get('statuscode')))
           && (['Borough President', 'Borough Board', 'Community Board'].includes(this.get('dcpRepresenting')))
     ) { return true; }

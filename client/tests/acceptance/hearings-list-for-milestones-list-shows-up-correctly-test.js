@@ -49,6 +49,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // #### Duplicate of 19 for votes ####################################
         server.create('disposition', {
@@ -67,6 +68,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // #### Duplicate of 18 for votes ####################################
         server.create('disposition', {
@@ -85,6 +87,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         server.create('disposition', {
           id: 20,
@@ -102,6 +105,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // #### duplicate of 22 for hearings############################################################
         server.create('disposition', {
@@ -120,6 +124,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // #### duplicate of 21 for hearings ############################################################
         server.create('disposition', {
@@ -139,6 +144,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // #### shouldn't show up ############################################################
         server.create('disposition', {
@@ -157,6 +163,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // #### hearings waived ############################################################
         server.create('disposition', {
@@ -175,6 +182,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // ### borough president (different component for votes) ############################################################
         server.create('disposition', {
@@ -190,6 +198,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
       ],
       actions: [
@@ -619,6 +628,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // duplicate of disp 18
         server.create('disposition', {
@@ -631,6 +641,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // duplicate of disp 19
         server.create('disposition', {
@@ -643,6 +654,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         server.create('disposition', {
           id: 20,
@@ -654,6 +666,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // disp with different user, but empty location
         // this tests that the "Queens Community Board 15" title does not show up
@@ -668,6 +681,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
       ],
       actions: [
@@ -793,6 +807,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // duplicate of disp 18
         server.create('disposition', {
@@ -805,6 +820,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // duplicate of disp 19
         server.create('disposition', {
@@ -817,6 +833,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         server.create('disposition', {
           id: 20,
@@ -828,6 +845,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // disp with different user, but null date
         // this tests that the "Queens Community Board 15" title does not show up
@@ -842,6 +860,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
       ],
       actions: [
@@ -967,6 +986,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // emtpy dcpBoroughboardrecommendation
         server.create('disposition', {
@@ -982,6 +1002,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // dcpBoroughboardrecommendation FILLED
         server.create('disposition', {
@@ -997,6 +1018,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // NULL dcpCommunityboardrecommendation
         server.create('disposition', {
@@ -1012,6 +1034,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // empty dcpCommunityboardrecommendation
         server.create('disposition', {
@@ -1027,6 +1050,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // dcpCommunityboardrecommendation FILLED
         server.create('disposition', {
@@ -1042,6 +1066,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // NULL dcpBoroughpresidentrecommendation
         server.create('disposition', {
@@ -1054,6 +1079,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // empty dcpBoroughpresidentrecommendation
         server.create('disposition', {
@@ -1066,6 +1092,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
         // dcpBoroughpresidentrecommendation FILLED
         server.create('disposition', {
@@ -1078,6 +1105,7 @@ module('Acceptance | hearings list for milestones list shows up correctly', func
           statuscode: 'Submitted',
           statecode: 'Inactive',
           dcpIspublichearingrequired: 717170000,
+          dcpVisibility: 717170003,
         }),
       ],
       actions: [

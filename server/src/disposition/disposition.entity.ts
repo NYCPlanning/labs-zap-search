@@ -27,7 +27,8 @@ export const KEYS = [
   "dcp_representing",
   "_dcp_recommendationsubmittedby_value",
   "_dcp_projectaction_value",
-  "project"
+  "project",
+  "dcp_visibility"
 ];
 
 @Entity("dcp_communityboarddisposition")
@@ -97,4 +98,7 @@ export class Disposition {
 
   @Column()
   dcp_projectaction: string;
+
+  @Column()
+  dcp_visibility: string;
 }
