@@ -131,7 +131,3 @@ export const STATUSCODE_OPTIONSET = {
     label: 'Not Started',
   },
 };
-
-export const IS_PUBLIC_HEARING_REQUIRED_OPTIONSET = {
-  YES: 717170000,
-};

@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { IS_PUBLIC_HEARING_REQUIRED_OPTIONSET } from './milestone/constants';
+import { DCPISPUBLICHEARINGREQUIRED_OPTIONSET } from './disposition/constants';
 
 const {
   Model, attr, belongsTo,
@@ -193,7 +193,7 @@ export default class DispositionModel extends Model {
     if (
       (['Active', 'Inactive'].includes(this.get('statecode')))
           && (['Saved', 'Submitted', 'Not Submitted'].includes(this.get('statuscode')))
-          && (this.get('dcpIspublichearingrequired') === IS_PUBLIC_HEARING_REQUIRED_OPTIONSET.YES)
+          && (this.get('dcpIspublichearingrequired') === DCPISPUBLICHEARINGREQUIRED_OPTIONSET.YES)
           && (['Borough President', 'Borough Board', 'Community Board'].includes(this.get('dcpRepresenting')))
     ) { return true; }
     return false;
