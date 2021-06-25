@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { DCPISPUBLICHEARINGREQUIRED_OPTIONSET } from './disposition/constants';
 
 const {
   Model, attr, belongsTo,
@@ -185,5 +186,26 @@ export default class DispositionModel extends Model {
     const participantType = this.get('dcpRepresenting');
     // e.g. `conditional favorable`
     return this.get(PARTICIPANT_TYPE_RECOMMENDATION_TYPE_LOOKUP[participantType]);
+  }
+
+  @computed('statecode', 'statuscode', 'dcpRepresenting', 'dcpIspublichearingrequired')
+  get showHearingDetails() {
+    if (
+      (['Active', 'Inactive'].includes(this.get('statecode')))
+          && (['Saved', 'Submitted', 'Not Submitted'].includes(this.get('statuscode')))
+          && (this.get('dcpIspublichearingrequired') === DCPISPUBLICHEARINGREQUIRED_OPTIONSET.YES)
+          && (['Borough President', 'Borough Board', 'Community Board'].includes(this.get('dcpRepresenting')))
+    ) { return true; }
+    return false;
+  }
+
+  @computed('statecode', 'statuscode', 'dcpRepresenting')
+  get showRecommendationDetails() {
+    if (
+      (this.get('statecode') === 'Inactive')
+          && (['Submitted', 'Not Submitted'].includes(this.get('statuscode')))
+          && (['Borough President', 'Borough Board', 'Community Board'].includes(this.get('dcpRepresenting')))
+    ) { return true; }
+    return false;
   }
 }
