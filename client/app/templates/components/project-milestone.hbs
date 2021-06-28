@@ -58,7 +58,7 @@
 
     {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
       {{#each milestoneParticipants as |milestoneParticipant|}}
-        {{#if (or milestoneParticipant.hearingsSubmitted milestoneParticipant.votesSubmitted)}}
+        {{#if (or milestoneParticipant.hearingsShown milestoneParticipant.votesShown)}}
           <hr>
           <h5 class="small-margin-bottom" data-test-lup-full-name="{{milestoneParticipant.landUseParticipantFullName}}">
             {{milestoneParticipant.landUseParticipantFullName}}
@@ -66,7 +66,7 @@
         {{/if}}
 
         {{!-- HEARINGS SUB-MILESTONES --}}
-        {{#if milestoneParticipant.hearingsSubmitted}}
+        {{#if milestoneParticipant.hearingsShown}}
           {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
             {{#each dedupedHearings as |hearing|}}
               {{#if hearing.disposition.showHearingDetails}}
@@ -92,7 +92,7 @@
         {{/if}}
 
         {{!-- VOTES SUB-MILESTONES --}}
-        {{#if milestoneParticipant.votesSubmitted}}
+        {{#if milestoneParticipant.votesShown}}
           <ul class="sub-milestones no-bullet">
             {{#deduped-votes-list dispositions=milestoneParticipant.userDispositions participantRecommendationType=milestoneParticipant.participantRecommendationType as |dedupedVotes|}}
               {{#each dedupedVotes as |vote|}}
