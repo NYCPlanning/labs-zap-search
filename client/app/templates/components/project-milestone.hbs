@@ -58,7 +58,7 @@
 
     {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
       {{#each milestoneParticipants as |milestoneParticipant|}}
-        {{#if (or milestoneParticipant.hearingsSubmitted milestoneParticipant.votesSubmitted)}}
+        {{#if (and (or milestoneParticipant.hearingsShown milestoneParticipant.votesShown) (or milestoneParticipant.hearingsSubmitted milestoneParticipant.votesSubmitted))}}
           <hr>
           <h5 class="small-margin-bottom" data-test-lup-full-name="{{milestoneParticipant.landUseParticipantFullName}}">
             {{milestoneParticipant.landUseParticipantFullName}}
