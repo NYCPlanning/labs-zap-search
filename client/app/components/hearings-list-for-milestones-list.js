@@ -48,25 +48,17 @@ export function checkVotesSubmitted(records = [], recommendationType) {
 // this is used to conditionally display the entire sub-milestone, including the title.
 export function checkHearingsShown(records = []) {
   const projectsWithHearings = records.filter(function(disp) {
-    if ((disp.dcpDateofpublichearing !== null) && (disp.showHearingDetails)) {
-      return disp.dcpPublichearinglocation && disp.dcpDateofpublichearing.toString();
-    } return null;
+    return disp.showHearingDetails;
   });
-
   return projectsWithHearings.length > 0;
 }
 
 // Check that at least ONE disposition has truthy values for recommendation field
 // this is used to conditionally display the entire sub-milestone, including the title.
-export function checkVotesShown(records = [], recommendationType) {
+export function checkVotesShown(records = []) {
   const projectsWithVotes = records.filter(function(disp) {
-    if (disp.showRecommendationDetails) {
-      // null values and empty strings will NOT be returned
-      return disp.get(recommendationType);
-    }
-    return false;
+    return disp.showRecommendationDetails;
   });
-
   return projectsWithVotes.length > 0;
 }
 
