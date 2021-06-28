@@ -25,7 +25,7 @@ export function dedupeByParticipant(records = []) {
 // this is used to conditionally display the entire sub-milestone, including the title.
 export function checkHearingsSubmitted(records = []) {
   const projectsWithHearings = records.filter(function(disp) {
-    if ((disp.dcpDateofpublichearing !== null) && (disp.showHearingDetails)) {
+    if (disp.dcpDateofpublichearing !== null) {
       return disp.dcpPublichearinglocation && disp.dcpDateofpublichearing.toString();
     } return null;
   });
@@ -37,11 +37,8 @@ export function checkHearingsSubmitted(records = []) {
 // this is used to conditionally display the entire sub-milestone, including the title.
 export function checkVotesSubmitted(records = [], recommendationType) {
   const projectsWithVotes = records.filter(function(disp) {
-    if (disp.showRecommendationDetails) {
-      // null values and empty strings will NOT be returned
-      return disp.get(recommendationType);
-    }
-    return false;
+    // null values and empty strings will NOT be returned
+    return disp.get(recommendationType);
   });
 
   return projectsWithVotes.length > 0;
