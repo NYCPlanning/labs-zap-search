@@ -2,21 +2,21 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import ENV from 'labs-zap-search/config/environment';
 
-const MAINTENANCE_RANGE = ['06/28/2021 19:00', '06/29/2021 19:00'];
+const MAINTENANCE_RANGE = ENV.maintenanceTimes;
 
 export default Component.extend({
   oauthEndpoint: ENV.OAUTH_ENDPOINT,
   isMaintenancePeriod: computed(function() {
-    const [from, to] = MAINTENANCE_RANGE.map(string => new Date(string));
+    const [start, end] = MAINTENANCE_RANGE.map(string => new Date(string));
     const now = new Date();
 
-    return now > from && now < to;
+    return now > start && now < end;
   }),
 
   hasUpcomingMaintenance: computed(function() {
-    const [, to] = MAINTENANCE_RANGE.map(string => new Date(string));
+    const [, end] = MAINTENANCE_RANGE.map(string => new Date(string));
     const now = new Date();
 
-    return now < to;
+    return now < end;
   }),
 });
