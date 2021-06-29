@@ -130,6 +130,8 @@ export default class DispositionModel extends Model {
 
   @attr() documents;
 
+  @attr() documents;
+
   // sourced from dcp_docketdescription
   @attr('string') dcpDocketdescription;
 

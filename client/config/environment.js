@@ -15,6 +15,7 @@ module.exports = function(environment) {
       scrollElement: '#scrolling-result-content',
     },
     NYC_ID_HOST,
+    maintenanceTimes: getMaintenanceTimes(),
     host: getHost(environment),
     OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
     LUPP_ENABLED: true,
@@ -151,4 +152,13 @@ function getHost(environment) {
   }
 
   return '';
+}
+
+function getMaintenanceTimes() {
+  const {
+    MAINTENANCE_START = '01/01/01 00:00',
+    MAINTENANCE_END = '01/01/01 00:00',
+  } = process.env;
+
+  return [MAINTENANCE_START, MAINTENANCE_END];
 }

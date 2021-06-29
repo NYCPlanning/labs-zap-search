@@ -53,3 +53,13 @@ This will spin up both the frontend (in the `/client` folder) and the server API
 ## Frontend and Backend Documentation
   - See [./client/](./client/) for more docs on running and modifying the frontend
   - See [./server/](./server/) for more docs on running and modifying the server side API
+
+## Maintenance Mode
+
+To enable "maintenance mode", set two environment variables in the frontend (Netlify) build environment:
+
+MAINTENANCE_START='06/28/2021 19:00'
+MAINTENANCE_END='06/29/2021 19:00'
+
+Use the date format in the example above. This will warn of upcoming maintenance (if the start date is in the future), disable
+the login, and disappear once the end period has passed.

@@ -28,7 +28,8 @@ export const KEYS = [
   "_dcp_recommendationsubmittedby_value",
   "_dcp_projectaction_value",
   "project",
-  "dcp_visibility"
+  "dcp_visibility",
+  "project"
 ];
 
 @Entity("dcp_communityboarddisposition")

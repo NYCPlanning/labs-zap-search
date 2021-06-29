@@ -580,8 +580,13 @@ export class ProjectService {
 
     // adds in the blocks filter for use across various query types
     const normalizedQuery = {
-      ...query,
-      blocks_in_radius: blocks
+      blocks_in_radius: blocks,
+      ...query
+
+      // this information is sent as separate filters but must be represented as one
+      // to work correctly with the query template system.
+      // ...blocks
+
     };
 
     const queryObject = generateQueryObject(normalizedQuery);
