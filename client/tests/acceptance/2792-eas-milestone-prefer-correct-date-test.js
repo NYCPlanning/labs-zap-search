@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, find } from '@ember/test-helpers';
+import { visit, find, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -22,6 +22,7 @@ module('Acceptance | 2792 eas milestone prefer correct date', function(hooks) {
       ],
     });
     await visit('/projects/1');
+    await click('.milestone-header');
 
     assert.equal(find('[data-test-milestone-dates="1"').textContent.trim(), 'January 1, 2001');
   });
@@ -41,6 +42,7 @@ module('Acceptance | 2792 eas milestone prefer correct date', function(hooks) {
       ],
     });
     await visit('/projects/1');
+    await click('.milestone-header');
 
     assert.equal(find('[data-test-milestone-dates="1"').textContent.trim(), 'September 9, 2009');
   });

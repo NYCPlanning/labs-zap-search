@@ -27,6 +27,8 @@ export const KEYS = [
   "dcp_representing",
   "_dcp_recommendationsubmittedby_value",
   "_dcp_projectaction_value",
+  "project",
+  "dcp_visibility",
   "project"
 ];
 
@@ -97,4 +99,7 @@ export class Disposition {
 
   @Column()
   dcp_projectaction: string;
+
+  @Column()
+  dcp_visibility: string;
 }

@@ -1,0 +1,36 @@
+<ul class="no-bullet milestones-list">
+  <li class="grid-x grid-padding-small milestone-header"
+    onClick={{this.toggleShowMilestoneList}}
+  >
+    <div class="cell shrink">
+      <FaIcon
+        @icon={{if this.showMilestoneList "caret-down" "caret-right"}}
+        style="margin-left: -10px; margin-top: 10px"
+      />
+    </div>
+    <div class="cell shrink">
+      <span class="milestone-icon fa-layers fa-fw">
+        {{yield}}
+      </span>
+    </div>
+    <div class="cell auto">
+      <h4
+        class="no-margin"
+      >
+        <span>
+          {{@listName}}
+        </span>
+      </h4>
+    </div>
+  </li>
+
+  {{#if this.showMilestoneList}}
+    {{#if @milestones}}
+      {{#each @milestones as | milestone |}}
+        {{project-milestone milestone=milestone}}
+      {{/each}}
+    {{else}}
+      No Milestones
+    {{/if}}
+  {{/if}}
+</ul>

@@ -11,11 +11,7 @@ export default class ProjectMilestoneComponent extends Component {
 
   @computed('milestone.statuscode')
   get getClassNames() {
-    let style = '';
-
-    if (this.milestone.statuscode === 'Not Started') style = 'gray';
-
-    if (this.milestone.statuscode === 'In Progress') style = 'green-glow';
+    const style = '';
 
     return `grid-x grid-padding-small milestone ${style}`;
   }

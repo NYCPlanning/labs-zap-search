@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { DCPISPUBLICHEARINGREQUIRED_OPTIONSET, DISPOSITION_VISIBILITY } from './disposition/constants';
 
 const {
   Model, attr, belongsTo,
@@ -59,7 +60,7 @@ export default class DispositionModel extends Model {
   // sourced from dcp_dcpPublichearinglocation
   @attr('string', { defaultValue: null }) dcpPublichearinglocation;
 
-  @attr('string', { defaultValue: null }) dcpIspublichearingrequired;
+  @attr('number', { defaultValue: null }) dcpIspublichearingrequired;
 
   @attr('string', { defaultValue: null }) dcpRepresenting;
 
@@ -123,51 +124,11 @@ export default class DispositionModel extends Model {
 
   @attr('string', { defaultValue: '' }) dcpBoroughpresidentrecommendation;
 
-  // sourced from statuscode
-  // Label: 'Draft', 'Value': 1
-  // Label: 'Saved', 'Value': 717170000
-  // Label: 'Submitted', 'Value': 2
-  // Label: 'Deactivated', 'Value': 717170001
-  // Label: 'Not Submitted', 'Value': 717170002
-  @attrComputed(
-    // recommendations
-    'dcpDateofvote',
-    'dcpBoroughpresidentrecommendation',
-    'dcpBoroughboardrecommendation',
-    'dcpCommunityboardrecommendation',
-    'dcpIspublichearingrequired',
+  @attr('string', { defaultValue: '' }) statuscode;
 
-    // hearings
-    'dcpPublichearinglocation',
-    'dcpDateofpublichearing',
-  )
-  get statuscode() {
-    if (this.dcpBoroughpresidentrecommendation !== null
-      || this.dcpBoroughboardrecommendation !== null
-      || this.dcpCommunityboardrecommendation !== null
-    ) return STATUSCODES.findBy('Label', 'Submitted').Value;
+  @attr('string', { defaultValue: '' }) statecode;
 
-    if (
-      this.dcpIspublichearingrequired !== null
-    ) return STATUSCODES.findBy('Label', 'Saved').Value;
-
-    if (this.dcpPublichearinglocation
-      || this.dcpDateofpublichearing
-    ) return STATUSCODES.findBy('Label', 'Saved').Value;
-
-    return STATUSCODES.findBy('Label', 'Draft').Value;
-  }
-
-  // TODO: explain.
-  @attrComputed('statuscode')
-  get statecode() {
-    if (
-      STATUSCODES.findBy('Value', this.statuscode).Label === 'Saved'
-      || STATUSCODES.findBy('Value', this.statuscode).Label === 'Draft'
-    ) return STATECODES.findBy('Label', 'Active').Value;
-
-    return STATECODES.findBy('Label', 'Inactive').Value;
-  }
+  @attr() documents;
 
   @attr() documents;
 
@@ -190,6 +151,8 @@ export default class DispositionModel extends Model {
   // NOTE: when this is defined as boolean, it automatically changes to false from null
   // we want this to be null until a user selects yes or no
   @attr({ defaultValue: null }) dcpWasaquorumpresent;
+
+  @attr('number') dcpVisibility;
 
   // fullname = e.g. 'QN CB5'
   // recommendationSubmittedByFullName = e.g. `Queens Community Board 5`
@@ -227,5 +190,28 @@ export default class DispositionModel extends Model {
     const participantType = this.get('dcpRepresenting');
     // e.g. `conditional favorable`
     return this.get(PARTICIPANT_TYPE_RECOMMENDATION_TYPE_LOOKUP[participantType]);
+  }
+
+  @computed('statecode', 'statuscode', 'dcpRepresenting', 'dcpIspublichearingrequired', 'dcpVisibility')
+  get showHearingDetails() {
+    if (
+      ([DISPOSITION_VISIBILITY.GENERAL_PUBLIC, DISPOSITION_VISIBILITY.LUP].includes(this.get('dcpVisibility')))
+          && (['Active', 'Inactive'].includes(this.get('statecode')))
+          && (['Saved', 'Submitted', 'Not Submitted'].includes(this.get('statuscode')))
+          && (this.get('dcpIspublichearingrequired') === DCPISPUBLICHEARINGREQUIRED_OPTIONSET.YES)
+          && (['Borough President', 'Borough Board', 'Community Board'].includes(this.get('dcpRepresenting')))
+    ) { return true; }
+    return false;
+  }
+
+  @computed('statecode', 'statuscode', 'dcpRepresenting', 'dcpVisibility')
+  get showRecommendationDetails() {
+    if (
+      ([DISPOSITION_VISIBILITY.GENERAL_PUBLIC, DISPOSITION_VISIBILITY.LUP].includes(this.get('dcpVisibility')))
+          && (this.get('statecode') === 'Inactive')
+          && (['Submitted', 'Not Submitted'].includes(this.get('statuscode')))
+          && (['Borough President', 'Borough Board', 'Community Board'].includes(this.get('dcpRepresenting')))
+    ) { return true; }
+    return false;
   }
 }

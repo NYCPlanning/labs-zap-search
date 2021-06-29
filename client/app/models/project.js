@@ -1,7 +1,10 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { sort, alias } from '@ember/object/computed';
-import { PREPARE_FILED_EAS } from './milestone/constants';
+import {
+  STATUSCODE_OPTIONSET,
+} from './milestone/constants';
+
 
 const {
   Model, attr, hasMany,
@@ -16,6 +19,16 @@ const EmptyFeatureCollection = {
       isEmptyDefault: true,
     },
   }],
+};
+
+const milestoneDateCompare = function(prev, next) {
+  if (prev.dcpActualstartdate && !next.dcpActualstartdate) return -1;
+  if (!prev.dcpActualstartdate && next.dcpActualstartdate) return 1;
+
+  const prevMilestoneDate = new Date(prev.dcpActualstartdate);
+  const nextMilestoneDate = new Date(next.dcpActualstartdate);
+
+  return prevMilestoneDate.getTime() - nextMilestoneDate.getTime();
 };
 
 export default class ProjectModel extends Model {
@@ -128,24 +141,49 @@ export default class ProjectModel extends Model {
       .reverse();
   }
 
-  @computed('milestones')
+  /**
+   *    We need to filter out the following:
+   *    If the project id starts with a 'P' (this.dcpName[0]):
+   *       Then filter out "Review Filed EAS" and "Review Filed Land Use Application"
+   *    Otherwise:
+   *       Filter out "Prepare Filed EAS" and "Prepare Filed Land Use Application"
+   */
+  @computed('milestones', 'dcpName')
   get filteredMilestones() {
     return this.get('milestones')
-      .filter(pMilestone => pMilestone.dcpMilestone !== PREPARE_FILED_EAS);
+      .filter(pMilestone => (
+        !((this.dcpName[0] === 'P') && (['Review Filed EAS', 'Review Filed Land Use Application'].includes(pMilestone.milestonename)))
+        && !((this.dcpName[0] !== 'P') && (['Prepare Filed EAS', 'Prepare Filed Land Use Application'].includes(pMilestone.milestonename)))
+      ));
   }
 
-  @sort('filteredMilestones', function(prev, next) {
-    const milestoneSequenceDifference = prev.dcpMilestonesequence - next.dcpMilestonesequence;
+  @computed('filteredMilestones')
+  get completedMilestones() {
+    return this.get('filteredMilestones')
+      .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.COMPLETED.label);
+  }
 
-    if (milestoneSequenceDifference === 0) {
-      if (!prev.displayDate) return 1;
+  @computed('filteredMilestones')
+  get inProgressMilestones() {
+    return this.get('filteredMilestones')
+      .filter(pMilestone => pMilestone.statuscode === STATUSCODE_OPTIONSET.IN_PROGRESS.label);
+  }
 
-      if (!next.displayDate) return -1;
+  @computed('filteredMilestones')
+  get notStartedMilestones() {
+    return this.get('filteredMilestones')
+      .filter(pMilestone => ((pMilestone.statuscode !== STATUSCODE_OPTIONSET.COMPLETED.label) && (pMilestone.statuscode !== STATUSCODE_OPTIONSET.IN_PROGRESS.label)));
+  }
 
-      return prev.displayDate - next.displayDate;
-    }
+  @sort('completedMilestones', milestoneDateCompare)
+  sortedCompletedMilestones;
 
-    return milestoneSequenceDifference;
-  })
+  @sort('inProgressMilestones', milestoneDateCompare)
+  sortedInProgressMilestones;
+
+  @sort('notStartedMilestones', milestoneDateCompare)
+  sortedNotStartedMilestones;
+
+  @sort('milestones', milestoneDateCompare)
   sortedMilestones;
 }

@@ -44,6 +44,25 @@ export function checkVotesSubmitted(records = [], recommendationType) {
   return projectsWithVotes.length > 0;
 }
 
+// Check that at least ONE disposition has a truthy date & location field
+// this is used to conditionally display the entire sub-milestone, including the title.
+export function checkHearingsShown(records = []) {
+  const projectsWithHearings = records.filter(function(disp) {
+    return disp.showHearingDetails;
+  });
+  return projectsWithHearings.length > 0;
+}
+
+// Check that at least ONE disposition has truthy values for recommendation field
+// this is used to conditionally display the entire sub-milestone, including the title.
+export function checkVotesShown(records = []) {
+  const projectsWithVotes = records.filter(function(disp) {
+    return disp.showRecommendationDetails;
+  });
+  return projectsWithVotes.length > 0;
+}
+
+
 export default class HearingsListForMilestonesListComponent extends Component {
   // @argument
   milestone;
@@ -127,6 +146,8 @@ export default class HearingsListForMilestonesListComponent extends Component {
     milestoneParticipantsDeduped.forEach(function(participant) {
       participant.hearingsSubmitted = checkHearingsSubmitted(participant.userDispositions);
       participant.votesSubmitted = checkVotesSubmitted(participant.userDispositions, participant.participantRecommendationType);
+      participant.hearingsShown = checkHearingsShown(participant.userDispositions);
+      participant.votesShown = checkVotesShown(participant.userDispositions, participant.participantRecommendationType);
     });
 
     return milestoneParticipantsDeduped;

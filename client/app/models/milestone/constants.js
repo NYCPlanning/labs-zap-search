@@ -119,6 +119,15 @@ export const REFERRAL_MILESTONEID_BY_ACRONYM_LOOKUP = {
 };
 
 export const STATUSCODE_OPTIONSET = {
-  COMPLETED: 2,
-  IN_PROGRESS: 717170000,
+  COMPLETED: {
+    code: 2,
+    label: 'Completed',
+  },
+  IN_PROGRESS: {
+    code: 717170000,
+    label: 'In Progress',
+  },
+  NOT_STARTED: {
+    label: 'Not Started',
+  },
 };
