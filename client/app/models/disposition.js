@@ -118,11 +118,11 @@ export default class DispositionModel extends Model {
   // backend
   @attr('date', { defaultValue: null }) dcpDateofvote;
 
-  @attr('string', { defaultValue: '' }) dcpBoroughboardrecommendation;
+  @attr('string', { defaultValue: null }) dcpBoroughboardrecommendation;
 
-  @attr('string', { defaultValue: '' }) dcpCommunityboardrecommendation;
+  @attr('string', { defaultValue: null }) dcpCommunityboardrecommendation;
 
-  @attr('string', { defaultValue: '' }) dcpBoroughpresidentrecommendation;
+  @attr('string', { defaultValue: null }) dcpBoroughpresidentrecommendation;
 
   @attr('string', { defaultValue: '' }) statuscode;
 
