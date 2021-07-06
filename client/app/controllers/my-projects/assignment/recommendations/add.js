@@ -14,6 +14,11 @@ import {
   boroughBoardDispositionValidations,
   boroughPresidentDispositionValidations,
 } from '../../../../validations/recommendation';
+import {
+  STATUSCODES as DISPO_STATUSCODES,
+  STATECODES as DISPO_STATECODES,
+} from '../../../../models/disposition/constants';
+
 
 const MINIMUM_VOTE_DATE = new Date(1990, 1, 1);
 
@@ -401,6 +406,8 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
           dcpDatereceived: new Date(), // time when user submits recommendation
           dcpVotelocation,
           dcpDateofvote,
+          statuscode: DISPO_STATUSCODES.SUBMITTED.label,
+          statecode: DISPO_STATECODES.INACTIVE.label,
         });
       });
 

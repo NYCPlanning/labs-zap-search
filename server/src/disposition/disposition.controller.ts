@@ -13,6 +13,19 @@ import { ConfigService } from "../config/config.service";
 import { CrmService } from "../crm/crm.service";
 import { defaultValueDispositionPipe as defaultValuePipe } from "./defaultValue.disposition.pipe";
 
+const STATUSCODES_LABEL_TO_VALUE = {
+  Draft: 1,
+  Saved: 717170000,
+  Submitted: 2,
+  Deactivated: 717170001,
+  "Not Submitted": 717170002
+};
+
+const STATECODES_LABEL_TO_VALUE = {
+  Active: 0,
+  Inactive: 1
+};
+
 // Only attrs in the whitelist get posted
 const ATTRS_WHITELIST = [
   "dcp_publichearinglocation",
@@ -34,7 +47,9 @@ const ATTRS_WHITELIST = [
   "dcp_votinginfavorrecommendation",
   "dcp_votingabstainingonrecommendation",
   "dcp_consideration",
-  "dcp_datereceived"
+  "dcp_datereceived",
+  "statecode",
+  "statuscode"
 ];
 const { deserialize } = new Deserializer({
   keyForAttribute: "underscore_case"
@@ -100,7 +115,9 @@ export class DispositionController {
             : null,
           dcp_boroughboardrecommendation: whitelistedAttrs.dcp_boroughboardrecommendation
             ? parseInt(whitelistedAttrs.dcp_boroughboardrecommendation, 10)
-            : null
+            : null,
+          statecode: STATECODES_LABEL_TO_VALUE[whitelistedAttrs.statecode],
+          statuscode: STATUSCODES_LABEL_TO_VALUE[whitelistedAttrs.statuscode]
         }
       };
 
