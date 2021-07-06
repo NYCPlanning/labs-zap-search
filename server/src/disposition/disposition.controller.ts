@@ -57,7 +57,7 @@ export class DispositionController {
 
     const { contactid } = session;
     const attributes = await deserialize(body);
-    const whitelistedAttrs = pick(attributes, ATTRS_WHITELIST);
+    let whitelistedAttrs = pick(attributes, ATTRS_WHITELIST);
 
     // todo: throw error for non whitelisted keys
     // update CRM first
@@ -81,6 +81,28 @@ export class DispositionController {
       if (dcp_recommendationsubmittedby !== contactid) {
         throw new Error("Not authorized to edit this record.");
       }
+
+      // These values are provided to the frontend as _labels_ (instead of the integer codes).
+      // However, the disposition model in the frontend defines these as strings (there are also duplicate entries as _numbers_ but that's another story)
+      // Because of this madness, whenever user submits the disposition, the frontend correctly provides the integer-based code
+      // for the values, HOWEVER, they are represented as strings ('12345' instead of 12345). This causes CRM to kick it back.
+      // This code here is a temporary stopgap to parse those stringified integers as numeric types so that CRM is happy with them.
+      // TODO: avoid backfilling values with labels. remove duplicate keys for these recommendation values in the disposition.
+      //   check that this doesn't break anything in zap project profile and the LUP frontend. finally, remove this code.
+      whitelistedAttrs = {
+        ...whitelistedAttrs,
+        ...{
+          dcp_communityboardrecommendation: whitelistedAttrs.dcp_communityboardrecommendation
+            ? parseInt(whitelistedAttrs.dcp_communityboardrecommendation, 10)
+            : null,
+          dcp_boroughpresidentrecommendation: whitelistedAttrs.dcp_boroughpresidentrecommendation
+            ? parseInt(whitelistedAttrs.dcp_boroughpresidentrecommendation, 10)
+            : null,
+          dcp_boroughboardrecommendation: whitelistedAttrs.dcp_boroughboardrecommendation
+            ? parseInt(whitelistedAttrs.dcp_boroughboardrecommendation, 10)
+            : null
+        }
+      };
 
       await this.crmService.update(
         "dcp_communityboarddispositions",
