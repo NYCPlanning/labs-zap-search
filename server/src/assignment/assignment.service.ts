@@ -53,7 +53,6 @@ const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   "_dcp_action_value",
   "_dcp_zoningresolution_value",
   "dcp_lupteammemberrole",
-  "dcp_ispublichearingrequired",
   "statecode"
 ];
 
