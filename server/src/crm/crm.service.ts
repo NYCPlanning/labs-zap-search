@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { ADAL } from "../_utils/adal";
-import { ORequest } from "odata";
 import * as superagent from "superagent";
 import { dateParser } from "./crm.utilities";
 
@@ -139,34 +138,5 @@ export class CrmService {
       .set(defaultHeaders);
 
     return body;
-  }
-
-  // TODO: Remove object-driven query templating,
-  // replace with odata query builder (see projects service)
-  async queryFromObject(entity: string, query: any) {
-    const queryStringForEntity = this.serializeToQueryString(query);
-
-    return await this.query(entity, queryStringForEntity);
-  }
-
-  // TODO: Remove object-driven query templating
-  // replace with odata query builder (see projects service)
-  serializeToQueryString(query: any) {
-    const truthyKeyedObject = Object.keys(query).reduce((acc, curr) => {
-      if (query[curr]) {
-        acc[curr] = query[curr];
-      }
-
-      return acc;
-    }, {});
-    const oDataReq = new ORequest(this.config.get("CRM_HOST"), {});
-
-    oDataReq.applyQuery(truthyKeyedObject);
-
-    const {
-      url: { search }
-    } = oDataReq;
-
-    return search.split("?")[1];
   }
 }

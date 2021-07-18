@@ -9,16 +9,26 @@ import { Project } from "./get-projects-query";
 export function transformProjectsBlocks(
   projectBlocks: Project[]
 ): BoroughBlock[] {
-  return projectBlocks.reduce((boroughBlocks, projectBlock) => {
-    return boroughBlocks.concat(
-      projectBlock.dcp_dcp_project_dcp_projectbbl_project.map(projectBBL => ({
-        id:
-          localizeBoroughCodes(projectBBL.dcp_validatedborough) +
-          projectBBL.dcp_validatedblock,
-        dcp_publicstatus: projectBlock.dcp_publicstatus
-      }))
-    );
-  }, []);
+  return (
+    projectBlocks
+      .reduce((boroughBlocks, projectBlock) => {
+        return boroughBlocks.concat(
+          projectBlock.dcp_dcp_project_dcp_projectbbl_project.map(
+            projectBBL => ({
+              id:
+                localizeBoroughCodes(projectBBL.dcp_validatedborough) +
+                projectBBL.dcp_validatedblock,
+              dcp_publicstatus: projectBlock.dcp_publicstatus
+            })
+          )
+        );
+      }, [])
+      // Make boroughBlocks unique so we don't get a entity too large error from carto
+      .filter(
+        (boroughBlock, index, _projectBlocks) =>
+          index === _projectBlocks.findIndex(b => b.id === boroughBlock.id)
+      )
+  );
 }
 
 // these are represented as MS Dynamics CRM-specific codings in CRM, but

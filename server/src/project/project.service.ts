@@ -23,7 +23,6 @@ import { ArtifactService } from "../artifact/artifact.service";
 import { PackageService } from "../package/package.service";
 import { GeometryService } from "./geometry/geometry.service";
 import { DispositionService } from "../disposition/disposition.service";
-import { ClientProjectQuery, getoDataFilters } from "./_utils/get-odata-query";
 import {
   getProjectsBlocksQuery,
   getProjectsQuery,

@@ -1,13 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { CrmService } from "../crm/crm.service";
-import {
-  all,
-  comparisonOperator,
-  containsAnyOf,
-  overwriteCodesWithLabels
-} from "../crm/crm.utilities";
+import { overwriteCodesWithLabels } from "../crm/crm.utilities";
 import { transformMilestones } from "../project/_utils/transform-milestones";
 import { transformActions } from "../project/_utils/transform-actions";
+import buildQuery from "odata-query";
 
 @Injectable()
 export class AssignmentService {
@@ -16,10 +12,9 @@ export class AssignmentService {
   async getAssignments(contact, tab) {
     const { contactid, fullname } = contact;
     const recodedCbFullName = fullname ? recodeCbFullName(fullname) : "Unknown";
-    const queryObject = generateAssignmentsQueryObject(contact);
-    const { records: projects } = await this.crmService.queryFromObject(
+    const { records: projects } = await this.crmService.get(
       "dcp_projects",
-      queryObject
+      getAssignmentsQuery(contact)
     );
 
     return transformIntoAssignments(
@@ -206,9 +201,7 @@ function recodeCbFullName(fullname) {
   }
 }
 
-function generateAssignmentsQueryObject(contact) {
-  const { contactid, fullname } = contact;
-  const recodedCbFullName = fullname ? recodeCbFullName(fullname) : "Unknown";
+function getAssignmentsQuery(contact) {
   const DISPLAY_MILESTONE_IDS = [
     "963beec4-dad0-e711-8116-1458d04e2fb8",
     "943beec4-dad0-e711-8116-1458d04e2fb8",
@@ -238,46 +231,121 @@ function generateAssignmentsQueryObject(contact) {
     "483beec4-dad0-e711-8116-1458d04e2fb8",
     "4a3beec4-dad0-e711-8116-1458d04e2fb8"
   ];
-  const MILESTONES_FILTER = all(
-    `(not ${comparisonOperator("statuscode", "eq", 717170001)})`,
-    containsAnyOf("_dcp_milestone_value", DISPLAY_MILESTONE_IDS, {
-      comparisonStrategy: (prop, val) => comparisonOperator(prop, "eq", val)
-    })
-  );
-  const DISPOSITIONS_FILTER = all(
-    `(not ${comparisonOperator("statuscode", "eq", 717170001)})`
-  );
 
-  return {
-    $select:
-      "dcp_name,statecode,dcp_applicanttype,dcp_borough,dcp_ceqrnumber,dcp_ceqrtype,dcp_certifiedreferred,dcp_femafloodzonea,dcp_femafloodzoneshadedx,dcp_sisubdivision,dcp_sischoolseat,dcp_projectbrief,dcp_additionalpublicinformation,dcp_projectname,dcp_publicstatus,dcp_projectcompleted,dcp_hiddenprojectmetrictarget,dcp_ulurp_nonulurp,dcp_validatedcommunitydistricts,dcp_bsanumber,dcp_wrpnumber,dcp_lpcnumber,dcp_name,dcp_nydospermitnumber,dcp_lastmilestonedate,_dcp_applicant_customer_value,_dcp_applicantadministrator_customer_value",
-
-    $count: true,
-
-    // todo maybe alias these crm named relationships
-    // filters by projects with associations having some connection to contactid
-    // OR infers an association through recodedCbFullName (for Noticed)
-    $filter: `
-      dcp_visibility eq 717170003
-      and ((dcp_dcp_project_dcp_communityboarddisposition_project/any
-          (o:o/_dcp_recommendationsubmittedby_value eq ${contactid})
-        and dcp_dcp_project_dcp_projectlupteam_project/any
-          (o:o/statuscode eq 1))
-      or (
-        (dcp_ulurp_nonulurp eq 717170001 and dcp_publicstatus eq 717170005)
-          and contains(dcp_validatedcommunitydistricts, '${recodedCbFullName}')
-      ))
-    `,
-
-    // TODO: dispositions need these: AND disp.dcp_visibility IN ('General Public', 'LUP') AND disp.statuscode <> 'Deactivated'
-    $expand: `
-      dcp_dcp_project_dcp_communityboarddisposition_project($filter=${DISPOSITIONS_FILTER}),
-      dcp_dcp_project_dcp_projectmilestone_project($filter=${MILESTONES_FILTER};$select=dcp_milestone,dcp_name,dcp_plannedstartdate,dcp_plannedcompletiondate,dcp_actualstartdate,dcp_actualenddate,statuscode,dcp_milestonesequence,dcp_remainingplanneddayscalculated,dcp_remainingplanneddays,dcp_goalduration,dcp_actualdurationasoftoday,_dcp_milestone_value,_dcp_milestoneoutcome_value),
-      dcp_dcp_project_dcp_projectaction_project($select=_dcp_action_value,dcp_name,statuscode,statecode,dcp_ulurpnumber,_dcp_zoningresolution_value,dcp_ccresolutionnumber,dcp_spabsoluteurl),
-      dcp_dcp_project_dcp_projectbbl_project,
-      dcp_dcp_project_dcp_projectlupteam_project($filter=(_dcp_lupteammember_value eq ${contactid}) and (statuscode eq 1))
-    `
-  };
+  const { contactid, fullname } = contact;
+  const recodedCbFullName = fullname ? recodeCbFullName(fullname) : "Unknown";
+  return buildQuery<any>({
+    select: [
+      "dcp_name",
+      "statecode",
+      "dcp_applicanttype",
+      "dcp_borough",
+      "dcp_ceqrnumber",
+      "dcp_ceqrtype",
+      "dcp_certifiedreferred",
+      "dcp_femafloodzonea",
+      "dcp_femafloodzoneshadedx",
+      "dcp_sisubdivision",
+      "dcp_sischoolseat",
+      "dcp_projectbrief",
+      "dcp_additionalpublicinformation",
+      "dcp_projectname",
+      "dcp_publicstatus",
+      "dcp_projectcompleted",
+      "dcp_hiddenprojectmetrictarget",
+      "dcp_ulurp_nonulurp",
+      "dcp_validatedcommunitydistricts",
+      "dcp_bsanumber",
+      "dcp_wrpnumber",
+      "dc_lpcnumber",
+      "dcp_nydospermitnumber",
+      "dcp_lastmilestonedate",
+      "_dcp_applicant_customer_value",
+      "_dcp_applicantadministrator_customer_value"
+    ],
+    count: true,
+    filter: [
+      { dcp_visibility: 717170003 },
+      {
+        or: [
+          {
+            and: [
+              {
+                dcp_dcp_project_dcp_communityboarddisposition_project: {
+                  any: { _dcp_recommendationsubmittedby_value: contactid }
+                }
+              },
+              {
+                dcp_dcp_project_dcp_projectlupteam_project: {
+                  any: { statuscode: 1 }
+                }
+              }
+            ]
+          },
+          {
+            and: [
+              { dcp_ulurp_nonulurp: 717170001 },
+              { dcp_publicstatus: 717170005 },
+              {
+                dcp_validatedcommunitydistricts: { contains: recodedCbFullName }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    expand: [
+      {
+        dcp_dcp_project_dcp_communityboarddisposition_project: {
+          filter: { not: { statuscode: 717170001 } }
+        }
+      },
+      {
+        dcp_dcp_project_dcp_projectmilestone_project: {
+          select: [
+            "dcp_milestone",
+            "dcp_name",
+            "dcp_plannedstartdate",
+            "dcp_plannedcompletiondate",
+            "dcp_actualstartdate",
+            "dcp_actualenddate",
+            "statuscode",
+            "dcp_milestonesequence",
+            "dcp_remainingplanneddayscalculated",
+            "dcp_remainingplanneddays",
+            "dcp_goalduration",
+            "dcp_actualdurationasoftoday",
+            "_dcp_milestone_value",
+            "_dcp_milestoneoutcome_value"
+          ],
+          filter: [
+            { not: { statuscode: 717170001 } },
+            { _dcp_milestone_value: { in: DISPLAY_MILESTONE_IDS } }
+          ]
+        }
+      },
+      {
+        dcp_dcp_project_dcp_projectaction_project: {
+          select: [
+            "_dcp_action_value",
+            "dcp_name",
+            "statuscode",
+            "statecode",
+            "dcp_ulurpnumber",
+            "_dcp_zoningresolution_value",
+            "dcp_ccresolutionnumber",
+            "dcp_spabsoluteurl"
+          ]
+        }
+      },
+      { dcp_dcp_project_dcp_projectbbl_project: {} },
+      {
+        dcp_dcp_project_dcp_projectlupteam_project: {
+          filter: [{ dcp_lupteammember_value: contactid }, { statuscode: 1 }]
+        }
+      }
+    ]
+  });
 }
 
 // TODO: finish this — currently defaults to "to review"!
