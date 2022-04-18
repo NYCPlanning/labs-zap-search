@@ -21,6 +21,7 @@ An ambitious web app for filtering and viewing NYC land use application records 
 > yarn
 > cd labs-zap-search/client
 > yarn
+> cd..  # back to labs-zap-search
 > cd labs-zap-search/server
 > yarn
 ```
