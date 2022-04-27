@@ -273,6 +273,7 @@ function generateQueryObject(query, overrides?) {
     "dcp_name",
     "dcp_nydospermitnumber",
     "dcp_lastmilestonedate",
+    "dcp_applicability",
     "_dcp_applicant_customer_value",
     "_dcp_applicantadministrator_customer_value"
   ];
@@ -379,6 +380,7 @@ export class ProjectService {
       "dcp_name",
       "dcp_nydospermitnumber",
       "dcp_lastmilestonedate",
+      "dcp_applicability",
       "_dcp_applicant_customer_value",
       "_dcp_applicantadministrator_customer_value"
     ];
@@ -588,7 +590,6 @@ export class ProjectService {
       // this information is sent as separate filters but must be represented as one
       // to work correctly with the query template system.
       // ...blocks
-
     };
 
     const queryObject = generateQueryObject(normalizedQuery);
