@@ -60,7 +60,7 @@
 
         {{#if (or model.dcpPublicstatusSimp model.dcpUlurpNonulurp model.dcpApplicability)}}
           <div class="grid-x grid-padding-x">
-            <div class="cell auto">
+            <div class="cell small-8">
               {{#if model.dcpPublicstatusSimp}}
                 <p>
                   <strong>Status:</strong>
@@ -86,7 +86,7 @@
             </div>
 
             {{#if model.dcpUlurpNonulurp}}
-              <div class="cell small-6 text-right">
+              <div class="cell small-4 text-right">
                 <p>
                   <span class="label dark-gray">
                     {{~model.dcpUlurpNonulurp~}}
