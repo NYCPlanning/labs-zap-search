@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { sort, alias } from '@ember/object/computed';
+import { DCP_APPLICABILITY_OPTIONSET } from './project/constants';
 import {
   STATUSCODE_OPTIONSET,
 } from './milestone/constants';
@@ -119,6 +120,18 @@ export default class ProjectModel extends Model {
   @attr() dcpLastmilestonedate;
 
   @attr() videoLinks;
+
+  @attr() dcpApplicability;
+
+  @computed('dcpApplicability')
+  get dcpApplicabilitySimp() {
+    const option = Object.values(DCP_APPLICABILITY_OPTIONSET).find(applicability => applicability.code === this.dcpApplicability);
+    if (option) {
+      return option.label;
+    }
+
+    return 'Unknown';
+  }
 
   @computed('bblFeaturecollection')
   get bblFeatureCollectionSource() {
