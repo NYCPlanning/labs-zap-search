@@ -85,7 +85,8 @@ export const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   "_dcp_applicant_customer_value",
   "_dcp_applicantadministrator_customer_value",
   "_dcp_action_value",
-  "_dcp_zoningresolution_value"
+  "_dcp_zoningresolution_value",
+  "dcp_applicability"
 ];
 
 export const PACKAGE_VISIBILITY = {
@@ -153,6 +154,9 @@ const QUERY_TEMPLATES = {
       coerceToNumber(mapInLookup(queryParamValue, PROJECT_STATUS_LOOKUP))
     ),
 
+  dcp_applicability: queryParamValue =>
+    comparisonOperator("dcp_applicability", "eq", parseInt(queryParamValue)),
+
   dcp_certifiedreferred: queryParamValue =>
     all(
       comparisonOperator(
@@ -217,7 +221,8 @@ export const ALLOWED_FILTERS = [
   "block",
   "distance_from_point",
   "radius_from_point",
-  "zoning-resolutions"
+  "zoning-resolutions",
+  "dcp_applicability"
 ];
 
 export const generateFromTemplate = (query, template) => {
