@@ -3,11 +3,11 @@ import { helper } from '@ember/component/helper';
 export const dcpApplicabilityLookup = [
   {
     code: 1,
-    searchField: 'Yes',
+    searchField: 'Racial Equity Report Required',
   },
   {
     code: 2,
-    searchField: 'No',
+    searchField: 'Racial Equity Report Not Required',
   },
   {
     code: null,

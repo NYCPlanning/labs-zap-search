@@ -139,6 +139,36 @@
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
+      {{!-- FILTER: RACIAL EQUITY REPORT APPLICABILITY --}}
+      {{#filters.section
+        filterNames='dcp_applicability'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.dcp_applicability')
+          tooltip='Identifies if applicant should submit a Racial Equity Report on Housing and Opportunity under Local Law 78 of 2021.'}}
+          <ul class="menu vertical medium-horizontal applicabile-checkbox">
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_applicability' 'Racial Equity Report Required')}}
+              data-test-applicabile-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='Racial Equity Report Required'
+                  currentValues=dcp_applicability}}
+              </a>
+            </li>
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_applicability' 'Racial Equity Report Not Required')}}
+              data-test-nonuapplicabile-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='Racial Equity Report Not Required'
+                  currentValues=dcp_applicability}}
+              </a>
+            </li>
+          </ul>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
       {{!-- FILTER: DISTANCE FROM POINT --}}
       {{#filters.section
         filterNames=(array 'distance_from_point' 'radius_from_point')
@@ -275,28 +305,7 @@
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
-      {{!-- FILTER: RACIAL EQUITY REPORT APPLICABILITY --}}
-      {{#filters.section
-        filterNames='dcp_applicability'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.dcp_applicability')
-          tooltip='Identifies if applicant should submit a Racial Equity Report on Housing and Opportunity under Local Law 78 of 2021.'}}
-          {{#power-select-multiple
-            options=(lookup-dcp_applicability)
-            selected=(contains-keys
-              (lookup-dcp_applicability)
-              dcp_applicability
-              key='code')
-            placeholder="Select Racial Equity Report status..."
-            searchField='searchField'
-            onchange=(action section.delegate-mutation (action 'replaceProperty' 'dcp_applicability'))
-            as |applicability|
-          }}
-            {{applicability.searchField}}
-          {{/power-select-multiple}}
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+     
 
       {{!-- FILTER: ZONING RESOLUTION TYPE --}}
       {{#filters.section

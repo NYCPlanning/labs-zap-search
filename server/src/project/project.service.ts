@@ -50,6 +50,10 @@ export const ULURP_LOOKUP = {
   "Non-ULURP": 717170000,
   ULURP: 717170001
 };
+export const APPLICABILITY_LOOKUP = {
+  "Racial Equity Report Required": 1,
+  "Racial Equity Report Not Required": 2
+};
 export const PROJECT_STATUS_LOOKUP = {
   Noticed: 717170005,
   Filed: 717170000,
@@ -155,7 +159,10 @@ const QUERY_TEMPLATES = {
     ),
 
   dcp_applicability: queryParamValue =>
-    comparisonOperator("dcp_applicability", "eq", parseInt(queryParamValue)),
+    equalsAnyOf(
+      "dcp_applicability",
+      coerceToNumber(mapInLookup(queryParamValue, APPLICABILITY_LOOKUP))
+    ),
 
   dcp_certifiedreferred: queryParamValue =>
     all(

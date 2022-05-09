@@ -95,13 +95,13 @@ export const projectParams = new QueryParams({
     },
   },
   dcp_applicability: {
-    defaultValue: '',
+    defaultValue: [],
     refresh: true,
     serialize(value) {
       return value.toString();
     },
     deserialize(value = '') {
-      return value;
+      return value.split(',');
     },
   },
   dcp_publicstatus: {
