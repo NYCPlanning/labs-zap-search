@@ -57,50 +57,41 @@
           @artifacts={{this.model.sortedArtifacts}}
           @dispositions={{this.model.dispositions}}
         />
-
         {{#if (or model.dcpPublicstatusSimp model.dcpUlurpNonulurp model.dcpApplicability)}}
-          <div class="grid-x grid-padding-x">
-            <div class="cell small-8">
+          <div class="grid-x">
+            <p class="cell auto">
               {{#if model.dcpPublicstatusSimp}}
-                <p>
-                  <strong>Status:</strong>
-                    <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">
-                      {{model.dcpPublicstatusSimp}}
-                      <sup>
-                        {{icon-tooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
-                      </sup>
-                    </span>
-                </p>
-              {{/if}}
-              {{#if model.dcpApplicability}}
-                <p>
-                  <strong>Racial Equity Report Applicability:</strong>
-                    <span class="label dark-gray">
-                      {{model.dcpApplicabilitySimp}}
-                      <sup>
-                        {{icon-tooltip tip='Identifies if applicant should submit a Racial Equity Report on Housing and Opportunity under Local Law 78 of 2021.'}}
-                      </sup>
-                    </span>
-                </p>
-              {{/if}}
-            </div>
-
-            {{#if model.dcpUlurpNonulurp}}
-              <div class="cell small-4 text-right">
-                <p>
-                  <span class="label dark-gray">
-                    {{~model.dcpUlurpNonulurp~}}
+                <strong>Status:</strong>
+                  <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">
+                    {{model.dcpPublicstatusSimp}}
                     <sup>
-                      {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
+                      {{icon-tooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
                     </sup>
                   </span>
-                </p>
-              </div>
-              
+              {{/if}}
+            </p>
+            {{#if (or model.dcpUlurpNonulurp model.dcpApplicability)}}
+              <p class="cell small-8 text-right">
+                {{#if model.dcpApplicability}}          
+                  <span class="label dark-gray">
+                    {{model.dcpApplicabilitySimp}}
+                    <sup>
+                      {{icon-tooltip tip='As of June 1, 2022, certain property owners (https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf) applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the Equitable Development Data Explorer (https://equitableexplorer.planning.nyc.gov/map/data/district).'}}
+                    </sup>
+                  </span>
+                {{/if}}
+                {{#if model.dcpUlurpNonulurp}}  
+                <span class="label dark-gray">
+                  {{~model.dcpUlurpNonulurp~}}
+                  <sup>
+                    {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
+                  </sup>
+                </span>
+                {{/if}}
+              </p>
             {{/if}}
           </div>
         {{/if}}
-
         <hr>
 
         {{#if model.videoLinks}}
