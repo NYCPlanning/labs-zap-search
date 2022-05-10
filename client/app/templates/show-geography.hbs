@@ -139,6 +139,36 @@
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
+      {{!-- FILTER: RACIAL EQUITY REPORT APPLICABILITY --}}
+      {{#filters.section
+        filterNames='dcp_applicability'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle=(get-label-for 'filters.dcp_applicability')
+          tooltip='As of June 1, 2022, certain property owners (https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf) applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the Equitable Development Data Explorer (https://equitableexplorer.planning.nyc.gov/map/data/district).'}}
+          <ul class="menu vertical medium-horizontal applicabile-checkbox">
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_applicability' 'Racial Equity Report Required')}}
+              data-test-applicabile-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='Racial Equity Report Required'
+                  currentValues=dcp_applicability}}
+              </a>
+            </li>
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_applicability' 'Racial Equity Report Not Required')}}
+              data-test-nonuapplicabile-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='Racial Equity Report Not Required'
+                  currentValues=dcp_applicability}}
+              </a>
+            </li>
+          </ul>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
+
       {{!-- FILTER: DISTANCE FROM POINT --}}
       {{#filters.section
         filterNames=(array 'distance_from_point' 'radius_from_point')
@@ -274,6 +304,8 @@
           {{/power-select-multiple}}
         {{/section.filter-wrapper}}
       {{/filters.section}}
+
+     
 
       {{!-- FILTER: ZONING RESOLUTION TYPE --}}
       {{#filters.section

@@ -94,6 +94,16 @@ export const projectParams = new QueryParams({
       return value.split(',');
     },
   },
+  dcp_applicability: {
+    defaultValue: [],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',');
+    },
+  },
   dcp_publicstatus: {
     defaultValue: ['Noticed', 'In Public Review'].sort(),
     refresh: true,
