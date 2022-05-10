@@ -125,9 +125,9 @@ export default class ProjectModel extends Model {
 
   @computed('dcpApplicability')
   get dcpApplicabilitySimp() {
-    const option = Object.values(DCP_APPLICABILITY_OPTIONSET).find(applicability => applicability.code === this.dcpApplicability);
+    const option = Object.values(DCP_APPLICABILITY_OPTIONSET).find(applicability => applicability.label === this.dcpApplicability);
     if (option) {
-      return option.label;
+      return option.altLabel;
     }
 
     return 'Unknown';
