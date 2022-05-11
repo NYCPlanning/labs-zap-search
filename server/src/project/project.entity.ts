@@ -37,6 +37,7 @@ export const KEYS = [
   "lastmilestonedate",
   "video_links",
   "dcp_applicability",
+  "dcp_noticeddate",
 
   "_dcp_applicant_customer_value",
   "_dcp_applicantadministrator_customer_value",
