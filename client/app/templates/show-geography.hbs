@@ -145,7 +145,7 @@
         as |section|}}
         {{#section.filter-wrapper
           filterTitle=(get-label-for 'filters.dcp_applicability')
-          tooltip='As of June 1, 2022, certain property owners (https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf) applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the Equitable Development Data Explorer (https://equitableexplorer.planning.nyc.gov/map/data/district).'}}
+          tooltip='As of June 1, 2022, <a href="https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf" target="blank" style="text-decoration: underline;">certain property owners</a> applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the <a href="https://equitableexplorer.planning.nyc.gov/map/data/district" target="blank" style="text-decoration: underline;">Equitable Development Data Explorer</a>.<br /><br />To filter for projects certified before June 1, 2022, uncheck both boxes.'}}
           <ul class="menu vertical medium-horizontal applicabile-checkbox">
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_applicability' 'Racial Equity Report Required')}}
               data-test-applicabile-checkbox
