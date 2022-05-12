@@ -286,6 +286,7 @@ function generateQueryObject(query, overrides?) {
     "dcp_nydospermitnumber",
     "dcp_lastmilestonedate",
     "dcp_applicability",
+    "dcp_noticeddate",
     "_dcp_applicant_customer_value",
     "_dcp_applicantadministrator_customer_value"
   ];
@@ -393,6 +394,7 @@ export class ProjectService {
       "dcp_nydospermitnumber",
       "dcp_lastmilestonedate",
       "dcp_applicability",
+      "dcp_noticeddate",
       "_dcp_applicant_customer_value",
       "_dcp_applicantadministrator_customer_value"
     ];

@@ -92,6 +92,22 @@
             {{/if}}
           </div>
         {{/if}}
+
+        {{#if (eq model.dcpUlurpNonulurp "ULURP")}}
+          <p class="cell auto">
+            <strong>Noticed Date:</strong>
+            {{#if model.dcpNoticeddate}}
+              <DateDisplay
+                @date={{model.dcpNoticeddate}}
+                @outputFormat="M/D/YYYY"
+              />
+              {{!-- {{model.dcpNoticeddate}} --}}
+            {{else}}
+              Not yet noticed
+            {{/if}}
+          </p>
+        {{/if}}
+        
         <hr>
 
         {{#if model.videoLinks}}
