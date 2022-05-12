@@ -123,6 +123,8 @@ export default class ProjectModel extends Model {
 
   @attr() dcpApplicability;
 
+  @attr() dcpNoticeddate;
+
   @computed('dcpApplicability')
   get dcpApplicabilitySimp() {
     const option = Object.values(DCP_APPLICABILITY_OPTIONSET).find(applicability => applicability.label === this.dcpApplicability);
