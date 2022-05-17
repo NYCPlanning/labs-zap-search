@@ -101,7 +101,7 @@
     "lint-staged": ">=10",
     "loader.js": "^4.7.0",
     "mapbox-gl": "^0.44.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "nyc-planning-style-guide": "^1.0.7",
     "postcss-scss": "^3.0.5",
     "tooltipster": "4.2.6"
