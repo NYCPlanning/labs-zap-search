@@ -70,6 +70,11 @@ $completed-color: #a6cee3;
 @import 'modules/_m-project-summary-cards';
 @import 'modules/_m-tooltipster';
 
+// Media query for project tags in templates/show-project.hbs
+@import 'modules/_m-status_tags_styles';
+
+
 // Addons
 @import "ember-power-select";
 @import "ember-content-placeholders";
+
