@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { sort, alias } from '@ember/object/computed';
+import moment from 'moment';
 import { DCP_APPLICABILITY_OPTIONSET } from './project/constants';
 import {
   STATUSCODE_OPTIONSET,
@@ -124,6 +125,14 @@ export default class ProjectModel extends Model {
   @attr() dcpApplicability;
 
   @attr() dcpNoticeddate;
+
+  @computed('dcpNoticeddate')
+  get formattedNoticedDate() {
+    if (moment(this.dcpNoticeddate).isDST()) {
+      return moment(this.dcpNoticeddate).utcOffset(240).format('M/D/YYYY');
+    }
+    return moment(this.dcpNoticeddate).utcOffset(300).format('M/D/YYYY');
+  }
 
   @computed('dcpApplicability')
   get dcpApplicabilitySimp() {
