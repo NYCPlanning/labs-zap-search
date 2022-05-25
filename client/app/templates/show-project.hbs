@@ -100,10 +100,8 @@
             <strong>Noticed Date:</strong>
             {{#if model.dcpNoticeddate}}
               <DateDisplay
-                @date={{model.dcpNoticeddate}}
-                @outputFormat="M/D/YYYY"
+                @date={{model.formattedNoticedDate}}
               />
-              {{!-- {{model.dcpNoticeddate}} --}}
             {{else}}
               Not yet noticed
             {{/if}}
