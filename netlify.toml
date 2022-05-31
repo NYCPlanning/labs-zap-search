@@ -4,7 +4,15 @@
   command = "yarn build --environment=production"
 
 [context.develop]
-  environment = { HOST ="https://zap-api-staging.herokuapp.com", NYCID_CLIENT_ID="lup-portal-staging", NYC_ID_HOST="https://accounts-nonprd.nyc.gov/account" }
+  environment = { HOST="https://zap-api-staging.herokuapp.com", NYCID_CLIENT_ID="lup-portal-staging", NYC_ID_HOST="https://accounts-nonprd.nyc.gov/account", MAINTENANCE_START='06/01/22 15:00', MAINTENANCE_END='06/01/22 16:00' }
 
 [context.master]
-  environment = { HOST ="https://zap-api-production.herokuapp.com", NYCID_CLIENT_ID="lup-portal-production", NYC_ID_HOST="https://www1.nyc.gov/account" }
+  environment = { HOST="https://zap-api-production.herokuapp.com", NYCID_CLIENT_ID="lup-portal-production", NYC_ID_HOST="https://www1.nyc.gov/account", MAINTENANCE_START='06/01/22 15:00', MAINTENANCE_END='06/01/22 16:00' }
+
+# qa team
+[context.qa]
+  environment = { HOST="https://zap-api-staging.herokuapp.com", NYCID_CLIENT_ID="lup-portal-staging", NYC_ID_HOST="https://accounts-nonprd.nyc.gov/account", MAINTENANCE_START='06/01/22 15:00', MAINTENANCE_END='06/01/22 16:00' }
+
+# deploy-preview
+[context.deploy-preview]
+ environment = { HOST="https://zap-api-staging.herokuapp.com", NYCID_CLIENT_ID="lup-portal-staging", NYC_ID_HOST="https://accounts-nonprd.nyc.gov/account", MAINTENANCE_START='06/01/22 15:00', MAINTENANCE_END='06/01/22 16:00' }

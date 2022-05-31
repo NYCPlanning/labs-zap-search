@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import ENV from 'labs-zap-search/config/environment';
 
+/* eslint-disable no-unused-vars */
 const MAINTENANCE_RANGE = ENV.maintenanceTimes;
 
 export default Component.extend({
@@ -14,9 +15,9 @@ export default Component.extend({
   }),
 
   hasUpcomingMaintenance: computed(function() {
-    const [, end] = MAINTENANCE_RANGE.map(string => new Date(string));
+    const [start, end] = MAINTENANCE_RANGE.map(string => new Date(string));
     const now = new Date();
 
-    return now < end;
+    return now < start;
   }),
 });
