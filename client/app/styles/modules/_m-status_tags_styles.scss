@@ -1,0 +1,83 @@
+// desktop view with map displayed to the right of Milestones
+.site-main {
+  .tag-wrapper {
+    column-gap: 0.5rem;
+
+    .tag-child-left ,
+    .tag-child-center,
+    .tag-child-right {
+      flex: 1 1 auto;
+    }
+
+    .tag-child-left  {
+      text-align: left;
+      display: flex;
+
+      .publicstatus-noticed {
+        margin-left: .2rem;
+      }
+    }
+
+    .tag-child-center {
+      text-align: right;
+    }
+
+    .tag-child-right {
+      text-align: right;
+      flex: 1 1 4rem;
+    }
+  }
+}
+
+// desktop view with map displayed below Milestones
+@media screen and (min-width: 41.313rem) and (max-width: 63.938rem) { // 661px to 1023px
+  .site-main {
+    .tag-wrapper {
+      width: auto;
+
+      .tag-child-center {
+        max-width: fit-content;
+      }
+
+      .tag-child-right {
+        flex-basis: 0;
+        max-width: fit-content;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 41.25rem) { // 660px
+  .site-main {
+    .tag-wrapper {
+      flex-flow: column nowrap;
+
+      .tag-child-left ,
+      .tag-child-center,
+      .tag-child-right {
+        margin-bottom: 8px;
+        flex-basis: auto;
+      }
+
+      .tag-child-center,
+      .tag-child-right {
+        text-align: left;
+      }
+
+      .tag-child-left {
+        display: flex;
+        flex-direction: column;
+
+        .publicstatus-noticed {
+          width: fit-content;
+          margin-left: 0;
+        }
+      }
+
+      .tag-child-right {
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+  }
+}

@@ -99,6 +99,7 @@ module.exports = function(environment) {
         project_applicant_text: 'Text Match',
         radius_from_point: 'Radius Filter',
         'zoning-resolutions': 'Zoning Resolutions',
+        dcp_applicability: 'Racial Equity Report Applicability',
       },
     },
   };

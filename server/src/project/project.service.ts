@@ -50,6 +50,10 @@ export const ULURP_LOOKUP = {
   "Non-ULURP": 717170000,
   ULURP: 717170001
 };
+export const APPLICABILITY_LOOKUP = {
+  "Racial Equity Report Required": 1,
+  "Racial Equity Report Not Required": 2
+};
 export const PROJECT_STATUS_LOOKUP = {
   Noticed: 717170005,
   Filed: 717170000,
@@ -85,7 +89,8 @@ export const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   "_dcp_applicant_customer_value",
   "_dcp_applicantadministrator_customer_value",
   "_dcp_action_value",
-  "_dcp_zoningresolution_value"
+  "_dcp_zoningresolution_value",
+  "dcp_applicability"
 ];
 
 export const PACKAGE_VISIBILITY = {
@@ -153,6 +158,12 @@ const QUERY_TEMPLATES = {
       coerceToNumber(mapInLookup(queryParamValue, PROJECT_STATUS_LOOKUP))
     ),
 
+  dcp_applicability: queryParamValue =>
+    equalsAnyOf(
+      "dcp_applicability",
+      coerceToNumber(mapInLookup(queryParamValue, APPLICABILITY_LOOKUP))
+    ),
+
   dcp_certifiedreferred: queryParamValue =>
     all(
       comparisonOperator(
@@ -217,7 +228,8 @@ export const ALLOWED_FILTERS = [
   "block",
   "distance_from_point",
   "radius_from_point",
-  "zoning-resolutions"
+  "zoning-resolutions",
+  "dcp_applicability"
 ];
 
 export const generateFromTemplate = (query, template) => {
@@ -273,6 +285,8 @@ function generateQueryObject(query, overrides?) {
     "dcp_name",
     "dcp_nydospermitnumber",
     "dcp_lastmilestonedate",
+    "dcp_applicability",
+    "dcp_noticeddate",
     "_dcp_applicant_customer_value",
     "_dcp_applicantadministrator_customer_value"
   ];
@@ -379,6 +393,8 @@ export class ProjectService {
       "dcp_name",
       "dcp_nydospermitnumber",
       "dcp_lastmilestonedate",
+      "dcp_applicability",
+      "dcp_noticeddate",
       "_dcp_applicant_customer_value",
       "_dcp_applicantadministrator_customer_value"
     ];
@@ -588,7 +604,6 @@ export class ProjectService {
       // this information is sent as separate filters but must be represented as one
       // to work correctly with the query template system.
       // ...blocks
-
     };
 
     const queryObject = generateQueryObject(normalizedQuery);

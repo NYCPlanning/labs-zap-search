@@ -57,10 +57,9 @@
           @artifacts={{this.model.sortedArtifacts}}
           @dispositions={{this.model.dispositions}}
         />
-
-        {{#if (or model.dcpPublicstatusSimp model.dcpUlurpNonulurp)}}
-          <div class="grid-x grid-padding-x">
-            <p class="cell auto">
+        {{#if (or model.dcpPublicstatusSimp model.dcpUlurpNonulurp model.dcpApplicability)}}
+          <div class="grid-x tag-wrapper">
+            <p class="cell auto tag-child-left">
               {{#if model.dcpPublicstatusSimp}}
                 <strong>Status:</strong>
                   <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">
@@ -71,20 +70,44 @@
                   </span>
               {{/if}}
             </p>
-
-            {{#if model.dcpUlurpNonulurp}}
-              <p class="cell small-6 text-right">
-                <span class="label dark-gray">
+            {{#if (or model.dcpUlurpNonulurp model.dcpApplicability)}}
+              <p class="cell auto tag-child-center">
+                {{#if model.dcpApplicability}}
+                  <span class="label dark-gray tag-span">
+                    {{model.dcpApplicabilitySimp}}
+                    <sup>
+                      {{icon-tooltip tip='As of June 1, 2022, <a href="https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf" target="blank" style="text-decoration: underline;">certain property owners</a> applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the <a href="https://equitableexplorer.planning.nyc.gov/map/data/district" target="blank" style="text-decoration: underline;">Equitable Development Data Explorer</a>.'}}
+                    </sup>
+                  </span>
+                {{/if}}
+              </p>
+              <p class="cell auto tag-child-right">
+                {{#if model.dcpUlurpNonulurp}}
+                <span class="label dark-gray tag-span">
                   {{~model.dcpUlurpNonulurp~}}
                   <sup>
                     {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
                   </sup>
                 </span>
+                {{/if}}
               </p>
             {{/if}}
           </div>
         {{/if}}
 
+        {{#if (eq model.dcpUlurpNonulurp "ULURP")}}
+          <p class="cell auto">
+            <strong>Noticed Date:</strong>
+            {{#if model.dcpNoticeddate}}
+              <DateDisplay
+                @date={{model.formattedNoticedDate}}
+              />
+            {{else}}
+              Not yet noticed
+            {{/if}}
+          </p>
+        {{/if}}
+        
         <hr>
 
         {{#if model.videoLinks}}
