@@ -158,7 +158,9 @@
                     --}}</span>
                       </span>
 
-                      <div class="text-tiny" data-test-hearing-actions-list="{{hearing.disposition.id}}">
+                      <div class="text-tiny"
+                        id="{{center-content action.dcpName}}"
+                        data-test-hearing-actions-list="{{hearing.disposition.id}}">
                         {{#each hearing.hearingActions as |action index| ~}}
                           {{#if action.dcpName}}
                             <span class="label light-gray tiny-margin-bottom tiny-margin-right">

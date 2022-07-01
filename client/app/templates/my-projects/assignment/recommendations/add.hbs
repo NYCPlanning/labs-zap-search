@@ -58,7 +58,8 @@
                         <span class="light-gray">|</span>
                         <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
                       </span>
-                      <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
+                      <small id="{{center-content action.dcpName}}"
+                        data-test-hearing-actions-list="{{hearing.disposition.id}}">
                         {{#each hearing.hearingActions as |action index| ~}}
                           {{#if action.dcpName}}
                             <span class="label light-gray tiny-margin-bottom tiny-margin-right">
@@ -553,7 +554,8 @@
                             <span class="light-gray">|</span>
                             <strong>{{hearing.disposition.dcpPublichearinglocation}}</strong>
                           </span>
-                          <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
+                          <small id="{{center-content action.dcpName}}"
+                            data-test-hearing-actions-list="{{hearing.disposition.id}}">
                             {{#each hearing.hearingActions as |action index| ~}}
                               {{#if action.dcpName}}
                                 <span class="label light-gray tiny-margin-bottom tiny-margin-right">
