@@ -342,3 +342,9 @@ h5.clickable-header {
     box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
   }
 }
+
+// fixes for the extra long ULURP name & numbers to prevent bleeding into the BBL numbers
+.text-tiny .center-content {
+  display: flex;
+  justify-content: center;
+}
