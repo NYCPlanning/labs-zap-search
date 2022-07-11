@@ -62,12 +62,12 @@
             <p class="cell auto tag-child-left">
               {{#if model.dcpPublicstatusSimp}}
                 <strong>Status:</strong>
-                  <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">
-                    {{model.dcpPublicstatusSimp}}
-                    <sup>
-                      {{icon-tooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
-                    </sup>
-                  </span>
+                <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">
+                  {{model.dcpPublicstatusSimp}}
+                  <sup>
+                    {{icon-tooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
+                  </sup>
+                </span>
               {{/if}}
             </p>
             {{#if (or model.dcpUlurpNonulurp model.dcpApplicability)}}
@@ -83,12 +83,12 @@
               </p>
               <p class="cell auto tag-child-right">
                 {{#if model.dcpUlurpNonulurp}}
-                <span class="label dark-gray tag-span">
-                  {{~model.dcpUlurpNonulurp~}}
-                  <sup>
-                    {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
-                  </sup>
-                </span>
+                  <span class="label dark-gray tag-span">
+                    {{~model.dcpUlurpNonulurp~}}
+                    <sup>
+                      {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
+                    </sup>
+                  </span>
                 {{/if}}
               </p>
             {{/if}}

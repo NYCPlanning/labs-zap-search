@@ -343,8 +343,19 @@ h5.clickable-header {
   }
 }
 
-// fixes for the extra long ULURP name & numbers to prevent bleeding into the BBL numbers
-.text-tiny .center-content {
-  display: flex;
-  justify-content: center;
+// enables text wrapping for the extra long ULURP name & numbers to prevent obscuring the BBL numbers
+
+.wrap-content {
+  max-width: fit-content;
+  margin:0px;
+  padding:0px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-size: 0.7rem;
+}
+
+.wrap-content {
+  .label{
+    white-space: normal;
+  }
 }
