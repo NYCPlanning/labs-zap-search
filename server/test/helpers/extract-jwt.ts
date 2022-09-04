@@ -1,9 +1,9 @@
 export const extractJWT = (response): string => {
-  try { 
-    // seems like the actual cookie is always the second in the array
-    const { header: { 'set-cookie': [, token] } } = response;
+  try {
+    // can't recall but seems authentication strategy changes slightly... updating
+    const { body: { access_token } } = response;
 
-    return token;
+    return access_token;
   } catch (e) {
     console.log(e);
 
