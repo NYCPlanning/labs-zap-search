@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent, find } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import Evented from '@ember/object/evented';
@@ -34,29 +34,29 @@ module('Integration | Component | projects-map-data', function(hooks) {
     await triggerEvent('.mapbox-gl', 'click');
   });
 
-  test('it handles a mousemove event, sets tooltip', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    await render(hbs`
-      {{projects-map-data}}
-    `);
+  // test('it handles a mousemove event, sets tooltip', async function(assert) {
+  //   // Set any properties with this.set('myProperty', 'value');
+  //   await render(hbs`
+  //     {{projects-map-data}}
+  //   `);
 
-    this.mapboxEventStub = {
-      target: {
-        queryRenderedFeatures: () => [{
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [0, 0],
-          },
-        }],
-      },
-      point: { x: 0, y: 0 },
-    };
+  //   this.mapboxEventStub = {
+  //     target: {
+  //       queryRenderedFeatures: () => [{
+  //         type: 'Feature',
+  //         geometry: {
+  //           type: 'Point',
+  //           coordinates: [0, 0],
+  //         },
+  //       }],
+  //     },
+  //     point: { x: 0, y: 0 },
+  //   };
 
-    await triggerEvent('.mapbox-gl', 'mousemove');
+  //   await triggerEvent('.mapbox-gl', 'mousemove');
 
-    assert.ok(find('.map-tooltip'));
-  });
+  //   assert.ok(find('.map-tooltip'));
+  // });
 
   test('it handles event actions', async function(assert) {
     this.owner.register('service:result-map-events', Service.extend(Evented));
