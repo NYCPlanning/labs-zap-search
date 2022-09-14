@@ -44,7 +44,11 @@
     </p>
 
     {{#if milestone.outcome}}
-      <span class="label dark-gray" style="font-size: 0.7rem;">{{milestone.outcome}}</span>
+      <div class="wrap-content">
+        <div class="label dark-gray">
+          {{milestone.outcome}}
+        </div>
+      </div>
     {{/if}}
 
     <ul class="milestone-links">
@@ -125,10 +129,13 @@
                         <div class="text-tiny">
                           {{#each vote.voteActions as |action index|}}
                             {{#if action.dcpName}}
-                              <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
-                                {{action.dcpName}}
-                                <small>{{action.dcpUlurpnumber}}</small>
-                              </span>
+                              <div class="wrap-content">
+                                <div class="label light-gray tiny-margin-bottom tiny-margin-right"
+                                  data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
+                                  {{action.dcpName}}
+                                  <small>{{action.dcpUlurpnumber}}</small>
+                                </div>
+                              </div>
                             {{/if}}
                           {{/each}}
                         </div>
@@ -158,10 +165,13 @@
                         <div class="text-tiny">
                           {{#each vote.voteActions as |action index|}}
                             {{#if action.dcpName}}
-                              <span class="label light-gray tiny-margin-bottom tiny-margin-right" data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
-                                {{action.dcpName}}
-                                <small>{{action.dcpUlurpnumber}}</small>
-                              </span>
+                              <div class="wrap-content">
+                                <div class="label light-gray tiny-margin-bottom tiny-margin-right"
+                                  data-test-vote-actions-list="{{vote.disposition.id}}{{index}}">
+                                  {{action.dcpName}}
+                                  <small>{{action.dcpUlurpnumber}}</small>
+                                </div>
+                              </div>
                             {{/if}}
                           {{/each}}
                         </div>

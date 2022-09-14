@@ -342,3 +342,20 @@ h5.clickable-header {
     box-shadow: 0 0 0 4px rgba(0,0,0,0.1);
   }
 }
+
+// enables text wrapping for the extra long ULURP name & numbers to prevent obscuring the BBL numbers
+
+.wrap-content {
+  max-width: fit-content;
+  margin:0px;
+  padding:0px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-size: 0.7rem;
+}
+
+.wrap-content {
+  .label{
+    white-space: normal;
+  }
+}

@@ -61,10 +61,12 @@
                       <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
                         {{#each hearing.hearingActions as |action index| ~}}
                           {{#if action.dcpName}}
-                            <span class="label light-gray tiny-margin-bottom tiny-margin-right">
-                              {{action.dcpName}}
-                              <small>{{action.dcpUlurpnumber}}</small>
-                            </span>
+                            <div class="wrap-content">
+                              <div class="label light-gray tiny-margin-bottom tiny-margin-right">
+                                {{action.dcpName}}
+                                <small>{{action.dcpUlurpnumber}}</small>
+                              </div>
+                            </div>
                           {{/if}}
                         {{~/each}}
                       </small>
@@ -556,10 +558,12 @@
                           <small data-test-hearing-actions-list="{{hearing.disposition.id}}">
                             {{#each hearing.hearingActions as |action index| ~}}
                               {{#if action.dcpName}}
-                                <span class="label light-gray tiny-margin-bottom tiny-margin-right">
-                                  {{action.dcpName}}
-                                  <small>{{action.dcpUlurpnumber}}</small>
-                                </span>
+                                <div class="wrap-content">
+                                  <div class="label light-gray tiny-margin-bottom tiny-margin-right">
+                                    {{action.dcpName}}
+                                    <small>{{action.dcpUlurpnumber}}</small>
+                                  </div>
+                                </div>
                               {{/if}}
                             {{~/each}}
                           </small>
