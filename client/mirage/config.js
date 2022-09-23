@@ -10,6 +10,8 @@ export default function () {
   }
 
   this.passthrough('https://search-api.planninglabs.nyc/**');
+  this.passthrough('https://search-api-production.herokuapp.com/**');
+  this.passthrough('https://search-api-staging.herokuapp.com/**');
   this.passthrough('https://planninglabs.carto.com/**');
   this.passthrough('https://raw.githubusercontent.com/**');
   this.passthrough('http://raw.githubusercontent.com/**');
