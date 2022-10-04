@@ -144,9 +144,7 @@ export class DocumentService {
 
       return await this.sharepointService.getSharepointFile(path);
     } catch (e) {
-      throwNoDocumentError(
-        `Unable to provide document access. ${JSON.stringify(e)}`
-      );
+      throwNoDocumentError(`Unable to provide document access.`);
     }
   }
 
@@ -175,9 +173,7 @@ export class DocumentService {
 
       return await this.sharepointService.getSharepointFile(path);
     } catch (e) {
-      throwNoDocumentError(
-        `Unable to provide document access. ${JSON.stringify(e)}`
-      );
+      throwNoDocumentError(`Unable to provide document access.`);
     }
   }
 
@@ -206,9 +202,7 @@ export class DocumentService {
 
       return await this.sharepointService.getSharepointFile(path);
     } catch (e) {
-      throwNoDocumentError(
-        `Unable to provide document access. ${JSON.stringify(e)}`
-      );
+      throwNoDocumentError(`Unable to provide document access.`);
     }
   }
 
@@ -239,9 +233,7 @@ export class DocumentService {
 
       return await this.sharepointService.getSharepointFile(path);
     } catch (e) {
-      throwNoDocumentError(
-        `Unable to provide document access. ${JSON.stringify(e)}`
-      );
+      throwNoDocumentError(`Unable to provide document access.`);
     }
   }
 }
