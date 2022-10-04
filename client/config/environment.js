@@ -51,7 +51,7 @@ module.exports = function(environment) {
     'labs-search': {
       host: 'https://search-api-production.herokuapp.com',
       route: 'search',
-      helpers: ['geosearch'],
+      helpers: ['geosearch-v2'],
     },
 
     'mapbox-gl': {
