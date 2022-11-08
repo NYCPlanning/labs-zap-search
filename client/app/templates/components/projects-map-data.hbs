@@ -11,11 +11,6 @@
   {{map.on 'click' (action 'handleMapClick')}}
   {{map.on 'mousemove' (action 'handleMouseMove')}}
 
-  {{#if highlightedFeature}}
-    <div class='map-tooltip' style="top:{{tooltipPoint.y}}px;left:{{tooltipPoint.x}}px;">
-      {{highlightedFeature.properties.dcp_projectname}} (<DateDisplay @date={{highlightedFeature.properties.dcpLastmilestonedate}} @outputFormat="MMMM, YYYY" />)
-    </div>
-  {{/if}}
 
   {{#if tilesLoading}}
     {{fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner"}}
