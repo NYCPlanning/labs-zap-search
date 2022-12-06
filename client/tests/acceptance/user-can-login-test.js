@@ -7,6 +7,8 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession } from 'ember-simple-auth/test-support';
 import { Response } from 'ember-cli-mirage';
 
+const DUMMY_TOKEN = 'eyJhbGciOiJIUzI1NiIsImN0eSI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNjAzMzc2MDExLCJnaXZlbk5hbWUiOiJ0ZXN0IHVzZXIiLCJHVUlEIjoiMTIzNDU2Nzg5MGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6IiwibWFpbCI6InRlc3R1c2VyMTIzNDU2Nzg5MEBwbGFubmluZy5ueWMuZ292Iiwic24iOiJQbGFubmluZyBMYWJzIn0.4wXvmtsgyBSbcbCOFCSdXcPUJCzy8CdmoRl7mYVkh8U';
+
 module('Acceptance | user can login', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -29,7 +31,7 @@ module('Acceptance | user can login', function(hooks) {
     });
 
     // simulate presence of location hash after OAUTH redirect
-    window.location.hash = '#access_token=test';
+    window.location.hash = `#access_token=${DUMMY_TOKEN}`;
 
     await visit('/login');
 
@@ -44,7 +46,7 @@ module('Acceptance | user can login', function(hooks) {
     }, 401);
 
     // simulate presence of location hash after OAUTH redirect
-    window.location.hash = '#access_token=test';
+    window.location.hash = `#access_token=${DUMMY_TOKEN}`;
 
     await visit('/login');
     await waitFor('[data-test-error-message="0"]');
