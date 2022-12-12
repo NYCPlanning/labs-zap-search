@@ -8,7 +8,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession } from 'ember-simple-auth/test-support';
 import jwt_decode from 'jwt-decode';
 
-const DUMMY_TOKEN = 'eyJhbGciOiJIUzI1NiIsImN0eSI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNjAzMzc2MDExLCJnaXZlbk5hbWUiOiJ0ZXN0IHVzZXIiLCJHVUlEIjoiMTIzNDU2Nzg5MGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6IiwibWFpbCI6InRlc3R1c2VyMTIzNDU2Nzg5MEBwbGFubmluZy5ueWMuZ292Iiwic24iOiJQbGFubmluZyBMYWJzIn0.4wXvmtsgyBSbcbCOFCSdXcPUJCzy8CdmoRl7mYVkh8U';
+const DUMMY_TOKEN = 'eyJhbGciOiJIUzI1NiIsImN0eSI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNjAzMzc2MDExLCJnaXZlbk5hbWUiOiJQbGFubmluZyIsIkdVSUQiOiIxMjM0NTY3ODkwYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXoiLCJtYWlsIjoidGVzdHVzZXJAcGxhbm5pbmcubnljLmdvdiIsInNuIjoiTGFicyIsInVzZXJUeXBlIjoiRURJUlNTTyJ9.R1sbY4Edwg528S9vHq_-tG3ej5xQCtwbxGj0hxD8zBo';
 const { mail } = jwt_decode(DUMMY_TOKEN);
 
 module('Acceptance | dev features are hidden in staging and prod', function(hooks) {
