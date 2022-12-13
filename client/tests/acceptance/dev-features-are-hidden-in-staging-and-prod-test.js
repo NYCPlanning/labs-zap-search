@@ -4,9 +4,12 @@ import {
   find,
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession } from 'ember-simple-auth/test-support';
+import jwt_decode from 'jwt-decode';
+
+const DUMMY_TOKEN = 'eyJhbGciOiJIUzI1NiIsImN0eSI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNjAzMzc2MDExLCJnaXZlbk5hbWUiOiJQbGFubmluZyIsIkdVSUQiOiIxMjM0NTY3ODkwYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXoiLCJtYWlsIjoidGVzdHVzZXJAcGxhbm5pbmcubnljLmdvdiIsInNuIjoiTGFicyIsInVzZXJUeXBlIjoiRURJUlNTTyJ9.R1sbY4Edwg528S9vHq_-tG3ej5xQCtwbxGj0hxD8zBo';
+const { mail } = jwt_decode(DUMMY_TOKEN);
 
 module('Acceptance | dev features are hidden in staging and prod', function(hooks) {
   setupApplicationTest(hooks);
@@ -18,7 +21,7 @@ module('Acceptance | dev features are hidden in staging and prod', function(hook
     });
 
     this.server.create('user', {
-      emailaddress1: 'testuser@planning.nyc.gov',
+      emailaddress1: mail,
     });
 
     window.location.hash = '';
@@ -28,16 +31,18 @@ module('Acceptance | dev features are hidden in staging and prod', function(hook
 
   test('Unauthenticated user sees sign-in feature if environment is development or test', async function(assert) {
     await visit('/');
+
     assert.ok(find('[data-test-auth-login-button]'));
   });
 
   test('Authenticated user sees sign-in feature if environment is development or test', async function(assert) {
     // simulate presence of location hash after OAUTH redirect
-    window.location.hash = '#access_token=test';
+    window.location.hash = `#access_token=${DUMMY_TOKEN}`;
 
     await visit('/login');
 
     assert.ok(find('[data-test-auth-name]'));
+
     assert.ok(find('[data-test-auth-logout-button]'));
   });
 
@@ -74,7 +79,7 @@ module('Acceptance | dev features are hidden in staging and prod', function(hook
     await visit('/');
 
     // simulate presence of location hash after OAUTH redirect
-    window.location.hash = '#access_token=test';
+    window.location.hash = `#access_token=${DUMMY_TOKEN}`;
 
     await visit('/login');
 
