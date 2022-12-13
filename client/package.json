@@ -121,7 +121,7 @@
     "nouislider": "13.1.5",
     "numeral": "^2.0.6",
     "qs": "^6.1.0",
-    "underscore": "^1.9.1"
+    "underscore": "^1.12.1"
   },
   "resolutions": {
     "ember-concurrency": "1.0.0"
