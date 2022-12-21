@@ -11,7 +11,6 @@ function _parseResponse(locationHash) {
   while ((match = regex.exec(query)) !== null) { // eslint-disable-line
     params[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
   }
-
   return params;
 }
 
@@ -23,7 +22,6 @@ export default class LoginRoute extends Route {
   async beforeModel() {
     // try to authenticate with the url#access_token
     // & with the zap api CRM-authenticated
-
     await this.session.authenticate('authenticator:zap-api-authenticator', _parseResponse(window.location.hash));
 
     await this.store.queryRecord('user', { me: true });
