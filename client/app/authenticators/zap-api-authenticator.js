@@ -36,6 +36,7 @@ export default class ZAPAuthenticator extends OAuth2ImplicitGrantAuthenticator {
       FS.identify(NYCIDUser.GUID, {
         displayName,
         email: mail,
+        zapSearchHasLoggedIn: true,
       });
     } catch (e) {
       throw new InvalidError([{ detail: e, message: 'FS.identify failed.' }]);
