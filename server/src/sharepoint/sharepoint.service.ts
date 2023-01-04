@@ -1,34 +1,30 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable
-} from '@nestjs/common';
-import * as Request from 'request';
-import { ConfigService } from '../config/config.service';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import * as Request from "request";
+import { ConfigService } from "../config/config.service";
 
 /***
-  * If Sharepoint returns a nested Folders array (see 'folders' argument example),
-  * we recursively flatten it out to just an array of Files.
-  * @param { folders } - Example:
-  *  [{
-  *   Files: [File Object, File Object],
-  *   Folders: [{
-  *        Files: [File Object, File Object],
-  *        Folders: [
-  *          ..etc
-  *        ]
-  *      }, {
-  *        Files: [File Object, File Object],
-  *        Folders: [
-  *          ..etc
-  *        ]
-  *      }]
-  *  }, ...]
+ * If Sharepoint returns a nested Folders array (see 'folders' argument example),
+ * we recursively flatten it out to just an array of Files.
+ * @param { folders } - Example:
+ *  [{
+ *   Files: [File Object, File Object],
+ *   Folders: [{
+ *        Files: [File Object, File Object],
+ *        Folders: [
+ *          ..etc
+ *        ]
+ *      }, {
+ *        Files: [File Object, File Object],
+ *        Folders: [
+ *          ..etc
+ *        ]
+ *      }]
+ *  }, ...]
  */
 function unnest(folders = []) {
   return folders
     .map(folder => {
-      return [...folder['Files'], ...unnest(folder['Folders'])];
+      return [...folder["Files"], ...unnest(folder["Folders"])];
     })
     .reduce((acc, curr) => {
       return acc.concat(curr);
@@ -40,15 +36,15 @@ function unnest(folders = []) {
 // use the DocumentService instead.
 @Injectable()
 export class SharepointService {
-  constructor(
-    private readonly config: ConfigService,
-  ) {}
+  constructor(private readonly config: ConfigService) {}
   async generateSharePointAccessToken(): Promise<any> {
-    const TENANT_ID = this.config.get('TENANT_ID');
-    const SHAREPOINT_CLIENT_ID = this.config.get('SHAREPOINT_CLIENT_ID');
-    const SHAREPOINT_CLIENT_SECRET = this.config.get('SHAREPOINT_CLIENT_SECRET');
-    const ADO_PRINCIPAL = this.config.get('ADO_PRINCIPAL');
-    const SHAREPOINT_TARGET_HOST = this.config.get('SHAREPOINT_TARGET_HOST');
+    const TENANT_ID = this.config.get("TENANT_ID");
+    const SHAREPOINT_CLIENT_ID = this.config.get("SHAREPOINT_CLIENT_ID");
+    const SHAREPOINT_CLIENT_SECRET = this.config.get(
+      "SHAREPOINT_CLIENT_SECRET"
+    );
+    const ADO_PRINCIPAL = this.config.get("ADO_PRINCIPAL");
+    const SHAREPOINT_TARGET_HOST = this.config.get("SHAREPOINT_TARGET_HOST");
 
     const clientId = `${SHAREPOINT_CLIENT_ID}@${TENANT_ID}`;
     const data = `
@@ -61,47 +57,51 @@ export class SharepointService {
     const options = {
       url: `https://accounts.accesscontrol.windows.net/${TENANT_ID}/tokens/OAuth/2`,
       headers: {
-        'Accept-Encoding': 'gzip, deflate',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'OData-MaxVersion': '4.0',
-        'OData-Version': '4.0',
-        Accept: 'application/json',
-        Prefer: 'return=representation',
+        "Accept-Encoding": "gzip, deflate",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "OData-MaxVersion": "4.0",
+        "OData-Version": "4.0",
+        Accept: "application/json",
+        Prefer: "return=representation"
       },
       body: data,
-      encoding: null,
+      encoding: null
     };
 
     return new Promise(resolve => {
       Request.get(options, (error, response, body) => {
         if (error) return;
-        const stringifiedBody = body.toString('utf-8');
+        const stringifiedBody = body.toString("utf-8");
         if (response.statusCode >= 400) {
-          console.log('error', stringifiedBody);
+          console.log("error", stringifiedBody);
         }
 
         resolve(JSON.parse(stringifiedBody));
       });
-    })
+    });
   }
 
   /***
    * Retrieves a list of files in a given Sharepoint folder
-  * @param {string} folderIdentifier - the relative URL for the document location.
-  * E.g.
-  *   - for packages: "dcp_package/2021M0371_PAS Package_2_92A42B7BAC4EEB11A811001DD83093A3"
-  *     this is constructed from the package's Document Location 'relativeurl' property
-  *   - for artifacts: "dcp_artifacts/https://nyco365.sharepoint.com/sites/dcppfsuat2/dcp_artifacts/2022Q0155 - Test File for ZA - 1_2C0C20A49656EB11A812001DD830A1E2"
-  *     this is constructed from the artifact's 'dcp_artifactdocumentlocation' property
-  *      This isn't a true relative url, but the function below handles this special case by extracting the relative url portion
-  */
-  async getSharepointFolderFiles(folderIdentifier, path = 'Files', method = 'post'): Promise<any> {
+   * @param {string} folderIdentifier - the relative URL for the document location.
+   * E.g.
+   *   - for packages: "dcp_package/2021M0371_PAS Package_2_92A42B7BAC4EEB11A811001DD83093A3"
+   *     this is constructed from the package's Document Location 'relativeurl' property
+   *   - for artifacts: "dcp_artifacts/https://nyco365.sharepoint.com/sites/dcppfsuat2/dcp_artifacts/2022Q0155 - Test File for ZA - 1_2C0C20A49656EB11A812001DD830A1E2"
+   *     this is constructed from the artifact's 'dcp_artifactdocumentlocation' property
+   *      This isn't a true relative url, but the function below handles this special case by extracting the relative url portion
+   */
+  async getSharepointFolderFiles(
+    folderIdentifier,
+    path = "Files",
+    method = "post"
+  ): Promise<any> {
     try {
       const { access_token } = await this.generateSharePointAccessToken();
 
       // For Artifacts, folderIdentifier is an absolute URL instead of a relative url, so we extract it
       // by spltting folderIdentifier with the environment token (e.g. 'dcppfsuat2')
-      const SHAREPOINT_CRM_SITE = this.config.get('SHAREPOINT_CRM_SITE');
+      const SHAREPOINT_CRM_SITE = this.config.get("SHAREPOINT_CRM_SITE");
       let [, relativeUrl] = folderIdentifier.split(SHAREPOINT_CRM_SITE);
 
       // If there's no relative url extracted, it means folderIdentifier was
@@ -110,44 +110,54 @@ export class SharepointService {
       if (!relativeUrl) {
         relativeUrl = folderIdentifier;
       }
-      
-      const url = encodeURI(`https://nyco365.sharepoint.com/sites/${SHAREPOINT_CRM_SITE}/_api/web/GetFolderByServerRelativeUrl('/sites/${SHAREPOINT_CRM_SITE}/${relativeUrl}')/${path}`);
+
+      const url = encodeURI(
+        `https://nyco365.sharepoint.com/sites/${SHAREPOINT_CRM_SITE}/_api/web/GetFolderByServerRelativeUrl('/sites/${SHAREPOINT_CRM_SITE}/${relativeUrl}')/${path}`
+      );
       const options = {
         url,
         headers: {
-          'Authorization': `Bearer ${access_token}`,
-          Accept: 'application/json',
-        },
+          Authorization: `Bearer ${access_token}`,
+          Accept: "application/json"
+        }
       };
 
       return new Promise((resolve, reject) => {
         Request[method](options, (error, response, body) => {
           if (error) return;
-          const stringifiedBody = body.toString('utf-8');
+          const stringifiedBody = body.toString("utf-8");
           if (response.statusCode >= 400) {
-            reject(new HttpException({
-              code: 'LOAD_FOLDER_FAILED',
-              title: 'Error loading sharepoint files',
-              detail: `Could not load file list from Sharepoint folder "${url}". ${stringifiedBody}`,
-            }, HttpStatus.NOT_FOUND));
+            reject(
+              new HttpException(
+                {
+                  code: "LOAD_FOLDER_FAILED",
+                  title: "Error loading sharepoint files",
+                  detail: `Could not load file list from Sharepoint folder "${url}". ${stringifiedBody}`
+                },
+                HttpStatus.NOT_FOUND
+              )
+            );
           }
           const folderFiles = JSON.parse(stringifiedBody);
 
           resolve([
-            ...(folderFiles['Files'] ? folderFiles['Files'] : []),
-            ...(folderFiles['Folders'] ? unnest(folderFiles['Folders']) : []),
+            ...(folderFiles["Files"] ? folderFiles["Files"] : []),
+            ...(folderFiles["Folders"] ? unnest(folderFiles["Folders"]) : [])
           ]);
         });
-      })
+      });
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
       } else {
-        throw new HttpException({
-          code: 'REQUEST_FOLDER_FAILED',
-          title: 'Error requesting sharepoint files',
-          detail: `Error while constructing request for Sharepoint folder files`,
-        }, HttpStatus.INTERNAL_SERVER_ERROR);
+        throw new HttpException(
+          {
+            code: "REQUEST_FOLDER_FAILED",
+            title: "Error requesting sharepoint files",
+            detail: `Error while constructing request for Sharepoint folder files`
+          },
+          HttpStatus.INTERNAL_SERVER_ERROR
+        );
       }
     }
   }
@@ -163,45 +173,44 @@ export class SharepointService {
    */
   async getSharepointFile(serverRelativeUrl): Promise<any> {
     const { access_token } = await this.generateSharePointAccessToken();
-    const SHAREPOINT_CRM_SITE = this.config.get('SHAREPOINT_CRM_SITE');
+    const SHAREPOINT_CRM_SITE = this.config.get("SHAREPOINT_CRM_SITE");
 
     // see https://docs.microsoft.com/en-us/previous-versions/office/sharepoint-server/dn775742(v=office.15)
     const url = `https://nyco365.sharepoint.com/sites/${SHAREPOINT_CRM_SITE}/_api/web/GetFileByServerRelativeUrl('/${serverRelativeUrl}')/$value?binaryStringResponseBody=true`;
     const options = {
       url,
       headers: {
-        'Authorization': `Bearer ${access_token}`,
-      },
+        Authorization: `Bearer ${access_token}`
+      }
     };
 
     // this returns a pipeable stream
-    return Request.get(options)
-      .on('error', (e) => console.log(e));
+    return Request.get(options).on("error", e => console.log(e));
   }
 
   async deleteSharepointFile(serverRelativeUrl): Promise<any> {
     const { access_token } = await this.generateSharePointAccessToken();
-    const SHAREPOINT_CRM_SITE = this.config.get('SHAREPOINT_CRM_SITE');
+    const SHAREPOINT_CRM_SITE = this.config.get("SHAREPOINT_CRM_SITE");
     const url = `https://nyco365.sharepoint.com/sites/${SHAREPOINT_CRM_SITE}/_api/web/GetFileByServerRelativeUrl('${serverRelativeUrl}')`;
 
     const options = {
       url,
       headers: {
-        'Authorization': `Bearer ${access_token}`,
-        Accept: 'application/json',
-        'X-HTTP-Method': 'DELETE',
-      },
+        Authorization: `Bearer ${access_token}`,
+        Accept: "application/json",
+        "X-HTTP-Method": "DELETE"
+      }
     };
 
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       Request.del(options, (error, response, body) => {
-        const stringifiedBody = body.toString('utf-8');
+        const stringifiedBody = body.toString("utf-8");
         if (response.statusCode >= 400) {
-          console.log('error', stringifiedBody);
+          console.log("error", stringifiedBody);
         }
 
         resolve();
       });
-    })
+    });
   }
 }
