@@ -126,6 +126,11 @@ const QUERY_TEMPLATES = {
       childEntity: "dcp_dcp_project_dcp_projectaction_project"
     }),
 
+  "action-ulurpnumber": queryParamValue =>
+    containsAnyOf("dcp_ulurpnumber", queryParamValue, {
+      childEntity: "dcp_dcp_project_dcp_projectaction_project"
+    }),
+
   "zoning-resolutions": queryParamValue =>
     queryParamValue
       .map(
@@ -217,6 +222,7 @@ const QUERY_TEMPLATES = {
 export const ALLOWED_FILTERS = [
   "community-districts",
   "action-types",
+  "action-ulurpnumber",
   "boroughs",
   "dcp_ceqrtype", // is this even used? 'Type I', 'Type II', 'Unlisted', 'Unknown'
   "dcp_ulurp_nonulurp", // 'ULURP', 'Non-ULURP'
