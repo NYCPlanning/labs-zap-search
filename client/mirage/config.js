@@ -21,6 +21,8 @@ export default function () {
   this.passthrough('https://labs-layers-api-staging.herokuapp.com/v1/base/style.json');
   this.passthrough('/test-data/**');
   this.passthrough('https://d3hb14vkzrxvla.cloudfront.net/**');
+  this.passthrough('https://rs.fullstory.com/**');
+  this.passthrough('https://edge.fullstory.com/**');
 
   // If the project_lup_status queryParam is set, this endpoint
   // returns CB projects (projects belonging to the first mirage User)
