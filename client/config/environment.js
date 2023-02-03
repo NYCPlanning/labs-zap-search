@@ -80,6 +80,16 @@ module.exports = function(environment) {
           sendHitTask: (environment !== 'development' && environment !== 'devlocal'),
         },
       },
+      {
+        name: 'GoogleAnalyticsFour',
+        environments: ['development', 'production'],
+        config: {
+          id: 'G-ZVJLNQ41N5',
+          options: {
+            debug_mode: environment === 'development',
+          },
+        },
+      },
     ],
 
     // people-friendly labels for query parameters and database

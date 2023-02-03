@@ -74,7 +74,7 @@
     "ember-mapbox-gl": "0.13.0",
     "ember-math-helpers": "2.6.0",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-metrics": "0.12.1",
+    "ember-metrics": "^2.0.0-beta.2",
     "ember-moment": "^7.7.0",
     "ember-parachute": "0.3.7",
     "ember-pikaday": "^2.4.1",
