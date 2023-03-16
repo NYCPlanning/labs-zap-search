@@ -52,12 +52,12 @@ function zoningResolution(value) {
 
   if (val[0].length === 2) {
     const articleNum = val[0][0];
-    return `https://zr.planning.nyc.gov/article-${romanNumerals[articleNum]}/chapter-${val[0][1]}/${value}}`;
+    return `https://zr.planning.nyc.gov/article-${romanNumerals[articleNum]}/chapter-${val[0][1]}/${value}`;
   }
 
   if (val[0].length === 3) {
     const articleNum = val[0].substring(0, 2);
-    return `https://zr.planning.nyc.gov/article-${romanNumerals[articleNum]}/chapter-${val[0][2]}/${value}}`;
+    return `https://zr.planning.nyc.gov/article-${romanNumerals[articleNum]}/chapter-${val[0][2]}/${value}`;
   }
 
   return '';
