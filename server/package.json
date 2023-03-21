@@ -4,6 +4,9 @@
   "description": "",
   "author": "",
   "license": "MIT",
+  "engines": {
+    "node": "16.*"
+  },
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
