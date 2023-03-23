@@ -26,13 +26,41 @@ function zoningResolution(value) {
     AppendixJ: 'https://zr.planning.nyc.gov/appendix-j-designated-areas-within-manufacturing-districts',
   };
 
+  const romanNumerals = {
+    1: 'i',
+    2: 'ii',
+    3: 'iii',
+    4: 'iv',
+    5: 'v',
+    6: 'vi',
+    7: 'vii',
+    8: 'viii',
+    9: 'ix',
+    10: 'x',
+    11: 'xi',
+    12: 'xii',
+    13: 'xiii',
+    14: 'xiv',
+  };
+
   // Return the hardcoded URL if "value" is one of the appendices (searching "AppendixA" returns no results)
   if (appendixUrls[value]) {
     return appendixUrls[value];
   }
 
-  // Else bring the user to the ZR search page
-  return `https://zr.planning.nyc.gov/search?search_term=${value}`;
+  const val = value.split('-');
+
+  if (val[0].length === 2) {
+    const articleNum = val[0][0];
+    return `https://zr.planning.nyc.gov/article-${romanNumerals[articleNum]}/chapter-${val[0][1]}/${value}`;
+  }
+
+  if (val[0].length === 3) {
+    const articleNum = val[0].substring(0, 2);
+    return `https://zr.planning.nyc.gov/article-${romanNumerals[articleNum]}/chapter-${val[0][2]}/${value}`;
+  }
+
+  return '';
 }
 
 function zola(bbl) {
