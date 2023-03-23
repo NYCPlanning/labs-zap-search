@@ -9,8 +9,7 @@ An ambitious web app for filtering and viewing NYC land use application records 
 ### 1. Install prerequisite tools
 
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with npm)
-  - This installation was tested using Node v12.18.4, v14.15.0
+* [Node.js](https://nodejs.org/) (with npm) **version listed in .nvmrc**
 * [Ember CLI](https://ember-cli.com/)
 
 ### 2. Install frontend and backend packages 
