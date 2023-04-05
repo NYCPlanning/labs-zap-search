@@ -107,7 +107,7 @@
     "tooltipster": "4.2.6"
   },
   "engines": {
-    "node": ">= 12.*"
+    "node": "^16.*"
   },
   "dependencies": {
     "@babel/plugin-transform-block-scoping": "^7.12.1",
