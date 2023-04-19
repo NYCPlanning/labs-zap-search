@@ -13,16 +13,18 @@ const Router = EmberRouter.extend(RouterScroll, {
   },
 
   _trackPage() {
-    scheduleOnce('afterRender', this, () => {
-      const page = this.url;
-      const title = this.getWithDefault('currentRouteName', 'unknown');
-      this.metrics.trackPage({ page, title });
-    });
+    scheduleOnce('afterRender', this, scheduler);
   },
 
   location: config.locationType,
   rootURL: config.rootURL,
 });
+
+function scheduler () {
+  const page = this.url;
+  const title = (this.currentRouteName === undefined ? 'unknown' : this.currentRouteName);
+  this.metrics.trackPage({ page, title });
+}
 
 Router.map(function() { // eslint-disable-line
   this.route('show-project', { path: '/projects/:id' });
@@ -52,5 +54,3 @@ Router.map(function() { // eslint-disable-line
   this.route('login');
   this.route('logout');
 });
-
-export default Router;
