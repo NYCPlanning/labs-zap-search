@@ -152,7 +152,9 @@ module.exports = function(environment) {
   }
 
   if (environment !== 'production') {
-    ENV.IS_PROD = false;
+    ENV.noindex = {
+      enabled: true,
+    };
   }
 
   return ENV;
