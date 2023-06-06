@@ -148,7 +148,6 @@ module.exports = function(environment) {
     };
 
     ENV['mapbox-gl'].map.style = 'https://labs-layers-api.herokuapp.com/v1/base/style.json';
-    ENV.IS_PROD = true;
   }
 
   if (environment !== 'production') {
