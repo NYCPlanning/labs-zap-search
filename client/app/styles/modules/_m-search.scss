@@ -78,7 +78,7 @@
   }
 
   li {
-    padding: $global-margin/2;
+    padding: $global-margin*0.5;
   }
 
   li:not(:first-child) {
