@@ -150,6 +150,12 @@ module.exports = function(environment) {
     ENV['mapbox-gl'].map.style = 'https://labs-layers-api.herokuapp.com/v1/base/style.json';
   }
 
+  if (environment !== 'production') {
+    ENV.noindex = {
+      enabled: true,
+    };
+  }
+
   return ENV;
 };
 

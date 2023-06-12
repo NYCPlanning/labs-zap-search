@@ -128,5 +128,10 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
+  },
+  "ember-addon": {
+    "paths": [
+      "lib/ose-noindex"
+    ]
   }
 }
