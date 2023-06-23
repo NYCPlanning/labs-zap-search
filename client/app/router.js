@@ -54,3 +54,5 @@ Router.map(function() { // eslint-disable-line
   this.route('login');
   this.route('logout');
 });
+
+export default Router;
