@@ -1,9 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo "\033[0;31m Pre commit hooks are disabled. Please lint and test manually before pushing.\033[0m"
-# cd client
-# yarn run lint-staged
+cd client
+yarn run lint-staged
 
-# cd ../server
-# yarn run lint-staged
+cd ../server
+yarn run lint-staged
