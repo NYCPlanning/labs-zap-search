@@ -271,6 +271,7 @@
             placeholder="Select some names..."
             searchField='searchField'
             onChange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
+            renderInPlace=true
             as |district|
           }}
             {{district.boro}} {{district.num}}
@@ -294,6 +295,7 @@
             placeholder="Select some actions..."
             searchField='searchField'
             onChange=(action section.delegate-mutation (action 'replaceProperty' 'action-types'))
+            renderInPlace=true
             as |action|
           }}
             {{action.code}}
@@ -323,6 +325,7 @@
             placeholder="Select some zoning resolutions..."
             searchField='name'
             onChange=(action section.delegate-mutation (action 'replaceProperty' 'zoning-resolutions'))
+            renderInPlace=true
             as |zoningResolution|
           }}
             {{zoningResolution.name}}

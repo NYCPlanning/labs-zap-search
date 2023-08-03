@@ -41,7 +41,7 @@
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "broccoli-clean-css": "~2.0.1",
-    "ember-auto-import": "^1.12.0",
+    "ember-auto-import": "^2.0.0",
     "ember-changeset-validations": "^2.1.0",
     "ember-clean-project": "1.0.1",
     "ember-cli": "~3.28.6",
@@ -103,7 +103,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-qunit": "^6.2.0",
-    "foundation-sites": "^6.3.1",
+    "foundation-sites": "^6.7.5",
     "husky": "^6.0.0",
     "lint-staged": ">=10",
     "loader.js": "^4.7.0",
@@ -114,6 +114,7 @@
     "prettier": "^2.5.1",
     "qunit": "^2.17.2",
     "tooltipster": "4.2.6",
+    "webpack": "^5.75.0",
     "workerpool": "2.3.4"
   },
   "engines": {
@@ -123,8 +124,8 @@
     "edition": "octane"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0",
     "@babel/plugin-transform-block-scoping": "^7.12.1",
-    "@ember/jquery": "0.6.0",
     "@turf/bbox": "^6.0.1",
     "@turf/boolean-point-in-polygon": "6.0.1",
     "@turf/buffer": "^5.1.5",
@@ -139,7 +140,9 @@
     "underscore": "^1.9.1"
   },
   "resolutions": {
-    "ember-cli-babel": "^7.26.10"
+    "ember-cli-babel": "7.26.11",
+    "ember-fetch": "8.1.2",
+    "ember-basic-dropdown": "7.0.0"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
