@@ -10,8 +10,8 @@
           {{/if}}
 
           {{#if this.debug}}
-            <a href="{{link-to-crm 'dcp_project' model.dcpProjectid}}" target="_blank">
-              {{fa-icon icon='external-link-alt'}}
+            <a href="{{link-to-crm 'dcp_project' model.dcpProjectid}}" target="_blank" rel="noopener noreferrer">
+              <FaIcon icon="external-link-alt" />
             </a>
           {{/if}}
         </h1>
@@ -45,9 +45,9 @@
 
         {{#if model.dcpAdditionalpublicinformation}}
           <p>
-            <a href={{model.dcpAdditionalpublicinformation}} target="_blank">
+            <a href={{model.dcpAdditionalpublicinformation}} target="_blank" rel="noopener noreferrer">
               Learn More
-              {{fa-icon icon='external-link-alt'}}
+              <FaIcon icon="external-link-alt" />
             </a>
           </p>
         {{/if}}
@@ -65,7 +65,7 @@
                 <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">
                   {{model.dcpPublicstatusSimp}}
                   <sup>
-                    {{icon-tooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
+                    <IconTooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.' />
                   </sup>
                 </span>
               {{/if}}
@@ -76,7 +76,7 @@
                   <span class="label dark-gray tag-span">
                     {{model.dcpApplicabilitySimp}}
                     <sup>
-                      {{icon-tooltip tip='As of June 1, 2022, <a href="https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf" target="blank" style="text-decoration: underline;">certain property owners</a> applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the <a href="https://equitableexplorer.planning.nyc.gov/map/data/district" target="blank" style="text-decoration: underline;">Equitable Development Data Explorer</a>.'}}
+                      <IconTooltip tip='As of June 1, 2022, <a href="https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf" target="blank" style="text-decoration: underline;">certain property owners</a> applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the <a href="https://equitableexplorer.planning.nyc.gov/map/data/district" target="blank" style="text-decoration: underline;">Equitable Development Data Explorer</a>.' />
                     </sup>
                   </span>
                 {{/if}}
@@ -86,7 +86,7 @@
                   <span class="label dark-gray tag-span">
                     {{~model.dcpUlurpNonulurp~}}
                     <sup>
-                      {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
+                      <IconTooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.' />
                     </sup>
                   </span>
                 {{/if}}
@@ -113,8 +113,8 @@
         {{#if model.videoLinks}}
           <div class="button-group">
             {{#each model.videoLink as |link|}}
-              <a href="{{link.link}}" target="_blank" class="button gray" style="text-align:left;">
-                <span style="color:#ff0000">{{fa-icon icon='youtube' prefix='fab' size='2x' pull='left'}}</span>
+              <a href="{{link.link}}" target="_blank" class="button gray" style="text-align:left;" rel="noopener noreferrer">
+                <span style="color:#ff0000"><FaIcon icon="youtube" prefix="fab" size="2x" pull="left" /></span>
                 <span class="text-small">
                   <strong>{{link.hearing_type}}</strong>
                   <span class="display-block dark-gray">
@@ -145,24 +145,24 @@
               @listName="Completed"
               @showMilestoneList={{false}}
             >
-              {{fa-icon icon='circle' fixedWidth=true class='green-dark'}}
-              {{fa-icon icon='check' fixedWidth=true class='white-smoke' transform='shrink-6'}}
+              <FaIcon icon="circle" fixedWidth={{true}} class="green-dark" />
+              <FaIcon icon="check" fixedWidth={{true}} class="white-smoke" transform="shrink-6" />
             </ShowProject::MilestoneList>
 
             <ShowProject::MilestoneList
               @milestones={{model.sortedInProgressMilestones}}
               @listName="In Progress"
             >
-              {{fa-icon icon='circle' fixedWidth=true class='gold'}}
-              {{fa-icon icon='lightbulb' prefix='far' fixedWidth=true class='white-smoke' transform='shrink-8'}}
+              <FaIcon icon="circle" fixedWidth={{true}} class="gold" />
+              <FaIcon icon="lightbulb" prefix="far" fixedWidth={{true}} class="white-smoke" transform="shrink-8" />
             </ShowProject::MilestoneList>
 
             <ShowProject::MilestoneList
               @milestones={{model.sortedNotStartedMilestones}}
               @listName="Not Started"
             >
-              {{fa-icon icon='circle' fixedWidth=true class='blue'}}
-              {{fa-icon icon='calendar' prefix='far' fixedWidth=true class='off-white' transform='shrink-8'}}
+              <FaIcon icon="circle" fixedWidth={{true}} class="blue" />
+              <FaIcon icon="calendar" prefix="far" fixedWidth={{true}} class="off-white" transform="shrink-8" />
             </ShowProject::MilestoneList>
           </div>
         </div>
@@ -192,7 +192,7 @@
                 zoom=12
                 center=(array -73.96532400540775 40.709710016659386)
               )
-              mapLoaded=(action 'handleMapLoad')
+              mapLoaded=this.handleMapLoad
               as |map|
           }}
             {{#map.source options=model.bblFeatureCollectionSource as |source|}}
@@ -216,9 +216,9 @@
         <div class="project-meta">
           {{#if (or model.dcpCeqrtype model.dcpCeqrnumber)}}
             <p class="text-small label-group">
-              <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
+              <strong>CEQR<sup class="dark-gray"><IconTooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.' /></sup>:</strong>
               {{#if model.dcpCeqrtype}}<span class="label light-gray">{{model.dcpCeqrtype}}</span>{{/if~}}
-              {{#if model.dcpCeqrnumber}}<span class="label light-gray"><a href="https://a002-ceqraccess.nyc.gov/ceqr/" target="_blank">{{model.dcpCeqrnumber}} {{fa-icon icon='external-link-alt'}}</a></span>{{/if~}}
+              {{#if model.dcpCeqrnumber}}<span class="label light-gray"><a href="https://a002-ceqraccess.nyc.gov/ceqr/" target="_blank" rel="noopener noreferrer">{{model.dcpCeqrnumber}} <FaIcon icon='external-link-alt' /></a></span>{{/if~}}
             </p>
           {{/if}}
 
@@ -232,21 +232,21 @@
 
           {{#if model.dcpBsanumber}}
             <p class="text-small">
-              <strong>BSA Number<sup class="dark-gray">{{icon-tooltip tip='Board of Standards and Appeals Calendar Number'}}</sup>:</strong>
+              <strong>BSA Number<sup class="dark-gray"><IconTooltip tip='Board of Standards and Appeals Calendar Number' /></sup>:</strong>
               {{model.dcpBsanumber}}
             </p>
           {{/if}}
 
           {{#if model.dcpWrpnumber}}
             <p class="text-small">
-              <strong>WRP Number<sup class="dark-gray">{{icon-tooltip tip='Waterfront Revitalization Program Application Number'}}</sup>:</strong>
+              <strong>WRP Number<sup class="dark-gray"><IconTooltip tip='Waterfront Revitalization Program Application Number' /></sup>:</strong>
               {{model.dcpWrpnumber}}
             </p>
           {{/if}}
 
           {{#if model.dcpLpcnumber}}
             <p class="text-small">
-              <strong>LPC Number<sup class="dark-gray">{{icon-tooltip tip='Landmark Preservation Commission Number'}}</sup>:</strong>
+              <strong>LPC Number<sup class="dark-gray"><IconTooltip tip='Landmark Preservation Commission Number' /></sup>:</strong>
               {{model.dcpLpcnumber}}
             </p>
           {{/if}}

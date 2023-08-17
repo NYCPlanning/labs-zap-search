@@ -4,31 +4,31 @@
       <div class="cell large-7">
         <div class="grid-x">
           <div class="cell auto">
-            {{#content-placeholders as |placeholder|}}
+            <ContentPlaceholders as |placeholder|>
               {{placeholder.heading}}
               {{placeholder.heading}}
               {{placeholder.text lines=6}}
-            {{/content-placeholders}}
+            </ContentPlaceholders>
             <hr>
             <div class="grid-x grid-padding-x">
               <div class="cell medium-6">
-                {{#content-placeholders as |placeholder|}}
+                <ContentPlaceholders as |placeholder|>
                   {{placeholder.text lines=10}}
-                {{/content-placeholders}}
+                </ContentPlaceholders>
               </div>
               <div class="cell medium-6">
-                {{#content-placeholders as |placeholder|}}
+                <ContentPlaceholders as |placeholder|>
                   {{placeholder.text lines=10}}
-                {{/content-placeholders}}
+                </ContentPlaceholders>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="cell large-5">
-        {{#content-placeholders as |placeholder|}}
+        <ContentPlaceholders as |placeholder|>
           {{placeholder.img}}
-        {{/content-placeholders}}
+        </ContentPlaceholders>
       </div>
     </div>
   </div>

@@ -3,14 +3,14 @@
 >
   <div class="cell shrink small-margin-right">
     {{#if (eq this.milestone.statuscode "Completed")}}
-      {{fa-icon icon='check' class='blue' fixedWidth=true}}
+      <FaIcon icon="check" class="blue" fixedWidth={{true}} />
     {{else if (eq this.milestone.statuscode "Overridden")}}
-      {{fa-icon icon='stop' class='red-dark' fixedWidth=true}}
+      <FaIcon icon="stop" class="red-dark" fixedWidth={{true}} />
     {{else if (eq this.milestone.statuscode "In Progress")}}
-      {{fa-icon icon='hourglass-half' class='blue' fixedWidth=true}}
+      <FaIcon icon="hourglass-half" class="blue" fixedWidth={{true}} />
     {{else if (eq this.milestone.statuscode "Not Started")}}
       <span data-test={{if (string-includes this.milestone.displayName "Review") "upcoming-indicator"}}>
-        {{fa-icon icon='calendar' class='light-gray' fixedWidth=true}}
+        <FaIcon icon="calendar" class="light-gray" fixedWidth={{true}} />
       </span>
     {{/if}}
   </div>
@@ -42,7 +42,7 @@
     {{/if}}
     {{#if this.milestone.dcpActualenddate}}
       <br>
-      <small class="display-block" data-test-actual-end-date="{{milestone.id}}">
+      <small class="display-block" data-test-actual-end-date="{{this.milestone.id}}">
         <DateDisplay
           @date={{this.milestone.dcpActualenddate}}
         />
