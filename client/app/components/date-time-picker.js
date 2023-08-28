@@ -88,8 +88,10 @@ export default class DateTimePickerComponent extends Component {
       let numberHour;
 
       if (this.timeOfDay === 'PM') {
-        const pmHour = parseInt(this.hour, 10) + 12;
+        const pmHour = parseInt(this.hour, 10) === 12 ? 12 : parseInt(this.hour, 10) + 12;
         numberHour = pmHour;
+      } else if (parseInt(this.hour, 10) === 12) {
+        numberHour = 0;
       } else {
         numberHour = this.hour;
       }
