@@ -1,21 +1,21 @@
 <div
   class="filter-header"
-  data-test-filter-section={{dasherizedFilterTitle}}
+  data-test-filter-section={{this.dasherizedFilterTitle}}
 >
   <div class="switch tiny float-left">
-    <input class="switch-input" type="checkbox" checked={{if (contains filterNames appliedFilters) 'checked'}}>
-    <label {{action mutateWithAction}} class="switch-paddle">
+    <input class="switch-input" type="checkbox" checked={{if (contains this.filterNames this.appliedFilters) 'checked'}} />
+    <label {{on 'click' this.mutateWithAction}} class="switch-paddle">
 
-      <span class="show-for-sr">Toggle {{filterTitle}} Filter</span>
+      <span class="show-for-sr">Toggle {{this.filterTitle}} Filter</span>
     </label>
   </div>
-  <h6 class="filter-name" {{action mutateWithAction}}>
-    {{filterTitle}}
-    {{~#if tooltip}}<sup class="dark-gray">{{icon-tooltip tip=tooltip}}</sup>{{/if}}
+  <h6 class="filter-name" {{on 'click' this.mutateWithAction}}>
+    {{this.filterTitle}}
+    {{~#if this.tooltip}}<sup class="dark-gray"><IconTooltip @tooltip={{this.tooltip}} /></sup>{{/if}}
   </h6>
 </div>
 
 <div class="filter-controls"
- data-test-filter-control={{dasherizedFilterTitle}}>
+ data-test-filter-control={{this.dasherizedFilterTitle}}>
   {{yield}}
 </div>

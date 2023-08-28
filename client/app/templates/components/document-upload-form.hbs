@@ -18,15 +18,15 @@
         @onfileadd={{this.onFileAdd}}
         class="button gray no-margin"
       >
-        {{fa-icon icon='upload'}} Choose Files
+        <FaIcon icon="upload" /> Choose Files
       </FileUpload>
     </div>
     <div class="cell auto">
       <ul class="no-bullet">
         {{#each this.queue.files as |file|}}
           <li data-test-file-name={{file.name}}>
-            <a {{action "removeFile" this.queue file}}>
-              {{fa-icon icon='times' class='red-muted' fixedWidth=true}}
+            <a href={{null}} {{action "removeFile" this.queue file}}>
+              <FaIcon icon="times" class="red-muted" fixedWidth={{true}} />
             </a>
             {{file.name}}
             <small>

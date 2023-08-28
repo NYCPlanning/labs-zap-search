@@ -1,28 +1,27 @@
 <div class="modal-controls">
 
-  <button {{action 'handleShareOpen'}} class="modal-button button small gray">{{fa-icon icon='share-alt'}} Share Project</button>
+  <button {{on 'click' this.handleShareOpen}} class="modal-button button small gray" type="button"><FaIcon @icon="share-alt" /> Share Project</button>
 
-  {{#unless shareClosed}}
+  {{#unless this.shareClosed}}
     <div class="modal-controls-content">
-      <button {{action 'handleModalClose'}} class="close-button" aria-label="Close alert" type="button"><span aria-hidden="true">&times;</span></button>
+      <button {{on 'click' this.handleModalClose}} class="close-button" aria-label="Close alert" type="button"><span aria-hidden="true">&times;</span></button>
 
-      <h3 class="header header-small">Share Project {{model.dcp_name}}:</h3>
+      <h3 class="header header-small">Share Project {{this.model.dcp_name}}:</h3>
       <div class="input-group">
-        <input id="share-url" class="input-group-field" type="text" value="{{shareURL}}">
+        <input id="share-url" class="input-group-field" type="text" value="{{this.shareURL}}">
         <div class="input-group-button">
-          {{#copy-button
-            clipboardTarget="#share-url"
-            success=(action 'handleShareSuccess')
-            error=(action 'handleModalClose')
-            class="button"
-          }}
-            {{fa-icon icon='paste'}} Copy Link
-          {{/copy-button}}
+          <CopyButton
+            @clipboardTarget="#share-url"
+            @success={{this.handleShareSuccess}}
+            @error={{this.handleModalClose}}
+            @class="button">
+            <FaIcon @icon="paste" /> Copy Link
+          </CopyButton>
         </div>
       </div>
-      {{#if copySuccess}}
+      {{#if this.copySuccess}}
         <div class="share-controls-copy-success">
-          <div class="share-controls-copy-success-message">{{fa-icon icon='check'}} Copied</div>
+          <div class="share-controls-copy-success-message"><FaIcon @icon="check" /> Copied</div>
         </div>
       {{/if}}
     </div>

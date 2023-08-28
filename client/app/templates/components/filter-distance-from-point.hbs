@@ -1,4 +1,4 @@
-{{#if shouldQueryFullMap}}
+{{#if this.shouldQueryFullMap}}
   {{#map.source options=(hash
     type='geojson'
     data=(hash
@@ -15,7 +15,7 @@
     }}
   {{/map.source}}
   {{! only display radius circle and zoom to point if point exists}}
-  {{#if pointGeometry}}
+  {{#if this.pointGeometry}}
     {{#map.source options=(hash
       type='geojson'
       data=circleFromRadius) as |source|
@@ -28,7 +28,7 @@
   {{/if}}
 {{/if}}
 
-{{map.on 'click' (action 'handleClick')}}
+{{map.on 'click' this.handleClick}}
 
-{{yield map}}
+{{yield this.map}}
 {{yield (hash circleFromRadius=circleFromRadius)}}

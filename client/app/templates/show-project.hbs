@@ -3,15 +3,15 @@
     <div class="grid-x grid-padding-x grid-padding-y">
       <div class="cell large-7">
         <h1 class="">
-          {{#if model.dcpProjectname}}
-            {{model.dcpProjectname}}
+          {{#if this.model.dcpProjectname}}
+            {{this.model.dcpProjectname}}
           {{else}}
-            Project {{model.dcpName}}
+            Project {{this.model.dcpName}}
           {{/if}}
 
           {{#if this.debug}}
-            <a href="{{link-to-crm 'dcp_project' model.dcpProjectid}}" target="_blank" rel="noopener noreferrer">
-              <FaIcon icon="external-link-alt" />
+            <a href="{{link-to-crm 'dcp_project' this.model.dcpProjectid}}" target="_blank" rel="noopener noreferrer">
+              <FaIcon @icon="external-link-alt" />
             </a>
           {{/if}}
         </h1>
@@ -19,35 +19,35 @@
           <div class="cell medium-auto">
             <p class="lead">
               <strong>Applicant Team:</strong>
-              {{#each model.applicantteam as |applicant|}}
-                {{#if (eq applicant.role 'Primary Applicant')}}
+              {{#each this.model.applicantteam as |applicant|}}
+                {{#if (eq this.applicant.role 'Primary Applicant')}}
                   <br>
                   {{applicant.name}}
-                  <small class="dark-gray">{{#if (gt model.applicantteam.length 1)}}({{applicant.role}}){{/if}}</small>
+                  <small class="dark-gray">{{#if (gt this.model.applicantteam.length 1)}}({{this.applicant.role}}){{/if}}</small>
                 {{/if}}
               {{/each}}
             </p>
           </div>
           <div class="cell medium-shrink">
-            {{modal-controls project=model}}
+            {{modal-controls project=this.model}}
           </div>
         </div>
 
         <p>
           <strong>Project Brief:</strong>
-          {{#if model.dcpProjectbrief}}
+          {{#if this.model.dcpProjectbrief}}
             {{markdown-to-html
-              markdown=model.dcpProjectbrief}}
+              markdown=this.model.dcpProjectbrief}}
           {{else}}
             No Project Brief
           {{/if}}
         </p>
 
-        {{#if model.dcpAdditionalpublicinformation}}
+        {{#if this.model.dcpAdditionalpublicinformation}}
           <p>
-            <a href={{model.dcpAdditionalpublicinformation}} target="_blank" rel="noopener noreferrer">
+            <a href={{this.model.dcpAdditionalpublicinformation}} target="_blank" rel="noopener noreferrer">
               Learn More
-              <FaIcon icon="external-link-alt" />
+              <FaIcon @icon="external-link-alt" />
             </a>
           </p>
         {{/if}}
@@ -57,24 +57,24 @@
           @artifacts={{this.model.sortedArtifacts}}
           @dispositions={{this.model.dispositions}}
         />
-        {{#if (or model.dcpPublicstatusSimp model.dcpUlurpNonulurp model.dcpApplicability)}}
+        {{#if (or this.model.dcpPublicstatusSimp this.model.dcpUlurpNonulurp this.model.dcpApplicability)}}
           <div class="grid-x tag-wrapper">
             <p class="cell auto tag-child-left">
-              {{#if model.dcpPublicstatusSimp}}
+              {{#if this.model.dcpPublicstatusSimp}}
                 <strong>Status:</strong>
-                <span class="label dark-gray publicstatus-{{dasherize model.dcpPublicstatusSimp}}">
-                  {{model.dcpPublicstatusSimp}}
+                <span class="label dark-gray publicstatus-{{dasherize this.model.dcpPublicstatusSimp}}">
+                  {{this.model.dcpPublicstatusSimp}}
                   <sup>
                     <IconTooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.' />
                   </sup>
                 </span>
               {{/if}}
             </p>
-            {{#if (or model.dcpUlurpNonulurp model.dcpApplicability)}}
+            {{#if (or this.model.dcpUlurpNonulurp this.model.dcpApplicability)}}
               <p class="cell auto tag-child-center">
-                {{#if model.dcpApplicability}}
+                {{#if this.model.dcpApplicability}}
                   <span class="label dark-gray tag-span">
-                    {{model.dcpApplicabilitySimp}}
+                    {{this.model.dcpApplicabilitySimp}}
                     <sup>
                       <IconTooltip tip='As of June 1, 2022, <a href="https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf" target="blank" style="text-decoration: underline;">certain property owners</a> applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the <a href="https://equitableexplorer.planning.nyc.gov/map/data/district" target="blank" style="text-decoration: underline;">Equitable Development Data Explorer</a>.' />
                     </sup>
@@ -82,9 +82,9 @@
                 {{/if}}
               </p>
               <p class="cell auto tag-child-right">
-                {{#if model.dcpUlurpNonulurp}}
+                {{#if this.model.dcpUlurpNonulurp}}
                   <span class="label dark-gray tag-span">
-                    {{~model.dcpUlurpNonulurp~}}
+                    {{~this.model.dcpUlurpNonulurp~}}
                     <sup>
                       <IconTooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.' />
                     </sup>
@@ -95,12 +95,12 @@
           </div>
         {{/if}}
 
-        {{#if (eq model.dcpUlurpNonulurp "ULURP")}}
+        {{#if (eq this.model.dcpUlurpNonulurp "ULURP")}}
           <p class="cell auto">
             <strong>Noticed Date:</strong>
-            {{#if model.dcpNoticeddate}}
+            {{#if this.model.dcpNoticeddate}}
               <DateDisplay
-                @date={{model.formattedNoticedDate}}
+                @date={{this.model.formattedNoticedDate}}
               />
             {{else}}
               Not yet noticed
@@ -110,11 +110,11 @@
         
         <hr>
 
-        {{#if model.videoLinks}}
+        {{#if this.model.videoLinks}}
           <div class="button-group">
-            {{#each model.videoLink as |link|}}
+            {{#each this.model.videoLink as |link|}}
               <a href="{{link.link}}" target="_blank" class="button gray" style="text-align:left;" rel="noopener noreferrer">
-                <span style="color:#ff0000"><FaIcon icon="youtube" prefix="fab" size="2x" pull="left" /></span>
+                <span style="color:#ff0000"><FaIcon @icon="youtube" prefix="fab" size="2x" pull="left" /></span>
                 <span class="text-small">
                   <strong>{{link.hearing_type}}</strong>
                   <span class="display-block dark-gray">
@@ -135,34 +135,34 @@
         <div class="grid-x grid-padding-x">
           <div class="cell medium-6">
             <ShowProject::ActionsList
-              @projectActions={{model.actions}}
+              @projectActions={{this.model.actions}}
             />
           </div>
           <div class="cell medium-6">
             <h2>Milestones</h2>
             <ShowProject::MilestoneList
-              @milestones={{model.sortedCompletedMilestones}}
+              @milestones={{this.model.sortedCompletedMilestones}}
               @listName="Completed"
               @showMilestoneList={{false}}
             >
-              <FaIcon icon="circle" fixedWidth={{true}} class="green-dark" />
-              <FaIcon icon="check" fixedWidth={{true}} class="white-smoke" transform="shrink-6" />
+              <FaIcon @icon="circle" fixedWidth={{true}} class="green-dark" />
+              <FaIcon @icon="check" fixedWidth={{true}} class="white-smoke" @transform="shrink-6" />
             </ShowProject::MilestoneList>
 
             <ShowProject::MilestoneList
-              @milestones={{model.sortedInProgressMilestones}}
+              @milestones={{this.model.sortedInProgressMilestones}}
               @listName="In Progress"
             >
-              <FaIcon icon="circle" fixedWidth={{true}} class="gold" />
-              <FaIcon icon="lightbulb" prefix="far" fixedWidth={{true}} class="white-smoke" transform="shrink-8" />
+              <FaIcon @icon="circle" fixedWidth={{true}} class="gold" />
+              <FaIcon @icon="lightbulb" prefix="far" fixedWidth={{true}} class="white-smoke" @transform="shrink-8" />
             </ShowProject::MilestoneList>
 
             <ShowProject::MilestoneList
-              @milestones={{model.sortedNotStartedMilestones}}
+              @milestones={{this.model.sortedNotStartedMilestones}}
               @listName="Not Started"
             >
-              <FaIcon icon="circle" fixedWidth={{true}} class="blue" />
-              <FaIcon icon="calendar" prefix="far" fixedWidth={{true}} class="off-white" transform="shrink-8" />
+              <FaIcon @icon="circle" fixedWidth={{true}} class="blue" />
+              <FaIcon @icon="calendar" prefix="far" fixedWidth={{true}} class="off-white" @transform="shrink-8" />
             </ShowProject::MilestoneList>
           </div>
         </div>
@@ -175,13 +175,13 @@
             class="project--lup-section callout"
           >
             <h3 class="small-margin-bottom">
-                {{participant-type-label model.assignments.firstObject.dcpLupteammemberrole}} Review
+                {{participant-type-label this.model.assignments.firstObject.dcpLupteammemberrole}} Review
               </h3>
-            {{#link-to "my-projects.to-review" class="button expanded"}}
+            <LinkTo @route="my-projects.to-review" class="button expanded">
               <span>
                 Review Current Projects
               </span>
-            {{/link-to}}
+            </LinkTo>
           </div>
         {{/if}}
 
@@ -195,7 +195,7 @@
               mapLoaded=this.handleMapLoad
               as |map|
           }}
-            {{#map.source options=model.bblFeatureCollectionSource as |source|}}
+            {{#map.source options=this.model.bblFeatureCollectionSource as |source|}}
               {{source.layer
                 layer=bblFeatureCollectionLayerFill
                 before='boundary_country'
@@ -214,69 +214,69 @@
         {{/if}}
 
         <div class="project-meta">
-          {{#if (or model.dcpCeqrtype model.dcpCeqrnumber)}}
+          {{#if (or this.model.dcpCeqrtype this.model.dcpCeqrnumber)}}
             <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray"><IconTooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.' /></sup>:</strong>
-              {{#if model.dcpCeqrtype}}<span class="label light-gray">{{model.dcpCeqrtype}}</span>{{/if~}}
-              {{#if model.dcpCeqrnumber}}<span class="label light-gray"><a href="https://a002-ceqraccess.nyc.gov/ceqr/" target="_blank" rel="noopener noreferrer">{{model.dcpCeqrnumber}} <FaIcon icon='external-link-alt' /></a></span>{{/if~}}
+              {{#if this.model.dcpCeqrtype}}<span class="label light-gray">{{this.model.dcpCeqrtype}}</span>{{/if~}}
+              {{#if this.model.dcpCeqrnumber}}<span class="label light-gray"><a href="https://a002-ceqraccess.nyc.gov/ceqr/" target="_blank" rel="noopener noreferrer">{{this.model.dcpCeqrnumber}} <FaIcon @icon='external-link-alt' /></a></span>{{/if~}}
             </p>
           {{/if}}
 
-          {{#if (or model.dcpFemafloodzonea model.dcpFemafloodzoneshadedx) }}
+          {{#if (or this.model.dcpFemafloodzonea this.model.dcpFemafloodzoneshadedx) }}
             <p class="text-small">
               <strong>FEMA Flood Zone:</strong>
-              {{#if model.dcpFemafloodzonea}}<span class="label light-gray">Zone A</span>{{/if}}
-              {{#if model.dcpFemafloodzoneshadedx}}<span class="label light-gray">Zone Shaded X</span>{{/if}}
+              {{#if this.model.dcpFemafloodzonea}}<span class="label light-gray">Zone A</span>{{/if}}
+              {{#if this.model.dcpFemafloodzoneshadedx}}<span class="label light-gray">Zone Shaded X</span>{{/if}}
             </p>
           {{/if}}
 
-          {{#if model.dcpBsanumber}}
+          {{#if this.model.dcpBsanumber}}
             <p class="text-small">
               <strong>BSA Number<sup class="dark-gray"><IconTooltip tip='Board of Standards and Appeals Calendar Number' /></sup>:</strong>
-              {{model.dcpBsanumber}}
+              {{this.model.dcpBsanumber}}
             </p>
           {{/if}}
 
-          {{#if model.dcpWrpnumber}}
+          {{#if this.model.dcpWrpnumber}}
             <p class="text-small">
               <strong>WRP Number<sup class="dark-gray"><IconTooltip tip='Waterfront Revitalization Program Application Number' /></sup>:</strong>
-              {{model.dcpWrpnumber}}
+              {{this.model.dcpWrpnumber}}
             </p>
           {{/if}}
 
-          {{#if model.dcpLpcnumber}}
+          {{#if this.model.dcpLpcnumber}}
             <p class="text-small">
               <strong>LPC Number<sup class="dark-gray"><IconTooltip tip='Landmark Preservation Commission Number' /></sup>:</strong>
-              {{model.dcpLpcnumber}}
+              {{this.model.dcpLpcnumber}}
             </p>
           {{/if}}
 
-          {{#if model.dcpNydospermitnumber}}
+          {{#if this.model.dcpNydospermitnumber}}
             <p class="text-small">
               <strong>NYS Dep<span class="show-for-large">ar</span>t<span class="show-for-large">ment</span> of State Permit Number:</strong>
-              {{model.dcpNydospermitnumber}}
+              {{this.model.dcpNydospermitnumber}}
             </p>
           {{/if}}
 
           <p class="text-small">
             <strong>Borough:</strong>
-            <span class="label light-gray">{{model.dcpBorough}}</span>
+            <span class="label light-gray">{{this.model.dcpBorough}}</span>
           </p>
 
           <p class="text-small label-group">
             <strong>Community Districts:</strong>
-              {{consolidated-cds cds=model.dcpValidatedcommunitydistricts cdlink=true}}
+              {{consolidated-cds cds=this.model.dcpValidatedcommunitydistricts cdlink=true}}
           </p>
 
           <p class="text-small">
             <strong>Addresses:</strong>
-            {{#each model.addresses as |address index|}}
+            {{#each this.model.addresses as |address index|}}
               {{if index ", "}}{{address.dcp-validatedaddressnumber}} {{address.dcp-validatedstreet}}
             {{/each}}
           </p>
 
           <p class="text-small label-group"><strong>BBLs:</strong>
-            {{#each (take 50 model.bbls) as |bbl|}}
+            {{#each (take 50 this.model.bbls) as |bbl|}}
               {{!--
                 Sometimes the first BBL is null, so we must prevent
                 operations on null in that case.
@@ -288,7 +288,7 @@
               {{/if}}
             {{/each}}
 
-            {{#each (drop 50 model.bbls) as |bbl|}}
+            {{#each (drop 50 this.model.bbls) as |bbl|}}
               {{bbl}},
             {{/each}}
           </p>

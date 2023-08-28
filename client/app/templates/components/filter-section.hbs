@@ -1,11 +1,11 @@
 {{yield (hash
-  filterIsActive=filterIsActive
-  delegate-mutation=(action 'delegateMutation')
-  mutateWithAction=(action 'mutateWithAction')
+  filterIsActive=this.filterIsActive
+  delegate-mutation=this.delegateMutation
+  mutateWithAction=this.mutateWithAction
   filter-wrapper=(component 'filter-wrapper'
-    filterNames=filterNames
-    appliedFilters=appliedFilters
-    filterIsActive=filterIsActive
-    mutateWithAction=(action 'mutateWithAction')
+    filterNames=this.filterNames
+    appliedFilters=this.appliedFilters
+    filterIsActive=this.filterIsActive
+    mutateWithAction=this.mutateWithAction
   )
 )}}

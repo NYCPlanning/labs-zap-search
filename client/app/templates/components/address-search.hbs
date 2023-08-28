@@ -1,15 +1,16 @@
 <LabsSearch
-  searchPlaceholder='Zoom to Address...'
-  {{on "select" this.selectSearchResult}}
-  {{on "clear" this.clearSearchResult}}
-  as |search|>
+  @searchPlaceholder='Zoom to Address...'
+  @onSelect={{selectSearchResult}}
+  @onClear={{clearSearchResult}} as |search|>
+
   <small class="dark-gray">{{search.result.label}}</small>
 
   {{#if search.result}}
     {{#if geocodedGeometry}}
-      <Map::Source options=(hash type='geojson' data=geocodedGeometry) as |source| >
-        <Source::Layer layer={{geocodedLayer}} />
-      </Map::Source>
+      {{#map.source options=(hash type='geojson' data=geocodedGeometry) as |source|}}
+        {{source.layer layer=geocodedLayer}}
+      {{/map.source}}
+
       {{map.call 'flyTo' (hash center=geocodedGeometry.coordinates zoom=16)}}
     {{/if}}
   {{/if}}

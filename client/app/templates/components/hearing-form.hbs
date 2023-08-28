@@ -1,14 +1,14 @@
 <div class="large-margin-bottom">
-  {{location-input
-    targetField=(mut disposition.dcpPublichearinglocation)
-    disposition=disposition
-    allActions=allActions
-    checkIfMissing=checkIfMissing}}
+  <LocationInput
+    targetField={{(mut this.disposition.dcpPublichearinglocation)}}
+    disposition={{this.disposition}}
+    allActions={{this.allActions}}
+    checkIfMissing={{this.checkIfMissing}} />
 
-  {{date-time-picker
-    targetField=(mut disposition.dcpDateofpublichearing)
-    disposition=disposition
-    allActions=allActions
-    includeTimeInput=true
-    checkIfMissing=checkIfMissing}}
+  <DateTimePicker
+    targetField={{(mut this.disposition.dcpDateofpublichearing)}}
+    disposition={{this.disposition}}
+    allActions={{this.allActions}}
+    includeTimeInput={{true}}
+    checkIfMissing={{this.checkIfMissing}} />
 </div>
