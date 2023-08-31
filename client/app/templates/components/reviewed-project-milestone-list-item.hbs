@@ -4,14 +4,14 @@
   <div class="cell shrink small-margin-right">
     {{#if (eq this.milestone.statuscode "Completed")}}
       <span data-test={{if (string-includes this.milestone.displayName "Review") "reviewed-indicator"}}>
-        {{fa-icon icon='check' class='blue' fixedWidth=true}}
+        <FaIcon @icon="check" @class="blue" @fixedWidth={{true}} />
       </span>
     {{else if (eq this.milestone.statuscode "In Progress")}}
-      {{fa-icon icon='hourglass-half' class='blue' fixedWidth=true}}
+      <FaIcon @icon="hourglass-half" @class="blue" @fixedWidth={{true}} />
     {{else if (eq this.milestone.statuscode "Overridden")}}
-      {{fa-icon icon='times' class='red-muted' fixedWidth=true}}
+      <FaIcon @icon="times" @class="red-muted" @fixedWidth={{true}} />
     {{else}}
-      {{fa-icon icon='calendar' class='light-gray' fixedWidth=true}}
+      <FaIcon @icon="calendar" @class="light-gray" @fixedWidth={{true}} />
     {{/if}}
   </div>
   <div class="cell auto {{if (eq this.milestone.statuscode "Not Started") 'gray'}}">
@@ -22,28 +22,28 @@
       {{#if (eq this.milestone.dcpMilestone this.communityBoardReferralMilestone)}}
         {{#each this.communityBoardDispositions as |disposition|}}
           <RecommendationResultIcon
-            @recommendation={{disposition.dcpCommunityboardrecommendation}}
-            @action={{disposition.action}}
+            @recommendation={{this.disposition.dcpCommunityboardrecommendation}}
+            @action={{this.disposition.action}}
           />
         {{/each}}
       {{else if (eq this.milestone.dcpMilestone this.boroughBoardReferralMilestone)}}
         {{#each this.boroughBoardDispositions as |disposition|}}
           <RecommendationResultIcon
-            @recommendation={{disposition.dcpBoroughboardrecommendation}}
-            @action={{disposition.action}}
+            @recommendation={{this.disposition.dcpBoroughboardrecommendation}}
+            @action={{this.disposition.action}}
           />
         {{/each}}
       {{else if (eq this.milestone.dcpMilestone this.boroughPresidentReferralMilestone)}}
         {{#each this.boroughPresidentDispositions as |disposition|}}
           <RecommendationResultIcon
-            @recommendation={{disposition.dcpBoroughpresidentrecommendation}}
-            @action={{disposition.action}}
+            @recommendation={{this.disposition.dcpBoroughpresidentrecommendation}}
+            @action={{this.disposition.action}}
           />
         {{/each}}
       {{/if}}
       {{#if this.milestone.dcpActualenddate}}
         <br>
-        <small class="display-block" data-test-actual-end-date="{{milestone.id}}">
+        <small class="display-block" data-test-actual-end-date="{{this.milestone.id}}">
           <DateDisplay @date={{this.milestone.dcpActualenddate}} />
         </small>
       {{/if}}

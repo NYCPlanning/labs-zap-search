@@ -5,7 +5,7 @@
   <div class="grid-x grid-x-small-gutters">
     <div class="cell large-4 xlarge-5">
       <h3 class="tiny-margin-bottom">
-        {{#link-to 'show-project' this.assignment.project.id}}<span data-test-project-profile-button="{{this.assignment.project.id}}">{{this.assignment.project.dcpProjectname}}</span>{{/link-to}}
+        <LinkTo @route="show-project" @model={{this.assignment.project.id}}><span data-test-project-profile-button="{{this.assignment.project.id}}">{{this.assignment.project.dcpProjectname}}</span></LinkTo>
         <small class="dark-gray display-inline-block">{{this.assignment.project.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{this.assignment.project.applicants}}</h5>
@@ -38,8 +38,8 @@
             <strong
               data-test-fuzzy-time-remaining
             >
-              {{#if (not (eq isMoreThanThirtyDaysBeforePublicReview null))}}
-                {{if isMoreThanThirtyDaysBeforePublicReview 'in more than 30 days' 'in fewer than 30 days'}}
+              {{#if (not (eq this.isMoreThanThirtyDaysBeforePublicReview null))}}
+                {{if this.isMoreThanThirtyDaysBeforePublicReview 'in more than 30 days' 'in fewer than 30 days'}}
               {{else}}
                 <span class="light-gray">
                   Date Unknown
@@ -61,42 +61,42 @@
               disabled={{not this.assignment.dispositionsByRole}}
               data-test-button-post-hearing="{{this.assignment.id}}"
             >
-              {{fa-icon icon='calendar' fixedWidth=true size="lg" transform="left-2"}}
+              <FaIcon @icon="calendar" @fixedWidth={{true}} @size="lg" @transform="left-2" />
               Post {{participant-type-label this.assignment.dcpLupteammemberrole}} Hearing Notice
             </LinkTo>
           </div>
           <div class="cell medium-shrink">
             <button
               class="button expanded gray"
-              onClick={{action "openOptOutHearingPopup"}}
+              onClick={{this.openOptOutHearingPopup}}
               disabled={{not this.assignment.dispositionsByRole}}
               data-test-button-opt-out-hearing-popup="{{this.assignment.id}}"
             >
-              {{fa-icon icon='calendar-times' size="lg" transform="shrink-5 down-1"}}
+              <FaIcon @icon="calendar-times" @size="lg" @transform="shrink-5 down-1" />
               <small>Opt Out</small>
             </button>
           </div>
         </div>
       {{else}}
-        {{#if assignment.hearingsWaived}}
-          <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
-            {{fa-icon icon='calendar-times' size="lg" transform="left-2"}}
+        {{#if this.assignment.hearingsWaived}}
+          <span class="opt-out-notice" data-test-hearings-waived-message="{{this.assignment.project.id}}">
+            <FaIcon @icon="calendar-times" @size="lg" @transform="left-2" />
             You've opted out of posting a hearing
           </span>
         {{/if}}
       {{/if}}
 
-      {{#if assignment.hearingsSubmitted}}
-        {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
-          <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
+      {{#if this.assignment.hearingsSubmitted}}
+        {{#deduped-hearings-list dispositions=this.assignment.dispositionsByRole as |dedupedHearings|}}
+          <h6>{{participant-type-label this.assignment.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}
                 <li class="grid-x small-margin-bottom">
                   <div class="cell shrink small-margin-right">
                     {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
-                      {{fa-icon "calendar" class="light-gray" fixedWidth=true}}
+                      <FaIcon @icon="calendar" @class="light-gray" @fixedWidth={{true}} />
                     {{else}}
-                      {{fa-icon "check" class="blue" fixedWidth=true}}
+                      <FaIcon @icon="check" @class="blue" @fixedWidth={{true}} />
                     {{/if}}
                   </div>
                   <div class="cell auto">
@@ -147,7 +147,7 @@
                   @model={{milestone.project.id}}
                   data-test-button='submitHearing'
                 >
-                  {{fa-icon icon='ellipsis-v' fixedWidth=true class="tiny-margin-right"}}
+                  <FaIcon @icon="ellipsis-v" @fixedWidth={{true}} @class="tiny-margin-right" />
                   <span class="text-tiny">VIEW FULL TIMELINE</span>
                 </LinkTo>
               </li>
@@ -155,14 +155,14 @@
             <li class="grid-x small-margin-bottom" data-test-milestone-view="true" data-test-milestone-id={{milestone.id}} data-test-display-order={{idx}}>
               <div class="cell shrink small-margin-right">
                 {{#if (eq milestone.statuscode "Completed")}}
-                  {{fa-icon icon='check' class='blue' fixedWidth=true}}
+                  <FaIcon @icon="check" @class="blue" @fixedWidth={{true}} />
                 {{else if (eq milestone.statuscode "In Progress")}}
-                  {{fa-icon icon='hourglass-half' class='blue' fixedWidth=true}}
+                  <FaIcon @icon="hourglass-half" @class="blue" @fixedWidth={{true}} />
                 {{else if (eq milestone.statuscode "Overridden")}}
-                  {{fa-icon icon='times' class='red-muted' fixedWidth=true}}
+                  <FaIcon @icon="times" @class="red-muted" @fixedWidth={{true}} />
                 {{else if (eq milestone.statuscode "Not Started")}}
                   <span data-test={{if (string-includes milestone.displayName "Review") "upcoming-indicator"}}>
-                    {{fa-icon icon='calendar' class='light-gray' fixedWidth=true}}
+                    <FaIcon @icon="calendar" @class="light-gray" @fixedWidth={{true}} />
                   </span>
                 {{/if}}
               </div>

@@ -4,9 +4,9 @@
   --}}
 
 {{#if this.session.isAuthenticated}}
-  <li>{{#link-to 'my-projects'}}<span data-test-my-projects-button>My Projects</span>{{/link-to}}</li>
+  <li><LinkTo @route="my-projects"><span data-test-my-projects-button>My Projects</span></LinkTo></li>
   <li class="auth--container">
-    {{fa-icon icon='user-circle' size='2x' class="auth--icon"}}
+    <FaIcon @icon="user-circle" @size="2x" @class="auth--icon" />
     <div>
       <span data-test-auth-name class="auth--name">
         {{this.currentUser.user.emailaddress1}}
@@ -14,7 +14,7 @@
       <a
         data-test-auth-logout-button
         class="auth--logout-button"
-        onclick={{action this.logout}}
+        {{on 'click' this.logout}}
       >
         Sign Out
       </a>
@@ -25,16 +25,16 @@
     <a
       data-test-auth-login-button
       class="auth--login-button"
-      {{action toggleAuthModal}}
+      {{on 'click' this.toggleAuthModal}}
       >
-      {{fa-icon icon='user-circle' class="light-gray"}}
+      <FaIcon @icon="user-circle" @class="light-gray" />
       Sign In
     </a>
   </li>
 {{/if}}
 
-{{#ember-wormhole to="reveal-modal-container"}}
-  {{#confirmation-modal open=showAuthModal}}
+<EmberWormhole @to="reveal-modal-container">
+  <ConfirmationModal @open={{this.showAuthModal}}>
     {{auth/login-dialog}}
-  {{/confirmation-modal}}
-{{/ember-wormhole}}
+  </ConfirmationModal>
+</EmberWormhole>

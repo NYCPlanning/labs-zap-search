@@ -13,7 +13,7 @@
 
     {{#if this.exceedsAllowedResults}}
       <span class="red" data-test-results-header="exceeds">
-        {{fa-icon icon='exclamation-triangle' class='gold'}}
+        <FaIcon @icon="exclamation-triangle" @class="gold" />
         Over 5,000
         projects
         match your filters
@@ -23,25 +23,25 @@
 
   <span class="float-right results-header-meta">
     {{#if this.isRunning}}
-      {{fa-icon icon='spinner' class="fa-spin light-gray"}}
+      <FaIcon @icon="spinner" @class="fa-spin light-gray" />
     {{else}}
       <span data-test-results-meta="listing">listing 1-{{numeral-format this.cachedProjectsLength '0,0'}}</span>
       &nbsp;<span class="light-gray">|</span>&nbsp;
 
       <span class="download-container" data-test-results-meta="download">
         {{#if this.hasAllowedResults}}
-          <a>{{fa-icon icon='download'}} Download</a>
+          <a href={{null}}><FaIcon @icon="download" /> Download</a>
           <span class="download-links">
             <p>Download all projects that match your filters</p>
-            <a href={{this.downloadLocations.csv}} class="button expanded">{{fa-icon icon='file'}} <small>CSV</small></a>
+            <a href={{this.downloadLocations.csv}} class="button expanded"><FaIcon @icon="file" /> <small>CSV</small></a>
           </span>
         {{/if}}
 
         {{#if this.exceedsAllowedResults}}
-          <a class='light-gray' data-test-results-downlad="disabled">{{fa-icon icon='download'}} Download</a>
+          <a href={{null}} class='light-gray' data-test-results-downlad="disabled"><FaIcon @icon="download" /> Download</a>
           <span class="download-links">
             <p>Too many projects match your filters. Downloads are limited to 5,000 projects.</p>
-            <a href='#' class="button disabled expanded">{{fa-icon icon='file'}} <small>CSV</small></a>
+            <a href='#' class="button disabled expanded"><FaIcon @icon="file" /> <small>CSV</small></a>
           </span>
         {{/if}}
       </span>

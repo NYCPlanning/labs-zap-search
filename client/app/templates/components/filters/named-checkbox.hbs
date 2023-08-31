@@ -1,7 +1,8 @@
-{{fa-icon
-  (if mainProperty 'check-square' 'square')
-  prefix=(unless mainProperty 'far')
-  class=(if mainProperty 'dark-gray' 'light-gray')
-}} {{label}}
+<FaIcon
+  @icon={{(if this.mainProperty 'check-square' 'square')}}
+  @prefix={{(unless this.mainProperty 'far')}}
+  @class={{(if this.mainProperty 'dark-gray' 'light-gray')}} />
+  
+  {{this.label}}
 
 {{yield}}
