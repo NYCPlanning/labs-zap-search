@@ -5,7 +5,7 @@
   <div class="grid-x grid-x-small-gutters">
     <div class="cell large-4 xlarge-5">
       <h3 class="tiny-margin-bottom">
-        <LinkTo @route='show-project' @model="this.assignment.project.id">{{this.assignment.project.dcpProjectname}}</LinkTo>
+        <LinkTo @route='show-project' @model={{this.assignment.project.id}}>{{this.assignment.project.dcpProjectname}}</LinkTo>
         <small class="dark-gray">{{this.assignment.project.dcpUlurpNonulurp}}</small>
       </h3>
       <h5 class="applicant">{{this.assignment.project.applicants}}</h5>

@@ -5,58 +5,58 @@
 
 <div class="cell auto">
   <h4 class="no-margin">
-    <span data-test-milestone-name="{{milestone.id}}">
-      {{milestone.displayName}}
+    <span data-test-milestone-name="{{this.milestone.id}}">
+      {{this.milestone.displayName}}
     </span>
 
-    {{#if milestone.displayDescription}}
+    {{#if this.milestone.displayDescription}}
       <sup class="gray">
-        {{icon-tooltip tip=milestone.displayDescription}}
+        {{icon-tooltip tip=this.milestone.displayDescription}}
       </sup>
     {{/if}}
   </h4>
 
   {{!-- IN PROGRESS OR COMPLETED --}}
   {{#if (and
-    (in-array (array "In Progress" "Completed") milestone.statuscode)
-    milestone.displayDate
+    (in-array (array "In Progress" "Completed") this.milestone.statuscode)
+    this.milestone.displayDate
   )}}
-    <p class="milestone-dates" data-test-milestone-dates="{{milestone.id}}">
-      {{#if (and milestone.displayDate2 (is-same milestone.displayDate milestone.displayDate2 precision="year"))}}
+    <p class="milestone-dates" data-test-milestone-dates="{{this.milestone.id}}">
+      {{#if (and this.milestone.displayDate2 (is-same this.milestone.displayDate this.milestone.displayDate2 precision="year"))}}
         <DateDisplay
-          @date={{milestone.displayDate}}
+          @date={{this.milestone.displayDate}}
           @outputFormat="MMMM D"
         />
       {{else}}
         <DateDisplay
-          @date={{milestone.displayDate}}
+          @date={{this.milestone.displayDate}}
           @outputFormat="MMMM D, YYYY"
         />
       {{/if}}
 
-      {{#if milestone.displayDate2}}
+      {{#if this.milestone.displayDate2}}
         &ndash;
         <DateDisplay
-          @date={{milestone.displayDate2}}
+          @date={{this.milestone.displayDate2}}
           @outputFormat="MMMM D, YYYY"
         />
       {{/if}}
     </p>
 
-    {{#if milestone.outcome}}
+    {{#if this.milestone.outcome}}
       <div class="wrap-content">
         <div class="label dark-gray">
-          {{milestone.outcome}}
+          {{this.milestone.outcome}}
         </div>
       </div>
     {{/if}}
 
     <ul class="milestone-links">
-      {{#if (eq milestone.dcpMilestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
-        <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank">{{fa-icon "external-link-alt"}} CPC Public Meeting Calendar</a></li>
+      {{#if (eq this.milestone.dcpMilestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
+        <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank" rel="noopener noreferrer">{{fa-icon "external-link-alt"}} CPC Public Meeting Calendar</a></li>
       {{/if}}
-      {{#each milestone.milestoneLinks as |link|}}
-        <li><a href="{{link.url}}" target="_blank">{{link.filename}}</a></li>
+      {{#each this.milestone.milestoneLinks as |link|}}
+        <li><a href="{{link.url}}" target="_blank" rel="noopener noreferrer">{{link.filename}}</a></li>
       {{/each}}
     </ul>
 
@@ -79,9 +79,9 @@
                     <li class="grid-x small-margin-bottom">
                       <div class="cell shrink small-margin-right">
                         {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
-                          {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
+                          <FaIcon @icon="calendar" @fixedWidth={{true}} @class="light-gray" />
                         {{else}}
-                          {{fa-icon icon='check' fixedWidth=true class='blue-muted'}}
+                          <FaIcon @icon="check" @fixedWidth={{true}} @class="blue-muted" />
                         {{/if}}
                       </div>
                       <div class="cell auto">
@@ -187,22 +187,22 @@
     {{/hearings-list-for-milestones-list}}
 
     {{#if (and
-      milestone.isCPCPublicMeetingPublicHearing
-      (is-same-or-after milestone.dcpReviewmeetingdate)
+      this.milestone.isCPCPublicMeetingPublicHearing
+      (is-same-or-after this.milestone.dcpReviewmeetingdate)
     )}}
       <ul class="sub-milestones no-bullet">
         <li class="grid-x small-margin-bottom">
           <div class="cell shrink small-margin-right">
             {{!-- This is always "calendar" icon, because for this milestone, it should always have happened in the past --}}
-            {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
+            <FaIcon @icon="calendar" @fixedWidth={{true}} @class="light-gray" />
           </div>
           <div class="cell auto">
             {{milestones/public-hearing
               hearing=(hash
                 disposition=(hash
-                  dcpDateofpublichearing=milestone.dcpReviewmeetingdate
+                  dcpDateofpublichearing=this.milestone.dcpReviewmeetingdate
                 )
-                hearingActions=milestone.project.actions
+                hearingActions=this.milestone.project.actions
               )
             }}
           </div>

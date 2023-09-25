@@ -6,7 +6,7 @@
 }}
   {{#banner.pre}}
     <ul class="pre-nav">
-      <li>{{link-to 'Disclaimer' 'disclaimer'}}</li>
+      <li><LinkTo @route="disclaimer">Disclaimer</LinkTo></li>
       <li>
         {{#tool-tipster
           content='
@@ -19,25 +19,25 @@
           tagName='a'
           side='bottom'
         }}
-          {{fa-icon icon='envelope'}} Feedback
+          <FaIcon @icon="envelope" /> Feedback
         {{/tool-tipster}}
       </li>
     </ul>
   {{/banner.pre}}
   {{#banner.title}}
-    {{#link-to 'show-geography' classNames='site-title'}}Zoning Application Portal{{/link-to}}
+    <LinkTo @route="show-geography" @classNames="site-title">Zoning Application Portal</LinkTo>
   {{/banner.title}}
   {{#banner.nav}}
     <ul class="menu vertical large-horizontal">
-      <li>{{link-to 'Find Projects' 'show-geography'}}</li>
+      <li><LinkTo @route="show-geography">Find Projects</LinkTo></li>
       {{#if this.ENV.LUPP_ENABLED}}
-        {{sign-in}}
+        <SignIn />
       {{/if}}
     </ul>
   {{/banner.nav}}
 {{/labs-ui/site-header}}
 
-<div class="site-main grid-x grid-padding-x route-{{currentRouteName}}">
+<div class="site-main grid-x grid-padding-x route-{{this.currentRouteName}}">
   {{#if
     (and
       (user-agent "browser.isIE")
@@ -45,7 +45,7 @@
     )
   }}
     <div class="cell large-6 large-offset-3 text-center" style="padding:2rem 0;">
-      {{fa-icon icon='exclamation-triangle' size='2x' class='yellow-muted'}}
+      <FaIcon @icon="exclamation-triangle" @size="2x" @class="yellow-muted" />
       <p>It looks like you're using Internet Explorer.  This site works best in a modern browser. Please try a current version of Edge, Chrome, or Firefox.</p>
     </div>
   {{else}}

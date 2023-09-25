@@ -1,7 +1,7 @@
 <p class="text-center" style="margin:3rem 0 6rem;">
   <span
     class="button projects-load-more-button gray"
-    onClick={{(unless this.noMoreRecords (queue (fn (mut this.page) (add this.page 1)) (perform task)))}}
+    onClick={{unless this.noMoreRecords (queue (fn (mut this.page) (add this.page 1)) (perform task))}}
     disabled={{or this.noMoreRecords this.task.isRunning}}
   >
     {{#if this.task.isRunning}}

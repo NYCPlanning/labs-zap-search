@@ -1,7 +1,7 @@
 <label class="{{if (and this.locationMissing this.checkIfMissing) 'is-invalid-label'}}">
   Hearing Location
     <Input
-      class={{(if (and this.locationMissing this.checkIfMissing) 'is-invalid-input')}}
+      class={{if (and this.locationMissing this.checkIfMissing) 'is-invalid-input'}}
       type="text"
       maxLength={{200}}
       placeholder="Add a location"

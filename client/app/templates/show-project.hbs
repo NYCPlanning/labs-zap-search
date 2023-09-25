@@ -29,15 +29,14 @@
             </p>
           </div>
           <div class="cell medium-shrink">
-            {{modal-controls project=this.model}}
+            <ModalControls @project={{this.model}} />
           </div>
         </div>
 
         <p>
           <strong>Project Brief:</strong>
           {{#if this.model.dcpProjectbrief}}
-            {{markdown-to-html
-              markdown=this.model.dcpProjectbrief}}
+            <MarkdownToHtml @markdown={{this.model.dcpProjectbrief}} />
           {{else}}
             No Project Brief
           {{/if}}
@@ -65,7 +64,7 @@
                 <span class="label dark-gray publicstatus-{{dasherize this.model.dcpPublicstatusSimp}}">
                   {{this.model.dcpPublicstatusSimp}}
                   <sup>
-                    <IconTooltip tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.' />
+                    <IconTooltip @tip='“Status” identifies a project’s stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.' />
                   </sup>
                 </span>
               {{/if}}
@@ -76,7 +75,7 @@
                   <span class="label dark-gray tag-span">
                     {{this.model.dcpApplicabilitySimp}}
                     <sup>
-                      <IconTooltip tip='As of June 1, 2022, <a href="https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf" target="blank" style="text-decoration: underline;">certain property owners</a> applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the <a href="https://equitableexplorer.planning.nyc.gov/map/data/district" target="blank" style="text-decoration: underline;">Equitable Development Data Explorer</a>.' />
+                      <IconTooltip @tip='As of June 1, 2022, <a href="https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf" target="blank" style="text-decoration: underline;">certain property owners</a> applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the <a href="https://equitableexplorer.planning.nyc.gov/map/data/district" target="blank" style="text-decoration: underline;">Equitable Development Data Explorer</a>.' />
                     </sup>
                   </span>
                 {{/if}}
@@ -86,7 +85,7 @@
                   <span class="label dark-gray tag-span">
                     {{~this.model.dcpUlurpNonulurp~}}
                     <sup>
-                      <IconTooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.' />
+                      <IconTooltip @tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.' />
                     </sup>
                   </span>
                 {{/if}}
@@ -185,7 +184,7 @@
           </div>
         {{/if}}
 
-        {{#if hasBBLFeatureCollectionGeometry}}
+        {{#if this.hasBBLFeatureCollectionGeometry}}
           {{#mapbox-gl
               id='project-map'
               initOptions=(hash
@@ -205,7 +204,7 @@
                 before='boundary_country'
               }}
             {{/map.source}}
-            {{map-info-box legend=false}}
+            <MapInfoBox @legend={{false}} />
           {{/mapbox-gl}}
         {{else}}
           <div id='project-map' class="align-middle grid-x" style="border: 1px solid darkgray; background:#EEE; color:gray;">
@@ -216,7 +215,7 @@
         <div class="project-meta">
           {{#if (or this.model.dcpCeqrtype this.model.dcpCeqrnumber)}}
             <p class="text-small label-group">
-              <strong>CEQR<sup class="dark-gray"><IconTooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.' /></sup>:</strong>
+              <strong>CEQR<sup class="dark-gray"><IconTooltip @tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.' /></sup>:</strong>
               {{#if this.model.dcpCeqrtype}}<span class="label light-gray">{{this.model.dcpCeqrtype}}</span>{{/if~}}
               {{#if this.model.dcpCeqrnumber}}<span class="label light-gray"><a href="https://a002-ceqraccess.nyc.gov/ceqr/" target="_blank" rel="noopener noreferrer">{{this.model.dcpCeqrnumber}} <FaIcon @icon='external-link-alt' /></a></span>{{/if~}}
             </p>
@@ -232,21 +231,21 @@
 
           {{#if this.model.dcpBsanumber}}
             <p class="text-small">
-              <strong>BSA Number<sup class="dark-gray"><IconTooltip tip='Board of Standards and Appeals Calendar Number' /></sup>:</strong>
+              <strong>BSA Number<sup class="dark-gray"><IconTooltip @tip='Board of Standards and Appeals Calendar Number' /></sup>:</strong>
               {{this.model.dcpBsanumber}}
             </p>
           {{/if}}
 
           {{#if this.model.dcpWrpnumber}}
             <p class="text-small">
-              <strong>WRP Number<sup class="dark-gray"><IconTooltip tip='Waterfront Revitalization Program Application Number' /></sup>:</strong>
+              <strong>WRP Number<sup class="dark-gray"><IconTooltip @tip='Waterfront Revitalization Program Application Number' /></sup>:</strong>
               {{this.model.dcpWrpnumber}}
             </p>
           {{/if}}
 
           {{#if this.model.dcpLpcnumber}}
             <p class="text-small">
-              <strong>LPC Number<sup class="dark-gray"><IconTooltip tip='Landmark Preservation Commission Number' /></sup>:</strong>
+              <strong>LPC Number<sup class="dark-gray"><IconTooltip @tip='Landmark Preservation Commission Number' /></sup>:</strong>
               {{this.model.dcpLpcnumber}}
             </p>
           {{/if}}
@@ -265,7 +264,7 @@
 
           <p class="text-small label-group">
             <strong>Community Districts:</strong>
-              {{consolidated-cds cds=this.model.dcpValidatedcommunitydistricts cdlink=true}}
+              <ConsolidatedCds @cds={{this.model.dcpValidatedcommunitydistricts}} @cdlink={{true}} />
           </p>
 
           <p class="text-small">

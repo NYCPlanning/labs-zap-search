@@ -12,8 +12,8 @@
   {{map.on 'mousemove' (action 'handleMouseMove')}}
 
 
-  {{#if tilesLoading}}
-    {{fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner"}}
+  {{#if this.tilesLoading}}
+    <FaIcon @icon="spinner" @spin="true" @size="5x" @class="map-loading-spinner" />
   {{/if}}
 
   {{yield (merge
@@ -21,7 +21,7 @@
     (hash
       dynamic-tiles=(component 'mapbox-gl-dynamic-tiles'
         map=map
-        mapInstance=mapInstance
+        mapInstance=this.mapInstance
       )
     )
   )}}

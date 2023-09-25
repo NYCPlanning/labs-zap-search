@@ -5,7 +5,7 @@
       type='Feature'
       geometry=(hash
         type='Point'
-        coordinates=pointGeometry
+        coordinates=this.pointGeometry
       )
     )) as |source|
   }}
@@ -18,7 +18,7 @@
   {{#if this.pointGeometry}}
     {{#map.source options=(hash
       type='geojson'
-      data=circleFromRadius) as |source|
+      data=this.circleFromRadius) as |source|
     }}
       {{source.layer layer=(hash
         type='line'
@@ -31,4 +31,4 @@
 {{map.on 'click' this.handleClick}}
 
 {{yield this.map}}
-{{yield (hash circleFromRadius=circleFromRadius)}}
+{{yield (hash circleFromRadius=this.circleFromRadius)}}

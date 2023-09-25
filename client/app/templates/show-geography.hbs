@@ -111,11 +111,10 @@
                 data-test-status-checkbox={{type}}
               >
                 <a>
-                  {{filter-checkbox
-                    value=type
-                    currentValues=dcp_publicstatus
-                    classPrefix="publicstatus"
-                  }}
+                  <FilterCheckbox
+                    @value={{type}}
+                    @currentValues={{dcp_publicstatus}}
+                    @classPrefix="publicstatus" />
                 </a>
               </li>
             {{/each}}
@@ -151,18 +150,18 @@
               data-test-applicabile-checkbox
             >
               <a>
-                {{filter-checkbox
-                  value='Racial Equity Report Required'
-                  currentValues=dcp_applicability}}
+                <FilterCheckbox
+                  @value="Racial Equity Report Required"
+                  @currentValues={{dcp_applicability}} />
               </a>
             </li>
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_applicability' 'Racial Equity Report Not Required')}}
               data-test-nonuapplicabile-checkbox
             >
               <a>
-                {{filter-checkbox
-                  value='Racial Equity Report Not Required'
-                  currentValues=dcp_applicability}}
+                <FilterCheckbox
+                  @value="Racial Equity Report Not Required"
+                  @currentValues={{dcp_applicability}} />
               </a>
             </li>
           </ul>
@@ -236,11 +235,10 @@
               data-test-borough-checkbox={{type}}
               >
                 <a>
-                  {{filter-checkbox
-                    value=type
-                    currentValues=boroughs
-                    classPrefix="borough"
-                  }}
+                  <FilterCheckbox
+                    @value={{type}}
+                    @currentValues={{boroughs}}
+                    @classPrefix="borough" />
                 </a>
               </li>
             {{/each}}
@@ -382,18 +380,18 @@
               data-test-ulurp-checkbox
             >
               <a>
-                {{filter-checkbox
-                  value='ULURP'
-                  currentValues=dcp_ulurp_nonulurp}}
+                <FilterCheckbox
+                  @value="ULURP"
+                  @currentValues={{dcp_ulurp_nonulurp}} />
               </a>
             </li>
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}
               data-test-nonulurp-checkbox
             >
               <a>
-                {{filter-checkbox
-                  value='Non-ULURP'
-                  currentValues=dcp_ulurp_nonulurp}}
+                <FilterCheckbox
+                  @value="Non-ULURP"
+                  @currentValues={{dcp_ulurp_nonulurp}} />
               </a>
             </li>
           </ul>
