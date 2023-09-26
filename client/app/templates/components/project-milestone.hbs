@@ -53,7 +53,7 @@
 
     <ul class="milestone-links">
       {{#if (eq this.milestone.dcpMilestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
-        <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank" rel="noopener noreferrer">{{fa-icon "external-link-alt"}} CPC Public Meeting Calendar</a></li>
+        <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank" rel="noopener noreferrer"><FaIcon @icon="external-link-alt" />CPC Public Meeting Calendar</a></li>
       {{/if}}
       {{#each this.milestone.milestoneLinks as |link|}}
         <li><a href="{{link.url}}" target="_blank" rel="noopener noreferrer">{{link.filename}}</a></li>
