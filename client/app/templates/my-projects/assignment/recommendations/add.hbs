@@ -518,7 +518,7 @@
           {{/if}}
 
           {{#ember-wormhole to="reveal-modal-container"}}
-            {{#confirmation-modal open=modalOpen}}
+            <ConfirmationModal @open={{this.modalOpen}}>
               {{#if this.isSubmitting}}
                 <div
                   class="text-center large-margin-top large-padding-top" style="padding:3rem 0;"
@@ -726,7 +726,7 @@
                   {{/each}}
                 {{/if}}
               {{/if}} {{!-- end if submitting --}}
-            {{/confirmation-modal}}
+            </ConfirmationModal>
           {{/ember-wormhole}}
         </div>
       </div>

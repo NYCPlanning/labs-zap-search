@@ -1,9 +1,8 @@
-{{#tool-tipster
-  content=tip
-  tagName="span"
-  contentAsHTML=true
-  interactive=true
-}}
-  {{~fa-icon icon~}}
-{{/tool-tipster}}
+<ToolTipster
+  @content={{this.tip}}
+  @tagName="span"
+  @contentAsHTML={{true}}
+  @interactive={{true}}>
+  <FaIcon @icon={{this.icon}} />
+</ToolTipster>
 {{yield}}

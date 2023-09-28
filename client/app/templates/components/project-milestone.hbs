@@ -11,7 +11,7 @@
 
     {{#if this.milestone.displayDescription}}
       <sup class="gray">
-        {{icon-tooltip tip=this.milestone.displayDescription}}
+        <IconTooltip @tip={{this.milestone.displayDescription}} />
       </sup>
     {{/if}}
   </h4>
