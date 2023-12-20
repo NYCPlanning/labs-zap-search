@@ -5,26 +5,34 @@ import RouterScroll from 'ember-router-scroll';
 
 import config from './config/environment';
 
-const Router = EmberRouter.extend(RouterScroll, {
-  metrics: service(),
-  didTransition(...args) {
-    this._super(...args);
-    this._trackPage();
-  },
+export default Router;
+import config from 'labs-zap-search/config/environment';
 
-  _trackPage() {
-    scheduleOnce('afterRender', this, () => {
-      const page = this.url;
-      const title = this.getWithDefault('currentRouteName', 'unknown');
-      this.metrics.trackPage({ page, title });
-    });
-  },
+export default class Router extends EmberRouter {
+  location = config.locationType;
+  rootURL = config.rootURL;
+}
 
-  location: config.locationType,
-  rootURL: config.rootURL,
-});
+// const Router = EmberRouter.extend(RouterScroll, {
+//   metrics: service(),
+//   didTransition(...args) {
+//     this._super(...args);
+//     this._trackPage();
+//   },
 
-Router.map(function() { // eslint-disable-line
+//   _trackPage() {
+//     scheduleOnce('afterRender', this, () => {
+//       const page = this.url;
+//       const title = this.getWithDefault('currentRouteName', 'unknown');
+//       this.metrics.trackPage({ page, title });
+//     });
+//   },
+
+//   location: config.locationType,
+//   rootURL: config.rootURL,
+// });
+
+Router.map(function () {
   this.route('show-project', { path: '/projects/:id' });
   this.route('show-geography', { path: '/projects' });
   this.route('disclaimer');
@@ -52,5 +60,3 @@ Router.map(function() { // eslint-disable-line
   this.route('login');
   this.route('logout');
 });
-
-export default Router;
