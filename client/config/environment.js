@@ -9,7 +9,7 @@ module.exports = function(environment) {
     modulePrefix: 'labs-zap-search',
     environment,
     rootURL: '/',
-    locationType: 'router-scroll',
+    locationType: 'auto',
     historySupportMiddleware: true,
     routerScroll: {
       scrollElement: '#scrolling-result-content',
@@ -61,11 +61,6 @@ module.exports = function(environment) {
         zoom: 12.25,
         center: [-73.9868, 40.724],
       },
-    },
-
-    gReCaptcha: {
-      jsUrl: 'https://www.google.com/recaptcha/api.js?render=explicit', // default
-      siteKey: '6LdWI2IUAAAAACg5LHP4ucs7Ep1UzaFsl96FHyPK',
     },
 
     metricsAdapters: [
