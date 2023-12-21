@@ -8,7 +8,7 @@ import {
 } from '@ember/test-helpers';
 import { selectChoose } from 'ember-power-select/test-support';
 import { setupApplicationTest } from 'ember-qunit';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import { participantRoles } from 'labs-zap-search/models/assignment';
 import moment from 'moment';

@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import mapboxgl from 'mapbox-gl';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { restartableTask } from 'ember-concurrency-decorators';
+import { restartableTask } from 'ember-concurrency';
 import { timeout } from 'ember-concurrency';
 import Ember from 'ember';
 

@@ -27,10 +27,10 @@ import {
   REVIEW_SESSION_POST_HEARING_FOLLOW_UP_FUTURE_VOTES,
   REVIEW_SESSION_PRE_HEARING_REVIEW_POST_REFERRAL,
   SCOPING_MEETING,
-} from './milestone/constants';
+} from '../constants/milestone/constants';
 import {
   DCPPUBLICSTATUS_OPTIONSET,
-} from './project/constants';
+} from '../constants/project/constants';
 
 const {
   Model, attr, belongsTo,

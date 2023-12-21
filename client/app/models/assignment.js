@@ -5,10 +5,10 @@ import {
   MILESTONE_LIST_BY_TAB_LOOKUP,
   REFERRAL_MILESTONEID_BY_ACRONYM_LOOKUP,
   REVIEW_MILESTONE_IDS,
-} from './milestone/constants';
+} from '../constants/milestone/constants';
 import {
   DCPISPUBLICHEARINGREQUIRED_OPTIONSET,
-} from './disposition/constants';
+} from '../constants/disposition/constants';
 
 const {
   Model, belongsTo, hasMany, attr,

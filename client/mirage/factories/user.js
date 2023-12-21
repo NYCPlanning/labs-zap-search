@@ -1,8 +1,11 @@
-import { Factory, faker, trait } from 'ember-cli-mirage';
+import { Factory, trait } from 'miragejs';
+import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   emailaddress1(i) {
-    return faker.list.cycle('bxbp@planning.nyc.gov', 'bxbp@planning.nyc.gov', 'qncb5@planning.nyc.gov')(i);
+    let values = ['bxbp@planning.nyc.gov', 'bxbp@planning.nyc.gov', 'qncb5@planning.nyc.gov'];
+
+    return values[i % values.length];
   },
 
   name() {
@@ -14,7 +17,9 @@ export default Factory.extend({
   },
 
   landUseParticipant(i) {
-    return faker.list.cycle('BXBP', 'BXBB', 'QNCB5')(i);
+    let values = ['BXBP', 'BXBB', 'QNCB5'];
+
+    return values[i % values.length];
   },
 
   withAssignments: trait({

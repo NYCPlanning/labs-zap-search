@@ -1,5 +1,5 @@
 import { action, computed } from '@ember/object';
-import { restartableTask, keepLatestTask } from 'ember-concurrency-decorators';
+import { restartableTask, keepLatestTask } from 'ember-concurrency';
 import { timeout } from 'ember-concurrency';
 import { isArray } from '@ember/array';
 import turfBbox from '@turf/bbox';

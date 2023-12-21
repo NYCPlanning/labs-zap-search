@@ -1,4 +1,5 @@
-import { Factory, faker, trait } from 'ember-cli-mirage';
+import { Factory, trait } from 'miragejs';
+import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   // #### Recommendation Type per Each of the 3 Participants ####
@@ -33,11 +34,11 @@ export default Factory.extend({
   dcpRepresenting: 'Borough Board',
 
   fullname(i) {
-    return faker.list.random('QN BB', 'MN BP', 'BK CB14')(i);
+    return faker.helpers.arrayElement(['QN BB', 'MN BP', 'BK CB14']);
   },
 
   statecode(i) {
-    return faker.list.random('Active', 'Inactive')(i);
+    return faker.helpers.arrayElement(['Active', 'Inactive']);
   },
 
   statuscode: null,

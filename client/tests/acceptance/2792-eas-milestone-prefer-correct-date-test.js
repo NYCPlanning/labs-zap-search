@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { visit, find, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 module('Acceptance | 2792 eas milestone prefer correct date', function(hooks) {
   setupApplicationTest(hooks);

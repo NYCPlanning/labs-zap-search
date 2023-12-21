@@ -1,12 +1,29 @@
-import { Response } from 'ember-cli-mirage';
-import patchXMLHTTPRequest from './helpers/mirage-mapbox-gl-monkeypatch';
-import ENV from '../config/environment';
+import {
+  discoverEmberDataModels,
+  // applyEmberDataSerializers,
+} from 'ember-cli-mirage';
+import { createServer } from 'miragejs';
+import envConfig from 'labs-zap-search/config/environment';
 
-export default function () {
-  patchXMLHTTPRequest();
+export default function (config) {
+  let finalConfig = {
+    ...config,
+    // Remove discoverEmberDataModels if you do not want ember-cli-mirage to auto discover the ember models
+    models: {
+      ...discoverEmberDataModels(config.store),
+      ...config.models
+    },
+    // uncomment to opt into ember-cli-mirage to auto discover ember serializers
+    // serializers: applyEmberDataSerializers(config.serializers),
+    routes,
+  };
 
-  if (ENV.host) {
-    this.passthrough(`${ENV.host}/**`);
+  return createServer(finalConfig);
+}
+
+function routes() {
+  if (envConfig.host) {
+    this.passthrough(`${envConfig.host}/**`);
   }
 
   this.passthrough('https://search-api.planninglabs.nyc/**');
@@ -126,26 +143,4 @@ export default function () {
     const success = requestBody.get('instanceId') && requestBody.get('entityName') && requestBody.get('file');
     return success ? new Response(200) : new Response(400, {}, { errors: ['Bad Parameters'] });
   });
-
-  /*
-    Config (with defaults).
-
-    Note: these only affect routes defined *after* them!
-  */
-
-  // this.urlPrefix = '';    // make this `http://localhost:8080`, for example, if your API is on a different server
-  // this.namespace = '';    // make this `/api`, for example, if your API is namespaced
-  // this.timing = 400;      // delay for each request, automatically set to 0 during testing
-
-  /*
-    Shorthand cheatsheet:
-
-    this.get('/posts');
-    this.post('/posts');
-    this.get('/posts/:id');
-    this.put('/posts/:id'); // or this.patch
-    this.del('/posts/:id');
-
-    http://www.ember-cli-mirage.com/docs/v0.3.x/shorthands/
-  */
 }

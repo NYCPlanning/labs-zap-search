@@ -4,7 +4,7 @@ import {
   COMMUNITY_BOARD_REFERRAL as COMMUNITY_BOARD_REFERRAL_MILESTONE,
   BOROUGH_BOARD_REFERRAL as BOROUGH_BOARD_REFERRAL_MILESTONE,
   BOROUGH_PRESIDENT_REFERRAL as BOROUGH_PRESIDENT_REFERRAL_MILESTONE,
-} from '../models/milestone/constants';
+} from '../constants/milestone/constants';
 
 export default class ArchiveProjectMilestoneListItemComponent extends Component {
   project = {};

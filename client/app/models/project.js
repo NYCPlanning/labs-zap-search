@@ -2,10 +2,10 @@ import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { sort, alias } from '@ember/object/computed';
 import moment from 'moment';
-import { DCP_APPLICABILITY_OPTIONSET } from './project/constants';
+import { DCP_APPLICABILITY_OPTIONSET } from '../constants/project/constants';
 import {
   STATUSCODE_OPTIONSET,
-} from './milestone/constants';
+} from '../constants/milestone/constants';
 
 
 const {

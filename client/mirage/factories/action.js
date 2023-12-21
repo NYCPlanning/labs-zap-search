@@ -1,4 +1,5 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory } from 'miragejs';
+import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
 
@@ -10,30 +11,36 @@ export default Factory.extend({
   },
 
   dcpName(i) {
-    return faker.list.cycle('Zoning Special Permit', 'Zoning Text Amendment', 'Business Improvement District', 'Change in City Map', 'Enclosed Sidewalk Cafe', 'Large Scale Special Permit', 'Zoning Certification')(i);
+    let values = ['Zoning Special Permit', 'Zoning Text Amendment', 'Business Improvement District', 'Change in City Map', 'Enclosed Sidewalk Cafe', 'Large Scale Special Permit', 'Zoning Certification'];
+
+    return values[i % values.length];
   },
 
   actioncode(i) {
-    return faker.list.cycle('ZS', 'ZR', 'PP', 'MM', 'BB', 'ZZ', 'AA', 'CC', 'DD')(i);
+    let values = ['ZS', 'ZR', 'PP', 'MM', 'BB', 'ZZ', 'AA', 'CC', 'DD'];
+
+    return values[i % values.length];
   },
 
   statuscode(i) {
-    return faker.list.random('Active', 'Approved', 'Certified', 'Referred', 'Terminated', 'Withdrawn')(i);
+    return faker.helpers.arrayElement(['Active', 'Approved', 'Certified', 'Referred', 'Terminated', 'Withdrawn']);
   },
 
   statecode(i) {
-    return faker.list.random('Active', 'inActive')(i);
+    return faker.helpers.arrayElement(['Active', 'inActive']);
   },
 
   dcpUlurpnumber(i) {
-    return faker.list.cycle('C780076TLK', 'N860877TCM', 'I030148MMQ', '200088ZMX', '190172ZMK', 'N190257ZRK', '190256ZMK')(i);
+    let values = ['C780076TLK', 'N860877TCM', 'I030148MMQ', '200088ZMX', '190172ZMK', 'N190257ZRK', '190256ZMK'];
+
+    return values[i % values.length];
   },
 
   dcpZoningresolution(i) {
-    return faker.list.random('', '4399')(i);
+    return faker.helpers.arrayElement(['', '4399']);
   },
 
   dcpCcresolutionnumber(i) {
-    return faker.list.random('', '2575')(i);
+    return faker.helpers.arrayElement(['', '2575']);
   },
 });

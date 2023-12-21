@@ -17,7 +17,7 @@ import {
 import {
   STATUSCODES as DISPO_STATUSCODES,
   STATECODES as DISPO_STATECODES,
-} from '../../../../models/disposition/constants';
+} from '../../../../constants/disposition/constants';
 
 
 const MINIMUM_VOTE_DATE = new Date(1990, 1, 1);

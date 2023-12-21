@@ -1,7 +1,7 @@
 {{fa-icon
-  (if (contains value currentValues) 'check-square' 'square')
-  prefix=(unless (contains value currentValues) 'far')
-  class=(if (contains value currentValues) 'dark-gray' 'light-gray')
+  (if (includes value currentValues) 'check-square' 'square')
+  prefix=(unless (includes value currentValues) 'far')
+  class=(if (includes value currentValues) 'dark-gray' 'light-gray')
 }}
 
 {{value}}

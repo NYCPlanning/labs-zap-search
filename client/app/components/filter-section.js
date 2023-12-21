@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { tagName } from '@ember-decorators/component';
-import { contains } from 'ember-composable-helpers/helpers/contains';
+import { includes } from 'ember-composable-helpers/helpers/includes';
 
 /**
  * FilterSectionComponent is a provider component that yields out contextual
@@ -49,7 +49,7 @@ export default class FilterSectionComponent extends Component {
   get filterIsActive() {
     const { filterNames, appliedFilters } = this;
 
-    return contains(filterNames, appliedFilters);
+    return includes(filterNames, appliedFilters);
   }
 
   /**
@@ -89,7 +89,7 @@ export default class FilterSectionComponent extends Component {
   notifyAppliedFilters() {
     const { filterNames, appliedFilters } = this;
 
-    if (!contains(filterNames, appliedFilters)) {
+    if (!includes(filterNames, appliedFilters)) {
       this.mutateArray('applied-filters', filterNames);
     }
   }

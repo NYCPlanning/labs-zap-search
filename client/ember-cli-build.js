@@ -18,7 +18,7 @@ module.exports = function(defaults) {
       importTooltipsterDefaultStyles: false,
     },
     'ember-composable-helpers': {
-      only: ['take', 'drop', 'sort-by'],
+      only: ['take', 'drop', 'sort-by', 'includes', 'object-at', 'queue'],
     },
     hinting: IS_TEST, // Disable linting for all builds but test
     // tests: IS_TEST, // Don't even generate test files unless a test build

@@ -270,7 +270,7 @@
               key='code')
             placeholder="Select some names..."
             searchField='searchField'
-            onchange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
+            onChange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
             as |district|
           }}
             {{district.boro}} {{district.num}}
@@ -293,7 +293,7 @@
               key='code')
             placeholder="Select some actions..."
             searchField='searchField'
-            onchange=(action section.delegate-mutation (action 'replaceProperty' 'action-types'))
+            onChange=(action section.delegate-mutation (action 'replaceProperty' 'action-types'))
             as |action|
           }}
             {{action.code}}
@@ -322,7 +322,7 @@
               key='code')
             placeholder="Select some zoning resolutions..."
             searchField='name'
-            onchange=(action section.delegate-mutation (action 'replaceProperty' 'zoning-resolutions'))
+            onChange=(action section.delegate-mutation (action 'replaceProperty' 'zoning-resolutions'))
             as |zoningResolution|
           }}
             {{zoningResolution.name}}

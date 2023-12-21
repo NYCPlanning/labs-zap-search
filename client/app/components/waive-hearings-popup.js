@@ -5,7 +5,7 @@ import {
 
   STATUSCODES as DISPO_STATUSCODES,
   STATECODES as DISPO_STATECODES,
-} from '../models/disposition/constants';
+} from '../constants/disposition/constants';
 
 
 export default class WaiveHearingsPopupComponent extends Component {

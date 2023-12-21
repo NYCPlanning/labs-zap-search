@@ -1,4 +1,5 @@
-import { Factory, faker, trait } from 'ember-cli-mirage';
+import { Factory, trait } from 'miragejs';
+import { faker } from '@faker-js/faker';
 import bblFeatureCollection from '../test-data/bbl-feature-collection';
 
 export default Factory.extend({
@@ -22,27 +23,27 @@ export default Factory.extend({
   dcpPublicstatusSimp: 'Filed',
 
   dcpName() {
-    return faker.random.number();
+    return faker.random.numeric();
   },
 
   dcpAlterationmapnumber() {
-    return faker.random.number();
+    return faker.random.numeric();
   },
 
   dcpBorough() {
-    return faker.random.arrayElement(['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']);
+    return faker.helpers.arrayElement(['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']);
   },
 
   dcpBsanumber() {
-    return faker.random.number();
+    return faker.random.numeric();
   },
 
   dcpCeqrnumber() {
-    return faker.random.number();
+    return faker.random.numeric();
   },
 
   dcpCeqrtype() {
-    return faker.random.arrayElement(['Type I', 'Type II', 'Unlisted']);
+    return faker.helpers.arrayElement(['Type I', 'Type II', 'Unlisted']);
   },
 
   dcpCertifiedreferred() {
@@ -58,7 +59,7 @@ export default Factory.extend({
   },
 
   dcpDecpermitnumber() {
-    return faker.random.number();
+    return faker.random.numeric();
   },
 
   dcpEaseis() {
@@ -66,11 +67,11 @@ export default Factory.extend({
   },
 
   dcpFemafloodzonea() {
-    return faker.random.arrayElement(['Flood Zone A', '']);
+    return faker.helpers.arrayElement(['Flood Zone A', '']);
   },
 
   dcpFemafloodzoneshadedx() {
-    return faker.random.arrayElement(['Shaded Flood Zone X', '']);
+    return faker.helpers.arrayElement(['Shaded Flood Zone X', '']);
   },
 
 
@@ -83,11 +84,11 @@ export default Factory.extend({
   },
 
   dcpLpcnumber() {
-    return faker.random.number();
+    return faker.random.numeric();
   },
 
   dcpNydospermitnumber() {
-    return faker.random.number();
+    return faker.random.numeric();
   },
 
   dcpPreviousactiononsite() {
@@ -100,8 +101,8 @@ export default Factory.extend({
 
   dcpProjectname() {
     return `
-      ${faker.random.arrayElement([faker.address.streetName(), faker.company.companyName()])}
-      ${faker.random.arrayElement(['Rezoning', faker.address.streetSuffix()])}
+      ${faker.helpers.arrayElement([faker.address.streetName(), faker.company.companyName()])}
+      ${faker.helpers.arrayElement(['Rezoning', faker.address.streetSuffix()])}
     `;
   },
 
@@ -114,19 +115,19 @@ export default Factory.extend({
   },
 
   dcpSischoolseat() {
-    return faker.random.boolean();
+    return faker.datatype.boolean();
   },
 
   dcpSisubdivision() {
-    return faker.random.boolean();
+    return faker.datatype.boolean();
   },
 
   dcpUlurpNonulurp() {
-    return faker.random.arrayElement(['ULURP', 'Non-ULURP']);
+    return faker.helpers.arrayElement(['ULURP', 'Non-ULURP']);
   },
 
   dcpWrpnumber() {
-    return faker.random.number();
+    return faker.random.numeric();
   },
 
   dcpValidatedcommunitydistricts: 'X08,R01,R02,R03',

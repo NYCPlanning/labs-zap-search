@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { DCPISPUBLICHEARINGREQUIRED_OPTIONSET, DISPOSITION_VISIBILITY } from './disposition/constants';
+import { DCPISPUBLICHEARINGREQUIRED_OPTIONSET, DISPOSITION_VISIBILITY } from '../constants/disposition/constants';
 
 const {
   Model, attr, belongsTo,

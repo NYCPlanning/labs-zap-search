@@ -3,9 +3,6 @@ import { inject as service } from '@ember/service';
 import { scheduleOnce } from '@ember/runloop';
 import RouterScroll from 'ember-router-scroll';
 
-import config from './config/environment';
-
-export default Router;
 import config from 'labs-zap-search/config/environment';
 
 export default class Router extends EmberRouter {

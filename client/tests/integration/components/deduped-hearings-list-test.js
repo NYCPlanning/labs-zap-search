@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { dedupeAndExtract } from 'labs-zap-search/components/deduped-hearings-list';
 import EmberObject from '@ember/object';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 module('Integration | Component | deduped-hearings-list', function(hooks) {
   setupRenderingTest(hooks);

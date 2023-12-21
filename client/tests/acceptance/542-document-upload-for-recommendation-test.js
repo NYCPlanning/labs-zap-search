@@ -9,10 +9,10 @@ import {
 import { selectChoose } from 'ember-power-select/test-support';
 import { upload } from 'ember-file-upload/test-support';
 import { setupApplicationTest } from 'ember-qunit';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 import { participantRoles } from 'labs-zap-search/models/assignment';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 import moment from 'moment';
 
 // Sets up assignment will have 3 dispos with hearings

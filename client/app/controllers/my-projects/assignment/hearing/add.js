@@ -5,7 +5,7 @@ import {
 
   STATUSCODES as DISPO_STATUSCODES,
   STATECODES as DISPO_STATECODES,
-} from '../../../../models/disposition/constants';
+} from '../../../../constants/disposition/constants';
 
 
 // object used for when allActions is true
