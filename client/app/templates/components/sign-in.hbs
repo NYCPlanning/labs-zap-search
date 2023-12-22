@@ -4,7 +4,7 @@
   --}}
 
 {{#if this.session.isAuthenticated}}
-  <li>{{#link-to 'my-projects'}}<span data-test-my-projects-button>My Projects</span>{{/link-to}}</li>
+  <li><LinkTo @route="my-projects"><span data-test-my-projects-button>My Projects</span></LinkTo></li>
   <li class="auth--container">
     <FaIcon @icon="user-circle" @size="2x" class="auth--icon" />
     <div>

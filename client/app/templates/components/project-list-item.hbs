@@ -22,9 +22,9 @@
       </span>
     {{/if}}
     <h3 class="projects-list-result--header header-medium">
-      {{#link-to 'show-project' project.id}}
+      <LinkTo @route="show-project" @model={{project.id}}>
         {{if project.dcpProjectname project.dcpProjectname "No Project Name"}}
-      {{/link-to}}
+      </LinkTo>
     </h3>
     <p class="projects-list-result--description no-margin text-small dark-grey">
       <strong>{{firstApplicant}}</strong> &mdash; {{if project.dcpProjectbrief (substring-projectbrief project.dcpProjectbrief) "No Project Brief"}}

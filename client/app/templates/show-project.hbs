@@ -177,11 +177,11 @@
             <h3 class="small-margin-bottom">
                 {{participant-type-label model.assignments.firstObject.dcpLupteammemberrole}} Review
               </h3>
-            {{#link-to "my-projects.to-review" class="button expanded"}}
+            <LinkTo @route="my-projects.to-review" class="button expanded">
               <span>
                 Review Current Projects
               </span>
-            {{/link-to}}
+            </LinkTo>
           </div>
         {{/if}}
 
