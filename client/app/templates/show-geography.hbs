@@ -38,49 +38,31 @@
   should be added or removed.
 --}}
 
-  {{#filter-mutators
-    mutateArray=(action 'mutateArray')
-    appliedFilters=applied-filters
-    as |filters|}}
+  <FilterMutators @mutateArray={{action "mutateArray"}} @appliedFilters={{applied-filters}} as |filters|>
 
     {{!-- map ALSO acts as a filter, mutates applied filters --}}
     {{!-- so we wrap it in a filter section so it has context --}}
-    {{#filters.section
-      filterNames=(array 'distance_from_point' 'radius_from_point')
-      as |section|}}
+    <filters.section @filterNames={{array "distance_from_point" "radius_from_point"}} as |section|>
 
       {{!-- Invoke the main map component.
             This extends some behavior from the app's base map component --}}
-      {{#structural/project-list-map
-        tiles=tiles as |map|}}
+      <Structural::ProjectListMap @tiles={{tiles}} as |map|>
 
         {{!-- FILTER: DISTANCE FROM POINT (ADDRESS MODE) --}}
-        {{map.address-search
-          onSelectSearchResult=(action section.delegate-mutation
-            (action 'handleSearchResultSelect' 'distance_from_point')
-          )
-          onClearSearchResult=(action section.mutateWithAction)
-        }}
+        <map.address-search @onSelectSearchResult={{action section.delegate-mutation (action "handleSearchResultSelect" "distance_from_point")}} @onClearSearchResult={{action section.mutateWithAction}} />
 
         {{!-- FILTER: DISTANCE FROM POINT --}}
-        {{map.filter-distance-from-point
-          pointGeometry=distance_from_point
-          radius=radius_from_point
-          shouldQueryFullMap=section.filterIsActive
-          onRadiusFilterClick=(action section.delegate-mutation
-            (action 'handleRadiusFilterClick' 'distance_from_point')
-          )
-        }}
+        <map.filter-distance-from-point @pointGeometry={{distance_from_point}} @radius={{radius_from_point}} @shouldQueryFullMap={{section.filterIsActive}} @onRadiusFilterClick={{action section.delegate-mutation (action "handleRadiusFilterClick" "distance_from_point")}} />
 
         {{map-info-box}}
 
         {{map.call 'fitBounds' bounds (hash padding=20 maxZoom=18)}}
 
         {{#if fetchData.isRunning}}
-          {{fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner"}}
+          {{(fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner")}}
         {{/if}}
-      {{/structural/project-list-map}}
-    {{/filters.section}}
+      </Structural::ProjectListMap>
+    </filters.section>
 
     <div class="project-filters">
       <div class="filter">
@@ -99,93 +81,86 @@
       </div>
 
       {{!-- FILTER: PROJECT STATUS --}}
-      {{#filters.section
-        filterNames='dcp_publicstatus'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.dcp_publicstatus')
-          tooltip='These checkboxes filter projects by their stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
-          <ul class="menu vertical medium-horizontal stage-checkboxes">
-            {{#each (array 'Filed' 'Noticed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
-              <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}
-                data-test-status-checkbox={{type}}
-              >
-                <a>
-                  {{filter-checkbox
-                    value=type
-                    currentValues=dcp_publicstatus
-                    classPrefix="publicstatus"
-                  }}
-                </a>
-              </li>
-            {{/each}}
-          </ul>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+      <filters.section @filterNames="dcp_publicstatus" as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.dcp_publicstatus"}}
+        >
+          <:tooltip>
+            These checkboxes filter projects by their stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.
+          </:tooltip>
+          <:default>
+            <ul class="menu vertical medium-horizontal stage-checkboxes">
+              {{#each (array 'Filed' 'Noticed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
+                <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}
+                  data-test-status-checkbox={{type}}
+                >
+                  <a>
+                    <FilterCheckbox @value={{type}} @currentValues={{dcp_publicstatus}} @classPrefix="publicstatus" />
+                  </a>
+                </li>
+              {{/each}}
+            </ul>
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
       {{!-- FILTER: PROJECT / DESCRIPTION / APPLICANT --}}
-      {{#filters.section
-        filterNames='project_applicant_text'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.project_applicant_text')
-          tooltip="Enter an exact word or phrase that matches a project's name, description, applicant name, ULURP/CEQR number, or BBL."}}
+      <filters.section @filterNames="project_applicant_text" as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.project_applicant_text"}}
+      >
+        <:tooltip>
+            Enter an exact word or phrase that matches a project's name, description, applicant name, ULURP/CEQR number, or BBL.
+        </:tooltip>
+        <:default>
            <input
             class="filter-text-input"
             type="text"
             value={{project_applicant_text}}
             placeholder="Enter an exact phrase, name, or number..."
             oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'project_applicant_text')}}>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
       {{!-- FILTER: RACIAL EQUITY REPORT APPLICABILITY --}}
-      {{#filters.section
-        filterNames='dcp_applicability'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.dcp_applicability')
-          tooltip='As of June 1, 2022, <a href="https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf" target="blank" style="text-decoration: underline;">certain property owners</a> applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the <a href="https://equitableexplorer.planning.nyc.gov/map/data/district" target="blank" style="text-decoration: underline;">Equitable Development Data Explorer</a>.<br /><br />To filter for projects certified before June 1, 2022, uncheck both boxes.'}}
+      <filters.section @filterNames="dcp_applicability" as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.dcp_applicability"}}
+      >
+        <:tooltip>
+            As of June 1, 2022, <a href="https://www1.nyc.gov//assets/planning/download/pdf/data-maps/edde/racial-equity-report-applicability-chart.pdf" target="blank" style="text-decoration: underline;">certain property owners</a> applying for land use changes must produce a Racial Equity Report using information pulled from the Community Data in the <a href="https://equitableexplorer.planning.nyc.gov/map/data/district" target="blank" style="text-decoration: underline;">Equitable Development Data Explorer</a>.<br /><br />To filter for projects certified before June 1, 2022, uncheck both boxes.
+        </:tooltip>
+        <:default>
           <ul class="menu vertical medium-horizontal applicabile-checkbox">
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_applicability' 'Racial Equity Report Required')}}
               data-test-applicabile-checkbox
             >
               <a>
-                {{filter-checkbox
-                  value='Racial Equity Report Required'
-                  currentValues=dcp_applicability}}
+                <FilterCheckbox @value="Racial Equity Report Required" @currentValues={{dcp_applicability}} />
               </a>
             </li>
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_applicability' 'Racial Equity Report Not Required')}}
               data-test-nonuapplicabile-checkbox
             >
               <a>
-                {{filter-checkbox
-                  value='Racial Equity Report Not Required'
-                  currentValues=dcp_applicability}}
+                <FilterCheckbox @value="Racial Equity Report Not Required" @currentValues={{dcp_applicability}} />
               </a>
             </li>
           </ul>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
       {{!-- FILTER: DISTANCE FROM POINT --}}
-      {{#filters.section
-        filterNames=(array 'distance_from_point' 'radius_from_point')
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.distance_from_point')
-          tooltip='Click on the map to set filter first then drag to adjust radius'}}
+      <filters.section @filterNames={{array "distance_from_point" "radius_from_point"}} as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.distance_from_point"}}
+      >
+        <:tooltip>
+            Click on the map to set filter first then drag to adjust radius
+        </:tooltip>
+        <:default>
           {{#if queryParamsState.distance_from_point.changed}}
             <div class="grid-x">
               <div class="cell large-auto">
-                {{integer-slider-filter
-                  start=radius_from_point
-                  min=20
-                  max=1000
-                  step=5
-                  behaviour="drag"
-                  on-change=(action section.delegate-mutation (action (mut radius_from_point)))}}
+                <IntegerSliderFilter @start={{radius_from_point}} @min={{20}} @max={{1000}} @step={{5}} @behaviour="drag" @on-change={{action section.delegate-mutation (action (mut radius_from_point))}} />
               </div>
               <div class="cell large-shrink">
                 <div class="input-group">
@@ -204,43 +179,38 @@
           {{else}}
             Click the map to add a point
           {{/if}}
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
       {{!-- FILTER: DATE CERTIFIED / REFERRED --}}
-      {{#filters.section
-        filterNames='dcp_certifiedreferred'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.dcp_certifiedreferred')
-          tooltip='Move the handles along the date range slider to filter projects by the date they were certified / referred.'}}
-          {{date-range-filter
-            start=dcp_certifiedreferred
-            min=0
-            max=(object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue)
-            replaceProperty=(action section.delegate-mutation (action (mut dcp_certifiedreferred)))}}
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+      <filters.section @filterNames="dcp_certifiedreferred" as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.dcp_certifiedreferred"}}
+      >
+        <:tooltip>
+            Move the handles along the date range slider to filter projects by the date they were certified / referred.
+        </:tooltip>
+        <:default>
+          <DateRangeFilter @start={{dcp_certifiedreferred}} @min={{0}} @max={{object-at 1 queryParamsState.dcp_certifiedreferred.defaultValue}} @replaceProperty={{action section.delegate-mutation (action (mut dcp_certifiedreferred))}} />
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
       {{!-- FILTER: BOROUGH / BLOCK --}}
-      {{#filters.section
-        filterNames=(array 'boroughs' 'block')
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.boroughs')
-          tooltip='Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.'
-        }}
+      <filters.section @filterNames={{array "boroughs" "block"}} as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.boroughs"}}
+      >
+        <:tooltip>
+            Unless projects fall under the category of "Citywide", they will only exist within one borough. Selecting multiple boroughs will return projects that exist in any one of the selected options. Different boroughs may have the same block number, so filter by borough first before typing in a 4-digit block number in order to better locate your desired results.
+        </:tooltip>
+        <:default>
           <ul class="menu vertical medium-horizontal">
             {{#each (array 'Citywide' 'Manhattan' 'Bronx' 'Brooklyn' 'Queens' 'Staten Island') as |type|}}
               <li {{action section.delegate-mutation (action 'mutateArray' 'boroughs' type)}}
               data-test-borough-checkbox={{type}}
               >
                 <a>
-                  {{filter-checkbox
-                    value=type
-                    currentValues=boroughs
-                    classPrefix="borough"
-                  }}
+                  <FilterCheckbox @value={{type}} @currentValues={{boroughs}} @classPrefix="borough" />
                 </a>
               </li>
             {{/each}}
@@ -251,164 +221,133 @@
             value={{block}}
             placeholder="Block Number (e.g. '1000')"
             oninput={{action section.delegate-mutation (action 'setDebouncedValue' 'block')}}>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
       {{!-- FILTER: COMMUNITY DISTRICT --}}
-      {{#filters.section
-        filterNames='community-districts'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.community-districts')
-          tooltip='Filter by Community District in each borough by either typing the Community District name (e.g. “Brooklyn 1”) or by selecting from the dropdown list. Multiple Community Districts can be selected.'}}
-          {{#power-select-multiple
-            triggerClass="community-district-dropdown-selection"
-            options=(lookup-community-district)
-            selected=(contains-keys
+      <filters.section @filterNames="community-districts" as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.community-districts"}}
+      >
+        <:tooltip>
+            Filter by Community District in each borough by either typing the Community District name (e.g. “Brooklyn 1”) or by selecting from the dropdown list. Multiple Community Districts can be selected.
+        </:tooltip>
+        <:default>
+          <PowerSelectMultiple @triggerClass="community-district-dropdown-selection" @options={{lookup-community-district }} @selected={{contains-keys
               (lookup-community-district)
               community-districts
-              key='code')
-            placeholder="Select some names..."
-            searchField='searchField'
-            onChange=(action section.delegate-mutation (action 'replaceProperty' 'community-districts'))
-            as |district|
-          }}
+              key='code'}} @placeholder="Select some names..." @searchField="searchField" @onChange={{action section.delegate-mutation (action "replaceProperty" "community-districts")}} as |district|>
             {{district.boro}} {{district.num}}
-          {{/power-select-multiple}}
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+          </PowerSelectMultiple>
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
       {{!-- FILTER: ACTION TYPE --}}
-      {{#filters.section
-        filterNames='action-types'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.action-types')
-          tooltip='Filter by action type by either typing the code/name of the action or by selecting from the dropdown list. Action type refers to city planning land use actions that accompany a project. There may be multiple land use actions attached to an application. Many action types have been retired and are listed for historical projects only. Searching by one action type should return all projects that include that action. Multiple action types can be selected.'}}
-          {{#power-select-multiple
-            options=(lookup-action-type)
-            selected=(contains-keys
+      <filters.section @filterNames="action-types" as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.action-types"}}
+      >
+        <:tooltip>
+            Filter by action type by either typing the code/name of the action or by selecting from the dropdown list. Action type refers to city planning land use actions that accompany a project. There may be multiple land use actions attached to an application. Many action types have been retired and are listed for historical projects only. Searching by one action type should return all projects that include that action. Multiple action types can be selected.
+        </:tooltip>
+        <:default>
+          <PowerSelectMultiple @options={{lookup-action-type }} @selected={{contains-keys
               (lookup-action-type)
               action-types
-              key='code')
-            placeholder="Select some actions..."
-            searchField='searchField'
-            onChange=(action section.delegate-mutation (action 'replaceProperty' 'action-types'))
-            as |action|
-          }}
+              key='code'}} @placeholder="Select some actions..." @searchField="searchField" @onChange={{action section.delegate-mutation (action "replaceProperty" "action-types")}} as |action|>
             {{action.code}}
 
             {{#if action.short}}
               - {{action.short}}
             {{/if}}
-          {{/power-select-multiple}}
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+          </PowerSelectMultiple>
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
      
 
       {{!-- FILTER: ZONING RESOLUTION TYPE --}}
-      {{#filters.section
-        filterNames='zoning-resolutions'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.zoning-resolutions')
-          tooltip='Filter by Zoning Resolution.'}}
-          {{#power-select-multiple
-            options=this.zoningResolutions
-            selected=(contains-keys
+      <filters.section @filterNames="zoning-resolutions" as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.zoning-resolutions"}}
+      >
+        <:tooltip>
+            Filter by Zoning Resolution.
+        </:tooltip>
+        <:default>
+          <PowerSelectMultiple @options={{this.zoningResolutions}} @selected={{contains-keys
               this.zoningResolutions
               zoning-resolutions
-              key='code')
-            placeholder="Select some zoning resolutions..."
-            searchField='name'
-            onChange=(action section.delegate-mutation (action 'replaceProperty' 'zoning-resolutions'))
-            as |zoningResolution|
-          }}
+              key='code'}} @placeholder="Select some zoning resolutions..." @searchField="name" @onChange={{action section.delegate-mutation (action "replaceProperty" "zoning-resolutions")}} as |zoningResolution|>
             {{zoningResolution.name}}
-          {{/power-select-multiple}}
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+          </PowerSelectMultiple>
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
       {{!-- FILTER: FEMA FLOOD ZONE --}}
-      {{#filters.section
-        filterNames=(array 'dcp_femafloodzonea' 'dcp_femafloodzoneshadedx')
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle=(get-label-for 'filters.dcp_femafloodzonea')
-          tooltip='Projects may be located within multiple flood zones. Selecting multiple checkboxes will return projects that are at least partially located withinin all of the selected zones.'}}
+      <filters.section @filterNames={{array "dcp_femafloodzonea" "dcp_femafloodzoneshadedx"}} as |section|>
+        <section.filter-wrapper @filterTitle={{get-label-for "filters.dcp_femafloodzonea"}}
+      >
+        <:tooltip>
+            Projects may be located within multiple flood zones. Selecting multiple checkboxes will return projects that are at least partially located withinin all of the selected zones.
+        </:tooltip>
+        <:default>
         <ul class="menu vertical medium-horizontal FEMA-checkbox">
           <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzonea')}}
            data-test-flood-zone-a-checkbox>
-            {{#filters/named-checkbox
-              mainProperty=dcp_femafloodzonea
-              label='A'}}
+            <Filters::NamedCheckbox @mainProperty={{dcp_femafloodzonea}} @label="A">
               <sup>
-                {{icon-tooltip
-                  tip='A portion of the area subject to flooding from the 1% annual chance flood. These areas are not subject to high velocity wave action but are still considered high risk flooding areas. In A Zones, NYC Building Code requires buildings to be elevated or flood-proofed based on the Base Flood Elevation identified on the FEMA’s FIRMs.'
-                  class="dark-gray"
-                }}
+                <IconTooltip @tip="A portion of the area subject to flooding from the 1% annual chance flood. These areas are not subject to high velocity wave action but are still considered high risk flooding areas. In A Zones, NYC Building Code requires buildings to be elevated or flood-proofed based on the Base Flood Elevation identified on the FEMA’s FIRMs." @class="dark-gray" />
               </sup>
-            {{/filters/named-checkbox}}
+            </Filters::NamedCheckbox>
           </li>
           <li {{action section.delegate-mutation (action 'toggleBoolean' 'dcp_femafloodzoneshadedx')}}>
-            {{#filters/named-checkbox
-              mainProperty=dcp_femafloodzoneshadedx
-              label='Shaded X'}}
+            <Filters::NamedCheckbox @mainProperty={{dcp_femafloodzoneshadedx}} @label="Shaded X">
               <sup>
-                {{icon-tooltip
-                  tip='The area of moderate flood risk outside the regulatory 1% annual chance flood but within the limits of the 0.2% annual chance flood level (the 500-year floodplain). There are no current NYC Building Code or FEMA flood insurance purchase requirements for buildings in this zone.'
-                  class="dark-gray"
-                }}
+                <IconTooltip @tip="The area of moderate flood risk outside the regulatory 1% annual chance flood but within the limits of the 0.2% annual chance flood level (the 500-year floodplain). There are no current NYC Building Code or FEMA flood insurance purchase requirements for buildings in this zone." @class="dark-gray" />
               </sup>
-            {{/filters/named-checkbox}}
+            </Filters::NamedCheckbox>
           </li>
         </ul>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
 
       {{!-- FILTER: ULURP TYPE --}}
-      {{#filters.section
-        filterNames='dcp_ulurp_nonulurp'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle='ULURP Type'
-          tooltip='Applications can either follow the Uniform Land Use Review Procedure (ULURP) or are designated as Non-ULURP, and are therefore not restricted to ULURP rules and timing.'}}
+      <filters.section @filterNames="dcp_ulurp_nonulurp" as |section|>
+        <section.filter-wrapper @filterTitle="ULURP Type"
+      >
+        <:tooltip>
+            Applications can either follow the Uniform Land Use Review Procedure (ULURP) or are designated as Non-ULURP, and are therefore not restricted to ULURP rules and timing.
+        </:tooltip>
+        <:default>
           <ul class="menu vertical medium-horizontal ULURP-checkbox">
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ULURP')}}
               data-test-ulurp-checkbox
             >
               <a>
-                {{filter-checkbox
-                  value='ULURP'
-                  currentValues=dcp_ulurp_nonulurp}}
+                <FilterCheckbox @value="ULURP" @currentValues={{dcp_ulurp_nonulurp}} />
               </a>
             </li>
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}
               data-test-nonulurp-checkbox
             >
               <a>
-                {{filter-checkbox
-                  value='Non-ULURP'
-                  currentValues=dcp_ulurp_nonulurp}}
+                <FilterCheckbox @value="Non-ULURP" @currentValues={{dcp_ulurp_nonulurp}} />
               </a>
             </li>
           </ul>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+          </:default>
+        </section.filter-wrapper>
+      </filters.section>
     </div>
 
-  {{/filter-mutators}}
+  </FilterMutators>
 </div>
 <div class="cell large-6 xlarge-5 xxlarge-6" id="scrolling-result-content">
   <div class="results">
-    {{#results-header-meta
-      totalResults=fetchData.lastSuccessful.value.meta.total
-      isRunning=fetchData.isRunning
-      cachedProjectsLength=cachedProjects.length
-      queryParams=appliedQueryParams
-      as |meta|
-    }}
+    <ResultsHeaderMeta @totalResults={{fetchData.lastSuccessful.value.meta.total}} @isRunning={{fetchData.isRunning}} @cachedProjectsLength={{cachedProjects.length}} @queryParams={{appliedQueryParams}} as |meta|>
       <ul class="results-list no-bullet">
         {{#if meta.exceedsAllowedResults}}
           <li class="results-list--message">
@@ -420,20 +359,15 @@
           </li>
         {{/if}}
         {{#each cachedProjects as |project|}}
-          {{project-list-item project=project}}
+          <ProjectListItem @project={{project}} />
         {{/each}}
       </ul>
-    {{/results-header-meta}}
+    </ResultsHeaderMeta>
 
     {{#if (eq fetchData.lastSuccessful.value.meta.total 0)}}
-      {{applied-filters-list
-        appliedFilters=applied-filters
-      }}
+      <AppliedFiltersList @appliedFilters={{applied-filters}} />
     {{else}}
-      {{load-more-button
-        page=page
-        noMoreRecords=noMoreRecords
-        task=fetchData}}
+      <LoadMoreButton @page={{page}} @noMoreRecords={{noMoreRecords}} @task={{fetchData}} />
     {{/if}}
   </div>
 </div>

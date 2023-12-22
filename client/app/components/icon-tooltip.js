@@ -8,4 +8,12 @@ export default class InfoTooltip extends Component {
 
   // @argument
   icon = 'info-circle'
+
+  popperOptions = {
+    modifiers: {
+      preventOverflow: {
+        escapeWithReference: false
+      }
+    }
+  };
 }

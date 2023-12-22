@@ -1,9 +1,13 @@
-{{#tool-tipster
-  content=tip
-  tagName="span"
-  contentAsHTML=true
-  interactive=true
-}}
-  {{~fa-icon icon~}}
-{{/tool-tipster}}
-{{yield}}
+<FaIcon @icon={{this.icon}} />
+
+<EmberPopover @popperOptions={{this.popperOptions}} @popperContainer="body" @tooltipClass="ember-tooltip-popover">
+  <div class="tooltipster-box">
+    <div class="tooltipster-content">
+      {{#if (has-block 'default')}}
+        {{yield}}
+      {{else}}
+        {{{tip}}}
+      {{/if}}
+    </div>
+  </div>
+</EmberPopover>
