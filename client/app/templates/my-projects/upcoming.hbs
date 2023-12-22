@@ -5,7 +5,7 @@
 
 {{#if this.model}}
   {{#each sortedProjects as |assignment|}}
-    {{upcoming-project-card assignment=assignment}}
+    <UpcomingProjectCard @assignment={{assignment}} />
   {{/each}}
 {{else}}
   <div class="grid-x grid-padding-x grid-padding-y align-bottom" style="min-height: 20vh">

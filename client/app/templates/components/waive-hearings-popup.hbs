@@ -1,5 +1,5 @@
-{{#ember-wormhole to="reveal-modal-container"}}
-  {{#confirmation-modal open=showPopup}}
+<EmberWormhole @to="reveal-modal-container">
+  <ConfirmationModal @open={{showPopup}}>
     {{#if error}}
       <div class="cell auto">
         <span data-test-error-alert-message>
@@ -41,5 +41,5 @@
         Cancel
       </button>
     {{/if}}
-  {{/confirmation-modal}}
-{{/ember-wormhole}}
+  </ConfirmationModal>
+</EmberWormhole>

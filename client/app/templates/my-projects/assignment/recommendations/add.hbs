@@ -44,7 +44,7 @@
             <p class="help-text">
               A quorum requires the presence of 20% of appointed board members, and not fewer than seven members.
             </p>
-            {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
+            <DedupedHearingsList @dispositions={{assignment.dispositionsByRole}} as |dedupedHearings|>
               {{#each dedupedHearings as |hearing idx|}}
                 {{#if hearing.disposition.dcpDateofpublichearing}}
                   <div class="grid-x">
@@ -102,7 +102,7 @@
                   </div>
                 {{/if}}
               {{/each}}
-            {{/deduped-hearings-list}}
+            </DedupedHearingsList>
           {{/if}}
           {{#if assignment.hearingsWaived}}
             <div class="callout warning large-margin-bottom" data-test-hearings-waived-message>
@@ -300,7 +300,7 @@
                     </PowerSelect>
                   </label>
                   <span class="form-error is-visible" role="alert">
-                    {{get (get dispositionChangesetPair.changeset.error (rec-field-by-parttype-lookup this.participantType)) "validation"}}
+                    {{(get (get dispositionChangesetPair.changeset.error (rec-field-by-parttype-lookup this.participantType)) "validation")}}
                   </span>
                 </div>
                 {{#if (or (eq participantType 'CB') (eq participantType 'BB'))}}
@@ -517,8 +517,8 @@
             </fieldset>
           {{/if}}
 
-          {{#ember-wormhole to="reveal-modal-container"}}
-            {{#confirmation-modal open=modalOpen}}
+          <EmberWormhole @to="reveal-modal-container">
+            <ConfirmationModal @open={{modalOpen}}>
               {{#if this.isSubmitting}}
                 <div
                   class="text-center large-margin-top large-padding-top" style="padding:3rem 0;"
@@ -537,13 +537,13 @@
                   >
                     Was a Quorum Present at your Hearing(s)?
                   </h5>
-                  {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
+                  <DedupedHearingsList @dispositions={{assignment.dispositionsByRole}} as |dedupedHearings|>
                     {{#each dedupedHearings as |hearing idx|}}
                       <p class="grid-x">
                         <strong class="cell small-1"
                           data-test-quorum-answer={{idx}}
                         >
-                          {{if hearing.disposition.dcpWasaquorumpresent "Yes" "No"}}
+                          {{(if hearing.disposition.dcpWasaquorumpresent "Yes" "No")}}
                         </strong>
                         <span class="cell auto">
                           <span class="display-block">
@@ -570,7 +570,7 @@
                         </span>
                       </p>
                     {{/each}}
-                  {{/deduped-hearings-list}}
+                  </DedupedHearingsList>
                 {{/unless}}
                 {{#if this.allActions}}
                   <p
@@ -652,7 +652,7 @@
                     <p
                       data-test-confirmation-all-actions-dcpDateofvote
                     >
-                      <strong>Vote Date:</strong> {{moment-format this.dispositionForAllActionsChangeset.dcpDateofvote 'MM/DD/YYYY'}}
+                      <strong>Vote Date:</strong> {{(moment-format this.dispositionForAllActionsChangeset.dcpDateofvote 'MM/DD/YYYY')}}
                     </p>
                   {{/if}}
                   {{#if (eq this.allActions true)}}
@@ -726,8 +726,8 @@
                   {{/each}}
                 {{/if}}
               {{/if}} {{!-- end if submitting --}}
-            {{/confirmation-modal}}
-          {{/ember-wormhole}}
+            </ConfirmationModal>
+          </EmberWormhole>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 {{#if shouldQueryFullMap}}
-  {{#map.source options=(hash
+  <@map.source @options={{hash
     type='geojson'
     data=(hash
       type='Feature'
@@ -7,24 +7,21 @@
         type='Point'
         coordinates=pointGeometry
       )
-    )) as |source|
-  }}
-    {{source.layer layer=(hash
+    )}} as |source|>
+    <source.layer @layer={{hash
       type='circle'
-      paint=(hash circle-color='rgba(238,102,170,0.8)' circle-radius=7))
-    }}
-  {{/map.source}}
+      paint=(hash circle-color='rgba(238,102,170,0.8)' circle-radius=7)}} />
+  </@map.source>
   {{! only display radius circle and zoom to point if point exists}}
   {{#if pointGeometry}}
-    {{#map.source options=(hash
+    <@map.source @options={{hash
       type='geojson'
-      data=circleFromRadius) as |source|
-    }}
-      {{source.layer layer=(hash
+      data=circleFromRadius}} as |source|>
+      <source.layer @layer={{hash
         type='line'
         paint=(hash line-dasharray=(array 1 1) line-width=3 line-color='rgba(238,102,170,0.8)')
-      )}}
-    {{/map.source}}
+      }} />
+    </@map.source>
   {{/if}}
 {{/if}}
 

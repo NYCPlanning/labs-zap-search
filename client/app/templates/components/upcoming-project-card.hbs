@@ -39,7 +39,7 @@
               data-test-fuzzy-time-remaining
             >
               {{#if (not (eq isMoreThanThirtyDaysBeforePublicReview null))}}
-                {{if isMoreThanThirtyDaysBeforePublicReview 'in more than 30 days' 'in fewer than 30 days'}}
+                {{(if isMoreThanThirtyDaysBeforePublicReview 'in more than 30 days' 'in fewer than 30 days')}}
               {{else}}
                 <span class="light-gray">
                   Date Unknown
@@ -87,7 +87,7 @@
       {{/if}}
 
       {{#if assignment.hearingsSubmitted}}
-        {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
+        <DedupedHearingsList @dispositions={{assignment.dispositionsByRole}} as |dedupedHearings|>
           <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}
@@ -100,7 +100,7 @@
                     {{/if}}
                   </div>
                   <div class="cell auto">
-                    {{log "id" hearing.disposition.id}}
+                    {{(log "id" hearing.disposition.id)}}
                     <strong data-test-hearing-location="{{hearing.disposition.id}}" class="display-inline-block">
                       {{~hearing.disposition.dcpPublichearinglocation~}}
                     </strong>
@@ -131,10 +131,10 @@
                 </li>
               {{/each}}
               </ul>
-        {{/deduped-hearings-list}}
+        </DedupedHearingsList>
       {{/if}}
 
-      {{waive-hearings-popup assignment=this.assignment showPopup=showPopup}}
+      <WaiveHearingsPopup @assignment={{this.assignment}} @showPopup={{showPopup}} />
       <ul class="no-bullet no-margin">
         {{#if (eq this.assignment.project.dcpPublicstatus 'Noticed')}}
           <p>This application has been noticed, indicating that it will certify no sooner than 30 days from the date of the notice.</p>

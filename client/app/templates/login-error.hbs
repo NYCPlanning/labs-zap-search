@@ -1,6 +1,6 @@
 {{#auth/do-logout}}
-  {{#ember-wormhole to="reveal-modal-container"}}
-    {{#confirmation-modal open=true}}
+  <EmberWormhole @to="reveal-modal-container">
+    <ConfirmationModal @open={{true}}>
         <div class="grid-container">
           <div class="grid-x grid-padding-x grid-padding-y align-middle">
             <div class="cell large-6 large-offset-3 text-center">
@@ -28,9 +28,9 @@
         </div>
 
 
-      {{auth/login-dialog}}
-    {{/confirmation-modal}}
-  {{/ember-wormhole}}
+      <Auth::LoginDialog />
+    </ConfirmationModal>
+  </EmberWormhole>
 {{else}}
   Logging out...
 {{/auth/do-logout}}

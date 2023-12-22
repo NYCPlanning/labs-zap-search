@@ -10,14 +10,9 @@
       <div class="input-group">
         <input id="share-url" class="input-group-field" type="text" value="{{shareURL}}">
         <div class="input-group-button">
-          {{#copy-button
-            clipboardTarget="#share-url"
-            success=(action 'handleShareSuccess')
-            error=(action 'handleModalClose')
-            class="button"
-          }}
+          <CopyButton @clipboardTarget="#share-url" @success={{action "handleShareSuccess"}} @error={{action "handleModalClose"}} @class="button">
             <FaIcon @icon="paste" /> Copy Link
-          {{/copy-button}}
+          </CopyButton>
         </div>
       </div>
       {{#if copySuccess}}

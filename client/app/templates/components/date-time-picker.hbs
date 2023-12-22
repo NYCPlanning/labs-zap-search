@@ -5,17 +5,7 @@
       <div class="cell medium-shrink">
         <label class="date-time-picker--date {{if (and dateMissing checkIfMissing) 'is-invalid-label'}}">
           Hearing Date
-          {{pikaday-input
-            readonly="readonly"
-            placeholder='Select a date'
-            value=this.date
-            format='MM/DD/YYYY'
-            data-test-allactions-input="date"
-            data-test-date-input=disposition.id
-            onSelection=(action (mut this.date))
-            onClose=(action "setHearingDate")
-            class=(if (and dateMissing checkIfMissing) 'is-invalid-input')
-          }}
+          <PikadayInput @readonly="readonly" @placeholder="Select a date" @value={{this.date}} @format="MM/DD/YYYY" data-test-allactions-input="date" data-test-date-input={{disposition.id}} @onSelection={{action (mut this.date)}} @onClose={{action "setHearingDate"}} @class={{if (and dateMissing checkIfMissing) "is-invalid-input"}} />
           {{#if (and dateMissing checkIfMissing)}}
             <span class="form-error is-visible" role="alert">Please enter a valid date: MM/DD/YYYY</span>
           {{/if}}
@@ -31,18 +21,7 @@
         <div class="cell medium-shrink">
           <label class="date-time-picker--hour {{if (and hourMissing checkIfMissing) 'is-invalid-label'}}">
             Hour
-            {{input
-              class=(if (and hourMissing checkIfMissing) "is-invalid-input")
-              type="number"
-              min="1"
-              max="12"
-              autocomplete="off"
-              data-test-allactions-input="hour"
-              data-test-hour-input=disposition.id
-              value=this.hour
-              key-down=(action (mut this.hour))
-              key-up=(action "setHearingDate")
-            }}
+            <Input class={{if (and hourMissing checkIfMissing) "is-invalid-input"}} @type="number" @min="1" @max="12" @autocomplete="off" data-test-allactions-input="hour" data-test-hour-input={{disposition.id}} @value={{this.hour}} @key-down={{action (mut this.hour)}} @key-up={{action "setHearingDate"}} />
             {{#if (and hourMissing checkIfMissing)}}
               <span class="form-error is-visible" role="alert">Enter 1-12</span>
             {{/if}}
@@ -52,19 +31,7 @@
         <div class="cell medium-shrink">
           <label class="date-time-picker--minute {{if (and minuteMissing checkIfMissing) 'is-invalid-label'}}">
             Minute
-            {{input
-              class=(if (and minuteMissing checkIfMissing) "is-invalid-input")
-              type="number"
-              min=0
-              max=59
-              maxlength=2
-              autocomplete="off"
-              data-test-allactions-input="minute"
-              data-test-minute-input=disposition.id
-              value=this.minute
-              key-down=(action (mut this.minute))
-              key-up=(action "setHearingDate")
-            }}
+            <Input class={{if (and minuteMissing checkIfMissing) "is-invalid-input"}} @type="number" @min={{0}} @max={{59}} @maxlength={{2}} @autocomplete="off" data-test-allactions-input="minute" data-test-minute-input={{disposition.id}} @value={{this.minute}} @key-down={{action (mut this.minute)}} @key-up={{action "setHearingDate"}} />
             {{#if (and minuteMissing checkIfMissing)}}
               <span class="form-error is-visible" role="alert">Enter 00-59</span>
             {{/if}}
@@ -74,19 +41,9 @@
         <div class="cell medium-shrink">
           <label class="date-time-picker--am-pm {{if (and timeOfDayMissing checkIfMissing) 'is-invalid-label'}}" data-test-allactions-dropdown="timeOfDay" data-test-timeofday-dropdown={{disposition.id}}>
               AM/PM
-            {{#power-select
-              triggerClass="timeofday-dropdown"
-              supportsDataTestProperties=true
-              tabindex="-1"
-              searchEnabled=false
-              selected=this.timeOfDay
-              options=timeOfDayOption
-              onChange=(action (mut this.timeOfDay))
-              onclose=(action "setHearingDate")
-              as |timeOfDay|
-            }}
+            <PowerSelect @triggerClass="timeofday-dropdown" @supportsDataTestProperties={{true}} @tabindex="-1" @searchEnabled={{false}} @selected={{this.timeOfDay}} @options={{timeOfDayOption}} @onChange={{action (mut this.timeOfDay)}} @onclose={{action "setHearingDate"}} as |timeOfDay|>
               {{timeOfDay}}
-            {{/power-select}}
+            </PowerSelect>
             {{#if (and timeOfDayMissing checkIfMissing)}}
               <span class="form-error is-visible" role="alert">Choose AM or PM</span>
             {{/if}}

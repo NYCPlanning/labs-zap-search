@@ -8,15 +8,14 @@
           <FaIcon @icon="circle" @fixedWidth={{true}} />
           <FaIcon @icon="file-alt" @fixedWidth={{true}} class="off-white" @transform="shrink-7" />
         </span>
-        <p class="text-tiny status">{{if projectAction.statuscode projectAction.statuscode "No Status Code"}}</p>
+        <p class="text-tiny status">{{(if projectAction.statuscode projectAction.statuscode "No Status Code")}}</p>
       </div>
       <div class="cell auto">
         <h5 class="no-margin">
           {{projectAction.dcpName}}
           {{#if (lookup-action-type projectAction.actioncode)}}
             <sup class="dark-gray">
-              {{icon-tooltip
-                tip=(lookup-action-type projectAction.actioncode)}}
+              <IconTooltip @tip={{lookup-action-type projectAction.actioncode}} />
             </sup>
           {{/if}}
         </h5>
@@ -30,10 +29,7 @@
               )
             }}
                 {{#if (and (not-eq projectAction.statuscode this.actionStatuscodeActive) projectAction.dcpSpabsoluteurl)}}
-                  {{#tool-tipster
-                    content='City Planning Commision Report'
-                    tagName='span'
-                  }}
+                  <ToolTipster @content="City Planning Commision Report" @tagName="span">
                     <a
                       href={{concat this.host '/document/projectaction' projectAction.serverRelativeUrl}}
                       target="_blank"
@@ -41,7 +37,7 @@
                       {{projectAction.dcpUlurpnumber}}
                       <FaIcon @icon="external-link-alt" />
                     </a>
-                  {{/tool-tipster}}
+                  </ToolTipster>
                 {{else}}
                   {{projectAction.dcpUlurpnumber}}
                 {{/if}}

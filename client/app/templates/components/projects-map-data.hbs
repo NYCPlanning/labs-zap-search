@@ -1,13 +1,8 @@
-{{#mapbox-gl
-  id='project-map'
-  initOptions=(hash
+<MapboxGl @id="project-map" @initOptions={{hash
     zoom=12
     center=(array -73.96532400540775 40.709710016659386)
     maxzoom=9
-  )
-  mapLoaded=(action 'handleMapLoad')
-  as |map|
-}}
+  }} @mapLoaded={{action "handleMapLoad"}} as |map|>
   {{map.on 'click' (action 'handleMapClick')}}
   {{map.on 'mousemove' (action 'handleMouseMove')}}
 
@@ -25,4 +20,4 @@
       )
     )
   )}}
-{{/mapbox-gl}}
+</MapboxGl>

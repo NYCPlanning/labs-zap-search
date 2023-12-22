@@ -25,7 +25,7 @@
               {{#if assignment.toReviewMilestoneTimeDuration}}
                 <strong class="display-block" data-test-time-duration="{{assignment.id}}">
                   of {{assignment.toReviewMilestoneTimeDuration}} days remain
-                  <sup class="dark-gray">{{icon-tooltip icon='info-circle' tip='Review periods ending on a weekend or public holiday are extended to the next business day.'}}</sup>
+                  <sup class="dark-gray"><IconTooltip @icon="info-circle" @tip="Review periods ending on a weekend or public holiday are extended to the next business day." /></sup>
                 </strong>
               {{else}}
                 <strong class="display-block" data-test-no-time-duration-message="{{assignment.id}}">days remain</strong>
@@ -98,10 +98,10 @@
           Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
         </a>
       {{/if}}
-      {{waive-hearings-popup assignment=assignment showPopup=showPopup}}
+      <WaiveHearingsPopup @assignment={{assignment}} @showPopup={{showPopup}} />
 
       {{#if assignment.hearingsSubmitted}}
-        {{#deduped-hearings-list dispositions=assignment.dispositionsByRole as |dedupedHearings|}}
+        <DedupedHearingsList @dispositions={{assignment.dispositionsByRole}} as |dedupedHearings|>
           <h6>{{participant-type-label assignment.dcpLupteammemberrole}} Hearings:</h6>
               <ul class="no-bullet">
               {{#each dedupedHearings as |hearing|}}
@@ -144,7 +144,7 @@
                 </li>
               {{/each}}
               </ul>
-        {{/deduped-hearings-list}}
+        </DedupedHearingsList>
       {{/if}}
 
     </div>

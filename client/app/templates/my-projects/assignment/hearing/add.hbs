@@ -46,17 +46,11 @@
     {{/if}}
 
     {{#if (or allActions (lte model.dispositionsByRole.length 1))}}
-      {{hearing-form
-        disposition=dispositionForAllActions
-        allActions=allActions
-        checkIfMissing=checkIfMissing}}
+      <HearingForm @disposition={{dispositionForAllActions}} @allActions={{allActions}} @checkIfMissing={{checkIfMissing}} />
     {{else if (eq allActions false)}}
       {{#each model.dispositionsByRole as |disposition|}}
         <h4>{{disposition.action.dcpName}}  <small class="dark-gray">{{disposition.action.dcpUlurpnumber}}</small></h4>
-        {{hearing-form
-          disposition=disposition
-          allActions=allActions
-          checkIfMissing=checkIfMissing}}
+        <HearingForm @disposition={{disposition}} @allActions={{allActions}} @checkIfMissing={{checkIfMissing}} />
       {{/each}}
     {{/if}}
 
@@ -71,8 +65,8 @@
         </button>
     {{/if}}
 
-    {{#ember-wormhole to="reveal-modal-container"}}
-      {{#confirmation-modal open=modalOpen}}
+    <EmberWormhole @to="reveal-modal-container">
+      <ConfirmationModal @open={{modalOpen}}>
         {{#if error}}
           <div class="cell auto">
             <span data-test-error-alert-message>
@@ -126,7 +120,7 @@
               </li>
             </ul>
           {{else}}
-            {{#deduped-hearings-list dispositions=model.dispositionsByRole as |dedupedHearings|}}
+            <DedupedHearingsList @dispositions={{model.dispositionsByRole}} as |dedupedHearings|>
               <ul class="no-bullet">
                 {{#each dedupedHearings as |hearing|}}
                   <li class="grid-x small-margin-bottom">
@@ -174,7 +168,7 @@
                   </li>
                 {{/each}}
               </ul>
-            {{/deduped-hearings-list}}
+            </DedupedHearingsList>
           {{/if}}
           <hr>
           <p class="callout warning text-small">
@@ -199,8 +193,8 @@
             </button>
           </p>
         {{/if}}
-      {{/confirmation-modal}}
-    {{/ember-wormhole}}
+      </ConfirmationModal>
+    </EmberWormhole>
   </div>
 </div>
 

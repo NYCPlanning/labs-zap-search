@@ -11,7 +11,7 @@
 
     {{#if milestone.displayDescription}}
       <sup class="gray">
-        {{icon-tooltip tip=milestone.displayDescription}}
+        <IconTooltip @tip={{milestone.displayDescription}} />
       </sup>
     {{/if}}
   </h4>
@@ -60,7 +60,7 @@
       {{/each}}
     </ul>
 
-    {{#hearings-list-for-milestones-list milestone=milestone as |milestoneParticipants|}}
+    <HearingsListForMilestonesList @milestone={{milestone}} as |milestoneParticipants|>
       {{#each milestoneParticipants as |milestoneParticipant|}}
         {{#if (and (or milestoneParticipant.hearingsShown milestoneParticipant.votesShown) (or milestoneParticipant.hearingsSubmitted milestoneParticipant.votesSubmitted))}}
           <hr>
@@ -71,7 +71,7 @@
 
         {{!-- HEARINGS SUB-MILESTONES --}}
         {{#if milestoneParticipant.hearingsSubmitted}}
-          {{#deduped-hearings-list dispositions=milestoneParticipant.userDispositions as |dedupedHearings|}}
+          <DedupedHearingsList @dispositions={{milestoneParticipant.userDispositions}} as |dedupedHearings|>
             {{#each dedupedHearings as |hearing|}}
               {{#if hearing.disposition.showHearingDetails}}
                 {{#if hearing.dispHasAllFields}}
@@ -85,20 +85,20 @@
                         {{/if}}
                       </div>
                       <div class="cell auto">
-                        {{milestones/public-hearing hearing=hearing}}
+                        <Milestones::PublicHearing @hearing={{hearing}} />
                       </div>
                     </li>
                   </ul>
                 {{/if}}
               {{/if}}
             {{/each}}
-          {{/deduped-hearings-list}}
+          </DedupedHearingsList>
         {{/if}}
 
         {{!-- VOTES SUB-MILESTONES --}}
         {{#if milestoneParticipant.votesSubmitted}}
           <ul class="sub-milestones no-bullet">
-            {{#deduped-votes-list dispositions=milestoneParticipant.userDispositions participantRecommendationType=milestoneParticipant.participantRecommendationType as |dedupedVotes|}}
+            <DedupedVotesList @dispositions={{milestoneParticipant.userDispositions}} @participantRecommendationType={{milestoneParticipant.participantRecommendationType}} as |dedupedVotes|>
               {{#each dedupedVotes as |vote|}}
                 {{#if vote.disposition.showRecommendationDetails}}
                   {{#if vote.dispHasRequiredField}}
@@ -124,7 +124,7 @@
                           </span>
                         </small>
                         <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
-                          Vote:&nbsp;{{~moment-format vote.disposition.dcpDateofvote "LL"~}}
+                          Vote:&nbsp;{{(moment-format vote.disposition.dcpDateofvote "LL")}}
                         </small>
                         <div class="text-tiny">
                           {{#each vote.voteActions as |action index|}}
@@ -144,8 +144,8 @@
                   {{/if}}
                 {{/if}}
               {{/each}}
-            {{/deduped-votes-list}}
-            {{#borough-pres-deduped-votes-list dispositions=milestoneParticipant.userDispositions as |dedupedVotes|}}
+            </DedupedVotesList>
+            <BoroughPresDedupedVotesList @dispositions={{milestoneParticipant.userDispositions}} as |dedupedVotes|>
               {{#each dedupedVotes as |vote|}}
                 {{#if vote.disposition.showRecommendationDetails}}
                   {{#if vote.dispHasRequiredField}}
@@ -160,7 +160,7 @@
                       <div class="cell auto">
                         <strong data-test-rec-label="{{vote.disposition.id}}">{{vote.disposition.recommendationLabel}}</strong>
                         <small class="display-inline-block" data-test-vote-date="{{vote.disposition.id}}">
-                          Vote:&nbsp;{{~moment-format vote.disposition.dcpDatereceived "LL"~}}
+                          Vote:&nbsp;{{(moment-format vote.disposition.dcpDatereceived "LL")}}
                         </small>
                         <div class="text-tiny">
                           {{#each vote.voteActions as |action index|}}
@@ -180,11 +180,11 @@
                   {{/if}}
                 {{/if}}
               {{/each}}
-            {{/borough-pres-deduped-votes-list}}
+            </BoroughPresDedupedVotesList>
           </ul>
         {{/if}}
       {{/each}}
-    {{/hearings-list-for-milestones-list}}
+    </HearingsListForMilestonesList>
 
     {{#if (and
       milestone.isCPCPublicMeetingPublicHearing
@@ -197,14 +197,12 @@
             <FaIcon @icon="calendar" @fixedWidth={{true}} class="light-gray" />
           </div>
           <div class="cell auto">
-            {{milestones/public-hearing
-              hearing=(hash
+            <Milestones::PublicHearing @hearing={{hash
                 disposition=(hash
                   dcpDateofpublichearing=milestone.dcpReviewmeetingdate
                 )
                 hearingActions=milestone.project.actions
-              )
-            }}
+              }} />
           </div>
         </li>
       </ul>
