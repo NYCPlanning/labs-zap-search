@@ -358,7 +358,7 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
         const fileUploadResponses = await Promise.all(fileUploadPromises); // eslint-disable-line
 
         // The check for matching fileUploadResponse length and assignmentQueueOriginalLength supports acceptance tests
-        const filesUploadedToDispo = fileUploadResponses.every(res => res.status === 200);
+        const filesUploadedToDispo = fileUploadResponses.every(res => res.status >= 200 && res.status < 300);
 
         uploadResults.push(filesUploadedToDispo);
       }

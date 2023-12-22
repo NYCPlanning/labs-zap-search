@@ -463,7 +463,6 @@
                     </label>
                     <PikadayInput
                       @id="all-actions-vote-date"
-                      @readonly="readonly"
                       @placeholder='Select a date'
                       @value={{this.dispositionForAllActionsChangeset.dcpDateofvote}}
                       @format='MM/DD/YYYY'
@@ -652,7 +651,7 @@
                     <p
                       data-test-confirmation-all-actions-dcpDateofvote
                     >
-                      <strong>Vote Date:</strong> {{(moment-format this.dispositionForAllActionsChangeset.dcpDateofvote 'MM/DD/YYYY')}}
+                      <strong>Vote Date:</strong> {{moment-format this.dispositionForAllActionsChangeset.dcpDateofvote 'MM/DD/YYYY'}}
                     </p>
                   {{/if}}
                   {{#if (eq this.allActions true)}}
