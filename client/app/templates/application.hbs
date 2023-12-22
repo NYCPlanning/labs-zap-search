@@ -1,41 +1,29 @@
-{{#labs-ui/site-header
-  responsiveNav=true
-  responsiveSize='large'
-  betaNotice=false
-  as |banner|
-}}
-  {{#banner.pre}}
+<LabsUi::SiteHeader @responsiveNav={{true}} @responsiveSize="large" @betaNotice={{false}} as |banner|>
+  <banner.pre>
+    {{!-- This doesn't get rendered anywhere --}}
     <ul class="pre-nav">
-      <li>{{link-to 'Disclaimer' 'disclaimer'}}</li>
+      <li><LinkTo @route="disclaimer">Disclaimer</LinkTo></li>
       <li>
-        {{#tool-tipster
-          content='
-              <p>Please report data errors by using the “Report Data Issue” form on each particular project’s page.</p>
-              <p class="no-margin">For general feedback about this application, email <strong><a href="mailto:ZAP_Feedback_DL@planning.nyc.gov">ZAP_Feedback_DL@planning.nyc.gov</a></strong>.</p>
-            '
-          interactive=true
-          contentAsHTML=true
-          triggerEvent='click'
-          tagName='a'
-          side='bottom'
-        }}
-          <FaIcon @icon="envelope" /> Feedback
-        {{/tool-tipster}}
+        Feedback
+        <IconTooltip @icon="envelope" @event="click">
+          <p>Please report data errors by using the “Report Data Issue” form on each particular project’s page.</p>
+          <p class="no-margin">For general feedback about this application, email <strong><a href="mailto:ZAP_Feedback_DL@planning.nyc.gov">ZAP_Feedback_DL@planning.nyc.gov</a></strong>.</p>
+        </IconTooltip>
       </li>
     </ul>
-  {{/banner.pre}}
-  {{#banner.title}}
-    {{#link-to 'show-geography' classNames='site-title'}}Zoning Application Portal{{/link-to}}
-  {{/banner.title}}
-  {{#banner.nav}}
+  </banner.pre>
+  <banner.title>
+    <LinkTo @route="show-geography" @classNames="site-title">Zoning Application Portal</LinkTo>
+  </banner.title>
+  <banner.nav>
     <ul class="menu vertical large-horizontal">
-      <li>{{link-to 'Find Projects' 'show-geography'}}</li>
+      <li><LinkTo @route="show-geography">Find Projects</LinkTo></li>
       {{#if this.ENV.LUPP_ENABLED}}
         {{sign-in}}
       {{/if}}
     </ul>
-  {{/banner.nav}}
-{{/labs-ui/site-header}}
+  </banner.nav>
+</LabsUi::SiteHeader>
 
 <div class="site-main grid-x grid-padding-x route-{{currentRouteName}}">
   {{#if
