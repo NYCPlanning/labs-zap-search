@@ -16,3 +16,4 @@
 2023-12-22T03:15:33.531Z [warn] WARNING: {{get-label-for}} was not converted as it has positional parameters which can't be automatically converted. Source: ./app/templates/show-geography.hbs
 2023-12-22T03:15:33.531Z [warn] WARNING: {{contains-keys}} was not converted as it has positional parameters which can't be automatically converted. Source: ./app/templates/show-geography.hbs
 2023-12-22T03:15:33.531Z [warn] WARNING: {{get-label-for}} was not converted as it has positional parameters which can't be automatically converted. Source: ./app/templates/show-geography.hbs
+2023-12-22T04:44:10.180Z [warn] WARNING: {{my-fancy-component}} was not converted as it has positional parameters which can't be automatically converted. Source: app/templates/components/filters/named-checkbox.hbs

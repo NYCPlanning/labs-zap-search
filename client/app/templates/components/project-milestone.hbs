@@ -53,7 +53,7 @@
 
     <ul class="milestone-links">
       {{#if (eq milestone.dcpMilestone "9e3beec4-dad0-e711-8116-1458d04e2fb8")}}
-        <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank">{{fa-icon icon="external-link-alt"}} CPC Public Meeting Calendar</a></li>
+        <li><a href="https://www1.nyc.gov/site/planning/about/commission-meetings.page" target="_blank"><FaIcon @icon="external-link-alt" /> CPC Public Meeting Calendar</a></li>
       {{/if}}
       {{#each milestone.milestoneLinks as |link|}}
         <li><a href="{{link.url}}" target="_blank">{{link.filename}}</a></li>
@@ -79,9 +79,9 @@
                     <li class="grid-x small-margin-bottom">
                       <div class="cell shrink small-margin-right">
                         {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
-                          {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
+                          <FaIcon @icon="calendar" @fixedWidth={{true}} class="light-gray" />
                         {{else}}
-                          {{fa-icon icon='check' fixedWidth=true class='blue-muted'}}
+                          <FaIcon @icon="check" @fixedWidth={{true}} class="blue-muted" />
                         {{/if}}
                       </div>
                       <div class="cell auto">
@@ -194,7 +194,7 @@
         <li class="grid-x small-margin-bottom">
           <div class="cell shrink small-margin-right">
             {{!-- This is always "calendar" icon, because for this milestone, it should always have happened in the past --}}
-            {{fa-icon icon='calendar' fixedWidth=true class='light-gray'}}
+            <FaIcon @icon="calendar" @fixedWidth={{true}} class="light-gray" />
           </div>
           <div class="cell auto">
             {{milestones/public-hearing

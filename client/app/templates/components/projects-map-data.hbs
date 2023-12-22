@@ -13,7 +13,7 @@
 
 
   {{#if tilesLoading}}
-    {{fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner"}}
+    <FaIcon @icon="spinner" @spin="true" @size="5x" class="map-loading-spinner" />
   {{/if}}
 
   {{yield (merge

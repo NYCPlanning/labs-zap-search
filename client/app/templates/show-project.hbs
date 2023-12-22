@@ -11,7 +11,7 @@
 
           {{#if this.debug}}
             <a href="{{link-to-crm 'dcp_project' model.dcpProjectid}}" target="_blank">
-              {{fa-icon icon='external-link-alt'}}
+              <FaIcon @icon="external-link-alt" />
             </a>
           {{/if}}
         </h1>
@@ -47,7 +47,7 @@
           <p>
             <a href={{model.dcpAdditionalpublicinformation}} target="_blank">
               Learn More
-              {{fa-icon icon='external-link-alt'}}
+              <FaIcon @icon="external-link-alt" />
             </a>
           </p>
         {{/if}}
@@ -114,7 +114,7 @@
           <div class="button-group">
             {{#each model.videoLink as |link|}}
               <a href="{{link.link}}" target="_blank" class="button gray" style="text-align:left;">
-                <span style="color:#ff0000">{{fa-icon icon='youtube' prefix='fab' size='2x' pull='left'}}</span>
+                <span style="color:#ff0000"><FaIcon @icon="youtube" @prefix="fab" @size="2x" @pull="left" /></span>
                 <span class="text-small">
                   <strong>{{link.hearing_type}}</strong>
                   <span class="display-block dark-gray">
@@ -145,24 +145,24 @@
               @listName="Completed"
               @showMilestoneList={{false}}
             >
-              {{fa-icon icon='circle' fixedWidth=true class='green-dark'}}
-              {{fa-icon icon='check' fixedWidth=true class='white-smoke' transform='shrink-6'}}
+              <FaIcon @icon="circle" @fixedWidth={{true}} class="green-dark" />
+              <FaIcon @icon="check" @fixedWidth={{true}} class="white-smoke" @transform="shrink-6" />
             </ShowProject::MilestoneList>
 
             <ShowProject::MilestoneList
               @milestones={{model.sortedInProgressMilestones}}
               @listName="In Progress"
             >
-              {{fa-icon icon='circle' fixedWidth=true class='gold'}}
-              {{fa-icon icon='lightbulb' prefix='far' fixedWidth=true class='white-smoke' transform='shrink-8'}}
+              <FaIcon @icon="circle" @fixedWidth={{true}} class="gold" />
+              <FaIcon @icon="lightbulb" @prefix="far" @fixedWidth={{true}} class="white-smoke" @transform="shrink-8" />
             </ShowProject::MilestoneList>
 
             <ShowProject::MilestoneList
               @milestones={{model.sortedNotStartedMilestones}}
               @listName="Not Started"
             >
-              {{fa-icon icon='circle' fixedWidth=true class='blue'}}
-              {{fa-icon icon='calendar' prefix='far' fixedWidth=true class='off-white' transform='shrink-8'}}
+              <FaIcon @icon="circle" @fixedWidth={{true}} class="blue" />
+              <FaIcon @icon="calendar" @prefix="far" @fixedWidth={{true}} class="off-white" @transform="shrink-8" />
             </ShowProject::MilestoneList>
           </div>
         </div>
@@ -218,7 +218,7 @@
             <p class="text-small label-group">
               <strong>CEQR<sup class="dark-gray">{{icon-tooltip tip='City Environmental Quality Review. Only certain minor actions, known as Type II actions, are exempt from environmental review.'}}</sup>:</strong>
               {{#if model.dcpCeqrtype}}<span class="label light-gray">{{model.dcpCeqrtype}}</span>{{/if~}}
-              {{#if model.dcpCeqrnumber}}<span class="label light-gray"><a href="https://a002-ceqraccess.nyc.gov/ceqr/" target="_blank">{{model.dcpCeqrnumber}} {{fa-icon icon='external-link-alt'}}</a></span>{{/if~}}
+              {{#if model.dcpCeqrnumber}}<span class="label light-gray"><a href="https://a002-ceqraccess.nyc.gov/ceqr/" target="_blank">{{model.dcpCeqrnumber}} <FaIcon @icon="external-link-alt" /></a></span>{{/if~}}
             </p>
           {{/if}}
 

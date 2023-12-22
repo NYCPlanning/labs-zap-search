@@ -5,7 +5,7 @@
     disabled={{or noMoreRecords task.isRunning}}
   >
     {{#if task.isRunning}}
-      {{fa-icon icon='spinner' class="fa-spin" transform='grow-8'}}
+      <FaIcon @icon="spinner" class="fa-spin" @transform="grow-8" />
     {{else}}
       LOAD MORE
     {{/if}}

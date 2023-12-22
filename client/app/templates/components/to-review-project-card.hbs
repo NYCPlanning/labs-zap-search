@@ -56,7 +56,7 @@
               disabled={{not this.assignment.dispositionsByRole}}
               data-test-button-post-hearing="{{assignment.id}}"
             >
-              {{fa-icon icon='calendar' fixedWidth=true size="lg" transform="left-2"}}
+              <FaIcon @icon="calendar" @fixedWidth={{true}} @size="lg" @transform="left-2" />
               Post {{participant-type-label assignment.dcpLupteammemberrole}} Hearing Notice
             </LinkTo>
           </div>
@@ -67,7 +67,7 @@
               disabled={{not this.assignment.dispositions}}
               data-test-button-opt-out-hearing-popup="{{this.assignment.id}}"
             >
-              {{fa-icon icon='calendar-times' size="lg" transform="shrink-5 down-1"}}
+              <FaIcon @icon="calendar-times" @size="lg" @transform="shrink-5 down-1" />
               <small>Opt Out</small>
             </button>
           </div>
@@ -75,7 +75,7 @@
       {{else}}
         {{#if assignment.hearingsWaived}}
           <span class="opt-out-notice" data-test-hearings-waived-message="{{assignment.project.id}}">
-            {{fa-icon icon='calendar-times' size="lg" transform="left-2"}}
+            <FaIcon @icon="calendar-times" @size="lg" @transform="left-2" />
             You've opted out of posting a hearing
           </span>
         {{/if}}
@@ -87,14 +87,14 @@
           class="button expanded"
           data-test-button="submitRecommendation"
         >
-          {{fa-icon icon='thumbs-up' fixedWidth=true size="lg"}}
-          {{fa-icon icon='thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
+          <FaIcon @icon="thumbs-up" @fixedWidth={{true}} @size="lg" />
+          <FaIcon @icon="thumbs-down" @fixedWidth={{true}} @size="lg" @transform="flip-h left-2" />
           Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
         </LinkTo>
       {{else}}
         <a class="button expanded" disabled>
-          {{fa-icon icon='thumbs-up' fixedWidth=true size="lg"}}
-          {{fa-icon icon='thumbs-down' fixedWidth=true size="lg" transform="flip-h left-2"}}
+          <FaIcon @icon="thumbs-up" @fixedWidth={{true}} @size="lg" />
+          <FaIcon @icon="thumbs-down" @fixedWidth={{true}} @size="lg" @transform="flip-h left-2" />
           Submit {{participant-type-label assignment.dcpLupteammemberrole}} Recommendation
         </a>
       {{/if}}
@@ -108,9 +108,9 @@
                 <li class="grid-x small-margin-bottom">
                   <div class="cell shrink small-margin-right">
                     {{#if (is-before hearing.disposition.dcpDateofpublichearing)}}
-                      {{fa-icon icon="calendar" class="light-gray" fixedWidth=true}}
+                      <FaIcon @icon="calendar" class="light-gray" @fixedWidth={{true}} />
                     {{else}}
-                      {{fa-icon icon="check" class="blue" fixedWidth=true}}
+                      <FaIcon @icon="check" class="blue" @fixedWidth={{true}} />
                     {{/if}}
                   </div>
                   <div class="cell auto">

@@ -1,5 +1,5 @@
 <div class="no-results-message text-center dark-gray">
-  <p class="medium-gray">{{fa-icon icon='search' size='4x'}}</p>
+  <p class="medium-gray"><FaIcon @icon="search" @size="4x" /></p>
   <h4>No Results. Please adjust your filters:</h4>
   {{#each currentFiltersNames as |name|}}
     <p>{{name}}</p>

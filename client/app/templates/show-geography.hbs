@@ -59,7 +59,7 @@
         {{map.call 'fitBounds' bounds (hash padding=20 maxZoom=18)}}
 
         {{#if fetchData.isRunning}}
-          {{fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner"}}
+          <FaIcon @icon="spinner" @spin="true" @size="5x" class="map-loading-spinner" />
         {{/if}}
       </Structural::ProjectListMap>
     </filters.section>

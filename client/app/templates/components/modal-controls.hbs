@@ -1,6 +1,6 @@
 <div class="modal-controls">
 
-  <button {{action 'handleShareOpen'}} class="modal-button button small gray">{{fa-icon icon='share-alt'}} Share Project</button>
+  <button {{action 'handleShareOpen'}} class="modal-button button small gray"><FaIcon @icon="share-alt" /> Share Project</button>
 
   {{#unless shareClosed}}
     <div class="modal-controls-content">
@@ -16,13 +16,13 @@
             error=(action 'handleModalClose')
             class="button"
           }}
-            {{fa-icon icon='paste'}} Copy Link
+            <FaIcon @icon="paste" /> Copy Link
           {{/copy-button}}
         </div>
       </div>
       {{#if copySuccess}}
         <div class="share-controls-copy-success">
-          <div class="share-controls-copy-success-message">{{fa-icon icon='check'}} Copied</div>
+          <div class="share-controls-copy-success-message"><FaIcon @icon="check" /> Copied</div>
         </div>
       {{/if}}
     </div>
