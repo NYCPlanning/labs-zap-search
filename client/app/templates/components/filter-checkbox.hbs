@@ -1,8 +1,8 @@
-{{fa-icon
-  (if (includes value currentValues) 'check-square' 'square')
-  prefix=(unless (includes value currentValues) 'far')
-  class=(if (includes value currentValues) 'dark-gray' 'light-gray')
-}}
+<FaIcon
+  @icon={{if (includes value currentValues) 'check-square' 'square'}}
+  @prefix={{unless (includes value currentValues) 'far'}}
+  class={{if (includes value currentValues) 'dark-gray' 'light-gray'}}
+/>
 
 {{value}}
 
