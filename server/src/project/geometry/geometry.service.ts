@@ -18,7 +18,7 @@ const METERS_TO_FEET_FACTOR = 3.28084;
 const QUERIES = {
   DTM_BLOCK_CENTROIDS: `
     SELECT the_geom, the_geom_webmercator, cartodb_id, concat(borocode, LPAD(block::text, 5, '0')) as block 
-    FROM dtm_block_centroids_v20201106
+    FROM dof_dtm_block_centroids
   `,
 
   centroidsFor(blocks) {
