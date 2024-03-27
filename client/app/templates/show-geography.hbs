@@ -72,6 +72,15 @@
           )
         }}
 
+       {{!-- {{map.filter-blocks-in-radius
+          pointGeometry=blocks_in_radius
+          radius=radius_from_point
+          shouldQueryFullMap=section.filterIsActive
+          onRadiusFilterClick=(action section.delegate-mutation
+            (action 'handleRadiusFilterClick' 'blocks_in_radius')
+          )
+        }}  --}}
+
         {{map-info-box}}
 
         {{map.call 'fitBounds' bounds (hash padding=20 maxZoom=18)}}

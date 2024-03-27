@@ -161,6 +161,9 @@ const QUERY_TEMPLATES = {
   block: (queryParamValue) =>
     containsString('dcp_validatedblock', [queryParamValue], 'dcp_projectbbl'),
 
+  blocks_in_radius: (queryParamValue) => 
+    containsString('dcp_validatedblock', [queryParamValue], 'dcp_projectbbl'),
+
   dcp_ulurp_nonulurp: (queryParamValue) =>
     containsAnyOf('dcp_ulurp_nonulurp', coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP)), 'dcp_project'),
 
