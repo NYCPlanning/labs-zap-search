@@ -97,7 +97,7 @@ module.exports = function(environment) {
     labels: {
       filters: {
         'action-types': 'Action Type',
-        blocks_in_radius: 'Borough / Block',
+        block: 'Borough / Block',
         boroughs: 'Borough / Block',
         'community-districts': 'Community District',
         dcp_certifiedreferred: 'Date Certified / Referred',

@@ -36,7 +36,6 @@ import { ArtifactService } from "../artifact/artifact.service";
 import { PackageService } from "../package/package.service";
 import { GeometryService } from "./geometry/geometry.service";
 import { DispositionService } from "../disposition/disposition.service";
-import { query } from "express";
 
 const ITEMS_PER_PAGE = 30;
 export const BOROUGH_LOOKUP = {
@@ -189,7 +188,7 @@ const QUERY_TEMPLATES = {
       childEntity: "dcp_dcp_project_dcp_projectbbl_project"
     }),
 
-   project_applicant_text: queryParamValue =>
+  project_applicant_text: queryParamValue =>
     any(
       containsString("dcp_projectbrief", queryParamValue),
       containsString("dcp_projectname", queryParamValue),
@@ -241,48 +240,20 @@ export const ALLOWED_FILTERS = [
 ];
 
 export const generateFromTemplate = (query, template) => {
-  console.log(query);
-
-  const allowed = Object.keys(query).filter(key => ALLOWED_FILTERS.includes(key)); // filter is allowed
-  // console.log("allowed", allowed);
-  const handler = allowed.filter(key => {
-    // console.log("template[key]", template[key]);
-    return template[key];
-  });
-  // console.log("handler", handler);
-  const map = handler.map((key) => {
-    const qk = query[key];
-    // console.log(qk);
-    // console.log(template[key](qk));
-    return template[key](query[key]);
-  
-  });
-  // console.log("map", map);
-
-  return map
-  // return Object.keys(query)
-  //   .filter(key => ALLOWED_FILTERS.includes(key)) // filter is allowed
-  //   .filter(key => template[key]) // filter has query handler
-  //   .map(key => template[key](query[key]));
+  return Object.keys(query)
+    .filter(key => ALLOWED_FILTERS.includes(key)) // filter is allowed
+    .filter(key => template[key]) // filter has query handler
+    .map(key => template[key](query[key]));
 };
 
 function generateProjectsFilterString(query) {
   // Special handling for 'block' query, which must be explicitly ignored if empty
   // otherwise, unmapped projects will be excluded from the results
-  console.log("query in generate projects filters string", query);
-  console.log((query.blocks_in_radius.length));
-  if (!Object.keys(query.blocks_in_radius).length) {
-    console.log("don't have block");
-  }
-  else {
-    console.log("Has block");
-  }
   if (!Object.keys(query.blocks_in_radius).length) delete query.blocks_in_radius;
 
   // optional params
   // apply only those that appear in the query object
   const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
-  // console.log("requestedfiltersquery", requestedFiltersQuery);
   return all(
     // defaults
     comparisonOperator(
@@ -643,7 +614,6 @@ export class ProjectService {
     };
 
     const queryObject = generateQueryObject(normalizedQuery);
-    console.log("query", queryObject);
     const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
       normalizedQuery
     );
