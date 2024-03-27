@@ -27,7 +27,7 @@
   {{#if this.showMilestoneList}}
     {{#if @milestones}}
       {{#each @milestones as | milestone |}}
-        {{project-milestone milestone=milestone}}
+        <ProjectMilestone @milestone={{milestone}} />
       {{/each}}
     {{else}}
       No Milestones

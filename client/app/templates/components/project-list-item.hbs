@@ -1,7 +1,7 @@
 <li class="grid-x grid-padding-small projects-list-result">
-  <div class="cell results-meta {{if project.dcpPublicstatusSimp (concat 'publicstatus-' (dasherize project.dcpPublicstatusSimp))}}" style="width:5rem;">
-    {{#if project.hasCentroid}}
-      {{project-list-map-pin project=project}}
+  <div class="cell results-meta {{if this.project.dcpPublicstatusSimp (concat 'publicstatus-' (dasherize this.project.dcpPublicstatusSimp))}}" style="width:5rem;">
+    {{#if this.project.hasCentroid}}
+      <ProjectListMapPin @project={{this.project}} />
     {{else}}
       <a class="button hollow expanded map-marker-button" style="opacity:1;" disabled>
         <span class="fa-layers fa-fw" style="font-size: 1.5rem;">
@@ -14,7 +14,7 @@
   <div class="cell auto">
     {{#if project.dcpLastmilestonedate}}
       <span class="date dark-gray projects-list-result--date">
-        {{icon-tooltip icon='calendar' tip='Latest Milestone'}}
+        <IconTooltip @icon="calendar" @tip="Latest Milestone" />
         <DateDisplay
           @date={{project.dcpLastmilestonedate}}
           @outputFormat="MMMM D, YYYY"
@@ -32,7 +32,7 @@
     <p class="projects-list-result--meta no-margin text-tiny dark-gray label-group">
       {{#if (eq project.dcpBorough 'Citywide')}}<span class="label light-gray"><strong class="dark-gray">{{project.dcpBorough}}</strong></span>{{/if}}
 
-      {{consolidated-cds cds=project.dcpValidatedcommunitydistricts}}
+      <ConsolidatedCds @cds={{this.project.dcpValidatedcommunitydistricts}} />
 
       {{#if project.dcpUlurpNonulurp}}<span class="label light-gray"><strong class="dark-gray">{{project.dcpUlurpNonulurp}}</strong></span>{{/if}}
       {{#each project.ulurpnumbers as |ulurpnumber|}}

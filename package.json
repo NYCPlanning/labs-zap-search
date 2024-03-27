@@ -2,5 +2,14 @@
   "name": "labs-zap-search",
   "version": "1.0.0",
   "repository": "git@github.com:NYCPlanning/labs-zap-search.git",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"yarn run client\" \"yarn run server\"",
+    "server": "cd server && yarn run start:dev",
+    "client": "cd client && yarn run start:ssl"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  },
+  "dependencies": {}
 }

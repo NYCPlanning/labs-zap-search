@@ -1,4 +1,4 @@
-{{#each consolodatedCDs as |boro|}}
+{{#each this.consolodatedCDs as |boro|}}
   <span class="label light-gray">
     <strong class="dark-gray">{{boro.boroName}}</strong>
     <span class="medium-gray">|</span>
@@ -6,8 +6,8 @@
       CD
       {{#each boro.cds as |cd i|}}
         {{~if i ","}}
-        {{#if cdlink}}
-          <a href="{{build-url "CommProfiles" boro.boroName cd}}" target="_blank"><strong>{{cd ~}}</strong></a>
+        {{#if this.cdlink}}
+          <a href="{{build-url "CommProfiles" boro.boroName cd}}" target="_blank" rel="noopener noreferrer"><strong>{{cd ~}}</strong></a>
         {{~else~}}
           {{cd~}}
         {{/if~}}

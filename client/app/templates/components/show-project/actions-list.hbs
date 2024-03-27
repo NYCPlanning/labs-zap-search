@@ -5,8 +5,8 @@
     <li class="grid-x grid-padding-small action">
       <div class="cell shrink statuscode {{dasherize projectAction.statuscode}}">
         <span class="action-icon fa-layers fa-fw">
-          {{fa-icon icon='circle' fixedWidth=true}}
-          {{fa-icon icon='file-alt' fixedWidth=true class='off-white' transform='shrink-7'}}
+          <FaIcon @icon="circle" @fixedWidth={{true}} />
+          <FaIcon @icon="file-alt" @fixedWidth={{true}} class="off-white" @transform="shrink-7" />
         </span>
         <p class="text-tiny status">{{if projectAction.statuscode projectAction.statuscode "No Status Code"}}</p>
       </div>
@@ -15,8 +15,7 @@
           {{projectAction.dcpName}}
           {{#if (lookup-action-type projectAction.actioncode)}}
             <sup class="dark-gray">
-              {{icon-tooltip
-                tip=(lookup-action-type projectAction.actioncode)}}
+              <IconTooltip @tip={{lookup-action-type projectAction.actioncode}} />
             </sup>
           {{/if}}
         </h5>
@@ -30,18 +29,15 @@
               )
             }}
                 {{#if (and (not-eq projectAction.statuscode this.actionStatuscodeActive) projectAction.dcpSpabsoluteurl)}}
-                  {{#tool-tipster
-                    content='City Planning Commision Report'
-                    tagName='span'
-                  }}
+                  <ToolTipster @content="City Planning Commission Report" @tagName="span">
                     <a
                       href={{concat this.host '/document/projectaction' projectAction.serverRelativeUrl}}
                       target="_blank"
                     >
                       {{projectAction.dcpUlurpnumber}}
-                      {{fa-icon icon='external-link-alt'}}
+                      <FaIcon @icon="external-link-alt" />
                     </a>
-                  {{/tool-tipster}}
+                  </ToolTipster>
                 {{else}}
                   {{projectAction.dcpUlurpnumber}}
                 {{/if}}
@@ -58,7 +54,7 @@
             Zoning Resolution:
             <a href="{{build-url "zoningResolution" projectAction.dcpZoningresolution}}" target="_blank">
               {{projectAction.dcpZoningresolution}}
-              {{fa-icon icon='external-link-alt'}}
+              <FaIcon @icon="external-link-alt" />
             </a>
           </p>
         {{/if}}
