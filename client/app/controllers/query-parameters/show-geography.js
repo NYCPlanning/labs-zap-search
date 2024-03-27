@@ -145,6 +145,10 @@ export const projectParams = new QueryParams({
     defaultValue: '',
     refresh: true,
   },
+  blocks_in_radius: {
+    defaultValue: [],
+    refresh: true,
+  },
   dcp_ulurp_nonulurp: {
     defaultValue: [],
     refresh: true,

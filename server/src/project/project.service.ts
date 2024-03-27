@@ -214,6 +214,7 @@ const QUERY_TEMPLATES = {
         }
       )
     ),
+
   blocks_in_radius: queryParamValue =>
     containsAnyOf("dcp_validatedblock", queryParamValue, {
       childEntity: "dcp_dcp_project_dcp_projectbbl_project"
@@ -232,11 +233,11 @@ export const ALLOWED_FILTERS = [
   "dcp_publicstatus", // 'Noticed', 'Filed', 'In Public Review', 'Completed', 'Unknown'
   "dcp_certifiedreferred",
   "project_applicant_text",
-  "block",
   "distance_from_point",
   "radius_from_point",
   "zoning-resolutions",
-  "dcp_applicability"
+  "dcp_applicability",
+  "blocks_in_radius",
 ];
 
 export const generateFromTemplate = (query, template) => {
@@ -249,7 +250,7 @@ export const generateFromTemplate = (query, template) => {
 function generateProjectsFilterString(query) {
   // Special handling for 'block' query, which must be explicitly ignored if empty
   // otherwise, unmapped projects will be excluded from the results
-  if (!query.block) delete query.block;
+  if (!Object.keys(query.blocks_in_radius).length) delete query.blocks_in_radius;
 
   // optional params
   // apply only those that appear in the query object
