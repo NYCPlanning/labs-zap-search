@@ -186,6 +186,9 @@ const QUERY_TEMPLATES = {
       "dcp_project"
     ),
 
+  blocks_in_radius: (queryParamValue) => 
+    containsString('dcp_validatedblock', [queryParamValue], 'dcp_projectbbl'),
+
   dcp_femafloodzonev: queryParamValue =>
     comparisonOperator(
       "dcp_femafloodzonev",
