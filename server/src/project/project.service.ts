@@ -576,9 +576,6 @@ export class ProjectService {
       console.log(e);
     }
 
-    // TODO: disabling for now until DO resolves stability issues
-    // await injectSupportDocumentURLs(transformedProject);
-
     return this.serialize(transformedProject);
   }
 
