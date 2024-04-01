@@ -31,21 +31,24 @@ function unnest(folders = []) {
       return acc.concat(curr);
     }, []);
 }
-
-export type SharepointFolderFiles = {
-  Name: string;
-  TimeCreated: string;
-  ServerRelativeUrl: string;
-  'odata.type': string;
+export type SharePointListDrive = {
+  name: string;
+  drive: {
+    id: string;
+  };
 };
 
-export type SharepointFolderFilesGraph = {
-  id: string,
+export type SharepointFile = {
+  id: string;
   name: string;
   createdDateTime: string;
-  webUrl: string;
+  file?: {
+    mimeType: string;
+  };
+  folder?: {
+    childCount: number;
+  };
 };
-
 
 // This service currently only helps you read and delete files from Sharepoint.
 // If you wish to upload documents to Sharepoint through CRM,
@@ -59,14 +62,6 @@ export class SharepointService {
     private readonly config: ConfigService,
   ) {}
   async generateSharePointAccessToken(): Promise<any> {
-    const response = await this.msalProvider.cca.acquireTokenByClientCredential(
-      {
-        scopes: this.msalProvider.scopes,
-      },
-    );
-    const { accessToken: accessTokenGraph } = response;
-    console.log({accessTokenGraph})
-
     const TENANT_ID = this.config.get("TENANT_ID");
     const SHAREPOINT_CLIENT_ID = this.config.get("SHAREPOINT_CLIENT_ID");
     const SHAREPOINT_CLIENT_SECRET = this.config.get(
@@ -110,6 +105,74 @@ export class SharepointService {
     });
   }
 
+  private async traverseFolders(
+    driveId: string,
+    folderName: string,
+    accessToken: string,
+  ): Promise<Array<SharepointFile>> {
+    const url = `${this.msalProvider.sharePointSiteUrl}/drives/${driveId}/root:/${folderName}:/children?$select=id,name,file,folder,createdDateTime`;
+    const options = {
+      headers: {
+        method: 'GET',
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/json',
+      },
+    };
+    const response = await fetch(url, options);
+    const data = (await response.json()) as {
+      value: Array<SharepointFile>;
+    };
+    let documents: Array<SharepointFile> = [];
+    // Create a promise for each folder that needs to be search,
+    // allowing child folders to be search simultaneously
+    const pendingDocuments: Array<Promise<SharepointFile[]>> = [];
+    const fileCount = data.value.length;
+
+    for (let i = 0; i < fileCount; i++) {
+      const entry = data.value[i];
+      if (entry.file !== undefined) {
+        documents.push(entry);
+      } else if (entry.folder?.childCount > 0) {
+        pendingDocuments.push(
+          this.traverseFolders(
+            driveId,
+            `${folderName}/${entry.name}`,
+            accessToken,
+          ),
+        );
+      }
+    }
+    const resolvedDocuments = await Promise.all(pendingDocuments);
+    const resolvedDocumentsCount = resolvedDocuments.length;
+    for (let i = 0; i < resolvedDocumentsCount; i++) {
+      documents = documents.concat(resolvedDocuments[i]);
+    }
+    return documents;
+  }
+
+  async getSharepointFolderFilesGraph (
+    driveId: string,
+    folderName: string,
+  ): Promise<Array<SharepointFile>> {
+    const { accessToken } = await this.msalProvider.getGraphClientToken();
+
+    try {
+      return await this.traverseFolders(driveId, folderName, accessToken);
+    } catch (e) {
+      if (e instanceof HttpException) {
+        throw e;
+      } else {
+        throw new HttpException(
+          {
+            code: 'REQUEST_FOLDER_FAILED',
+            title: 'Error requesting sharepoint files',
+            detail: `Error while constructing request for Sharepoint folder files`,
+          },
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    }
+  }
   /***
    * Retrieves a list of files in a given Sharepoint folder
    * @param {string} folderIdentifier - the relative URL for the document location.
@@ -127,6 +190,7 @@ export class SharepointService {
   ): Promise<any> {
     try {
       console.log("getSharepointFolderFiles")
+      console.log("folder ider", folderIdentifier)
       const { access_token } = await this.generateSharePointAccessToken();
 
       // For Artifacts, folderIdentifier is an absolute URL instead of a relative url, so we extract it
