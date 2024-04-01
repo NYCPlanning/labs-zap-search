@@ -3,8 +3,8 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-import * as jwt from 'jsonwebtoken';
-import * as moment from 'moment';
+import jwt from 'jsonwebtoken';
+import moment from 'moment';
 import { ConfigService } from '../config/config.service';
 import { ContactService } from '../contact/contact.service';
 

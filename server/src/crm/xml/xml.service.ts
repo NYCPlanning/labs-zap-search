@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CrmService } from '../crm.service';
-import * as request from 'superagent'
+import request from 'superagent'
 import { ConfigService } from '../../config/config.service';
 
 // const validateConfig = require('../utils/validate-config');

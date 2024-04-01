@@ -1,7 +1,7 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import * as bodyParser from 'body-parser';
-import * as cookieparser from 'cookie-parser';
-import * as compression from 'compression';
+import bodyParser from 'body-parser';
+import cookieparser from 'cookie-parser';
+import compression from 'compression';
 import { AuthMiddleware } from './auth.middleware';
 import { ConfigModule } from './config/config.module';
 import { ProjectModule } from './project/project.module';

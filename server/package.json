@@ -28,6 +28,7 @@
     "prepare": "cd .. && husky install .husky"
   },
   "dependencies": {
+    "@azure/msal-node": "^2.6.5",
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
     "@nestjs/platform-express": "^7.6.15",
@@ -39,6 +40,9 @@
     "@turf/helpers": "^6.1.4",
     "@turf/turf": "^5.1.6",
     "@types/dotenv": "^6.1.1",
+    "@types/request": "^2.48.12",
+    "@types/superagent-proxy": "^3.0.4",
+    "@types/underscore": "^1.11.15",
     "adal-node": "^0.2.1",
     "app-root-path": "^3.0.0",
     "body-parser": "^1.19.0",
@@ -84,21 +88,23 @@
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",
     "@nestjs/schematics": "^7.3.1",
+    "@types/compression": "^1.7.5",
     "@types/express": "^4.17.1",
+    "@types/inflected": "^2.1.3",
     "@types/jest": "^26.0.22",
-    "@types/jsonwebtoken": "^8.3.4",
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/node": "11.13.4",
     "@types/supertest": "2.0.7",
     "jest": "^26.6.3",
     "lint-staged": ">=10",
     "prettier": "1.17.0",
     "supertest": "5.0.0-0",
-    "ts-jest": "^26.5.4",
+    "ts-jest": "^26.5.6",
     "ts-node": "8.1.0",
     "tsc-watch": "2.2.1",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
-    "typescript": "^3.7.2"
+    "typescript": "^4.2.3"
   },
   "jest": {
     "moduleFileExtensions": [

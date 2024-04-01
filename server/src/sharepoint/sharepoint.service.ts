@@ -1,6 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import * as Request from "request";
 import { ConfigService } from "../config/config.service";
+import { MSAL, MsalProviderType } from '../provider/msal.provider';
 
 /***
  * If Sharepoint returns a nested Folders array (see 'folders' argument example),
@@ -31,13 +32,41 @@ function unnest(folders = []) {
     }, []);
 }
 
+export type SharepointFolderFiles = {
+  Name: string;
+  TimeCreated: string;
+  ServerRelativeUrl: string;
+  'odata.type': string;
+};
+
+export type SharepointFolderFilesGraph = {
+  id: string,
+  name: string;
+  createdDateTime: string;
+  webUrl: string;
+};
+
+
 // This service currently only helps you read and delete files from Sharepoint.
 // If you wish to upload documents to Sharepoint through CRM,
 // use the DocumentService instead.
 @Injectable()
 export class SharepointService {
-  constructor(private readonly config: ConfigService) {}
+  constructor(
+    @Inject(MSAL)
+    private readonly msalProvider: MsalProviderType,
+
+    private readonly config: ConfigService,
+  ) {}
   async generateSharePointAccessToken(): Promise<any> {
+    const response = await this.msalProvider.cca.acquireTokenByClientCredential(
+      {
+        scopes: this.msalProvider.scopes,
+      },
+    );
+    const { accessToken: accessTokenGraph } = response;
+    console.log({accessTokenGraph})
+
     const TENANT_ID = this.config.get("TENANT_ID");
     const SHAREPOINT_CLIENT_ID = this.config.get("SHAREPOINT_CLIENT_ID");
     const SHAREPOINT_CLIENT_SECRET = this.config.get(
@@ -97,6 +126,7 @@ export class SharepointService {
     method = "post"
   ): Promise<any> {
     try {
+      console.log("getSharepointFolderFiles")
       const { access_token } = await this.generateSharePointAccessToken();
 
       // For Artifacts, folderIdentifier is an absolute URL instead of a relative url, so we extract it
@@ -139,6 +169,7 @@ export class SharepointService {
             );
           }
           const folderFiles = JSON.parse(stringifiedBody);
+          console.log({folderFiles})
 
           resolve([
             ...(folderFiles["Files"] ? folderFiles["Files"] : []),
@@ -172,6 +203,7 @@ export class SharepointService {
    * @return     {stream}  { Returns a pipeable file stream }
    */
   async getSharepointFile(serverRelativeUrl): Promise<any> {
+    console.log("getSharepointFile")
     const { access_token } = await this.generateSharePointAccessToken();
     const SHAREPOINT_CRM_SITE = this.config.get("SHAREPOINT_CRM_SITE");
 

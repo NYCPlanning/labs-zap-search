@@ -239,9 +239,9 @@ export const CRMWebAPI = {
         const encoding = response.headers["content-encoding"];
         if (
           error ||
-          (response.status != 200 &&
-            response.status != 204 &&
-            response.status != 1223)
+          (response.statusCode != 200 &&
+            response.statusCode != 204 &&
+            response.statusCode != 1223)
         ) {
           const parseError = jsonText => {
             // Bug: sometimes CRM returns 'object reference' error
@@ -258,7 +258,7 @@ export const CRMWebAPI = {
           } else {
             parseError(body);
           }
-        } else if (response.status === 200) {
+        } else if (response.statusCode === 200) {
           const parseResponse = jsonText => {
             const json_string = jsonText.toString("utf-8");
             var result = JSON.parse(json_string, this.dateReviver);
@@ -272,9 +272,9 @@ export const CRMWebAPI = {
           } else {
             parseResponse(body);
           }
-        } else if (response.status === 204 || response.status === 1223) {
-          const uri = response.headers.get("OData-EntityId");
-          if (uri) {
+        } else if (response.statusCode === 204 || response.statusCode === 1223) {
+          const uri = response.headers['OData-EntityId'];
+          if (uri && typeof uri === 'string') {
             // create request - server sends new id
             const regExp = /\(([^)]+)\)/;
             const matches = regExp.exec(uri);
@@ -312,7 +312,7 @@ export const CRMWebAPI = {
     return new Promise<void>((resolve, reject) => {
       request.patch(options, (error, response, body) => {
         const encoding = response.headers["content-encoding"];
-        if (error || (response.status != 204 && response.status != 1223)) {
+        if (error || (response.statusCode != 204 && response.statusCode != 1223)) {
           const parseError = jsonText => {
             const json_string = jsonText.toString("utf-8");
             let result = {};
