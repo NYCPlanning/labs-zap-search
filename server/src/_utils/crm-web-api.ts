@@ -272,9 +272,12 @@ export const CRMWebAPI = {
           } else {
             parseResponse(body);
           }
-        } else if (response.statusCode === 204 || response.statusCode === 1223) {
-          const uri = response.headers['OData-EntityId'];
-          if (uri && typeof uri === 'string') {
+        } else if (
+          response.statusCode === 204 ||
+          response.statusCode === 1223
+        ) {
+          const uri = response.headers["OData-EntityId"];
+          if (uri && typeof uri === "string") {
             // create request - server sends new id
             const regExp = /\(([^)]+)\)/;
             const matches = regExp.exec(uri);
@@ -312,7 +315,10 @@ export const CRMWebAPI = {
     return new Promise<void>((resolve, reject) => {
       request.patch(options, (error, response, body) => {
         const encoding = response.headers["content-encoding"];
-        if (error || (response.statusCode != 204 && response.statusCode != 1223)) {
+        if (
+          error ||
+          (response.statusCode != 204 && response.statusCode != 1223)
+        ) {
           const parseError = jsonText => {
             const json_string = jsonText.toString("utf-8");
             let result = {};

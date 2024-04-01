@@ -1,8 +1,8 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { AuthService } from './auth/auth.service';
+import { Injectable, NestMiddleware } from "@nestjs/common";
+import { AuthService } from "./auth/auth.service";
 
 function proceedNoAuth(res, next) {
-  res.clearCookie('token');
+  res.clearCookie("token");
   next();
 }
 
@@ -13,8 +13,8 @@ export class AuthMiddleware implements NestMiddleware {
   async use(req: any, res: any, next: () => void) {
     req.session = false;
 
-    const { authorization = '' } = req.headers;
-    const token = authorization.split(' ')[1];
+    const { authorization = "" } = req.headers;
+    const token = authorization.split(" ")[1];
 
     try {
       req.session = await this.authService.validateCurrentToken(token);
