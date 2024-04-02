@@ -1,16 +1,16 @@
-import { ConfigService } from './config.service';
+import { ConfigService } from "./config.service";
 
-jest.mock('fs');
-jest.mock('dotenv');
+jest.mock("fs");
+jest.mock("dotenv");
 
-describe('ConfigService', () => {
+describe("ConfigService", () => {
   let service: ConfigService;
 
   beforeEach(async () => {
-    service = new ConfigService('.');
+    service = new ConfigService(".");
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(service).toBeDefined();
   });
 });

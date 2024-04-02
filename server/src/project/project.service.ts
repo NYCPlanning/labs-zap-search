@@ -132,12 +132,14 @@ const QUERY_TEMPLATES = {
     }),
 
   "zoning-resolutions": queryParamValue =>
-    "(" + queryParamValue
+    "(" +
+    queryParamValue
       .map(
         value =>
           `dcp_dcp_project_dcp_projectaction_project/any(o:o/_dcp_zoningresolution_value eq '${value}')`
       )
-      .join(" or ") + ")",
+      .join(" or ") +
+    ")",
 
   boroughs: queryParamValue =>
     equalsAnyOf(

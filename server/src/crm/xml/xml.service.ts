@@ -1,17 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { CrmService } from '../crm.service';
-import * as request from 'superagent'
-import { ConfigService } from '../../config/config.service';
+import { Injectable } from "@nestjs/common";
+import { CrmService } from "../crm.service";
+import request from "superagent";
+import { ConfigService } from "../../config/config.service";
 
 // const validateConfig = require('../utils/validate-config');
-
 
 // const CRM_API_CONFIG = validateConfig({
 //   CRM_HOST: process.env.CRM_HOST,
 //   CRM_URL_PATH: process.env.CRM_URL_PATH,
 // });
 
-const BATCH_NAME = 'batch';
+const BATCH_NAME = "batch";
 const OBJECT_REFERENCE_RETRIES = 1;
 
 /**
@@ -21,13 +20,15 @@ const OBJECT_REFERENCE_RETRIES = 1;
 
 @Injectable()
 export class XmlService {
-  CRM_URL = '';
+  CRM_URL = "";
 
   constructor(
     private readonly crmService: CrmService,
-    private readonly config: ConfigService,
+    private readonly config: ConfigService
   ) {
-    this.CRM_URL = `${this.config.get('CRM_HOST')}${this.config.get('CRM_URL_PATH')}`;
+    this.CRM_URL = `${this.config.get("CRM_HOST")}${this.config.get(
+      "CRM_URL_PATH"
+    )}`;
     crmService.xml = this;
   }
 
@@ -42,15 +43,17 @@ export class XmlService {
    * Returns headers for CRM requests
    */
   async getHeaders(isBatch = false) {
-    const contentType = isBatch ? `multipart/mixed;boundary=${BATCH_NAME}` : 'application/json; charset=utf-8';
+    const contentType = isBatch
+      ? `multipart/mixed;boundary=${BATCH_NAME}`
+      : "application/json; charset=utf-8";
     return {
-      'Accept-Encoding': 'gzip, deflate',
-      'Content-Type': contentType,
+      "Accept-Encoding": "gzip, deflate",
+      "Content-Type": contentType,
       Authorization: `Bearer ${await this.getToken()}`,
-      'OData-MaxVersion': '4.0',
-      'OData-Version': '4.0',
-      Accept: 'application/json',
-      Prefer: 'odata.include-annotations="*"',
+      "OData-MaxVersion": "4.0",
+      "OData-Version": "4.0",
+      Accept: "application/json",
+      Prefer: 'odata.include-annotations="*"'
     };
   }
 
@@ -66,14 +69,13 @@ export class XmlService {
       const options = {
         method,
         headers,
-        body: {},
+        body: {}
       };
-      if (method !== 'GET' && data) {
-        options.body = typeof data === 'object' ? JSON.stringify(data) : data;
+      if (method !== "GET" && data) {
+        options.body = typeof data === "object" ? JSON.stringify(data) : data;
       }
 
-      const res = await request(method, `${this.CRM_URL}${query}`)
-        .set(headers);
+      const res = await request(method, `${this.CRM_URL}${query}`).set(headers);
       let text = res.text;
 
       if (isBatch) {
@@ -88,7 +90,7 @@ export class XmlService {
         return { status: res.status, content: { error: { message: text } } };
       }
     } catch (err) {
-      console.log(err);  // eslint-disable-line
+      console.log(err); // eslint-disable-line
       throw new Error(`CRMClient failed to do ${method} request`);
     }
   }
@@ -109,7 +111,7 @@ export class XmlService {
     let tries = OBJECT_REFERENCE_RETRIES + 1;
     let res;
     while (tries) {
-      res = await this.doFetch(method, query, data, isBatch);  // eslint-disable-line
+      res = await this.doFetch(method, query, data, isBatch); // eslint-disable-line
 
       // Retry on object reference error
       if (res.content.error && this.isObjectReferenceError(res.content.error)) {
@@ -127,7 +129,8 @@ export class XmlService {
    * otherwise returns false.
    */
   isObjectReferenceError(error) {
-    const OBJECT_REFERENCE_ERROR = 'Object reference not set to an instance of an object.';
+    const OBJECT_REFERENCE_ERROR =
+      "Object reference not set to an instance of an object.";
     if (error.message && error.message === OBJECT_REFERENCE_ERROR) {
       return true;
     }
@@ -139,12 +142,16 @@ export class XmlService {
    * Executes GET request with retry. Returns the parsed response on success, or false on failure
    */
   async doGet(query) {
-    const res = await this.doFetchWithRetry('GET', query);
+    const res = await this.doFetchWithRetry("GET", query);
     if (!res.content.error && res.status === 200) {
       return res.content;
     }
 
-    console.log(`GET request to ${query} failed with status: ${res.status}, error: ${res.content.error.message}`); // eslint-disable-line
+    console.log(
+      `GET request to ${query} failed with status: ${res.status}, error: ${
+        res.content.error.message
+      }`
+    ); // eslint-disable-line
     return false;
   }
 
@@ -152,12 +159,17 @@ export class XmlService {
    * Executes PATCH request. Returns the parsed response content on success, or false on failure.
    */
   async doPatch(query, body) {
-    const res = await this.doFetch('PATCH', query, body); // eslint-disable-line
-    if (!res.content.error && res.status >= 200 && res.status < 300) { // TODO: Confirm correct status for PATCH resp
+    const res = await this.doFetch("PATCH", query, body); // eslint-disable-line
+    if (!res.content.error && res.status >= 200 && res.status < 300) {
+      // TODO: Confirm correct status for PATCH resp
       return res.content;
     }
 
-    console.log(`PATCH request failed with status: ${res.status}, error: ${res.content.error.message}`); // eslint-disable-line
+    console.log(
+      `PATCH request failed with status: ${res.status}, error: ${
+        res.content.error.message
+      }`
+    ); // eslint-disable-line
     return false;
   }
 
@@ -165,15 +177,19 @@ export class XmlService {
    * Executes POST request with retry. Returns the parsed response content on success, or false on failure.
    */
   async doPost(query, body, isBatch) {
-    const res = await this.doFetchWithRetry('POST', query, body, isBatch);
-    if (res && !res.content.error && res.status === 200) { // TODO: Confirm correct status for POST resp
+    const res = await this.doFetchWithRetry("POST", query, body, isBatch);
+    if (res && !res.content.error && res.status === 200) {
+      // TODO: Confirm correct status for POST resp
       return res.content;
     }
 
-    console.log(`POST request failed with status: ${res.status}, error: ${res.content.error.message}`); // eslint-disable-line
+    console.log(
+      `POST request failed with status: ${res.status}, error: ${
+        res.content.error.message
+      }`
+    ); // eslint-disable-line
     return false;
   }
-
 
   /**
    * Executes POST request against special batch endpoint ('/$batch'), with special batch body.
@@ -181,19 +197,24 @@ export class XmlService {
    */
   async doBatchPost(query, fetchXML) {
     const batchBody = this.makeBatchBody(query, fetchXML);
-    return this.doPost('$batch', batchBody, true);
+    return this.doPost("$batch", batchBody, true);
   }
 
   /**
    * Executes DELETE request. Returns the response content on success, or false on failure.
    */
   async doDelete(query) {
-    const res = await this.doFetch('DELETE', query);
-    if (!res.content.error && res.status === 200) { // TODO: Confirm correct status for DELETE resp
+    const res = await this.doFetch("DELETE", query);
+    if (!res.content.error && res.status === 200) {
+      // TODO: Confirm correct status for DELETE resp
       return res.content;
     }
 
-    console.log(`DELETE request failed with status: ${res.status}, error: ${res.content.error.message}`); // eslint-disable-line
+    console.log(
+      `DELETE request failed with status: ${res.status}, error: ${
+        res.content.error.message
+      }`
+    ); // eslint-disable-line
     return false;
   }
 
@@ -210,20 +231,22 @@ export class XmlService {
       --batchresponse_[UUID]--
    */
   extractBatchData(textContent) {
-    const batchStart = '--batchresponse_[-0-9a-fA-F]+\\s';
-    const headers = '(?:[-\\w\\s\\/\\.;:=]+\\s)\\s';
-    const httpStatus = 'HTTP\\/\\d\\.\\d\\s\\d+\\s[-\\s\\w]+\\s';
-    const jsonData = '(\\{.*\\})\\s+';
-    const batchEnd = '--batchresponse_[-0-9a-fA-F]+--';
+    const batchStart = "--batchresponse_[-0-9a-fA-F]+\\s";
+    const headers = "(?:[-\\w\\s\\/\\.;:=]+\\s)\\s";
+    const httpStatus = "HTTP\\/\\d\\.\\d\\s\\d+\\s[-\\s\\w]+\\s";
+    const jsonData = "(\\{.*\\})\\s+";
+    const batchEnd = "--batchresponse_[-0-9a-fA-F]+--";
 
-    const batchResponseRegExp = new RegExp(batchStart + headers + httpStatus + headers + jsonData + batchEnd);
+    const batchResponseRegExp = new RegExp(
+      batchStart + headers + httpStatus + headers + jsonData + batchEnd
+    );
 
     const match = textContent.match(batchResponseRegExp);
     if (match) {
       return match[1];
     }
 
-    return '';
+    return "";
   }
 
   /**
