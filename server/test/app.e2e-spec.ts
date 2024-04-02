@@ -5,6 +5,8 @@ import mockedEnv from "mocked-env";
 import { AppModule } from "./../src/app.module";
 import { doLogin } from "./helpers/do-login";
 import { extractJWT } from "./helpers/extract-jwt";
+import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("AppController (e2e)", () => {
   let app;
@@ -34,6 +36,10 @@ describe("AppController (e2e)", () => {
       CLIENT_ID: "test",
       CLIENT_SECRET: "test",
       TENANT_ID: "test",
+      TOKEN_PATH: "/oauth2/token",
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test",
 
       CRM_SIGNING_SECRET: "test",
       NYCID_CONSOLE_PASSWORD: "test"
@@ -59,7 +65,9 @@ describe("AppController (e2e)", () => {
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
-      })
+    })
+      .overrideProvider(SharepointService)
+      .useValue(SharepointServiceMock)
       .compile();
 
     app = moduleFixture.createNestApplication();

@@ -19,6 +19,11 @@ describe("Document Upload", () => {
       CLIENT_ID: "test",
       CLIENT_SECRET: "test",
       TENANT_ID: "test",
+      TOKEN_PATH: "/oauth2/token",
+
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test",
 
       CRM_SIGNING_SECRET: "test",
       NYCID_CONSOLE_PASSWORD: "test"
@@ -116,7 +121,7 @@ describe("Document Upload", () => {
   afterAll(() => restoreEnv());
 
   // If this fails, it may be due to the disposition entity setup being changed in UAT2.
-  // For example, if the disposition entity '37b7894b-9ef9-e911-a9bc-001dd8308ef1' is deleted, since this test uploads to that 
+  // For example, if the disposition entity '37b7894b-9ef9-e911-a9bc-001dd8308ef1' is deleted, since this test uploads to that
   // disposition entity. This test overwrites the file test.txt
   test("User can upload a single document to a Disposition `37b7894b-9ef9-e911-a9bc-001dd8308ef1`", async () => {
     const server = app.getHttpServer();
@@ -134,7 +139,7 @@ describe("Document Upload", () => {
       .set("Cookie", token)
       .expect(200)
       .expect({ message: "Uploaded document successfully." });
-    });
+  });
 
   test("User can upload a single pdf to a Disposition `2020K0121 - ZC - BK CB3  `", async () => {
     const server = app.getHttpServer();
@@ -149,7 +154,7 @@ describe("Document Upload", () => {
       .set("Cookie", token)
       .expect(200)
       .expect({ message: "Uploaded document successfully." });
-    });
+  });
 
   test("User can upload a single Excel doc to a Disposition `2020K0121 - ZC - BK CB3  `", async () => {
     const server = app.getHttpServer();
@@ -164,7 +169,7 @@ describe("Document Upload", () => {
       .set("Cookie", token)
       .expect(200)
       .expect({ message: "Uploaded document successfully." });
-    });
+  });
 
   test("User can upload a single Word doc to a Disposition `2020K0121 - ZC - BK CB3  `", async () => {
     const server = app.getHttpServer();
@@ -179,7 +184,7 @@ describe("Document Upload", () => {
       .set("Cookie", token)
       .expect(200)
       .expect({ message: "Uploaded document successfully." });
-    });
+  });
 
   test("It requires authentication", async () => {
     const server = app.getHttpServer();

@@ -19,16 +19,17 @@ export class PackageService {
 
     if (relativeurl) {
       try {
+        const folderPath = relativeurl.split("/");
+        const folderName = folderPath[folderPath.length - 1];
         const documents = await this.sharepointService.getSharepointFolderFiles(
-          `dcp_package/${relativeurl}`,
-          "?$expand=Files,Folders,Folders/Files,Folders/Folders/Files,Folders/Folders/Folders/Files"
+          this.sharepointService.driveIdMap.dcp_package,
+          folderName
         );
-
         if (documents) {
           return documents.map(document => ({
-            name: document["Name"],
-            timeCreated: document["TimeCreated"],
-            serverRelativeUrl: document["ServerRelativeUrl"]
+            name: document.name,
+            timeCreated: document.createdDateTime,
+            serverRelativeUrl: `/${document.id}`
           }));
         }
 

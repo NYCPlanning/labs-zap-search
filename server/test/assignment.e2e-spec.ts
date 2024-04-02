@@ -7,6 +7,8 @@ import nock from "nock";
 import mockedEnv from "mocked-env";
 import fs from "fs";
 import rootPath from "app-root-path";
+import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("Assignment Get", () => {
   let app;
@@ -36,9 +38,13 @@ describe("Assignment Get", () => {
       CLIENT_ID: "test",
       CLIENT_SECRET: "test",
       TENANT_ID: "test",
+      TOKEN_PATH: "/oauth2/token",
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test",
 
-      CRM_SIGNING_SECRET: 'test',
-      NYCID_CONSOLE_PASSWORD: 'test',
+      CRM_SIGNING_SECRET: "test",
+      NYCID_CONSOLE_PASSWORD: "test"
     });
 
     // mock the crm endpoint and make available to the full scope of these tests
@@ -61,7 +67,9 @@ describe("Assignment Get", () => {
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
-      })
+    })
+      .overrideProvider(SharepointService)
+      .useValue(SharepointServiceMock)
       .compile();
 
     app = moduleFixture.createNestApplication();
