@@ -17,11 +17,16 @@ describe("Login", () => {
 
     restoreEnv = mockedEnv({
       NYCID_CONSOLE_PASSWORD: "test",
+      CRM_SIGNING_SECRET: "test",
+      TENANT_ID: "test",
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test"
     });
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
-      })
+    })
       .overrideProvider(ContactService)
       .useValue(contactMock)
       .compile();

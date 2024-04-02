@@ -16,16 +16,18 @@ export class DispositionService {
   async getDispositionSharepointDocuments(relativeUrl, dcp_name) {
     if (relativeUrl) {
       try {
+        const folderPath = relativeUrl.split("/");
+        const folderName = folderPath[folderPath.length - 1];
         const documents = await this.sharepointService.getSharepointFolderFiles(
-          `dcp_dispositions/${relativeUrl}`,
-          "?$expand=Files,Folders,Folders/Files,Folders/Folders/Files,Folders/Folders/Folders/Files"
+          this.sharepointService.driveIdMap.dcp_communityboarddisposition,
+          folderName
         );
 
         if (documents) {
           return documents.map(document => ({
-            name: document["Name"],
-            timeCreated: document["TimeCreated"],
-            serverRelativeUrl: document["ServerRelativeUrl"]
+            name: document.name,
+            timeCreated: document.createdDateTime,
+            serverRelativeUrl: `/${document.id}`
           }));
         }
 

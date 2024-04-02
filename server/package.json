@@ -28,6 +28,7 @@
     "prepare": "cd .. && husky install .husky"
   },
   "dependencies": {
+    "@azure/msal-node": "^2.6.5",
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
     "@nestjs/platform-express": "^7.6.15",

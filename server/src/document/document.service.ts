@@ -48,16 +48,6 @@ function hyphenateGUID(unhyphenatedGUID) {
   ].join("");
 }
 
-// "path" refers to the "relative server path", the path
-// to the file itself on the sharepoint host. It has the format
-//
-//   /sites/<site>/<entity_name>/<folder_name>/filename.pdf
-//
-// For example,
-//
-//   /sites/dcpuat2/dcp_package/2021M0268_DraftEAS_1_996699F37323EB11A813001DD8309FA8/EAS%20Full%20Form.pdf
-//
-// Note that <folder_name> has this format:
 //
 //   <dcp_name>_<RECORDID>
 //
@@ -68,23 +58,12 @@ function hyphenateGUID(unhyphenatedGUID) {
 //
 // We have assurance of this after sprint 10 EAS enhancements. See
 // https://dcp-paperless.visualstudio.com/dcp-paperless-dynamics/_workitems/edit/13366
-function getRecordIdFromDocumentPath(path) {
-  const [
-    ,
-    ,
-    ,
-    // "sites"
-    // environment
-    // entityType
-    folder
-    // fileName
-  ] = path.split("/");
-
-  const folderSegments = folder.split("_");
-  const strippedRecordId = folderSegments[folderSegments.length - 1];
+function getRecordIdFromFolderName(documentName: string) {
+  const documentSegments = documentName.split("_");
+  const strippedRecordId = documentSegments[documentSegments.length - 1];
 
   // we need to re-insert hyphens to recreate the actual packageId, artifactId or ProjectactionId
-  // TODO: Consider asking to preseve hyphens in record ID
+  // TODO: Consider asking to preserve hyphens in record ID
   return hyphenateGUID(strippedRecordId);
 }
 
@@ -108,8 +87,16 @@ export class DocumentService {
   ) {}
   // For info on the path param,
   // see above documentation for the getRecordIdFromDocumentPath function
-  public async getPackageDocument(path) {
-    const recordId = getRecordIdFromDocumentPath(path);
+  public async getPackageDocument(fileId) {
+    const driveId = this.sharepointService.driveIdMap.dcp_package;
+    const {
+      parentReference
+    } = await this.sharepointService.getSharepointFileParentReference(
+      driveId,
+      fileId
+    );
+    const { name: parentName } = parentReference;
+    const recordId = getRecordIdFromFolderName(parentName);
 
     try {
       // Only documents belonging to public, submitted packages should be accessible
@@ -138,18 +125,26 @@ export class DocumentService {
 
       if (!firstPackage) {
         throwNoDocumentError(
-          `Client attempted to retrieve document ${path}, but no associated public, submitted packages were found.`
+          `Client attempted to retrieve document ${parentName}, but no associated public, submitted packages were found.`
         );
       }
 
-      return await this.sharepointService.getSharepointFile(path);
+      return await this.sharepointService.getSharepointFile(driveId, fileId);
     } catch (e) {
       throwNoDocumentError(`Unable to provide document access.`);
     }
   }
 
-  public async getArtifactDocument(path) {
-    const recordId = getRecordIdFromDocumentPath(path);
+  public async getArtifactDocument(fileId) {
+    const driveId = this.sharepointService.driveIdMap.dcp_artifact;
+    const {
+      parentReference
+    } = await this.sharepointService.getSharepointFileParentReference(
+      driveId,
+      fileId
+    );
+    const { name: parentName } = parentReference;
+    const recordId = getRecordIdFromFolderName(parentName);
 
     try {
       const {
@@ -167,18 +162,26 @@ export class DocumentService {
 
       if (!firstArtifact) {
         throwNoDocumentError(
-          `Client attempted to retrieve document ${path}, but no associated public, submitted artifacts were found.`
+          `Client attempted to retrieve document ${parentName}, but no associated public, submitted artifacts were found.`
         );
       }
 
-      return await this.sharepointService.getSharepointFile(path);
+      return await this.sharepointService.getSharepointFile(driveId, fileId);
     } catch (e) {
       throwNoDocumentError(`Unable to provide document access.`);
     }
   }
 
-  public async getProjectactionDocument(path) {
-    const recordId = getRecordIdFromDocumentPath(path);
+  public async getProjectactionDocument(fileId: string) {
+    const driveId = this.sharepointService.driveIdMap.dcp_projectaction;
+    const {
+      parentReference
+    } = await this.sharepointService.getSharepointFileParentReference(
+      driveId,
+      fileId
+    );
+    const { name: parentName } = parentReference;
+    const recordId = getRecordIdFromFolderName(parentName);
 
     try {
       const {
@@ -196,18 +199,27 @@ export class DocumentService {
 
       if (!firstProjectaction) {
         throwNoDocumentError(
-          `Client attempted to retrieve document ${path}, but no associated inactive project actions were found.`
+          `Client attempted to retrieve document ${parentName}, but no associated inactive project actions were found.`
         );
       }
 
-      return await this.sharepointService.getSharepointFile(path);
+      return await this.sharepointService.getSharepointFile(driveId, fileId);
     } catch (e) {
       throwNoDocumentError(`Unable to provide document access.`);
     }
   }
 
-  public async getDispositionDocument(path) {
-    const recordId = getRecordIdFromDocumentPath(path);
+  public async getDispositionDocument(fileId) {
+    const driveId = this.sharepointService.driveIdMap
+      .dcp_communityboarddisposition;
+    const {
+      parentReference
+    } = await this.sharepointService.getSharepointFileParentReference(
+      driveId,
+      fileId
+    );
+    const { name: parentName } = parentReference;
+    const recordId = getRecordIdFromFolderName(parentName);
 
     try {
       const {
@@ -227,11 +239,11 @@ export class DocumentService {
 
       if (!firstDisposition) {
         throwNoDocumentError(
-          `Client attempted to retrieve document ${path}, but no associated public, submitted dispositions were found.`
+          `Client attempted to retrieve document ${parentName}, but no associated public, submitted dispositions were found.`
         );
       }
 
-      return await this.sharepointService.getSharepointFile(path);
+      return await this.sharepointService.getSharepointFile(driveId, fileId);
     } catch (e) {
       throwNoDocumentError(`Unable to provide document access.`);
     }
