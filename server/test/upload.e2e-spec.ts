@@ -1,12 +1,10 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import * as request from "supertest";
-import * as nock from "nock";
-import * as mockedEnvPkg from "mocked-env";
+import request from "supertest";
+import nock from "nock";
+import mockedEnv from "mocked-env";
 import { doLogin } from "./helpers/do-login";
 import { extractJWT } from "./helpers/extract-jwt";
 import { AppModule } from "./../src/app.module";
-
-const { default: mockedEnv } = mockedEnvPkg;
 
 describe("Document Upload", () => {
   let app;
@@ -22,6 +20,10 @@ describe("Document Upload", () => {
       CLIENT_SECRET: "test",
       TENANT_ID: "test",
       TOKEN_PATH: "/oauth2/token",
+
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test",
 
       CRM_SIGNING_SECRET: "test",
       NYCID_CONSOLE_PASSWORD: "test"

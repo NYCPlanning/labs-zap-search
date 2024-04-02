@@ -1,12 +1,12 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import * as request from "supertest";
-import * as mockedEnvPkg from "mocked-env";
-import * as nock from "nock";
+import request from "supertest";
+import mockedEnv from "mocked-env";
+import nock from "nock";
 import { doLogin } from "./helpers/do-login";
 import { extractJWT } from "./helpers/extract-jwt";
 import { AppModule } from "./../src/app.module";
-
-const { default: mockedEnv } = mockedEnvPkg;
+import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("Disposition Patch", () => {
   let app;
@@ -37,6 +37,9 @@ describe("Disposition Patch", () => {
       CLIENT_SECRET: "test",
       TENANT_ID: "test",
       TOKEN_PATH: "/oauth2/token",
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test",
 
       CRM_SIGNING_SECRET: "test",
       NYCID_CONSOLE_PASSWORD: "test"
@@ -62,7 +65,10 @@ describe("Disposition Patch", () => {
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
-    }).compile();
+    })
+      .overrideProvider(SharepointService)
+      .useValue(SharepointServiceMock)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();

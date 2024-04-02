@@ -1,14 +1,14 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import * as request from "supertest";
+import request from "supertest";
 import { doLogin } from "./helpers/do-login";
 import { extractJWT } from "./helpers/extract-jwt";
 import { AppModule } from "./../src/app.module";
-import * as nock from "nock";
-import * as mockedEnvPkg from "mocked-env";
-import * as fs from "fs";
-import * as rootPath from "app-root-path";
-
-const { default: mockedEnv } = mockedEnvPkg;
+import nock from "nock";
+import mockedEnv from "mocked-env";
+import fs from "fs";
+import rootPath from "app-root-path";
+import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("Assignment Get", () => {
   let app;
@@ -39,6 +39,9 @@ describe("Assignment Get", () => {
       CLIENT_SECRET: "test",
       TENANT_ID: "test",
       TOKEN_PATH: "/oauth2/token",
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test",
 
       CRM_SIGNING_SECRET: "test",
       NYCID_CONSOLE_PASSWORD: "test"
@@ -64,7 +67,10 @@ describe("Assignment Get", () => {
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
-    }).compile();
+    })
+      .overrideProvider(SharepointService)
+      .useValue(SharepointServiceMock)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();

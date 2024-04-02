@@ -99,52 +99,6 @@ export class SharepointService {
 
   driveIdMap: Record<string, string> = {};
 
-  async generateSharePointAccessToken(): Promise<any> {
-    const TENANT_ID = this.config.get("TENANT_ID");
-    const SHAREPOINT_CLIENT_ID = this.config.get("SHAREPOINT_CLIENT_ID");
-    const SHAREPOINT_CLIENT_SECRET = this.config.get(
-      "SHAREPOINT_CLIENT_SECRET"
-    );
-    const ADO_PRINCIPAL = this.config.get("ADO_PRINCIPAL");
-    const SHAREPOINT_TARGET_HOST = this.config.get("SHAREPOINT_TARGET_HOST");
-
-    const clientId = `${SHAREPOINT_CLIENT_ID}@${TENANT_ID}`;
-    const data = `
-      grant_type=client_credentials
-      &client_id=${clientId}
-      &client_secret=${SHAREPOINT_CLIENT_SECRET}
-      &resource=${ADO_PRINCIPAL}/${SHAREPOINT_TARGET_HOST}@${TENANT_ID}
-    `;
-
-    const options = {
-      url: `https://accounts.accesscontrol.windows.net/${TENANT_ID}/tokens/OAuth/2`,
-      headers: {
-        "Accept-Encoding": "gzip, deflate",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "OData-MaxVersion": "4.0",
-        "OData-Version": "4.0",
-        Accept: "application/json",
-        Prefer: "return=representation"
-      },
-      body: data,
-      encoding: null
-    };
-
-    return new Promise(resolve => {
-      Request.get(options, (error, response, body) => {
-        if (error) {
-          return;
-        }
-        const stringifiedBody = body.toString("utf-8");
-        if (response.statusCode >= 400) {
-          console.log("error", stringifiedBody);
-        }
-
-        resolve(JSON.parse(stringifiedBody));
-      });
-    });
-  }
-
   private async traverseFolders(
     driveId: string,
     folderName: string,

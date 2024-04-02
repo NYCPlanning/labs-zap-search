@@ -12,13 +12,11 @@ export const MsalProvider: FactoryProvider<MsalProviderType> = {
   inject: [ConfigService],
   useFactory: (config: ConfigService) => {
     const tenantId: string | undefined = config.get("TENANT_ID");
-    const clientId: string | undefined = config.get(
-      "SHAREPOINT_CLIENT_ID_GRAPH"
-    );
+    const clientId: string | undefined = config.get("SHAREPOINT_CLIENT_ID");
     const clientSecret: string | undefined = config.get(
-      "SHAREPOINT_CLIENT_SECRET_GRAPH"
+      "SHAREPOINT_CLIENT_SECRET"
     );
-    const siteId: string | undefined = config.get("SHAREPOINT_SITE_ID_GRAPH");
+    const siteId: string | undefined = config.get("SHAREPOINT_SITE_ID");
     if (
       tenantId === undefined ||
       clientId === undefined ||

@@ -1,11 +1,9 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import * as request from "supertest";
-import * as mockedEnvPkg from "mocked-env";
+import request from "supertest";
+import mockedEnv from "mocked-env";
 import { doLogin } from "./helpers/do-login";
 import { AppModule } from "./../src/app.module";
 import { ContactService } from "./../src/contact/contact.service";
-
-const { default: mockedEnv } = mockedEnvPkg;
 
 describe("Login", () => {
   let app;
@@ -19,7 +17,11 @@ describe("Login", () => {
 
     restoreEnv = mockedEnv({
       NYCID_CONSOLE_PASSWORD: "test",
-      CRM_SIGNING_SECRET: "test"
+      CRM_SIGNING_SECRET: "test",
+      TENANT_ID: "test",
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test"
     });
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
