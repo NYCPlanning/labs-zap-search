@@ -5,6 +5,8 @@ import nock from "nock";
 import { doLogin } from "./helpers/do-login";
 import { extractJWT } from "./helpers/extract-jwt";
 import { AppModule } from "./../src/app.module";
+import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("Disposition Patch", () => {
   let app;
@@ -34,9 +36,13 @@ describe("Disposition Patch", () => {
       CLIENT_ID: "test",
       CLIENT_SECRET: "test",
       TENANT_ID: "test",
+      TOKEN_PATH: "/oauth2/token",
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test",
 
-      CRM_SIGNING_SECRET: 'test',
-      NYCID_CONSOLE_PASSWORD: 'test',
+      CRM_SIGNING_SECRET: "test",
+      NYCID_CONSOLE_PASSWORD: "test"
     });
 
     // mock the crm endpoint and make available to the full scope of these tests
@@ -59,7 +65,9 @@ describe("Disposition Patch", () => {
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
-      })
+    })
+      .overrideProvider(SharepointService)
+      .useValue(SharepointServiceMock)
       .compile();
 
     app = moduleFixture.createNestApplication();
@@ -79,7 +87,7 @@ describe("Disposition Patch", () => {
       .reply(200, {
         value: [
           {
-        // this needs to match the contactid of the current user
+            // this needs to match the contactid of the current user
             _dcp_recommendationsubmittedby_value: "test"
           }
         ],

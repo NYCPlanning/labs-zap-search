@@ -5,6 +5,8 @@ import nock from "nock";
 import { doLogin } from "./helpers/do-login";
 import { extractJWT } from "./helpers/extract-jwt";
 import { AppModule } from "./../src/app.module";
+import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("Project Get", () => {
   let app;
@@ -34,6 +36,10 @@ describe("Project Get", () => {
       CLIENT_ID: "test",
       CLIENT_SECRET: "test",
       TENANT_ID: "test",
+      TOKEN_PATH: "/oauth2/token",
+      SHAREPOINT_CLIENT_ID: "test",
+      SHAREPOINT_CLIENT_SECRET: "test",
+      SHAREPOINT_SITE_ID: "test",
 
       CRM_SIGNING_SECRET: "test",
       NYCID_CONSOLE_PASSWORD: "test"
@@ -59,7 +65,9 @@ describe("Project Get", () => {
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
-      })
+    })
+      .overrideProvider(SharepointService)
+      .useValue(SharepointServiceMock)
       .compile();
 
     app = moduleFixture.createNestApplication();
@@ -80,43 +88,43 @@ describe("Project Get", () => {
             dcp_name: "2018K0500",
             "dcp_applicanttype@OData.Community.Display.V1.FormattedValue":
               "Private",
-          dcp_applicanttype: 717170002,
+            dcp_applicanttype: 717170002,
             "dcp_borough@OData.Community.Display.V1.FormattedValue": "Brooklyn",
-          dcp_borough: 717170002,
+            dcp_borough: 717170002,
             dcp_ceqrnumber: "19DCP128K",
             "dcp_ceqrtype@OData.Community.Display.V1.FormattedValue":
               "Unlisted",
-          dcp_ceqrtype: 717170002,
+            dcp_ceqrtype: 717170002,
             "dcp_certifiedreferred@OData.Community.Display.V1.FormattedValue":
               "4/16/2020",
             dcp_certifiedreferred: "2020-04-16T14:12:50.000Z",
             "dcp_femafloodzonea@OData.Community.Display.V1.FormattedValue":
               "No",
-          dcp_femafloodzonea: false,
+            dcp_femafloodzonea: false,
             "dcp_femafloodzoneshadedx@OData.Community.Display.V1.FormattedValue":
               "No",
-          dcp_femafloodzoneshadedx: false,
+            dcp_femafloodzoneshadedx: false,
             "dcp_sisubdivision@OData.Community.Display.V1.FormattedValue": "No",
-          dcp_sisubdivision: false,
+            dcp_sisubdivision: false,
             "dcp_sischoolseat@OData.Community.Display.V1.FormattedValue": "No",
-          dcp_sischoolseat: false,
+            dcp_sischoolseat: false,
             dcp_projectbrief: "Really great spot.",
             dcp_projectname: "999999999 5th Avenue Rezoning",
             "dcp_publicstatus@OData.Community.Display.V1.FormattedValue":
               "Filed",
-          dcp_publicstatus: 717170000,
-          dcp_projectcompleted: null,
+            dcp_publicstatus: 717170000,
+            dcp_projectcompleted: null,
             "dcp_hiddenprojectmetrictarget@OData.Community.Display.V1.FormattedValue":
               "450 Days",
-          dcp_hiddenprojectmetrictarget: 717170000,
+            dcp_hiddenprojectmetrictarget: 717170000,
             "dcp_ulurp_nonulurp@OData.Community.Display.V1.FormattedValue":
               "ULURP",
-          dcp_ulurp_nonulurp: 717170001,
+            dcp_ulurp_nonulurp: 717170001,
             dcp_validatedcommunitydistricts: "K10",
-          dcp_bsanumber: null,
-          dcp_wrpnumber: null,
-          dcp_lpcnumber: null,
-          dcp_nydospermitnumber: null,
+            dcp_bsanumber: null,
+            dcp_wrpnumber: null,
+            dcp_lpcnumber: null,
+            dcp_nydospermitnumber: null,
             "dcp_lastmilestonedate@OData.Community.Display.V1.FormattedValue":
               "4/16/2020",
             dcp_lastmilestonedate: "2020-04-16T14:13:04.000Z",
