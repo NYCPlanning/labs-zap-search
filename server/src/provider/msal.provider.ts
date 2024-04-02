@@ -2,10 +2,10 @@ import { FactoryProvider, HttpException, HttpStatus } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import msal from "@azure/msal-node";
 
-export type MsalProviderType = {
+export interface MsalProviderType {
   getGraphClientToken: () => Promise<msal.AuthenticationResult>;
   sharePointSiteUrl: string;
-};
+}
 export const MSAL = Symbol("MSAL_SERVICE");
 export const MsalProvider: FactoryProvider<MsalProviderType> = {
   provide: MSAL,
@@ -24,8 +24,9 @@ export const MsalProvider: FactoryProvider<MsalProviderType> = {
       clientId === undefined ||
       clientSecret === undefined ||
       siteId === undefined
-    )
+    ) {
       throw new Error("Missing SharePoint credential");
+    }
 
     const cca = new msal.ConfidentialClientApplication({
       auth: {
