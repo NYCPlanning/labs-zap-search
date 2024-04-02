@@ -86,12 +86,10 @@ export class DocumentController {
       );
       response.status(200).send({ message: uploadDocResponse });
     } else {
-      response
-        .status(400)
-        .send({
-          error:
-            "You can only upload files to dcp_communityboarddisposition at this time"
-        });
+      response.status(400).send({
+        error:
+          "You can only upload files to dcp_communityboarddisposition at this time"
+      });
     }
   }
 

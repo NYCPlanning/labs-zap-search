@@ -2,9 +2,10 @@
 
 const { MIRAGE_SCENARIO } = process.env;
 const NYCID_CLIENT_ID = process.env.NYCID_CLIENT_ID || 'lup-portal-local';
-const NYC_ID_HOST = process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
+const NYC_ID_HOST =
+  process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'labs-zap-search',
     environment,
@@ -77,7 +78,8 @@ module.exports = function(environment) {
           debug: environment === 'debug-ga',
           trace: environment === 'debug-ga',
           // Ensure development env hits aren't sent to GA
-          sendHitTask: (environment !== 'development' && environment !== 'devlocal'),
+          sendHitTask:
+            environment !== 'development' && environment !== 'devlocal',
         },
       },
       {
@@ -147,7 +149,8 @@ module.exports = function(environment) {
       enabled: false,
     };
 
-    ENV['mapbox-gl'].map.style = 'https://labs-layers-api.herokuapp.com/v1/base/style.json';
+    ENV['mapbox-gl'].map.style =
+      'https://labs-layers-api.herokuapp.com/v1/base/style.json';
   }
 
   if (environment !== 'production') {
