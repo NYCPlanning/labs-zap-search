@@ -11,7 +11,7 @@ export function coerceToNumber(numericStrings) {
     numericStrings
       // filter out blank strings and undefined, which aren't meaningfully
       // coercible in CRM
-      .filter(stringish => stringish !== "" && stringish !== undefined)
+      .filter(stringish => stringish !== '' && stringish !== undefined)
       .map(stringish => {
         // smelly; but let's prefer actual null
         // coercing 'null' turns to 0, which we don't
@@ -21,7 +21,7 @@ export function coerceToNumber(numericStrings) {
         // Coercing an empty string into a number returns
         // NaN, which, although a number, is a Double in CRM
         // which typically expects an Int
-        if (stringish === "") return stringish;
+        if (stringish === '') return stringish;
 
         return Number(stringish);
       })
@@ -39,25 +39,44 @@ export function mapInLookup(arrayOfStrings, lookupHash) {
 }
 
 export function all(...statements): string {
-  return statements.filter(Boolean).join(" and ");
+  const femaFloodZoneFilters = statements.filter(statement => {
+    if (statement.includes('femafloodzone') && statement.includes('true'))
+      return statement;
+  });
+  const filters = statements.filter(statement => {
+    if (!statement.includes('femafloodzone')) return statement;
+  });
+
+  if (femaFloodZoneFilters.length > 0) {
+    const femaFilterString = femaFloodZoneFilters.join(' and ');
+    const filterString = filters.filter(Boolean).join(' and ');
+
+    const allStatements = filterString.concat(
+      ' and ',
+      `((${femaFilterString}))`
+    );
+    return allStatements;
+  }
+
+  return statements.filter(Boolean).join(' and ');
 }
 
 export function any(...statements): string {
-  return `(${statements.join(" or ")})`;
+  return `(${statements.join(' or ')})`;
 }
 
 export function comparisonOperator(propertyName, operator, value) {
   let typeSafeValue = value;
 
-  if (typeof value === "string") {
-    if (value !== "false" && value !== "true") {
+  if (typeof value === 'string') {
+    if (value !== 'false' && value !== 'true') {
       typeSafeValue = `'${value}'`;
     }
   }
 
   // most likely means it's a date. we want the date formatting that
   // json stringify provides.
-  if (typeof value === "object") {
+  if (typeof value === 'object') {
     const stringyDate = JSON.stringify(value).replace(/"/g, "'");
 
     typeSafeValue = `${stringyDate}`;
@@ -72,22 +91,22 @@ export function containsString(propertyName, string) {
 
 export function equalsAnyOf(propertyName, strings = []) {
   const querySegment = strings
-    .map(string => comparisonOperator(propertyName, "eq", string))
-    .join(" or ");
+    .map(string => comparisonOperator(propertyName, 'eq', string))
+    .join(' or ');
 
   // Empty parenthases are invalid
-  return querySegment ? `(${querySegment})` : "";
+  return querySegment ? `(${querySegment})` : '';
 }
 
 export function containsAnyOf(propertyName, strings = [], options?) {
-  const { childEntity = "", comparisonStrategy = containsString, not = false } =
+  const { childEntity = '', comparisonStrategy = containsString, not = false } =
     options || {};
 
   const containsQuery = strings
     .map((string, i) => {
       // in odata syntax, this character o is a variable for scoping
       // logic for related entities. it needs to only appear once.
-      const lambdaScope = childEntity && i === 0 ? `${childEntity}:` : "";
+      const lambdaScope = childEntity && i === 0 ? `${childEntity}:` : '';
       const lambdaScopedProperty = childEntity
         ? `${childEntity}/${propertyName}`
         : propertyName;
@@ -97,18 +116,18 @@ export function containsAnyOf(propertyName, strings = [], options?) {
         string
       )}`;
     })
-    .join(" or ");
-  const lambdaQueryPrefix = childEntity ? `${childEntity}/any` : "";
+    .join(' or ');
+  const lambdaQueryPrefix = childEntity ? `${childEntity}/any` : '';
 
-  return `(${not ? "not " : ""}${lambdaQueryPrefix}(${containsQuery}))`;
+  return `(${not ? 'not ' : ''}${lambdaQueryPrefix}(${containsQuery}))`;
 }
 
 export const dateParser = function(key, value) {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     // YYYY-MM-DDTHH:mm:ss.sssZ => parsed as UTC
     // YYYY-MM-DD => parsed as local date
 
-    if (value != "") {
+    if (value != '') {
       const a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(
         value
       );
@@ -148,7 +167,7 @@ export const dateParser = function(key, value) {
   return value;
 };
 
-const COMMUNITY_DISPLAY_TOKEN = "@OData.Community.Display.V1.FormattedValue";
+const COMMUNITY_DISPLAY_TOKEN = '@OData.Community.Display.V1.FormattedValue';
 
 // CRM provides numeric codes for picklist types
 // for example, "yes" might appear as "1"
@@ -161,7 +180,7 @@ export function overwriteCodesWithLabels(records, targetFields) {
     // parent record
     Object.keys(record)
       .filter(key => key.includes(COMMUNITY_DISPLAY_TOKEN))
-      .map(key => key.replace(COMMUNITY_DISPLAY_TOKEN, ""))
+      .map(key => key.replace(COMMUNITY_DISPLAY_TOKEN, ''))
       .forEach(key => {
         if (targetFields.includes(key)) {
           newRecord[key] = record[`${key}${COMMUNITY_DISPLAY_TOKEN}`];
@@ -182,7 +201,7 @@ export function overwriteCodesWithLabels(records, targetFields) {
 
             Object.keys(record)
               .filter(key => key.includes(COMMUNITY_DISPLAY_TOKEN))
-              .map(key => key.replace(COMMUNITY_DISPLAY_TOKEN, ""))
+              .map(key => key.replace(COMMUNITY_DISPLAY_TOKEN, ''))
               .forEach(key => {
                 if (targetFields.includes(key)) {
                   newRecord[key] = record[`${key}${COMMUNITY_DISPLAY_TOKEN}`];
