@@ -1,12 +1,8 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
-import * as jwt from 'jsonwebtoken';
-import * as moment from 'moment';
-import { ConfigService } from '../config/config.service';
-import { ContactService } from '../contact/contact.service';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import jwt from "jsonwebtoken";
+import moment from "moment";
+import { ConfigService } from "../config/config.service";
+import { ContactService } from "../contact/contact.service";
 
 /**
  * This class describes the central auth service. Two public methods are available.
@@ -17,41 +13,41 @@ import { ContactService } from '../contact/contact.service';
 @Injectable()
 export class AuthService {
   // required env variables
-  CRM_SIGNING_SECRET = '';
-  NYCID_CONSOLE_PASSWORD = '';
+  CRM_SIGNING_SECRET = "";
+  NYCID_CONSOLE_PASSWORD = "";
 
   constructor(
     private readonly config: ConfigService,
-    private readonly contactService: ContactService,
+    private readonly contactService: ContactService
   ) {
-    this.CRM_SIGNING_SECRET = this.config.get('CRM_SIGNING_SECRET');
-    this.NYCID_CONSOLE_PASSWORD = this.config.get('NYCID_CONSOLE_PASSWORD');
+    this.CRM_SIGNING_SECRET = this.config.get("CRM_SIGNING_SECRET");
+    this.NYCID_CONSOLE_PASSWORD = this.config.get("NYCID_CONSOLE_PASSWORD");
   }
 
   /**
    * This method automates how authentication works in this app. It is intended for
    * debugging purposes. There are two kinds of JWTs in play in this application:
-   * 
+   *
    *  - NYC.ID JWT
    *  - Our JWT
-   * 
+   *
    * In order to login to this application, one must first be authenticated
    * through NYC.ID. Once authenticated, NYC.ID redirects you back to this
    * application with a JWT that includes your e-mail address. That is what
    * you are seeing on line 39: we are generating a mock NYC.ID JWT and signing
    * it with the NYCID_CONSOLE_PASSWORD as if you were authenticated via NYC.ID.
-   * 
-   * This method recreates the NYC.ID authentication step for use in local 
+   *
+   * This method recreates the NYC.ID authentication step for use in local
    * development. The intent is to enable local debugging that is closer to
    * how authentication actually works.
-   * 
+   *
    * Once the cookie is printed in the terminal, you can copy that cookie and paste
    * it into headers of requests you're making. If you're looking at the API and
    * want it to persist, you can use the Chrome Inspector to add the token via the
    * Application tab.
-   * 
+   *
    * See this PR for full discussion: https://github.com/NYCPlanning/zap-api/pull/74#discussion_r370749677.
-   * 
+   *
    * @param      {<type>}  NYCIDToken  The nycid token
    */
   public async generateNewToken(NYCIDToken: string): Promise<string> {
@@ -80,9 +76,12 @@ export class AuthService {
     try {
       return this.contactService.findByEmail(mail);
     } catch (e) {
-      throw new HttpException(`
+      throw new HttpException(
+        `
         CRM user not found. Please make sure your e-mail is associated with an assignment.
-      `, HttpStatus.UNAUTHORIZED);
+      `,
+        HttpStatus.UNAUTHORIZED
+      );
     }
   }
 
@@ -118,7 +117,9 @@ export class AuthService {
    */
   private signNewToken(
     contactid: string,
-    exp: number = moment().add(1, 'days').unix(),
+    exp: number = moment()
+      .add(1, "days")
+      .unix()
   ): string {
     const { CRM_SIGNING_SECRET } = this;
 

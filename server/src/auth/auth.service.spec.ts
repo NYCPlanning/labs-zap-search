@@ -1,9 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { ConfigService } from '../config/config.service';
-import { ContactService } from '../contact/contact.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { AuthService } from "./auth.service";
+import { ConfigService } from "../config/config.service";
+import { ContactService } from "../contact/contact.service";
 
-describe('AuthService', () => {
+describe("AuthService", () => {
   let service: AuthService;
 
   beforeEach(async () => {
@@ -15,20 +15,20 @@ describe('AuthService', () => {
           // how you provide the injection token in a test instance
           useValue: new (class Mock {
             get() {}
-          }),
+          })()
         },
         {
           provide: ContactService,
           // how you provide the injection token in a test instance
-          useValue: new (class Mock { }),
-        },
-      ],
+          useValue: new (class Mock {})()
+        }
+      ]
     }).compile();
 
     service = module.get<AuthService>(AuthService);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(service).toBeDefined();
   });
 });

@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { DispositionController } from './disposition.controller';
-import { Disposition } from './disposition.entity';
-import { CrmService } from '../crm/crm.service';
-import { ConfigService } from '../config/config.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { getRepositoryToken } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { DispositionController } from "./disposition.controller";
+import { Disposition } from "./disposition.entity";
+import { CrmService } from "../crm/crm.service";
+import { ConfigService } from "../config/config.service";
 
-describe('Disposition Controller', () => {
+describe("Disposition Controller", () => {
   let controller: DispositionController;
 
   beforeEach(async () => {
@@ -14,26 +14,26 @@ describe('Disposition Controller', () => {
       providers: [
         {
           provide: CrmService,
-          useValue: new (class OdataServiceMock { }),
+          useValue: new (class OdataServiceMock {})()
         },
         {
           provide: ConfigService,
-          useValue: new (class ConfigServiceMock { }),
+          useValue: new (class ConfigServiceMock {})()
         },
         {
           // how you provide the injection token in a test instance
           provide: getRepositoryToken(Disposition),
           // as a class value, Repository needs no generics
-          useClass: Repository,
-        },
+          useClass: Repository
+        }
       ],
-      controllers: [DispositionController],
+      controllers: [DispositionController]
     }).compile();
 
     controller = module.get<DispositionController>(DispositionController);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 });
