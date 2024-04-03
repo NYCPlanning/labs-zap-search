@@ -30,6 +30,8 @@ import {
   containsString,
   equalsAnyOf,
   containsAnyOf,
+  startsWithAnyOf,
+  startsWithString,
   overwriteCodesWithLabels
 } from "../crm/crm.utilities";
 import { ArtifactService } from "../artifact/artifact.service";
@@ -216,7 +218,7 @@ const QUERY_TEMPLATES = {
     ),
 
   blocks_in_radius: queryParamValue =>
-    containsAnyOf("dcp_validatedblock", queryParamValue, {
+    startsWithAnyOf("dcp_bblnumber", queryParamValue, {
       childEntity: "dcp_dcp_project_dcp_projectbbl_project"
     })
 };

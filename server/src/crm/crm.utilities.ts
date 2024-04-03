@@ -122,7 +122,33 @@ export function containsAnyOf(propertyName, strings = [], options?) {
   return `(${not ? 'not ' : ''}${lambdaQueryPrefix}(${containsQuery}))`;
 }
 
-export const dateParser = function(key, value) {
+export function startsWithString(propertyName, string) {
+  return `startswith(${propertyName}, '${string}')`;
+}
+
+export function startsWithAnyOf(propertyName, strings = [], options?) {
+  const {
+    childEntity = '',
+    comparisonStrategy = startsWithString,
+    not = false,
+  } = options || {};
+
+  const containsQuery = strings
+    .map((string, i) => {
+      // in odata syntax, this character o is a variable for scoping
+      // logic for related entities. it needs to only appear once.
+      const lambdaScope = (childEntity && i === 0) ? `${childEntity}:` : '';
+      const lambdaScopedProperty = childEntity ? `${childEntity}/${propertyName}` : propertyName;
+
+      return `${lambdaScope}${comparisonStrategy(lambdaScopedProperty, string)}`;
+    })
+    .join(' or ');
+  const lambdaQueryPrefix = childEntity ? `${childEntity}/any` : '';
+
+  return `(${not ? 'not ' : ''}${lambdaQueryPrefix}(${containsQuery}))`;
+}
+
+export const dateParser = function (key, value) {
   if (typeof value === 'string') {
     // YYYY-MM-DDTHH:mm:ss.sssZ => parsed as UTC
     // YYYY-MM-DD => parsed as local date
