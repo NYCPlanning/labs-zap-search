@@ -187,7 +187,7 @@ const QUERY_TEMPLATES = {
     ),
 
   blocks_in_radius: (queryParamValue) => 
-    containsString('dcp_validatedblock', [queryParamValue], 'dcp_projectbbl'),
+    containsString('dcp_bblnumber', [queryParamValue], 'dcp_projectbbl'),
 
   dcp_femafloodzonev: queryParamValue =>
     comparisonOperator(
@@ -363,8 +363,10 @@ export class GeometryService {
     const blocks = await this.carto.fetchCarto(distinctBlocks, "json", "post");
 
     // note: DTM stores blocks with the borough
-    return blocks.map(block => `${block.block.substring(1)}`);
-  }
+
+    return blocks
+      .map(block => `${block.block}`);
+    }
 
   // Warning! Returns either null or an Object
   async getBblsGeometry(bbls = []) {
