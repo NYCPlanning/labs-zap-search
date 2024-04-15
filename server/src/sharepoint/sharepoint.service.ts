@@ -225,4 +225,40 @@ export class SharepointService {
     const response = await fetch(url, options);
     return await response.json();
   }
+
+  async getSharepointFileId(driveId: string, relativeUrl: string) {
+    const filePath = relativeUrl.split("/");
+    if (filePath.length < 2)
+      throw new Error("Invalid file path; too few components");
+    const folderName = filePath[filePath.length - 2];
+    const fileName = filePath[filePath.length - 1];
+
+    const { accessToken } = await this.msalProvider.getGraphClientToken();
+    const url = `${
+      this.msalProvider.sharePointSiteUrl
+    }/drives/${driveId}/root:/${folderName}:/children?$filter=(name eq '${fileName}')&$select=id`;
+    const options = {
+      headers: {
+        method: "GET",
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/json"
+      }
+    };
+
+    const response = await fetch(url, options);
+    const data = (await response.json()) as
+      | { value: Array<{ id: string }> }
+      | { message: string };
+    if ("value" in data && data.value.length > 0) {
+      return data.value[0].id;
+    } else {
+      throw new HttpException(
+        {
+          code: "DISPOSITION_ID",
+          title: "Disposition ID Error"
+        },
+        HttpStatus.NOT_FOUND
+      );
+    }
+  }
 }

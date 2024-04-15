@@ -85,6 +85,13 @@ export class DocumentService {
     private readonly crmService: CrmService,
     private readonly sharepointService: SharepointService
   ) {}
+  public async getPackageDocumentId(relativeUrl: string) {
+    const driveId = this.sharepointService.driveIdMap.dcp_package;
+    return await this.sharepointService.getSharepointFileId(
+      driveId,
+      relativeUrl
+    );
+  }
   // For info on the path param,
   // see above documentation for the getRecordIdFromDocumentPath function
   public async getPackageDocument(fileId) {
@@ -135,6 +142,14 @@ export class DocumentService {
     }
   }
 
+  public async getArtifactDocumentId(relativeUrl: string) {
+    const driveId = this.sharepointService.driveIdMap.dcp_artifact;
+    return await this.sharepointService.getSharepointFileId(
+      driveId,
+      relativeUrl
+    );
+  }
+
   public async getArtifactDocument(fileId) {
     const driveId = this.sharepointService.driveIdMap.dcp_artifact;
     const {
@@ -172,6 +187,14 @@ export class DocumentService {
     }
   }
 
+  public async getProjectactionDocumentId(relativeUrl: string) {
+    const driveId = this.sharepointService.driveIdMap.dcp_projectaction;
+    return await this.sharepointService.getSharepointFileId(
+      driveId,
+      relativeUrl
+    );
+  }
+
   public async getProjectactionDocument(fileId: string) {
     const driveId = this.sharepointService.driveIdMap.dcp_projectaction;
     const {
@@ -207,6 +230,15 @@ export class DocumentService {
     } catch (e) {
       throwNoDocumentError(`Unable to provide document access.`);
     }
+  }
+
+  public async getDispositionDocumentId(relativeUrl: string) {
+    const driveId = this.sharepointService.driveIdMap
+      .dcp_communityboarddisposition;
+    return await this.sharepointService.getSharepointFileId(
+      driveId,
+      relativeUrl
+    );
   }
 
   public async getDispositionDocument(fileId) {
