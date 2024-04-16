@@ -93,12 +93,32 @@ export class DocumentController {
     }
   }
 
+  @Get("/package/sites/*")
+  async streamPackageDocByUrl(@Param() sharepointRelativePath, @Res() res) {
+    const id = await this.documentService.getPackageDocumentId(
+      sharepointRelativePath[0]
+    );
+
+    const stream = await this.documentService.getPackageDocument(id);
+    stream.pipe(res);
+  }
+
   @Get("/package/*")
   async streamPackageDoc(@Param() sharepointRelativePath, @Res() res) {
     const stream = await this.documentService.getPackageDocument(
       sharepointRelativePath[0]
     );
 
+    stream.pipe(res);
+  }
+
+  @Get("/artifact/sites/*")
+  async streamArtifactDocByUrl(@Param() sharepointRelativePath, @Res() res) {
+    const id = await this.documentService.getArtifactDocumentId(
+      sharepointRelativePath[0]
+    );
+
+    const stream = await this.documentService.getArtifactDocument(id);
     stream.pipe(res);
   }
 
@@ -111,12 +131,35 @@ export class DocumentController {
     stream.pipe(res);
   }
 
+  @Get("/projectaction/sites/*")
+  async streamProjectactionDocByUrl(
+    @Param() sharepointRelativePath,
+    @Res() res
+  ) {
+    const id = await this.documentService.getProjectactionDocumentId(
+      sharepointRelativePath[0]
+    );
+
+    const stream = await this.documentService.getProjectactionDocument(id);
+    stream.pipe(res);
+  }
+
   @Get("/projectaction/*")
   async streamProjectactionDoc(@Param() sharepointRelativePath, @Res() res) {
     const stream = await this.documentService.getProjectactionDocument(
       sharepointRelativePath[0]
     );
 
+    stream.pipe(res);
+  }
+
+  @Get("/disposition/sites/*")
+  async streamDispositionDocByUrl(@Param() sharepointRelativePath, @Res() res) {
+    const id = await this.documentService.getDispositionDocumentId(
+      sharepointRelativePath[0]
+    );
+
+    const stream = await this.documentService.getDispositionDocument(id);
     stream.pipe(res);
   }
 
