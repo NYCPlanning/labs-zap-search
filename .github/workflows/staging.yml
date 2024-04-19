@@ -1,0 +1,23 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Staging
+    environment: staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@V4
+        with:
+          ref: 'main'
+      - uses: akhileshns/heroku-deploy@v3.13.15
+        with:
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "zap-api-staging"
+          team: ${{secrets.HEROKU_TEAM}}
+          appdir: "server"
