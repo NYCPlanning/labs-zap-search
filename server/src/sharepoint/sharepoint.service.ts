@@ -227,8 +227,9 @@ export class SharepointService {
   }
 
   async getSharepointFileId(driveId: string, relativeUrl: string) {
-    const filePath = relativeUrl.split("/");
-    if (filePath.length < 2)
+    const filePathSegments = relativeUrl.split("/");
+    const filePathSegmentsCount = filePathSegments.length;
+    if (filePathSegmentsCount < 4)
       throw new HttpException(
         {
           code: "DISPOSITION_ID_PATH",
@@ -236,8 +237,12 @@ export class SharepointService {
         },
         HttpStatus.BAD_REQUEST
       );
-    const folderName = filePath[filePath.length - 2];
-    const fileName = filePath[filePath.length - 1];
+
+    const fileName = filePathSegments[filePathSegmentsCount - 1];
+    // A file may be nested within several folders. We rejoin the folders into the relative path
+    const folderName = filePathSegments
+      .slice(2, filePathSegmentsCount - 1)
+      .join("/");
 
     const { accessToken } = await this.msalProvider.getGraphClientToken();
     const url = `${
