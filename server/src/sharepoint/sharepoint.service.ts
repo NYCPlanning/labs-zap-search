@@ -208,12 +208,12 @@ export class SharepointService {
     }
   }
 
-  async getSharepointFileParentReference(driveId: string, fileId: string) {
+  async getSharepointFileUrl(driveId: string, fileId: string) {
     const { accessToken } = await this.msalProvider.getGraphClientToken();
 
     const url = `${
       this.msalProvider.sharePointSiteUrl
-    }/drives/${driveId}/items/${fileId}?$select=parentReference`;
+    }/drives/${driveId}/items/${fileId}?$select=webUrl`;
     const options = {
       method: "GET",
       headers: {

@@ -48,7 +48,7 @@ function hyphenateGUID(unhyphenatedGUID) {
   ].join("");
 }
 
-//
+// Note that <folder_name> has this format:
 //   <dcp_name>_<RECORDID>
 //
 // where dcp_name is usually the dcp_name property on the entity (e.g. package, artifact, or projectaction)
@@ -58,7 +58,9 @@ function hyphenateGUID(unhyphenatedGUID) {
 //
 // We have assurance of this after sprint 10 EAS enhancements. See
 // https://dcp-paperless.visualstudio.com/dcp-paperless-dynamics/_workitems/edit/13366
-function getRecordIdFromFolderName(documentName: string) {
+function getRecordIdFromFileUrl(url: string) {
+  const urlSegments = url.split("/");
+  const documentName = urlSegments[6];
   const documentSegments = documentName.split("_");
   const strippedRecordId = documentSegments[documentSegments.length - 1];
 
@@ -94,16 +96,13 @@ export class DocumentService {
   }
   // For info on the path param,
   // see above documentation for the getRecordIdFromDocumentPath function
-  public async getPackageDocument(fileId) {
+  public async getPackageDocument(fileId: string) {
     const driveId = this.sharepointService.driveIdMap.dcp_package;
-    const {
-      parentReference
-    } = await this.sharepointService.getSharepointFileParentReference(
+    const { webUrl } = await this.sharepointService.getSharepointFileUrl(
       driveId,
       fileId
     );
-    const { name: parentName } = parentReference;
-    const recordId = getRecordIdFromFolderName(parentName);
+    const recordId = getRecordIdFromFileUrl(webUrl);
 
     try {
       // Only documents belonging to public, submitted packages should be accessible
@@ -132,7 +131,7 @@ export class DocumentService {
 
       if (!firstPackage) {
         throwNoDocumentError(
-          `Client attempted to retrieve document ${parentName}, but no associated public, submitted packages were found.`
+          `Client attempted to retrieve document ${fileId}, but no associated public, submitted packages were found.`
         );
       }
 
@@ -150,16 +149,13 @@ export class DocumentService {
     );
   }
 
-  public async getArtifactDocument(fileId) {
+  public async getArtifactDocument(fileId: string) {
     const driveId = this.sharepointService.driveIdMap.dcp_artifact;
-    const {
-      parentReference
-    } = await this.sharepointService.getSharepointFileParentReference(
+    const { webUrl } = await this.sharepointService.getSharepointFileUrl(
       driveId,
       fileId
     );
-    const { name: parentName } = parentReference;
-    const recordId = getRecordIdFromFolderName(parentName);
+    const recordId = getRecordIdFromFileUrl(webUrl);
 
     try {
       const {
@@ -177,7 +173,7 @@ export class DocumentService {
 
       if (!firstArtifact) {
         throwNoDocumentError(
-          `Client attempted to retrieve document ${parentName}, but no associated public, submitted artifacts were found.`
+          `Client attempted to retrieve document ${fileId}, but no associated public, submitted artifacts were found.`
         );
       }
 
@@ -197,14 +193,11 @@ export class DocumentService {
 
   public async getProjectactionDocument(fileId: string) {
     const driveId = this.sharepointService.driveIdMap.dcp_projectaction;
-    const {
-      parentReference
-    } = await this.sharepointService.getSharepointFileParentReference(
+    const { webUrl } = await this.sharepointService.getSharepointFileUrl(
       driveId,
       fileId
     );
-    const { name: parentName } = parentReference;
-    const recordId = getRecordIdFromFolderName(parentName);
+    const recordId = getRecordIdFromFileUrl(webUrl);
 
     try {
       const {
@@ -222,7 +215,7 @@ export class DocumentService {
 
       if (!firstProjectaction) {
         throwNoDocumentError(
-          `Client attempted to retrieve document ${parentName}, but no associated inactive project actions were found.`
+          `Client attempted to retrieve document ${fileId}, but no associated inactive project actions were found.`
         );
       }
 
@@ -241,17 +234,14 @@ export class DocumentService {
     );
   }
 
-  public async getDispositionDocument(fileId) {
+  public async getDispositionDocument(fileId: string) {
     const driveId = this.sharepointService.driveIdMap
       .dcp_communityboarddisposition;
-    const {
-      parentReference
-    } = await this.sharepointService.getSharepointFileParentReference(
+    const { webUrl } = await this.sharepointService.getSharepointFileUrl(
       driveId,
       fileId
     );
-    const { name: parentName } = parentReference;
-    const recordId = getRecordIdFromFolderName(parentName);
+    const recordId = getRecordIdFromFileUrl(webUrl);
 
     try {
       const {
@@ -271,7 +261,7 @@ export class DocumentService {
 
       if (!firstDisposition) {
         throwNoDocumentError(
-          `Client attempted to retrieve document ${parentName}, but no associated public, submitted dispositions were found.`
+          `Client attempted to retrieve document ${fileId}, but no associated public, submitted dispositions were found.`
         );
       }
 
