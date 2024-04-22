@@ -5,7 +5,9 @@ on: workflow_dispatch
 jobs:
   build-server:
     name: Build production server
-    environment: production
+    environment: 
+      name: production
+      url: https://zap.planning.nyc.gov 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -74,5 +76,6 @@ jobs:
            echo "MAINTENANCE_START=$MAINTENANCE_START" >> .env
            echo "MAINTENANCE_END=$MAINTENANCE_END" >> .env
       - name: Deploy client to Netlify
-        run: npx netlify-cli deploy --build --prod
+        ## run: npx netlify-cli deploy --build --prod
+        run: npx netlify-cli deploy --build --alias production-action
 

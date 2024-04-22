@@ -1,4 +1,4 @@
-name: Deploy to Staging
+name: Deploy to staging
 
 on:
   push:
@@ -6,18 +6,78 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build Staging
-    environment: staging
+  build-server:
+    name: Build staging server
+    environment:
+      name: staging
+      url: https://zap-staging.planninglabs.nyc
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@V4
+      - uses: actions/checkout@v4
         with:
           ref: 'main'
+          sparse-checkout: server
       - uses: akhileshns/heroku-deploy@v3.13.15
+        name: Deploy server to Heroku
         with:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "zap-api-staging"
+          heroku_app_name: $${{secrets.HEROKU_APP_NAME}}
           team: ${{secrets.HEROKU_TEAM}}
-          appdir: "server"
+          appdir: server
+        env:
+          AUTHORITY_HOST_URL: ${{secrets.AUTHORITY_HOST_URL}}
+          CLIENT_ID: ${{secrets.CLIENT_ID}}
+          CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+          CRM_HOST: ${{secrets.CRM_HOST}}
+          CRM_SIGNING_SECRET: ${{secrets.CRM_SIGNING_SECRET}}
+          CRM_URL_PATH: ${{secrets.CRM_URL_PATH}}
+          GITHUB_ACCESS_TOKEN: ${{secrets.GITHUB_ACCESS_TOKEN}}
+          NYCID_CONSOLE_PASSWORD: ${{secrets.NYCID_CONSOLE_PASSWORD}}
+          RECAPTCHA_SECRET_KEY: ${{secrets.RECAPTCHA_SECRET_KEY}}
+          RECAPTCHA_SITE_KEY: ${{secrets.RECAPTCHA_SITE_KEY}}
+          TENANT_ID: ${{secrets.TENANT_ID}}
+          TOKEN_PATH: ${{secrets.TOKEN_PATH}}
+          ADO_PRINCIPAL: ${{secrets.ADO_PRINCIPAL}}
+          CRM_ADMIN_SERVICE_USER: ${{secrets.CRM_ADMIN_SERVICE_USER}}
+          SHAREPOINT_CLIENT_ID: ${{secrets.SHAREPOINT_CLIENT_ID}}
+          SHAREPOINT_CLIENT_SECRET: ${{secrets.SHAREPOINT_CLIENT_SECRET}}
+          SHAREPOINT_CRM_SITE: ${{secrets.SHAREPOINT_CRM_SITE}}
+          SHAREPOINT_TARGET_HOST: ${{secrets.SHAREPOINT_TARGET_HOST}}
+  build-client:
+    name: Build staging client
+    environment: staging
+    runs-on: ubuntu-latest
+    env:
+      NETLIFY_SITE_ID: ${{secrets.NETLIFY_SITE_ID}} 
+      NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
+      HOST: ${{secrets.ZAP_API_HOST}}
+      NYCID_CLIENT_ID: ${{secrets.NYCID_CLIENT_ID}}
+      NYC_ID_HOST: ${{secrets.NYC_ID_HOST}}
+      MAINTENANCE_START: ${{secrets.MAINTENANCE_START}}
+      MAINTENANCE_END: ${{secrets.MAINTENANCE_END}}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            ref: 'main'
+            sparse-checkout: client
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14.x
+      - name: Install dependencies 
+        working-directory: client
+        run: yarn install --prod --frozen-lockfile
+      - name: Set environment variables
+        working-directory: client
+        run: |
+           echo "NETLIFY_SITE_ID=$NETLIFY_SITE_ID" >> .env
+           echo "NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN" >> .env
+           echo "ZAP_API_HOST=$ZAP_API_HOST" >> .env
+           echo "NYCID_CLIENT_ID=$NYCID_CLIENT_ID" >> .env
+           echo "NYC_ID_HOST=$NYC_ID_HOST" >> .env
+           echo "MAINTENANCE_START=$MAINTENANCE_START" >> .env
+           echo "MAINTENANCE_END=$MAINTENANCE_END" >> .env
+      - name: Deploy client to Netlify
+        run: npx netlify-cli deploy --build --alias staging-action
+
