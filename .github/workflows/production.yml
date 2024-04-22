@@ -46,6 +46,11 @@ jobs:
     env:
       NETLIFY_SITE_ID: ${{secrets.NETLIFY_SITE_ID}} 
       NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
+      HOST: ${{secrets.ZAP_API_HOST}}
+      NYCID_CLIENT_ID: ${{secrets.NYCID_CLIENT_ID}}
+      NYC_ID_HOST: ${{secrets.NYC_ID_HOST}}
+      MAINTENANCE_START: ${{secrets.MAINTENANCE_START}}
+      MAINTENANCE_END: ${{secrets.MAINTENANCE_END}}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -58,6 +63,16 @@ jobs:
       - name: Install dependencies 
         working-directory: client
         run: yarn install --prod --frozen-lockfile
+      - name: Set environment variables
+        working-directory: client
+        run: |
+           echo "NETLIFY_SITE_ID=$NETLIFY_SITE_ID" >> .env
+           echo "NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN" >> .env
+           echo "ZAP_API_HOST=$ZAP_API_HOST" >> .env
+           echo "NYCID_CLIENT_ID=$NYCID_CLIENT_ID" >> .env
+           echo "NYC_ID_HOST=$NYC_ID_HOST" >> .env
+           echo "MAINTENANCE_START=$MAINTENANCE_START" >> .env
+           echo "MAINTENANCE_END=$MAINTENANCE_END" >> .env
       - name: Deploy client to Netlify
         run: npx netlify-cli deploy --build --prod
-    
+
