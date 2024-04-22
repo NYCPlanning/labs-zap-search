@@ -17,9 +17,28 @@ jobs:
         with:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "zap-api-production"
+          heroku_app_name: $${{secrets.HEROKU_APP_NAME}}
           team: ${{secrets.HEROKU_TEAM}}
           appdir: server
+        env:
+          AUTHORITY_HOST_URL: ${{secrets.AUTHORITY_HOST_URL}}
+          CLIENT_ID: ${{secrets.CLIENT_ID}}
+          CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+          CRM_HOST: ${{secrets.CRM_HOST}}
+          CRM_SIGNING_SECRET: ${{secrets.CRM_SIGNING_SECRET}}
+          CRM_URL_PATH: ${{secrets.CRM_URL_PATH}}
+          GITHUB_ACCESS_TOKEN: ${{secrets.GITHUB_ACCESS_TOKEN}}
+          NYCID_CONSOLE_PASSWORD: ${{secrets.NYCID_CONSOLE_PASSWORD}}
+          RECAPTCHA_SECRET_KEY: ${{secrets.RECAPTCHA_SECRET_KEY}}
+          RECAPTCHA_SITE_KEY: ${{secrets.RECAPTCHA_SITE_KEY}}
+          TENANT_ID: ${{secrets.TENANT_ID}}
+          TOKEN_PATH: ${{secrets.TOKEN_PATH}}
+          ADO_PRINCIPAL: ${{secrets.ADO_PRINCIPAL}}
+          CRM_ADMIN_SERVICE_USER: ${{secrets.CRM_ADMIN_SERVICE_USER}}
+          SHAREPOINT_CLIENT_ID: ${{secrets.SHAREPOINT_CLIENT_ID}}
+          SHAREPOINT_CLIENT_SECRET: ${{secrets.SHAREPOINT_CLIENT_SECRET}}
+          SHAREPOINT_CRM_SITE: ${{secrets.SHAREPOINT_CRM_SITE}}
+          SHAREPOINT_TARGET_HOST: ${{secrets.SHAREPOINT_TARGET_HOST}}
   build-client:
     name: Build production client
     environment: production
@@ -27,24 +46,6 @@ jobs:
     env:
       NETLIFY_SITE_ID: ${{secrets.NETLIFY_SITE_ID}} 
       NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
-      AUTHORITY_HOST_URL: ${{secrets.AUTHORITY_HOST_URL}}
-      CLIENT_ID: ${{secrets.CLIENT_ID}}
-      CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
-      CRM_HOST: ${{secrets.CRM_HOST}}
-      CRM_SIGNING_SECRET: ${{secrets.CRM_SIGNING_SECRET}}
-      CRM_URL_PATH: ${{secrets.CRM_URL_PATH}}
-      GITHUB_ACCESS_TOKEN: ${{secrets.GITHUB_ACCESS_TOKEN}}
-      NYCID_CONSOLE_PASSWORD: ${{secrets.NYCID_CONSOLE_PASSWORD}}
-      RECAPTCHA_SECRET_KEY: ${{secrets.RECAPTCHA_SECRET_KEY}}
-      RECAPTCHA_SITE_KEY: ${{secrets.RECAPTCHA_SITE_KEY}}
-      TENANT_ID: ${{secrets.TENANT_ID}}
-      TOKEN_PATH: ${{secrets.TOKEN_PATH}}
-      ADO_PRINCIPAL: ${{secrets.ADO_PRINCIPAL}}
-      CRM_ADMIN_SERVICE_USER: ${{secrets.CRM_ADMIN_SERVICE_USER}}
-      SHAREPOINT_CLIENT_ID: ${{secrets.SHAREPOINT_CLIENT_ID}}
-      SHAREPOINT_CLIENT_SECRET: ${{secrets.SHAREPOINT_CLIENT_SECRET}}
-      SHAREPOINT_CRM_SITE: ${{secrets.SHAREPOINT_CRM_SITE}}
-      SHAREPOINT_TARGET_HOST: ${{secrets.SHAREPOINT_TARGET_HOST}}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,24 +60,5 @@ jobs:
       - name: Install dependencies 
         run: yarn install --prod --pure-lockfile
       - name: Deploy client to Netlify
-        run: |
-          echo "AUTHORITY_HOST_URL=$AUTHORITY_HOST_URL" >> .env
-          echo "CLIENT_ID=$CLIENT_ID" >> .env
-          echo "CLIENT_SECRET=$CLIENT_SECRET" >> .env
-          echo "CRM_HOST=$CRM_HOST" >> .env
-          echo "CRM_SIGNING_SECRET=$CRM_SIGNING_SECRET" >> .env 
-          echo "CRM_URL_PATH=$CRM_URL_PATH" >> .env
-          echo "GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN" >> .env
-          echo "NYCID_CONSOLE_PASSWORD=$NYCID_CONSOLE_PASSWORD" >> .env
-          echo "RECAPTCHA_SECRET_KEY=$RECAPTCHA_SECRET_KEY" >> .env
-          echo "RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY" >> .env
-          echo "TENANT_ID=$TENANT_ID" >> .env
-          echo "TOKEN_PATH=$TOKEN_PATH" >> .env
-          echo "ADO_PRINCIPAL=$ADO_PRINCIPAL" >> .env
-          echo "CRM_ADMIN_SERVICE_USER=$CRM_ADMIN_SERVICE_USER" >> .env
-          echo "SHAREPOINT_CLIENT_ID=$SHAREPOINT_CLIENT_ID" >> .env
-          echo "SHAREPOINT_CLIENT_SECRET=$SHAREPOINT_CLIENT_SECRET" >> .env
-          echo "SHAREPOINT_CRM_SITE=$SHAREPOINT_CRM_SITE" >> .env
-          echo "SHAREPOINT_TARGET_HOST=$SHAREPOINT_TARGET_HOST" >> .env
-          npx netlify-cli deploy --build --prod
+        run: npx netlify-cli deploy --build --prod
     
