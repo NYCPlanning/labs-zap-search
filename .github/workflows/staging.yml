@@ -32,7 +32,7 @@ jobs:
           CRM_HOST: ${{secrets.CRM_HOST}}
           CRM_SIGNING_SECRET: ${{secrets.CRM_SIGNING_SECRET}}
           CRM_URL_PATH: ${{secrets.CRM_URL_PATH}}
-          GITHUB_ACCESS_TOKEN: ${{secrets.GITHUB_ACCESS_TOKEN}}
+          GITHUB_ACCESS_TOKEN: ${{secrets.FEEDBACK_GITHUB_ACCESS_TOKEN}}
           NYCID_CONSOLE_PASSWORD: ${{secrets.NYCID_CONSOLE_PASSWORD}}
           RECAPTCHA_SECRET_KEY: ${{secrets.RECAPTCHA_SECRET_KEY}}
           RECAPTCHA_SITE_KEY: ${{secrets.RECAPTCHA_SITE_KEY}}
