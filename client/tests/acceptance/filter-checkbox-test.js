@@ -30,6 +30,15 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL().includes('dcp_femafloodzonea=true'), true);
   });
 
+  test('User clicks radius filter checkbox', async function(assert) {
+    server.createList('project', 20);
+    await visit('/');
+    await click('[data-test-filter-section="filter-section-radius-filter"] .switch-paddle');
+
+    assert.equal(currentURL().includes('distance_from_point'), true);
+    assert.equal(currentURL().includes('radius_from_point'), true);
+  });
+
   test('User clicks community district box, fills in community district name, selects CD', async function(assert) {
     server.createList('project', 20);
     await visit('/');
