@@ -607,14 +607,14 @@ export class ProjectService {
     const blocks = await this.blocksWithinRadius(query);
 
     // adds in the blocks filter for use across various query types
-    const normalizedQuery = {
+    const normalizedQuery = blocks ? {
       blocks_in_radius: blocks,
       ...query
 
       // this information is sent as separate filters but must be represented as one
       // to work correctly with the query template system.
       // ...blocks
-    };
+    } : {...query};
 
     const queryObject = generateQueryObject(normalizedQuery);
     const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
