@@ -58,8 +58,7 @@ export const PROJECT_STATUS_LOOKUP = {
   Noticed: 717170005,
   Filed: 717170000,
   "In Public Review": 717170001,
-  Completed: 717170002,
-  Unknown: null
+  Completed: 717170002
 };
 export const PROJECT_VISIBILITY_LOOKUP = {
   "Applicant Only": 717170002,

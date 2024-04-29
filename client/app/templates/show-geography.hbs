@@ -106,7 +106,7 @@
           filterTitle=(get-label-for 'filters.dcp_publicstatus')
           tooltip='These checkboxes filter projects by their stage in the application process. "Noticed" refers to applications where notice has been given that an application will certify no sooner than 30 days per the City Charter requirement. In "Public Review” refers to applications that have graduated to the public review process. “Completed” refers to applications that have been Approved, Disapproved, Withdrawn or Terminated.'}}
           <ul class="menu vertical medium-horizontal stage-checkboxes">
-            {{#each (array 'Filed' 'Noticed' 'In Public Review' 'Completed' 'Unknown') as |type|}}
+            {{#each (array 'Filed' 'Noticed' 'In Public Review' 'Completed') as |type|}}
               <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_publicstatus' type)}}
                 data-test-status-checkbox={{type}}
               >
