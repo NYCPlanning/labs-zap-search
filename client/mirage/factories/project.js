@@ -16,7 +16,7 @@ export default Factory.extend({
   // Domain is ['Noticed', Filed', 'In Public Review', 'Completed']
   dcpPublicstatus: 'Filed',
 
-  // Domain is ['Noticed', 'Filed', 'In Public Review', 'Completed', 'Unknown']
+  // Domain is ['Noticed', 'Filed', 'In Public Review', 'Completed']
   // This field is derived from dcpPublicstatus.
   // See https://github.com/NYCPlanning/zap-api/blob/develop/queries/projects/show.sql#L28
   dcpPublicstatusSimp: 'Filed',
