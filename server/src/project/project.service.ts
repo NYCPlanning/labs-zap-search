@@ -253,14 +253,10 @@ function generateProjectsFilterString(query) {
   // Special handling for 'block' query, which must be explicitly ignored if empty
   // otherwise, unmapped projects will be excluded from the results
   const radius_filter = query.distance_from_point && query.radius_from_point;
-  if (!radius_filter && !Object.keys(query.blocks_in_radius).length) {
-    delete query.blocks_in_radius;
-  } 
+  if (!Object.keys(query.blocks_in_radius).length) {
+    radius_filter ? query.blocks_in_radius = ['000000'] : delete query.blocks_in_radius 
+  }
 
-
-  // if (!Object.keys(query.blocks_in_radius).length) 
-  // if (!query.blocks_in_radius) delete query.blocks_in_radius;
-  console.log("query here ", query);
   // optional params
   // apply only those that appear in the query object
   const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
@@ -615,14 +611,14 @@ export class ProjectService {
     console.log(blocks);
 
     // adds in the blocks filter for use across various query types
-    const normalizedQuery = blocks ? {
+    const normalizedQuery = {
       blocks_in_radius: blocks,
       ...query
 
       // this information is sent as separate filters but must be represented as one
       // to work correctly with the query template system.
       // ...blocks
-    } : {...query};
+    };
 
     console.log("normalizedQuery, ", normalizedQuery);
 
