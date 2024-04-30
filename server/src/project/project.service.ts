@@ -250,8 +250,8 @@ export const generateFromTemplate = (query, template) => {
 };
 
 function generateProjectsFilterString(query) {
-  // Special handling for 'block' query, which must be explicitly ignored if empty
-  // otherwise, unmapped projects will be excluded from the results
+  // if blocks_in_radius is empty while the radius_filter is on, force api
+  // to match a non-existant block to return no projects. Otherwise delete attribute
   const radius_filter = query.distance_from_point && query.radius_from_point;
   if (!Object.keys(query.blocks_in_radius).length) {
     radius_filter ? query.blocks_in_radius = ['000000'] : delete query.blocks_in_radius 

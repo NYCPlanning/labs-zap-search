@@ -360,8 +360,6 @@ export class GeometryService {
   async getBlocksFromRadiusQuery(x, y, radius) {
     const queryForBlocks = QUERIES.blocksWithinRadius(x, y, radius);
     const distinctBlocks = `SELECT DISTINCT(block) FROM (${queryForBlocks}) blocksWithinRadius`;
-    // console.log("distinctBlocks", distinctBlocks);
-    // console.log("distinctblocks records", await this.carto.fetchCarto(queryForBlocks, "json", "post"))
     const blocks = await this.carto.fetchCarto(distinctBlocks, "json", "post");
 
     // note: DTM stores blocks with the borough
