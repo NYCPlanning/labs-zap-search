@@ -252,8 +252,15 @@ export const generateFromTemplate = (query, template) => {
 function generateProjectsFilterString(query) {
   // Special handling for 'block' query, which must be explicitly ignored if empty
   // otherwise, unmapped projects will be excluded from the results
-  if (!Object.keys(query.blocks_in_radius).length) delete query.blocks_in_radius;
+  const radius_filter = query.distance_from_point && query.radius_from_point;
+  if (!radius_filter && !Object.keys(query.blocks_in_radius).length) {
+    delete query.blocks_in_radius;
+  } 
 
+
+  // if (!Object.keys(query.blocks_in_radius).length) 
+  // if (!query.blocks_in_radius) delete query.blocks_in_radius;
+  console.log("query here ", query);
   // optional params
   // apply only those that appear in the query object
   const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
@@ -605,6 +612,7 @@ export class ProjectService {
 
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
     const blocks = await this.blocksWithinRadius(query);
+    console.log(blocks);
 
     // adds in the blocks filter for use across various query types
     const normalizedQuery = blocks ? {
@@ -616,7 +624,12 @@ export class ProjectService {
       // ...blocks
     } : {...query};
 
+    console.log("normalizedQuery, ", normalizedQuery);
+
     const queryObject = generateQueryObject(normalizedQuery);
+
+    // console.log("queryObject ", queryObject);
+
     const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
       normalizedQuery
     );
