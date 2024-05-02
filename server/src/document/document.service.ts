@@ -81,6 +81,9 @@ function throwNoDocumentError(errorMessage) {
   );
 }
 
+// Only PDF files are officially supported.
+// Other formats, especially xml-based microsoft formats like .pptx,
+// may cause download errors
 @Injectable()
 export class DocumentService {
   constructor(
