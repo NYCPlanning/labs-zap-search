@@ -47,7 +47,9 @@ jobs:
           HD_SHAREPOINT_TARGET_HOST: ${{secrets.SHAREPOINT_TARGET_HOST}}
   build-client:
     name: Build staging client
-    environment: staging
+    environment:
+      name: staging
+      url: https://zap-staging.planninglabs.nyc
     runs-on: ubuntu-latest
     env:
       NETLIFY_SITE_ID: ${{secrets.NETLIFY_SITE_ID}} 
