@@ -26,25 +26,25 @@ jobs:
           team: ${{secrets.HEROKU_TEAM}}
           appdir: server
         env:
-          AUTHORITY_HOST_URL: ${{secrets.AUTHORITY_HOST_URL}}
-          CLIENT_ID: ${{secrets.CLIENT_ID}}
-          CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
-          CRM_HOST: ${{secrets.CRM_HOST}}
-          CRM_SIGNING_SECRET: ${{secrets.CRM_SIGNING_SECRET}}
-          CRM_URL_PATH: ${{secrets.CRM_URL_PATH}}
-          GITHUB_ACCESS_TOKEN: ${{secrets.FEEDBACK_GITHUB_ACCESS_TOKEN}}
-          NYCID_CONSOLE_PASSWORD: ${{secrets.NYCID_CONSOLE_PASSWORD}}
-          RECAPTCHA_SECRET_KEY: ${{secrets.RECAPTCHA_SECRET_KEY}}
-          RECAPTCHA_SITE_KEY: ${{secrets.RECAPTCHA_SITE_KEY}}
-          TENANT_ID: ${{secrets.TENANT_ID}}
-          TOKEN_PATH: ${{secrets.TOKEN_PATH}}
-          ADO_PRINCIPAL: ${{secrets.ADO_PRINCIPAL}}
-          CRM_ADMIN_SERVICE_USER: ${{secrets.CRM_ADMIN_SERVICE_USER}}
-          SHAREPOINT_CLIENT_ID: ${{secrets.SHAREPOINT_CLIENT_ID}}
-          SHAREPOINT_CLIENT_SECRET: ${{secrets.SHAREPOINT_CLIENT_SECRET}}
-          SHAREPOINT_SITE_ID: ${{secrets.SHAREPOINT_SITE_ID}}
-          SHAREPOINT_CRM_SITE: ${{secrets.SHAREPOINT_CRM_SITE}}
-          SHAREPOINT_TARGET_HOST: ${{secrets.SHAREPOINT_TARGET_HOST}}
+          HD_AUTHORITY_HOST_URL: ${{secrets.AUTHORITY_HOST_URL}}
+          HD_CLIENT_ID: ${{secrets.CLIENT_ID}}
+          HD_CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+          HD_CRM_HOST: ${{secrets.CRM_HOST}}
+          HD_CRM_SIGNING_SECRET: ${{secrets.CRM_SIGNING_SECRET}}
+          HD_CRM_URL_PATH: ${{secrets.CRM_URL_PATH}}
+          HD_GITHUB_ACCESS_TOKEN: ${{secrets.FEEDBACK_GITHUB_ACCESS_TOKEN}}
+          HD_NYCID_CONSOLE_PASSWORD: ${{secrets.NYCID_CONSOLE_PASSWORD}}
+          HD_RECAPTCHA_SECRET_KEY: ${{secrets.RECAPTCHA_SECRET_KEY}}
+          HD_RECAPTCHA_SITE_KEY: ${{secrets.RECAPTCHA_SITE_KEY}}
+          HD_TENANT_ID: ${{secrets.TENANT_ID}}
+          HD_TOKEN_PATH: ${{secrets.TOKEN_PATH}}
+          HD_ADO_PRINCIPAL: ${{secrets.ADO_PRINCIPAL}}
+          HD_CRM_ADMIN_SERVICE_USER: ${{secrets.CRM_ADMIN_SERVICE_USER}}
+          HD_SHAREPOINT_CLIENT_ID: ${{secrets.SHAREPOINT_CLIENT_ID}}
+          HD_SHAREPOINT_CLIENT_SECRET: ${{secrets.SHAREPOINT_CLIENT_SECRET}}
+          HD_SHAREPOINT_SITE_ID: ${{secrets.SHAREPOINT_SITE_ID}}
+          HD_SHAREPOINT_CRM_SITE: ${{secrets.SHAREPOINT_CRM_SITE}}
+          HD_SHAREPOINT_TARGET_HOST: ${{secrets.SHAREPOINT_TARGET_HOST}}
   build-client:
     name: Build staging client
     environment: staging
