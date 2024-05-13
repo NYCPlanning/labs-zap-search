@@ -67,7 +67,7 @@ jobs:
           node-version: 14.x
       - name: Install dependencies 
         working-directory: client
-        run: yarn install --prod --frozen-lockfile
+        run: yarn install --immutable --immutable-cache --check-cache
       - name: Set environment variables
         working-directory: client
         run: |
