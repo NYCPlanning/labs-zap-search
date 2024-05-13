@@ -217,7 +217,7 @@ const QUERY_TEMPLATES = {
       )
     ),
 
-  blocks_in_radius: queryParamValue =>
+  blocks_in_radius: queryParamValue => 
     startsWithAnyOf("dcp_bblnumber", queryParamValue, {
       childEntity: "dcp_dcp_project_dcp_projectbbl_project"
     })
@@ -250,14 +250,6 @@ export const generateFromTemplate = (query, template) => {
 };
 
 function generateProjectsFilterString(query) {
-  // if blocks_in_radius is empty while the radius_filter is on, force api
-  // to match a non-existant block to return no projects. Otherwise delete attribute
-  const radius_filter = query.distance_from_point && query.radius_from_point;
-  if (!Object.keys(query.blocks_in_radius).length) {
-    radius_filter ? query.blocks_in_radius = ['000000'] : delete query.blocks_in_radius 
-  }
-
-  // optional params
   // apply only those that appear in the query object
   const requestedFiltersQuery = generateFromTemplate(query, QUERY_TEMPLATES);
   return all(
@@ -269,7 +261,7 @@ function generateProjectsFilterString(query) {
     ),
     // optional params
     ...requestedFiltersQuery
-  );
+  );;
 }
 
 function generateQueryObject(query, overrides?) {
@@ -592,7 +584,7 @@ export class ProjectService {
   async blocksWithinRadius(query) {
     let { distance_from_point, radius_from_point } = query;
 
-    if (!distance_from_point || !radius_from_point) return {};
+    if (!distance_from_point || !radius_from_point) return false;
 
     // search cannot support more than 1000 because of URI Too Large errors
     // if (radius_from_point > 1000) radius_from_point = 1000;
@@ -608,36 +600,35 @@ export class ProjectService {
 
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
     const blocks = await this.blocksWithinRadius(query);
-    console.log(blocks);
 
     // adds in the blocks filter for use across various query types
-    const normalizedQuery = {
+    const normalizedQuery = blocks == false ? { ...query } : {
       blocks_in_radius: blocks,
       ...query
-
-      // this information is sent as separate filters but must be represented as one
-      // to work correctly with the query template system.
-      // ...blocks
     };
 
-    console.log("normalizedQuery, ", normalizedQuery);
-
+    const empty_radius = blocks == false && normalizedQuery.radius_from_point && normalizedQuery.distance_from_point;
     const queryObject = generateQueryObject(normalizedQuery);
-
-    // console.log("queryObject ", queryObject);
-
     const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
       normalizedQuery
     );
+
+    // Empty projects[] when no blocks returned from Carto and radius filter is on
     const {
       records: projects,
       skipTokenParams: nextPageSkipTokenParams,
       count
-    } = await this.crmService.queryFromObject(
-      "dcp_projects",
-      queryObject,
-      itemsPerPage
-    );
+    } = empty_radius ? 
+      {
+        records: [], 
+        skipTokenParams: undefined, 
+        count: 0
+      } : 
+      await this.crmService.queryFromObject(
+        "dcp_projects",
+        queryObject,
+        itemsPerPage
+      );
 
     const valueMappedRecords = overwriteCodesWithLabels(
       projects,
