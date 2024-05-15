@@ -581,11 +581,7 @@ export class ProjectService {
     return this.serialize(transformedProject);
   }
 
-  async blocksWithinRadius(query) {
-    let { distance_from_point, radius_from_point } = query;
-
-    if (!distance_from_point || !radius_from_point) return false;
-
+  async blocksWithinRadius(distance_from_point, radius_from_point) {
     // search cannot support more than 1000 because of URI Too Large errors
     // if (radius_from_point > 1000) radius_from_point = 1000;
 
@@ -599,26 +595,26 @@ export class ProjectService {
   }
 
   async queryProjects(query, itemsPerPage = ITEMS_PER_PAGE) {
-    const blocks = await this.blocksWithinRadius(query);
-
-    // adds in the blocks filter for use across various query types
-    const normalizedQuery = blocks == false ? { ...query } : {
+    const radiusFilterOn = query.radius_from_point && query.distance_from_point;
+    const blocks = radiusFilterOn ? await this.blocksWithinRadius(query.distance_from_point, query.radius_from_point) : [];
+    
+    const normalizedQuery = blocks.length == 0 ? {...query} : {
       blocks_in_radius: blocks,
       ...query
     };
 
-    const empty_radius = blocks == false && normalizedQuery.radius_from_point && normalizedQuery.distance_from_point;
     const queryObject = generateQueryObject(normalizedQuery);
     const spatialInfo = await this.geometryService.createAnonymousMapWithFilters(
       normalizedQuery
     );
 
-    // Empty projects[] when no blocks returned from Carto and radius filter is on
+    // Return empty projects when radius filter is on and Carto returns 0 blocks
+    // otherwise, send the OData query
     const {
       records: projects,
       skipTokenParams: nextPageSkipTokenParams,
       count
-    } = empty_radius ? 
+    } = blocks.length == 0 && radiusFilterOn ? 
       {
         records: [], 
         skipTokenParams: undefined, 
