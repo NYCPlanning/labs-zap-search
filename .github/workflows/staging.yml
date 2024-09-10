@@ -52,8 +52,6 @@ jobs:
       url: https://zap-staging.planninglabs.nyc
     runs-on: ubuntu-latest
     env:
-      NETLIFY_SITE_ID: ${{secrets.NETLIFY_SITE_ID}} 
-      NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
       HOST: ${{secrets.ZAP_API_HOST}}
       NYCID_CLIENT_ID: ${{secrets.NYCID_CLIENT_ID}}
       NYC_ID_HOST: ${{secrets.NYC_ID_HOST}}
@@ -71,16 +69,16 @@ jobs:
       - name: Install dependencies 
         working-directory: client
         run: yarn install --immutable --immutable-cache --check-cache
-      - name: Set environment variables
+      - name: Install netlify
+        run: yarn global add netlify-cli@15.11.0
+      - name: Build client
         working-directory: client
-        run: |
-           echo "NETLIFY_SITE_ID=$NETLIFY_SITE_ID" >> .env
-           echo "NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN" >> .env
-           echo "ZAP_API_HOST=$ZAP_API_HOST" >> .env
-           echo "NYCID_CLIENT_ID=$NYCID_CLIENT_ID" >> .env
-           echo "NYC_ID_HOST=$NYC_ID_HOST" >> .env
-           echo "MAINTENANCE_START=$MAINTENANCE_START" >> .env
-           echo "MAINTENANCE_END=$MAINTENANCE_END" >> .env
+        run: yarn run build
       - name: Deploy client to Netlify
-        run: npx netlify-cli deploy --build --alias staging-action
+        run: |
+          netlify deploy \
+          --dir client \
+          --alias staging-action \
+          --site ${{secrets.NETLIFY_SITE_ID}} \
+          --auth ${{secrets.NETLIFY_AUTH_TOKEN}}
 
