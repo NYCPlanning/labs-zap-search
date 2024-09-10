@@ -10,7 +10,7 @@ jobs:
     name: 🚀 Deploy server
     environment:
       name: staging
-      url: https://zap-api-staging.herokuapp.com
+      url: https://staging-zap-search-api.herokuapp.com
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -69,16 +69,18 @@ jobs:
       - name: Install dependencies 
         working-directory: client
         run: yarn install --immutable --immutable-cache --check-cache
-      - name: Install netlify
-        run: npm i -g netlify-cli@15.11.0
       - name: Build client
         working-directory: client
         run: yarn run build
+      - name: Install netlify
+        # Use npm over yarn because yarn was not respecting the exact version of a dependency
+        run: npm i -g netlify-cli@15.11.0
       - name: Deploy client to Netlify
         run: |
           netlify deploy \
           --dir client/dist \
           --alias staging-action \
           --site ${{secrets.NETLIFY_SITE_ID}} \
-          --auth ${{secrets.NETLIFY_AUTH_TOKEN}}
+          --auth ${{secrets.NETLIFY_AUTH_TOKEN}} \
+          --message ${{ github.event.head_commit.message }}
 
