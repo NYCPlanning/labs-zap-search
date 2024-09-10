@@ -1,4 +1,4 @@
-name: Deploy to staging
+name: 🎭 Deploy to staging
 
 on:
   push:
@@ -6,11 +6,11 @@ on:
       - main
 
 jobs:
-  build-server:
-    name: Build staging server
+  deploy-server:
+    name: 🚀 Deploy server
     environment:
       name: staging
-      url: https://zap-staging.planninglabs.nyc
+      url: https://zap-api-staging.herokuapp.com
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -45,8 +45,8 @@ jobs:
           HD_SHAREPOINT_SITE_ID: ${{secrets.SHAREPOINT_SITE_ID}}
           HD_SHAREPOINT_CRM_SITE: ${{secrets.SHAREPOINT_CRM_SITE}}
           HD_SHAREPOINT_TARGET_HOST: ${{secrets.SHAREPOINT_TARGET_HOST}}
-  build-client:
-    name: Build staging client
+  deploy-client:
+    name: 🛫 Deploy client
     environment:
       name: staging
       url: https://zap-staging.planninglabs.nyc

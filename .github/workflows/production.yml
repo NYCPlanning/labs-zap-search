@@ -1,18 +1,17 @@
-name: Deploy to production
+name: 🌠 Deploy to production
 
 on: workflow_dispatch
 
 jobs:
-  build-server:
-    name: Build production server
+  deploy-server:
+    name: 🚀 Deploy server
     environment: 
       name: production
-      url: https://zap.planning.nyc.gov 
+      url: https://zap-api.herokuapp.com
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 'main'
           sparse-checkout: server
       - uses: akhileshns/heroku-deploy@v3.13.15
         name: Deploy server to Heroku
@@ -42,8 +41,8 @@ jobs:
           HD_SHAREPOINT_SITE_ID: ${{secrets.SHAREPOINT_SITE_ID}}
           HD_SHAREPOINT_CRM_SITE: ${{secrets.SHAREPOINT_CRM_SITE}}
           HD_SHAREPOINT_TARGET_HOST: ${{secrets.SHAREPOINT_TARGET_HOST}}
-  build-client:
-    name: Build production client
+  deploy-client:
+    name: 🛫 Deploy client
     environment:
       name: production
       url: https://zap.planninglabs.nyc
@@ -59,7 +58,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-            ref: 'main'
             sparse-checkout: client
       - name: Setup node
         uses: actions/setup-node@v4
