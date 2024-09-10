@@ -79,8 +79,8 @@ jobs:
         run: |
           netlify deploy \
           --dir client/dist \
-          --alias staging-action \
+          --alias ${{github.ref_name}}@${{github.sha}} \
           --site ${{secrets.NETLIFY_SITE_ID}} \
           --auth ${{secrets.NETLIFY_AUTH_TOKEN}} \
-          --message ${{ github.event.head_commit.message }}
+          --message "${{ github.event.head_commit.message }}"
 
