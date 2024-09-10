@@ -1,6 +1,0 @@
-[build]
-  base = "client/"
-  publish = "dist/"
-  command = "yarn build --environment=production"
-  ignore = "false"
-
