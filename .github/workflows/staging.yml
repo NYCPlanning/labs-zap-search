@@ -70,7 +70,7 @@ jobs:
         working-directory: client
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Install netlify
-        run: yarn global add netlify-cli@15.11.0
+        run: npm i -g netlify-cli@15.11.0
       - name: Build client
         working-directory: client
         run: yarn run build
