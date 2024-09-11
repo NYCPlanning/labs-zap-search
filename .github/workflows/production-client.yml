@@ -10,11 +10,11 @@ jobs:
       url: https://zap.planninglabs.nyc
     runs-on: ubuntu-latest
     env:
-      HOST: ${{secrets.ZAP_API_HOST}}
-      NYCID_CLIENT_ID: ${{secrets.NYCID_CLIENT_ID}}
-      NYC_ID_HOST: ${{secrets.NYC_ID_HOST}}
-      MAINTENANCE_START: ${{secrets.MAINTENANCE_START}}
-      MAINTENANCE_END: ${{secrets.MAINTENANCE_END}}
+      HOST: ${{ vars.ZAP_API_HOST }}
+      NYCID_CLIENT_ID: ${{ vars.NYCID_CLIENT_ID }}
+      NYC_ID_HOST: ${{ vars.NYC_ID_HOST }}
+      MAINTENANCE_START: ${{ vars.MAINTENANCE_START }}
+      MAINTENANCE_END: ${{ vars.MAINTENANCE_END }}
     steps:
       - uses: actions/checkout@v4
         with:

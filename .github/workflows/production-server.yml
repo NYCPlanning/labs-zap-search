@@ -18,7 +18,7 @@ jobs:
         with:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: $${{secrets.HEROKU_APP_NAME}}
+          heroku_app_name: ${{ vars.HEROKU_APP_NAME }}
           team: ${{secrets.HEROKU_TEAM}}
           appdir: server
         env:
@@ -34,8 +34,8 @@ jobs:
           HD_GITHUB_ACCESS_TOKEN: ${{secrets.FEEDBACK_GITHUB_ACCESS_TOKEN}}
           HD_NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
           HD_NEW_RELIC_LOG: ${{ secrets.NEW_RELIC_LOG }}
-          HD_NODE_ENV: ${{ secrets.NODE_ENV }}
-          HD_NPM_CONFIG_PRODUCTION: ${{ secrets.NPM_CONFIG_PRODUCTION }}
+          HD_NODE_ENV: ${{ vars.NODE_ENV }}
+          HD_NPM_CONFIG_PRODUCTION: ${{ vars.NPM_CONFIG_PRODUCTION }}
           HD_NYCID_CONSOLE_PASSWORD: ${{secrets.NYCID_CONSOLE_PASSWORD}}
           HD_PAPERTRAIL_API_TOKEN: ${{ secrets.PAPERTRAIL_API_TOKEN }}
           HD_RECAPTCHA_SECRET_KEY: ${{secrets.RECAPTCHA_SECRET_KEY}}

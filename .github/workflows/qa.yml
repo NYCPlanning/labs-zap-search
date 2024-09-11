@@ -18,7 +18,7 @@ jobs:
         with:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_app_name: ${{ vars.HEROKU_APP_NAME }}
           team: ${{secrets.HEROKU_TEAM}}
           appdir: server
         env:
@@ -50,11 +50,11 @@ jobs:
       url: https://staging--labs-zap.netlify.app
     runs-on: ubuntu-latest
     env:
-      HOST: ${{secrets.ZAP_API_HOST}}
-      NYCID_CLIENT_ID: ${{secrets.NYCID_CLIENT_ID}}
-      NYC_ID_HOST: ${{secrets.NYC_ID_HOST}}
-      MAINTENANCE_START: ${{secrets.MAINTENANCE_START}}
-      MAINTENANCE_END: ${{secrets.MAINTENANCE_END}}
+      HOST: ${{ vars.ZAP_API_HOST }}
+      NYCID_CLIENT_ID: ${{ vars.NYCID_CLIENT_ID }}
+      NYC_ID_HOST: ${{ vars.NYC_ID_HOST }}
+      MAINTENANCE_START: ${{ vars.MAINTENANCE_START }}
+      MAINTENANCE_END: ${{ vars.MAINTENANCE_END }}
     steps:
       - uses: actions/checkout@v4
         with:
