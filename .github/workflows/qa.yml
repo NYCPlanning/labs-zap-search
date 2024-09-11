@@ -1,13 +1,13 @@
-name: 🌠 Deploy to production
+name: 🎭 Deploy to quality assurance
 
 on: workflow_dispatch
 
 jobs:
   deploy-server:
     name: 🚀 Deploy server
-    environment: 
-      name: production
-      url: https://zap-api.herokuapp.com
+    environment:
+      name: qa
+      url: https://qa-zap-api.nycplanningdigital.com
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,38 +18,38 @@ jobs:
         with:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: $${{secrets.HEROKU_APP_NAME}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
           team: ${{secrets.HEROKU_TEAM}}
           appdir: server
         env:
+          HD_ADO_PRINCIPAL: ${{secrets.ADO_PRINCIPAL}}
+          HD_AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           HD_AUTHORITY_HOST_URL: ${{secrets.AUTHORITY_HOST_URL}}
           HD_CLIENT_ID: ${{secrets.CLIENT_ID}}
           HD_CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+          HD_CRM_ADMIN_SERVICE_USER: ${{secrets.CRM_ADMIN_SERVICE_USER}}
           HD_CRM_HOST: ${{secrets.CRM_HOST}}
           HD_CRM_SIGNING_SECRET: ${{secrets.CRM_SIGNING_SECRET}}
           HD_CRM_URL_PATH: ${{secrets.CRM_URL_PATH}}
-          HD_GITHUB_ACCESS_TOKEN: ${{secrets.FEEDBACK_GITHUB_ACCESS_TOKEN}}
           HD_NYCID_CONSOLE_PASSWORD: ${{secrets.NYCID_CONSOLE_PASSWORD}}
+          HD_PAPERTRAIL_API_TOKEN: ${{ secrets.PAPERTRAIL_API_TOKEN }}
           HD_RECAPTCHA_SECRET_KEY: ${{secrets.RECAPTCHA_SECRET_KEY}}
           HD_RECAPTCHA_SITE_KEY: ${{secrets.RECAPTCHA_SITE_KEY}}
-          HD_TENANT_ID: ${{secrets.TENANT_ID}}
-          HD_TOKEN_PATH: ${{secrets.TOKEN_PATH}}
-          HD_ADO_PRINCIPAL: ${{secrets.ADO_PRINCIPAL}}
-          HD_CRM_ADMIN_SERVICE_USER: ${{secrets.CRM_ADMIN_SERVICE_USER}}
           HD_SHAREPOINT_CLIENT_ID: ${{secrets.SHAREPOINT_CLIENT_ID}}
           HD_SHAREPOINT_CLIENT_SECRET: ${{secrets.SHAREPOINT_CLIENT_SECRET}}
-          HD_SHAREPOINT_SITE_ID: ${{secrets.SHAREPOINT_SITE_ID}}
           HD_SHAREPOINT_CRM_SITE: ${{secrets.SHAREPOINT_CRM_SITE}}
+          HD_SHAREPOINT_SITE_ID: ${{secrets.SHAREPOINT_SITE_ID}}
           HD_SHAREPOINT_TARGET_HOST: ${{secrets.SHAREPOINT_TARGET_HOST}}
+          HD_SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          HD_TENANT_ID: ${{secrets.TENANT_ID}}
+          HD_TOKEN_PATH: ${{secrets.TOKEN_PATH}}
   deploy-client:
     name: 🛫 Deploy client
     environment:
-      name: production
-      url: https://zap.planninglabs.nyc
+      name: staging
+      url: https://staging--labs-zap.netlify.app
     runs-on: ubuntu-latest
     env:
-      NETLIFY_SITE_ID: ${{secrets.NETLIFY_SITE_ID}} 
-      NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
       HOST: ${{secrets.ZAP_API_HOST}}
       NYCID_CLIENT_ID: ${{secrets.NYCID_CLIENT_ID}}
       NYC_ID_HOST: ${{secrets.NYC_ID_HOST}}
@@ -63,20 +63,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 14.x
-      - name: Install dependencies 
+      - name: Install application dependencies 
         working-directory: client
         run: yarn install --immutable --immutable-cache --check-cache
-      - name: Set environment variables
+      - name: Build client
         working-directory: client
-        run: |
-           echo "NETLIFY_SITE_ID=$NETLIFY_SITE_ID" >> .env
-           echo "NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN" >> .env
-           echo "ZAP_API_HOST=$ZAP_API_HOST" >> .env
-           echo "NYCID_CLIENT_ID=$NYCID_CLIENT_ID" >> .env
-           echo "NYC_ID_HOST=$NYC_ID_HOST" >> .env
-           echo "MAINTENANCE_START=$MAINTENANCE_START" >> .env
-           echo "MAINTENANCE_END=$MAINTENANCE_END" >> .env
+        run: yarn run build --environment=production
+      - name: Install netlify
+        # Use npm over yarn because yarn was not respecting the exact version of a dependency
+        run: npm i -g netlify-cli@15.11.0
       - name: Deploy client to Netlify
-        ## run: npx netlify-cli deploy --build --prod
-        run: npx netlify-cli deploy --build --alias production-action
+        run: |
+          netlify deploy \
+          --dir client/dist \
+          --alias ${{github.ref_name}}_${{github.sha}} \
+          --site ${{secrets.NETLIFY_SITE_ID}} \
+          --auth ${{secrets.NETLIFY_AUTH_TOKEN}} \
+          --message "${{ github.event.head_commit.message }}"
 

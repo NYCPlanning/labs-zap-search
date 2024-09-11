@@ -1,0 +1,42 @@
+name: 🌠 Deploy web application to production
+
+on: workflow_dispatch
+
+jobs:
+  deploy-client:
+    name: 🛫 Deploy client
+    environment:
+      name: production
+      url: https://zap.planninglabs.nyc
+    runs-on: ubuntu-latest
+    env:
+      HOST: ${{secrets.ZAP_API_HOST}}
+      NYCID_CLIENT_ID: ${{secrets.NYCID_CLIENT_ID}}
+      NYC_ID_HOST: ${{secrets.NYC_ID_HOST}}
+      MAINTENANCE_START: ${{secrets.MAINTENANCE_START}}
+      MAINTENANCE_END: ${{secrets.MAINTENANCE_END}}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            sparse-checkout: client
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14.x
+      - name: Install application dependencies 
+        working-directory: client
+        run: yarn install --immutable --immutable-cache --check-cache
+      - name: Build client
+        working-directory: client
+        run: yarn run build --environment=production
+      - name: Install netlify
+        # Use npm over yarn because yarn was not respecting the exact version of a dependency
+        run: npm i -g netlify-cli@15.11.0
+      - name: Deploy client to Netlify
+        run: |
+          netlify deploy \
+          --dir client/dist \
+          --site ${{secrets.NETLIFY_SITE_ID}} \
+          --auth ${{secrets.NETLIFY_AUTH_TOKEN}} \
+          --message "${{ github.event.head_commit.message }}"
+          --prod
