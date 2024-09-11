@@ -17,14 +17,11 @@ export const MsalProvider: FactoryProvider<MsalProviderType> = {
       "SHAREPOINT_CLIENT_SECRET"
     );
     const siteId: string | undefined = config.get("SHAREPOINT_SITE_ID");
-    if (
-      tenantId === undefined ||
-      clientId === undefined ||
-      clientSecret === undefined ||
-      siteId === undefined
-    ) {
-      throw new Error("Missing SharePoint credential");
-    }
+
+    if(tenantId === undefined) throw new Error("Missing tenant id");
+    if(clientId === undefined) throw new Error("Missing sharepoint client id");
+    if(clientSecret === undefined) throw new Error("Missing sharepoint client secret");
+    if(siteId === undefined) throw new Error("Missing sharepoint site id");
 
     const cca = new msal.ConfidentialClientApplication({
       auth: {
