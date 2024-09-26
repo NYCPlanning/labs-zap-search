@@ -4,6 +4,7 @@ const { MIRAGE_SCENARIO } = process.env;
 const NYCID_CLIENT_ID = process.env.NYCID_CLIENT_ID || 'lup-portal-local';
 const NYC_ID_HOST =
   process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
+const ZAP_ALERT = process.env.ZAP_ALERT || 'ON';
 
 module.exports = function (environment) {
   const ENV = {
@@ -17,6 +18,7 @@ module.exports = function (environment) {
     },
     NYC_ID_HOST,
     maintenanceTimes: getMaintenanceTimes(),
+    ZAP_ALERT,
     host: getHost(environment),
     OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
     LUPP_ENABLED: true,
