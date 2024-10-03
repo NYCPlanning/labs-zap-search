@@ -19,6 +19,7 @@ $tab-content-color: inherit;
 $tab-content-padding: 1rem 0 0;
 $fieldset-border: $callout-border;
 
+@import 'settings';
 @import 'foundation';
 @include foundation-global-styles;
 @include foundation-xy-grid-classes;
@@ -41,6 +42,15 @@ $fieldset-border: $callout-border;
 @include foundation-top-bar;
 @include foundation-visibility-classes;
 @include foundation-float-classes;
+// Containers
+@include foundation-accordion;
+@include foundation-media-object;
+@include foundation-orbit;
+@include foundation-responsive-embed;
+@include foundation-tabs;
+@include foundation-thumbnail;// @include foundation-accordion-item;
+// @include foundation-accordion-title;
+// @include foundation-accordion-content;
 
 
 //
