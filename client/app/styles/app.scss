@@ -19,7 +19,7 @@ $tab-content-color: inherit;
 $tab-content-padding: 1rem 0 0;
 $fieldset-border: $callout-border;
 
-@import 'settings';
+// @import 'settings';
 @import 'foundation';
 @include foundation-global-styles;
 @include foundation-xy-grid-classes;
