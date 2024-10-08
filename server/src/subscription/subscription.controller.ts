@@ -10,12 +10,14 @@ type HttpMethod = 'get'|'GET'|'post'|'POST'|'put'|'PUT'|'patch'|'PATCH'|'delete'
 @Controller()
 export class SubscriptionController {
   apiKey = "";
+  list = "";
 
   constructor(
     private readonly config: ConfigService
    
   ) {
     this.apiKey = this.config.get("SENDGRID_ENVIRONMENT") ==="staging" ? this.config.get("SENDGRID_API_KEY_STAGING") : this.config.get("SENDGRID_API_KEY_PRODUCTION");
+    this.list = this.config.get("SENDGRID_ENVIRONMENT") ==="staging" ? this.config.get("SENDGRID_LIST_STAGING") : this.config.get("SENDGRID_LIST_PRODUCTION");
   }
 
   @Post("/subscribers")
@@ -42,10 +44,15 @@ export class SubscriptionController {
       client.request(sendgridRequest)
         .then(([res, body]) => {
           // If it successfully returns results, that means the user already exists
-          response.status(409).send({
-            status: "error",
-            error: "A user with that email address already exists."
-          })
+          // If the id is already in the list_ids, then they are also already on the list
+          if(body.result[request.body.email].contact["list_ids"].includes(this.list)) {
+            response.status(409).send({
+              status: "error",
+              error: "A user with that email address already exists, and they are already in the desired list.",
+              res, body
+            })
+          }
+          
         })
         .catch(error => {
           switch (error.code) {
