@@ -13,6 +13,7 @@ import { AssignmentModule } from "./assignment/assignment.module";
 import { DocumentModule } from "./document/document.module";
 import { CrmModule } from "./crm/crm.module";
 import { ZoningResolutionsModule } from "./zoning-resolutions/zoning-resolutions.module";
+import { SubscriberModule } from "./subscriber/subscriber.module";
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { ZoningResolutionsModule } from "./zoning-resolutions/zoning-resolutions
     DispositionModule,
     AssignmentModule,
     DocumentModule,
-    ZoningResolutionsModule
+    ZoningResolutionsModule,
+    SubscriberModule
   ],
   controllers: [AppController]
 })
