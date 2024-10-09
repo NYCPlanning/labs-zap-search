@@ -233,6 +233,9 @@ $input-error-font-weight: $global-weight-bold;
 
 // 7. Accordion
 // ------------
+// @include accordion-item;
+// @include accordion-title;
+// @include accordion-content;
 
 $accordion-background: $white;
 $accordion-plusminus: true;
