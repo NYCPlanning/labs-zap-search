@@ -16,7 +16,7 @@ function delay(milliseconds){
 }
 
 @Controller()
-export class SubscriptionController {
+export class SubscriberController {
   apiKey = "";
   list = "";
 
@@ -24,8 +24,8 @@ export class SubscriptionController {
     private readonly config: ConfigService
    
   ) {
-    this.apiKey = this.config.get("SENDGRID_ENVIRONMENT") ==="staging" ? this.config.get("SENDGRID_API_KEY_STAGING") : this.config.get("SENDGRID_API_KEY_PRODUCTION");
-    this.list = this.config.get("SENDGRID_ENVIRONMENT") ==="staging" ? this.config.get("SENDGRID_LIST_STAGING") : this.config.get("SENDGRID_LIST_PRODUCTION");
+    this.apiKey = this.config.get("SENDGRID_API_KEY");
+    this.list = this.config.get("SENDGRID_LIST");
   }
 
   @Post("/subscribers")
