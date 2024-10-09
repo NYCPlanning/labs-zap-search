@@ -6,7 +6,6 @@ var tester = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~]
  * @returns {boolean}
  */
 export default function validateEmail(email: string) {
-
   if (!email)
 		return false;
 		
