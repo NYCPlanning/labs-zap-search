@@ -1,0 +1,94 @@
+<div class="cell">
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x grid-padding-y align-middle" style="justify-content: center;">
+            <div class="cell large-8">
+                {{!-- <h1 class="header-xxl dcp-orange">Subscribe to ZAP Updates</h1>
+                <p>Get updated on milestones for all projects in any community district (CD) by signing up to receive
+                    emails on Zoning Application Portal.</p>
+                <div class="grid-x">
+                    <div><label for="email">
+                            <h2 class="header-small no-margin">Email Address</h2>
+                        </label></div>
+                    <div><Input @id="email" /></div>
+                </div>
+                <h5>
+                    Which would you like to recieve updates for?
+                </h5>
+                <div class="grid-x">
+                    <div><Input @id="citywide-checkbox" @type="checkbox" @name="isCitywide"
+                            @checked={{this.isCitywide}} /></div>
+
+                    <div><label for="citywide-checkbox">
+                            <h5>Citywide Updates</h5>
+                            <p>You'll receive an email for all citywide projects, which are projects that aren’t
+                                associated with any CD.</p>
+                        </label></div>
+                </div>
+
+                <div class="grid-x">
+                    <div><Input @id="cd-checkbox" @type="checkbox" @name="isCdupdate" @checked={{this.isCdupdate}} />
+                    </div>
+
+                    <div><label for="cd-checkbox">
+                            <h5>Community District (CD) Updates</h5>
+                            <p>You'll receive an email for projects from all CDs you have selected.</p>
+                        </label></div>
+                </div>
+
+                <h5>If you chose CD Updates, please select which community districts you would like to receive updates
+                    for:</h5>
+                <p>You can find the Community District to any New York City address <a
+                        href="https://zola.planning.nyc.gov/">here</a>.</p> --}}
+
+                {{!-- {{custom-accordion}} --}}
+                {{#initialize_foundation}}
+<ul id="dfjsdkl" class="accordion" data-accordion data-multi-expand="true">
+    {{!-- <ul custom-accordion> --}}
+            <li class="accordion-item is-active" data-accordion-item>
+                <!-- Accordion tab title -->
+                <a href="#" class="accordion-title">Accordion 1</a>
+
+                <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
+                <div class="accordion-content" data-tab-content>
+                    dfdsfds
+                    <p>Panel 1. Lorem ipsum dolor</p>
+                    <a href="#">Nowhere to Go</a>
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+                <!-- Accordion tab title -->
+                <a href="#" class="accordion-title">Accordion 2</a>
+
+                <!-- Accordion tab content: it would start in the open state due to using the `is-active` state class. -->
+                <div class="accordion-content" data-tab-content>
+                    <p>Panel 1. Lorem ipsum dolor</p>
+                    <a href="#">Nowhere to Go</a>
+                </div>
+            </li>
+        </ul>
+        {{/initialize_foundation}}
+
+                {{!-- Brooklyn accordion --}}
+                {{!-- Bronx --}}
+                {{!-- Manhattan --}}
+                {{!-- Queens --}}
+                {{!-- Staten Island --}}
+
+                {{!-- <button>Subscribe</button>
+
+                <h5>Cancel Your Subscription</h5>
+                <p>You can unsubscribe to ZAP emails at the end of any email updates you receive.</p>
+
+                <h5>Definition of ZAP Updates</h5>
+                <p>Refer to <a href="/statuses">this page</a> for more information about what type of updates you will
+                    be receiving.</p>
+
+                <h5>Privacy Policy</h5>
+                <p>Your email address will only be used to register you for email notifications and to allow you to
+                    access your account.</p> --}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{outlet}}
