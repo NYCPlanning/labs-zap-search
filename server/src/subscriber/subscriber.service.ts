@@ -1,6 +1,8 @@
 import { Injectable, Res } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { Client } from "@sendgrid/client";
+const crypto = require('crypto');
+
 
 type HttpMethod = 'get'|'GET'|'post'|'POST'|'put'|'PUT'|'patch'|'PATCH'|'delete'|'DELETE';
 
@@ -43,7 +45,7 @@ export class SubscriberService {
       method:<HttpMethod> 'PUT',
       body: {
         "list_ids": [list],
-        "contacts": [{"email": email}]
+        "contacts": [{"email": email, "anonymous_id": crypto.randomUUID()}]
       }
     }
 
@@ -55,27 +57,5 @@ export class SubscriberService {
     } catch(error) {
       return {isError: true, ...error};
     }
-  }
-
-  async checkCreate(email: string, @Res() response, counter: number = 0, checksBeforeFail: number, pauseBetweenChecks: number, list: string) {
-    if(counter >= checksBeforeFail) {
-      return { isError: true, code: 408 }
-    }
-    
-    await delay(pauseBetweenChecks);
-
-    const existingUser = await this.findByEmail(email);
-    
-    if(![200, 404].includes(existingUser.code)) {
-      console.error(existingUser.code, existingUser.message);
-      return { isError: true, code: existingUser.code, message: existingUser.message }
-    }
-    
-    if(existingUser[0] && existingUser[0].body.result[email].contact["list_ids"].includes(list)) {
-      // Success!
-      return { isError: false, code: 200, ...existingUser };
-    }
-
-    return await this.checkCreate(email, response, counter + 1, checksBeforeFail, pauseBetweenChecks, list);
   }
 }
