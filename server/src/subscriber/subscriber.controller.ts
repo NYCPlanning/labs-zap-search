@@ -4,9 +4,6 @@ import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
 import validateEmail from "../_utils/validate-email";
 
-const PAUSE_BETWEEN_CHECKS = 3000;
-const CHECKS_BEFORE_FAIL = 10;
-
 @Controller()
 export class SubscriberController {
   apiKey = "";
@@ -53,26 +50,8 @@ export class SubscriberController {
       return;
     }
 
-    // Now we keep checking to make sure the import was successful
-    const importConfirmation = await this.subscriberService.checkCreate(request.body.email, response, 0, CHECKS_BEFORE_FAIL, PAUSE_BETWEEN_CHECKS, this.list)
-
-    if(importConfirmation.isError && (importConfirmation.code === 408)) {
-      response.status(408).send({
-        status: "error",
-        error: `Was not able to receive confirmation user information was updated in within ${PAUSE_BETWEEN_CHECKS * CHECKS_BEFORE_FAIL / 1000} seconds`,
-      })
-      return;
-    } else if (importConfirmation.isError) {
-      response.status(importConfirmation.code).send({
-        status: "error",
-        error: importConfirmation.message
-      })
-      return;
-    }
-
     response.status(200).send({
       status: "success",
-      user: importConfirmation[0].body.result[request.body.email]
     })
     return;
 
