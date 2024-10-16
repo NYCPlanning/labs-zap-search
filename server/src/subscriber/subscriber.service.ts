@@ -1,7 +1,7 @@
 import { Injectable, Res } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { Client } from "@sendgrid/client";
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 
 type HttpMethod = 'get'|'GET'|'post'|'POST'|'put'|'PUT'|'patch'|'PATCH'|'delete'|'DELETE';
