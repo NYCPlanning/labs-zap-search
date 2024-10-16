@@ -1,21 +1,87 @@
 <form>
     <div class="input-group">
-  <span class="input-group-label">Email Address</span>
-  <input class="input-group-field" type="text">
-</div>
+        <span class="input-group-label">Email Address</span>
+        <input class="input-group-field" type="text">
 
-                    {{!-- email address
-                    updates for:
-                        - citywide
-                        - community district
+    </div>
 
-                    community districts:
-                        - Brooklyn
-                        - Bronx
-                        - Manhattan
-                        - Queens
-                        - Staten Island
-                    
-                    Subscribe --}}
+    Which would you like to receive updates for?
+    
+        <input id="city-wide-checkbox" type="checkbox"><label for="city-wide-checkbox">Citywide Updates</label>
+        <input id="community-district-checkbox" type="checkbox"><label for="community-district-checkbo">Community District (CD) Updates</label>
+    {{#initialize_foundation}}
+    <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
+            <li class="accordion-item is-active" data-accordion-item>
+                <a href="#" class="accordion-title">Brooklyn</a>
+
+                <div class="accordion-content" data-tab-content>
+                    {{#each (lookup-community-district) as |cd|}}
+                        {{#if (string-includes cd.boro 'Brooklyn')}}
+                        <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
+                        {{/if}}
+                    {{/each}}
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Bronx</a>
+
+                <div class="accordion-content" data-tab-content>
+                    {{#each (lookup-community-district) as |cd|}}
+                        {{#if (string-includes cd.boro 'Bronx')}}
+                        <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
+                        {{/if}}
+                    {{/each}}
+                </div>
+            </li>
+             <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Manhattan</a>
+
+                <div class="accordion-content" data-tab-content>
+                    {{#each (lookup-community-district) as |cd|}}
+                        {{#if (string-includes cd.boro 'Manhattan')}}
+                        <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
+                        {{/if}}
+                    {{/each}}
+                </div>
+            </li>
+             <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Queens</a>
+
+                <div class="accordion-content" data-tab-content>
+                    {{#each (lookup-community-district) as |cd|}}
+                        {{#if (string-includes cd.boro 'Queens')}}
+                        <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
+                        {{/if}}
+                    {{/each}}
+                </div>
+            </li>
+
+             <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Staten Island</a>
+
+                <div class="accordion-content" data-tab-content>
+                    {{#each (lookup-community-district) as |cd|}}
+                        {{#if (string-includes cd.boro 'Staten Island')}}
+                        <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
+                        {{/if}}
+                    {{/each}}
+                </div>
+            </li>
+        </ul>
+        {{/initialize_foundation}}
+
+        {{!-- email address
+        updates for:
+        - citywide
+        - community district
+
+        community districts:
+        - Brooklyn
+        - Bronx
+        - Manhattan
+        - Queens
+        - Staten Island
+
+        Subscribe --}}
 
 </form>

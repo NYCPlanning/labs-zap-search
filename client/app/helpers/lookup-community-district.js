@@ -65,6 +65,7 @@ export const communityDistrictLookup = [
 }));
 
 export function lookupCommunityDistrict() {
+  console.log(communityDistrictLookup)
   return communityDistrictLookup;
 }
 
