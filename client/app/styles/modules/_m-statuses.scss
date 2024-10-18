@@ -6,6 +6,8 @@
   counter-reset: statusoption;
   list-style: none;
   padding-left: 40px;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .status-options .numbered-option {
@@ -34,5 +36,7 @@
 }
 
 .status-updates {
-  font-size: 1.5rem;
+  font-size: 21px;
+  padding-top: 3rem;
+  font-weight: 700;
 }
