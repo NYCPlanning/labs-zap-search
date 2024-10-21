@@ -38,14 +38,19 @@ export class SubscriberService {
       return {isError: true, ...error};
     }
   }
+  async create(email: string, list: string, environment: string, subscriptions: object, @Res() response) {
+    const custom_fields = Object.entries(subscriptions).reduce((acc, curr) => ({...acc, [`zap_${environment}_${curr[0]}`]: curr[1]}), {[`zap_${environment}_confirmed`]: 0})
 
-  async create(email: string, list: string, @Res() response) {
     const addRequest = {
       url: "/v3/marketing/contacts",
       method:<HttpMethod> 'PUT',
       body: {
         "list_ids": [list],
-        "contacts": [{"email": email, "anonymous_id": crypto.randomUUID()}]
+        "contacts": [{
+          "email": email,
+          "anonymous_id": crypto.randomUUID(),
+          custom_fields
+        }]
       }
     }
 
