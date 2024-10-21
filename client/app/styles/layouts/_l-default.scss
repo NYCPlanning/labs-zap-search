@@ -15,6 +15,11 @@ body {
   }
 }
 
+div.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 .relative {
   position: relative;
 }
