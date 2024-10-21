@@ -1,0 +1,42 @@
+// --------------------------------------------------
+// Module: Info Modal
+// --------------------------------------------------
+
+#info-modal-container {
+  z-index: 3;
+}
+
+.info-overlay {
+  padding: 1rem;
+
+  @include breakpoint(medium) {
+    padding: 4rem 1rem;
+    position: absolute;
+  }
+}
+
+.info-overlay-target {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.info-modal {
+  border: 3px solid $dcp-orange;
+  border-radius: 10px;
+  box-shadow: 0 0 0 rem-calc(4) rgba(0,0,0,0.1);
+  top: 30%;
+  background-color: $orange-white;
+  height: unset;
+  min-height: unset;
+  @include breakpoint(medium) {
+    height: unset;
+    padding: 4rem;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
