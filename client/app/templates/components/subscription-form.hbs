@@ -10,91 +10,98 @@
 
     <ul style="list-style-type: none">
         <li>
-<Input @id="city-wide-checkbox" @type="checkbox" @checked={{this.isCityWide}} />
-    <label for="city-wide-checkbox">Citywide Updates</label>
-    <span class="text-small">You'll receive an email for all citywide projects, which are projects that aren’t
-                                associated with any CD.</span>
+            <Input @id="city-wide-checkbox" @type="checkbox" @checked={{this.isCityWide}} />
+            <label for="city-wide-checkbox">Citywide Updates</label>
+            <span class="text-small">You'll receive an email for all citywide projects, which are projects that aren’t
+                associated with any CD.</span>
         </li>
         <li>
-<Input @id="community-district-checkbox" @type="checkbox" @checked={{this.isCommunityDistrict}} />
-    <label for="community-district-checkbox">Community District (CD) Updates</label>
-    <span class="text-small">You'll receive an email for projects from all CDs you have selected.</span>
+            <Input @id="community-district-checkbox" @type="checkbox" @checked={{this.isCommunityDistrict}} />
+            <label for="community-district-checkbox">Community District (CD) Updates</label>
+            <span class="text-small">You'll receive an email for projects from all CDs you have selected.</span>
         </li>
     </ul>
-    
 
-    
+
+
 
 
     {{!-- {{#if this.isCommunityDistrict}} --}}
-    <div class={{if this.isCommunityDistrict "" "disabled"}}>
+    <div class={{if this.isCommunityDistrict "" "disabled" }}>
 
-   
-    <h5>If you chose CD Updates, please select which community districts you would like to receive updates
-                    for:</h5>
-                <p>You can find the Community District to any New York City address <a
-                        href="https://zola.planning.nyc.gov/">here</a>.</p> 
-    {{#initialize_foundation}}
-    <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
-        <li class="accordion-item" data-accordion-item>
-            <a href="#" class="accordion-title">Brooklyn</a>
 
-            <div class="accordion-content" data-tab-content>
-                {{#each (lookup-community-district) as |cd|}}
-                {{#if (string-includes cd.boro 'Brooklyn')}}
-                <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
-                {{/if}}
-                {{/each}}
-            </div>
-        </li>
-        <li class="accordion-item" data-accordion-item>
-            <a href="#" class="accordion-title">Bronx</a>
+        <h5>If you chose CD Updates, please select which community districts you would like to receive updates
+            for:</h5>
+        <p>You can find the Community District to any New York City address <a
+                href="https://zola.planning.nyc.gov/">here</a>.</p>
+        {{#initialize_foundation}}
+        <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Brooklyn</a>
 
-            <div class="accordion-content" data-tab-content>
-                {{#each (lookup-community-district) as |cd|}}
-                {{#if (string-includes cd.boro 'Bronx')}}
-                <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
-                {{/if}}
-                {{/each}}
-            </div>
-        </li>
-        <li class="accordion-item" data-accordion-item>
-            <a href="#" class="accordion-title">Manhattan</a>
+                <div class="accordion-content" data-tab-content>
+                    <input id="all-brooklyn" type="checkbox"><label
+                        for="all-brooklyn">Select all</label>
+                    {{#each (lookup-community-district) as |cd|}}
+                    {{#if (string-includes cd.boro 'Brooklyn')}}
+                    <input id={{cd.searchField}} type="checkbox"><label
+                        for={{cd.searchField}}>{{cd.searchField}}</label>
+                    {{/if}}
+                    {{/each}}
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Bronx</a>
 
-            <div class="accordion-content" data-tab-content>
-                {{#each (lookup-community-district) as |cd|}}
-                {{#if (string-includes cd.boro 'Manhattan')}}
-                <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
-                {{/if}}
-                {{/each}}
-            </div>
-        </li>
-        <li class="accordion-item" data-accordion-item>
-            <a href="#" class="accordion-title">Queens</a>
+                <div class="accordion-content" data-tab-content>
+                    {{#each (lookup-community-district) as |cd|}}
+                    {{#if (string-includes cd.boro 'Bronx')}}
+                    <input id={{cd.searchField}} type="checkbox"><label
+                        for={{cd.searchField}}>{{cd.searchField}}</label>
+                    {{/if}}
+                    {{/each}}
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Manhattan</a>
 
-            <div class="accordion-content" data-tab-content>
-                {{#each (lookup-community-district) as |cd|}}
-                {{#if (string-includes cd.boro 'Queens')}}
-                <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
-                {{/if}}
-                {{/each}}
-            </div>
-        </li>
+                <div class="accordion-content" data-tab-content>
+                    {{#each (lookup-community-district) as |cd|}}
+                    {{#if (string-includes cd.boro 'Manhattan')}}
+                    <input id={{cd.searchField}} type="checkbox"><label
+                        for={{cd.searchField}}>{{cd.searchField}}</label>
+                    {{/if}}
+                    {{/each}}
+                </div>
+            </li>
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Queens</a>
 
-        <li class="accordion-item" data-accordion-item>
-            <a href="#" class="accordion-title">Staten Island</a>
+                <div class="accordion-content" data-tab-content>
+                    {{#each (lookup-community-district) as |cd|}}
+                    {{#if (string-includes cd.boro 'Queens')}}
+                    <input id={{cd.searchField}} type="checkbox"><label
+                        for={{cd.searchField}}>{{cd.searchField}}</label>
+                    {{/if}}
+                    {{/each}}
+                </div>
+            </li>
 
-            <div class="accordion-content" data-tab-content>
-                {{#each (lookup-community-district) as |cd|}}
-                {{#if (string-includes cd.boro 'Staten Island')}}
-                <input id={{cd.searchField}} type="checkbox"><label for={{cd.searchField}}>{{cd.searchField}}</label>
-                {{/if}}
-                {{/each}}
-            </div>
-        </li>
-    </ul>
-    {{/initialize_foundation}}
-     </div>
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Staten Island</a>
+
+                <div class="accordion-content" data-tab-content>
+                    {{#each (lookup-community-district) as |cd|}}
+                    {{#if (string-includes cd.boro 'Staten Island')}}
+                    <input id={{cd.searchField}} type="checkbox"><label
+                        for={{cd.searchField}}>{{cd.searchField}}</label>
+                    {{/if}}
+                    {{/each}}
+                </div>
+            </li>
+        </ul>
+        {{/initialize_foundation}}
+    </div>
     {{!-- {{/if}} --}}
 
     {{!-- <button>Subscribe</button> --}}
