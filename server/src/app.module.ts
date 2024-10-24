@@ -1,4 +1,7 @@
 import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
+import { SentryModule } from "@sentry/nestjs/setup";
+import { APP_FILTER } from "@nestjs/core";
+import { SentryGlobalFilter } from "@sentry/nestjs/setup";
 import bodyParser from "body-parser";
 import cookieparser from "cookie-parser";
 import compression from "compression";
@@ -16,7 +19,14 @@ import { ZoningResolutionsModule } from "./zoning-resolutions/zoning-resolutions
 import { SubscriberModule } from "./subscriber/subscriber.module";
 
 @Module({
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: SentryGlobalFilter,
+    },
+  ],
   imports: [
+    SentryModule.forRoot(),
     ProjectModule,
     ContactModule,
     ConfigModule,

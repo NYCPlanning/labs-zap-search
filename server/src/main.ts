@@ -1,3 +1,6 @@
+// Sentry needs to be the first import
+import "./sentry/instrument.mjs";
+
 import { NestFactory } from "@nestjs/core";
 import * as fs from "fs";
 import { AppModule } from "./app.module";
