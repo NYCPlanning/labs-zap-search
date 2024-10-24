@@ -40,12 +40,13 @@ export class SubscriberService {
   }
 
   async create(email: string, list: string, @Res() response) {
+    const id = crypto.randomUUID();
     const addRequest = {
       url: "/v3/marketing/contacts",
       method:<HttpMethod> 'PUT',
       body: {
         "list_ids": [list],
-        "contacts": [{"email": email, "anonymous_id": crypto.randomUUID()}]
+        "contacts": [{"email": email, "anonymous_id": id}]
       }
     }
 
@@ -53,9 +54,45 @@ export class SubscriberService {
     // https://www.twilio.com/docs/sendgrid/api-reference/contacts/add-or-update-a-contact
     try {
       const result = await this.client.request(addRequest);
-      return {isError: false, result: result};
+      return {isError: false, result: result, anonymous_id: id};
     } catch(error) {
-      return {isError: true, ...error};
+      console.error(error, addRequest.body)
+      return {isError: true, ...error, request_body: addRequest.body};
     }
   }
+
+  async checkCreate(importId: string, @Res() response, counter: number = 0, checksBeforeFail: number, pauseBetweenChecks: number, list: string, errorInfo: any) {
+    if(counter >= checksBeforeFail) {
+      console.error({
+        code: 408,
+        message: `Polling limit of ${checksBeforeFail} checks with a ${pauseBetweenChecks/1000} second delay between each has been reached.`,
+        job_id: importId,
+        errorInfo
+      })
+      return { isError: true, code: 408, errorInfo }
+    }
+
+    await delay(pauseBetweenChecks);
+
+    const confirmationRequest = {
+      url: `/v3/marketing/contacts/imports/${importId}`,
+      method:<HttpMethod> 'GET',
+    }
+
+    // https://www.twilio.com/docs/sendgrid/api-reference/contacts/import-contacts-status
+    try {
+      const user = await this.client.request(confirmationRequest);
+      if(user[1].status === "pending") {
+        return await this.checkCreate(importId, response, counter + 1, checksBeforeFail, pauseBetweenChecks, list, errorInfo);
+      } else if (["errored", "failed"].includes(user[1].status)) {
+        console.error(user, errorInfo)
+        return {isError: true, user, errorInfo};
+      }
+      return {isError: false, status: user[1].status, ...user};
+    } catch(error) {
+      console.error(error, errorInfo);
+      return {isError: true, ...error, errorInfo};
+    }
+  }
+
 }
