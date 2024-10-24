@@ -24,7 +24,7 @@
                 href="https://zola.planning.nyc.gov/">here</a>.</p>
         {{#initialize_foundation}}
         <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
-            <li class="accordion-item" data-accordion-item>
+            <li class="accordion-item accordionmenu-item-background" data-accordion-item>
                 <a href="#" class="accordion-title">Brooklyn</a>
 
                 <div class="accordion-content" data-tab-content>
@@ -37,7 +37,7 @@
                     {{/each}}
                 </div>
             </li>
-            <li class="accordion-item" data-accordion-item>
+            <li class="accordion-item accordionmenu-item-background" data-accordion-item>
                 <a href="#" class="accordion-title">Bronx</a>
                 <div class="accordion-content" data-tab-content>
                     <Input id="all-bronx" type="checkbox" onchange={{action "checkWholeBorough"}}/><label for="all-bronx">Select all</label>
@@ -49,7 +49,7 @@
                     {{/each}}
                 </div>
             </li>
-            <li class="accordion-item" data-accordion-item>
+            <li class="accordion-item accordionmenu-item-background" data-accordion-item>
                 <a href="#" class="accordion-title">Manhattan</a>
                 <div class="accordion-content" data-tab-content>
                     <Input id="all-manhattan" type="checkbox" onchange={{action "checkWholeBorough"}}/><label for="all-manhattan">Select all</label>
@@ -61,7 +61,7 @@
                     {{/each}}
                 </div>
             </li>
-            <li class="accordion-item" data-accordion-item>
+            <li class="accordion-item accordionmenu-item-background" data-accordion-item>
                 <a href="#" class="accordion-title">Queens</a>
                 <div class="accordion-content" data-tab-content>
                     <Input id="all-queens" type="checkbox" onchange={{action "checkWholeBorough"}}/><label for="all-queens">Select all</label>
@@ -73,7 +73,7 @@
                     {{/each}}
                 </div>
             </li>
-            <li class="accordion-item" data-accordion-item>
+            <li class="accordion-item accordionmenu-item-background" data-accordion-item>
                 <a href="#" class="accordion-title">Staten Island</a>
                 <div class="accordion-content" data-tab-content>
                     <Input id="all-staten-island" type="checkbox" onchange={{action "checkWholeBorough"}}/><label for="all-staten-island">Select all</label>
