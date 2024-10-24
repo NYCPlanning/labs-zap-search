@@ -1,27 +1,20 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import { run } from '@ember/runloop';
 
 export default class SubscriptionFormComponent extends Component {
-    
     @action
-    handleCityWideChecked() {
-        this.set('')
-    }
-
-    @action
-    checkWholeBorough(newValue) {
-        const checkboxId = newValue.target.id;
+    checkWholeBorough(event) {
+        const checkboxId = event.target.id;
         if (checkboxId === "all-brooklyn") {
-            this.set("allBrooklyn", newValue.target.checked) 
+            this.set("allBrooklyn", event.target.checked) 
         } else if (checkboxId === "all-bronx") {
-            this.set("allBronx", newValue.target.checked) 
+            this.set("allBronx", event.target.checked) 
         } else if (checkboxId === "all-manhattan") {
-            this.set("allManhattan", newValue.target.checked) 
+            this.set("allManhattan", event.target.checked) 
         } else if (checkboxId === "all-queens") {
-            this.set("allQueens", newValue.target.checked) 
+            this.set("allQueens", event.target.checked) 
         } else if (checkboxId === "all-staten-island") {
-            this.set("allStatenIsland", newValue.target.checked) 
+            this.set("allStatenIsland", event.target.checked) 
         }
     }
 }
