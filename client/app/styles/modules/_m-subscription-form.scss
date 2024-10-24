@@ -13,6 +13,8 @@ div.disabled {
 
 .accordion-title {
     border: none;
+    font-size: medium;
+    color: $dark-gray;
 }
 
 ul li.accordion-title:last-child {
