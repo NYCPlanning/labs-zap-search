@@ -1,6 +1,7 @@
 import { Injectable, Res } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { Client } from "@sendgrid/client";
+import { MailService } from "@sendgrid/mail";
 import crypto from 'crypto';
 import * as Sentry from "@sentry/nestjs";
 
@@ -26,10 +27,12 @@ export class SubscriberService {
   sendgridEnvironmentIdVariable = "";
   constructor(
     private readonly config: ConfigService,
-    private client: Client
+    private client: Client,
+    private mailer: MailService
   ) {
     this.client.setApiKey(this.config.get("SENDGRID_API_KEY"));
     this.sendgridEnvironmentIdVariable = `zap_${this.config.get("SENDGRID_ENVIRONMENT")}_id`;
+    this.mailer.setApiKey(this.config.get("SENDGRID_API_KEY"));
   }
 
   /**
@@ -79,6 +82,42 @@ export class SubscriberService {
         }]
       }
     }
+// https://github.com/sendgrid/sendgrid-nodejs/blob/main/docs/use-cases/transactional-templates.md
+    const msg = {
+      to: email, // Change to your recipient
+      from: 'do-not-reply@planning.nyc.gov', // Change to your verified sender
+      templateId: 'd-3684647ef2b242d8947b65b20497baa0',
+      dynamicTemplateData: {
+        "subscriptions": {
+          "citywide": true,
+          "boroughs": [
+            {
+              "name": "Brooklyn",
+              "communityBoards": [1, 2, 3]
+            },
+            {
+              "name": "Queens",
+              "communityBoards": [4]
+            },
+            {
+              "name": "Manhattan",
+              "communityBoards": [3, 11]
+            }
+          ]
+        }
+      }
+      // subject: 'Sending with SendGrid is Fun',
+      // text: 'and easy to do anywhere, even with Node.js',
+      // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    }
+    this.mailer.send(msg)
+      .then((response) => {
+        console.log(response[0].statusCode)
+        console.log(response[0].headers)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
 
     // If successful, this will add the request to the queue and return a 202
     // https://www.twilio.com/docs/sendgrid/api-reference/contacts/add-or-update-a-contact
