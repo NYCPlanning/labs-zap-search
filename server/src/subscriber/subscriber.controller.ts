@@ -3,6 +3,7 @@ import { ConfigService } from "../config/config.service";
 import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
 import validateEmail from "../_utils/validate-email";
+import * as Sentry from "@sentry/browser";
 
 const PAUSE_BETWEEN_CHECKS = 30000;
 const CHECKS_BEFORE_FAIL = 10;
@@ -32,6 +33,7 @@ export class SubscriberController {
     const existingUser = await this.subscriberService.findByEmail(request.body.email)
     if(![200, 404].includes(existingUser.code)) {
       console.error(existingUser.code, existingUser.message);
+      Sentry.captureException(existingUser)
       response.status(existingUser.code).send({ error: existingUser.message })
       return;
     }
@@ -42,6 +44,8 @@ export class SubscriberController {
         status: "error",
         error: "A user with that email address already exists, and they are already in the desired list.",
       })
+      console.error({...existingUser, message: "A user with that email address already exists, and they are already in the desired list."})
+      Sentry.captureException({...existingUser, message: "A user with that email address already exists, and they are already in the desired list."})
       return;
     }
 
