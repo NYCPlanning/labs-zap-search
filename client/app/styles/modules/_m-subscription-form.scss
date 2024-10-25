@@ -7,8 +7,9 @@ div.disabled {
     opacity: 0.4;
 }
 
-.accordionmenu-item-background {
+.accordion-item {
     background-color: $white-smoke;
+    border-radius: 12px;
 }
 
 .accordion-title {
