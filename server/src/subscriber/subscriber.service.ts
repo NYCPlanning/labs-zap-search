@@ -14,11 +14,13 @@ function delay(milliseconds){
 
 @Injectable()
 export class SubscriberService {
+  sendgridEnvironmentIdVariable = "";
   constructor(
     private readonly config: ConfigService,
     private client: Client
   ) {
     this.client.setApiKey(this.config.get("SENDGRID_API_KEY"));
+    this.sendgridEnvironmentIdVariable = `zap_${this.config.get("SENDGRID_ENVIRONMENT")}_id`;
   }
 
   async findByEmail(email: string) {
@@ -39,16 +41,17 @@ export class SubscriberService {
     }
   }
   async create(email: string, list: string, environment: string, subscriptions: object, @Res() response) {
-    const custom_fields = Object.entries(subscriptions).reduce((acc, curr) => ({...acc, [`zap_${environment}_${curr[0]}`]: curr[1]}), {[`zap_${environment}_confirmed`]: 0})
+    const id = crypto.randomUUID();
+    var custom_fields = Object.entries(subscriptions).reduce((acc, curr) => ({...acc, [`zap_${environment}_${curr[0]}`]: curr[1]}), {[`zap_${environment}_confirmed`]: 0})
+    custom_fields[this.sendgridEnvironmentIdVariable] = id;
 
-    const addRequest = {
+    var addRequest = {
       url: "/v3/marketing/contacts",
       method:<HttpMethod> 'PUT',
       body: {
         "list_ids": [list],
         "contacts": [{
           "email": email,
-          "anonymous_id": crypto.randomUUID(),
           custom_fields
         }]
       }
