@@ -29,6 +29,7 @@ Router.map(function() { // eslint-disable-line
   this.route('show-geography', { path: '/projects' });
   this.route('disclaimer');
   if (config.showAlerts) { this.route('statuses'); }
+  this.route('subscribed');
   this.route('not-found', { path: '/*path' });
   this.route('oops');
   this.route('my-projects', function() {
