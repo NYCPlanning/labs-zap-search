@@ -3,14 +3,12 @@ import { ConfigService } from "../config/config.service";
 import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
 import validateEmail from "../_utils/validate-email";
-import validateSubscriptions from "../_utils/validate-subscriptions";
 
 @Controller()
 export class SubscriberController {
   apiKey = "";
   list = "";
   sendgridEnvironment = "";
-  validCustomFieldValues = [1];
 
   constructor(
     private readonly config: ConfigService,
@@ -30,7 +28,7 @@ export class SubscriberController {
       return;
     }
 
-    if(!validateSubscriptions(request.body.subscriptions)) {
+    if(!this.subscriberService.validateSubscriptions(request.body.subscriptions)) {
       response.status(400).send({
         error: "Invalid list of subscriptions."
       })
