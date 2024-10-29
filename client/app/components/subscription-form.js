@@ -17,4 +17,14 @@ export default class SubscriptionFormComponent extends Component {
             this.set("allStatenIsland", event.target.checked) 
         }
     }
+
+    @action
+    toggleUpdateType(event) {
+        const checkboxId = event.target.id;
+        if (checkboxId === "city-wide-checkbox") {
+            this.set('isCommunityDistrict', false)
+        } else if (checkboxId === "community-district-checkbox") {
+            this.set('isCityWide', false)
+        }
+    }
 }
