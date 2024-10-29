@@ -3,7 +3,7 @@ import { ConfigService } from "../config/config.service";
 import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
 import validateEmail from "../_utils/validate-email";
-import * as Sentry from "@sentry/browser";
+import * as Sentry from "@sentry/nestjs";
 
 const PAUSE_BETWEEN_CHECKS = 30000;
 const CHECKS_BEFORE_FAIL = 10;
@@ -77,7 +77,7 @@ export class SubscriberController {
     }
 
     // Now we keep checking to make sure the import was successful
-    const importConfirmation = await this.subscriberService.checkCreate(addToQueue.result[1]["job_id"], response, 0, CHECKS_BEFORE_FAIL, PAUSE_BETWEEN_CHECKS, this.list, errorInfo);
+    const importConfirmation = await this.subscriberService.checkCreate(addToQueue.result[1]["job_id"], response, 0, CHECKS_BEFORE_FAIL, PAUSE_BETWEEN_CHECKS, errorInfo);
 
     return;
 
