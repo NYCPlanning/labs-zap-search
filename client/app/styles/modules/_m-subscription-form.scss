@@ -33,9 +33,31 @@ input[type=checkbox] {
     height: 20px;
   }
 
-ul li {
-    margin-bottom: 1.5rem;
+.subscribe-input-group {
+    display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+    label {
+        padding-right: 12px;
+        align-content: center;
+    }
+    Input {
+        border-radius: 12px;
+    }
 }
+
+.subscribe-section {
+    padding-bottom: 64px;
+
+}
+
+.district-slection {
+    ul {
+        margin-bottom: 0px;
+    }
+    li {
+        margin-bottom: 1.5rem;
+    }
 
 li:last-child:not(.is-active) > .accordion-title {
     border-bottom: none;
@@ -44,6 +66,9 @@ li:last-child:not(.is-active) > .accordion-title {
 li:last-child > .accordion-content:last-child {
     border-bottom: none;
 }
+}
+
+
 
 .accordion {
     background: $off-white;
