@@ -6,21 +6,32 @@
         </div>
     </div>
 
-<div class="subscribe-section">
-    Which would you like to receive updates for?
-    <ul style="list-style-type: none">
-        <li>
-            <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} onclick={{toggleUpdateType}} />
-            <label for="city-wide-checkbox">Citywide Updates</label>
-            <span class="text-small">You'll receive an email for all citywide projects, which are projects that aren’t
-                associated with any CD.</span>
-        </li>
-        <li>
-            <Input @id="community-district-checkbox" @type="checkbox" @checked={{isCommunityDistrict}} onclick={{toggleUpdateType}} />
-            <label for="community-district-checkbox">Community District (CD) Updates</label>
-            <span class="text-small">You'll receive an email for projects from all CDs you have selected.</span>
-        </li>
-    </ul>
+    <div class="subscribe-section">
+        <div class="update-type-section">
+        Which would you like to receive updates for?
+        <ul>
+            <li>
+                <div class="update-type-item">
+                    <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} onclick={{toggleUpdateType}} />
+                    <div class="update-type-label">
+                        <label for="city-wide-checkbox">Citywide Updates</label>
+                        <span class="text-small">You'll receive an email for all citywide projects, which are projects that aren’t
+                            associated with any CD.</span>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="update-type-item">
+                    <Input @id="community-district-checkbox" @type="checkbox" @checked={{isCommunityDistrict}}
+                        onclick={{toggleUpdateType}} />
+                    <div class="update-type-label">
+                        <label for="community-district-checkbox">Community District (CD) Updates</label>
+                        <span class="text-small">You'll receive an email for projects from all CDs you have selected.</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </div>
     </div>
 
    <div class="subscribe-section">

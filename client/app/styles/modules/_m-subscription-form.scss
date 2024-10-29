@@ -24,23 +24,24 @@ ul li.accordion-title:last-child {
 
 .accordion-content {
     border: none;
-    
 }
 
 input[type=checkbox] {
     accent-color: $dcp-orange;
     width: 20px;
     height: 20px;
-  }
+}
 
 .subscribe-input-group {
     display: flex;
     white-space: nowrap;
     overflow: hidden;
+
     label {
         padding-right: 12px;
         align-content: center;
     }
+
     Input {
         border-radius: 12px;
     }
@@ -54,21 +55,48 @@ input[type=checkbox] {
 .district-slection {
     ul {
         margin-bottom: 0px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px
     }
-    li {
-        margin-bottom: 1.5rem;
+
+    li:last-child:not(.is-active)>.accordion-title {
+        border-bottom: none;
     }
 
-li:last-child:not(.is-active) > .accordion-title {
-    border-bottom: none;
+    li:last-child>.accordion-content:last-child {
+        border-bottom: none;
+    }
 }
 
-li:last-child > .accordion-content:last-child {
-    border-bottom: none;
-}
+.button.primary {
+    border-radius: 12px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 40px;
+    padding-left: 40px;
 }
 
+.update-type-section {
+    display: flex;
+    flex-direction: column;
+    ul {
+        margin-bottom: 0px;
+        margin-left: 0px;
+        list-style-type: none;
+    }
+}
 
+.update-type-item {
+    display: flex;
+    flex-direction: row;
+}
+
+.update-type-label {
+    // display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
 
 .accordion {
     background: $off-white;
