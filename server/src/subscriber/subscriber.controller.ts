@@ -4,6 +4,7 @@ import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
 import validateEmail from "../_utils/validate-email";
 import * as Sentry from "@sentry/nestjs";
+import crypto from 'crypto';
 
 const PAUSE_BETWEEN_CHECKS = 30000;
 const CHECKS_BEFORE_FAIL = 10;
@@ -59,7 +60,8 @@ export class SubscriberController {
     }
 
     // If we have reached this point, the user either doesn't exist or isn't signed up for the list
-    const addToQueue = await this.subscriberService.create(request.body.email, this.list, this.sendgridEnvironment, request.body.subscriptions, response)
+    const id = crypto.randomUUID();
+    const addToQueue = await this.subscriberService.create(request.body.email, this.list, this.sendgridEnvironment, request.body.subscriptions, id, response)
 
     if(addToQueue.isError) { 
       response.status(addToQueue.code).send({errors: addToQueue.response.body.errors})
@@ -78,6 +80,9 @@ export class SubscriberController {
 
     // Now we keep checking to make sure the import was successful
     const importConfirmation = await this.subscriberService.checkCreate(addToQueue.result[1]["job_id"], response, 0, CHECKS_BEFORE_FAIL, PAUSE_BETWEEN_CHECKS, errorInfo);
+    
+    // Send the confirmation email
+    await this.subscriberService.sendConfirmationEmail(request.body.email, this.sendgridEnvironment, request.body.subscriptions, id)
 
     return;
 

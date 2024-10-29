@@ -64,10 +64,10 @@ export class SubscriberService {
    * @param {string} list - The email list to which we will add the user
    * @param {string} environment - Staging or production
    * @param {object} subscriptions - The CDs the user is subscribing to
+   * @param {string} id - The id needed for confirmation
    * @returns {object}
    */
-  async create(email: string, list: string, environment: string, subscriptions: object, @Res() response) {
-    const id = crypto.randomUUID();
+  async create(email: string, list: string, environment: string, subscriptions: object, id: string, @Res() response) {
     var custom_fields = Object.entries(subscriptions).reduce((acc, curr) => ({...acc, [`zap_${environment}_${curr[0]}`]: curr[1]}), {[`zap_${environment}_confirmed`]: 0})
     custom_fields[this.sendgridEnvironmentIdVariable] = id;
 
@@ -82,42 +82,6 @@ export class SubscriberService {
         }]
       }
     }
-// https://github.com/sendgrid/sendgrid-nodejs/blob/main/docs/use-cases/transactional-templates.md
-    const msg = {
-      to: email, // Change to your recipient
-      from: 'do-not-reply@planning.nyc.gov', // Change to your verified sender
-      templateId: 'd-3684647ef2b242d8947b65b20497baa0',
-      dynamicTemplateData: {
-        "subscriptions": {
-          "citywide": true,
-          "boroughs": [
-            {
-              "name": "Brooklyn",
-              "communityBoards": [1, 2, 3]
-            },
-            {
-              "name": "Queens",
-              "communityBoards": [4]
-            },
-            {
-              "name": "Manhattan",
-              "communityBoards": [3, 11]
-            }
-          ]
-        }
-      }
-      // subject: 'Sending with SendGrid is Fun',
-      // text: 'and easy to do anywhere, even with Node.js',
-      // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-    }
-    this.mailer.send(msg)
-      .then((response) => {
-        console.log(response[0].statusCode)
-        console.log(response[0].headers)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
 
     // If successful, this will add the request to the queue and return a 202
     // https://www.twilio.com/docs/sendgrid/api-reference/contacts/add-or-update-a-contact
@@ -184,6 +148,37 @@ export class SubscriberService {
     }
   }
 
+   /**
+   * Send the user an email requesting signup confirmation.
+   * @param {string} email - The user's email address
+   * @param {string} environment - Staging or production
+   * @param {object} subscriptions - The CDs the user is subscribing to
+   * @param {string} id - The id needed for confirmation
+   * @returns {object}
+   */
+   async sendConfirmationEmail(email: string, environment: string, subscriptions: object, id: string) {
+      // https://github.com/sendgrid/sendgrid-nodejs/blob/main/docs/use-cases/transactional-templates.md
+      const msg = {
+        to: email,
+        from: 'do-not-reply@planning.nyc.gov', // Your verified sender
+        templateId: 'd-3684647ef2b242d8947b65b20497baa0',
+        dynamicTemplateData: {
+          "id": id,
+          "subscriptions": this.convertSubscriptionsToHandlebars(subscriptions)
+        }
+      }
+      this.mailer.send(msg)
+        .then((response) => {
+          // console.log(response[0].statusCode)
+          // console.log(response[0].headers)
+          return {isError: false, statusCode: response[0].statusCode}
+        })
+        .catch((error) => {
+          console.error(error)
+          return {isError: true, ...error}
+        })
+   }
+
   /**
    * Validate a list of subscriptions.
    * @param {object} subscriptions - The subscriptions to validate.
@@ -221,6 +216,5 @@ export class SubscriberService {
   private validateSubscriptionValue(value: number): value is CustomFieldValue {
     return validCustomFieldValues.includes(value as CustomFieldValue);
   }
-
 
 }
