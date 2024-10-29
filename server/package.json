@@ -36,7 +36,6 @@
     "@nestjs/testing": "^8.4.7",
     "@octokit/rest": "^16.43.1",
     "@sendgrid/client": "^8.1.3",
-    "@sentry/browser": "^8.35.0",
     "@sentry/nestjs": "^8.35.0",
     "@sentry/profiling-node": "^8.35.0",
     "@sentry/wizard": "^3.34.2",

@@ -9,7 +9,6 @@ type CustomFieldName = CustomFieldNameTuple[number];
 const validCustomFieldValues = [1] as const;
 export type CustomFieldValueTuple = typeof validCustomFieldValues;
 type CustomFieldValue = CustomFieldValueTuple[number];
-import * as Sentry from "@sentry/browser";
 
 
 type HttpMethod = 'get'|'GET'|'post'|'POST'|'put'|'PUT'|'patch'|'PATCH'|'delete'|'DELETE';
@@ -91,6 +90,59 @@ export class SubscriberService {
     }
   }
 
+
+  /**
+   * Checks that a job has imported correctly.
+   * @param {string} importId - The job id returned by the initial request
+   * @param {number} counter - Tracks the number of times we have checked
+   * @param {number} checksBeforeFail - Max # times to check
+   * @param {number} pauseBetweenChecks - How long to wait between checks, in milliseconds
+   * @param {object} errorInfo - Additional info to log in case of error
+   * @returns {object}
+   */
+  async checkCreate(importId: string, @Res() response, counter: number = 0, checksBeforeFail: number, pauseBetweenChecks: number, errorInfo: any) {
+    if(counter >= checksBeforeFail) {
+      console.error({
+        code: 408,
+        message: `Polling limit of ${checksBeforeFail} checks with a ${pauseBetweenChecks/1000} second delay between each has been reached.`,
+        job_id: importId,
+        errorInfo
+      })
+      Sentry.captureException({
+        code: 408,
+        message: `Polling limit of ${checksBeforeFail} checks with a ${pauseBetweenChecks/1000} second delay between each has been reached.`,
+        job_id: importId,
+        errorInfo
+      })
+      return { isError: true, code: 408, errorInfo }
+    }
+
+    await delay(pauseBetweenChecks);
+
+    const confirmationRequest = {
+      url: `/v3/marketing/contacts/imports/${importId}`,
+      // method:<HttpMethod> 'GET',
+      method:<HttpMethod> 'GET',
+    }
+
+    // https://www.twilio.com/docs/sendgrid/api-reference/contacts/import-contacts-status
+    try {
+      const job = await this.client.request(confirmationRequest);
+      if(job[1].status === "pending") {
+        return await this.checkCreate(importId, response, counter + 1, checksBeforeFail, pauseBetweenChecks, errorInfo);
+      } else if (["errored", "failed"].includes(job[1].status)) {
+        console.error(job, errorInfo);
+        Sentry.captureException(job, errorInfo);
+        return {isError: true, job, errorInfo};
+      }
+      return {isError: false, status: job[1].status, ...job};
+    } catch(error) {
+      console.error(error, errorInfo);
+      Sentry.captureException(error, errorInfo);
+      return {isError: true, ...error, errorInfo};
+    }
+  }
+
   /**
    * Validate a list of subscriptions.
    * @param {object} subscriptions - The subscriptions to validate.
@@ -128,46 +180,6 @@ export class SubscriberService {
   private validateSubscriptionValue(value: number): value is CustomFieldValue {
     return validCustomFieldValues.includes(value as CustomFieldValue);
   }
-  async checkCreate(importId: string, @Res() response, counter: number = 0, checksBeforeFail: number, pauseBetweenChecks: number, list: string, errorInfo: any) {
-    if(counter >= checksBeforeFail) {
-      console.error({
-        code: 408,
-        message: `Polling limit of ${checksBeforeFail} checks with a ${pauseBetweenChecks/1000} second delay between each has been reached.`,
-        job_id: importId,
-        errorInfo
-      })
-      Sentry.captureException({
-        code: 408,
-        message: `Polling limit of ${checksBeforeFail} checks with a ${pauseBetweenChecks/1000} second delay between each has been reached.`,
-        job_id: importId,
-        errorInfo
-      })
-      return { isError: true, code: 408, errorInfo }
-    }
 
-    await delay(pauseBetweenChecks);
-
-    const confirmationRequest = {
-      url: `/v3/marketing/contacts/imports/${importId}`,
-      method:<HttpMethod> 'GET',
-    }
-
-    // https://www.twilio.com/docs/sendgrid/api-reference/contacts/import-contacts-status
-    try {
-      const user = await this.client.request(confirmationRequest);
-      if(user[1].status === "pending") {
-        return await this.checkCreate(importId, response, counter + 1, checksBeforeFail, pauseBetweenChecks, list, errorInfo);
-      } else if (["errored", "failed"].includes(user[1].status)) {
-        console.error(user, errorInfo);
-        Sentry.captureException(user, errorInfo);
-        return {isError: true, user, errorInfo};
-      }
-      return {isError: false, status: user[1].status, ...user};
-    } catch(error) {
-      console.error(error, errorInfo);
-      Sentry.captureException(error, errorInfo);
-      return {isError: true, ...error, errorInfo};
-    }
-  }
 
 }
