@@ -122,7 +122,6 @@ export class SubscriberService {
 
     const confirmationRequest = {
       url: `/v3/marketing/contacts/imports/${importId}`,
-      // method:<HttpMethod> 'GET',
       method:<HttpMethod> 'GET',
     }
 
