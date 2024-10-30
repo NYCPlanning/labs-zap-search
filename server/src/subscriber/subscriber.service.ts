@@ -164,13 +164,12 @@ export class SubscriberService {
         templateId: 'd-3684647ef2b242d8947b65b20497baa0',
         dynamicTemplateData: {
           "id": id,
+          "domain": environment === "production" ? "zap.planning.nyc.gov" : "zap-staging.planninglabs.nyc",
           "subscriptions": this.convertSubscriptionsToHandlebars(subscriptions)
         }
       }
       this.mailer.send(msg)
         .then((response) => {
-          // console.log(response[0].statusCode)
-          // console.log(response[0].headers)
           return {isError: false, statusCode: response[0].statusCode}
         })
         .catch((error) => {
