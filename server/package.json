@@ -12,7 +12,6 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nest start --watch",
-    "start:dev-old": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/main.js\"",
     "start:dev:skip-auth": "SKIP_AUTH=true yarn run start:dev",
     "start:debug": "tsc-watch -p tsconfig.build.json --onSuccess \"node --inspect-brk dist/main.js\"",
     "start:prod": "node dist/main.js",
