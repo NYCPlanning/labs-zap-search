@@ -27,7 +27,9 @@
   border: 3px solid $dcp-orange;
   border-radius: 10px;
   box-shadow: 0 0 0 rem-calc(4) rgba(0,0,0,0.1);
-  top: 30%;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
   background-color: #FBF0E9;
   height: unset;
   min-height: unset;
