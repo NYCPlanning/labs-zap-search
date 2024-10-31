@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res } from "@nestjs/common";
+import { Controller, Post, Patch, Req, Res } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
@@ -64,5 +64,10 @@ export class SubscriberController {
     })
     return;
 
+  }
+
+  @Patch("/subscribers/<uuid>")
+  async confirm(@Req() request: Request, @Res() response) {
+    
   }
 }

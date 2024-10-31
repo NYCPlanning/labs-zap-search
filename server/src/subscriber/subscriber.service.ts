@@ -88,6 +88,24 @@ export class SubscriberService {
     }
   }
 
+
+  async findByAnonymousID(id: string) {
+    const searchRequest = {
+      url: "/v3/marketing/contacts/search/anonymous_id",
+
+    }
+  }
+
+  /**
+   * Confirm user subscription.
+   * @param {string} id - The user's anonymous id
+   * @returns {object}
+   */
+    async confirm(id: string, @Res() response) {
+
+    }
+
+
   /**
    * Validate a list of subscriptions.
    * @param {object} subscriptions - The subscriptions to validate.
