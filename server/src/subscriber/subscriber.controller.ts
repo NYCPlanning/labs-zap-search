@@ -3,6 +3,10 @@ import { ConfigService } from "../config/config.service";
 import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
 import validateEmail from "../_utils/validate-email";
+import * as Sentry from "@sentry/nestjs";
+
+const PAUSE_BETWEEN_CHECKS = 30000;
+const CHECKS_BEFORE_FAIL = 10;
 
 @Controller()
 export class SubscriberController {
@@ -38,6 +42,7 @@ export class SubscriberController {
     const existingUser = await this.subscriberService.findByEmail(request.body.email)
     if(![200, 404].includes(existingUser.code)) {
       console.error(existingUser.code, existingUser.message);
+      Sentry.captureException(existingUser)
       response.status(existingUser.code).send({ error: existingUser.message })
       return;
     }
@@ -48,6 +53,8 @@ export class SubscriberController {
         status: "error",
         error: "A user with that email address already exists, and they are already in the desired list.",
       })
+      console.error({...existingUser, message: "A user with that email address already exists, and they are already in the desired list."})
+      Sentry.captureException({...existingUser, message: "A user with that email address already exists, and they are already in the desired list."})
       return;
     }
 
@@ -62,6 +69,16 @@ export class SubscriberController {
     response.status(200).send({
       status: "success",
     })
+
+    const errorInfo = {
+      email: request.body.email,
+      anonymous_id: addToQueue.anonymous_id,
+      lists: this.list
+    }
+
+    // Now we keep checking to make sure the import was successful
+    const importConfirmation = await this.subscriberService.checkCreate(addToQueue.result[1]["job_id"], response, 0, CHECKS_BEFORE_FAIL, PAUSE_BETWEEN_CHECKS, errorInfo);
+
     return;
 
   }
