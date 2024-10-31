@@ -15,9 +15,9 @@ type CustomFieldValue = CustomFieldValueTuple[number];
 
 type ValidSubscriptionSet = Record<CustomFieldName, CustomFieldValue>;
 
-type HttpMethod = 'get'|'GET'|'post'|'POST'|'put'|'PUT'|'patch'|'PATCH'|'delete'|'DELETE';
+type HttpMethod = 'get' | 'GET' | 'post' | 'POST' | 'put' | 'PUT' | 'patch' | 'PATCH' | 'delete' | 'DELETE';
 
-function delay(milliseconds){
+function delay(milliseconds) {
   return new Promise(resolve => {
     setTimeout(resolve, milliseconds);
   });
@@ -44,7 +44,7 @@ export class SubscriberService {
   async findByEmail(email: string) {
     const searchRequest = {
       url: "/v3/marketing/contacts/search/emails",
-      method:<HttpMethod> 'POST',
+      method: <HttpMethod>'POST',
       body: {
         "emails": [email]
       }
@@ -53,9 +53,9 @@ export class SubscriberService {
     // https://www.twilio.com/docs/sendgrid/api-reference/contacts/get-contacts-by-emails
     try {
       const user = await this.client.request(searchRequest);
-      return {isError: false, code: user[0].statusCode, ...user};
-    } catch(error) {
-      return {isError: true, ...error};
+      return { isError: false, code: user[0].statusCode, ...user };
+    } catch (error) {
+      return { isError: true, ...error };
     }
   }
 
@@ -74,7 +74,7 @@ export class SubscriberService {
 
     var addRequest = {
       url: "/v3/marketing/contacts",
-      method:<HttpMethod> 'PUT',
+      method: <HttpMethod>'PUT',
       body: {
         "list_ids": [list],
         "contacts": [{
@@ -179,6 +179,61 @@ export class SubscriberService {
    }
 
   /**
+   * Fetch the user email
+   * @param {string} id - The user's zap_production_id or zap_staging_id.
+   * @returns {object}
+   */
+  async getUserById(id: string) {
+    const query = `${this.sendgridEnvironmentIdVariable} LIKE '${id}'`
+    const request = {
+      url: `/v3/marketing/contacts/search`,
+      method: <HttpMethod>'POST',
+      body: { query }
+    }
+
+    // https://www.twilio.com/docs/sendgrid/api-reference/contacts/search-contacts
+    // https://www.twilio.com/docs/sendgrid/for-developers/sending-email/segmentation-query-language
+    try {
+      const users = await this.client.request(request);
+      if (users[0].body["contact_count"] === 0) {
+        return { isError: true, code: 404, message: "No users found." };
+      }
+      const email = users[0].body["result"][0].email;
+
+      return { isError: false, code: users[0].statusCode, "email": email };
+    } catch (error) {
+      return { isError: true, ...error };
+    }
+  };
+
+
+  /**
+   * Update user subscription.
+   * @param {string} environment - The environment variable
+   * @param {string} email - The user's email
+   * @param {object} custom_fields - The users custom lists and preferences
+   * @returns {object}
+   */
+  async update(environment: string, email: string, custom_fields: object) {
+
+    var updated_custom_fields = Object.entries(custom_fields).reduce((acc, curr) => ({ ...acc, [`zap_${environment}_${curr[0]}`]: curr[1] }), {})
+
+    const request = {
+      url: `/v3/marketing/contacts`,
+      method: <HttpMethod>'PUT',
+      body: { "contacts": [{ "email": email, "custom_fields": updated_custom_fields }] }
+    }
+
+    try {
+      const result = await this.client.request(request);
+      return { isError: false, result: result };
+    } catch (error) {
+      return { isError: true, ...error };
+    }
+  }
+
+
+  /**
    * Validate a list of subscriptions.
    * @param {object} subscriptions - The subscriptions to validate.
    * @returns {boolean}
@@ -186,8 +241,8 @@ export class SubscriberService {
   validateSubscriptions(subscriptions: ValidSubscriptionSet) {
     if (!subscriptions)
       return false;
-      
-    if(!(Object.entries(subscriptions).length>0))
+
+    if (!(Object.entries(subscriptions).length > 0))
       return false;
 
     for (const [key, value] of Object.entries(subscriptions)) {

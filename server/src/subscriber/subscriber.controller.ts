@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res } from "@nestjs/common";
+import { Controller, Post, Patch, Req, Res, Param, Get } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
@@ -88,5 +88,30 @@ export class SubscriberController {
     
     return;
 
+  }
+
+  @Patch("/subscribers/:id")
+  async update(@Param("id") id, @Req() request: Request, @Res() response) {
+    const email = await this.subscriberService.getUserById(id);
+    // get user email by id
+    
+    if(email.isError){ 
+      response.status(email.code).send({errors: email.response.body.errors})
+      return;
+    }
+    // if error, send error back
+
+    const updatedContact = await this.subscriberService.update(
+      this.sendgridEnvironment,
+      email.email,
+      {
+        "confirmed": 1
+      }
+    );
+    // send update request to confirm
+
+
+      // based on that success or return error
+    response.send(updatedContact);
   }
 }
