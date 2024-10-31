@@ -82,8 +82,10 @@ export class SubscriberController {
     const importConfirmation = await this.subscriberService.checkCreate(addToQueue.result[1]["job_id"], response, 0, CHECKS_BEFORE_FAIL, PAUSE_BETWEEN_CHECKS, errorInfo);
     
     // Send the confirmation email
-    await this.subscriberService.sendConfirmationEmail(request.body.email, this.sendgridEnvironment, request.body.subscriptions, id)
-
+    if (!importConfirmation.isError) { 
+      await this.subscriberService.sendConfirmationEmail(request.body.email, this.sendgridEnvironment, request.body.subscriptions, id);
+    }
+    
     return;
 
   }

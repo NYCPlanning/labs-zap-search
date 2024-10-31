@@ -126,7 +126,6 @@ export class SubscriberService {
 
     const confirmationRequest = {
       url: `/v3/marketing/contacts/imports/${importId}`,
-      // method:<HttpMethod> 'GET',
       method:<HttpMethod> 'GET',
     }
 
@@ -214,6 +213,40 @@ export class SubscriberService {
    */
   private validateSubscriptionValue(value: number): value is CustomFieldValue {
     return validCustomFieldValues.includes(value as CustomFieldValue);
+  }
+
+  /**
+   * Convert the uploaded subscriptions object into a format for Handlebars to use in the confirmation email
+   * @param {object} subscriptions - The set of CDs the user is subscribing to
+   * @returns {boolean}
+   */
+  private convertSubscriptionsToHandlebars(subscriptions: object) {
+    var handlebars = { "citywide": false, "boroughs": [] }
+    const boros = {
+      "K": "Brooklyn",
+      "X": "Bronx",
+      "M": "Manhattan",
+      "Q": "Queens",
+      "R": "Staten Island"
+    }
+    for (const [key, value] of Object.entries(subscriptions)) {
+      if (value === 1) {
+        if (key === "CW") {
+          handlebars.citywide = true;
+        } else if (boros[key[0]]) {
+          const i = handlebars.boroughs.findIndex((boro) => boro.name === boros[key[0]]);
+            if (i === -1) {
+              handlebars.boroughs.push({
+                "name": boros[key[0]],
+                "communityBoards": [parseInt(key.slice(-2))]
+              })
+            } else {
+              handlebars.boroughs[i]["communityBoards"].push(parseInt(key.slice(-2)))
+            }
+        }
+      }
+    }
+    return handlebars;
   }
 
 }
