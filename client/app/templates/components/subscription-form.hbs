@@ -1,4 +1,4 @@
-<form>
+<form {{on "submit" this.handleSubmit}}>
     <div class="subscribe-section">
         <div class="subscribe-input-group">
         <label class="email-label">Email Address</label>
@@ -6,6 +6,7 @@
         </div>
     </div>
 
+    {{this.subscriptions}}
     <div class="subscribe-section">
         <div class="update-type-section">
         Which would you like to receive updates for?
@@ -51,8 +52,10 @@
                         for="all-brooklyn">Select all</label>
                     {{#each (lookup-community-district) as |cd|}}
                     {{#if (string-includes cd.boro 'Brooklyn')}}
+                    <div class="hi">
                     <Input id={{cd.code}} type="checkbox" checked={{allBrooklyn}} /><label
                         for={{cd.code}}>{{cd.searchField}}</label>
+                        </div>
                     {{/if}}
                     {{/each}}
                 </div>
@@ -64,8 +67,10 @@
                         for="all-bronx">Select all</label>
                     {{#each (lookup-community-district) as |cd|}}
                     {{#if (string-includes cd.boro 'Bronx')}}
+                    <div class="hi">
                     <Input id={{cd.searchField}} type="checkbox" checked={{allBronx}} /><label
                         for={{cd.searchField}}>{{cd.searchField}}</label>
+                        </div>
                     {{/if}}
                     {{/each}}
                 </div>
@@ -77,8 +82,10 @@
                         for="all-manhattan">Select all</label>
                     {{#each (lookup-community-district) as |cd|}}
                     {{#if (string-includes cd.boro 'Manhattan')}}
+                    <div>
                     <Input id={{cd.searchField}} type="checkbox" checked={{allManhattan}} /><label
                         for={{cd.searchField}}>{{cd.searchField}}</label>
+                        </div>
                     {{/if}}
                     {{/each}}
                 </div>
@@ -90,8 +97,10 @@
                         for="all-queens">Select all</label>
                     {{#each (lookup-community-district) as |cd|}}
                     {{#if (string-includes cd.boro 'Queens')}}
+                    <div>
                     <Input id={{cd.searchField}} type="checkbox" checked={{allQueens}} /><label
                         for={{cd.searchField}}>{{cd.searchField}}</label>
+                        </div>
                     {{/if}}
                     {{/each}}
                 </div>
@@ -103,8 +112,10 @@
                         for="all-staten-island">Select all</label>
                     {{#each (lookup-community-district) as |cd|}}
                     {{#if (string-includes cd.boro 'Staten Island')}}
+                    <div>
                     <Input id={{cd.searchField}} type="checkbox" checked={{allStatenIsland}} /><label
                         for={{cd.searchField}}>{{cd.searchField}}</label>
+                        </div>
                     {{/if}}
                     {{/each}}
                 </div>
@@ -115,6 +126,7 @@
     </div>
     </div>
     <div class="subscribe-section">
-    <a class="button primary no-margin disabled" href="">Subscribe</a>
+    <a class="button primary no-margin disabled" type="submit" href="">Subscribe</a>
+    {{!-- <input type="submit" value="Subscribe"> --}}
     </div>
 </form>

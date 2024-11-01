@@ -18,6 +18,10 @@ div.disabled {
     color: $dark-gray;
 }
 
+.accordion-title:hover, .accordion-title:focus {
+    background-color: transparent;
+}
+
 ul li.accordion-title:last-child {
     border-bottom: 5px;
 }
