@@ -1,7 +1,28 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
+import { lookupCommunityDistrict } from '../helpers/lookup-community-district';
+import { inject as service } from '@ember/service';
 
 export default class SubscriptionFormComponent extends Component {
+    // constructor(...args) {
+    //     super(...args);
+    //     // this.subscriptions = {
+    //     //     'Brooklyn': {},
+    //     //     'Bronx': {},
+    //     //     'Manhattan': {},
+    //     //     'Queens': {},
+    //     //     'Staten Island': {}
+    //     // }
+
+    //     const lookupCommunityDistrictObj = lookupCommunityDistrict();
+    //     // console.log(lookupCommunityDistrictObj);
+
+    //     for (let i = 0; i < lookupCommunityDistrictObj.length; i +=1 ) {
+    //         const district = lookupCommunityDistrictObj[i];
+    //         console.log(district);
+    //     }
+    // }
+     
     @action
     checkWholeBorough(event) {
         const checkboxId = event.target.id;
@@ -19,12 +40,9 @@ export default class SubscriptionFormComponent extends Component {
     }
 
     @action
-    toggleUpdateType(event) {
-        const checkboxId = event.target.id;
-        if (checkboxId === "city-wide-checkbox") {
-            this.set('isCommunityDistrict', false)
-        } else if (checkboxId === "community-district-checkbox") {
-            this.set('isCityWide', false)
-        }
+    hamdleSubmit(event) {
+        event.preventDefault();
+        console.log('submitting');
+        console.log(event);
     }
 }
