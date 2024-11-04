@@ -5,17 +5,9 @@
         <Input class="input-group-field" type="text" />
         </div>
     </div>
-{{!-- asdfasdfsdfsd
-{{n}}
-    {{#each this.subscriptions.Brooklyn as |c| }}
-   <p>{{c.boro}}</p>
-{{/each}} --}}
-
-            {{!-- {{this.subscriptions.Brooklyn}} --}}
-
     <div class="subscribe-section">
         <div class="update-type-section">
-        Which would you like to receive updates for?
+        <div class="update-type-question">Which would you like to receive updates for?</div>
         <ul>
             <li>
                 <div class="update-type-item">
@@ -59,9 +51,12 @@
                         for="all-brooklyn">Select all</label>
                     {{#each this.subscriptions.Brooklyn as |cd| }}
                     <div>
-                        <Input @type="checkbox" @checked={{cd.checked}} />
+                        <Input @type="checkbox" @checked={{ if (eq cd.checked 'true') false }} />
                         <label
                         for={{cd.code}}>{{cd.searchField}}</label>
+
+                        {{!-- {{ input type="checkbox" checked=cd.checked }} --}}
+                        {{!-- {{cd.checked}} --}}
                     </div>
                     {{/each}}
                     
