@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res } from "@nestjs/common";
+import { Controller, Get, Param, Post, Req, Res } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
@@ -81,5 +81,12 @@ export class SubscriberController {
 
     return;
 
+  }
+
+  @Get("/subscribers/:id")
+  async subscriptions(@Param() params, @Res() response) {
+    const subscriptions = await this.subscriberService.getSubscriptions(params.id);
+    response.status(subscriptions.code).send(subscriptions.isError ? subscriptions : subscriptions["subscription_list"])
+    return;
   }
 }

@@ -146,6 +146,39 @@ export class SubscriberService {
   }
 
   /**
+   * Fetch the user's list of subscriptions.
+   * @param {string} id - The user's zap_production_id or zap_staging_id.
+   * @returns {object}
+   */
+  async getSubscriptions(id: string) {
+    const query = `zap_production_id LIKE '${id}' OR zap_staging_id LIKE '${id}'`
+    const request = {
+      url: `/v3/marketing/contacts/search`,
+      method:<HttpMethod> 'POST',
+      body: { query }
+    }
+
+    // https://www.twilio.com/docs/sendgrid/api-reference/contacts/search-contacts
+    // https://www.twilio.com/docs/sendgrid/for-developers/sending-email/segmentation-query-language
+    try {
+      const subscriptions = await this.client.request(request);
+      if(subscriptions[0].body["contact_count"] === 0) {
+        return {isError: true, code: 404, message: "No users found."};
+      }
+      const environment = (subscriptions[0].body["result"][0]["custom_fields"]["zap_production_id"] === id) ? "production" : "staging";
+      var subscriptionList = {};
+      for (const [key, value] of Object.entries(subscriptions[0].body["result"][0]["custom_fields"])) {
+        if(key.startsWith(`zap_${environment}_`) && validCustomFieldNames.includes(key.replace(`zap_${environment}_`, "") as CustomFieldName)) {
+          subscriptionList[key.replace(`zap_${environment}_`, "")] = value;
+        }
+      }
+      return {isError: false, code: subscriptions[0].statusCode, "subscription_list": subscriptionList};
+    } catch(error) {
+      return {isError: true, ...error};
+    }
+  };
+
+  /**
    * Validate a list of subscriptions.
    * @param {object} subscriptions - The subscriptions to validate.
    * @returns {boolean}
