@@ -4,24 +4,35 @@ import { lookupCommunityDistrict } from '../helpers/lookup-community-district';
 import { inject as service } from '@ember/service';
 
 export default class SubscriptionFormComponent extends Component {
-    // constructor(...args) {
-    //     super(...args);
-    //     // this.subscriptions = {
-    //     //     'Brooklyn': {},
-    //     //     'Bronx': {},
-    //     //     'Manhattan': {},
-    //     //     'Queens': {},
-    //     //     'Staten Island': {}
-    //     // }
+    constructor(...args) {
+        super(...args);
+        this.subscriptions = {
+            'Brooklyn': [],
+            'Bronx': [],
+            'Manhattan': [],
+            'Queens': [],
+            'Staten-Island': [],
+        }
 
-    //     const lookupCommunityDistrictObj = lookupCommunityDistrict();
-    //     // console.log(lookupCommunityDistrictObj);
+        const lookupCommunityDistrictObj = lookupCommunityDistrict();
+        console.log(lookupCommunityDistrictObj);
+        for (let i = 0; i < lookupCommunityDistrictObj.length; i +=1 ) {
+            const district = lookupCommunityDistrictObj[i];
+            if (district.boro == 'Brooklyn') {
+                this.subscriptions['Brooklyn'].push({...district, 'checked': false});
+            } else if (district.boro == 'Bronx') {
+                this.subscriptions['Bronx'].push({...district, 'checked': false});
+            } else if (district.boro == 'Manhattan') {
+                this.subscriptions['Manhattan'].push({...district, 'checked': false});
+            } else if (district.boro == 'Queens') {
+                this.subscriptions['Queens'].push({...district, 'checked': false});
+            } else if (district.boro == 'Staten Island') {
+                this.subscriptions['Staten-Island'].push({...district, 'checked': false});
+            }
+        }
 
-    //     for (let i = 0; i < lookupCommunityDistrictObj.length; i +=1 ) {
-    //         const district = lookupCommunityDistrictObj[i];
-    //         console.log(district);
-    //     }
-    // }
+        console.log(this.subscriptions);
+    }
      
     @action
     checkWholeBorough(event) {
