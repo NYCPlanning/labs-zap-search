@@ -1,4 +1,4 @@
-import { Controller, Post, Patch, Req, Res } from "@nestjs/common";
+import { Controller, Post, Patch, Req, Res, Param } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
@@ -66,8 +66,13 @@ export class SubscriberController {
 
   }
 
-  @Patch("/subscribers/<uuid>")
-  async confirm(@Req() request: Request, @Res() response) {
-    
+  @Patch("/subscribers/:id")
+  async confirm(@Param("id") id, @Req() request: Request, @Res() response) {
+    const existingUser = await this.subscriberService.findByAnonymousID(request.body.id)
+    // await this.subscriberService.update(
+    var confirmRequest = {
+      url: "v3/marketing/"
+    }
+    // )
   }
 }

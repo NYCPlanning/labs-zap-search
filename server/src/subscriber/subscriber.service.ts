@@ -92,16 +92,20 @@ export class SubscriberService {
   async findByAnonymousID(id: string) {
     const searchRequest = {
       url: "/v3/marketing/contacts/search/anonymous_id",
-
+      method:<HttpMethod> 'GET',
+      body: {
+        "anonymous_ids": [id]
+      }
     }
   }
 
   /**
-   * Confirm user subscription.
+   * Update user subscription.
    * @param {string} id - The user's anonymous id
-   * @returns {object}
+   * @param {string} environment - Staging or production
+   * @param {object} data - The CDs the user is s
    */
-    async confirm(id: string, @Res() response) {
+    async update(id: string, @Res() response) {
 
     }
 
