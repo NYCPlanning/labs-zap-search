@@ -13,6 +13,8 @@ const validCustomFieldValues = [1] as const;
 export type CustomFieldValueTuple = typeof validCustomFieldValues;
 type CustomFieldValue = CustomFieldValueTuple[number];
 
+type ValidSubscriptionSet = {"K01": CustomFieldValue; "K02": CustomFieldValue; "K03": CustomFieldValue; "K04": CustomFieldValue; "K05": CustomFieldValue; "K06": CustomFieldValue; "K07": CustomFieldValue; "K08": CustomFieldValue; "K09": CustomFieldValue; "K10": CustomFieldValue; "K11": CustomFieldValue; "K12": CustomFieldValue; "K13": CustomFieldValue; "K14": CustomFieldValue; "K15": CustomFieldValue; "K16": CustomFieldValue; "K17": CustomFieldValue; "K18": CustomFieldValue; "X01": CustomFieldValue; "X02": CustomFieldValue; "X03": CustomFieldValue; "X04": CustomFieldValue; "X05": CustomFieldValue; "X06": CustomFieldValue; "X07": CustomFieldValue; "X08": CustomFieldValue; "X09": CustomFieldValue; "X10": CustomFieldValue; "X11": CustomFieldValue; "X12": CustomFieldValue; "M01": CustomFieldValue; "M02": CustomFieldValue; "M03": CustomFieldValue; "M04": CustomFieldValue; "M05": CustomFieldValue; "M06": CustomFieldValue; "M07": CustomFieldValue; "M08": CustomFieldValue; "M09": CustomFieldValue; "M10": CustomFieldValue; "M11": CustomFieldValue; "M12": CustomFieldValue; "Q01": CustomFieldValue; "Q02": CustomFieldValue; "Q03": CustomFieldValue; "Q04": CustomFieldValue; "Q05": CustomFieldValue; "Q06": CustomFieldValue; "Q07": CustomFieldValue; "Q08": CustomFieldValue; "Q09": CustomFieldValue; "Q10": CustomFieldValue; "Q11": CustomFieldValue; "Q12": CustomFieldValue; "Q13": CustomFieldValue; "Q14": CustomFieldValue; "R01": CustomFieldValue; "R02": CustomFieldValue; "R03": CustomFieldValue; "CW": CustomFieldValue}
+
 
 type HttpMethod = 'get'|'GET'|'post'|'POST'|'put'|'PUT'|'patch'|'PATCH'|'delete'|'DELETE';
 
@@ -155,7 +157,7 @@ export class SubscriberService {
    * @param {string} id - The id needed for confirmation
    * @returns {object}
    */
-   async sendConfirmationEmail(email: string, environment: string, subscriptions: object, id: string) {
+   async sendConfirmationEmail(email: string, environment: string, subscriptions: ValidSubscriptionSet, id: string) {
       // https://github.com/sendgrid/sendgrid-nodejs/blob/main/docs/use-cases/transactional-templates.md
       const msg = {
         to: email,
@@ -182,7 +184,7 @@ export class SubscriberService {
    * @param {object} subscriptions - The subscriptions to validate.
    * @returns {boolean}
    */
-  validateSubscriptions(subscriptions: object) {
+  validateSubscriptions(subscriptions: ValidSubscriptionSet) {
     if (!subscriptions)
       return false;
       
@@ -220,7 +222,7 @@ export class SubscriberService {
    * @param {object} subscriptions - The set of CDs the user is subscribing to
    * @returns {boolean}
    */
-  private convertSubscriptionsToHandlebars(subscriptions: object) {
+  private convertSubscriptionsToHandlebars(subscriptions: ValidSubscriptionSet) {
     var handlebars = { "citywide": false, "boroughs": [] }
     const boros = {
       "K": "Brooklyn",
