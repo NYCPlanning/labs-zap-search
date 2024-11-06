@@ -4,66 +4,41 @@ import { lookupCommunityDistrict } from '../helpers/lookup-community-district';
 import { tracked } from '@glimmer/tracking';
 
 export default class SubscriptionFormComponent extends Component {
-    @tracked subscriptions = EmberObject.create({
-        'Brooklyn': [],
-        'Bronx': [],
-        'Manhattan': [],
-        'Queens': [],
-        'Staten-Island': [],
+    subs = EmberObject.create({
+        'brooklyn': []
     });
     constructor(...args) {
         super(...args);
-        
 
+        // this.set('subs', {
+        //     'brooklyn': []
+        // })
         const lookupCommunityDistrictObj = lookupCommunityDistrict();
-        console.log(lookupCommunityDistrictObj);
-        for (let i = 0; i < lookupCommunityDistrictObj.length; i +=1 ) {
+        for (let i = 0; i < lookupCommunityDistrictObj.length; i += 1) {
             const district = lookupCommunityDistrictObj[i];
             if (district.boro == 'Brooklyn') {
-                this.subscriptions['Brooklyn'].push({...district, checked: 'false'});
-            } else if (district.boro == 'Bronx') {
-                this.subscriptions['Bronx'].push({...district, 'checked': 0});
-            } else if (district.boro == 'Manhattan') {
-                this.subscriptions['Manhattan'].push({...district, 'checked': 0});
-            } else if (district.boro == 'Queens') {
-                this.subscriptions['Queens'].push({...district, 'checked': 0});
-            } else if (district.boro == 'Staten Island') {
-                this.subscriptions['Staten-Island'].push({...district, 'checked': 0});
+                this.subs['brooklyn'].push({ ...district, 'checked': 0 });
             }
         }
- 
-        console.log(this.subscriptions);
+        console.log(this.subs.brooklyn);
     }
-     
+
+    @action
+    updateDistrictSelection(event) {
+        console.log(this.subs['brooklyn']);
+    }
+
+    allBrooklyn = false;
     @action
     checkWholeBorough(event) {
-        const checkboxId = event.target.id;
-        if (checkboxId === "all-brooklyn") {
-            console.log("is-all-brooklyn");
-            console.log(this.subscriptions['Brooklyn']);
-
-            for (let i = 0; i < this.subscriptions['Brooklyn'].length; i += 1) {
-                const toggleCheckbox = this.subscriptions['Brooklyn'][i].checked === 'false' ? 'true' : 'false';
-                this.subscriptions['Brooklyn'][i] = { ...this.subscriptions['Brooklyn'][i], checked: toggleCheckbox }
-            }
-            // this.set(this.subscriptions['Brooklyn'], newList);
-            console.log('sdklj');
-            console.log(this.subscriptions['Brooklyn']);
-        } else if (checkboxId === "all-bronx") {
-            this.set("allBronx", event.target.checked) 
-        } else if (checkboxId === "all-manhattan") {
-            this.set("allManhattan", event.target.checked) 
-        } else if (checkboxId === "all-queens") {
-            this.set("allQueens", event.target.checked) 
-        } else if (checkboxId === "all-staten-island") {
-            this.set("allStatenIsland", event.target.checked) 
+        this.set('allBrooklyn', !this.get('allBrooklyn'));
+        const value = this.get('allBrooklyn') === true ? 1 : 0;
+        console.log(value)
+        for (let i = 0; i < this.subs['brooklyn'].length; i += 1) {
+            this.set(this.subs.brooklyn[i].checked, value)
+            console.log(this.subs.brooklyn[i].checked);
         }
-    }
+        console.log(this.subs['brooklyn']);
 
-    // @action
-    // handleSubmit(event) {
-    //     event.preventDefault();
-    //     console.log('submitting');
-    //     console.log(event);
-    // }
+    }
 }
