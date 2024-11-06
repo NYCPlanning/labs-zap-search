@@ -1,4 +1,4 @@
-<form {{on "submit" this.handleSubmit}}>
+<form>
     <div class="subscribe-section">
         <div class="subscribe-input-group">
         <label class="email-label">Email Address</label>
@@ -45,117 +45,17 @@
         <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
             <li class="accordion-item accordionmenu-item-background" data-accordion-item>
                 <a href="#" class="accordion-title">Brooklyn</a>
-
                 <div class="accordion-content" data-tab-content>
-                    <Input id="all-brooklyn" type="checkbox" onchange={{action "checkWholeBorough" }} /><label
+                    <Input id="all-brooklyn" type="checkbox" @checked={{ allBrooklyn }} onchange={{ action "checkWholeBorough" }} /><label
                         for="all-brooklyn">Select all</label>
-                    {{#each this.subscriptions.Brooklyn as |cd| }}
+                    {{#each this.subs.brooklyn as |cd| }}
                     <div>
-                        <Input @type="checkbox" @checked={{ if (eq cd.checked 'true') false }} />
+                        <Input id={{cd.code}} @type="checkbox" @checked={{ cd.checked }} onchange={{ action "updateDistrictSelection" }} />
+                        {{!-- {{input type="checkbox" checked=cd.checked on-change=updateDistrictSelection }} --}}
                         <label
-                        for={{cd.code}}>{{cd.searchField}}</label>
-
-                        {{!-- {{ input type="checkbox" checked=cd.checked }} --}}
-                        {{!-- {{cd.checked}} --}}
+                        for={{cd.code}}>{{cd.code}}</label>
                     </div>
                     {{/each}}
-                    
-                    {{!-- {{#each (lookup-community-district) as |cd|}}
-                    {{#if (string-includes cd.boro 'Brooklyn')}}
-                    <div class="hi">
-                    <Input id={{cd.code}} type="checkbox" checked={{allBrooklyn}} /><label
-                        for={{cd.code}}>{{cd.searchField}}</label>
-                        </div>
-                    {{/if}}
-                    {{/each}} --}}
-                </div>
-            </li>
-            <li class="accordion-item" data-accordion-item>
-                <a href="#" class="accordion-title">Bronx</a>
-                <div class="accordion-content" data-tab-content>
-                    <Input id="all-bronx" type="checkbox" onchange={{action "checkWholeBorough" }} /><label
-                        for="all-bronx">Select all</label>
-                    {{#each this.subscriptions.Bronx as |cd| }}
-                    <div>
-                        <Input @type="checkbox" @checked={{cd.checked}} />
-                        <label
-                        for={{cd.code}}>{{cd.searchField}}</label>
-                    </div>
-                    {{/each}}
-                    {{!-- {{#each (lookup-community-district) as |cd|}}
-                    {{#if (string-includes cd.boro 'Bronx')}}
-                    <div class="hi">
-                    <Input id={{cd.searchField}} type="checkbox" checked={{allBronx}} /><label
-                        for={{cd.searchField}}>{{cd.searchField}}</label>
-                        </div>
-                    {{/if}}
-                    {{/each}} --}}
-                </div>
-            </li>
-            <li class="accordion-item accordionmenu-item-background" data-accordion-item>
-                <a href="#" class="accordion-title">Manhattan</a>
-                <div class="accordion-content" data-tab-content>
-                    <Input id="all-manhattan" type="checkbox" onchange={{action "checkWholeBorough" }} /><label
-                        for="all-manhattan">Select all</label>
-                        {{#each this.subscriptions.Manhattan as |cd| }}
-                    <div>
-                        <Input @type="checkbox" @checked={{cd.checked}} />
-                        <label
-                        for={{cd.code}}>{{cd.searchField}}</label>
-                    </div>
-                    {{/each}}
-                    {{!-- {{#each (lookup-community-district) as |cd|}}
-                    {{#if (string-includes cd.boro 'Manhattan')}}
-                    <div>
-                    <Input id={{cd.searchField}} type="checkbox" checked={{allManhattan}} /><label
-                        for={{cd.searchField}}>{{cd.searchField}}</label>
-                        </div>
-                    {{/if}}
-                    {{/each}} --}}
-                </div>
-            </li>
-            <li class="accordion-item accordionmenu-item-background" data-accordion-item>
-                <a href="#" class="accordion-title">Queens</a>
-                <div class="accordion-content" data-tab-content>
-                    <Input id="all-queens" type="checkbox" onchange={{action "checkWholeBorough" }} /><label
-                        for="all-queens">Select all</label>
-                        {{#each this.subscriptions.Queens as |cd| }}
-                    <div>
-                        <Input @type="checkbox" @checked={{cd.checked}} />
-                        <label
-                        for={{cd.code}}>{{cd.searchField}}</label>
-                    </div>
-                    {{/each}}
-                    {{!-- {{#each (lookup-community-district) as |cd|}}
-                    {{#if (string-includes cd.boro 'Queens')}}
-                    <div>
-                    <Input id={{cd.searchField}} type="checkbox" checked={{allQueens}} /><label
-                        for={{cd.searchField}}>{{cd.searchField}}</label>
-                        </div>
-                    {{/if}}
-                    {{/each}} --}}
-                </div>
-            </li>
-            <li class="accordion-item accordionmenu-item-background" data-accordion-item>
-                <a href="#" class="accordion-title">Staten Island</a>
-                <div class="accordion-content" data-tab-content>
-                    <Input id="all-staten-island" type="checkbox" onchange={{action "checkWholeBorough" }} /><label
-                        for="all-staten-island">Select all</label>
-                        {{#each this.subscriptions.Staten-Island as |cd| }}
-                    <div>
-                        <Input @type="checkbox" @checked={{cd.checked}} />
-                        <label
-                        for={{cd.code}}>{{cd.searchField}}</label>
-                    </div>
-                    {{/each}}
-                    {{!-- {{#each (lookup-community-district) as |cd|}}
-                    {{#if (string-includes cd.boro 'Staten Island')}}
-                    <div>
-                    <Input id={{cd.searchField}} type="checkbox" checked={{allStatenIsland}} /><label
-                        for={{cd.searchField}}>{{cd.searchField}}</label>
-                        </div>
-                    {{/if}}
-                    {{/each}} --}}
                 </div>
             </li>
         </ul>
@@ -163,8 +63,8 @@
     </div>
     </div>
     </div>
+
     <div class="subscribe-section">
     <a class="button primary no-margin disabled" type="submit" href="">Subscribe</a>
-    {{!-- <input type="submit" value="Subscribe"> --}}
     </div>
 </form>
