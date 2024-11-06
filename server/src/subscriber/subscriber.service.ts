@@ -24,11 +24,13 @@ function delay(milliseconds){
 @Injectable()
 export class SubscriberService {
   sendgridEnvironmentIdVariable = "";
+  environment = "";
   constructor(
     private readonly config: ConfigService,
     private client: Client
   ) {
     this.client.setApiKey(this.config.get("SENDGRID_API_KEY"));
+    this.environment = this.config.get("SENDGRID_ENVIRONMENT");
     this.sendgridEnvironmentIdVariable = `zap_${this.config.get("SENDGRID_ENVIRONMENT")}_id`;
   }
 
@@ -151,7 +153,7 @@ export class SubscriberService {
    * @returns {object}
    */
   async getSubscriptions(id: string) {
-    const query = `zap_production_id LIKE '${id}' OR zap_staging_id LIKE '${id}'`
+    const query = `${this.sendgridEnvironmentIdVariable} LIKE '${id}'`
     const request = {
       url: `/v3/marketing/contacts/search`,
       method:<HttpMethod> 'POST',
@@ -165,11 +167,10 @@ export class SubscriberService {
       if(subscriptions[0].body["contact_count"] === 0) {
         return {isError: true, code: 404, message: "No users found."};
       }
-      const environment = (subscriptions[0].body["result"][0]["custom_fields"]["zap_production_id"] === id) ? "production" : "staging";
       var subscriptionList = {};
       for (const [key, value] of Object.entries(subscriptions[0].body["result"][0]["custom_fields"])) {
-        if(key.startsWith(`zap_${environment}_`) && validCustomFieldNames.includes(key.replace(`zap_${environment}_`, "") as CustomFieldName)) {
-          subscriptionList[key.replace(`zap_${environment}_`, "")] = value;
+        if(key.startsWith(`zap_${this.environment}_`) && validCustomFieldNames.includes(key.replace(`zap_${this.environment}_`, "") as CustomFieldName)) {
+          subscriptionList[key.replace(`zap_${this.environment}_`, "")] = value;
         }
       }
       return {isError: false, code: subscriptions[0].statusCode, "subscription_list": subscriptionList};
