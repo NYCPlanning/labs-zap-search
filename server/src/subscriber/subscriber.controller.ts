@@ -1,4 +1,4 @@
-import { Controller, Post, Patch, Req, Res, Param, Get } from "@nestjs/common";
+import { Controller, Post, Patch, Req, Res, Param } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { SubscriberService } from "./subscriber.service";
 import { Request } from "express";
@@ -33,7 +33,7 @@ export class SubscriberController {
       return;
     }
 
-    if(!this.subscriberService.validateSubscriptions(request.body.subscriptions)) {
+    if (!this.subscriberService.validateSubscriptions(request.body.subscriptions)) {
       response.status(400).send({
         error: "Invalid list of subscriptions."
       })
@@ -41,7 +41,7 @@ export class SubscriberController {
     }
 
     const existingUser = await this.subscriberService.findByEmail(request.body.email)
-    if(![200, 404].includes(existingUser.code)) {
+    if (![200, 404].includes(existingUser.code)) {
       console.error(existingUser.code, existingUser.message);
       Sentry.captureException(existingUser)
       response.status(existingUser.code).send({ error: existingUser.message })
@@ -49,7 +49,7 @@ export class SubscriberController {
     }
 
     // If the id is already in the list_ids, then they are also already on the list
-    if(existingUser[0] && existingUser[0].body.result[request.body.email].contact["list_ids"].includes(this.list)) {
+    if (existingUser[0] && existingUser[0].body.result[request.body.email].contact["list_ids"].includes(this.list)) {
       response.status(409).send({
         status: "error",
         error: "A user with that email address already exists, and they are already in the desired list.",
@@ -63,8 +63,8 @@ export class SubscriberController {
     const id = crypto.randomUUID();
     const addToQueue = await this.subscriberService.create(request.body.email, this.list, this.sendgridEnvironment, request.body.subscriptions, id, response)
 
-    if(addToQueue.isError) { 
-      response.status(addToQueue.code).send({errors: addToQueue.response.body.errors})
+    if (addToQueue.isError) {
+      response.status(addToQueue.code).send({ errors: addToQueue.response.body.errors })
       return;
     }
 
@@ -91,27 +91,27 @@ export class SubscriberController {
   }
 
   @Patch("/subscribers/:id")
-  async update(@Param("id") id, @Req() request: Request, @Res() response) {
+  async update(@Req() request: Request, @Param("id") id, @Res() response) {
     const email = await this.subscriberService.getUserById(id);
-    // get user email by id
-    
-    if(email.isError){ 
-      response.status(email.code).send({errors: email.response.body.errors})
+
+    if (email.isError) {
+      response.status(email.code).send({ errors: email.response.body.errors })
       return;
     }
-    // if error, send error back
+
+    if (!this.subscriberService.validateSubscriptions(request.body.subscriptions)) {
+      response.status(400).send({
+        error: "Invalid list of subscriptions."
+      })
+      return;
+    }
 
     const updatedContact = await this.subscriberService.update(
       this.sendgridEnvironment,
       email.email,
-      {
-        "confirmed": 1
-      }
+      request.body.subscriptions,
     );
-    // send update request to confirm
 
-
-      // based on that success or return error
     response.send(updatedContact);
   }
 }
