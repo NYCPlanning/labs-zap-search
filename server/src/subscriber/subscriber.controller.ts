@@ -67,27 +67,27 @@ export class SubscriberController {
   }
 
   @Patch("/subscribers/:id")
-  async update(@Param("id") id, @Req() request: Request, @Res() response) {
+  async update(@Req() request: Request, @Param("id") id, @Res() response) {
     const email = await this.subscriberService.getUserById(id);
-    // get user email by id
     
     if(email.isError){ 
       response.status(email.code).send({errors: email.response.body.errors})
       return;
     }
-    // if error, send error back
+
+    if(!this.subscriberService.validateSubscriptions(request.body.subscriptions)) {
+      response.status(400).send({
+        error: "Invalid list of subscriptions."
+      })
+      return;
+    }
 
     const updatedContact = await this.subscriberService.update(
       this.sendgridEnvironment,
       email.email,
-      {
-        "confirmed": 1
-      }
+      request.body.subscriptions,
     );
-    // send update request to confirm
 
-
-      // based on that success or return error
     response.send(updatedContact);
   }
 }
