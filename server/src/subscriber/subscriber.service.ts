@@ -215,7 +215,7 @@ export class SubscriberService {
    * @returns {object}
    */
   async update(environment: string, email: string, custom_fields: object) {
-    var updated_custom_fields = Object.entries(custom_fields).reduce((acc, curr) => ({ ...acc, [`zap_${environment}_${curr[0]}`]: curr[1] }), {})
+    const updatedCustomFields = Object.entries(custom_fields).reduce((acc, curr) => ({ ...acc, [`zap_${environment}_${curr[0]}`]: curr[1] }), {})
 
     const request = {
       url: `/v3/marketing/contacts`,
@@ -223,7 +223,7 @@ export class SubscriberService {
       body: {
         "contacts": [{
           "email": email,
-          "custom_fields": updated_custom_fields
+          "custom_fields": updatedCustomFields
         }]
       }
     }
