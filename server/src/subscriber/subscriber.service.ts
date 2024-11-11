@@ -1,6 +1,7 @@
 import { Injectable, Res } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { Client } from "@sendgrid/client";
+import { MailService } from "@sendgrid/mail";
 import crypto from 'crypto';
 import * as Sentry from "@sentry/nestjs";
 
@@ -12,6 +13,7 @@ const validCustomFieldValues = [1] as const;
 export type CustomFieldValueTuple = typeof validCustomFieldValues;
 type CustomFieldValue = CustomFieldValueTuple[number];
 
+type ValidSubscriptionSet = Record<CustomFieldName, CustomFieldValue>;
 
 type HttpMethod = 'get'|'GET'|'post'|'POST'|'put'|'PUT'|'patch'|'PATCH'|'delete'|'DELETE';
 
@@ -27,11 +29,13 @@ export class SubscriberService {
   environment = "";
   constructor(
     private readonly config: ConfigService,
-    private client: Client
+    private client: Client,
+    private mailer: MailService
   ) {
     this.client.setApiKey(this.config.get("SENDGRID_API_KEY"));
     this.environment = this.config.get("SENDGRID_ENVIRONMENT");
     this.sendgridEnvironmentIdVariable = `zap_${this.config.get("SENDGRID_ENVIRONMENT")}_id`;
+    this.mailer.setApiKey(this.config.get("SENDGRID_API_KEY"));
   }
 
   /**
@@ -63,10 +67,10 @@ export class SubscriberService {
    * @param {string} list - The email list to which we will add the user
    * @param {string} environment - Staging or production
    * @param {object} subscriptions - The CDs the user is subscribing to
+   * @param {string} id - The id needed for confirmation
    * @returns {object}
    */
-  async create(email: string, list: string, environment: string, subscriptions: object, @Res() response) {
-    const id = crypto.randomUUID();
+  async create(email: string, list: string, environment: string, subscriptions: object, id: string, @Res() response) {
     var custom_fields = Object.entries(subscriptions).reduce((acc, curr) => ({...acc, [`zap_${environment}_${curr[0]}`]: curr[1]}), {[`zap_${environment}_confirmed`]: 0})
     custom_fields[this.sendgridEnvironmentIdVariable] = id;
 
@@ -125,7 +129,6 @@ export class SubscriberService {
 
     const confirmationRequest = {
       url: `/v3/marketing/contacts/imports/${importId}`,
-      // method:<HttpMethod> 'GET',
       method:<HttpMethod> 'GET',
     }
 
@@ -146,6 +149,36 @@ export class SubscriberService {
       return {isError: true, ...error, errorInfo};
     }
   }
+
+   /**
+   * Send the user an email requesting signup confirmation.
+   * @param {string} email - The user's email address
+   * @param {string} environment - Staging or production
+   * @param {object} subscriptions - The CDs the user is subscribing to
+   * @param {string} id - The id needed for confirmation
+   * @returns {object}
+   */
+   async sendConfirmationEmail(email: string, environment: string, subscriptions: ValidSubscriptionSet, id: string) {
+      // https://github.com/sendgrid/sendgrid-nodejs/blob/main/docs/use-cases/transactional-templates.md
+      const msg = {
+        to: email,
+        from: 'do-not-reply@planning.nyc.gov', // Your verified sender
+        templateId: 'd-3684647ef2b242d8947b65b20497baa0',
+        dynamicTemplateData: {
+          "id": id,
+          "domain": environment === "production" ? "zap.planning.nyc.gov" : "zap-staging.planninglabs.nyc",
+          "subscriptions": this.convertSubscriptionsToHandlebars(subscriptions)
+        }
+      }
+      this.mailer.send(msg)
+        .then((response) => {
+          return {isError: false, statusCode: response[0].statusCode}
+        })
+        .catch((error) => {
+          console.error(error)
+          return {isError: true, ...error}
+        })
+   }
 
   /**
    * Fetch the user's list of subscriptions.
@@ -184,7 +217,7 @@ export class SubscriberService {
    * @param {object} subscriptions - The subscriptions to validate.
    * @returns {boolean}
    */
-  validateSubscriptions(subscriptions: object) {
+  validateSubscriptions(subscriptions: ValidSubscriptionSet) {
     if (!subscriptions)
       return false;
       
@@ -217,5 +250,38 @@ export class SubscriberService {
     return validCustomFieldValues.includes(value as CustomFieldValue);
   }
 
+  /**
+   * Convert the uploaded subscriptions object into a format for Handlebars to use in the confirmation email
+   * @param {object} subscriptions - The set of CDs the user is subscribing to
+   * @returns {boolean}
+   */
+  private convertSubscriptionsToHandlebars(subscriptions: ValidSubscriptionSet) {
+    var handlebars = { "citywide": false, "boroughs": [] }
+    const boros = {
+      "K": "Brooklyn",
+      "X": "Bronx",
+      "M": "Manhattan",
+      "Q": "Queens",
+      "R": "Staten Island"
+    }
+    for (const [key, value] of Object.entries(subscriptions)) {
+      if (value === 1) {
+        if (key === "CW") {
+          handlebars.citywide = true;
+        } else if (boros[key[0]]) {
+          const i = handlebars.boroughs.findIndex((boro) => boro.name === boros[key[0]]);
+            if (i === -1) {
+              handlebars.boroughs.push({
+                "name": boros[key[0]],
+                "communityBoards": [parseInt(key.slice(-2))]
+              })
+            } else {
+              handlebars.boroughs[i]["communityBoards"].push(parseInt(key.slice(-2)))
+            }
+        }
+      }
+    }
+    return handlebars;
+  }
 
 }

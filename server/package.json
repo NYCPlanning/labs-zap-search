@@ -38,6 +38,7 @@
     "@sentry/nestjs": "^8.35.0",
     "@sentry/profiling-node": "^8.35.0",
     "@sentry/wizard": "^3.34.2",
+    "@sendgrid/mail": "^8.1.4",
     "@turf/bbox": "^6.0.1",
     "@turf/buffer": "^5.1.5",
     "@turf/helpers": "^6.1.4",
