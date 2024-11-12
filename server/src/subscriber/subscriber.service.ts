@@ -5,19 +5,19 @@ import { MailService } from "@sendgrid/mail";
 import crypto from 'crypto';
 import * as Sentry from "@sentry/nestjs";
 
-const validCustomFieldNames = ["K01", "K02", "K03", "K04", "K05", "K06", "K07", "K08", "K09", "K10", "K11", "K12", "K13", "K14", "K15", "K16", "K17", "K18", "X01", "X02", "X03", "X04", "X05", "X06", "X07", "X08", "X09", "X10", "X11", "X12", "M01", "M02", "M03", "M04", "M05", "M06", "M07", "M08", "M09", "M10", "M11", "M12", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07", "Q08", "Q09", "Q10", "Q11", "Q12", "Q13", "Q14", "R01", "R02", "R03", "CW"] as const;
+const validCustomFieldNames = ["confirmed", "K01", "K02", "K03", "K04", "K05", "K06", "K07", "K08", "K09", "K10", "K11", "K12", "K13", "K14", "K15", "K16", "K17", "K18", "X01", "X02", "X03", "X04", "X05", "X06", "X07", "X08", "X09", "X10", "X11", "X12", "M01", "M02", "M03", "M04", "M05", "M06", "M07", "M08", "M09", "M10", "M11", "M12", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07", "Q08", "Q09", "Q10", "Q11", "Q12", "Q13", "Q14", "R01", "R02", "R03", "CW"] as const;
 export type CustomFieldNameTuple = typeof validCustomFieldNames;
 type CustomFieldName = CustomFieldNameTuple[number];
 
-const validCustomFieldValues = [1] as const;
+const validCustomFieldValues = [0, 1] as const;
 export type CustomFieldValueTuple = typeof validCustomFieldValues;
 type CustomFieldValue = CustomFieldValueTuple[number];
 
 type ValidSubscriptionSet = Record<CustomFieldName, CustomFieldValue>;
 
-type HttpMethod = 'get'|'GET'|'post'|'POST'|'put'|'PUT'|'patch'|'PATCH'|'delete'|'DELETE';
+type HttpMethod = 'get' | 'GET' | 'post' | 'POST' | 'put' | 'PUT' | 'patch' | 'PATCH' | 'delete' | 'DELETE';
 
-function delay(milliseconds){
+function delay(milliseconds) {
   return new Promise(resolve => {
     setTimeout(resolve, milliseconds);
   });
@@ -46,7 +46,7 @@ export class SubscriberService {
   async findByEmail(email: string) {
     const searchRequest = {
       url: "/v3/marketing/contacts/search/emails",
-      method:<HttpMethod> 'POST',
+      method: <HttpMethod>'POST',
       body: {
         "emails": [email]
       }
@@ -55,9 +55,9 @@ export class SubscriberService {
     // https://www.twilio.com/docs/sendgrid/api-reference/contacts/get-contacts-by-emails
     try {
       const user = await this.client.request(searchRequest);
-      return {isError: false, code: user[0].statusCode, ...user};
-    } catch(error) {
-      return {isError: true, ...error};
+      return { isError: false, code: user[0].statusCode, ...user };
+    } catch (error) {
+      return { isError: true, ...error };
     }
   }
 
@@ -76,7 +76,7 @@ export class SubscriberService {
 
     var addRequest = {
       url: "/v3/marketing/contacts",
-      method:<HttpMethod> 'PUT',
+      method: <HttpMethod>'PUT',
       body: {
         "list_ids": [list],
         "contacts": [{
@@ -181,6 +181,7 @@ export class SubscriberService {
    }
 
   /**
+
    * Fetch the user's list of subscriptions.
    * @param {string} id - The user's zap_production_id or zap_staging_id.
    * @returns {object}
@@ -212,6 +213,59 @@ export class SubscriberService {
     }
   };
 
+   /**
+   * Fetch the user email
+   * @param {string} id - The user's zap_production_id or zap_staging_id.
+   * @returns {object}
+   */
+  async getUserById(id: string) {
+    const query = `${this.sendgridEnvironmentIdVariable} LIKE '${id}'`
+    const request = {
+      url: `/v3/marketing/contacts/search`,
+      method: <HttpMethod>'POST',
+      const users = await this.client.request(request);
+      if (users[0].body["contact_count"] === 0) {
+        return { isError: true, code: 404, message: "No users found." };
+      }
+      const email = users[0].body["result"][0].email;
+
+      return { isError: false, code: users[0].statusCode, "email": email };
+    } catch (error) {
+      return { isError: true, ...error };
+    }
+  };
+
+
+  /**
+   * Update user subscription.
+   * @param {string} environment - The environment variable
+   * @param {string} email - The user's email
+   * @param {object} custom_fields - The users custom lists and preferences
+   * @returns {object}
+   */
+  async update(environment: string, email: string, custom_fields: object) {
+    const updatedCustomFields = Object.entries(custom_fields).reduce((acc, curr) => ({ ...acc, [`zap_${environment}_${curr[0]}`]: curr[1] }), {})
+
+    const request = {
+      url: `/v3/marketing/contacts`,
+      method: <HttpMethod>'PUT',
+      body: {
+        "contacts": [{
+          "email": email,
+          "custom_fields": updatedCustomFields
+        }]
+      }
+    }
+
+    // https://www.twilio.com/docs/sendgrid/api-reference/contacts/add-or-update-a-contact
+    try {
+      const result = await this.client.request(request);
+      return { isError: false, result: result };
+    } catch (error) {
+      return { isError: true, ...error };
+    }
+  }
+
   /**
    * Validate a list of subscriptions.
    * @param {object} subscriptions - The subscriptions to validate.
@@ -220,8 +274,8 @@ export class SubscriberService {
   validateSubscriptions(subscriptions: ValidSubscriptionSet) {
     if (!subscriptions)
       return false;
-      
-    if(!(Object.entries(subscriptions).length>0))
+
+    if (!(Object.entries(subscriptions).length > 0))
       return false;
 
     for (const [key, value] of Object.entries(subscriptions)) {
