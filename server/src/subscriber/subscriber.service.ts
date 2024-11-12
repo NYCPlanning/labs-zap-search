@@ -26,12 +26,14 @@ function delay(milliseconds) {
 @Injectable()
 export class SubscriberService {
   sendgridEnvironmentIdVariable = "";
+  environment = "";
   constructor(
     private readonly config: ConfigService,
     private client: Client,
     private mailer: MailService
   ) {
     this.client.setApiKey(this.config.get("SENDGRID_API_KEY"));
+    this.environment = this.config.get("SENDGRID_ENVIRONMENT");
     this.sendgridEnvironmentIdVariable = `zap_${this.config.get("SENDGRID_ENVIRONMENT")}_id`;
     this.mailer.setApiKey(this.config.get("SENDGRID_API_KEY"));
   }
@@ -179,6 +181,38 @@ export class SubscriberService {
    }
 
   /**
+   * Fetch the user's list of subscriptions.
+   * @param {string} id - The user's zap_production_id or zap_staging_id.
+   * @returns {object}
+   */
+  async getSubscriptions(id: string) {
+    const query = `${this.sendgridEnvironmentIdVariable} LIKE '${id}'`
+    const request = {
+      url: `/v3/marketing/contacts/search`,
+      method:<HttpMethod> 'POST',
+      body: { query }
+    }
+
+    // https://www.twilio.com/docs/sendgrid/api-reference/contacts/search-contacts
+    // https://www.twilio.com/docs/sendgrid/for-developers/sending-email/segmentation-query-language
+    try {
+      const subscriptions = await this.client.request(request);
+      if(subscriptions[0].body["contact_count"] === 0) {
+        return {isError: true, code: 404, message: "No users found."};
+      }
+      var subscriptionList = {};
+      for (const [key, value] of Object.entries(subscriptions[0].body["result"][0]["custom_fields"])) {
+        if(key.startsWith(`zap_${this.environment}_`) && validCustomFieldNames.includes(key.replace(`zap_${this.environment}_`, "") as CustomFieldName)) {
+          subscriptionList[key.replace(`zap_${this.environment}_`, "")] = value;
+        }
+      }
+      return {isError: false, code: subscriptions[0].statusCode, "subscription_list": subscriptionList};
+    } catch(error) {
+      return {isError: true, ...error};
+    }
+  };
+
+   /**
    * Fetch the user email
    * @param {string} id - The user's zap_production_id or zap_staging_id.
    * @returns {object}
@@ -199,7 +233,7 @@ export class SubscriberService {
         return { isError: true, code: 404, message: "No users found." };
       }
       const email = users[0].body["result"][0].email;
-
+      
       return { isError: false, code: users[0].statusCode, "email": email };
     } catch (error) {
       return { isError: true, ...error };
@@ -236,7 +270,6 @@ export class SubscriberService {
       return { isError: true, ...error };
     }
   }
-
 
   /**
    * Validate a list of subscriptions.
