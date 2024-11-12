@@ -181,7 +181,6 @@ export class SubscriberService {
    }
 
   /**
-
    * Fetch the user's list of subscriptions.
    * @param {string} id - The user's zap_production_id or zap_staging_id.
    * @returns {object}
@@ -223,12 +222,18 @@ export class SubscriberService {
     const request = {
       url: `/v3/marketing/contacts/search`,
       method: <HttpMethod>'POST',
+      body: { query }
+    }
+
+    // https://www.twilio.com/docs/sendgrid/api-reference/contacts/search-contacts
+    // https://www.twilio.com/docs/sendgrid/for-developers/sending-email/segmentation-query-language
+    try {
       const users = await this.client.request(request);
       if (users[0].body["contact_count"] === 0) {
         return { isError: true, code: 404, message: "No users found." };
       }
       const email = users[0].body["result"][0].email;
-
+      
       return { isError: false, code: users[0].statusCode, "email": email };
     } catch (error) {
       return { isError: true, ...error };
