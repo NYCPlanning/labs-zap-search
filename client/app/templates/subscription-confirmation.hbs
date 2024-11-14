@@ -1,23 +1,23 @@
 <div class="cell">
   <div class="grid-container">
-    <div class="grid-x grid-padding-x grid-padding-y align-middle" style="justify-content: center;">
-      <div class="cell large-8" style="padding-top: 4rem">
+    <div class="grid-x grid-padding-x grid-padding-y align-middle align-center subscribers-confirm">
+      <div class="cell large-8 padding-top-4">
         <h1 class="header-xxl dcp-orange">Thank You For Subscribing To ZAP Updates.</h1>
-        <p style="font-size: 27px; font-weight: 500;">You are currently subscribed to:</p>
+        <p class="lg">You are currently subscribed to:</p>
         {{#if this.model.citywide}}
-          <p style="font-size: 21px; font-weight: 500;">Citywide</p>
+          <p class="md">Citywide</p>
         {{/if}}
         {{#each this.model.boroughs as |boro|}}
-          <p style="font-size: 21px; font-weight: 500;">{{boro.name}}:</p>
+          <p class="md">{{boro.name}}:</p>
           <ul>
             {{#each boro.communityBoards as |district|}}
-              <li style="font-size: 16px; font-weight: 500;">Community District {{district}}</li>
+              <li>Community District {{district}}</li>
             {{/each}}
           </ul>
         {{/each}}
         <p>To modify subscriptions, <LinkTo @route="show-geography">click here NEEDS TO BE CHANGED TO /subscribers/:id/subscriptions</LinkTo>.</p>
         <LinkTo @route="show-geography">
-          <button style="text-decoration: none; color:#F1F2F4; font-size: 1.25rem; font-weight: 500;background:#AE551D; border-radius: 1rem; padding: 20px;">
+          <button>
             Go to Home
           </button>
         </LinkTo>
