@@ -1,17 +1,14 @@
 <form>
-    <div class="subscribe-section">
-        <div class="subscribe-input-group">
-        <label class="email-label">Email Address</label>
-        <Input class="input-group-field" type="text" />
-        </div>
-    </div>
+    
+        {{yield}}
     <div class="subscribe-section">
         <div class="update-type-section">
         <div class="update-type-question">Which would you like to receive updates for?</div>
+        
         <ul>
             <li>
                 <div class="update-type-item">
-                    <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} onclick={{toggleUpdateType}} />
+                    <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}}/>
                     <div class="update-type-label">
                         <label for="city-wide-checkbox">Citywide Updates</label>
                         <span class="text-small">You'll receive an email for all citywide projects, which are projects that aren’t
@@ -22,7 +19,7 @@
             <li>
                 <div class="update-type-item">
                     <Input @id="community-district-checkbox" @type="checkbox" @checked={{isCommunityDistrict}}
-                        onclick={{toggleUpdateType}} />
+                        {{on "change" this.closeAllAccordions}}/>
                     <div class="update-type-label">
                         <label for="community-district-checkbox">Community District (CD) Updates</label>
                         <span class="text-small">You'll receive an email for projects from all CDs you have selected.</span>
@@ -34,31 +31,35 @@
     </div>
 
    <div class="subscribe-section">
-    <div class="district-slection">
+    <div class="district-selection">
     <div class={{if this.isCommunityDistrict "" "disabled" }}>
         <h5>If you chose CD Updates, please select which community districts you would like to receive updates
             for:</h5>
         <p>You can find the Community District to any New York City address <a
                 href="https://zola.planning.nyc.gov/">here</a>.</p>
         {{#initialize_foundation}}
-        
-        <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
-            <li class="accordion-item accordionmenu-item-background" data-accordion-item>
-                <a href="#" class="accordion-title">Brooklyn</a>
-                <div class="accordion-content" data-tab-content>
-                    <Input id="all-brooklyn" type="checkbox" @checked={{ allBrooklyn }} onchange={{ action "checkWholeBorough" }} /><label
-                        for="all-brooklyn">Select all</label>
-                    {{#each this.subs.brooklyn as |cd| }}
-                    <div>
-                        <Input id={{cd.code}} @type="checkbox" @checked={{ cd.checked }} onchange={{ action "updateDistrictSelection" }} />
-                        {{!-- {{input type="checkbox" checked=cd.checked on-change=updateDistrictSelection }} --}}
-                        <label
-                        for={{cd.code}}>{{cd.code}}</label>
+         {{#each-in this.communityDistrictsByBorough as |borough districts|}}
+            <ul class="accordion" id="foo" data-accordion data-multi-expand="true" data-allow-all-closed="true">
+                <li class="accordion-item accordionmenu-item-background" data-accordion-item>
+                    <a href="#" class="accordion-title">{{borough}}</a>
+                    <div class="accordion-content" data-tab-content>
+                        <div>
+                        <div>
+                        <Input id="all-brooklyn" type="checkbox" @value={{borough}} {{on "change" this.checkWholeBorough}} /><label
+                            for="all-brooklyn">Select all</label>
+                        </div>
+                        {{#each districts as |district| }}
+                        <div>
+                            <Input id={{district.code}} @type="checkbox" @checked={{ get this.args.subscriptions district.code }} />
+                            <label
+                            for={{district.code}}>District {{district.num}}</label>
+                        </div>
+                        {{/each}}
+                        </div>
                     </div>
-                    {{/each}}
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
+            {{/each-in}}
          {{/initialize_foundation}}
     </div>
     </div>

@@ -1,0 +1,34 @@
+<div class="cell subscribe-container">
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x grid-padding-y align-middle" style="justify-content: center;">
+            <div class="cell large-8 subscribe-container">
+                <div class="subscribe-section">
+                    <h1 class="header-xxl dcp-orange">Subscribe to ZAP Updates</h1>
+                    <span class="text-small">Get updated on milestones for all projects in any community district (CD) by signing up to receive
+                        emails on Zoning Application Portal.</span>
+                </div>
+                    <SubscriptionForm @subscriptions={{this.model.subscriptions}}>
+                        <div class="subscribe-section">
+                            <div class="subscribe-input-group">
+                            <label class="email-label">Email Address</label>
+                            <Input class="input-group-field" type="text" @value={{this.model.email}}/>
+                            </div>
+                        </div>
+                    </SubscriptionForm>
+                <div class="subscribe-footer">
+                    <h5>Cancel Your Subscription</h5>
+                    <p class="text-small">You can unsubscribe to ZAP emails at the end of any email updates you receive.</p>
+
+                    <h5>Definition of ZAP Updates</h5>
+                    <p class="text-small">Refer to <a href="/statuses">this page</a> for more information about what type of updates you will
+                        be receiving.</p>
+
+                    <h5>Privacy Policy</h5>
+                    <p class="text-small">For more information, refer to NYC.gov Privacy Policy and Terms of Use.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{outlet}}

@@ -28,6 +28,7 @@ ul li.accordion-title:last-child {
 
 .accordion-content {
     border: none;
+    background-color: $white;
 }
 
 input[type=checkbox] {
@@ -51,17 +52,79 @@ input[type=checkbox] {
     }
 }
 
-.subscribe-section {
-    padding-bottom: 64px;
+.subscribe-container {
+    background-color: $white;
+    padding-top: 3rem;
 
+    @include breakpoint(medium) {
+        padding-top: 4rem;
+    }
 }
 
-.district-slection {
+.subscribe-section {
+    padding-bottom: 3.25rem;
+
+    @include breakpoint(medium) {
+        padding-bottom: 4rem;
+    }
+}
+
+.subscribe-footer {
+    h5 {
+        font-size: 1.25rem;
+        margin: 0 0 .75rem 0;
+    }
+
+    p {
+        margin-bottom: .75rem;
+    }
+}
+
+.district-selection {
     ul {
-        margin-bottom: 0px;
         display: flex;
         flex-direction: column;
-        gap: 24px
+        gap: 24px;
+
+        &:not(:last-of-type) {
+            margin-bottom: 2.25rem;
+            @include breakpoint(medium) {
+                margin-bottom: 1.5rem;
+              }
+        }
+    }
+
+    li.accordion-item {
+        border-radius: 0;
+        background-color: transparent;
+
+        > a.accordion-title {
+            border-radius: 12px;
+            background-color: #f1f2f4;
+        }
+
+        > div.accordion-content {
+            background-color: $white;
+            padding: 1.5rem 0 0 0;
+            
+
+            > div {
+                display: flex;
+                flex-wrap: wrap;
+                > div {
+                    display: inline-flex;
+                    align-items: center;
+                    width: 100%;
+                    @include breakpoint(medium) {
+                        width: 20%;
+                    }
+                }
+            }
+        }
+    }
+
+    input {
+        margin: 0;
     }
 
     li:last-child:not(.is-active)>.accordion-title {
@@ -90,7 +153,6 @@ input[type=checkbox] {
         list-style-type: none;
     }
     .update-type-question {
-        padding-bottom: 24px;
         padding-left: 0px
     }
 }
@@ -98,14 +160,9 @@ input[type=checkbox] {
 .update-type-item {
     display: flex;
     flex-direction: row;
+    margin-top: 1.5rem
 }
 
 .update-type-label {
-    // display: flex;
-    flex-direction: column;
     padding-left: 10px;
-}
-
-.accordion {
-    background: $off-white;
 }

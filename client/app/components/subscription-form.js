@@ -1,44 +1,34 @@
-import Component from '@ember/component';
-import EmberObject, { action } from '@ember/object';
+import Component from '@glimmer/component';
+import { action, set } from '@ember/object';
 import { lookupCommunityDistrict } from '../helpers/lookup-community-district';
 import { tracked } from '@glimmer/tracking';
 
 export default class SubscriptionFormComponent extends Component {
-    subs = EmberObject.create({
-        'brooklyn': []
-    });
+
+    communityDistrictsByBorough = {};
+    isCommunityDistrict = false;
     constructor(...args) {
         super(...args);
 
-        // this.set('subs', {
-        //     'brooklyn': []
-        // })
-        const lookupCommunityDistrictObj = lookupCommunityDistrict();
-        for (let i = 0; i < lookupCommunityDistrictObj.length; i += 1) {
-            const district = lookupCommunityDistrictObj[i];
-            if (district.boro == 'Brooklyn') {
-                this.subs['brooklyn'].push({ ...district, 'checked': 0 });
+        const districts = lookupCommunityDistrict();
+        for (const district of districts) {
+            const {code, num, boro} = district;
+            if(boro in this.communityDistrictsByBorough === false) {
+                this.communityDistrictsByBorough[boro] = []
             }
+            this.communityDistrictsByBorough[boro].push({code, num, boro})
         }
-        console.log(this.subs.brooklyn);
     }
 
-    @action
-    updateDistrictSelection(event) {
-        console.log(this.subs['brooklyn']);
-    }
-
-    allBrooklyn = false;
     @action
     checkWholeBorough(event) {
-        this.set('allBrooklyn', !this.get('allBrooklyn'));
-        const value = this.get('allBrooklyn') === true ? 1 : 0;
-        console.log(value)
-        for (let i = 0; i < this.subs['brooklyn'].length; i += 1) {
-            this.set(this.subs.brooklyn[i].checked, value)
-            console.log(this.subs.brooklyn[i].checked);
+        for(const district of this.communityDistrictsByBorough[event.target.value]) {
+            set(this.args.subscriptions, district.code, event.target.checked)
         }
-        console.log(this.subs['brooklyn']);
+    }
 
+    @action
+    closeAllAccordions(event) {
+        $('.accordion').foundation('up', $('.accordion .accordion-content'));
     }
 }

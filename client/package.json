@@ -31,6 +31,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.2.0",
     "@fortawesome/free-regular-svg-icons": "^5.1.0",
     "@fortawesome/free-solid-svg-icons": "^5.1.0",
+    "@glimmer/component": "^1.0.0",
     "babel-eslint": "^8.0.0",
     "broccoli-asset-rev": "^3.0.0",
     "broccoli-clean-css": "~2.0.1",
