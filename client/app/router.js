@@ -27,12 +27,12 @@ const Router = EmberRouter.extend(RouterScroll, {
 Router.map(function() { // eslint-disable-line
   this.route('show-project', { path: '/projects/:id' });
   this.route('show-geography', { path: '/projects' });
-  if (config.showAlerts) { this.route('subscribe'); }
   this.route('disclaimer');
   if (config.showAlerts) {
     this.route('statuses');
     this.route('subscribed');
     this.route('subscription-confirmation', { path: '/subscribers/:id/confirm' });
+    this.route('subscribe');
   }
   this.route('not-found', { path: '/*path' });
   this.route('oops');
