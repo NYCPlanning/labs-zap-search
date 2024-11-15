@@ -1,0 +1,29 @@
+<div class="cell">
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x grid-padding-y align-middle align-center subscribers-confirm">
+      <div class="cell large-8 padding-top-4">
+        <h1 class="header-xxl dcp-orange">Thank You For Subscribing To ZAP Updates.</h1>
+        <p class="lg">You are currently subscribed to:</p>
+        {{#if this.model.citywide}}
+          <p class="md">Citywide</p>
+        {{/if}}
+        {{#each this.model.boroughs as |boro|}}
+          <p class="md">{{boro.name}}:</p>
+          <ul>
+            {{#each boro.communityBoards as |district|}}
+              <li>Community District {{district}}</li>
+            {{/each}}
+          </ul>
+        {{/each}}
+        <p>To modify subscriptions, <LinkTo @route="show-geography">click here NEEDS TO BE CHANGED TO /subscribers/:id/subscriptions</LinkTo>.</p>
+        <LinkTo @route="show-geography">
+          <button>
+            Go to Home
+          </button>
+        </LinkTo>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{outlet}}

@@ -31,10 +31,10 @@ module.exports = function(defaults) {
       compile: {
         extension: 'scss',
         enabled: true,
-        parser: require('postcss-scss'),
+        parser: require('postcss-scss'), // eslint-disable-line
         plugins: [
           {
-            module: require('@csstools/postcss-sass'),
+            module: require('@csstools/postcss-sass'), // eslint-disable-line
             options: {
               includePaths: [
                 'node_modules/foundation-sites/scss',
