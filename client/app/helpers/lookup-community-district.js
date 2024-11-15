@@ -68,4 +68,16 @@ export function lookupCommunityDistrict() {
   return communityDistrictLookup;
 }
 
+export function getCommunityDistrictsByBorough() {
+  const communityDistrictsByBorough = {};
+  for (const district of communityDistrictLookup) {
+    const { code, num, boro } = district;
+    if (boro in communityDistrictsByBorough === false) {
+      communityDistrictsByBorough[boro] = [];
+    }
+    communityDistrictsByBorough[boro].push({ code, num, boro });
+  }
+  return communityDistrictsByBorough;
+}
+
 export default helper(lookupCommunityDistrict);
