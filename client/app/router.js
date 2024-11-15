@@ -28,8 +28,11 @@ Router.map(function() { // eslint-disable-line
   this.route('show-project', { path: '/projects/:id' });
   this.route('show-geography', { path: '/projects' });
   this.route('disclaimer');
-  if (config.showAlerts) { this.route('statuses'); }
-  this.route('subscription-confirmation', { path: '/subscribers/:id/confirm' });
+  if (config.showAlerts) {
+    this.route('statuses');
+    this.route('subscribed');
+    this.route('subscription-confirmation', { path: '/subscribers/:id/confirm' });
+  }
   this.route('not-found', { path: '/*path' });
   this.route('oops');
   this.route('my-projects', function() {
