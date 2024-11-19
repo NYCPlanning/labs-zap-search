@@ -65,6 +65,9 @@
     </div>
 
     <div class="subscribe-section">
-    <a class="button primary no-margin {{if this.canBeSubmitted "" "disabled"}}" type="submit" {{action "subscribe"}}>Subscribe</a>
+        {{#if isSubmitting}}
+            {{fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner"}}
+        {{/if}}
+        <a class="button primary no-margin {{if this.canBeSubmitted "" "disabled"}}" type="submit" {{action "subscribe"}}>Subscribe</a>
     </div>
 </form>

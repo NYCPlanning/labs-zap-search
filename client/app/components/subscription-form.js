@@ -10,6 +10,8 @@ export default class SubscriptionFormComponent extends Component {
 
     isCommunityDistrict = false;
 
+    isSubmitting = false;
+
     constructor(...args) {
       super(...args);
 
@@ -71,6 +73,8 @@ export default class SubscriptionFormComponent extends Component {
     @action
     async subscribe() {
       if (!this.canBeSubmitted) { return; }
+
+      set(this, 'isSubmitting', true);
 
       const requestBody = { email: this.args.email, subscriptions: {} };
       if (this.isCommunityDistrict) {
