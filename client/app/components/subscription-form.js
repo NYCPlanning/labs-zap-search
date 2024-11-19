@@ -47,6 +47,7 @@ export default class SubscriptionFormComponent extends Component {
     // eslint-disable-next-line ember/use-brace-expansion
     @computed('isCommunityDistrict', 'args.subscriptions', 'args.email')
     get canBeSubmitted() {
+      if ((this.isCommunityDistrict && !this.isAtLeastOneCommunityDistrictSelected)) return false;
       return this.isEmailValid
             && (this.args.subscriptions.CW
             || (this.isCommunityDistrict && this.isAtLeastOneCommunityDistrictSelected));
