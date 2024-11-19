@@ -49,6 +49,6 @@ export default Route.extend({
     const body = await response.json();
     if (!response.ok) throw await response.json();
 
-    return this.convertSubscriptionsToHandlebars(body);
+    return this.convertSubscriptionsToHandlebars(body.subscriptions);
   },
 });

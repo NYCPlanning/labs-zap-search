@@ -92,8 +92,8 @@ export class SubscriberController {
 
   @Get("/subscribers/:id")
   async subscriptions(@Param() params, @Res() response) {
-    const subscriptions = await this.subscriberService.getSubscriptions(params.id);
-    response.status(subscriptions.code).send(subscriptions.isError ? subscriptions : subscriptions["subscription_list"])
+    const userData = await this.subscriberService.getSubscriptions(params.id);
+    response.status(userData.code).send(userData.isError ? userData : { email: userData.email, subscriptions: userData["subscription_list"] })
     return;
   }
 

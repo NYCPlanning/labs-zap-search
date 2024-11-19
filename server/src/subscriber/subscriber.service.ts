@@ -196,17 +196,17 @@ export class SubscriberService {
     // https://www.twilio.com/docs/sendgrid/api-reference/contacts/search-contacts
     // https://www.twilio.com/docs/sendgrid/for-developers/sending-email/segmentation-query-language
     try {
-      const subscriptions = await this.client.request(request);
-      if(subscriptions[0].body["contact_count"] === 0) {
+      const userData = await this.client.request(request);
+      if(userData[0].body["contact_count"] === 0) {
         return {isError: true, code: 404, message: "No users found."};
       }
       var subscriptionList = {};
-      for (const [key, value] of Object.entries(subscriptions[0].body["result"][0]["custom_fields"])) {
+      for (const [key, value] of Object.entries(userData[0].body["result"][0]["custom_fields"])) {
         if(key.startsWith(`zap_${this.environment}_`) && validCustomFieldNames.includes(key.replace(`zap_${this.environment}_`, "") as CustomFieldName)) {
           subscriptionList[key.replace(`zap_${this.environment}_`, "")] = value;
         }
       }
-      return {isError: false, code: subscriptions[0].statusCode, "subscription_list": subscriptionList};
+      return {isError: false, code: userData[0].statusCode, "subscription_list": subscriptionList, email: userData[0].body["result"][0].email};
     } catch(error) {
       return {isError: true, ...error};
     }
