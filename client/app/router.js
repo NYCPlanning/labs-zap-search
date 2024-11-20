@@ -31,6 +31,7 @@ Router.map(function() { // eslint-disable-line
   if (config.showAlerts) {
     this.route('statuses');
     this.route('subscribed');
+    this.route('subscription-update', { path: '/subscribers/:id' });
     this.route('subscription-confirmation', { path: '/subscribers/:id/confirm' });
     this.route('subscribe');
   }

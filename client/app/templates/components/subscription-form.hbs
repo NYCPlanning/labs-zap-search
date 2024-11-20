@@ -7,6 +7,7 @@
         <ul>
             <li>
                 <div class="update-type-item">
+{{log "isCityWide" isCityWide}}                    
                     <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} {{on "change" this.toggleCitywide}}/>
                     <div class="update-type-label">
                         <label for="city-wide-checkbox">Citywide Updates</label>
@@ -17,6 +18,7 @@
             </li>
             <li>
                 <div class="update-type-item">
+{{log "isCommunityDistrict" isCommunityDistrict}}                    
                     <Input @id="community-district-checkbox" @type="checkbox" @checked={{isCommunityDistrict}}
                         {{on "change" this.closeAllAccordions}}/>
                     <div class="update-type-label">
@@ -68,6 +70,6 @@
         {{#if isSubmitting}}
             {{fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner"}}
         {{/if}}
-        <a class="button primary no-margin {{if this.canBeSubmitted "" "disabled"}}" type="submit" {{action "subscribe"}}>Subscribe</a>
+        <a class="button primary no-margin {{if this.canBeSubmitted "" "disabled"}}" type="submit" {{action "subscribe"}}>{{if this.args.isUpdate "Update" "Subscribe"}}</a>
     </div>
 </form>
