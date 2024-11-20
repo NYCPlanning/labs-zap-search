@@ -7,11 +7,15 @@
                     <span class="text-small">Get updated on milestones for all projects in any community district (CD) by signing up to receive
                         emails on Zoning Application Portal.</span>
                 </div>
-                    <SubscriptionForm @subscriptions={{this.model.subscriptions}} @email={{this.model.email}} @isUpdate={{false}}>
+{{log "this.model.subscriptions" this.model.subscriptions}}
+{{log "this.model.email" this.model.email}}                    
+                    
+                    
+                    <SubscriptionForm @subscriptions={{this.model.subscriptions}} @email={{this.model.email}} @isUpdate={{true}}>
                         <div class="subscribe-section">
                             <div class="subscribe-input-group">
-                            <label class="email-label">Email Address</label>
-                            <Input class="input-group-field" type="text" @value={{this.model.email}}/>
+                                <label class="email-label">Email Address</label>
+                                <input class="input-group-field" type="text" value={{this.model.email}} disabled />
                             </div>
                         </div>
                     </SubscriptionForm>
