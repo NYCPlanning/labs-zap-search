@@ -13,42 +13,37 @@ export default class SubscriptionFormComponent extends Component {
     isSubmitting = false;
 
     previousSubscriptions = {};
+    previousIsCommunityDistrict = false;
 
     constructor(...args) {
       super(...args);
 
       this.communityDistrictsByBorough = getCommunityDistrictsByBorough();
-      // console.log("this.model just model", model)
-      console.log("this.args", this.args)
 
       // Extra steps to take for updates
       if (this.args.isUpdate) {
         // Determine value of CD checkbox
-        if (Object.entries(this.args.subscriptions).find(([key, value]) => ((key !== "CW") && value))) {
-// can I switch this to isAtLeastOneCommunityDistrictSelected?          
+        if (this.isAtLeastOneCommunityDistrictSelected) {
           this.isCommunityDistrict = true;
+          this.previousIsCommunityDistrict = true;
         }
         // Copy subscriptions to compare for changes
         this.previousSubscriptions = {...this.args.subscriptions}
       }
-
-console.log("prevSubs", this.previousSubscriptions)      
-
-
     }
 
     @computed('args.subscriptions.CW')
     get isCityWide() {
-console.log("this.args.subscriptions.CW", this.args.subscriptions.CW)      
       return this.args.subscriptions.CW;
     }
 
     // eslint-disable-next-line ember/use-brace-expansion
     @computed('isCommunityDistrict', 'args.subscriptions', 'args.email')
     get canBeSubmitted() {
-      // If it's an update, subscriptions must be different
-      if(this.args.isUpdate && !(Object.entries(this.args.subscriptions).find(([key, value]) => (this.previousSubscriptions[key] !== value)))) {
-        return false;
+      // If it's an update, subscriptions must be different, or they must have unchecked CD Updates
+      if(this.args.isUpdate)  {
+        if (this.previousIsCommunityDistrict && !this.isCommunityDistrict) return true;
+        if (!(Object.entries(this.args.subscriptions).find(([key, value]) => (this.previousSubscriptions[key] !== value)))) return false;
       }
 
       if ((this.isCommunityDistrict && !this.isAtLeastOneCommunityDistrictSelected)) return false;
@@ -119,7 +114,6 @@ console.log("this.args.subscriptions.CW", this.args.subscriptions.CW)
         requestBody.subscriptions.CW = 1;
       }
 
-      //TODO: Make form submittable if only change is unchecking CDs box
       // If it's an update, unsubscribe from all CDs if they unchecked the box
       if (this.args.isUpdate && !this.isCommunityDistrict) {
         for (const [key, value] of Object.entries(this.previousSubscriptions)) {
