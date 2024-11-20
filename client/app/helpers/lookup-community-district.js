@@ -70,6 +70,7 @@ export function lookupCommunityDistrict() {
 
 export function getCommunityDistrictsByBorough() {
   const communityDistrictsByBorough = {};
+  // eslint-disable-next-line no-restricted-syntax
   for (const district of communityDistrictLookup) {
     const { code, num, boro } = district;
     if (boro in communityDistrictsByBorough === false) {
