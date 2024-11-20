@@ -10,8 +10,9 @@
 {{log "this.model.subscriptions" this.model.subscriptions}}
 {{log "this.model.email" this.model.email}}                    
                     
+                    {{log "this.model.id" this.model.id}}
                     
-                    <SubscriptionForm @subscriptions={{this.model.subscriptions}} @email={{this.model.email}} @isUpdate={{true}}>
+                    <SubscriptionForm @subscriptions={{this.model.subscriptions}} @email={{this.model.email}} @isUpdate={{true}} @id={{this.model.id}}>
                         <div class="subscribe-section">
                             <div class="subscribe-input-group">
                                 <label class="email-label">Email Address</label>

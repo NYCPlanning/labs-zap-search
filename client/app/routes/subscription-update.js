@@ -21,6 +21,6 @@ console.log("body", body)
       }
     }
 console.log("model", { email: body.email, subscriptions })
-    return { email: body.email, subscriptions };
+    return { id, email: body.email, subscriptions };
   },
 });

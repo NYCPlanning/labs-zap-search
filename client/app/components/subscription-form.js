@@ -114,6 +114,13 @@ export default class SubscriptionFormComponent extends Component {
         requestBody.subscriptions.CW = 1;
       }
 
+      if (this.args.isUpdate) {
+        for (const [key, value] of Object.entries(this.previousSubscriptions)) {
+          if (value !== this.args.subscriptions[key]) {
+            requestBody.subscriptions[key] = value ? 0 : 1;
+          }
+        }
+      }
       // If it's an update, unsubscribe from all CDs if they unchecked the box
       if (this.args.isUpdate && !this.isCommunityDistrict) {
         for (const [key, value] of Object.entries(this.previousSubscriptions)) {
@@ -123,8 +130,9 @@ export default class SubscriptionFormComponent extends Component {
         }
       }
 
-      const response = await fetch(`${ENV.host}/subscribers`, {
-        method: 'POST',
+      console.log(requestBody);
+      const response = await fetch(`${ENV.host}/subscribers${this.args.isUpdate ? (`/`+ this.args.id) : ''}`, {
+        method: this.args.isUpdate ? 'PATCH' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -132,8 +140,11 @@ export default class SubscriptionFormComponent extends Component {
       });
 
       await response.json();
-      if (!response.ok) throw await response.json();
+      console.log("response", response);
 
-      window.location.pathname = '/subscribed';
+      if (!response.ok) throw await response.json();
+      if (!this.args.isUpdate) window.location.pathname = '/subscribed';
+
+      set(this, 'isSubmitting', false);
     }
 }

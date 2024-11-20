@@ -46,8 +46,8 @@
                     <div class="accordion-content" data-tab-content>
                         <div>
                         <div>
-                        <Input id="all-brooklyn" type="checkbox" @value={{borough}} {{on "change" this.checkWholeBorough}} /><label
-                            for="all-brooklyn">Select all</label>
+                        <Input id="all-{{borough}}" type="checkbox" @value={{borough}} {{on "change" this.checkWholeBorough}} /><label
+                            for="all-{{borough}}">Select all</label>
                         </div>
                         {{#each districts as |district| }}
                         <div>

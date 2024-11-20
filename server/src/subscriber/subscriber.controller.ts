@@ -5,6 +5,7 @@ import { Request } from "express";
 import validateEmail from "../_utils/validate-email";
 import * as Sentry from "@sentry/nestjs";
 import crypto from 'crypto';
+import { isElement } from "underscore";
 
 const PAUSE_BETWEEN_CHECKS = 30000;
 const CHECKS_BEFORE_FAIL = 10;
