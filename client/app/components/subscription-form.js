@@ -43,6 +43,20 @@ console.log("this.args.subscriptions.CW", this.args.subscriptions.CW)
       return this.args.subscriptions.CW;
     }
 
+    // eslint-disable-next-line ember/use-brace-expansion
+    @computed('isCommunityDistrict', 'args.subscriptions', 'args.email')
+    get canBeSubmitted() {
+      // If it's an update, subscriptions must be different
+      if(this.args.isUpdate && !(Object.entries(this.args.subscriptions).find(([key, value]) => (this.previousSubscriptions[key] !== value)))) {
+        return false;
+      }
+
+      if ((this.isCommunityDistrict && !this.isAtLeastOneCommunityDistrictSelected)) return false;
+      return this.isEmailValid
+            && (this.args.subscriptions.CW
+            || (this.isCommunityDistrict && this.isAtLeastOneCommunityDistrictSelected));
+    }
+
     @computed('args.email')
     get isEmailValid() {
       // eslint-disable-next-line no-useless-escape
@@ -67,20 +81,6 @@ console.log("this.args.subscriptions.CW", this.args.subscriptions.CW)
     @computed('args.subscriptions')
     get isAtLeastOneCommunityDistrictSelected() {
       return !!Object.entries(this.args.subscriptions).find(([key, value]) => ((key !== 'CW') && value));
-    }
-
-    // eslint-disable-next-line ember/use-brace-expansion
-    @computed('isCommunityDistrict', 'args.subscriptions', 'args.email')
-    get canBeSubmitted() {
-      // If it's an update, subscriptions must be different
-      if(this.args.isUpdate && !(Object.entries(this.args.subscriptions).find(([key, value]) => (this.previousSubscriptions[key] !== value)))) {
-        return false;
-      }
-
-      if ((this.isCommunityDistrict && !this.isAtLeastOneCommunityDistrictSelected)) return false;
-      return this.isEmailValid
-            && (this.args.subscriptions.CW
-            || (this.isCommunityDistrict && this.isAtLeastOneCommunityDistrictSelected));
     }
 
     @action
