@@ -166,3 +166,27 @@ input[type=checkbox] {
 .update-type-label {
     padding-left: 10px;
 }
+
+.subscription-update-confirmation-modal {
+    font-size: 1.25rem;
+    div > span.frown {
+        color: $red-muted;
+    }
+    span {
+    
+        color:#008e50;
+      }
+    p {
+        font-size: 1rem;
+    }
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.home-button {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    // padding-top: 200px;
+}

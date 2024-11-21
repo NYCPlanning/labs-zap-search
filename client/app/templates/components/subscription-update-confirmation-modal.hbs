@@ -1,0 +1,26 @@
+{{#if this.showSubscriptionUpdateConfirmationModal}}
+<div class="reveal-overlay" style="display:block; background-color: rgba(241, 242, 244, 0.45)">
+  <div class="reveal-overlay-target"></div>
+  <div class="reveal info-modal" role="dialog" aria-hidden="false" tabindex="-1" style="display:block;"
+    data-test-info-modal>
+    <div class="subscription-update-confirmation-modal">
+      {{#if (eq this.updateStatus "success")}}
+      <div><span>{{fa-icon icon='check-circle' prefix='far' size='2x'}}</span></div>
+      <div>Your subscription settings have been updated.
+        <p>The changes will be reflected in the system in a few minutes.</p>
+      </div>
+      {{else if (eq this.updateStatus "error")}}
+      <div>
+        <span class="frown">{{fa-icon icon='frown' prefix='far' size='2x'}}</span>
+      </div>
+      <div> <p> There was an error with your submission. Please try again in a few minutes.</p>
+      </div>
+      {{/if}}
+    </div>
+
+    <div class="home-button">
+      <LinkTo class="button primary align-middle" @route="show-geography">Home</LinkTo>
+    </div>
+  </div>
+</div>
+{{/if}}
