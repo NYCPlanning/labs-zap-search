@@ -2,7 +2,7 @@ import $ from 'jquery';
 import Component from '@ember/component';
 
 export default Component.extend({
-  didRender: function() {
+  didRender() {
     $(this.element).foundation();
   },
 });

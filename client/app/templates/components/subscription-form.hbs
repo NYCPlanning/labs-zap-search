@@ -7,7 +7,7 @@
         <ul>
             <li>
                 <div class="update-type-item">
-                    <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}}/>
+                    <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} {{on "change" this.toggleCitywide}}/>
                     <div class="update-type-label">
                         <label for="city-wide-checkbox">Citywide Updates</label>
                         <span class="text-small">You'll receive an email for all citywide projects, which are projects that aren’t
@@ -65,6 +65,9 @@
     </div>
 
     <div class="subscribe-section">
-    <a class="button primary no-margin disabled" type="submit" href="">Subscribe</a>
+        {{#if isSubmitting}}
+            {{fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner"}}
+        {{/if}}
+        <a class="button primary no-margin {{if this.canBeSubmitted "" "disabled"}}" type="submit" {{action "subscribe"}}>Subscribe</a>
     </div>
 </form>
