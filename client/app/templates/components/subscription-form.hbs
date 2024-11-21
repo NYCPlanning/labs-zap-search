@@ -2,6 +2,8 @@
         {{yield}}
     <div class="subscribe-section">
         <div class="update-type-section">
+        <div class="update-type-question">To subscribe to a Community District or Citywide, check one of the following options.</div>
+        <p></p>
         <div class="update-type-question">Which would you like to receive updates for?</div>
         
         <ul>
@@ -37,7 +39,7 @@
         <h5>If you chose CD Updates, please select which community districts you would like to receive updates
             for:</h5>
         <p>You can find the Community District to any New York City address <a
-                href="https://zola.planning.nyc.gov/">here</a>.</p>
+                href="https://zola.planning.nyc.gov/" target="_blank" ref="noopener noreferrer">here</a>.</p>
         {{#initialize_foundation}}
          {{#each-in this.communityDistrictsByBorough as |borough districts|}}
             <ul class="accordion" id="foo" data-accordion data-multi-expand="true" data-allow-all-closed="true">
