@@ -12,6 +12,9 @@ export default class SubscriptionFormComponent extends Component {
 
     isSubmitting = false;
 
+    showSubscriptionUpdateConfirmationModal = false;
+    updateStatus = "none";
+
     previousSubscriptions = {};
     previousIsCommunityDistrict = false;
 
@@ -130,7 +133,6 @@ export default class SubscriptionFormComponent extends Component {
         }
       }
 
-      console.log(requestBody);
       const response = await fetch(`${ENV.host}/subscribers${this.args.isUpdate ? (`/`+ this.args.id) : ''}`, {
         method: this.args.isUpdate ? 'PATCH' : 'POST',
         headers: {
@@ -140,11 +142,21 @@ export default class SubscriptionFormComponent extends Component {
       });
 
       await response.json();
-      console.log("response", response);
 
-      if (!response.ok) throw await response.json();
+      if (!response.ok) {
+        set(this, 'showSubscriptionUpdateConfirmationModal', true);
+        set(this, 'updateStatus', "error");
+        throw await response.json();
+      }
+
       if (!this.args.isUpdate) window.location.pathname = '/subscribed';
 
       set(this, 'isSubmitting', false);
+
+      if(this.args.isUpdate) {
+        set(this, 'showSubscriptionUpdateConfirmationModal', true);
+        set(this, 'updateStatus', "success");
+      }
+
     }
 }

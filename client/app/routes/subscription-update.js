@@ -9,7 +9,6 @@ export default Route.extend({
 
     const body = await response.json();
     if (!response.ok) throw await response.json();
-console.log("body", body)
 
     var subscriptions = { CW: (body.subscriptions["CW"] === 1) };
     const districts = lookupCommunityDistrict();
@@ -20,7 +19,6 @@ console.log("body", body)
         subscriptions[district.code] = false;
       }
     }
-console.log("model", { email: body.email, subscriptions })
     return { id, email: body.email, subscriptions };
   },
 });

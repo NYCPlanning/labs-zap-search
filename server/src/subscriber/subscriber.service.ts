@@ -109,8 +109,7 @@ export class SubscriberService {
    * @returns {object}
    */
   async checkCreate(importId: string, @Res() response, counter: number = 0, checksBeforeFail: number, pauseBetweenChecks: number, errorInfo: any) {
-    console.log("checking again");
-    if(counter >= checksBeforeFail) {
+     if(counter >= checksBeforeFail) {
       console.error({
         code: 408,
         message: `Polling limit of ${checksBeforeFail} checks with a ${pauseBetweenChecks/1000} second delay between each has been reached.`,
@@ -263,13 +262,10 @@ export class SubscriberService {
       }
     }
 
-    console.log("request", request);
-
     // https://www.twilio.com/docs/sendgrid/api-reference/contacts/add-or-update-a-contact
     try {
       const result = await this.client.request(request);
-      console.log(result);
-      return { isError: false, result: result };
+       return { isError: false, result: result };
     } catch (error) {
       return { isError: true, ...error };
     }
