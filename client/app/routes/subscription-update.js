@@ -10,11 +10,12 @@ export default Route.extend({
     const body = await response.json();
     if (!response.ok) throw await response.json();
 
-    var subscriptions = { CW: (body.subscriptions["CW"] === 1) };
+    const subscriptions = { CW: (body.subscriptions.CW === 1) };
     const districts = lookupCommunityDistrict();
+    // eslint-disable-next-line no-restricted-syntax
     for (const district of districts) {
-      if(body.subscriptions[district.code] && (body.subscriptions[district.code] === 1)) {
-        subscriptions[district.code] = true;  
+      if (body.subscriptions[district.code] && (body.subscriptions[district.code] === 1)) {
+        subscriptions[district.code] = true;
       } else {
         subscriptions[district.code] = false;
       }
