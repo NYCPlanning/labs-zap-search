@@ -13,9 +13,11 @@ export default class SubscriptionFormComponent extends Component {
     isSubmitting = false;
 
     showSubscriptionUpdateConfirmationModal = false;
-    updateStatus = "none";
+
+    updateStatus = 'none';
 
     previousSubscriptions = {};
+
     previousIsCommunityDistrict = false;
 
     constructor(...args) {
@@ -31,7 +33,7 @@ export default class SubscriptionFormComponent extends Component {
           this.previousIsCommunityDistrict = true;
         }
         // Copy subscriptions to compare for changes
-        this.previousSubscriptions = {...this.args.subscriptions}
+        this.previousSubscriptions = { ...this.args.subscriptions };
       }
     }
 
@@ -44,7 +46,7 @@ export default class SubscriptionFormComponent extends Component {
     @computed('isCommunityDistrict', 'args.subscriptions', 'args.email')
     get canBeSubmitted() {
       // If it's an update, subscriptions must be different, or they must have unchecked CD Updates
-      if(this.args.isUpdate)  {
+      if (this.args.isUpdate) {
         if (this.previousIsCommunityDistrict && !this.isCommunityDistrict) return true;
         if (!(Object.entries(this.args.subscriptions).find(([key, value]) => (this.previousSubscriptions[key] !== value)))) return false;
       }
@@ -118,6 +120,7 @@ export default class SubscriptionFormComponent extends Component {
       }
 
       if (this.args.isUpdate) {
+        // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of Object.entries(this.previousSubscriptions)) {
           if (value !== this.args.subscriptions[key]) {
             requestBody.subscriptions[key] = value ? 0 : 1;
@@ -126,14 +129,15 @@ export default class SubscriptionFormComponent extends Component {
       }
       // If it's an update, unsubscribe from all CDs if they unchecked the box
       if (this.args.isUpdate && !this.isCommunityDistrict) {
+        // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of Object.entries(this.previousSubscriptions)) {
-          if ((key !== "CW") && value) {
+          if ((key !== 'CW') && value) {
             requestBody.subscriptions[key] = 0;
           }
         }
       }
 
-      const response = await fetch(`${ENV.host}/subscribers${this.args.isUpdate ? (`/`+ this.args.id) : ''}`, {
+      const response = await fetch(`${ENV.host}/subscribers${this.args.isUpdate ? (`/${this.args.id}`) : ''}`, {
         method: this.args.isUpdate ? 'PATCH' : 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -145,7 +149,7 @@ export default class SubscriptionFormComponent extends Component {
 
       if (!response.ok) {
         set(this, 'showSubscriptionUpdateConfirmationModal', true);
-        set(this, 'updateStatus', "error");
+        set(this, 'updateStatus', 'error');
         throw await response.json();
       }
 
@@ -153,10 +157,9 @@ export default class SubscriptionFormComponent extends Component {
 
       set(this, 'isSubmitting', false);
 
-      if(this.args.isUpdate) {
+      if (this.args.isUpdate) {
         set(this, 'showSubscriptionUpdateConfirmationModal', true);
-        set(this, 'updateStatus', "success");
+        set(this, 'updateStatus', 'success');
       }
-
     }
 }
