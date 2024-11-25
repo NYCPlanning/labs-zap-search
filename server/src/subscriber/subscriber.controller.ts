@@ -169,4 +169,21 @@ export class SubscriberController {
     });
     return;
   }
+
+  @Get("/subscribers/email/:email")
+  async getEmail(@Param() params, @Res() response) {
+    if (!validateEmail(params.email)) {
+      response.status(400).send({
+        error: "Invalid email address."
+      })
+      return;
+    } 
+
+
+    const existingUser = await this.subscriberService.findByEmail(params.email);
+    console.log(existingUser.code);
+    response.status(204).send();
+    // console.log(existingUser['1'].result['pyerakala@planning.nyc.gov'].contact.segment_ids);
+    return;
+  }
 }
