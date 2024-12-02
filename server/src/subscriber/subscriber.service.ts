@@ -179,6 +179,18 @@ export class SubscriberService {
           return {isError: true, ...error}
         })
    }
+   
+   /**
+   * Send the user an email requesting signup confirmation.
+   * @param {string} email - The user's email address
+   * @param {string} environment - Staging or production
+   * @param {object} subscriptions - The CDs the user is subscribing to
+   * @param {string} id - The id needed for confirmation
+   * @returns {object}
+   */
+  async sendModifySubscriptionEmail(email: string, environment: string, subscriptions: ValidSubscriptionSet, id: string) {
+    console.log(id);
+  } 
 
   /**
    * Fetch the user's list of subscriptions.
