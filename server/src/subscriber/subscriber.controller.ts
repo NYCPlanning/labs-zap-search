@@ -181,7 +181,7 @@ export class SubscriberController {
 
     const existingUser = await this.subscriberService.findByEmail(params.email);
     const existingUserListId = `zap_${this.sendgridEnvironment}_id`;
-    if (existingUser.code === 404 || existingUser['1'].result[params.email].contact.custom_fields[existingUserListId]) {
+    if (existingUser.code === 404 || !existingUser['1'].result[params.email].contact.custom_fields[existingUserListId]) {
       response.status(404).send({
         error: "Not found."
       })
