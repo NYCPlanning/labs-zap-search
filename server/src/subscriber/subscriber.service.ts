@@ -188,8 +188,27 @@ export class SubscriberService {
    * @param {string} id - The id needed for confirmation
    * @returns {object}
    */
-  async sendModifySubscriptionEmail(email: string, environment: string, subscriptions: ValidSubscriptionSet, id: string) {
+  async sendModifySubscriptionEmail(email: string, environment: string, id: string) {
     console.log(id);
+    // https://github.com/sendgrid/sendgrid-nodejs/blob/main/docs/use-cases/transactional-templates.md
+    const msg = {
+      to: email,
+      from: 'do-not-reply@planning.nyc.gov', // Your verified sender
+      templateId: '', //FAKE_TEMPLATE_ID,
+      dynamicTemplateData: {
+        "id": id,
+        "domain": environment === "production" ? "zap.planning.nyc.gov" : "zap-staging.planninglabs.nyc",
+        // "subscriptions": this.convertSubscriptionsToHandlebars(subscriptions)
+      }
+    }
+    this.mailer.send(msg)
+      .then((response) => {
+        return {isError: false, statusCode: response[0].statusCode}
+      })
+      .catch((error) => {
+        console.error(error)
+        return {isError: true, ...error}
+      })
   } 
 
   /**
