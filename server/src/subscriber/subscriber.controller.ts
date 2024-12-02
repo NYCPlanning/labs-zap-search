@@ -122,4 +122,13 @@ export class SubscriberController {
 
     response.send(updatedContact);
   }
+
+  @Get("/subscribers/:id/modify")
+  async modifySubscriptions(@Req() request: Request, @Param("id") id, @Res() response) {
+    const email = await this.subscriberService.getUserById(id);
+    console.log(email);
+    return;
+    // get id from request 
+    // get email using service
+  }
 }
