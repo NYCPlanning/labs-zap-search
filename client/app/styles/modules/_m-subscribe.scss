@@ -1,0 +1,13 @@
+// --------------------------------------------------
+// Module: Subscribe Page
+// --------------------------------------------------
+
+.email-exists, .email-needs-confirmation {
+  padding-top: 1.5rem;
+  font-weight: 700;
+}
+
+.email-sent {
+  color: $success-color;
+  font-weight: 700;
+}
