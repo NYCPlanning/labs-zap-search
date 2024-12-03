@@ -199,7 +199,7 @@ export class SubscriberController {
 
     if (existingUserListConfirmed === 0) {
       response.status(201).send({
-        error: "User is subscribed but must confirm."
+        message: "User is subscribed but must confirm."
       })
       return;
     }
