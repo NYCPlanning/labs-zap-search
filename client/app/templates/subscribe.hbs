@@ -11,8 +11,17 @@
                         <div class="subscribe-section">
                             <div class="subscribe-input-group">
                             <label class="email-label">Email Address</label>
-                            <Input class="input-group-field" type="text" @value={{this.model.email}}/>
+                            <Input class="input-group-field" type="text" @value={{this.model.email}} onkeyup={{action 'continuouslyCheckEmail'}} onchange={{action 'checkExistingEmail'}} />
                             </div>
+                            {{#if this.emailAlreadyExists}}
+                                <p class="email-exists">This email already is subscribed to ZAP Updates. <a onclick={{action 'sendEmail'}}>Click here to receive an email to modify subscriptions.</a></p>
+                            {{/if}}
+                            {{#if this.emailNeedsConfirmation}}
+                                <p class="email-needs-confirmation">This email address has not confirmed their subscription to ZAP Updates. <a onclick={{action 'sendEmail'}}>Click here to re-send the confirmation email.</a></p>
+                            {{/if}}
+                            {{#if this.emailSent}}
+                                <p class="email-sent">Email sent.</p>
+                            {{/if}}
                         </div>
                     </SubscriptionForm>
                 <div class="subscribe-footer">
