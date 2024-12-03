@@ -180,15 +180,33 @@ export class SubscriberController {
     }
 
     const existingUser = await this.subscriberService.findByEmail(params.email);
-    const existingUserListConfirmed = `zap_${this.sendgridEnvironment}_confirmed`;
-    if (existingUser.code === 404 || !existingUser['1'].result[params.email].contact.custom_fields[existingUserListConfirmed]) {
+    if (existingUser.code === 404) {
       response.status(404).send({
-        error: "Not found."
+        error: "User not found."
       })
       return;
     }
 
-    response.status(204).send();
+    const userExistsInCurrentList = existingUser['1'].result[params.email].contact.list_ids.includes(this.list);
+    const existingUserListConfirmed = existingUser['1'].result[params.email].contact.custom_fields[`zap_${this.sendgridEnvironment}_confirmed`];
+
+    if (userExistsInCurrentList && existingUserListConfirmed) {
+      response.status(201).send({
+        message: "User already subscribed."
+      })
+      return;
+    }
+
+    if (existingUserListConfirmed === 0) {
+      response.status(201).send({
+        error: "User is subscribed but must confirm."
+      })
+      return;
+    }
+
+    response.status(404).send({
+      error: "Not found."
+    })
     return;
   }
 }
