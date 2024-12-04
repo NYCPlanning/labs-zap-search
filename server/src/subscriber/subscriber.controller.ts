@@ -123,15 +123,27 @@ export class SubscriberController {
     response.send(updatedContact);
   }
 
-  @Get("/subscribers/:id/modify")
-  async modifySubscriptions(@Req() request: Request, @Param("id") id, @Res() response) {
-    const email = await this.subscriberService.getUserById(id);
-    console.log(email);
+  @Get("/subscribers/:email/modify")
+  async modifySubscriptions(@Req() request: Request, @Param() params, @Res() response) {
+    const existingUser = await this.subscriberService.findByEmail(params.email);
+    if (existingUser.code === 404) {
+      response.status(404).send({
+        error: "User not found."
+      })
+      return;
+    }
+
+    const userId = existingUser['1'].result[params.email].contact.custom_fields[`zap_${this.sendgridEnvironment}_id`];
+
+    // const email = await this.subscriberService.getUserById(id);
+    // if (email.isError) {
+    //   response.status(email.code).send({ errors: email.response.body.errors })
+    //   return;
+    // }
+
     // Send the confirmation email
-    await this.subscriberService.sendModifySubscriptionEmail(email, this.sendgridEnvironment, id);
+    await this.subscriberService.sendModifySubscriptionEmail(params.email, this.sendgridEnvironment, userId);
     
-    return;
-    // get id from request 
-    // get email using service
+    // return;
   }
 }

@@ -189,16 +189,14 @@ export class SubscriberService {
    * @returns {object}
    */
   async sendModifySubscriptionEmail(email: string, environment: string, id: string) {
-    console.log(id);
     // https://github.com/sendgrid/sendgrid-nodejs/blob/main/docs/use-cases/transactional-templates.md
     const msg = {
       to: email,
       from: 'do-not-reply@planning.nyc.gov', // Your verified sender
-      templateId: '', //FAKE_TEMPLATE_ID,
+      templateId: 'd-63182ea5a0df48ec86b24606111075ae',
       dynamicTemplateData: {
-        "id": id,
+        "user_id": id,
         "domain": environment === "production" ? "zap.planning.nyc.gov" : "zap-staging.planninglabs.nyc",
-        // "subscriptions": this.convertSubscriptionsToHandlebars(subscriptions)
       }
     }
     this.mailer.send(msg)
