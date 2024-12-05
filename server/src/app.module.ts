@@ -17,6 +17,7 @@ import { DocumentModule } from "./document/document.module";
 import { CrmModule } from "./crm/crm.module";
 import { ZoningResolutionsModule } from "./zoning-resolutions/zoning-resolutions.module";
 import { SubscriberModule } from "./subscriber/subscriber.module";
+import { SendUpdateModule } from "./send-update/send-update.module";
 
 @Module({
   providers: [
@@ -36,7 +37,8 @@ import { SubscriberModule } from "./subscriber/subscriber.module";
     AssignmentModule,
     DocumentModule,
     ZoningResolutionsModule,
-    SubscriberModule
+    SubscriberModule,
+    SendUpdateModule
   ],
   controllers: [AppController]
 })
