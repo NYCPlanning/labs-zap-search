@@ -123,8 +123,8 @@ export class SubscriberController {
     response.send(updatedContact);
   }
 
-  @Get("/subscribers/:email/modify")
-  async modifySubscriptions(@Req() request: Request, @Param() params, @Res() response) {
+  @Post("/subscribers/:email/modify")
+  async modifySubscriptions(@Param() params, @Res() response) {
     const existingUser = await this.subscriberService.findByEmail(params.email);
     if (existingUser.code === 404) {
       response.status(404).send({
@@ -135,15 +135,11 @@ export class SubscriberController {
 
     const userId = existingUser['1'].result[params.email].contact.custom_fields[`zap_${this.sendgridEnvironment}_id`];
 
-    // const email = await this.subscriberService.getUserById(id);
-    // if (email.isError) {
-    //   response.status(email.code).send({ errors: email.response.body.errors })
-    //   return;
-    // }
-
-    // Send the confirmation email
+    // Send the modify email
     await this.subscriberService.sendModifySubscriptionEmail(params.email, this.sendgridEnvironment, userId);
-    
-    // return;
+    response.status(201).send({
+      message: "Modify subscription email sent"
+    });
+    return;
   }
 }

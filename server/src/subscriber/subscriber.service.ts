@@ -181,10 +181,9 @@ export class SubscriberService {
    }
    
    /**
-   * Send the user an email requesting signup confirmation.
+   * Send the user an email to modify their subscriptions.
    * @param {string} email - The user's email address
    * @param {string} environment - Staging or production
-   * @param {object} subscriptions - The CDs the user is subscribing to
    * @param {string} id - The id needed for confirmation
    * @returns {object}
    */
