@@ -1,7 +1,8 @@
 import { Controller, Param, Post, Req, Res } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
 import { SendUpdateService } from "./send-update.service";
-import { ProjectService } from "src/project/project.service";
+import { ProjectService } from "../project/project.service";
+import { ListservAuthService } from "../listserv/auth.service";
 import { Request } from "express";
 
 @Controller()
@@ -13,7 +14,8 @@ export class SendUpdateController {
   constructor(
     private readonly config: ConfigService,
     private readonly sendUpdateService: SendUpdateService,
-    private readonly projectService: ProjectService
+    private readonly projectService: ProjectService,
+    private readonly listservAuthService: ListservAuthService
   ) {
     this.apiKey = this.config.get("SENDGRID_API_KEY");
     this.list = this.config.get("SENDGRID_LIST");
@@ -22,6 +24,12 @@ export class SendUpdateController {
 
   @Post("/projects/:id/send-update")
   async sendUpdate(@Param() params, @Req() request: Request, @Res() response) {
+    const validatedUser = await this.listservAuthService.validateUser(request.headers.authorization)
+    if (!validatedUser) {
+      response.status(401).send();
+      return;
+    }
+
     const project = await this.projectService.findOneByName(params.id);
     // If no project is found, projectService returns HTTP error automatically, and this function does not continue
 

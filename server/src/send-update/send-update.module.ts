@@ -12,7 +12,9 @@ import { CartoModule } from "../carto/carto.module";
 import { CrmModule } from "../crm/crm.module";
 import { DocumentModule } from "../document/document.module";
 import { DispositionModule } from "../disposition/disposition.module";
-import { GeometryService } from "src/project/geometry/geometry.service";
+import { GeometryService } from "../project/geometry/geometry.service";
+import { ListservAuthModule } from "../listserv/auth.module";
+import { ListservAuthService } from "../listserv/auth.service";
 
 @Module({
   imports: [
@@ -24,9 +26,10 @@ import { GeometryService } from "src/project/geometry/geometry.service";
     CartoModule,
     CrmModule,
     DispositionModule,
-    DocumentModule
+    DocumentModule,
+    ListservAuthModule,
   ],
-  providers: [SendUpdateService, Client, MailService, ProjectService, GeometryService],
+  providers: [SendUpdateService, Client, MailService, ProjectService, GeometryService, ListservAuthService],
   exports: [SendUpdateService],
   controllers: [SendUpdateController]
 })
