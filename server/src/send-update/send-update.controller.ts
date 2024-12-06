@@ -33,7 +33,29 @@ export class SendUpdateController {
     const project = await this.projectService.findOneByName(params.id);
     // If no project is found, projectService returns HTTP error automatically, and this function does not continue
 
-    const createUpdate = await this.sendUpdateService.createSingleSendProjectUpdate(params.id);
+    // Production names use underscores, staging use dashes
+    const segmentName = `zap${this.sendgridEnvironment === "production" ? "_production_" : "-staging-"}${project["data"]["attributes"]["dcp-borough"] === "Citywide" ? "CW" : project["data"]["attributes"]["dcp-validatedcommunitydistricts"]}`
+    const segmentIdResult = await this.sendUpdateService.getSegmentId(segmentName)
+
+    if(segmentIdResult.isError) {
+      response.status(500).send(segmentIdResult);
+      return;
+    }
+
+    const emailData = {
+      "domain": this.sendgridEnvironment === "production" ? "zap.planning.nyc.gov" : "zap-staging.planninglabs.nyc",
+      "id": params.id,
+      "name": project["data"]["attributes"]["dcp-projectname"],
+      "borocd": project["data"]["attributes"]["dcp-borough"] === "Citywide" ? "Citywide" : `${project["data"]["attributes"]["dcp-borough"]} CD ${project["data"]["attributes"]["dcp-validatedcommunitydistricts"].slice(1 )}`,
+      "status": project["data"]["attributes"]["dcp-publicstatus"],
+      "date": new Date().toLocaleDateString(),
+      "additionalpublicinformation": project["data"]["attributes"]["dcp-additionalpublicinformation"],
+      "dcpIsApplicant": project["data"]["attributes"]["dcp-applicant-customer-value"] === "DCP - Department of City Planning (NYC)"
+    }
+
+    const emailHtml = this.sendUpdateService.createProjectUpdateContent(emailData);
+
+    const createUpdate = await this.sendUpdateService.createSingleSendProjectUpdate(params.id, emailHtml, segmentIdResult.segmentId);
 
     if (createUpdate.isError) {
       response.status(createUpdate.code).send({
