@@ -5,7 +5,7 @@ import nock from "nock";
 import { doLogin } from "./helpers/do-login";
 import { extractJWT } from "./helpers/extract-jwt";
 import { AppModule } from "./../src/app.module";
-import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointService } from "../src/sharepoint/sharepoint.service";
 import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("Disposition Patch", () => {
