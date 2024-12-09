@@ -46,11 +46,18 @@ module.exports = function(defaults) {
       },
     },
   });
-
+  if (app.env === 'development') {
+    // Only import when in development mode
+    app.import('node_modules/foundation-sites/dist/js/foundation.min.js', {type: "vendor"});
+  }
+  if (app.env === 'test') {
+    // Only import in test mode and place in test-support.js
+    app.import('node_modules/foundation-sites/dist/js/foundation.js', {type: "test"});
+  }
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //
-  app.import('node_modules/foundation-sites/dist/js/foundation.min.js', { type: 'vendor' });
+  // app.import('node_modules/foundation-sites/dist/js/foundation.min.js');
   // If you need to use different assets in different
   // environments, specify an object as the first parameter. That
   // object's keys should be the environment name and the values
