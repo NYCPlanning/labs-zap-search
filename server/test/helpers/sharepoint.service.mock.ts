@@ -1,4 +1,4 @@
-import { SharepointFile } from "src/sharepoint/sharepoint.service";
+import { SharepointFile } from "../../src/sharepoint/sharepoint.service";
 
 export class SharepointServiceMock {
   driveIdMap = {

@@ -5,7 +5,7 @@ import mockedEnv from "mocked-env";
 import { AppModule } from "./../src/app.module";
 import { doLogin } from "./helpers/do-login";
 import { extractJWT } from "./helpers/extract-jwt";
-import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointService } from "../src/sharepoint/sharepoint.service";
 import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("AppController (e2e)", () => {
@@ -105,7 +105,7 @@ describe("AppController (e2e)", () => {
   });
 
   describe("Projects", () => {
-    describe("Filtering and searching", () => {});
+    describe("Filtering and searching", () => { });
 
     describe("Details /:id", () => {
       test.todo("sideloads related actions, milestones, dispos");
