@@ -7,7 +7,7 @@ import nock from "nock";
 import mockedEnv from "mocked-env";
 import fs from "fs";
 import rootPath from "app-root-path";
-import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointService } from "../src/sharepoint/sharepoint.service";
 import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("Assignment Get", () => {

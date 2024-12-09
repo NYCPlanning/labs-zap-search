@@ -179,7 +179,7 @@ export class SubscriberService {
           return {isError: true, ...error}
         })
    }
-   
+
    /**
    * Send the user an email to modify their subscriptions.
    * @param {string} email - The user's email address
@@ -206,7 +206,7 @@ export class SubscriberService {
         console.error(error)
         return {isError: true, ...error}
       })
-  } 
+  }
 
   /**
    * Fetch the user's list of subscriptions.
@@ -261,7 +261,7 @@ export class SubscriberService {
         return { isError: true, code: 404, message: "No users found." };
       }
       const email = users[0].body["result"][0].email;
-      
+
       return { isError: false, code: users[0].statusCode, "email": email };
     } catch (error) {
       return { isError: true, ...error };
