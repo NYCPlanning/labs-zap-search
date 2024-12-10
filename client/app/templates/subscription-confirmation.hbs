@@ -15,7 +15,7 @@
             {{/each}}
           </ul>
         {{/each}}
-        <p>To modify subscriptions, <LinkTo @route="show-geography">click here NEEDS TO BE CHANGED TO /subscribers/:id/subscriptions</LinkTo>.</p>
+        <p>To modify subscriptions, <LinkTo @route="subscription-update" @model={{this.target.currentRoute.params.id}}>click here</LinkTo>.</p>
         <LinkTo @route="show-geography">
           <button>
             Go to Home

@@ -8,8 +8,7 @@
         
         <ul>
             <li>
-                <div class="update-type-item">
-{{log "isCityWide" isCityWide}}                    
+                <div class="update-type-item">               
                     <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} {{on "change" this.toggleCitywide}}/>
                     <div class="update-type-label">
                         <label for="city-wide-checkbox">Citywide Updates</label>
