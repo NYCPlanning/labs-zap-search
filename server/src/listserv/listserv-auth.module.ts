@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ListservAuthService } from './auth.service';
+import { ListservAuthService } from './listserv-auth.service';
 import { ConfigModule } from '../config/config.module';
 
 @Module({
