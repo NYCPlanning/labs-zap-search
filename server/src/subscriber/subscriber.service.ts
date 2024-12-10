@@ -13,7 +13,7 @@ const validCustomFieldValues = [0, 1] as const;
 export type CustomFieldValueTuple = typeof validCustomFieldValues;
 type CustomFieldValue = CustomFieldValueTuple[number];
 
-type ValidSubscriptionSet = Record<CustomFieldName, CustomFieldValue>;
+export type ValidSubscriptionSet = Record<CustomFieldName, CustomFieldValue>;
 
 type HttpMethod = 'get' | 'GET' | 'post' | 'POST' | 'put' | 'PUT' | 'patch' | 'PATCH' | 'delete' | 'DELETE';
 
