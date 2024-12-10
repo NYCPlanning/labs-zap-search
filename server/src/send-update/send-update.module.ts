@@ -13,8 +13,8 @@ import { CrmModule } from "../crm/crm.module";
 import { DocumentModule } from "../document/document.module";
 import { DispositionModule } from "../disposition/disposition.module";
 import { GeometryService } from "../project/geometry/geometry.service";
-import { ListservAuthModule } from "../listserv/auth.module";
-import { ListservAuthService } from "../listserv/auth.service";
+import { ListservAuthModule } from "../listserv/listserv-auth.module";
+import { ListservAuthService } from "../listserv/listserv-auth.service";
 
 @Module({
   imports: [

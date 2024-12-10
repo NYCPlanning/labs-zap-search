@@ -51,12 +51,12 @@ export class SendUpdateService {
    */
   async createSingleSendProjectUpdate(id: string, emailHtml: string, segmentId: string) {
     const data = {
-      name: "Single Send Test 2024-12-06 v5",
+      name: "Single Send Test 2024-12-10 v3",
       send_to: {
         segment_ids: [segmentId]
       },
       email_config: {
-        subject: "Single Send Test 2024-12-06 v5",
+        subject: "Single Send Test 2024-12-10 v3",
         html_content: emailHtml,
         generate_plain_content: true,
         custom_unsubscribe_url: `https://${this.environment === "production" ? "zap.planning.nyc.gov" : "zap-staging.planninglabs.nyc"}/subscribers/{{${this.environment === "production" ? "zap_production_id" : "zap_staging_id"}}}`,
@@ -115,9 +115,10 @@ export class SendUpdateService {
    * @param {string} date
    * @param {string} additionalpublicinformation
    * @param {string} dcpIsApplicant
+   * @param {boolean} spansMoreThanOneCD
    * @returns {object}
    */
-  createProjectUpdateContent({domain, id, name, borocd, status, date, additionalpublicinformation, dcpIsApplicant}) {
+  createProjectUpdateContent({domain, id, name, borocd, status, date, additionalpublicinformation, dcpIsApplicant, spansMoreThanOneCD}) {
     var htmlContent = `
    <!DOCTYPE html>
     <head>
@@ -175,7 +176,7 @@ export class SendUpdateService {
                     </p>
                     <div class="content-body" style="width: 100%;">
                       <p>
-                        <a href="https://${domain}/projects/${id}" target="_blank" rel="noreferrer" style="color: #AE551D;">${name}</a>
+                        <a href="https://${domain}/projects/${id}" target="_blank" rel="noreferrer" style="color: #AE551D;">${name}</a>${spansMoreThanOneCD ? "*" : ""}
                         in ${borocd}
     `;
 
@@ -190,6 +191,10 @@ export class SendUpdateService {
 
     if (dcpIsApplicant && additionalpublicinformation) {
       htmlContent += `<p>New York City Department of City Planning is the applicant. <a href="${additionalpublicinformation}" target="_blank" rel="noreferrer" style="color: #3E4451;">Click here to learn more.</a></p> `
+    }
+
+    if (spansMoreThanOneCD) {
+      htmlContent += `<p style="font-size: 0.85rem;">*Project spans more than one CD.</p>`
     }
 
     htmlContent += `
