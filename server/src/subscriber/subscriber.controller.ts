@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Patch, Post, Req, Res } from "@nestjs/common";
 import { ConfigService } from "../config/config.service";
-import { SubscriberService } from "./subscriber.service";
+import { SubscriberService, ValidSubscriptionSet } from "./subscriber.service";
 import { Request } from "express";
 import validateEmail from "../_utils/validate-email";
 import * as Sentry from "@sentry/nestjs";
@@ -139,6 +139,33 @@ export class SubscriberController {
     await this.subscriberService.sendModifySubscriptionEmail(params.email, this.sendgridEnvironment, userId);
     response.status(201).send({
       message: "Modify subscription email sent"
+    });
+    return;
+  }
+
+  @Post("/subscribers/:email/resend-confirmation")
+  async resendConfirmation(@Param() params, @Res() response) {
+    const existingUser = await this.subscriberService.findByEmail(params.email);
+    if (existingUser.code === 404) {
+      response.status(404).send({
+        error: "User not found."
+      })
+      return;
+    }
+
+    const userId = existingUser['1'].result[params.email].contact.custom_fields[`zap_${this.sendgridEnvironment}_id`];
+    var subscriptions = <ValidSubscriptionSet>{}
+
+    for (const [key, value] of Object.entries(existingUser['1'].result[params.email].contact.custom_fields)) {
+      if(((key.includes(this.sendgridEnvironment)) && !(key.endsWith("_confirmed") || key.endsWith("_id")))) {
+        subscriptions[key.split("_")[2]] = value;
+      }
+    }
+
+    // Send the confirmation email
+    await this.subscriberService.sendConfirmationEmail(params.email, this.sendgridEnvironment, subscriptions, userId);
+    response.status(201).send({
+      message: "Confirmation email sent"
     });
     return;
   }
