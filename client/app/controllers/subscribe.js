@@ -56,11 +56,20 @@ export default class SubscribeController extends Controller {
   }
 
   @action
-  sendEmail() {
+  async sendEmail() {
     if (this.emailAlreadyExists) {
       // Run the script to update the email
-      // Endpoint does not yet exist
-      this.set('emailSent', true);
+      try {
+        const response = await fetch(`${ENV.host}/subscribers/${this.model.email}/modify`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        this.set('emailSent', true);
+      } catch (error) {
+        console.error(error);
+      }
     } else if (this.emailNeedsConfirmation) {
       // Run the script to confirm the email
       // Endpoint does not yet exist
