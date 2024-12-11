@@ -53,7 +53,7 @@ export default class SubscriptionFormComponent extends Component {
 
       // Disable signup with existing email addresses
       if (this.args.invalidEmailForSignup) return false;
-      
+
       if ((this.isCommunityDistrict && !this.isAtLeastOneCommunityDistrictSelected)) return false;
       return this.isEmailValid
             && (this.args.subscriptions.CW
