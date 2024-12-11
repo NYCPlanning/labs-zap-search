@@ -192,6 +192,7 @@ export class SubscriberController {
 
     if (userExistsInCurrentList && existingUserListConfirmed) {
       response.status(201).send({
+        confirmed: true,
         message: "User already subscribed."
       })
       return;
@@ -199,6 +200,7 @@ export class SubscriberController {
 
     if (existingUserListConfirmed === 0) {
       response.status(201).send({
+        confirmed: false,
         message: "User is subscribed but must confirm."
       })
       return;
