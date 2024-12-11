@@ -43,7 +43,7 @@ export default class SubscriptionFormComponent extends Component {
     }
 
     // eslint-disable-next-line ember/use-brace-expansion
-    @computed('isCommunityDistrict', 'args.subscriptions', 'args.email')
+    @computed('isCommunityDistrict', 'args.subscriptions', 'args.email', 'args.invalidEmailForSignup')
     get canBeSubmitted() {
       // If it's an update, subscriptions must be different, or they must have unchecked CD Updates
       if (this.args.isUpdate) {
@@ -51,6 +51,9 @@ export default class SubscriptionFormComponent extends Component {
         if (!(Object.entries(this.args.subscriptions).find(([key, value]) => (this.previousSubscriptions[key] !== value)))) return false;
       }
 
+      // Disable signup with existing email addresses
+      if (this.args.invalidEmailForSignup) return false;
+      
       if ((this.isCommunityDistrict && !this.isAtLeastOneCommunityDistrictSelected)) return false;
       return this.isEmailValid
             && (this.args.subscriptions.CW
