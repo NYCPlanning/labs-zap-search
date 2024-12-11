@@ -49,9 +49,9 @@ module.exports = function(defaults) {
   // Use `app.import` to add additional libraries to the generated
   // output files.
   if (app.env === 'test') {
-    app.import('node_modules/foundation-sites/dist/js/foundation.js', {type: "test"});
+    app.import('node_modules/foundation-sites/dist/js/foundation.js', { type: 'test' });
   } else {
-    app.import('node_modules/foundation-sites/dist/js/foundation.min.js', {type: "vendor"});
+    app.import('node_modules/foundation-sites/dist/js/foundation.min.js', { type: 'vendor' });
   }
   // If you need to use different assets in different
   // environments, specify an object as the first parameter. That

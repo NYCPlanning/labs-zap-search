@@ -3,27 +3,31 @@ import { action } from '@ember/object';
 import fetch from 'fetch';
 import ENV from 'labs-zap-search/config/environment';
 
-const tlds = [".com", ".gov", ".edu", ".net", ".org"];
+const tlds = ['.com', '.gov', '.edu', '.net', '.org'];
 
 export default class SubscribeController extends Controller {
-  lastEmailChecked = "";
+  lastEmailChecked = '';
+
   emailAlreadyExists = false;
+
   emailNeedsConfirmation = false;
+
   startContinuouslyChecking = false;
+
   emailSent = false;
 
 
   @action
   async checkExistingEmail(event) {
     const email = event.target.value;
-    if(email === this.lastEmailChecked) { return; }
+    if (email === this.lastEmailChecked) { return; }
     this.set('lastEmailChecked', email);
     this.set('startContinuouslyChecking', true);
 
     try {
       const response = await fetch(`${ENV.host}/subscribers/email/${email}`);
       const userData = await response.json();
-      
+
       if (userData.error) {
         this.set('emailAlreadyExists', false);
         this.set('emailNeedsConfirmation', false);
@@ -31,17 +35,17 @@ export default class SubscribeController extends Controller {
         return;
       }
 
-      if (userData.message === "User already subscribed.") {
+      if (userData.message === 'User already subscribed.') {
         this.set('emailAlreadyExists', true);
         this.set('emailNeedsConfirmation', false);
-      } else if (userData.message === "User is subscribed but must confirm.") {
+      } else if (userData.message === 'User is subscribed but must confirm.') {
         this.set('emailNeedsConfirmation', true);
         this.set('emailAlreadyExists', false);
       }
       return;
     } catch (error) {
       // We will receive an error if:
-      // a) the user does not exist in Sendgrid, or 
+      // a) the user does not exist in Sendgrid, or
       // b) their confirmed field is null.
       // Either way, we don't need to log to console
       this.set('emailAlreadyExists', false);
@@ -52,7 +56,7 @@ export default class SubscribeController extends Controller {
 
   @action
   continuouslyCheckEmail(event) {
-    if((this.startContinuouslyChecking) || (tlds.includes(event.target.value.slice(-4)))) { this.checkExistingEmail(event) }
+    if ((this.startContinuouslyChecking) || (tlds.includes(event.target.value.slice(-4)))) { this.checkExistingEmail(event); }
   }
 
   @action
@@ -60,7 +64,7 @@ export default class SubscribeController extends Controller {
     if (this.emailAlreadyExists) {
       // Run the script to update the email
       try {
-        const response = await fetch(`${ENV.host}/subscribers/${this.model.email}/modify`, {
+        await fetch(`${ENV.host}/subscribers/${this.model.email}/modify`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -68,12 +72,12 @@ export default class SubscribeController extends Controller {
         });
         this.set('emailSent', true);
       } catch (error) {
-        console.error(error);
+        console.error(error); // eslint-disable-line
       }
     } else if (this.emailNeedsConfirmation) {
       // Run the script to confirm the email
       try {
-        const response = await fetch(`${ENV.host}/subscribers/${this.model.email}/resend-confirmation`, {
+        await fetch(`${ENV.host}/subscribers/${this.model.email}/resend-confirmation`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -81,9 +85,8 @@ export default class SubscribeController extends Controller {
         });
         this.set('emailSent', true);
       } catch (error) {
-        console.error(error);
+        console.error(error); // eslint-disable-line
       }
     }
   }
-
 }
