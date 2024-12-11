@@ -35,10 +35,10 @@ export default class SubscribeController extends Controller {
         return;
       }
 
-      if (userData.message === 'User already subscribed.') {
+      if (userData.confirmed === true) {
         this.set('emailAlreadyExists', true);
         this.set('emailNeedsConfirmation', false);
-      } else if (userData.message === 'User is subscribed but must confirm.') {
+      } else if (userData.confirmed === false) {
         this.set('emailNeedsConfirmation', true);
         this.set('emailAlreadyExists', false);
       }
