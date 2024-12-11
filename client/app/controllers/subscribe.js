@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 import fetch from 'fetch';
 import ENV from 'labs-zap-search/config/environment';
 
@@ -16,6 +16,10 @@ export default class SubscribeController extends Controller {
 
   emailSent = false;
 
+  @computed('emailAlreadyExists', 'emailNeedsConfirmation')
+  get invalidEmailForSignup() {
+    return (this.emailAlreadyExists || this.emailNeedsConfirmation);
+  }
 
   @action
   async checkExistingEmail(event) {
