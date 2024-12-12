@@ -2,8 +2,7 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import fetch from 'fetch';
 import ENV from 'labs-zap-search/config/environment';
-
-const tlds = ['.com', '.gov', '.edu', '.net', '.org'];
+import { validateEmail } from '../helpers/validate-email';
 
 export default class SubscribeController extends Controller {
   lastEmailChecked = '';
@@ -60,7 +59,7 @@ export default class SubscribeController extends Controller {
 
   @action
   continuouslyCheckEmail(event) {
-    if ((this.startContinuouslyChecking) || (tlds.includes(event.target.value.slice(-4)))) { this.checkExistingEmail(event); }
+    if ((this.startContinuouslyChecking) || (validateEmail(event.target.value))) { this.checkExistingEmail(event); }
   }
 
   @action

@@ -4,6 +4,7 @@ import { action, computed, set } from '@ember/object';
 import fetch from 'fetch';
 import ENV from 'labs-zap-search/config/environment';
 import { getCommunityDistrictsByBorough } from '../helpers/lookup-community-district';
+import { validateEmail } from '../helpers/validate-email';
 
 export default class SubscriptionFormComponent extends Component {
     communityDistrictsByBorough = {};
@@ -62,23 +63,7 @@ export default class SubscriptionFormComponent extends Component {
 
     @computed('args.email')
     get isEmailValid() {
-      // eslint-disable-next-line no-useless-escape
-      const tester = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
-      if (!this.args.email) return false;
-
-      if (this.args.email.length > 254) return false;
-
-      const valid = tester.test(this.args.email);
-      if (!valid) return false;
-
-      // Further checking of some things regex can't handle
-      const parts = this.args.email.split('@');
-      if (parts[0].length > 64) return false;
-
-      const domainParts = parts[1].split('.');
-      if (domainParts.some(function(part) { return part.length > 63; })) return false;
-
-      return true;
+      return validateEmail(this.args.email);
     }
 
     @computed('args.subscriptions')
