@@ -3,9 +3,12 @@ import { ConfigService } from "../config/config.service";
 import { SendUpdateService } from "./send-update.service";
 import { ProjectService } from "../project/project.service";
 import { ListservAuthService } from "../listserv/listserv-auth.service";
+import { UseGuards } from "@nestjs/common";
+import { ListservAuthGuard } from "src/listserv/listserv-auth.guard";
 import { Request } from "express";
 
 @Controller()
+@UseGuards(ListservAuthGuard)
 export class SendUpdateController {
   apiKey = "";
   list = "";
@@ -24,15 +27,9 @@ export class SendUpdateController {
 
   @Post("/projects/:id/send-update")
   async sendUpdate(@Param() params, @Req() request: Request, @Res() response) {
-    const validatedUser = await this.listservAuthService.validateUser(request.headers.authorization)
-    if (!validatedUser) {
-      response.status(401).send();
-      return;
-    }
-
     const project = await this.projectService.findOneByName(params.id);
     // If no project is found, projectService returns HTTP error automatically, and this function does not continue
-    
+
     // Production names use underscores, staging use dashes
     var segments = project["data"]["attributes"]["dcp-borough"] === "Citywide" ? [{ name: "CW", envSegment: `zap${this.sendgridEnvironment === "production" ? "_production_" : "-staging-"}CW`, segmentId: "" }] : [];
 
