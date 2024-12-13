@@ -10,7 +10,7 @@ export class ListservAuthService {
     this.password = this.config.get("LISTSERV_BASE64");
   }
 
-  async validateUser(password: string): Promise<any> {
+  validateUser(password: string) {
     if (`Basic ${this.password}` === password) {
       return true;
     }
