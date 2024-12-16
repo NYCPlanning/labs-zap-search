@@ -30,12 +30,11 @@ export class SendUpdateController {
     const project = await this.projectService.findOneByName(params.id);
     // If no project is found, projectService returns HTTP error automatically, and this function does not continue
 
-    // Production names use underscores, staging use dashes
-    var segments = project["data"]["attributes"]["dcp-borough"] === "Citywide" ? [{ name: "CW", envSegment: `zap${this.sendgridEnvironment === "production" ? "_production_" : "-staging-"}CW`, segmentId: "" }] : [];
+    var segments = project["data"]["attributes"]["dcp-borough"] === "Citywide" ? [{ name: "CW", envSegment: `zap${this.sendgridEnvironment === "production" ? "_production_" : "_staging_"}CW`, segmentId: "" }] : [];
 
     if(project["data"]["attributes"]["dcp-validatedcommunitydistricts"]) {
       project["data"]["attributes"]["dcp-validatedcommunitydistricts"].split(",").forEach(element => { 
-        segments.push({ name: element, envSegment: `zap${this.sendgridEnvironment === "production" ? "_production_" : "-staging-"}${element}`, segmentId: "" })
+        segments.push({ name: element, envSegment: `zap${this.sendgridEnvironment === "production" ? "_production_" : "_staging_"}${element}`, segmentId: "" })
       });
     }
 
