@@ -4,7 +4,7 @@ import { SendUpdateService } from "./send-update.service";
 import { ProjectService } from "../project/project.service";
 import { ListservAuthService } from "../listserv/listserv-auth.service";
 import { UseGuards } from "@nestjs/common";
-import { ListservAuthGuard } from "src/listserv/listserv-auth.guard";
+import { ListservAuthGuard } from "../listserv/listserv-auth.guard";
 import { Request } from "express";
 
 @Controller()
