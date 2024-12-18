@@ -9,7 +9,7 @@
                         <p></p>
                     <div class="update-type-question">To unsubscribe from a Community District or Citywide, uncheck the selected options below.</div>
                 </div>
-                    <SubscriptionForm @subscriptions={{this.model.subscriptions}} @email={{this.model.email}} @isUpdate={{true}} @id={{this.model.id}}>
+                    <SubscriptionForm @subscriptions={{this.model.subscriptions}} @email={{this.model.email}} @isUpdate={{true}} @id={{this.model.id}} @isSubmitting={{this.isSubmitting}} @setIsSubmitting={{this.setIsSubmitting}}>
                         <div class="subscribe-section">
                             <div class="subscribe-input-group">
                                 <label class="email-label">Email Address</label>
