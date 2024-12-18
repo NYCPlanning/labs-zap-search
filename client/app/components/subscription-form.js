@@ -11,8 +11,6 @@ export default class SubscriptionFormComponent extends Component {
 
     isCommunityDistrict = false;
 
-    isSubmitting = false;
-
     showSubscriptionUpdateConfirmationModal = false;
 
     updateStatus = 'none';
@@ -93,7 +91,7 @@ export default class SubscriptionFormComponent extends Component {
     async subscribe() {
       if (!this.canBeSubmitted) { return; }
 
-      set(this, 'isSubmitting', true);
+      this.args.setIsSubmitting(true)
 
       const requestBody = { email: this.args.email, subscriptions: {} };
       if (this.isCommunityDistrict) {
@@ -143,7 +141,7 @@ export default class SubscriptionFormComponent extends Component {
 
       if (!this.args.isUpdate) window.location.pathname = '/subscribed';
 
-      set(this, 'isSubmitting', false);
+      this.args.setIsSubmitting(false)
 
       if (this.args.isUpdate) {
         set(this, 'showSubscriptionUpdateConfirmationModal', true);
