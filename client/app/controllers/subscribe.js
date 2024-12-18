@@ -5,6 +5,8 @@ import ENV from 'labs-zap-search/config/environment';
 import { validateEmail } from '../helpers/validate-email';
 
 export default class SubscribeController extends Controller {
+  isSubmitting = false;
+
   lastEmailChecked = '';
 
   emailAlreadyExists = false;
@@ -18,6 +20,11 @@ export default class SubscribeController extends Controller {
   @computed('emailAlreadyExists', 'emailNeedsConfirmation')
   get invalidEmailForSignup() {
     return (this.emailAlreadyExists || this.emailNeedsConfirmation);
+  }
+
+  @action
+  setIsSubmitting(isSubmittingValue) {
+    this.set('isSubmitting', isSubmittingValue);
   }
 
   @action

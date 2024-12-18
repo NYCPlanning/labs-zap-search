@@ -9,7 +9,7 @@
         <ul>
             <li>
                 <div class="update-type-item">               
-                    <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} {{on "change" this.toggleCitywide}}/>
+                    <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} {{on "change" this.toggleCitywide}} @disabled={{this.args.isSubmitting}}/>
                     <div class="update-type-label">
                         <label for="city-wide-checkbox">Citywide Updates</label>
                         <span class="text-small">You'll receive an email for all citywide projects, which are projects that aren’t
@@ -20,7 +20,7 @@
             <li>
                 <div class="update-type-item">
                     <Input @id="community-district-checkbox" @type="checkbox" @checked={{isCommunityDistrict}}
-                        {{on "change" this.closeAllAccordions}}/>
+                        {{on "change" this.closeAllAccordions}} @disabled={{this.args.isSubmitting}}/>
                     <div class="update-type-label">
                         <label for="community-district-checkbox">Community District (CD) Updates</label>
                         <span class="text-small">You'll receive an email for projects from all CDs you have selected.</span>
@@ -46,12 +46,12 @@
                     <div class="accordion-content" data-tab-content>
                         <div>
                         <div>
-                        <Input id="all-{{borough}}" type="checkbox" @value={{borough}} {{on "change" this.checkWholeBorough}} /><label
+                        <Input id="all-{{borough}}" type="checkbox" @value={{borough}} {{on "change" this.checkWholeBorough}} @disabled={{this.args.isSubmitting}}/><label
                             for="all-{{borough}}">Select all</label>
                         </div>
                         {{#each districts as |district| }}
                         <div>
-                            <Input id={{district.code}} @type="checkbox" @checked={{ get this.args.subscriptions district.code }} />
+                            <Input id={{district.code}} @type="checkbox" @checked={{ get this.args.subscriptions district.code }} @disabled={{this.args.isSubmitting}}/>
                             <label
                             for={{district.code}}>District {{district.num}}</label>
                         </div>
