@@ -3,6 +3,7 @@ import { ConfigService } from "../config/config.service";
 import { Client } from "@sendgrid/client";
 import { MailService } from "@sendgrid/mail";
 import * as Sentry from "@sentry/nestjs";
+import moment from 'moment';
 
 type HttpMethod = 'get' | 'GET' | 'post' | 'POST' | 'put' | 'PUT' | 'patch' | 'PATCH' | 'delete' | 'DELETE';
 
@@ -50,13 +51,15 @@ export class SendUpdateService {
    * @returns {object}
    */
   async createSingleSendProjectUpdate(id: string, emailHtml: string, segmentId: string) {
+    const date = Date();
+    const formattedDate = moment(date).format('MM-DD-YYYY');
     const data = {
-      name: "Single Send Test 2024-12-10 v3",
+      name: `ZAP Update ${formattedDate} - Status Change`,
       send_to: {
         segment_ids: [segmentId]
       },
       email_config: {
-        subject: "Single Send Test 2024-12-10 v3",
+        subject: `ZAP Update ${formattedDate} - Status Change`,
         html_content: emailHtml,
         generate_plain_content: true,
         custom_unsubscribe_url: `https://${this.environment === "production" ? "zap.planning.nyc.gov" : "zap-staging.planninglabs.nyc"}/subscribers/{{${this.environment === "production" ? "zap_production_id" : "zap_staging_id"}}}`,
