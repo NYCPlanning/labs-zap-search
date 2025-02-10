@@ -4,8 +4,7 @@
             <div class="cell large-8 subscribe-container">
                 <div class="subscribe-section">
                     <h1 class="header-xxl dcp-orange">Subscribe to ZAP Updates</h1>
-                    <span class="text-small">Get updated on milestones for all projects in any community district (CD) by signing up to receive
-                        emails on Zoning Application Portal.</span>
+                    <span class="text-small">Get updates on project statuses in selected Community Districts (CDs) by signing up to receive emails on the Zoning Application Portal.</span>
                 </div>
                     <SubscriptionForm @subscriptions={{this.model.subscriptions}} @isSubmitting={{this.isSubmitting}} @setIsSubmitting={{this.setIsSubmitting}} @email={{this.model.email}} @isUpdate={{false}} @invalidEmailForSignup={{this.invalidEmailForSignup}}>
                         <div class="subscribe-section">
@@ -14,7 +13,7 @@
                             <Input class="input-group-field" type="text" @value={{this.model.email}} onkeyup={{action 'continuouslyCheckEmail'}} onchange={{action 'checkExistingEmail'}} @disabled={{this.isSubmitting}}/>
                             </div>
                             {{#if this.emailAlreadyExists}}
-                                <p class="email-exists">This email already is subscribed to ZAP Updates. <a onclick={{action 'sendEmail'}}>Click here to receive an email to modify subscriptions.</a></p>
+                                <p class="email-exists">This email already is subscribed to ZAP Updates. <a onclick={{action 'sendEmail'}} style="text-decoration: underline;">Click here to receive an email to modify subscriptions.</a></p>
                             {{/if}}
                             {{#if this.emailNeedsConfirmation}}
                                 <p class="email-needs-confirmation">This email address has not confirmed their subscription to ZAP Updates. <a onclick={{action 'sendEmail'}}>Click here to re-send the confirmation email.</a></p>
