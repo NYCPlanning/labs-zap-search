@@ -72,7 +72,7 @@ export class SendUpdateController {
         "domain": this.sendgridEnvironment === "production" ? "zap.planning.nyc.gov" : "zap-staging.planninglabs.nyc",
         "id": params.id,
         "name": project["data"]["attributes"]["dcp-projectname"],
-        "borocd": segment.name === "CW" ? "Citywide" : `${boros[segment.name.slice(0,1)]} CD ${parseInt(segment.name.slice(1), 10)}`,
+        "borocd": segment.name === "CW" ? "Citywide" : `${boros[segment.name.slice(0,1)]} Community District ${parseInt(segment.name.slice(1), 10)}`,
         "status": project["data"]["attributes"]["dcp-publicstatus"],
         "date": new Date().toLocaleDateString(),
         "additionalpublicinformation": project["data"]["attributes"]["dcp-additionalpublicinformation"],
