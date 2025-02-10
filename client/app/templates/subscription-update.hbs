@@ -4,10 +4,8 @@
             <div class="cell large-8 subscribe-container">
                 <div class="subscribe-section">
                     <h1 class="header-xxl dcp-orange">Modify Subscriptions for ZAP Updates</h1>
-                    <span class="text-small">Get updated on milestones for all projects in any community district (CD) by signing up to receive
-                        emails on Zoning Application Portal.</span>
-                        <p></p>
-                    <div class="update-type-question">To unsubscribe from a Community District or Citywide, uncheck the selected options below.</div>
+                    <span class="text-small">Get updates on project statuses in selected Community Districts (CDs) by signing up to receive emails on the Zoning Application Portal.</span>
+                    <p></p>
                 </div>
                     <SubscriptionForm @subscriptions={{this.model.subscriptions}} @email={{this.model.email}} @isUpdate={{true}} @id={{this.model.id}} @isSubmitting={{this.isSubmitting}} @setIsSubmitting={{this.setIsSubmitting}}>
                         <div class="subscribe-section">
@@ -16,6 +14,7 @@
                                 <input class="input-group-field" type="text" value={{this.model.email}} disabled />
                             </div>
                         </div>
+                        <div class="update-type-question">To unsubscribe from a Community District or Citywide, uncheck the selected options below.</div>
                     </SubscriptionForm>
                 <div class="subscribe-footer">
                     <h5>Definition of ZAP Updates</h5>
