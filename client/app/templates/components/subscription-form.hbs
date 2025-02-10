@@ -12,7 +12,8 @@
                     <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} {{on "change" this.toggleCitywide}} @disabled={{this.args.isSubmitting}}/>
                     <div class="update-type-label">
                         <label for="city-wide-checkbox">Citywide Updates</label>
-                        <span class="text-small">Receive an email for all projects related to citywide projects.</span>
+                        <span class="text-small">You'll receive an email for all citywide projects, which are projects that aren’t
+                            associated with any Community District.</span>
                     </div>
                 </div>
             </li>
@@ -22,7 +23,7 @@
                         {{on "change" this.closeAllAccordions}} @disabled={{this.args.isSubmitting}}/>
                     <div class="update-type-label">
                         <label for="community-district-checkbox">Community District (CD) Updates</label>
-                        <span class="text-small">Receive an email for all projects from selected Community Districts.</span>
+                        <span class="text-small">You'll receive an email for projects from all Community Districts you have selected.</span>
                     </div>
                 </div>
             </li>
