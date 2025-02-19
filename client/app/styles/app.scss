@@ -58,7 +58,6 @@ $completed-color: #a6cee3;
 @import 'modules/_m-auth';
 @import 'modules/_m-categorical-colors';
 @import 'modules/_m-color';
-@import 'modules/_m-contact';
 @import 'modules/_m-forms';
 @import 'modules/_m-map-info-box';
 @import 'modules/_m-maps';
@@ -77,6 +76,7 @@ $completed-color: #a6cee3;
 @import 'modules/_m-tabs';
 @import 'modules/_m-project-summary-cards';
 @import 'modules/_m-tooltipster';
+@import 'modules/_m-zap-alerts-contact';
 
 // Media query for project tags in templates/show-project.hbs
 @import 'modules/_m-status_tags_styles';
