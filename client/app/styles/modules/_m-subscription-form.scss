@@ -163,6 +163,10 @@ input[type=checkbox] {
     margin-top: 1.5rem
 }
 
+#city-wide-checkbox {
+    flex-shrink: 0;
+}
+
 .update-type-label {
     padding-left: 10px;
 }
