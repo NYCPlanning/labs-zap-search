@@ -215,6 +215,7 @@ export class SendUpdateService {
                 <p style="margin-top: 2rem; font-size: 0.75rem;">Sent From New York City Department of City Planning</p>
                 <p style="font-size: 0.75rem;">120 Broadway, 31st Floor, New York, NY 10271</p>
                 <p style="font-size: 0.75rem;"><a href="https://${domain}/subscribers/{{${this.environment === "production" ? "zap_production_id" : "zap_staging_id"}}}" target="_blank" rel="noreferrer" style="color: #3E4451;">Modify Subscriptions</a></p>
+                <p style="font-size: 0.75rem;">Have suggestions for ZAP Alerts? Contact us at <a style="color: #AE551D;" href="mailto:tech@planning.nyc.gov?subject=ZAP Alerts">tech@planning.nyc.gov</a></p>
               </td>
             </tr>
           </table>
