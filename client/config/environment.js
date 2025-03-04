@@ -19,6 +19,8 @@ module.exports = function (environment) {
     showAlerts: getFeatureFlagShowAlerts(),
     showCeqr: getFeatureFlagShowCeqr(),
     featureFlagExcludeFromSearchResults: getFeatureFlagExcludeFromSearchResults(),
+    featureFlagShowSandboxWarning: getFeatureFlagShowSandboxWarning(),
+
     host: getHost(environment),
     OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
     LUPP_ENABLED: true,
@@ -197,3 +199,6 @@ function getFeatureFlagExcludeFromSearchResults() {
   return process.env.FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS === 'ON';
 }
 
+function getFeatureFlagShowSandboxWarning() {
+  return process.env.FEATURE_FLAG_SHOW_SANDBOX_WARNING === 'ON';
+}

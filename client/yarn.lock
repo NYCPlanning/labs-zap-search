@@ -6928,6 +6928,11 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
+dotenv@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
+  integrity sha512-XcaMACOr3JMVcEv0Y/iUM2XaOsATRZ3U1In41/1jjK6vJZ2PZbQ1bzCG8uvaByfaBpl9gqc9QWJovpUGBXLLYQ==
+
 duplexer2@~0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.1.4.tgz#8b12dab878c0d69e3e7891051662a32fc6bddcc1"
@@ -7328,6 +7333,15 @@ ember-cli-dependency-lint@1.1.3:
     broccoli-plugin "^1.3.0"
     chalk "^2.3.0"
     semver "^5.5.0"
+
+ember-cli-dotenv@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-dotenv/-/ember-cli-dotenv-2.0.0.tgz#2c09fc5f8b60f690c9e02428b4f4e3f0b8c64421"
+  integrity sha512-cDdOlw4dvkTLwoKulbSlOOfKahfaAWpRLWpRl9LZV/CS4HEKEI2iH+hpav8TH98ri/4EWDEINtaNnhYAUL3MXQ==
+  dependencies:
+    dotenv "^4.0.0"
+    ember-cli-babel "^6.6.0"
+    minimist "^1.2.0"
 
 ember-cli-eslint@^5.1.0:
   version "5.1.0"
