@@ -65,6 +65,11 @@ export default class SubscribeController extends Controller {
   }
 
   @action
+  stopSubscribeOnEnter(event) {
+    if (event.key === "Enter") { event.preventDefault(); }
+  }
+
+  @action
   continuouslyCheckEmail(event) {
     if ((this.startContinuouslyChecking) || (validateEmail(event.target.value))) { this.checkExistingEmail(event); }
   }
