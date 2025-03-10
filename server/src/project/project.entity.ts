@@ -6,6 +6,7 @@ export const KEYS = [
   "dcp_borough",
   "dcp_ceqrnumber",
   "dcp_ceqrtype",
+  "dcp_easeis",
   "dcp_certifiedreferred",
   "dcp_femafloodzonea",
   "dcp_femafloodzoneshadedx",
