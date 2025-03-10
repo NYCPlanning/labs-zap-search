@@ -69,6 +69,11 @@ export const PROJECT_VISIBILITY_LOOKUP = {
   "Internal DCP Only": 717170000,
   LUP: 717170004
 };
+export const EASEIS_LOOKUP = {
+  EAS: 717170000,
+  EIS: 717170001,
+  "Technical Memorandum": 717170002
+};
 
 // Only these fields will be value mapped
 export const FIELD_LABEL_REPLACEMENT_WHITELIST = [
@@ -79,6 +84,7 @@ export const FIELD_LABEL_REPLACEMENT_WHITELIST = [
   "dcp_ulurp_nonulurp",
   "_dcp_keyword_value",
   "dcp_ceqrtype",
+  "dcp_easeis",
   "dcp_applicantrole",
   "_dcp_applicant_customer_value",
   "_dcp_recommendationsubmittedby_value",
@@ -172,6 +178,12 @@ const QUERY_TEMPLATES = {
       coerceToNumber(mapInLookup(queryParamValue, APPLICABILITY_LOOKUP))
     ),
 
+  dcp_easeis: queryParamValue =>
+    equalsAnyOf(
+      "dcp_easeis",
+      coerceToNumber(mapInLookup(queryParamValue, EASEIS_LOOKUP))
+    ),
+
   dcp_certifiedreferred: queryParamValue =>
     all(
       comparisonOperator(
@@ -229,6 +241,7 @@ export const ALLOWED_FILTERS = [
   "action-ulurpnumber",
   "boroughs",
   "dcp_ceqrtype", // is this even used? 'Type I', 'Type II', 'Unlisted', 'Unknown'
+  "dcp_easeis", // 'EAS', 'EIS', 'Technical Memorandum'
   "dcp_ulurp_nonulurp", // 'ULURP', 'Non-ULURP'
   "dcp_femafloodzonea",
   "dcp_femafloodzoneshadedx",
@@ -271,6 +284,7 @@ function generateQueryObject(query, overrides?) {
     "dcp_borough",
     "dcp_ceqrnumber",
     "dcp_ceqrtype",
+    "dcp_easeis",
     "dcp_certifiedreferred",
     "dcp_femafloodzonea",
     "dcp_femafloodzoneshadedx",
@@ -379,6 +393,7 @@ export class ProjectService {
       "dcp_borough",
       "dcp_ceqrnumber",
       "dcp_ceqrtype",
+      "dcp_easeis",
       "dcp_certifiedreferred",
       "dcp_femafloodzonea",
       "dcp_femafloodzoneshadedx",

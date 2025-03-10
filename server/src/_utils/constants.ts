@@ -13,6 +13,12 @@ const CEQRTYPE = {
   Unlisted: 717170002
 };
 
+const EASEIS = {
+  EAS: 717170000,
+  EIS: 717170001,
+  "Technical Memorandum": 717170002
+};
+
 const STATUSCODE = {
   MISTAKE: 717170003,
   OVERRIDDEN: 717170001
@@ -296,6 +302,7 @@ export default {
   VISIBILITY,
   ULURP,
   CEQRTYPE,
+  EASEIS,
   STATUSCODE,
   STATECODE,
   PUBLICSTATUS,
