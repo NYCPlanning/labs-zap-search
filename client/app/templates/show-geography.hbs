@@ -396,6 +396,66 @@
           </ul>
         {{/section.filter-wrapper}}
       {{/filters.section}}
+
+      {{!-- FILTER: CEQR --}}
+      {{#filters.section
+        filterNames='dcp_easeis'
+        as |section|}}
+        {{#section.filter-wrapper
+          filterTitle='CEQR'
+          tooltip='To be added in #1671 https://github.com/NYCPlanning/labs-zap-search/issues/1671'}}
+          <ul class="menu vertical medium-horizontal CEQR-checkbox">
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_easeis' 'EAS')}}
+              data-test-eas-checkbox
+            >
+              <a>
+                {{#filter-checkbox
+                  value='EAS'
+                  currentValues=dcp_easeis}}
+                  <sup>
+                    {{icon-tooltip
+                      tip='To be added in #1671 https://github.com/NYCPlanning/labs-zap-search/issues/1671'
+                      class="dark-gray"
+                    }}
+                  </sup>
+                {{/filter-checkbox}}
+              </a>
+            </li>
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_easeis' 'EIS')}}
+              data-test-eas-checkbox
+            >
+              <a>
+                {{#filter-checkbox
+                  value='EIS'
+                  currentValues=dcp_easeis}}
+                  <sup>
+                    {{icon-tooltip
+                      tip='To be added in #1671 https://github.com/NYCPlanning/labs-zap-search/issues/1671'
+                      class="dark-gray"
+                    }}
+                  </sup>
+                {{/filter-checkbox}}
+              </a>
+            </li>
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_easeis' 'Technical Memorandum')}}
+              data-test-technical-memorandum-checkbox
+            >
+              <a>
+                {{#filter-checkbox
+                  value='Technical Memorandum'
+                  currentValues=dcp_easeis}}
+                  <sup>
+                    {{icon-tooltip
+                      tip='To be added in #1671 https://github.com/NYCPlanning/labs-zap-search/issues/1671'
+                      class="dark-gray"
+                    }}
+                  </sup>
+                {{/filter-checkbox}}
+              </a>
+            </li>
+          </ul>
+        {{/section.filter-wrapper}}
+      {{/filters.section}}
     </div>
 
   {{/filter-mutators}}

@@ -159,6 +159,16 @@ export const projectParams = new QueryParams({
       return value.split(',');
     },
   },
+  dcp_easeis: {
+    defaultValue: [],
+    refresh: true,
+    serialize(value) {
+      return value.toString();
+    },
+    deserialize(value = '') {
+      return value.split(',');
+    },
+  },
 });
 
 export default Controller.extend(projectParams.Mixin);

@@ -96,6 +96,14 @@ module('Acceptance | filter checkbox', function(hooks) {
     assert.equal(currentURL().includes('dcp_ulurp_nonulurp=Non-ULURP'), true);
   });
 
+  test('User clicks CEQR checkbox and it filters', async function(assert) {
+    server.createList('project', 20);
+    await visit('/');
+    await click('[data-test-technical-memorandum-checkbox]');
+
+    assert.equal(currentURL().includes('dcp_easeis=Technical%20Memorandum'), true);
+  });
+
   skip('Page reloads (pagination reset) when click new filter', async function(assert) {
     server.createList('project', 20);
     await visit('/projects');
