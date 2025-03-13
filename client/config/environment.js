@@ -18,6 +18,7 @@ module.exports = function (environment) {
     NYC_ID_HOST,
     maintenanceTimes: getMaintenanceTimes(),
     showAlerts: getFeatureFlagShowAlerts(),
+    showCeqr: getFeatureFlagShowCeqr(),
     host: getHost(environment),
     OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
     LUPP_ENABLED: true,
@@ -186,5 +187,10 @@ function getMaintenanceTimes() {
 }
 
 function getFeatureFlagShowAlerts() {
+  return true
   return process.env.SHOW_ALERTS === 'ON';
+}
+
+function getFeatureFlagShowCeqr() {
+  return process.env.SHOW_CEQR === 'ON';
 }
