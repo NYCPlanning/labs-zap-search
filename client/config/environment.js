@@ -17,6 +17,7 @@ module.exports = function (environment) {
     NYC_ID_HOST,
     maintenanceTimes: getMaintenanceTimes(),
     showAlerts: getFeatureFlagShowAlerts(),
+    showCeqr: getFeatureFlagShowCeqr(),
     featureFlagExcludeFromSearchResults: getFeatureFlagExcludeFromSearchResults(),
     host: getHost(environment),
     OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
@@ -108,6 +109,7 @@ module.exports = function (environment) {
         dcp_femafloodzoneshadedx: 'FEMA Flood Zone',
         dcp_publicstatus: 'Project Status',
         dcp_ulurp_nonulurp: 'ULURP Type',
+        dcp_easeis: 'CEQR',
         distance_from_point: 'Radius Filter',
         project_applicant_text: 'Text Match',
         radius_from_point: 'Radius Filter',
@@ -187,6 +189,11 @@ function getFeatureFlagShowAlerts() {
   return process.env.SHOW_ALERTS === 'ON';
 }
 
+function getFeatureFlagShowCeqr() {
+  return process.env.SHOW_CEQR === 'ON';
+}
+
 function getFeatureFlagExcludeFromSearchResults() {
   return process.env.FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS === 'ON';
 }
+

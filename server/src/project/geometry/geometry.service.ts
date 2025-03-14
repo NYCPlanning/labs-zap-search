@@ -6,7 +6,8 @@ import {
   BOROUGH_LOOKUP,
   generateFromTemplate,
   PROJECT_STATUS_LOOKUP,
-  ULURP_LOOKUP
+  ULURP_LOOKUP,
+  EASEIS_LOOKUP
 } from "../project.service";
 import { CartoService } from "../../carto/carto.service";
 
@@ -183,6 +184,13 @@ const QUERY_TEMPLATES = {
     containsAnyOf(
       "dcp_ulurp_nonulurp",
       coerceToNumber(mapInLookup(queryParamValue, ULURP_LOOKUP)),
+      "dcp_project"
+    ),
+
+  dcp_easeis: queryParamValue =>
+    containsAnyOf(
+      "dcp_easeis",
+      coerceToNumber(mapInLookup(queryParamValue, EASEIS_LOOKUP)),
       "dcp_project"
     ),
 
