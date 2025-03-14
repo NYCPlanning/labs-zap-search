@@ -187,7 +187,6 @@ function getMaintenanceTimes() {
 }
 
 function getFeatureFlagShowAlerts() {
-  return true
   return process.env.SHOW_ALERTS === 'ON';
 }
 
