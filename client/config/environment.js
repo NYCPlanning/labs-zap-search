@@ -2,8 +2,7 @@
 
 const { MIRAGE_SCENARIO } = process.env;
 const NYCID_CLIENT_ID = process.env.NYCID_CLIENT_ID || 'lup-portal-local';
-const NYC_ID_HOST =
-  process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
+const NYC_ID_HOST = process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
 
 module.exports = function (environment) {
   const ENV = {
@@ -19,6 +18,7 @@ module.exports = function (environment) {
     maintenanceTimes: getMaintenanceTimes(),
     showAlerts: getFeatureFlagShowAlerts(),
     showCeqr: getFeatureFlagShowCeqr(),
+    featureFlagExcludeFromSearchResults: getFeatureFlagExcludeFromSearchResults(),
     host: getHost(environment),
     OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
     LUPP_ENABLED: true,
@@ -152,8 +152,7 @@ module.exports = function (environment) {
       enabled: false,
     };
 
-    ENV['mapbox-gl'].map.style =
-      'https://labs-layers-api.herokuapp.com/v1/base/style.json';
+    ENV['mapbox-gl'].map.style = 'https://labs-layers-api.herokuapp.com/v1/base/style.json';
   }
 
   if (environment !== 'production') {
@@ -193,3 +192,8 @@ function getFeatureFlagShowAlerts() {
 function getFeatureFlagShowCeqr() {
   return process.env.SHOW_CEQR === 'ON';
 }
+
+function getFeatureFlagExcludeFromSearchResults() {
+  return process.env.FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS === 'ON';
+}
+
