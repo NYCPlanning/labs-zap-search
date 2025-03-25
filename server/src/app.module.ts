@@ -1,4 +1,7 @@
 import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
+import { SentryModule } from "@sentry/nestjs/setup";
+import { APP_FILTER } from "@nestjs/core";
+import { SentryGlobalFilter } from "@sentry/nestjs/setup";
 import bodyParser from "body-parser";
 import cookieparser from "cookie-parser";
 import compression from "compression";
@@ -13,9 +16,18 @@ import { AssignmentModule } from "./assignment/assignment.module";
 import { DocumentModule } from "./document/document.module";
 import { CrmModule } from "./crm/crm.module";
 import { ZoningResolutionsModule } from "./zoning-resolutions/zoning-resolutions.module";
+import { SubscriberModule } from "./subscriber/subscriber.module";
+import { SendUpdateModule } from "./send-update/send-update.module";
 
 @Module({
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: SentryGlobalFilter,
+    },
+  ],
   imports: [
+    SentryModule.forRoot(),
     ProjectModule,
     ContactModule,
     ConfigModule,
@@ -24,7 +36,9 @@ import { ZoningResolutionsModule } from "./zoning-resolutions/zoning-resolutions
     DispositionModule,
     AssignmentModule,
     DocumentModule,
-    ZoningResolutionsModule
+    ZoningResolutionsModule,
+    SubscriberModule,
+    SendUpdateModule
   ],
   controllers: [AppController]
 })

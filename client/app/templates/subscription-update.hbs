@@ -1,0 +1,33 @@
+<div class="cell subscribe-container">
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x grid-padding-y align-middle" style="justify-content: center;">
+            <div class="cell large-8 subscribe-container">
+                <div class="subscribe-section">
+                    <h1 class="header-xxl dcp-orange">Modify Subscriptions for ZAP Updates</h1>
+                    <span class="text-small">Get updates on project statuses in selected Community Districts (CDs) by signing up to receive emails on the Zoning Application Portal.</span>
+                    <p></p>
+                </div>
+                    <SubscriptionForm @subscriptions={{this.model.subscriptions}} @email={{this.model.email}} @isUpdate={{true}} @id={{this.model.id}} @isSubmitting={{this.isSubmitting}} @setIsSubmitting={{this.setIsSubmitting}}>
+                        <div class="subscribe-section">
+                            <div class="subscribe-input-group">
+                                <label class="email-label">Email Address</label>
+                                <input class="input-group-field" type="text" value={{this.model.email}} disabled />
+                            </div>
+                        </div>
+                        <div class="update-type-question">To unsubscribe from a Community District or Citywide, uncheck the selected options below.</div>
+                    </SubscriptionForm>
+                <div class="subscribe-footer">
+                    <h5>Definition of ZAP Updates</h5>
+                    <p class="text-small">Refer to <a href="/statuses">this page</a> for more information about what type of updates you will
+                        be receiving.</p>
+
+                    <h5>Privacy Policy</h5>
+                    <p class="text-small">For more information, refer to NYC.gov <a href="https://www.nyc.gov/home/privacy-policy.page" target="_blank" ref="noopener noreferrer">Privacy Policy</a> and <a href="https://www.nyc.gov/home/terms-of-use.page" target="_blank" ref="noopener noreferrer">Terms of Use</a>.</p>
+                </div>
+                <ZapAlertsContact />
+            </div>
+        </div>
+    </div>
+</div>
+
+{{outlet}}

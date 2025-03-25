@@ -1,0 +1,75 @@
+<form>
+        {{yield}}
+    <div class="subscribe-section">
+        <div class="update-type-section">
+        <div class="update-type-question">To subscribe to a Community District or Citywide, check one of the following options.</div>
+        <p></p>
+        <div class="update-type-question">Which would you like to receive updates for?</div>
+        
+        <ul>
+            <li>
+                <div class="update-type-item">               
+                    <Input @id="city-wide-checkbox" @type="checkbox" @checked={{isCityWide}} {{on "change" this.toggleCitywide}} @disabled={{this.args.isSubmitting}}/>
+                    <div class="update-type-label">
+                        <label for="city-wide-checkbox">Citywide Updates</label>
+                        <span class="text-small">You'll receive an email for all citywide projects, which are projects that are associated with some or all community districts in two or more boroughs, depending on the project's applicability.</span>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="update-type-item">
+                    <Input @id="community-district-checkbox" @type="checkbox" @checked={{isCommunityDistrict}}
+                        {{on "change" this.closeAllAccordions}} @disabled={{this.args.isSubmitting}}/>
+                    <div class="update-type-label">
+                        <label for="community-district-checkbox">Community District (CD) Updates</label>
+                        <span class="text-small">You'll receive an email for projects from all Community Districts you have selected.</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </div>
+    </div>
+
+   <div class="subscribe-section">
+    <div class="district-selection">
+    <div class={{if this.isCommunityDistrict "" "disabled" }}>
+        <h5>If you chose Community District Updates, please select which community districts you would like to receive updates
+            for:</h5>
+        <p>You can find the Community District to any New York City address <a
+                href="https://zola.planning.nyc.gov/" target="_blank" style="text-decoration: underline;" ref="noopener noreferrer">here</a>.</p>
+        {{#initialize_foundation}}
+         {{#each-in this.communityDistrictsByBorough as |borough districts|}}
+            <ul class="accordion" id="foo" data-accordion data-multi-expand="true" data-allow-all-closed="true">
+                <li class="accordion-item accordionmenu-item-background" data-accordion-item>
+                    <a href="#" class="accordion-title">{{borough}}</a>
+                    <div class="accordion-content" data-tab-content>
+                        <div>
+                        <div>
+                        <Input id="all-{{borough}}" type="checkbox" @value={{borough}} {{on "change" this.checkWholeBorough}} @disabled={{this.args.isSubmitting}}/><label
+                            for="all-{{borough}}">Select all</label>
+                        </div>
+                        {{#each districts as |district| }}
+                        <div>
+                            <Input id={{district.code}} @type="checkbox" @checked={{ get this.args.subscriptions district.code }} @disabled={{this.args.isSubmitting}}/>
+                            <label
+                            for={{district.code}}>District {{district.num}}</label>
+                        </div>
+                        {{/each}}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            {{/each-in}}
+         {{/initialize_foundation}}
+    </div>
+    </div>
+    </div>
+
+    <div class="subscribe-section">
+        {{#if this.args.isSubmitting}}
+            {{fa-icon icon='spinner' spin="true" size="5x" class="map-loading-spinner"}}
+        {{/if}}
+        <a class="button primary no-margin {{if this.canBeSubmitted "" "disabled"}}" type="submit" {{action "subscribe"}}>{{if this.args.isUpdate "Update" "Subscribe"}}</a>
+    </div>
+</form>
+<SubscriptionUpdateConfirmationModal @showSubscriptionUpdateConfirmationModal={{showSubscriptionUpdateConfirmationModal}} @updateStatus={{updateStatus}} />

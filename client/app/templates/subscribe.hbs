@@ -1,0 +1,43 @@
+<div class="cell subscribe-container">
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x grid-padding-y align-middle" style="justify-content: center;">
+            <div class="cell large-8 subscribe-container">
+                <div class="subscribe-section">
+                    <h1 class="header-xxl dcp-orange">Subscribe to ZAP Updates</h1>
+                    <span class="text-small">Get updates on project statuses in selected Community Districts (CDs) by signing up to receive emails on the Zoning Application Portal.</span>
+                </div>
+                    <SubscriptionForm @subscriptions={{this.model.subscriptions}} @isSubmitting={{this.isSubmitting}} @setIsSubmitting={{this.setIsSubmitting}} @email={{this.model.email}} @isUpdate={{false}} @invalidEmailForSignup={{this.invalidEmailForSignup}}>
+                        <div class="subscribe-section">
+                            <div class="subscribe-input-group">
+                            <label class="email-label">Email Address</label>
+                            <Input class="input-group-field" type="text" @value={{this.model.email}} onkeyup={{action 'continuouslyCheckEmail'}} onchange={{action 'checkExistingEmail'}} @disabled={{this.isSubmitting}}/>
+                            </div>
+                            {{#if this.emailAlreadyExists}}
+                                <p class="email-exists">This email already is subscribed to ZAP Updates. <a onclick={{action 'sendEmail'}} style="text-decoration: underline;">Click here to receive an email to modify subscriptions.</a></p>
+                            {{/if}}
+                            {{#if this.emailNeedsConfirmation}}
+                                <p class="email-needs-confirmation">This email address has not confirmed their subscription to ZAP Updates. <a onclick={{action 'sendEmail'}}>Click here to re-send the confirmation email.</a></p>
+                            {{/if}}
+                            {{#if this.emailSent}}
+                                <p class="email-sent">Email sent.</p>
+                            {{/if}}
+                        </div>
+                    </SubscriptionForm>
+                <div class="subscribe-footer">
+                    <h5>Cancel Your Subscription</h5>
+                    <p class="text-small">You can unsubscribe to Zoning Application Portal emails at the end of any email updates you receive.</p>
+
+                    <h5>Definition of ZAP Updates</h5>
+                    <p class="text-small">Refer to <a href="/statuses">this page</a> for more information about what type of updates you will
+                        be receiving.</p>
+
+                    <h5>Privacy Policy</h5>
+                    <p class="text-small">For more information, refer to NYC.gov <a href="https://www.nyc.gov/home/privacy-policy.page" target="_blank" ref="noopener noreferrer">Privacy Policy</a> and <a href="https://www.nyc.gov/home/terms-of-use.page" target="_blank" ref="noopener noreferrer">Terms of Use</a>.</p>
+                </div>
+                <ZapAlertsContact />
+            </div>
+        </div>
+    </div>
+</div>
+
+{{outlet}}

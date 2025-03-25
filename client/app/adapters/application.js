@@ -11,7 +11,6 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
   session;
 
   get headers() {
-    console.log(this.session);
     if (this.session.isAuthenticated) {
       return {
         Authorization: `Bearer ${this.session.data.authenticated.access_token}`,

@@ -1,0 +1,195 @@
+// --------------------------------------------------
+// Module: Subscription Form 
+// --------------------------------------------------
+
+div.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.accordion-item {
+    background-color: $white-smoke;
+    border-radius: 12px;
+}
+
+.accordion-title {
+    border: none;
+    font-size: medium;
+    color: $dark-gray;
+}
+
+.accordion-title:hover, .accordion-title:focus {
+    background-color: transparent;
+}
+
+ul li.accordion-title:last-child {
+    border-bottom: 5px;
+}
+
+.accordion-content {
+    border: none;
+    background-color: $white;
+}
+
+input[type=checkbox] {
+    accent-color: $dcp-orange;
+    width: 20px;
+    height: 20px;
+}
+
+.subscribe-input-group {
+    display: flex;
+    white-space: nowrap;
+    overflow: hidden;
+
+    label {
+        padding-right: 12px;
+        align-content: center;
+    }
+
+    Input {
+        border-radius: 12px;
+    }
+}
+
+.subscribe-container {
+    background-color: $white;
+    padding-top: 3rem;
+
+    @include breakpoint(medium) {
+        padding-top: 4rem;
+    }
+}
+
+.subscribe-section {
+    padding-bottom: 3.25rem;
+
+    @include breakpoint(medium) {
+        padding-bottom: 4rem;
+    }
+}
+
+.subscribe-footer {
+    h5 {
+        font-size: 1.25rem;
+        margin: 0 0 .75rem 0;
+    }
+
+    p {
+        margin-bottom: .75rem;
+    }
+}
+
+.district-selection {
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+        &:not(:last-of-type) {
+            margin-bottom: 2.25rem;
+            @include breakpoint(medium) {
+                margin-bottom: 1.5rem;
+              }
+        }
+    }
+
+    li.accordion-item {
+        border-radius: 0;
+        background-color: transparent;
+
+        > a.accordion-title {
+            border-radius: 12px;
+            background-color: #f1f2f4;
+        }
+
+        > div.accordion-content {
+            background-color: $white;
+            padding: 1.5rem 0 0 0;
+            
+
+            > div {
+                display: flex;
+                flex-wrap: wrap;
+                > div {
+                    display: inline-flex;
+                    align-items: center;
+                    width: 100%;
+                    @include breakpoint(medium) {
+                        width: 20%;
+                    }
+                }
+            }
+        }
+    }
+
+    input {
+        margin: 0;
+    }
+
+    li:last-child:not(.is-active)>.accordion-title {
+        border-bottom: none;
+    }
+
+    li:last-child>.accordion-content:last-child {
+        border-bottom: none;
+    }
+}
+
+.button.primary {
+    border-radius: 12px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.update-type-section {
+    display: flex;
+    flex-direction: column;
+    ul {
+        margin-bottom: 0px;
+        margin-left: 0px;
+        list-style-type: none;
+    }
+    .update-type-question {
+        padding-left: 0px
+    }
+}
+
+.update-type-item {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1.5rem
+}
+
+#city-wide-checkbox {
+    flex-shrink: 0;
+}
+
+.update-type-label {
+    padding-left: 10px;
+}
+
+.subscription-update-confirmation-modal {
+    font-size: 1.25rem;
+    div > span.frown {
+        color: $red-muted;
+    }
+    span {
+    
+        color:#008e50;
+      }
+    p {
+        font-size: 1rem;
+    }
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.home-button {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}

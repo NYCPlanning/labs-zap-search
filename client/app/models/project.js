@@ -65,6 +65,8 @@ export default class ProjectModel extends Model {
 
   @attr('string') dcpCertifiedreferred;
 
+  @attr() dcpEaseis;
+
   @attr('boolean') dcpFemafloodzonea;
 
   @attr('boolean') dcpFemafloodzoneshadedx;

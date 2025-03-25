@@ -1,3 +1,7 @@
+{{#if this.showSandboxWarningOn}}
+  {{advisory-message-bar message="Sandbox for Testing Purposes"}}
+{{/if}}
+
 {{#labs-ui/site-header
   responsiveNav=true
   responsiveSize='large'
@@ -30,6 +34,9 @@
   {{#banner.nav}}
     <ul class="menu vertical large-horizontal">
       <li>{{link-to 'Find Projects' 'show-geography'}}</li>
+      {{#if (eq this.ENV.showAlerts true)}}
+        <li>{{link-to 'Email Notifications' 'subscribe'}}</li>
+      {{/if}}
       {{#if this.ENV.LUPP_ENABLED}}
         {{sign-in}}
       {{/if}}
@@ -53,8 +60,15 @@
   {{/if}}
 </div>
 
+
+<div id="info-modal-container">
+</div>
 <div id="reveal-modal-container">
 </div>
+{{#ember-wormhole to="info-modal-container"}}
+  {{info-modal}}
+{{/ember-wormhole}}
+
 
 {{#if (string-includes currentRouteName "my-projects")}}
   <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script><script type="text/javascript">window.Beacon('init', '9a027170-0976-46ac-afba-8d1322ef19d6')</script>
