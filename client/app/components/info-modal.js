@@ -4,7 +4,7 @@ import ENV from 'labs-zap-search/config/environment';
 
 export default class InfoModalComponent extends Component {
   // We have manually overridden this to hide the modal by default when running tests in tests/index.html
-  open = ENV.showAlerts === true && window.localStorage.hideMessage !== 'true';
+  open = ENV.showCeqr === true && window.localStorage.hideCeqrFilterMessage !== 'true';
 
   dontShowModalAgain = false;
 
@@ -12,7 +12,7 @@ export default class InfoModalComponent extends Component {
   closeModal() {
     this.set('open', false);
     if (this.dontShowModalAgain) {
-      window.localStorage.hideMessage = true;
+      window.localStorage.hideCeqrFilterMessage = true;
     }
   }
 }
