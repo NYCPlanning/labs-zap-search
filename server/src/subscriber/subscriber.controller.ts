@@ -8,7 +8,7 @@ import crypto from 'crypto';
 import { isElement } from "underscore";
 
 const PAUSE_BETWEEN_CHECKS = 30000;
-const CHECKS_BEFORE_FAIL = 10;
+const CHECKS_BEFORE_FAIL = 20;
 
 @Controller()
 export class SubscriberController {
