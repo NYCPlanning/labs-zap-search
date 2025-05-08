@@ -34,9 +34,7 @@
   {{#banner.nav}}
     <ul class="menu vertical large-horizontal">
       <li>{{link-to 'Find Projects' 'show-geography'}}</li>
-      {{#if (eq this.ENV.showAlerts true)}}
-        <li>{{link-to 'Email Notifications' 'subscribe'}}</li>
-      {{/if}}
+      <li>{{link-to 'Email Notifications' 'subscribe'}}</li>
       {{#if this.ENV.LUPP_ENABLED}}
         {{sign-in}}
       {{/if}}
