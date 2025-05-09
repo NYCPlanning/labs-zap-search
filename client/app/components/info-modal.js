@@ -1,10 +1,9 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import ENV from 'labs-zap-search/config/environment';
 
 export default class InfoModalComponent extends Component {
   // We have manually overridden this to hide the modal by default when running tests in tests/index.html
-  open = ENV.showCeqr === true && window.localStorage.hideCeqrFilterMessage !== 'true';
+  open = window.localStorage.hideCeqrFilterMessage !== 'true';
 
   dontShowModalAgain = false;
 
