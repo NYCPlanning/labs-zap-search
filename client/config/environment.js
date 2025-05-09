@@ -16,7 +16,6 @@ module.exports = function (environment) {
     },
     NYC_ID_HOST,
     maintenanceTimes: getMaintenanceTimes(),
-    showCeqr: getFeatureFlagShowCeqr(),
     featureFlagExcludeFromSearchResults: getFeatureFlagExcludeFromSearchResults(),
     featureFlagShowSandboxWarning: getFeatureFlagShowSandboxWarning(),
 
@@ -184,10 +183,6 @@ function getMaintenanceTimes() {
   } = process.env;
 
   return [MAINTENANCE_START, MAINTENANCE_END];
-}
-
-function getFeatureFlagShowCeqr() {
-  return process.env.SHOW_CEQR === 'ON';
 }
 
 function getFeatureFlagExcludeFromSearchResults() {
