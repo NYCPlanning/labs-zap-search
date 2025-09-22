@@ -88,17 +88,21 @@ export class ArtifactService {
           )
         };
       } catch (e) {
-        const errorMessage = `Error loading documents for artifact ${dcp_name}.`;
-        console.log(errorMessage);
+        if (e instanceof HttpException) {
+          throw e;
+        } else {
+          const errorMessage = `Error loading documents for artifact ${dcp_name}.`;
+          console.log("Error Message:", e);
 
-        throw new HttpException(
-          {
-            code: "ARTIFACT_WITH_DOCUMENTS",
-            title: "Artifact Documents Error",
-            detail: errorMessage
-          },
-          HttpStatus.NOT_FOUND
-        );
+          throw new HttpException(
+            {
+              code: "ARTIFACT_WITH_DOCUMENTS",
+              title: "Artifact Documents Error",
+              detail: errorMessage
+            },
+            HttpStatus.NOT_FOUND
+          );
+        }
       }
     }
 
