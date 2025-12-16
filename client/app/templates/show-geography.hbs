@@ -382,12 +382,30 @@
                   currentValues=dcp_ulurp_nonulurp}}
               </a>
             </li>
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'ELURP')}}
+              data-test-elurp-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='ELURP'
+                  currentValues=dcp_ulurp_nonulurp}}
+              </a>
+            </li>
             <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'Non-ULURP')}}
               data-test-nonulurp-checkbox
             >
               <a>
                 {{filter-checkbox
                   value='Non-ULURP'
+                  currentValues=dcp_ulurp_nonulurp}}
+              </a>
+            </li>
+            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_ulurp_nonulurp' 'AHFT')}}
+              data-test-ahft-checkbox
+            >
+              <a>
+                {{filter-checkbox
+                  value='AHFT'
                   currentValues=dcp_ulurp_nonulurp}}
               </a>
             </li>
