@@ -24,6 +24,8 @@ export const VISIBLE_MILESTONES = [
   "780593bb-ecc2-e811-8156-1458d04d0698",
   "723beec4-dad0-e711-8116-1458d04e2fb8",
   "6c3beec4-dad0-e711-8116-1458d04e2fb8",
+  "755334e1-8bd7-f011-8544-001dd80698b8",
+  "d1cdc050-8cd7-f011-8544-001dd80698b8",
 
   // these are study area entities and
   // TODO: need to also check for study
@@ -133,6 +135,15 @@ function applyDisplayDescriptions(milestone, project) {
     milestone.display_description =
       'A "Review Session" milestone signifies that the application has been sent to the City Planning Commission and is ready for review. The City Planning Commission does not have a clock for non-ULURP items. It may or may not hold a hearing depending on the action.';
 
+  if (milestone._dcp_milestone_value === "755334e1-8bd7-f011-8544-001dd80698b8")
+    milestone.display_description =
+      "The Applicant and the Affordable Housing Appeals Board have five days to review the City Council’s decision and request a call up or appeal.";
+
+  if (milestone._dcp_milestone_value === "d1cdc050-8cd7-f011-8544-001dd80698b8")
+    milestone.display_description =
+      "The Affordable Housing Appeals Board has 15 days after the call up or appeal to restore the City Planning Commission action, partially restore the City Planning Commission action, or sustain the City Council action.";
+
+
   return mutatedMilestone;
 }
 
@@ -197,6 +208,10 @@ function transformDisplayName(milestone) {
     milestone.display_name = "Land Use Application Filed";
   if (milestone._dcp_milestone_value === "723beec4-dad0-e711-8116-1458d04e2fb8")
     milestone.display_name = "Environmental Assessment Statement Filed";
+  if (milestone._dcp_milestone_value === "755334e1-8bd7-f011-8544-001dd80698b8")
+    milestone.display_name = "Request for Appeals Board Review";
+  if (milestone._dcp_milestone_value === "d1cdc050-8cd7-f011-8544-001dd80698b8")
+    milestone.display_name = "Appeals Board Review";
 
   return milestone;
 }
@@ -207,6 +222,11 @@ function transformDisplaySequence(milestone) {
   if (milestone._dcp_milestone_value === "780593bb-ecc2-e811-8156-1458d04d0698")
     milestone.display_sequence = 58; // what is this?
 
+  // The following need to appear after City Council Review
+  if (milestone._dcp_milestone_value === "755334e1-8bd7-f011-8544-001dd80698b8")  // Request for Appeals Board Review
+    milestone.display_sequence = 58.1;
+  if (milestone._dcp_milestone_value === "d1cdc050-8cd7-f011-8544-001dd80698b8") // Appeals Board Review
+    milestone.display_sequence = 58.2;
   return milestone;
 }
 
@@ -219,8 +239,8 @@ function transformAliases(milestone) {
   // Please check which one it is. It needs to be the labeled version.
   milestone.outcome = milestone._dcp_milestoneoutcome_value
     ? milestone[
-        "_dcp_milestoneoutcome_value@OData.Community.Display.V1.FormattedValue"
-      ]
+    "_dcp_milestoneoutcome_value@OData.Community.Display.V1.FormattedValue"
+    ]
     : null;
   milestone.dcp_milestone = milestone._dcp_milestone_value;
 

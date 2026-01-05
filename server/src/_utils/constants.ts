@@ -253,6 +253,17 @@ const MILESTONES = {
         "The City Council reviews text amendments and a few other non-ULURP items."
     }
   },
+
+  "755334e1-8bd7-f011-8544-001dd80698b8": {
+    display_name: "Request for Appeals Board Review",
+    display_description: "The Applicant and the Affordable Housing Appeals Board have five days to review the City Council’s decision and request a call up or appeal.",
+  },
+
+  "d1cdc050-8cd7-f011-8544-001dd80698b8": {
+    display_name: "Appeals Board Review",
+    display_description: "The Affordable Housing Appeals Board has 15 days after the call up or appeal to restore the City Planning Commission action, partially restore the City Planning Commission action, or sustain the City Council action.",
+  },
+
   "923beec4-dad0-e711-8116-1458d04e2fb8": {
     display_name: "Community Board Review",
     display_description: {
