@@ -49,8 +49,10 @@ export const BOROUGH_LOOKUP = {
   Citywide: 717170005
 };
 export const ULURP_LOOKUP = {
+  ULURP: 717170001,
+  ELURP: 717170003,
   "Non-ULURP": 717170000,
-  ULURP: 717170001
+  AHFT: 717170002
 };
 export const APPLICABILITY_LOOKUP = {
   "Racial Equity Report Required": 1,

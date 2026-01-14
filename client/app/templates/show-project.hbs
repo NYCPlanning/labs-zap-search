@@ -86,7 +86,13 @@
                   <span class="label dark-gray tag-span">
                     {{~model.dcpUlurpNonulurp~}}
                     <sup>
-                      {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
+                      {{#if (eq model.dcpUlurpNonulurp 'ELURP')}}
+                        {{icon-tooltip tip='Expedited Land Use Review Procedure (ELURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Community Board and Borough President review must occur within 60 simultaneous days, followed by 30 days of review by the City Planning Commission. For specific projects involving acquiring and disposing of public land for the purposes of building affordable housing, City Council will have 30 days to review instead of the City Planning Commission as required by state law.'}}
+                      {{else if (eq model.dcpUlurpNonulurp 'AHFT')}}
+                        {{icon-tooltip tip=' Affordable Housing Fast Track (AHFT) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames for specific types of projects within a designated 12 Community Districts. Community Board and Borough President review must occur within 60 simultaneous days, followed by 30 days of review by the City Planning Commission. If an EIS is required, the CPC will have 45 days to review.'}}
+                      {{else}}
+                        {{icon-tooltip tip='Uniform Land Use Review Procedure (ULURP) is a procedure whereby applications affecting the land use of the city are publicly reviewed within mandated time frames. Key participants in the process are the Department of City Planning (DCP), the City Planning Commission (CPC), Community Boards, the Borough Presidents, the Borough Boards, the City Council and the Mayor.'}}
+                      {{/if}}
                     </sup>
                   </span>
                 {{/if}}

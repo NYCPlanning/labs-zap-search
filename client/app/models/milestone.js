@@ -19,6 +19,8 @@ import {
   FINAL_LETTER_SENT,
   FINAL_SCOPE_OF_WORK_ISSUED,
   LAND_USE_FEE_PAYMENT,
+  REQUEST_FOR_APPEALS_BOARD_REVIEW,
+  APPEALS_BOARD_REVIEW,
   MAYORAL_VOTE,
   NOC_OF_DRAFT_EIS_ISSUED,
   PREPARE_FILED_LAND_USE_APPLICATION,
@@ -131,6 +133,8 @@ export default class MilestoneModel extends Model {
       CPC_PUBLIC_MEETING_PUBLIC_HEARING,
       EIS_DRAFT_SCOPE_REVIEW,
       FEIS_SUBMITTED_AND_REVIEW,
+      REQUEST_FOR_APPEALS_BOARD_REVIEW,
+      APPEALS_BOARD_REVIEW,
       MAYORAL_VOTE,
       REVIEW_FILED_LAND_USE_APPLICATION,
     ].includes(this.dcpMilestone) && projectPublicStatus !== DCPPUBLICSTATUS_OPTIONSET.FILED) {
@@ -244,6 +248,8 @@ export default class MilestoneModel extends Model {
       COMMUNITY_BOARD_REFERRAL,
       CITY_COUNCIL_REVIEW,
       CPC_PUBLIC_MEETING_PUBLIC_HEARING,
+      REQUEST_FOR_APPEALS_BOARD_REVIEW,
+      APPEALS_BOARD_REVIEW,
       MAYORAL_VOTE,
     ].includes(this.dcpMilestone) && projectPublicStatus !== DCPPUBLICSTATUS_OPTIONSET.FILED) {
       return this.dcpActualenddate || this.dcpPlannedcompletiondate;
