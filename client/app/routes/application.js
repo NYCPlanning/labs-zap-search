@@ -26,10 +26,12 @@ export default class ApplicationRoute extends Route {
   }
 
   _trackPage() {
-    scheduleOnce('afterRender', this, () => {
-      const page = this.router.currentURL;
-      const title = this.router.currentRouteName || 'unknown';
-      this.metrics.trackPage({ page, title });
-    });
+    scheduleOnce('afterRender', this, this._sendPageView);
+  }
+
+  _sendPageView() {
+    const page = this.router.currentURL;
+    const title = this.router.currentRouteName || 'unknown';
+    this.metrics.trackPage({ page, title });
   }
 }

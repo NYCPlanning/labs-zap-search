@@ -3,10 +3,11 @@ import RouterScroll from 'ember-router-scroll';
 
 import config from './config/environment';
 
-const Router = EmberRouter.extend(RouterScroll, {
-  location: config.locationType,
-  rootURL: config.rootURL,
-});
+export default class Router extends EmberRouter.extend(RouterScroll) {
+  location = config.locationType;
+
+  rootURL = config.rootURL;
+}
 
 Router.map(function() { // eslint-disable-line
   this.route('show-project', { path: '/projects/:id' });
@@ -41,5 +42,3 @@ Router.map(function() { // eslint-disable-line
   this.route('login');
   this.route('logout');
 });
-
-export default Router;
