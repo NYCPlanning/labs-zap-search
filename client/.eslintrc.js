@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   globals: {
     server: true,
@@ -5,9 +7,13 @@ module.exports = {
     d3: true,
   },
   root: true,
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
+    ecmaFeatures: {
+      legacyDecorators: true
+    }
   },
   parser: 'babel-eslint',
   plugins: [
@@ -36,6 +42,7 @@ module.exports = {
     'no-param-reassign': 0,
     'ember/avoid-leaking-state-in-ember-objects': 0,
     'class-methods-use-this': 0,
+    'ember/no-jquery': 'error',
   },
   overrides: [
     // node files
