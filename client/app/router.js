@@ -1,7 +1,7 @@
 import EmberRouter from '@ember/routing/router';
 import RouterScroll from 'ember-router-scroll';
 
-import config from './config/environment';
+import config from 'labs-zap-search/config/environment';
 
 export default class Router extends EmberRouter.extend(RouterScroll) {
   location = config.locationType;

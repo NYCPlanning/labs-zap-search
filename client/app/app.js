@@ -2,7 +2,7 @@ import Application from '@ember/application';
 import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
 import DS from 'ember-data';
-import config from './config/environment';
+import config from 'labs-zap-search/config/environment';
 
 const { Model } = DS;
 const ALLOWED_MISSING_MODEL_KEYS = ['nodeType', 'size', 'length', 'setUnknownProperty', 'didCommit', 'then', 'willMergeMixin', 'concatenatedProperties', 'mergedProperties', 'isQueryParams'];
