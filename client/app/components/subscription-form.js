@@ -79,6 +79,8 @@ export default class SubscriptionFormComponent extends Component {
 
     @action
     closeAllAccordions() {
+      // foundation-sites requires jQuery
+      // eslint-disable-next-line ember/no-jquery
       $('.accordion').foundation('up', $('.accordion .accordion-content'));
     }
 

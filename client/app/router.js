@@ -1,28 +1,13 @@
 import EmberRouter from '@ember/routing/router';
-import { inject as service } from '@ember/service';
-import { scheduleOnce } from '@ember/runloop';
 import RouterScroll from 'ember-router-scroll';
 
 import config from './config/environment';
 
-const Router = EmberRouter.extend(RouterScroll, {
-  metrics: service(),
-  didTransition(...args) {
-    this._super(...args);
-    this._trackPage();
-  },
+export default class Router extends EmberRouter.extend(RouterScroll) {
+  location = config.locationType;
 
-  _trackPage() {
-    scheduleOnce('afterRender', this, () => {
-      const page = this.url;
-      const title = this.getWithDefault('currentRouteName', 'unknown');
-      this.metrics.trackPage({ page, title });
-    });
-  },
-
-  location: config.locationType,
-  rootURL: config.rootURL,
-});
+  rootURL = config.rootURL;
+}
 
 Router.map(function() { // eslint-disable-line
   this.route('show-project', { path: '/projects/:id' });
@@ -57,5 +42,3 @@ Router.map(function() { // eslint-disable-line
   this.route('login');
   this.route('logout');
 });
-
-export default Router;
