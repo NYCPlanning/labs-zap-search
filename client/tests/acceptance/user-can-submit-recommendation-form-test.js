@@ -7,6 +7,7 @@ import {
   currentURL,
 } from '@ember/test-helpers';
 import { selectChoose } from 'ember-power-select/test-support';
+import { Interactor as Pikaday } from 'ember-pikaday/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
@@ -174,7 +175,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
 
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     await click('[data-test-continue]');
@@ -218,7 +220,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
 
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     await click('[data-test-continue]');
@@ -279,7 +282,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await fillIn('[data-test-each-action-dcpConsideration="2', 'My comment for dcpConsideration 2');
 
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Bergen Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '12/11/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-12-11T00:00:00'));
 
     await click('[data-test-continue]');
 
@@ -492,7 +496,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', '');
 
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     await click('[data-test-continue]');
@@ -576,7 +581,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
 
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     await click('[data-test-continue]');
@@ -748,7 +754,8 @@ module('Acceptance | user can submit recommendation form', function(hooks) {
     await fillIn('[data-test-each-action-dcpConsideration="2', 'My comment for dcpConsideration 2');
 
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
 
     await click('[data-test-continue]');
 

@@ -7,6 +7,7 @@ import {
   currentURL,
 } from '@ember/test-helpers';
 import { selectChoose } from 'ember-power-select/test-support';
+import { Interactor as Pikaday } from 'ember-pikaday/test-support';
 import { upload } from 'ember-file-upload/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -93,7 +94,8 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
     await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });
@@ -127,7 +129,8 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
     await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     await click('[data-test-continue]');
@@ -158,7 +161,8 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
     await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });
@@ -259,7 +263,8 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
     await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });
@@ -305,7 +310,8 @@ module('Acceptance | 542 document upload for recommendation', function (hooks) {
     await fillIn('[data-test-all-actions-dcpVotingabstainingonrecommendation]', 3);
     await fillIn('[data-test-all-actions-dcpTotalmembersappointedtotheboard]', 4);
     await fillIn('[data-test-all-actions-dcpVotelocation]', 'Smith Street');
-    await fillIn('[data-test-all-actions-dcpDateofvote]', '10/17/2019');
+    await click('[data-test-all-actions-dcpDateofvote]');
+    await Pikaday.selectDate(new Date('2019-10-17T00:00:00'));
     await fillIn('[data-test-all-actions-dcpConsideration]', 'My All Actions Comment');
 
     const file = new File(['foo'], 'foo.txt', { type: 'text/plain' });

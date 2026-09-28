@@ -937,14 +937,12 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     // button should display, but should be disabled
     assert.ok(find('[data-test-button-post-hearing="4"]'));
-
-    // clicking on the post hearing button should NOT change the route
-    await click('[data-test-button-post-hearing="4"]');
+    assert.ok(find('[data-test-button-post-hearing="4"]').hasAttribute('disabled'), 'post hearing button is disabled when there are no dispositions');
 
     assert.equal(currentURL(), '/my-projects/upcoming');
 
-    // clicking on the opt out of hearings button should NOT open the modal
-    await click('[data-test-button-opt-out-hearing-popup="4"]');
+    // opt out of hearings button should also be disabled
+    assert.ok(find('[data-test-button-opt-out-hearing-popup="4"]').hasAttribute('disabled'), 'opt out hearing button is disabled when there are no dispositions');
 
     // check that button on the "opt out of hearings" modal is not displaying
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));
@@ -1018,14 +1016,12 @@ module('Acceptance | user can fill out hearing form', function(hooks) {
 
     // button should display, but should be disabled
     assert.ok(find('[data-test-button-post-hearing="4"]'));
-
-    // clicking on the post hearing button should NOT change the route
-    await click('[data-test-button-post-hearing="4"]');
+    assert.ok(find('[data-test-button-post-hearing="4"]').hasAttribute('disabled'), 'post hearing button is disabled when there are no dispositions');
 
     assert.equal(currentURL(), '/my-projects/to-review');
 
-    // clicking on the opt out of hearings button should open NOT the modal
-    await click('[data-test-button-opt-out-hearing-popup="4"]');
+    // opt out of hearings button should also be disabled
+    assert.ok(find('[data-test-button-opt-out-hearing-popup="4"]').hasAttribute('disabled'), 'opt out hearing button is disabled when there are no dispositions');
 
     // check that button on the "opt out of hearings" modal is not displaying
     assert.notOk(find('[data-test-button="onConfirmOptOutHearing"]'));

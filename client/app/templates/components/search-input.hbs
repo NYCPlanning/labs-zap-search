@@ -1,0 +1,52 @@
+<input
+  type="text"
+  placeholder={{@placeholder}}
+  class="map-search-input"
+  value={{this.searchTerms}}
+  {{on "input" this.updateSearchTerms}}
+  {{on "keydown" this.handleKeydown}}
+  {{on "focusin" this.handleFocusIn}}
+  {{on "focusout" this.handleFocusOut}}
+>
+
+{{#if this.searchTerms}}
+  <button
+    class="clear-button"
+    aria-label="Clear Search"
+    type="button"
+    {{on "click" this.clear}}
+  >
+    {{#if this.searchTask.isRunning}}
+      {{fa-icon icon="spinner" spin=true class="dark-gray"}}
+    {{else}}
+      {{fa-icon icon="times" class="dark-gray"}}
+    {{/if}}
+  </button>
+{{else}}
+  {{fa-icon icon="search" class="search-icon"}}
+{{/if}}
+
+<ul class="search-results no-bullet {{if this.focused "focused"}}">
+  {{#each this.groupedResults as |group|}}
+    <li>
+      <h4 class="header-small results-header">{{group.title}}</h4>
+    </li>
+    {{#each group.rows as |result index|}}
+      <li
+        class="result {{if (eq index this.selectedIndex) "highlighted-result"}}"
+        role="button"
+        {{on "click" (fn this.selectResult result)}}
+      >
+        {{#if (has-block)}}
+          {{yield result}}
+        {{else}}
+          {{result.label}}
+        {{/if}}
+      </li>
+    {{/each}}
+  {{/each}}
+
+  {{#if (and this.searchTerms (not this.results.length) (not this.searchTask.isRunning))}}
+    <li class="no-results">No Results Found</li>
+  {{/if}}
+</ul>

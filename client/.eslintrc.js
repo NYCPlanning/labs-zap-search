@@ -5,6 +5,7 @@ module.exports = {
     server: true,
     $: true,
     d3: true,
+    fetch: true,
   },
   root: true,
   parser: 'babel-eslint',
@@ -12,8 +13,8 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
-      legacyDecorators: true
-    }
+      legacyDecorators: true,
+    },
   },
   parser: 'babel-eslint',
   plugins: [
@@ -49,6 +50,7 @@ module.exports = {
     {
       files: [
         '.eslintrc.js',
+        '.prettierrc.js',
         '.template-lintrc.js',
         'ember-cli-build.js',
         'testem.js',
