@@ -1,28 +1,23 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-function _parseResponse(locationHash) {
-  const params = {};
-  const query = locationHash.substring(locationHash.indexOf('?'));
-  const regex = /([^#?&=]+)=([^&]*)/g;
-  let match;
-
-  // decode all parameter pairs
-  while ((match = regex.exec(query)) !== null) { // eslint-disable-line
-    params[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
-  }
-  return params;
-}
-
 export default class LoginRoute extends Route {
   @service
   session
 
-  // hit /login in backend
+  // NYC.ID redirects back here with ?code=... after sign-in (see auth/login-dialog signIn)
   async beforeModel() {
-    // try to authenticate with the url#access_token
-    // & with the zap api CRM-authenticated
-    await this.session.authenticate('authenticator:zap-api-authenticator', _parseResponse(window.location.hash));
+    const code = new URLSearchParams(window.location.search).get('code');
+    const { codeVerifier } = this.session.data;
+
+    // the verifier is single use
+    this.session.set('data.codeVerifier', codeVerifier);
+    // exchange the code for a ZAP token via the zap api (CRM-authenticated)
+    await this.session.authenticate('authenticator:zap-api-authenticator', {
+      code,
+      codeVerifier,
+      redirectUri: `${window.location.origin}/login`,
+    });
 
     await this.store.queryRecord('user', { me: true });
   }

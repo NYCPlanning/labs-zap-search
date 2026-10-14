@@ -1,9 +1,11 @@
 'use strict';
 
 const { MIRAGE_SCENARIO } = process.env;
-const NYCID_CLIENT_ID = process.env.NYCID_CLIENT_ID || 'lup-portal-local';
+const NYCID_CLIENT_ID = process.env.NYCID_CLIENT_ID || 's6BuNcPytgziT2x0ZdISAFJ5';
 const NYC_ID_HOST = process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
-
+const NYCID_NON_PROD_API = '3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm';
+const NYCID_OIDC_BASE_URL = process.env.NYCID_OIDC_BASE_URL || 'https://nonprd-login.nyc.gov/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm';
+const GIGYA_TOKEN_ENDPOINT=process.env.GIGYA_TOKEN_ENDPOINT || "https://fidm.us1.gigya.com/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm";
 module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'labs-zap-search',
@@ -20,7 +22,10 @@ module.exports = function (environment) {
     featureFlagShowSandboxWarning: getFeatureFlagShowSandboxWarning(),
 
     host: getHost(environment),
-    OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
+    NYCID_NON_PROD_API,
+    NYCID_OIDC_BASE_URL,
+    GIGYA_TOKEN_ENDPOINT,
+    OAUTH_ENDPOINT: `${NYCID_OIDC_BASE_URL}/authorize?response_type=code&client_id=${NYCID_CLIENT_ID}`, // `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
     LUPP_ENABLED: true,
     MIRAGE_SCENARIO,
     EmberENV: {

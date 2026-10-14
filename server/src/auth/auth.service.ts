@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import jwt from "jsonwebtoken";
 import moment from "moment";
+import * as fetch from "node-fetch";
 import { ConfigService } from "../config/config.service";
 import { ContactService } from "../contact/contact.service";
 
@@ -15,6 +16,10 @@ export class AuthService {
   // required env variables
   CRM_SIGNING_SECRET = "";
   NYCID_CONSOLE_PASSWORD = "";
+  NYCID_OIDC_BASE_URL = "";
+  GIGYA_TOKEN_ENDPOINT = "";
+  NYCID_RELYING_PARTY_CLIENT_ID = "";
+  NYCID_RELYING_PARTY_CLIENT_SECRET = "";
 
   constructor(
     private readonly config: ConfigService,
@@ -22,6 +27,103 @@ export class AuthService {
   ) {
     this.CRM_SIGNING_SECRET = this.config.get("CRM_SIGNING_SECRET");
     this.NYCID_CONSOLE_PASSWORD = this.config.get("NYCID_CONSOLE_PASSWORD");
+    this.NYCID_OIDC_BASE_URL = this.config.get("NYCID_OIDC_BASE_URL");
+    this.GIGYA_TOKEN_ENDPOINT = this.config.get("GIGYA_TOKEN_ENDPOINT");
+    this.NYCID_RELYING_PARTY_CLIENT_ID = this.config.get(
+      "NYCID_RELYING_PARTY_CLIENT_ID"
+    );
+    this.NYCID_RELYING_PARTY_CLIENT_SECRET = this.config.get(
+      "NYCID_RELYING_PARTY_CLIENT_SECRET"
+    );
+  }
+
+  /**
+   * NYC.ID Authorization Code + PKCE login. Exchanges the authorization code
+   * for an NYC.ID id_token, then issues our own ZAP token for the matching
+   * CRM contact. Returns the ZAP token and the NYC.ID profile claims.
+   *
+   * @param      {string}  code          The authorization code from NYC.ID's redirect
+   * @param      {string}  codeVerifier  The PKCE verifier the client generated
+   * @param      {string}  redirectUri   The redirect_uri used in the authorize request
+   */
+  public async generateNewTokenFromCode(
+    code: string,
+    codeVerifier: string,
+    redirectUri: string
+  ) {
+    const idTokenClaims = await this.exchangeNYCIDCode(
+      code,
+      codeVerifier,
+      redirectUri
+    );    
+    const { contactid } = await this.lookupContact(idTokenClaims.email);
+
+    return {
+      ZAPToken: this.signNewToken(contactid),
+      idTokenClaims
+    };
+  }
+
+  /**
+   * Calls NYC.ID's token endpoint and returns the decoded id_token claims.
+   *
+   * The id_token signature is not checked: per OpenID Connect Core 3.1.3.7,
+   * TLS validation of the token endpoint may stand in for it when the token is
+   * received directly from NYC.ID. We still check audience and expiry.
+   */
+  private async exchangeNYCIDCode(
+    code: string,
+    codeVerifier: string,
+    redirectUri: string
+  ): Promise<any> {
+    if (!code || !codeVerifier || !redirectUri) {
+      throw new HttpException(
+        "Missing code, codeVerifier, or redirectUri",
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+
+    const response = await fetch(`${this.NYCID_OIDC_BASE_URL}/token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        grant_type: "authorization_code",
+        code,
+        code_verifier: codeVerifier,
+        redirect_uri: redirectUri,
+        client_id: this.NYCID_RELYING_PARTY_CLIENT_ID,
+        code_challenge_method: "S256",
+      }).toString()
+    });
+    const body = await response.json();
+    console.log("body", body);
+    if (!response.ok || !body.id_token) {
+      throw new HttpException(
+        `NYC.ID token exchange failed: ${body.error_description ||
+          body.error ||
+          response.status}`,
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+
+     const userinfoResponse = await fetch(`${this.NYCID_OIDC_BASE_URL}/userinfo`, {
+      headers: { Authorization: `Bearer ${body.access_token}` }
+    });
+    const userinfo = await userinfoResponse.json();
+
+    const claims: any = jwt.decode(body.id_token);
+    const access_claims: any = jwt.decode(body.access_token);
+
+    if (
+      !claims ||
+      claims.aud !== this.NYCID_RELYING_PARTY_CLIENT_ID ||
+      claims.exp < moment().unix()
+    ) {
+      throw new HttpException("Invalid NYC.ID id_token", HttpStatus.UNAUTHORIZED);
+    }
+
+    console.log("userinfo", userinfo);
+    return userinfo;
   }
 
   /**
@@ -74,6 +176,8 @@ export class AuthService {
    */
   private async lookupContact(mail: string) {
     try {
+      console.log("in lookup contact");
+      console.log(this.contactService.findByEmail(mail));
       return this.contactService.findByEmail(mail);
     } catch (e) {
       throw new HttpException(

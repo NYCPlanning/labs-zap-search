@@ -1,41 +1,46 @@
 <h2 class="large-margin-right small-margin-bottom">Borough&nbsp;Presidents &amp;&nbsp;Community&nbsp;Boards,</h2>
 <p class="lead">
   <strong>Use your NYC.ID account to sign in.</strong>
-  <small><a href="https://www1.nyc.gov/assets/nyc4d/html/services-nycid/user-features-benefits.shtml" class="no-wrap">What is NYC.ID?</a></small>
+  <small><a href="https://www1.nyc.gov/assets/nyc4d/html/services-nycid/user-features-benefits.shtml"
+      class="no-wrap">What is NYC.ID?</a></small>
 </p>
-<p class="small-margin-bottom">Be sure to use the email address that is associated with the Zoning Application Portal. If you're unsure which email address to use, please contact City Planning at <a href="mailto:ZAP_feedback_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a> or 212-720-3300.</p>
+<p class="small-margin-bottom">Be sure to use the email address that is associated with the Zoning Application Portal.
+  If you're unsure which email address to use, please contact City Planning at <a
+    href="mailto:ZAP_feedback_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a> or 212-720-3300.</p>
 <ul class="text-small">
   <li>
     <p class="small-margin-bottom">For NYC.GOV credentials, select the "NYC Employees" option</p>
   </li>
   <li>
-    <p>For non-NYC.GOV email addresses, enter your existing NYC.ID credentials (you may need to create an NYC.ID account)</p>
+    <p>For non-NYC.GOV email addresses, enter your existing NYC.ID credentials (you may need to create an NYC.ID
+      account)</p>
   </li>
 </ul>
 <p>Once you're signed in, you'll be redirected back here, where you'll see your list of assigned projects.</p>
 
 {{#if this.hasUpcomingMaintenance}}
-  <div class="maintenance-wrapper">
-    <p>
-      Please be advised that there will be scheduled maintenance on ZAP Search and the Applicant Portal from June 1, 2022, 3:00 pm to June 1, 2022, 4:00 pm. During that time, you will not be able to sign in to your account.  Thank you for your understanding. For help, please email <a href="mailto:ZAP_support_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a>
-    </p>
-  </div>
+<div class="maintenance-wrapper">
+  <p>
+    Please be advised that there will be scheduled maintenance on ZAP Search and the Applicant Portal from June 1, 2022,
+    3:00 pm to June 1, 2022, 4:00 pm. During that time, you will not be able to sign in to your account. Thank you for
+    your understanding. For help, please email <a
+      href="mailto:ZAP_support_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a>
+  </p>
+</div>
 
 {{/if}}
 
 {{#if this.isMaintenancePeriod}}
-  <div class="maintenance-wrapper">
-    <p>
-      Please be advised that we are currently performing scheduled maintenance from June 1, 2022, 3:00 pm to June 1, 2022, 4:00 pm. During this time, you will not be able to sign in to your account. Thank you for your understanding. For help, please email <a href="mailto:ZAP_support_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a>
-    </p>
-  </div>
+<div class="maintenance-wrapper">
+  <p>
+    Please be advised that we are currently performing scheduled maintenance from June 1, 2022, 3:00 pm to June 1, 2022,
+    4:00 pm. During this time, you will not be able to sign in to your account. Thank you for your understanding. For
+    help, please email <a href="mailto:ZAP_support_DL@planning.nyc.gov">ZAP_feedback_DL@planning.nyc.gov</a>
+  </p>
+</div>
 {{/if}}
 
-<a
-  class="button large expanded {{if this.isMaintenancePeriod 'disabled'}}"
-  href={{if this.isMaintenancePeriod '#' this.oauthEndpoint}}
-  disabled={{this.isMaintenancePeriod}}
->
+<button class="button large expanded {{if this.isMaintenancePeriod 'disabled'}}" {{action "signIn" }}>
   Sign in with NYC.ID
   <sup>{{fa-icon icon='external-link-alt'}}</sup>
-</a>
+</button>
