@@ -16,7 +16,6 @@ describe("Login", () => {
     })();
 
     restoreEnv = mockedEnv({
-      NYCID_CONSOLE_PASSWORD: "test",
       CRM_SIGNING_SECRET: "test",
       TENANT_ID: "test",
       SHAREPOINT_CLIENT_ID: "test",

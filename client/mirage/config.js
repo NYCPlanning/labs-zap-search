@@ -106,11 +106,15 @@ export default function () {
   this.get('/assignments/:id');
   this.get('/actions/:id');
 
-  // TODO: This may need to be updated when the current-user service
-  // no longer hardcodes a user
   this.get('/login', function() {
     return {
-      ok: true,
+      access_token: 'zap-token',
+      nycid: {
+        email: 'testuser@planning.nyc.gov',
+        sub: '1234567890abcdefghijklmnopqrstuvwxyz',
+        given_name: 'Planning',
+        family_name: 'Labs',
+      },
     };
   });
 
