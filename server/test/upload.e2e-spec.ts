@@ -26,7 +26,6 @@ describe("Document Upload", () => {
       SHAREPOINT_SITE_ID: "test",
 
       CRM_SIGNING_SECRET: "test",
-      NYCID_CONSOLE_PASSWORD: "test"
     });
 
     const moduleFixture: TestingModule = await Test.createTestingModule({

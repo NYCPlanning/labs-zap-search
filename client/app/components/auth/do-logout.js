@@ -3,7 +3,7 @@ import ENV from 'labs-zap-search/config/environment';
 import { action } from '@ember/object';
 
 export default class DoLogout extends Component {
-  nycIDHost = ENV.NYC_ID_HOST;
+  nycidLogoutBaseUrl = ENV.NYCID_LOGOUT_BASE_URL;
 
   origin = window.location.origin;
 

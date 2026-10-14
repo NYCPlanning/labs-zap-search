@@ -25,11 +25,26 @@ export class AppController {
   }
 
   @Get("/login")
-  async login(@Query("accessToken") NYCIDToken: string, @Res() res) {
+  async login(
+    @Query("code") code: string,
+    @Query("codeVerifier") codeVerifier: string,
+    @Query("redirectUri") redirectUri: string,
+    @Res() res
+  ) {
     try {
-      const ZAPToken = await this.authService.generateNewToken(NYCIDToken);
+      const {
+        ZAPToken,
+        idTokenClaims
+      } = await this.authService.generateNewTokenFromCode(
+        code,
+        codeVerifier,
+        redirectUri
+      );
+      const { email, sub, given_name, family_name } = idTokenClaims;
+      
       res.status(HttpStatus.OK).json({
-        access_token: ZAPToken
+        access_token: ZAPToken,
+        nycid: { email, sub, given_name, family_name }
       });
     } catch (e) {
       console.log("ERROR GENERATING TOKEN", e);

@@ -42,7 +42,6 @@ describe("Project Get", () => {
       SHAREPOINT_SITE_ID: "test",
 
       CRM_SIGNING_SECRET: "test",
-      NYCID_CONSOLE_PASSWORD: "test"
     });
 
     // mock the crm endpoint and make available to the full scope of these tests

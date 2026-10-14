@@ -1,7 +1,7 @@
-{{!-- Implicit logout — this renders the logout domain --}}
+{{!-- Logout — this renders the logout domain --}}
 <iframe
   onload={{action this.didLogoutNycId}}
-  src="{{this.nycIDHost}}/idpLogout.htm?x-frames-allow-from={{this.origin}}"
+  src="{{this.nycidLogoutBaseUrl}}/idpLogout.htm?x-frames-allow-from={{this.origin}}"
   style="display: none;">
 </iframe>
 
