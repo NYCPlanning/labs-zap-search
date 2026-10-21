@@ -15,25 +15,17 @@ import { ContactService } from "../contact/contact.service";
 export class AuthService {
   // required env variables
   CRM_SIGNING_SECRET = "";
-  NYCID_CONSOLE_PASSWORD = "";
-  NYCID_OIDC_BASE_URL = "";
-  GIGYA_TOKEN_ENDPOINT = "";
+  NYCID_OIDC_ENDPOINT = "";
   NYCID_RELYING_PARTY_CLIENT_ID = "";
-  NYCID_RELYING_PARTY_CLIENT_SECRET = "";
 
   constructor(
     private readonly config: ConfigService,
     private readonly contactService: ContactService
   ) {
     this.CRM_SIGNING_SECRET = this.config.get("CRM_SIGNING_SECRET");
-    this.NYCID_CONSOLE_PASSWORD = this.config.get("NYCID_CONSOLE_PASSWORD");
-    this.NYCID_OIDC_BASE_URL = this.config.get("NYCID_OIDC_BASE_URL");
-    this.GIGYA_TOKEN_ENDPOINT = this.config.get("GIGYA_TOKEN_ENDPOINT");
+    this.NYCID_OIDC_ENDPOINT = this.config.get("NYCID_OIDC_ENDPOINT");
     this.NYCID_RELYING_PARTY_CLIENT_ID = this.config.get(
       "NYCID_RELYING_PARTY_CLIENT_ID"
-    );
-    this.NYCID_RELYING_PARTY_CLIENT_SECRET = this.config.get(
-      "NYCID_RELYING_PARTY_CLIENT_SECRET"
     );
   }
 
@@ -83,20 +75,19 @@ export class AuthService {
       );
     }
 
-    const response = await fetch(`${this.NYCID_OIDC_BASE_URL}/token`, {
+    const response = await fetch(`${this.NYCID_OIDC_ENDPOINT}/token`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
-        grant_type: "authorization_code",
-        code,
-        code_verifier: codeVerifier,
-        redirect_uri: redirectUri,
         client_id: this.NYCID_RELYING_PARTY_CLIENT_ID,
+        code,
+        redirect_uri: redirectUri,
+        grant_type: "authorization_code",
+        code_verifier: codeVerifier,
         code_challenge_method: "S256",
       }).toString()
     });
     const body = await response.json();
-    console.log("body", body);
     if (!response.ok || !body.id_token) {
       throw new HttpException(
         `NYC.ID token exchange failed: ${body.error_description ||
@@ -106,7 +97,7 @@ export class AuthService {
       );
     }
 
-     const userinfoResponse = await fetch(`${this.NYCID_OIDC_BASE_URL}/userinfo`, {
+     const userinfoResponse = await fetch(`${this.NYCID_OIDC_ENDPOINT}/userinfo`, {
       headers: { Authorization: `Bearer ${body.access_token}` }
     });
     const userinfo = await userinfoResponse.json();
@@ -122,41 +113,7 @@ export class AuthService {
       throw new HttpException("Invalid NYC.ID id_token", HttpStatus.UNAUTHORIZED);
     }
 
-    console.log("userinfo", userinfo);
     return userinfo;
-  }
-
-  /**
-   * This method automates how authentication works in this app. It is intended for
-   * debugging purposes. There are two kinds of JWTs in play in this application:
-   *
-   *  - NYC.ID JWT
-   *  - Our JWT
-   *
-   * In order to login to this application, one must first be authenticated
-   * through NYC.ID. Once authenticated, NYC.ID redirects you back to this
-   * application with a JWT that includes your e-mail address. That is what
-   * you are seeing on line 39: we are generating a mock NYC.ID JWT and signing
-   * it with the NYCID_CONSOLE_PASSWORD as if you were authenticated via NYC.ID.
-   *
-   * This method recreates the NYC.ID authentication step for use in local
-   * development. The intent is to enable local debugging that is closer to
-   * how authentication actually works.
-   *
-   * Once the cookie is printed in the terminal, you can copy that cookie and paste
-   * it into headers of requests you're making. If you're looking at the API and
-   * want it to persist, you can use the Chrome Inspector to add the token via the
-   * Application tab.
-   *
-   * See this PR for full discussion: https://github.com/NYCPlanning/zap-api/pull/74#discussion_r370749677.
-   *
-   * @param      {<type>}  NYCIDToken  The nycid token
-   */
-  public async generateNewToken(NYCIDToken: string): Promise<string> {
-    const { mail, exp } = this.verifyNYCIDToken(NYCIDToken);
-    const { contactid } = await this.lookupContact(mail);
-
-    return this.signNewToken(contactid, exp);
   }
 
   /**
@@ -176,8 +133,6 @@ export class AuthService {
    */
   private async lookupContact(mail: string) {
     try {
-      console.log("in lookup contact");
-      console.log(this.contactService.findByEmail(mail));
       return this.contactService.findByEmail(mail);
     } catch (e) {
       throw new HttpException(
@@ -187,18 +142,6 @@ export class AuthService {
         HttpStatus.UNAUTHORIZED
       );
     }
-  }
-
-  /**
-   * Verifies a JWT with the NYCID signature. Returns the token object.
-   *
-   * @param      {string}  token   The token
-   * @return     {object}     { mail: 'string', exp: 'string' }
-   */
-  private verifyNYCIDToken(token): any {
-    const { NYCID_CONSOLE_PASSWORD } = this;
-
-    return this.verifyToken(token, NYCID_CONSOLE_PASSWORD);
   }
 
   /**

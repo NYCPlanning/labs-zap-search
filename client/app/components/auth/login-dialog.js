@@ -25,8 +25,11 @@ export default class LoginDialogComponent extends Component {
     this.session.set(`data.codeVerifier`, codeVerifier);
     const redirectUri = encodeURIComponent(`${window.location.origin}/login`);
     window.location.assign(
-      `${ENV.OAUTH_ENDPOINT}&redirect_uri=${redirectUri}` +
-      `&code_challenge_method=S256&code_challenge=${codeChallenge}&scope=openid%20email`
+      `${ENV.OAUTH_ENDPOINT}` +
+      `&redirect_uri=${redirectUri}` +
+      `&code_challenge_method=S256` +
+      `&code_challenge=${codeChallenge}` +
+      `&scope=openid%20email`
     );
   }
 

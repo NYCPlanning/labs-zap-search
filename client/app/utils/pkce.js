@@ -1,4 +1,5 @@
-// Base64url-encodes bytes without padding, as required by PKCE (RFC 7636 Appendix A)
+// Simplified and based on https://github.com/crouchcd/pkce-challenge
+
 function base64UrlEncode(bytes) {
   const binary = String.fromCharCode(...bytes);
 

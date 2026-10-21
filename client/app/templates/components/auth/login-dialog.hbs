@@ -40,7 +40,7 @@
 </div>
 {{/if}}
 
-<button class="button large expanded {{if this.isMaintenancePeriod 'disabled'}}" {{action "signIn" }}>
+<button class="button large expanded {{if this.isMaintenancePeriod 'disabled'}}" disabled={{this.isMaintenancePeriod}} {{action "signIn" }}>
   Sign in with NYC.ID
   <sup>{{fa-icon icon='external-link-alt'}}</sup>
 </button>

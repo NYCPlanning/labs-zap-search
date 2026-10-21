@@ -5,10 +5,8 @@ import ENV from 'labs-zap-search/config/environment';
 import { InvalidError } from '@ember-data/adapter/error';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
-// NYC.ID Authorization Code + PKCE. The ZAP API exchanges the code with NYC.ID
-// (NYC.ID requires a client secret, so the browser can't) and returns a ZAP token.
 export default class ZAPAuthenticator extends BaseAuthenticator {
-  // keep the user signed in across page reloads, as the implicit grant authenticator did
+  // keep the user signed in across page reloads
   restore(data) {
     if (isEmpty(data.access_token)) return RSVP.reject();
 
@@ -19,9 +17,7 @@ export default class ZAPAuthenticator extends BaseAuthenticator {
     const params = new URLSearchParams({ code, codeVerifier, redirectUri });
 
 
-    // returns an http cookie to implicitly authenticate later requests
     const response = await fetch(`${ENV.host}/login?${params}`, {
-      mode: 'same-origin',
       credentials: 'include',
     });
 
