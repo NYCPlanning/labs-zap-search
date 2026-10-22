@@ -40,11 +40,11 @@ export class AppController {
         codeVerifier,
         redirectUri
       );
-      const { email, GUID, given_name, family_name } = idTokenClaims;
+      const { email, sub, given_name, family_name } = idTokenClaims;
       
       res.status(HttpStatus.OK).json({
         access_token: ZAPToken,
-        nycid: { email, GUID, given_name, family_name }
+        nycid: { email, sub, given_name, family_name }
       });
     } catch (e) {
       console.log("ERROR GENERATING TOKEN", e);

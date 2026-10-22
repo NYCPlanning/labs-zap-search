@@ -113,7 +113,7 @@ export default function () {
       access_token: 'zap-token',
       nycid: {
         email: 'testuser@planning.nyc.gov',
-        GUID: '1234567890abcdefghijklmnopqrstuvwxyz',
+        sub: '1234567890abcdefghijklmnopqrstuvwxyz',
         given_name: 'Planning',
         family_name: 'Labs',
       },

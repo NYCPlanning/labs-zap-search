@@ -29,7 +29,7 @@ export default class ZAPAuthenticator extends BaseAuthenticator {
 
     try {
       // eslint-disable-next-line no-undef
-      FS.identify(nycid.GUID, {
+      FS.identify(nycid.sub, {
         displayName,
         email: nycid.email,
         zapSearchHasLoggedIn: true,

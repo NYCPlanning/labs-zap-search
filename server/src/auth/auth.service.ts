@@ -84,7 +84,6 @@ export class AuthService {
         redirect_uri: redirectUri,
         grant_type: "authorization_code",
         code_verifier: codeVerifier,
-        code_challenge_method: "S256",
       }).toString()
     });
     const body = await response.json();
@@ -100,10 +99,15 @@ export class AuthService {
      const userinfoResponse = await fetch(`${this.NYCID_OIDC_ENDPOINT}/userinfo`, {
       headers: { Authorization: `Bearer ${body.access_token}` }
     });
-    const userinfo = await userinfoResponse.json();
 
+    if (!userinfoResponse.ok) {
+      throw new HttpException(
+        `NYC.ID userinfo request failed`, HttpStatus.UNAUTHORIZED
+      );
+    }
+
+    const userinfo = await userinfoResponse.json();
     const claims: any = jwt.decode(body.id_token);
-    const access_claims: any = jwt.decode(body.access_token);
 
     if (
       !claims ||
@@ -111,6 +115,8 @@ export class AuthService {
       claims.exp < moment().unix()
     ) {
       throw new HttpException("Invalid NYC.ID id_token", HttpStatus.UNAUTHORIZED);
+    } else if (userinfo.sub !== claims.sub) {
+      throw new HttpException("Mismatched NYC.ID userinfo and id_token", HttpStatus.UNAUTHORIZED);
     }
 
     return userinfo;

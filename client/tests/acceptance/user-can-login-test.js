@@ -36,7 +36,7 @@ module('Acceptance | user can login', function(hooks) {
       return {
         access_token: 'zap-token',
         nycid: {
-          email: EMAIL, GUID: 'test-guid', given_name: 'Planning', family_name: 'Labs',
+          email: EMAIL, sub: 'test-guid', given_name: 'Planning', family_name: 'Labs',
         },
       };
     });
