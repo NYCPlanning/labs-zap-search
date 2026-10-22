@@ -10,7 +10,7 @@ export default class LoginRoute extends Route {
     const code = new URLSearchParams(window.location.search).get('code');
     const { codeVerifier } = this.session.data;
     this.session.set('data.codeVerifier', undefined);
-    
+
     // exchange the code for a ZAP token via the zap api (CRM-authenticated)
     await this.session.authenticate('authenticator:zap-api-authenticator', {
       code,

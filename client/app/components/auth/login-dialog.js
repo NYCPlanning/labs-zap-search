@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import ENV from 'labs-zap-search/config/environment';
 import { inject as service } from '@ember/service';
 import { returnCodeVerifier, createCodeChallenge } from '../../utils/pkce';
@@ -16,20 +16,20 @@ export default class LoginDialogComponent extends Component {
     const now = new Date();
 
     return now > start && now < end;
-  };
+  }
 
   @action
   async signIn() {
     const codeVerifier = returnCodeVerifier();
     const codeChallenge = await createCodeChallenge(codeVerifier);
-    this.session.set(`data.codeVerifier`, codeVerifier);
+    this.session.set('data.codeVerifier', codeVerifier);
     const redirectUri = encodeURIComponent(`${window.location.origin}/login`);
     window.location.assign(
-      `${ENV.OAUTH_ENDPOINT}` +
-      `&redirect_uri=${redirectUri}` +
-      `&code_challenge_method=S256` +
-      `&code_challenge=${codeChallenge}` +
-      `&scope=openid%20email`
+      `${ENV.OAUTH_ENDPOINT}`
+      + `&redirect_uri=${redirectUri}`
+      + '&code_challenge_method=S256'
+      + `&code_challenge=${codeChallenge}`
+      + '&scope=openid%20email',
     );
   }
 
@@ -38,5 +38,5 @@ export default class LoginDialogComponent extends Component {
     const now = new Date();
 
     return now < start;
-  };
+  }
 }

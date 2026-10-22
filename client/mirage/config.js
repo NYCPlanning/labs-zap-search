@@ -110,7 +110,13 @@ export default function () {
   // no longer hardcodes a user
   this.get('/login', function() {
     return {
-      ok: true,
+      access_token: 'zap-token',
+      nycid: {
+        email: 'testuser@planning.nyc.gov',
+        GUID: '1234567890abcdefghijklmnopqrstuvwxyz',
+        given_name: 'Planning',
+        family_name: 'Labs',
+      },
     };
   });
 
