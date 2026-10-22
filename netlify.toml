@@ -4,16 +4,44 @@
   command = "yarn build --environment=production"
   ignore = "false"
 
-[context.develop]
-  environment = { HOST="https://zap-api-staging.herokuapp.com", NYCID_CLIENT_ID="lup-portal-staging", NYC_ID_HOST="https://accounts-nonprd.nyc.gov/account", MAINTENANCE_START="06/01/22 15:00", MAINTENANCE_END="06/01/22 16:00", FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS="ON",  FEATURE_FLAG_SHOW_SANDBOX_WARNING="ON" }
+[context.develop.environment]
+  HOST = "https://zap-api-staging.herokuapp.com"
+  NYCID_RELYING_PARTY_CLIENT_ID = "s6BuNcPytgziT2x0ZdISAFJ5"
+  NYCID_LOGOUT_BASE_URL = "https://accounts-nonprd.nyc.gov/account"
+  NYCID_OIDC_ENDPOINT = "https://nonprd-login.nyc.gov/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm"
+  MAINTENANCE_START = "06/01/22 15:00"
+  MAINTENANCE_END = "06/01/22 16:00"
+  FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS = "ON"
+  FEATURE_FLAG_SHOW_SANDBOX_WARNING = "ON"
 
-[context.master]
-  environment = { HOST="https://zap-api-production.herokuapp.com", NYCID_CLIENT_ID="lup-portal-production", NYC_ID_HOST="https://www1.nyc.gov/account", MAINTENANCE_START="06/01/22 15:00", MAINTENANCE_END="06/01/22 16:00", FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS="OFF",  FEATURE_FLAG_SHOW_SANDBOX_WARNING="OFF" }
+[context.master.environment]
+  HOST = "https://zap-api-production.herokuapp.com"
+  NYCID_RELYING_PARTY_CLIENT_ID = "RpSsyqFw5OtORLoYLIw-TIMc"
+  NYCID_LOGOUT_BASE_URL = "https://www1.nyc.gov/account"
+  NYCID_OIDC_ENDPOINT = "https://prd-login.nyc.gov/oidc/op/v1.0/3_vmpCA4aKvG0SQpyaS2U-BberGxNM7YYtfGc3B0-w2jkr4rmJoIMys6JhpRnP7_LH"
+  MAINTENANCE_START = "06/01/22 15:00"
+  MAINTENANCE_END = "06/01/22 16:00"
+  FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS = "OFF"
+  FEATURE_FLAG_SHOW_SANDBOX_WARNING = "OFF"
 
 # qa team
-[context.qa]
-  environment = { HOST="https://zap-api-staging.herokuapp.com", NYCID_CLIENT_ID="lup-portal-staging", NYC_ID_HOST="https://accounts-nonprd.nyc.gov/account", MAINTENANCE_START="06/01/22 15:00", MAINTENANCE_END="06/01/22 16:00", FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS="ON", FEATURE_FLAG_SHOW_SANDBOX_WARNING="ON" }
+[context.qa.environment]
+  HOST = "https://zap-api-staging.herokuapp.com"
+  NYCID_RELYING_PARTY_CLIENT_ID = "n1r4tj7WyhgFMs1paYGmM_Cs"
+  NYCID_LOGOUT_BASE_URL = "https://accounts-nonprd.nyc.gov/account"
+  NYCID_OIDC_ENDPOINT = "https://nonprd-login.nyc.gov/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm"
+  MAINTENANCE_START = "06/01/22 15:00"
+  MAINTENANCE_END = "06/01/22 16:00"
+  FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS = "ON"
+  FEATURE_FLAG_SHOW_SANDBOX_WARNING = "ON"
 
 # deploy-preview
-[context.deploy-preview]
- environment = { HOST="https://zap-api-staging.herokuapp.com", NYCID_CLIENT_ID="lup-portal-staging", NYC_ID_HOST="https://accounts-nonprd.nyc.gov/account", MAINTENANCE_START="06/01/22 15:00", MAINTENANCE_END="06/01/22 16:00", FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS="ON",  FEATURE_FLAG_SHOW_SANDBOX_WARNING="ON" }
+[context.deploy-preview.environment]
+  HOST = "https://zap-api-staging.herokuapp.com"
+  NYCID_RELYING_PARTY_CLIENT_ID = "n1r4tj7WyhgFMs1paYGmM_Cs"
+  NYCID_LOGOUT_BASE_URL = "https://accounts-nonprd.nyc.gov/account"
+  NYCID_OIDC_ENDPOINT = "https://nonprd-login.nyc.gov/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm"
+  MAINTENANCE_START = "06/01/22 15:00"
+  MAINTENANCE_END = "06/01/22 16:00"
+  FEATURE_FLAG_EXCLUDE_FROM_SEARCH_RESULTS = "ON"
+  FEATURE_FLAG_SHOW_SANDBOX_WARNING = "ON"
