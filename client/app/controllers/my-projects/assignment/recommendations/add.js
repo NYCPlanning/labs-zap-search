@@ -334,14 +334,12 @@ export default class MyProjectsProjectRecommendationsAddController extends Contr
 
     try {
       // copy files from assignmentQueue to each disposition queue
-      for (let i = 0; i < this.assignmentQueue.files.length; i += 1) {
-        await this.addFileToDispositionQueues(this.assignmentQueue.files[i]); // eslint-disable-line
+      for (const file of this.assignmentQueue.files) { // eslint-disable-line no-restricted-syntax
+        await this.addFileToDispositionQueues(file); // eslint-disable-line
       }
 
       // upload files across dispositions queues
-      for (let i = 0; i < this.dispositions.length; i += 1) {
-        const disposition = this.dispositions.objectAt(i);
-
+      for (const disposition of this.dispositions) { // eslint-disable-line no-restricted-syntax
         const fileUploadPromises = this.queuesByDisposition[disposition.id].files.map(file => file.upload(`${ENV.host}/document`, {
           fileKey: 'file',
           data: {
