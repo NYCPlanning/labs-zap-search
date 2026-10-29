@@ -6,7 +6,7 @@
 
 [context.develop.environment]
   HOST = "https://zap-api-staging.herokuapp.com"
-  NYCID_RELYING_PARTY_CLIENT_ID = "s6BuNcPytgziT2x0ZdISAFJ5"
+  NYCID_RELYING_PARTY_CLIENT_ID = "n1r4tj7WyhgFMs1paYGmM_Cs"
   NYCID_LOGOUT_BASE_URL = "https://accounts-nonprd.nyc.gov/account"
   NYCID_OIDC_ENDPOINT = "https://nonprd-login.nyc.gov/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm"
   MAINTENANCE_START = "06/01/22 15:00"
