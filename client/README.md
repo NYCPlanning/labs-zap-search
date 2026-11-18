@@ -20,6 +20,7 @@ See [mirage/README.md](./client/mirage/README.md) for details on what data the s
 
 ### Logging in
 
+// This method of logging in is no longer supported. TODO Update Mirage stubbing entirely
 After serving the app with Mirage, sign in by going to `localhost:4200/login#access_token=test`
 
 ## Connecting to a local backend

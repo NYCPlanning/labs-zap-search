@@ -8,26 +8,23 @@ import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { invalidateSession, authenticateSession } from 'ember-simple-auth/test-support';
 
+const ZAP_SESSION = { access_token: 'zap-token' };
+
 module('Acceptance | authenticated user sees authenticated features', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(async function() {
-    window.location.hash = '';
-
     await invalidateSession();
-    await authenticateSession({
-      id: 1,
-    });
   });
 
   hooks.afterEach(async function() {
-    window.location.hash = '';
-
     await invalidateSession();
   });
 
   test('User does not see hearing and recommendation buttons on show-project if logged out', async function(assert) {
+    this.server.create('user', 'withAssignments');
+
     await visit('/projects/1');
 
     assert.notOk(find('[data-test-hearing-rec-shortcuts]'));
@@ -36,6 +33,7 @@ module('Acceptance | authenticated user sees authenticated features', function(h
   test('User sees shortcut box on show-project if logged in and project assigned to them', async function(assert) {
     // user has to be signed in and assigned to that project (dcp_name matches)
     this.server.create('user', 'withAssignments');
+    await authenticateSession(ZAP_SESSION);
 
     await visit('/projects/1');
 
@@ -44,7 +42,8 @@ module('Acceptance | authenticated user sees authenticated features', function(h
 
   test('User does not see shortcut box on show-project if project is not assigned to them', async function(assert) {
     // user has to be signed in and assigned to that project (dcp_name matches)
-    const userProject = server.create('project', {
+    // Unclear if the way project assignment is tested here is accurate. TODO: check with product owners
+    const userProject = this.server.create('project', {
       id: 2,
       dcp_name: 'N2018Q077',
     });
@@ -59,10 +58,7 @@ module('Acceptance | authenticated user sees authenticated features', function(h
       projects: [userProject],
     });
 
-    // simulate presence of location hash after OAUTH redirect
-    window.location.hash = '#access_token=test';
-
-    await visit('/login');
+    await authenticateSession(ZAP_SESSION);
 
     await visit('/projects/1');
 

@@ -1,9 +1,9 @@
 'use strict';
 
 const { MIRAGE_SCENARIO } = process.env;
-const NYCID_CLIENT_ID = process.env.NYCID_CLIENT_ID || 'lup-portal-local';
-const NYC_ID_HOST = process.env.NYC_ID_HOST || 'https://accounts-nonprd.nyc.gov/account';
-
+const NYCID_RELYING_PARTY_CLIENT_ID = process.env.NYCID_RELYING_PARTY_CLIENT_ID || 's6BuNcPytgziT2x0ZdISAFJ5';
+const NYCID_OIDC_ENDPOINT = process.env.NYCID_OIDC_ENDPOINT || 'https://nonprd-login.nyc.gov/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm';
+const NYCID_LOGOUT_BASE_URL = process.env.NYCID_LOGOUT_BASE_URL || 'https://accounts-nonprd.nyc.gov/account';
 module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'labs-zap-search',
@@ -14,13 +14,14 @@ module.exports = function (environment) {
     routerScroll: {
       scrollElement: '#scrolling-result-content',
     },
-    NYC_ID_HOST,
     maintenanceTimes: getMaintenanceTimes(),
     featureFlagExcludeFromSearchResults: getFeatureFlagExcludeFromSearchResults(),
     featureFlagShowSandboxWarning: getFeatureFlagShowSandboxWarning(),
 
     host: getHost(environment),
-    OAUTH_ENDPOINT: `${NYC_ID_HOST}/api/oauth/authorize.htm?response_type=token&client_id=${NYCID_CLIENT_ID}`,
+    NYCID_OIDC_ENDPOINT,
+    NYCID_LOGOUT_BASE_URL,
+    OAUTH_ENDPOINT: `${NYCID_OIDC_ENDPOINT}/authorize?response_type=code&client_id=${NYCID_RELYING_PARTY_CLIENT_ID}`,
     LUPP_ENABLED: true,
     MIRAGE_SCENARIO,
     EmberENV: {

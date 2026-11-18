@@ -5,7 +5,7 @@ import nock from "nock";
 import { doLogin } from "./helpers/do-login";
 import { extractJWT } from "./helpers/extract-jwt";
 import { AppModule } from "./../src/app.module";
-import { SharepointService } from "src/sharepoint/sharepoint.service";
+import { SharepointService } from "../src/sharepoint/sharepoint.service";
 import { SharepointServiceMock } from "./helpers/sharepoint.service.mock";
 
 describe("Project Get", () => {
@@ -42,7 +42,6 @@ describe("Project Get", () => {
       SHAREPOINT_SITE_ID: "test",
 
       CRM_SIGNING_SECRET: "test",
-      NYCID_CONSOLE_PASSWORD: "test"
     });
 
     // mock the crm endpoint and make available to the full scope of these tests

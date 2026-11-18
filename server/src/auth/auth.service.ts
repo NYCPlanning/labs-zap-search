@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import jwt from "jsonwebtoken";
 import moment from "moment";
+import * as fetch from "node-fetch";
 import { ConfigService } from "../config/config.service";
 import { ContactService } from "../contact/contact.service";
 
@@ -14,47 +15,111 @@ import { ContactService } from "../contact/contact.service";
 export class AuthService {
   // required env variables
   CRM_SIGNING_SECRET = "";
-  NYCID_CONSOLE_PASSWORD = "";
+  NYCID_OIDC_ENDPOINT = "";
+  NYCID_RELYING_PARTY_CLIENT_ID = "";
 
   constructor(
     private readonly config: ConfigService,
     private readonly contactService: ContactService
   ) {
     this.CRM_SIGNING_SECRET = this.config.get("CRM_SIGNING_SECRET");
-    this.NYCID_CONSOLE_PASSWORD = this.config.get("NYCID_CONSOLE_PASSWORD");
+    this.NYCID_OIDC_ENDPOINT = this.config.get("NYCID_OIDC_ENDPOINT");
+    this.NYCID_RELYING_PARTY_CLIENT_ID = this.config.get(
+      "NYCID_RELYING_PARTY_CLIENT_ID"
+    );
   }
 
   /**
-   * This method automates how authentication works in this app. It is intended for
-   * debugging purposes. There are two kinds of JWTs in play in this application:
+   * NYC.ID Authorization Code + PKCE login. Exchanges the authorization code
+   * for an NYC.ID id_token, then issues our own ZAP token for the matching
+   * CRM contact. Returns the ZAP token and the NYC.ID profile claims.
    *
-   *  - NYC.ID JWT
-   *  - Our JWT
-   *
-   * In order to login to this application, one must first be authenticated
-   * through NYC.ID. Once authenticated, NYC.ID redirects you back to this
-   * application with a JWT that includes your e-mail address. That is what
-   * you are seeing on line 39: we are generating a mock NYC.ID JWT and signing
-   * it with the NYCID_CONSOLE_PASSWORD as if you were authenticated via NYC.ID.
-   *
-   * This method recreates the NYC.ID authentication step for use in local
-   * development. The intent is to enable local debugging that is closer to
-   * how authentication actually works.
-   *
-   * Once the cookie is printed in the terminal, you can copy that cookie and paste
-   * it into headers of requests you're making. If you're looking at the API and
-   * want it to persist, you can use the Chrome Inspector to add the token via the
-   * Application tab.
-   *
-   * See this PR for full discussion: https://github.com/NYCPlanning/zap-api/pull/74#discussion_r370749677.
-   *
-   * @param      {<type>}  NYCIDToken  The nycid token
+   * @param      {string}  code          The authorization code from NYC.ID's redirect
+   * @param      {string}  codeVerifier  The PKCE verifier the client generated
+   * @param      {string}  redirectUri   The redirect_uri used in the authorize request
    */
-  public async generateNewToken(NYCIDToken: string): Promise<string> {
-    const { mail, exp } = this.verifyNYCIDToken(NYCIDToken);
-    const { contactid } = await this.lookupContact(mail);
+  public async generateNewTokenFromCode(
+    code: string,
+    codeVerifier: string,
+    redirectUri: string
+  ) {
+    const idTokenClaims = await this.exchangeNYCIDCode(
+      code,
+      codeVerifier,
+      redirectUri
+    );    
+    const { contactid } = await this.lookupContact(idTokenClaims.email);
 
-    return this.signNewToken(contactid, exp);
+    return {
+      ZAPToken: this.signNewToken(contactid),
+      idTokenClaims
+    };
+  }
+
+  /**
+   * Calls NYC.ID's token endpoint and returns the decoded id_token claims.
+   *
+   * The id_token signature is not checked: per OpenID Connect Core 3.1.3.7,
+   * TLS validation of the token endpoint may stand in for it when the token is
+   * received directly from NYC.ID. We still check audience and expiry.
+   */
+  private async exchangeNYCIDCode(
+    code: string,
+    codeVerifier: string,
+    redirectUri: string
+  ): Promise<any> {
+    if (!code || !codeVerifier || !redirectUri) {
+      throw new HttpException(
+        "Missing code, codeVerifier, or redirectUri",
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+
+    const response = await fetch(`${this.NYCID_OIDC_ENDPOINT}/token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        client_id: this.NYCID_RELYING_PARTY_CLIENT_ID,
+        code,
+        redirect_uri: redirectUri,
+        grant_type: "authorization_code",
+        code_verifier: codeVerifier,
+      }).toString()
+    });
+    const body = await response.json();
+    if (!response.ok || !body.id_token) {
+      throw new HttpException(
+        `NYC.ID token exchange failed: ${body.error_description ||
+          body.error ||
+          response.status}`,
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+
+     const userinfoResponse = await fetch(`${this.NYCID_OIDC_ENDPOINT}/userinfo`, {
+      headers: { Authorization: `Bearer ${body.access_token}` }
+    });
+
+    if (!userinfoResponse.ok) {
+      throw new HttpException(
+        `NYC.ID userinfo request failed`, HttpStatus.UNAUTHORIZED
+      );
+    }
+
+    const userinfo = await userinfoResponse.json();
+    const claims: any = jwt.decode(body.id_token);
+
+    if (
+      !claims ||
+      claims.aud !== this.NYCID_RELYING_PARTY_CLIENT_ID ||
+      claims.exp < moment().unix()
+    ) {
+      throw new HttpException("Invalid NYC.ID id_token", HttpStatus.UNAUTHORIZED);
+    } else if (userinfo.sub !== claims.sub) {
+      throw new HttpException("Mismatched NYC.ID userinfo and id_token", HttpStatus.UNAUTHORIZED);
+    }
+
+    return userinfo;
   }
 
   /**
@@ -83,18 +148,6 @@ export class AuthService {
         HttpStatus.UNAUTHORIZED
       );
     }
-  }
-
-  /**
-   * Verifies a JWT with the NYCID signature. Returns the token object.
-   *
-   * @param      {string}  token   The token
-   * @return     {object}     { mail: 'string', exp: 'string' }
-   */
-  private verifyNYCIDToken(token): any {
-    const { NYCID_CONSOLE_PASSWORD } = this;
-
-    return this.verifyToken(token, NYCID_CONSOLE_PASSWORD);
   }
 
   /**
