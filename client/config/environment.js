@@ -17,6 +17,7 @@ module.exports = function (environment) {
     maintenanceTimes: getMaintenanceTimes(),
     featureFlagExcludeFromSearchResults: getFeatureFlagExcludeFromSearchResults(),
     featureFlagShowSandboxWarning: getFeatureFlagShowSandboxWarning(),
+    featureFlagShowSpeedShortTerm: getFeatureFlagShowSpeedShortTerm(),
 
     host: getHost(environment),
     NYCID_OIDC_ENDPOINT,
@@ -192,4 +193,8 @@ function getFeatureFlagExcludeFromSearchResults() {
 
 function getFeatureFlagShowSandboxWarning() {
   return process.env.FEATURE_FLAG_SHOW_SANDBOX_WARNING === 'ON';
+}
+
+function getFeatureFlagShowSpeedShortTerm() {
+  return process.env.FEATURE_FLAG_SHOW_SPEED_SHORT_TERM === 'ON';
 }
