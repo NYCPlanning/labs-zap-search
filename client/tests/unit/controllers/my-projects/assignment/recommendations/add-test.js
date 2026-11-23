@@ -154,6 +154,12 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     controller.transitionToRoute = function() { return true; };
 
+    controller.set('allActions', true);
+
+    controller.set('model', { dcpLupteammemberrole: 'CB', id: '1' });
+
+    controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
+
     controller.set('queuesByDisposition', {
       1: {
         files: [],
@@ -162,12 +168,6 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
         files: [],
       },
     });
-
-    controller.set('allActions', true);
-
-    controller.set('model', { dcpLupteammemberrole: 'CB', id: '1' });
-
-    controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
 
     controller.dispositions[0].save = function() {
       return true;
@@ -212,6 +212,12 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
 
     controller.transitionToRoute = function() { return true; };
 
+    controller.set('allActions', false);
+
+    controller.set('model', { dcpLupteammemberrole: 'CB', id: '1' });
+
+    controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
+
     controller.set('queuesByDisposition', {
       1: {
         files: [],
@@ -220,12 +226,6 @@ module('Unit | Controller | my-projects/assignment/recommendations/add', functio
         files: [],
       },
     });
-
-    controller.set('allActions', false);
-
-    controller.set('model', { dcpLupteammemberrole: 'CB', id: '1' });
-
-    controller.set('dispositions', [EmberObject.create({ id: '1' }), EmberObject.create({ id: '2' })]);
 
     controller.dispositions[0].save = function() {
       return true;
