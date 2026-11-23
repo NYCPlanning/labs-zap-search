@@ -6,6 +6,7 @@ import turfBbox from '@turf/bbox';
 import { generateCircleFromFeet } from 'labs-zap-search/helpers/generate-circle-from-feet';
 import GeographyParachuteController from './query-parameters/show-geography';
 import config from '../config/environment';
+import { EASEIS_DETERMINATIONS } from '../models/project/constants';
 
 const DEBOUNCE_MS = 500;
 const MAX_PAGES = 30;
@@ -88,6 +89,9 @@ export default class ShowGeographyController extends GeographyParachuteControlle
     const zoningResolutionsRemapped = allZoningResolutions.map(zr => ({ code: zr.id, name: zr.dcpZoningresolution }));
     return zoningResolutionsRemapped;
   }
+
+  // do the same for easeis
+  determinationOptions = Object.keys(EASEIS_DETERMINATIONS).map(d => ({ code: d, name: d }));
 
   /**
    * Contructs an Ember Data friendly query object to be passed along

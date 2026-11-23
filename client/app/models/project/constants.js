@@ -21,3 +21,13 @@ export const DCP_APPLICABILITY_OPTIONSET = {
     altLabel: 'Racial Equity Report Requirements Unknown',
   },
 };
+
+export const EASEIS_DETERMINATIONS = {
+  'Qualified Action Determination': 717170009,
+  'EAS - Negative': 717170004,
+  'EAS - Conditional Negative': 717170005,
+  'EIS - Positive': 717170006,
+  'Supplemental EIS': 717170007,
+  'Tech Memo': 717170002,
+  'Type II': 717170008,
+};

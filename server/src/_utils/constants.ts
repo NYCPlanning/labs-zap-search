@@ -14,9 +14,13 @@ const CEQRTYPE = {
 };
 
 const EASEIS = {
-  EAS: 717170000,
-  EIS: 717170001,
-  "Technical Memorandum": 717170002
+  "Qualified Action Determination": 717170009,
+  "EAS - Negative": 717170004,
+  "EAS - Conditional Negative": 717170005,
+  "EIS - Positive": 717170006,
+  "Supplemental EIS": 717170007,
+  "Tech Memo": 717170002,
+  "Type II": 717170008
 };
 
 const STATUSCODE = {
