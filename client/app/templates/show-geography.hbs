@@ -413,64 +413,89 @@
         {{/section.filter-wrapper}}
       {{/filters.section}}
 
-      {{#filters.section
-        filterNames='dcp_easeis'
-        as |section|}}
-        {{#section.filter-wrapper
-          filterTitle='CEQR'
-          tooltip='Documents related to City Environmental Quality Review'}}
-          <ul class="menu vertical medium-horizontal CEQR-checkbox">
-            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_easeis' 'EAS')}}
-              data-test-eas-checkbox
-            >
-              <a>
-                {{#filter-checkbox
-                  value='EAS'
-                  currentValues=dcp_easeis}}
-                  <sup>
-                    {{icon-tooltip
-                      tip='Environmental Assessment Statements and related documents'
-                      class="dark-gray"
-                    }}
-                  </sup>
-                {{/filter-checkbox}}
-              </a>
-            </li>
-            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_easeis' 'EIS')}}
-              data-test-eas-checkbox
-            >
-              <a>
-                {{#filter-checkbox
-                  value='EIS'
-                  currentValues=dcp_easeis}}
-                  <sup>
-                    {{icon-tooltip
-                      tip='Environmental Impact Statements and related documents'
-                      class="dark-gray"
-                    }}
-                  </sup>
-                {{/filter-checkbox}}
-              </a>
-            </li>
-            <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_easeis' 'Technical Memorandum')}}
-              data-test-technical-memorandum-checkbox
-            >
-              <a>
-                {{#filter-checkbox
-                  value='Technical Memorandum'
-                  currentValues=dcp_easeis}}
-                  <sup>
-                    {{icon-tooltip
-                      tip='Related to prior CEQR documentation'
-                      class="dark-gray"
-                    }}
-                  </sup>
-                {{/filter-checkbox}}
-              </a>
-            </li>
-          </ul>
-        {{/section.filter-wrapper}}
-      {{/filters.section}}
+      {{!-- FILTER: DETERMINATION --}}
+      {{#if this.featureFlagShowSpeedShortTerm}}
+        {{#filters.section
+          filterNames='dcp_easeis'
+          as |section|}}
+          {{#section.filter-wrapper
+            filterTitle='Determination'
+              tooltip='Applications may be subject to City Environmental Quality Review (CEQR). Pursuant to state and local law, a determination is made to disclose whether a proposed action could cause significant adverse environmental impacts.'}}
+            {{#power-select-multiple
+              options=this.determinationOptions
+              placeholder="Select determinations..."
+              selected=(contains-keys
+                this.determinationOptions
+                dcp_easeis
+                key='code')
+              searchField='searchField'
+              onchange=(action section.delegate-mutation (action 'replaceProperty' 'dcp_easeis'))
+              as |determination|
+            }}
+              {{determination.name}}
+            {{/power-select-multiple}}
+          {{/section.filter-wrapper}}
+        {{/filters.section}}
+      {{else}}
+        {{#filters.section
+          filterNames='dcp_easeis'
+          as |section|}}
+          {{#section.filter-wrapper
+            filterTitle='CEQR'
+            tooltip='Documents related to City Environmental Quality Review'}}
+            <ul class="menu vertical medium-horizontal CEQR-checkbox">
+              <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_easeis' 'EAS')}}
+                data-test-eas-checkbox
+              >
+                <a>
+                  {{#filter-checkbox
+                    value='EAS'
+                    currentValues=dcp_easeis}}
+                    <sup>
+                      {{icon-tooltip
+                        tip='Environmental Assessment Statements and related documents'
+                        class="dark-gray"
+                      }}
+                    </sup>
+                  {{/filter-checkbox}}
+                </a>
+              </li>
+              <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_easeis' 'EIS')}}
+                data-test-eas-checkbox
+              >
+                <a>
+                  {{#filter-checkbox
+                    value='EIS'
+                    currentValues=dcp_easeis}}
+                    <sup>
+                      {{icon-tooltip
+                        tip='Environmental Impact Statements and related documents'
+                        class="dark-gray"
+                      }}
+                    </sup>
+                  {{/filter-checkbox}}
+                </a>
+              </li>
+              <li {{action section.delegate-mutation (action 'mutateArray' 'dcp_easeis' 'Technical Memorandum')}}
+                data-test-technical-memorandum-checkbox
+              >
+                <a>
+                  {{#filter-checkbox
+                    value='Technical Memorandum'
+                    currentValues=dcp_easeis}}
+                    <sup>
+                      {{icon-tooltip
+                        tip='Related to prior CEQR documentation'
+                        class="dark-gray"
+                      }}
+                    </sup>
+                  {{/filter-checkbox}}
+                </a>
+              </li>
+            </ul>
+          {{/section.filter-wrapper}}
+        {{/filters.section}}
+      {{/if}}
     </div>
 
   {{/filter-mutators}}
